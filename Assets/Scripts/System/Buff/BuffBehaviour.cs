@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffBehaviour : MonoBehaviour
+public abstract class BuffBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	// 이 곳에서 Buff의 Active를 진행한다.
+	public virtual void Active() { }
+	 
+	public virtual void UnActive() { }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
