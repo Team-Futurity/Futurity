@@ -22,7 +22,7 @@ public class CommandEditorWindow : EditorWindow
 	#region Elements Addition
 	private void AddGraphView()
 	{
-		CommandGraphView graphview = new CommandGraphView();
+		CommandGraphView graphview = new CommandGraphView(this);
 		graphview.StretchToParentSize();
 
 		rootVisualElement.Add(graphview);

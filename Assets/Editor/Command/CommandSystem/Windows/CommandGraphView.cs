@@ -9,13 +9,16 @@ using UnityEngine.UIElements;
 
 public class CommandGraphView : GraphView
 {
-    public CommandGraphView()
+	private CSSearchWindow searchWindow;
+	private CommandEditorWindow editorWindow;
+
+	public CommandGraphView(CommandEditorWindow editorWindow)
 	{
+		this.editorWindow = editorWindow;
+
+		AddSearchWindow();
 		AddManipulators();
-
 		AddGridBackground();
-
-		//CreateNode();
 
 		AddStyles();
 	}
@@ -80,7 +83,7 @@ public class CommandGraphView : GraphView
 					menuEvent.menu.AppendAction
 						(
 							"Add Group",
-							actionEvent => AddElement(CreateGroup("DialogueGroup", actionEvent.eventInfo.localMousePosition))
+							actionEvent => AddElement(CreateGroup("DialogueGroup", GetLocalMousePosition(actionEvent.eventInfo.localMousePosition)))
 						)
 			);
 
@@ -94,7 +97,7 @@ public class CommandGraphView : GraphView
 					menuEvent.menu.AppendAction
 						(
 							actionTitle, 
-							actionEvent => AddElement(CreateNode(commandType, actionEvent.eventInfo.localMousePosition))
+							actionEvent => AddElement(CreateNode(commandType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition)))
 						)
 			);
 
@@ -103,7 +106,7 @@ public class CommandGraphView : GraphView
 	#endregion
 
 	#region Elements Creation
-	private Group CreateGroup(string title, Vector2 localMousePosition)
+	public Group CreateGroup(string title, Vector2 localMousePosition)
 	{
 		Group group = new Group()
 		{
@@ -115,7 +118,7 @@ public class CommandGraphView : GraphView
 		return group;
 	}
 
-	private CSNode CreateNode(CSCommandType commandType, Vector2 position)
+	public CSNode CreateNode(CSCommandType commandType, Vector2 position)
 	{
 		Type nodeType = Type.GetType($"CS{commandType}Node");
 
@@ -131,6 +134,18 @@ public class CommandGraphView : GraphView
 	#endregion
 
 	#region Elements Addition
+	private void AddSearchWindow()
+	{
+		if (searchWindow == null)
+		{
+			searchWindow = ScriptableObject.CreateInstance<CSSearchWindow>();
+
+			searchWindow.Initialize(this);
+		}
+
+		nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), searchWindow);
+	}
+
 	private void AddGridBackground()
 	{
 		GridBackground gridBackground = new GridBackground();
@@ -146,6 +161,22 @@ public class CommandGraphView : GraphView
 			"CommandSystem/CommandGraphViewStyles.uss",
 			"CommandSystem/CSNodeStyles.uss"
 		);
+	}
+	#endregion
+
+	#region Utilites
+	public Vector2 GetLocalMousePosition(Vector2 mousePosition, bool isSearchWindow = false)
+	{
+		Vector2 worldMousePosition = mousePosition;
+
+		if(isSearchWindow)
+		{
+			worldMousePosition -= editorWindow.position.position;
+		}
+
+		Vector2 localMousePosition = contentViewContainer.WorldToLocal(worldMousePosition);
+
+		return localMousePosition;
 	}
 	#endregion
 }
