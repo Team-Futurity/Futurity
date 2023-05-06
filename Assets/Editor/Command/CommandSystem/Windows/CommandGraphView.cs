@@ -20,6 +20,36 @@ public class CommandGraphView : GraphView
 		AddStyles();
 	}
 
+	#region Overrided Methods
+	public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+	{
+		List<Port> compatiblePorts = new List<Port>();
+
+		ports.ForEach(port =>
+		{
+			if(startPort == port)
+			{
+				return;
+			}
+
+			if(startPort.node == port.node)
+			{
+				return;
+			}
+
+			if(startPort.direction == port.direction)
+			{
+				return;
+			}
+
+			compatiblePorts.Add(port);
+		});
+
+		return compatiblePorts;
+	}
+	#endregion
+
+	#region Mainpulators
 	private void AddManipulators()
 	{
 		// ÁÜÀÎ ÁÜ¾Æ¿ô ±â´É
@@ -39,6 +69,22 @@ public class CommandGraphView : GraphView
 
 		// µå·¡±× ±â´É
 		this.AddManipulator(new ContentDragger());
+
+		this.AddManipulator(CreateGroupContextMenu());
+	}
+
+	private IManipulator CreateGroupContextMenu()
+	{
+		ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+				menuEvent =>
+					menuEvent.menu.AppendAction
+						(
+							"Add Group",
+							actionEvent => AddElement(CreateGroup("DialogueGroup", actionEvent.eventInfo.localMousePosition))
+						)
+			);
+
+		return contextualMenuManipulator;
 	}
 
 	private IManipulator CreateNodeContextualMenu(string actionTitle, CSCommandType commandType)
@@ -54,6 +100,20 @@ public class CommandGraphView : GraphView
 
 		return contextualMenuManipulator;
 	}
+	#endregion
+
+	#region Elements Creation
+	private Group CreateGroup(string title, Vector2 localMousePosition)
+	{
+		Group group = new Group()
+		{
+			title = title
+		};
+
+		group.SetPosition(new Rect(localMousePosition, Vector2.zero));
+
+		return group;
+	}
 
 	private CSNode CreateNode(CSCommandType commandType, Vector2 position)
 	{
@@ -68,7 +128,9 @@ public class CommandGraphView : GraphView
 
 		return node;
 	}
+	#endregion
 
+	#region Elements Addition
 	private void AddGridBackground()
 	{
 		GridBackground gridBackground = new GridBackground();
@@ -80,11 +142,10 @@ public class CommandGraphView : GraphView
 
 	private void AddStyles()
 	{
-		StyleSheet graphStyleSheet = (StyleSheet)EditorGUIUtility.Load("CommandSystem/CommandGraphViewStyles.uss");
-		StyleSheet nodeStyleSheet = (StyleSheet)EditorGUIUtility.Load("CommandSystem/CSNodeStyles.uss");
-
-		styleSheets.Add(graphStyleSheet);
-		styleSheets.Add(nodeStyleSheet);
+		this.AddStyleSheets(
+			"CommandSystem/CommandGraphViewStyles.uss",
+			"CommandSystem/CSNodeStyles.uss"
+		);
 	}
-	
+	#endregion
 }

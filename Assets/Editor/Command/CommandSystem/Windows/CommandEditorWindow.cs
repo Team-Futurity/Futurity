@@ -19,6 +19,7 @@ public class CommandEditorWindow : EditorWindow
 		AddStyles();
 	}
 
+	#region Elements Addition
 	private void AddGraphView()
 	{
 		CommandGraphView graphview = new CommandGraphView();
@@ -29,8 +30,9 @@ public class CommandEditorWindow : EditorWindow
 
 	private void AddStyles()
 	{
-		StyleSheet styleSheet = (StyleSheet)EditorGUIUtility.Load("CommandSystem/CommandVariables.uss");
-
-		rootVisualElement.styleSheets.Add(styleSheet);
+		rootVisualElement.AddStyleSheets(
+			"CommandSystem/CommandVariables.uss"
+		);
 	}
+	#endregion
 }
