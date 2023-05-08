@@ -4,37 +4,53 @@ using UnityEngine;
 
 public class BuffSystem : MonoBehaviour
 {
-	// 버프를 직접적으로 사용하는 시전 Case
-    [field: SerializeField] public List<BuffData> BuffList { get; private set; }
-
-    private Dictionary<BuffName, BuffData> buffDic;
-
+	// 버프를 추가하는 List
+	[field: SerializeField] public List<BuffBehaviour> BuffList;
+	// 버프를 관리하는 Dic
+	private Dictionary<BuffName, BuffBehaviour> buffDic;
+    
+	// Test Code
     public UnitBase test;
 
     private void Awake()
     {
-	    buffDic = new Dictionary<BuffName, BuffData>();
+		buffDic = new Dictionary<BuffName, BuffBehaviour>();
 
-	    foreach (var buff in BuffList)
-	    {
-	    }
-	    
+		if(BuffList is not null)
+		{
+			foreach(var buff in BuffList)
+			{
+				buffDic.Add(buff.CurrBuffName, buff);
+			}
+		}
+		
 	    OnBuff(BuffName.SHOCK, test);
     }
     
     public void OnBuff(BuffName buffName, UnitBase unit)
     {
-	    // 매개 BuffName이 존재하는지 확인한다.
-	    var haveKey = buffDic.ContainsKey(buffName);
+		var haveBuff = HaveBuff(buffName);
 
-	    if (!haveKey)
-	    {
-		    FDebug.Log($"{buffName}이 존재하지 않습니다;");
-	    }
+		if (!haveBuff)
+		{
+			FDebug.Log($"{buffName}이(가) 존재하지 않습니다;");
+			return;
+		}
 
-	    // 존재할 경우
-	    var buff = buffDic[buffName];
-	    var buffObj = new GameObject();
-    }
+		var buff = buffDic[buffName];
+
+		var buffObj = Instantiate(buff);
+		buffObj.gameObject.SetActive(false);
+
+		var unitPos = unit.transform.position;
+		buffObj.transform.position = unitPos;
+		buffObj.GetComponent<BuffBehaviour>().Active(unit);
+
+		buffObj.gameObject.SetActive(true);
+	}
     
+	private bool HaveBuff(BuffName buffName)
+	{
+		return buffDic.ContainsKey(buffName);
+	}
 }

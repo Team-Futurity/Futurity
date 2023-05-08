@@ -9,16 +9,14 @@ public abstract class BuffBehaviour : MonoBehaviour
 
 	[field: Header("Data")]
 	[field: SerializeField] public BuffData BuffData { get; private set; }
-	[field: SerializeField] public BuffName CurrBuffName = BuffName.NONE;
+	public BuffName CurrBuffName = BuffName.NONE;
 
 	[Space(10)]
 	[Header("Event")]
 	public UnityEvent buffStart;
-
 	public UnityEvent buffEnd;
 
-
-	private float buffActiveTime = .0f;
+	private float buffActiveTime;
 
 	private void Start()
 	{
@@ -26,29 +24,29 @@ public abstract class BuffBehaviour : MonoBehaviour
 		{
 			FDebug.Log("Curr Buf의 Name이 정해지지 않았습니다.");
 		}
+		buffActiveTime = BuffData.BuffActiveTime;
 	}
 
 	private void Update()
 	{
 		buffActiveTime -= Time.deltaTime;
 
-		if (0 >= buffActiveTime)
+		if(0 >= buffActiveTime)
 		{
 			UnActive();
 		}
 	}
 
-	public virtual void Active(UnitBase unit, float activeTime)
+	public virtual void Active(UnitBase unit)
 	{
-		buffActiveTime = activeTime;
-		buffStart.Invoke();
+		buffStart?.Invoke();
 		
 		FDebug.Log($"{CurrBuffName}가 실행되었습니다.");
 	}
 
 	public virtual void UnActive()
 	{
-		buffEnd.Invoke();
+		buffEnd?.Invoke();
 		
 		FDebug.Log($"{CurrBuffName}가 종료되었습니다.");
 		Destroy(gameObject);
