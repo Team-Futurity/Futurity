@@ -1,14 +1,12 @@
 using UnityEngine;
 
-public class Singleton : MonoBehaviour
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-	private static Singleton _instance = null;
+	private static T _instance;
 	private static object _lock = new object();
 	private static bool _applicationQuit = false;
-	
-	// 해당 부분에서 Public으로 Singleton 선언
 
-	public static Singleton Instance
+	public static T Instance
 	{
 		get
 		{
@@ -21,36 +19,26 @@ public class Singleton : MonoBehaviour
 			{
 				if (_instance == null)
 				{
-					_instance = FindObjectOfType<Singleton>();
+					_instance = FindObjectOfType<T>();
 
 					if (_instance == null)
 					{
-						string componentName = typeof(Singleton).ToString();
-
-						GameObject findObject = GameObject.Find(componentName);
-
-						if (findObject == null)
-						{
-							findObject = new GameObject(componentName);
-						}
-
-						_instance = findObject.AddComponent<Singleton>();
-
-						DontDestroyOnLoad(_instance);
+						GameObject singleton = new GameObject(typeof(T).ToString());
+						_instance = singleton.AddComponent<T>();
+						DontDestroyOnLoad(singleton);
 					}
 				}
-
 				return _instance;
 			}
 		}
 	}
 
-	protected void OnApplicationQuit()
+	protected virtual void OnApplicationQuit()
 	{
 		_applicationQuit = true;
 	}
 
-	public void OnDestroy()
+	protected virtual void OnDestroy()
 	{
 		_applicationQuit = true;
 	}
