@@ -13,7 +13,6 @@ public class FadeManager : MonoBehaviour, ISingleton
 	private Color _fadeColor = Color.black;
 	[SerializeField]
 	private float _fadeTime = 1.0f;
-	[SerializeField]
 	private Image _fadeImage;
 
 	private Coroutine _currentFadeCoroutine;
