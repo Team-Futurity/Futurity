@@ -4,18 +4,22 @@ using UnityEngine;
 
 public enum BuffTypeList
 {
-	BUFF = 0,
+	NONE = 0,
+	
+	BUFF,
 	DEBUFF,
 	
-	MAX
+	END
 }
 
 public enum BuffName
 {
-	STUN = 0,
+	NONE = 0,
+	
+	STUN,
 	SHOCK,
 	INVINICIBILITY,
 	DOT,
 	
-	MAX
+	END
 }

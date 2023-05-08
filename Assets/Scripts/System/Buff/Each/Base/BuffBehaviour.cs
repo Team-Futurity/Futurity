@@ -1,13 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class BuffBehaviour : MonoBehaviour
 {
-	// Enum 형식으로 Buff를 관리하는 것.
+	// Event를 통해서 Buff의 시작과 끝에서 기획자들이 행동할 수 있도록 정의함.
+	public UnityEvent buffStart;
+	public UnityEvent buffEnd;
+	
+	public BuffName currBuffName = BuffName.NONE;
 
-	public virtual void Active() { }
-	 
-	public virtual void UnActive() { }
+	private void Start()
+	{
+		if (currBuffName == BuffName.NONE)
+		{
+			FDebug.Log("Curr Buf의 Name이 정해지지 않았습니다.");
+		}
+	}
 
+	public virtual void Active(UnitBase unit)
+	{
+		buffStart.Invoke();
+		
+		FDebug.Log($"{currBuffName}가 실행되었습니다.");
+	}
+
+	public virtual void UnActive()
+	{
+		buffEnd.Invoke();
+		
+		FDebug.Log($"{currBuffName}가 종료되었습니다.");
+	}
 }
