@@ -12,11 +12,6 @@ public class BuffShock : BuffBehaviour
 	// 대상의 이동속도를 지속 시간 동안 낮춘다.
 	// Move Speed의 변경
 
-	private void Awake()
-	{
-		currBuffName = BuffName.SHOCK;
-	}
-	
 	public override void Active(UnitBase unit, float activeTime)
 	{
 		targetUnit = unit;

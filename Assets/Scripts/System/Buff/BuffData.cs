@@ -12,11 +12,4 @@ public class BuffData : ScriptableObject
 	[field: SerializeField] public float BuffActiveTime { get; private set; }
 
 	[field: SerializeField] public GameObject BuffEffect { get; private set; }
-
-	[field: SerializeField] public BuffBehaviour BuffBehaviour { get; private set; }
-
-	public void Active(UnitBase unit, bool isActive = false)
-	{
-		BuffBehaviour.Active(unit, BuffActiveTime);
-	}
 }

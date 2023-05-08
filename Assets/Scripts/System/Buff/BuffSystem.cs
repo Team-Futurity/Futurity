@@ -17,7 +17,6 @@ public class BuffSystem : MonoBehaviour
 
 	    foreach (var buff in BuffList)
 	    {
-		    buffDic.Add(buff.BuffBehaviour.currBuffName, buff);
 	    }
 	    
 	    OnBuff(BuffName.SHOCK, test);
