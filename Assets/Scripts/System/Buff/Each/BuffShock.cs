@@ -17,11 +17,11 @@ public class BuffShock : BuffBehaviour
 		currBuffName = BuffName.SHOCK;
 	}
 	
-	public override void Active(UnitBase unit)
+	public override void Active(UnitBase unit, float activeTime)
 	{
 		targetUnit = unit;
 		
-		base.Active(targetUnit);
+		base.Active(targetUnit, activeTime);
 
 		currSpeed = targetUnit.Speed;
 		targetUnit.SetSpeed(buffSpeed);
@@ -29,9 +29,9 @@ public class BuffShock : BuffBehaviour
 
 	public override void UnActive()
 	{
-		base.UnActive();
-		
 		targetUnit.SetSpeed(currSpeed);
+		
+		base.UnActive();
 	}
 
 }

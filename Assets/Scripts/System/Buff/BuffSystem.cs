@@ -9,6 +9,8 @@ public class BuffSystem : MonoBehaviour
 
     private Dictionary<BuffName, BuffData> buffDic;
 
+    public UnitBase test;
+
     private void Awake()
     {
 	    buffDic = new Dictionary<BuffName, BuffData>();
@@ -17,6 +19,8 @@ public class BuffSystem : MonoBehaviour
 	    {
 		    buffDic.Add(buff.BuffBehaviour.currBuffName, buff);
 	    }
+	    
+	    OnBuff(BuffName.SHOCK, test);
     }
     
     public void OnBuff(BuffName buffName, UnitBase unit)
@@ -30,9 +34,8 @@ public class BuffSystem : MonoBehaviour
 	    }
 
 	    // 존재할 경우
-	    
-	    // Active로 Buff 실행
-	    buffDic[buffName].Active(unit);
+	    var buff = buffDic[buffName];
+	    var buffObj = new GameObject();
     }
     
 }

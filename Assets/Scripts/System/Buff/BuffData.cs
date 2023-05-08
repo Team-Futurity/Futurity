@@ -17,11 +17,6 @@ public class BuffData : ScriptableObject
 
 	public void Active(UnitBase unit, bool isActive = false)
 	{
-		BuffBehaviour.Active(unit);
-	}
-	
-	public void UnActive()
-	{
-		BuffBehaviour.UnActive();
+		BuffBehaviour.Active(unit, BuffActiveTime);
 	}
 }

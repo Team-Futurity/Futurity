@@ -11,6 +11,8 @@ public abstract class BuffBehaviour : MonoBehaviour
 	
 	public BuffName currBuffName = BuffName.NONE;
 
+	private float buffActiveTime = .0f;
+
 	private void Start()
 	{
 		if (currBuffName == BuffName.NONE)
@@ -19,8 +21,19 @@ public abstract class BuffBehaviour : MonoBehaviour
 		}
 	}
 
-	public virtual void Active(UnitBase unit)
+	private void Update()
 	{
+		buffActiveTime -= Time.deltaTime;
+
+		if (0 >= buffActiveTime)
+		{
+			UnActive();
+		}
+	}
+
+	public virtual void Active(UnitBase unit, float activeTime)
+	{
+		buffActiveTime = activeTime;
 		buffStart.Invoke();
 		
 		FDebug.Log($"{currBuffName}가 실행되었습니다.");
@@ -31,5 +44,6 @@ public abstract class BuffBehaviour : MonoBehaviour
 		buffEnd.Invoke();
 		
 		FDebug.Log($"{currBuffName}가 종료되었습니다.");
+		Destroy(gameObject);
 	}
 }
