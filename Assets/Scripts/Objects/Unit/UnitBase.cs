@@ -44,6 +44,11 @@ public abstract class UnitBase : MonoBehaviour
     public abstract void Hit(UnitBase attacker, float damage); // Unit이 피격 됐을 때 호출
     public abstract void Attack(UnitBase target); // Unit이 공격할 때 호출
 
+    public void SetSpeed(float changeSpeed)
+    {
+	    speed = changeSpeed;
+    }
+
 	public void OnDrawGizmos()
 	{
 		Debug.DrawRay(transform.position, transform.forward, Color.yellow);

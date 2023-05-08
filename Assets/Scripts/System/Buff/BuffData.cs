@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BuffData", menuName = "Buff/BuffData", order = 0)]
-public class BuffData : ScriptableObject
+public abstract class BuffData : ScriptableObject
 {
 	[field: SerializeField] public string BuffName { get; private set; }
 
