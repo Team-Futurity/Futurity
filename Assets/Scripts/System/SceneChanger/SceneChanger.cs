@@ -15,13 +15,11 @@ public class SceneChanger : Singleton<SceneChanger>
 	{
 		this.loadSceneName = loadSceneName;
 		SceneManager.LoadScene("LoadingScene");
-		Debug.Log($"SceneManager.GetActiveScene().name : {SceneManager.GetActiveScene().name}");
 		StartCoroutine(LoadSceneProcess());
 	}
 
 	IEnumerator LoadSceneProcess()
 	{
-		Debug.Log($"SceneManager.GetActiveScene().name : {SceneManager.GetActiveScene().name}");
 
 		//Scene이 불러와졌는지 확인
 		while (SceneManager.GetActiveScene().name != "LoadingScene")
@@ -34,10 +32,8 @@ public class SceneChanger : Singleton<SceneChanger>
 		//로딩 씬이 나오기도 전에 로딩이 완료될 수 있기 때문에 로딩이 다 되더라도 일단 멈춰둔다.
 		asyncOperation.allowSceneActivation = false;
 
-		Debug.Log($"SceneManager.GetActiveScene().name : {SceneManager.GetActiveScene().name}");
 
 		loadingBar = GameObject.Find("LoadingBar").GetComponent<Image>();
-		Debug.Log($"LoadingBar : {loadingBar}");
 
 		float timer = 0f;
 		while (!asyncOperation.isDone)
