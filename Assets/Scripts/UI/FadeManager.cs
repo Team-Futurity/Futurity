@@ -34,6 +34,7 @@ public class FadeManager : MonoBehaviour, ISingleton
 
 			_canvasGroup = fadeCanvas.AddComponent<CanvasGroup>();
 			_canvasGroup.blocksRaycasts = false;
+			_canvasGroup.alpha = 0;
 
 			//rectTransform 초기화(화면 전체 할당)
 			RectTransform rectTransform = fadeCanvas.GetComponent<RectTransform>();
@@ -50,35 +51,31 @@ public class FadeManager : MonoBehaviour, ISingleton
 		}
 	}
 
-	//FadeIn, FadeOut 두개가 사용됨
-	public void FadeIn(float fadeTime, Color fadeColor)
+
+	//isFadeInOut이 true라면 FadeIn 아니라면 FadeOut
+	public void FadeStart(bool isFadeInOut, float fadeTime, Color fadeColor)
 	{
 		_fadeTime = fadeTime;
-
 		_fadeColor = fadeColor;
 		_fadeImage.color = _fadeColor;
 
-
-		FadeStart(1, 0);
-	}
-	public void FadeOut(float fadeTime, Color fadeColor)
-	{
-		_fadeTime = fadeTime;
-
-		_fadeColor = fadeColor;
-		_fadeImage.color = _fadeColor;
-
-
-		FadeStart(0, 1);
-	}
+		float startAlpha = 0;
+		float endAlpha = 0;
+		if (isFadeInOut)
+		{
+			startAlpha = 1;
+		}
+		else
+		{
+			endAlpha = 1;
+		}
 
 
-	private void FadeStart(float startAlpha, float endAlpha)
-	{
 		if (_currentFadeCoroutine != null)
 		{
 			StopCoroutine(_currentFadeCoroutine);
 		}
+
 
 		_currentFadeCoroutine = StartCoroutine(FadeCoroutine(startAlpha, endAlpha));
 	}
