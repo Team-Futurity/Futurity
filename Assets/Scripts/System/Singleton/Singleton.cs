@@ -1,16 +1,25 @@
 using UnityEngine;
 
-public class Singleton : MonoBehaviour
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-	private static Singleton _instance = null;
+	private static T _instance = null;
 	private static object _lock = new object();
 	private static bool _applicationQuit = false;
 
-	// 해당 부분에서 Public으로 Singleton 선언
-	public FadeManager fadeManager;
-	public SceneChanger sceneChanger;
+	protected void Awake()
+	{
+		if (_instance == null)
+		{
+			_instance = this as T;
+			DontDestroyOnLoad(gameObject);
+		}
+		else if (_instance != this)
+		{
+			Destroy(gameObject);
+		}
+	}
 
-	public static Singleton Instance
+	public static T Instance
 	{
 		get
 		{
@@ -23,11 +32,11 @@ public class Singleton : MonoBehaviour
 			{
 				if (_instance == null)
 				{
-					_instance = FindObjectOfType<Singleton>();
+					_instance = FindObjectOfType<T>();
 
 					if (_instance == null)
 					{
-						string componentName = typeof(Singleton).ToString();
+						string componentName = typeof(T).ToString();
 
 						GameObject findObject = GameObject.Find(componentName);
 
@@ -36,7 +45,7 @@ public class Singleton : MonoBehaviour
 							findObject = new GameObject(componentName);
 						}
 
-						_instance = findObject.AddComponent<Singleton>();
+						_instance = findObject.AddComponent<T>();
 
 						DontDestroyOnLoad(_instance);
 					}
