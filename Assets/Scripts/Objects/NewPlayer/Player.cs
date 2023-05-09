@@ -39,8 +39,11 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
-		pc.ChangeState(PlayerController.PlayerState.Hit);
-		CurrentHp -= damage;
+		if (!isGodMode)
+		{
+			pc.ChangeState(PlayerController.PlayerState.Hit);
+			CurrentHp -= damage;
+		}
 	}
 
 	protected override float GetAttakPoint()

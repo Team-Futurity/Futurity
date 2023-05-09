@@ -21,6 +21,12 @@ public abstract class UnitBase : MonoBehaviour
     [SerializeField] protected float criticalChance = 0f;
     [Tooltip("크리티컬 데미지 배율")]
     [SerializeField] protected float criticalDamageMultiplier = 0f;
+    
+    // Buff - Invincibility
+    protected bool isGodMode = false;
+    // Buff - Dot
+    
+    // Buff - Stun
 
 
     public float CurrentHp { get { return currentHp; } set { currentHp = value; } } 
@@ -47,6 +53,11 @@ public abstract class UnitBase : MonoBehaviour
     public void SetSpeed(float changeSpeed)
     {
 	    speed = changeSpeed;
+    }
+
+    public void SetGodMode(bool isTrigger)
+    {
+	    isGodMode = isTrigger;
     }
 
 	public void OnDrawGizmos()
