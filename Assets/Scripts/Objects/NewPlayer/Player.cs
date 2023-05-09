@@ -46,6 +46,11 @@ public class Player : UnitBase
 		}
 	}
 
+	public override void DotHit(float damage)
+	{
+		CurrentHp -= damage;
+	}
+
 	protected override float GetAttakPoint()
 	{
 		return 50;
