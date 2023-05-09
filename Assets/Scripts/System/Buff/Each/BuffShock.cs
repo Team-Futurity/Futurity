@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BuffShock : BuffBehaviour
 {
-	private UnitBase targetUnit = null;
 	
 	private float currSpeed = .0f;
 	private float buffSpeed = .0f;
@@ -14,8 +13,6 @@ public class BuffShock : BuffBehaviour
 
 	public override void Active(UnitBase unit)
 	{
-		targetUnit = unit;
-		
 		base.Active(targetUnit);
 
 		currSpeed = targetUnit.Speed;
