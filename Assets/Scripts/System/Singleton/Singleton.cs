@@ -8,6 +8,7 @@ public class Singleton : MonoBehaviour
 
 	// 해당 부분에서 Public으로 Singleton 선언
 	public FadeManager fadeManager;
+	public SceneChanger sceneChanger;
 
 	public static Singleton Instance
 	{
