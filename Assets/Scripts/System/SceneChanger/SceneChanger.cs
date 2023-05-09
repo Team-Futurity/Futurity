@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
+public class SceneChanger : Singleton<SceneChanger>
 {
 	[SerializeField]
 	private string loadSceneName;
@@ -13,8 +13,6 @@ public class SceneChanger : MonoBehaviour
 
 	public void SceneLoader(string loadSceneName)
 	{
-		DontDestroyOnLoad(gameObject);
-
 		this.loadSceneName = loadSceneName;
 		SceneManager.LoadScene("LoadingScene");
 		StartCoroutine(LoadSceneProcess());
@@ -22,7 +20,6 @@ public class SceneChanger : MonoBehaviour
 
 	IEnumerator LoadSceneProcess()
 	{
-
 		//Scene이 불러와졌는지 확인
 		while (SceneManager.GetActiveScene().name != "LoadingScene")
 		{
@@ -55,7 +52,6 @@ public class SceneChanger : MonoBehaviour
 				if (loadingBar.fillAmount >= 1f)
 				{
 					asyncOperation.allowSceneActivation = true;
-					Destroy(gameObject);
 					yield break;
 				}
 			}
