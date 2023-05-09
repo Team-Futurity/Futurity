@@ -5,8 +5,9 @@ public class Singleton : MonoBehaviour
 	private static Singleton _instance = null;
 	private static object _lock = new object();
 	private static bool _applicationQuit = false;
-	
+
 	// 해당 부분에서 Public으로 Singleton 선언
+	public FadeManager fadeManager;
 
 	public static Singleton Instance
 	{
