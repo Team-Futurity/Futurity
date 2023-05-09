@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : Singleton<SceneChanger>
+public class SceneChanger : MonoBehaviour
 {
 	[SerializeField]
 	private string loadSceneName;
@@ -40,14 +40,14 @@ public class SceneChanger : Singleton<SceneChanger>
 		{
 			yield return null;
 
-			if (asyncOperation.progress < 0.85f)
+			if (asyncOperation.progress < 0.9f)
 			{
 				loadingBar.fillAmount = asyncOperation.progress;
 			}
 			else
 			{
 				timer += Time.unscaledDeltaTime;
-				loadingBar.fillAmount = Mathf.Lerp(0.85f, 1f, timer);
+				loadingBar.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
 
 				//Scene의 로딩이 끝날경우 Scene활성화(번경)
 				if (loadingBar.fillAmount >= 1f)
