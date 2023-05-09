@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffInvincibility : MonoBehaviour
+public class BuffInvincibility : BuffBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// 적에게서 무적 상태가 된다.
+	
+	public override void Active(UnitBase unit)
+	{
+		base.Active(unit);
+		
+		targetUnit.SetGodMode(true);
+	}
+
+	public override void UnActive()
+	{
+		targetUnit.SetGodMode(false);
+		
+		base.UnActive();
+	}
 }
