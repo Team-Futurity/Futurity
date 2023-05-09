@@ -17,13 +17,28 @@ public abstract class BuffBehaviour : MonoBehaviour
 	public UnityEvent buffEnd;
 
 	private float buffActiveTime;
+	protected UnitBase targetUnit = null;
 
 	private void Start()
 	{
 		if (CurrBuffName == BuffName.NONE)
 		{
 			FDebug.Log("Curr Buf의 Name이 정해지지 않았습니다.");
+			Debug.Break();
 		}
+
+		if (targetUnit == null)
+		{
+			FDebug.Log("TargetUnit이 NULL 입니다.");
+			Debug.Break();
+		}
+
+		if (BuffData == null)
+		{
+			FDebug.Log("Buff Data가 존재하지 않습니다.");
+			Debug.Break();
+		}
+		
 		buffActiveTime = BuffData.BuffActiveTime;
 	}
 
@@ -40,6 +55,8 @@ public abstract class BuffBehaviour : MonoBehaviour
 	public virtual void Active(UnitBase unit)
 	{
 		buffStart?.Invoke();
+
+		targetUnit = unit;
 		
 		FDebug.Log($"{CurrBuffName}가 실행되었습니다.");
 	}
