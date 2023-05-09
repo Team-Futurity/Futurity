@@ -13,6 +13,8 @@ public class SceneChanger : MonoBehaviour
 
 	public void SceneLoader(string loadSceneName)
 	{
+		DontDestroyOnLoad(gameObject);
+
 		this.loadSceneName = loadSceneName;
 		SceneManager.LoadScene("LoadingScene");
 		StartCoroutine(LoadSceneProcess());
@@ -53,6 +55,7 @@ public class SceneChanger : MonoBehaviour
 				if (loadingBar.fillAmount >= 1f)
 				{
 					asyncOperation.allowSceneActivation = true;
+					Destroy(gameObject);
 					yield break;
 				}
 			}
