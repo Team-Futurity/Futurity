@@ -12,7 +12,7 @@ public class FadeManagerTester : MonoBehaviour
 
 	private void Awake()
 	{
-		fadeManager = Singleton<FadeManager>.instance;
+		fadeManager = Singleton.Instance.fadeManager;
 	}
 
 	private void Start()
@@ -22,7 +22,6 @@ public class FadeManagerTester : MonoBehaviour
 
 	private void TestFadeInOut()
 	{
-
 		// Fade Out
 		fadeManager.FadeStart(false, 1f, Color.black);
 
@@ -32,8 +31,6 @@ public class FadeManagerTester : MonoBehaviour
 
 	private void TestFadeIn()
 	{
-		FadeManager fadeManager = Singleton<FadeManager>.instance;
-
 		// Fade In
 		fadeManager.FadeStart(true, 1f, Color.black);
 

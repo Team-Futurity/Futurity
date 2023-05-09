@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 
 [Singleton(Automatic = true, Persistent = true, Name = "FadeManager", HideFlags = HideFlags.None)]
-public class FadeManager : MonoBehaviour, ISingleton
+public class FadeManager : Singleton
 {
 	[SerializeField]
 	private CanvasGroup _canvasGroup;
@@ -20,8 +20,6 @@ public class FadeManager : MonoBehaviour, ISingleton
 
 	private void Awake()
 	{
-		Singleton<FadeManager>.Awake(this);
-
 		if (_canvasGroup == null)
 		{
 			GameObject fadeCanvas = new GameObject("FadeCanvas");
