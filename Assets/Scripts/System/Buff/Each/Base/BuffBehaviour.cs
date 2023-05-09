@@ -15,8 +15,10 @@ public abstract class BuffBehaviour : MonoBehaviour
 	[Header("Event")]
 	public UnityEvent buffStart;
 	public UnityEvent buffEnd;
+	public UnityEvent buffStay;
 
 	private float buffActiveTime;
+	private float currTime;
 	protected UnitBase targetUnit = null;
 
 	private void Start()
@@ -40,11 +42,19 @@ public abstract class BuffBehaviour : MonoBehaviour
 		}
 		
 		buffActiveTime = BuffData.BuffActiveTime;
+		currTime = .0f;
 	}
 
 	private void Update()
 	{
 		buffActiveTime -= Time.deltaTime;
+		currTime += Time.deltaTime;
+
+		if (1 <= currTime)
+		{
+			currTime = .0f;
+			buffStay?.Invoke();
+		}
 
 		if(0 >= buffActiveTime)
 		{
