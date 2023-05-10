@@ -14,6 +14,8 @@ public abstract class UnitBase : MonoBehaviour
     public float CriticalChance { get { return status.criticalChance; } set { status.criticalChance = Mathf.Clamp(value, 0, 1); } }
     public float CriticalDamageMultiplier => status.criticalDamageMultiplier;
 
+	public float DashSpeed => status.dashSpeed;
+
     // CriticalChance의 확률에 따라 데미지 계수가 CriticalDamageMultiplier 또는 1로 적용
     protected virtual float GetCritical()
     {

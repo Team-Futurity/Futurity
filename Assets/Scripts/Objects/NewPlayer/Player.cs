@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class Player : UnitBase
 {
-	[Space(10)]
-	[Header("기타")]
-	[Tooltip("대쉬 속도")]
-	[SerializeField] private float dashSpeed = 15f;
-	private PlayerController pc;
 
-	public float DashSpeed => dashSpeed;
+	[SerializeField] private PlayerController pc;
 
-	private void Start()
+
+	private void Awake()
 	{
-		pc = GetComponent<PlayerController>();
+		if(pc is null)
+		{
+			FDebug.Log($"{pc.GetType()}이 존재하지 않습니다.");
+		}
 	}
 
 	private void Update()
