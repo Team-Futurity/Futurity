@@ -12,6 +12,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		Idle,           // 대기
 		Attack,         // 공격
+			NormalAttack,	// 일반공격 
+			ChargedAttack,	// 차지공격
 		AttackDelay,    // 공격 후 딜레이
 		Hit,            // 피격
 		Move,           // 이동
@@ -123,7 +125,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			{
 				curNode = node;
 				curCombo = node.command;
-				ChangeState(PlayerState.Attack);
 			}
 		}
 
