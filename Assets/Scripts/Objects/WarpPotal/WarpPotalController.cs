@@ -14,10 +14,7 @@ public class WarpPotalController : MonoBehaviour
 			if (!isSceneChanger)
 			{
 				AreaWarpManager.Instance.WarpStart(collision.gameObject, targetPosition);
-			} else
-			{
-
-			}
+			} 
 		}
 	}
 }
