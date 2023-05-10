@@ -13,8 +13,6 @@ public class EnemyChaseState : UnitState<EnemyController>
 		unit.chaseRange.enabled = false;
 		unit.atkRange.enabled = true;
 		unit.isChasing = true;
-
-		FDebug.Log("Enemy Chase");
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -34,8 +32,6 @@ public class EnemyChaseState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		unit.animator.SetBool("Move", false);
-
-		FDebug.Log("Enemy Chase End");
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

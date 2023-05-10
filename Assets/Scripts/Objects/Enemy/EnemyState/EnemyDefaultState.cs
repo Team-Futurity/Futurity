@@ -11,7 +11,6 @@ public class EnemyDefaultState : UnitState<EnemyController>
 	public override void Begin(EnemyController unit)
 	{
 		unit.randMoveFloat = Random.Range(0, 10);
-		FDebug.Log("EnemyDefault");
 	}
 
 	public override void Update(EnemyController unit)
@@ -39,14 +38,12 @@ public class EnemyDefaultState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		FDebug.Log("EnemyDefaultEnd");
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
 		if (other.CompareTag("Player") && !unit.isChasing)
 		{
-			FDebug.Log("Default Chasing");
 			unit.target = other.GetComponent<UnitBase>();
 			if (!unit.IsCurrentState(EnemyController.EnemyState.Chase))
 			{

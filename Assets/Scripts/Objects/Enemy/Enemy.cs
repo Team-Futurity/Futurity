@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : UnitBase
-{
-	public float attackDelay;
-
+{ 
 	private EnemyController ec;
 
 
@@ -16,12 +14,13 @@ public class Enemy : UnitBase
 
 	public override void Attack(UnitBase target)
 	{
-		
+		target.Hit(this, GetDamage());
 	}
 
 	public override void Hit(UnitBase attacker, float damage)
 	{
-		
+		ec.ChangeState(EnemyController.EnemyState.Hitted);
+		CurrentHp -= damage;
 	}
 
 	protected override float GetAttakPoint()

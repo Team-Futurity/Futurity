@@ -22,7 +22,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 				unit.transformParent == null ? null : unit.transformParent.transform);
 		}
 
-		unit.animator.SetBool("Move", true);
+		unit.animator.SetBool(unit.moveAnimParam, true);
 
 		if(isForward)
 		{
@@ -42,8 +42,6 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 		}
 
 		unit.moveIdleSpot.transform.position = position;
-
-		FDebug.Log("EnemyMoveIdle");
 	}
 
 	public override void Update(EnemyController unit)
@@ -72,15 +70,13 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		unit.animator.SetBool("Move", false);
-		FDebug.Log("EnemyMoveIdleEnd");
+		unit.animator.SetBool(unit.moveAnimParam, false);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
 		if (other.CompareTag("Player") && !unit.isChasing)
 		{
-			FDebug.Log("MoveIdle Chasing");
 			unit.target = other.GetComponent<UnitBase>();
 			if (!unit.IsCurrentState(EnemyController.EnemyState.Chase))
 			{
