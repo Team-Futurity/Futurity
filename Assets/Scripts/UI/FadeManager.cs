@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 
 [Singleton(Automatic = true, Persistent = true, Name = "FadeManager", HideFlags = HideFlags.None)]
-public class FadeManager : Singleton
+public class FadeManager : Singleton<FadeManager>
 {
 	[SerializeField]
 	private CanvasGroup _canvasGroup;
