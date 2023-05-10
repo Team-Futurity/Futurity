@@ -1,0 +1,76 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.TestTools.CodeCoverage;
+using UnityEngine;
+using UnityEngine.Rendering;
+
+[FSMState((int)PlayerController.PlayerState.ChargedAttack)]
+public class PlayerAttackState_Charged : PlayerAttackState
+{
+	// Constants
+	private readonly float LengthMarkIncreasing = 200;
+	private readonly float AttackSTIncreasing = 1;
+	private readonly float LevelStandard = 1;
+
+	// Variables
+	private float playerOriginalSpeed;
+	private int currentLevel;
+	private float currentTime;
+
+	// others
+	private Coroutine rushCoroutine;
+
+	public override void Begin(PlayerController unit)
+	{
+		base.Begin(unit);
+		playerOriginalSpeed = unit.playerData.Speed;
+		unit.playerData.SetSpeed(unit.playerData.Speed * 0.5f);
+		currentTime = 0;
+		currentLevel = 0;
+	}
+
+	public override void End(PlayerController unit)
+	{
+		base.End(unit);
+		unit.playerData.SetSpeed(playerOriginalSpeed);
+	}
+
+	public override void FixedUpdate(PlayerController unit)
+	{
+		base.FixedUpdate(unit);
+	}
+
+	public override void OnTriggerEnter(PlayerController unit, Collider other)
+	{
+		base.OnTriggerEnter(unit, other);
+	}
+
+	public override void Update(PlayerController unit)
+	{
+		int level = (int)(currentTime / LevelStandard);
+
+		if(currentLevel != level)
+		{
+			currentLevel = level;
+		}
+
+		if (unit.specialIsReleased)
+		{
+			unit.specialIsReleased = false;
+			unit.isRush = true;
+
+			float attackST = unit.curNode.attackST + level * AttackSTIncreasing;
+			float attackLengthMark = unit.curNode.attackLengthMark + level * LengthMarkIncreasing;
+
+			if (rushCoroutine == null)
+			{
+				rushCoroutine = unit.StartCoroutine(unit.ChargedAttackProc(attackST, attackLengthMark));
+			}
+		}
+
+		currentTime += Time.deltaTime;
+	}
+
+	
+}

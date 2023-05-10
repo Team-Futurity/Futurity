@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -12,6 +13,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		Idle,           // 대기
 		Attack,         // 공격
+			NormalAttack,	// 일반공격 
+			ChargedAttack,	// 차지공격
 		AttackDelay,    // 공격 후 딜레이
 		Hit,            // 피격
 		Move,           // 이동
@@ -44,10 +47,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public Tree comboTree;
 	public RadiusCapsuleCollider attackCollider;
 
-	[SerializeField] private float comboEndTime = 2.0f;
-	[HideInInspector]public float comboCurTime = 0f;
-	[HideInInspector] public bool isComboState = false;
-	[HideInInspector] public bool isAttacking = false;
+	// input
+	public bool specialIsReleased = false;
 
 	//임시
 	public GameObject glove;
@@ -56,6 +57,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference dash;
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
+
+	// coroutine 
+	public bool isRush;
+
+	// math
+	private readonly int Meter = 100; // centimeter 단위
 
 	private void Start()
 	{
@@ -102,10 +109,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnNormalAttack(InputAction.CallbackContext context)
 	{
-		if (context.performed)
+		if (context.started)
 		{
 			AttackNode node = FindInput(PlayerInput.NormalAttack);
-			if (node != null && !isAttacking)
+			FDebug.Log("In");
+			if (node != null && !IsCurrentState(PlayerState.Attack))
 			{
 				curNode = node;
 				curCombo = node.command;
@@ -118,15 +126,30 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		if (context.performed)
 		{
+			// 현재 노드가 top노드인지 체크
+			// top노드라는 건, 콤보 입력 중이 아니라는 것.
+			bool isInit = curNode == comboTree.top;
+
 			AttackNode node = FindInput(PlayerInput.SpecialAttack);
-			if (node != null && !isAttacking)
+			if (node != null )
 			{
 				curNode = node;
 				curCombo = node.command;
-				ChangeState(PlayerState.Attack);
+
+				if (isInit) // 콤보 입력 중이 아니면 차지
+				{
+					ChangeState(PlayerState.ChargedAttack);
+				}
+				else        // 콤보 입력 중이면 일반
+				{
+					ChangeState(PlayerState.NormalAttack);
+				}
 			}
 		}
-
+		else if(context.canceled)
+		{
+			specialIsReleased = true;
+		}
 	}
 
 	public AttackNode FindInput(PlayerInput input)
@@ -141,13 +164,31 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		return node;
 	}
 
-	public void ComboTimer()
+	float testCurTime = 0;
+
+	public IEnumerator ChargedAttackProc(float attackST, float attackLengthMark)
 	{
-		comboCurTime += Time.deltaTime;
-		if (comboCurTime > comboEndTime)
+		while (true)
 		{
-			curNode = comboTree.top;
-			isComboState = false;
+			if (isRush)
+			{
+				Vector3 targetPos = transform.position + transform.forward * attackLengthMark;
+				testCurTime = 0;
+				while (transform.position.magnitude >= targetPos.magnitude)
+				{
+					// 한 프레임 당 이동 속도 계산(m/Frame)
+					float moveSpeed = (attackLengthMark * Time.deltaTime) / (Meter * curNode.attackDelay);
+
+					transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime / curNode.attackDelay);
+
+					testCurTime += Time.deltaTime;
+
+					yield return null;
+				}
+
+				transform.position = targetPos;
+			}
+			yield return null;
 		}
 	}
 }

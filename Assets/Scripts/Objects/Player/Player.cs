@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class Player : UnitBase
 {
+	[Space(10)]
+	[Header("기타")]
+	[Tooltip("대쉬 속도")]
+	[SerializeField] private float dashSpeed = 15f;
+	private PlayerController pc;
 
-	[SerializeField] private PlayerController pc;
+	public float DashSpeed => dashSpeed;
 
-
-	private void Awake()
+	private void Start()
 	{
-		if(pc is null)
-		{
-			FDebug.Log($"{pc.GetType()}이 존재하지 않습니다.");
-		}
-	}
-
-	private void Update()
-	{
-		if (pc.isComboState)
-			pc.ComboTimer();
+		pc = GetComponent<PlayerController>();
 	}
 
 	public override void Attack(UnitBase target)
@@ -55,5 +50,10 @@ public class Player : UnitBase
 	protected override float GetDefensePoint()
 	{
 		throw new System.NotImplementedException();
+	}
+
+	public void SetSpeed(float speed)
+	{
+		this.speed = speed;
 	}
 }

@@ -24,9 +24,9 @@ public class PlayerMoveState : UnitState<PlayerController>
 		//if (!pc.IsCurrentState(PlayerController.PlayerState.Dash) && !pc.IsCurrentState(PlayerController.PlayerState.Attack) && !pc.IsCurrentState(PlayerController.PlayerState.AttackDelay))
 		//{
 			Vector3 rotVec = Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
-			pc.transform.rotation = Quaternion.Lerp(pc.transform.rotation, Quaternion.LookRotation(rotVec), 15.0f * Time.deltaTime);
+			pc.transform.rotation = Quaternion.Lerp(pc.transform.rotation, Quaternion.LookRotation(rotVec), 1.0f * Time.deltaTime);
 			
-			pc.transform.position += rotVec.normalized * 2.5f * pc.playerData.Speed * Time.deltaTime;
+			pc.transform.position += rotVec.normalized * pc.playerData.Speed * Time.deltaTime;
 		//}
 	}
 

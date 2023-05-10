@@ -16,11 +16,12 @@ public class AttackNode
 	public float skillSpeed;
 	public float skillDelay;
 	public float skillAngle;
-	
+	public float attackLengthMark;
+	public float attackDelay;
+	public float attackST;
+
 	public int loopCount;
 	public float loopDelay;
-
-	public float attackPower;
 
 	public Collider collider;
 
@@ -62,7 +63,7 @@ public class AttackNode
 		skillDelay = node.skillDelay;
 		loopCount = node.loopCount;
 		loopDelay = node.loopDelay;
-		attackPower = node.attackPower;
+		attackST = node.attackST;
 		collider = node.collider;
 		effectPrefab = node.effectPrefab;
 		effectParent = node.effectParent;
