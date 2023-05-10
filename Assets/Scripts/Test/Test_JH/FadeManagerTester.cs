@@ -12,7 +12,7 @@ public class FadeManagerTester : MonoBehaviour
 
 	private void Awake()
 	{
-		fadeManager = Singleton.Instance.fadeManager;
+		fadeManager = FadeManager.Instance;
 	}
 
 	private void Start()
