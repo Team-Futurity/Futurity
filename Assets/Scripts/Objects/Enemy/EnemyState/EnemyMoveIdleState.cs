@@ -44,28 +44,25 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 		unit.moveIdleSpot.transform.position = position;
 
 		FDebug.Log("EnemyMoveIdle");
-
-
-		//임시
-		unit.isMoveIdle = true;
 	}
 
 	public override void Update(EnemyController unit)
 	{
 
 		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(position), 23.0f * Time.deltaTime);
-		//unit.transform.position = Vector3.MoveTowards(unit.transform.position,
-		//	unit.moveIdleSpot.transform.position,
-		//unit.enemyData.Speed * Time.deltaTime);
+		unit.transform.LookAt(position);
+		unit.transform.position = Vector3.MoveTowards(unit.transform.position,
+			unit.moveIdleSpot.transform.position,
+		unit.enemyData.Speed * Time.deltaTime);
 
-		//if (unit.transform.position == unit.moveIdleSpot.transform.position)
-		//{
-		//	unit.rigid.velocity = Vector3.zero;
-		//	if (!unit.IsCurrentState(EnemyState.Idle))
-		//	{
-		//		unit.ChangeState(EnemyState.Idle);
-		//	}
-		//}
+		if (unit.transform.position == unit.moveIdleSpot.transform.position)
+		{
+			unit.rigid.velocity = Vector3.zero;
+			if (!unit.IsCurrentState(EnemyState.Idle))
+			{
+				unit.ChangeState(EnemyState.Idle);
+			}
+		}
 
 	}
 
@@ -76,11 +73,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		unit.animator.SetBool("Move", false);
-
-
 		FDebug.Log("EnemyMoveIdleEnd");
-		//임시
-		unit.isMoveIdle = false;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

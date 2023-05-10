@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : UnitBase
 {
+	public float attackDelay;
+
 	private EnemyController ec;
 
 
@@ -14,12 +16,12 @@ public class Enemy : UnitBase
 
 	public override void Attack(UnitBase target)
 	{
-		throw new System.NotImplementedException();
+		
 	}
 
 	public override void Hit(UnitBase attacker, float damage)
 	{
-		throw new System.NotImplementedException();
+		
 	}
 
 	protected override float GetAttakPoint()

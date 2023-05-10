@@ -15,17 +15,15 @@ public class EnemyChaseState : UnitState<EnemyController>
 		unit.isChasing = true;
 
 		FDebug.Log("Enemy Chase");
-		//임시
-		unit.isChase = true;
 	}
 	public override void Update(EnemyController unit)
 	{
-		//if (unit.target == null)
-		//	return;
-		// //unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 30.0f * Time.deltaTime);
-		//unit.transform.LookAt(unit.target.transform.position);
-		//float distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
-		//unit.transform.position += unit.transform.forward * unit.enemyData.Speed * Time.deltaTime;
+		if (unit.target == null)
+			return;
+		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 30.0f * Time.deltaTime);
+		unit.transform.LookAt(unit.target.transform.position);
+		float distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
+		unit.transform.position += unit.transform.forward * unit.enemyData.Speed * Time.deltaTime;
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -38,8 +36,6 @@ public class EnemyChaseState : UnitState<EnemyController>
 		unit.animator.SetBool("Move", false);
 
 		FDebug.Log("Enemy Chase End");
-		//임시
-		unit.isChase = false;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

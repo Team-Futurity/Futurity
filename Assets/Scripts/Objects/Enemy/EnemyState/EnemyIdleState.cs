@@ -13,15 +13,15 @@ public class EnemyIdleState : UnitState<EnemyController>
 
 	public override void Update(EnemyController unit)
 	{
-		//unit.stayCurTime += Time.deltaTime;
+		unit.stayCurTime += Time.deltaTime;
 
-		//if(unit.stayCurTime > unit.stayMaxTime)
-		//{
-		//	if (!unit.IsCurrentState(EnemyController.EnemyState.Default))
-		//	{
-		//		unit.ChangeState(EnemyController.EnemyState.Default);
-		//	}
-		//}
+		if (unit.stayCurTime > unit.stayMaxTime)
+		{
+			if (!unit.IsCurrentState(EnemyController.EnemyState.Default))
+			{
+				unit.ChangeState(EnemyController.EnemyState.Default);
+			}
+		}
 	}
 
 	public override void FixedUpdate(EnemyController unit)
