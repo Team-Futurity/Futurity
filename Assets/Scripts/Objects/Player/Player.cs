@@ -54,6 +54,6 @@ public class Player : UnitBase
 
 	public void SetSpeed(float speed)
 	{
-		this.speed = speed;
+		status.speed = speed;
 	}
 }
