@@ -5,37 +5,16 @@ using UnityEngine;
 
 public abstract class UnitBase : MonoBehaviour
 {
-    [Header("1차 능력치")]
-    [Tooltip("현 체력")]
-    [SerializeField] protected float currentHp = 200f;
-    [Tooltip("최대 체력")]
-    [SerializeField] protected float maxHp = 200f;
-    [Tooltip("이동속도")]
-    [SerializeField] protected float speed = 3f;
-    [Tooltip("최종 공격치")]
-    [SerializeField] protected float attack = 20f;
-    [Tooltip("방어치")]
-    [SerializeField] protected float defence = 5f;
-    [Tooltip("크리티컬 확률")]
-    [Range(0, 1)]
-    [SerializeField] protected float criticalChance = 0f;
-    [Tooltip("크리티컬 데미지 배율")]
-    [SerializeField] protected float criticalDamageMultiplier = 0f;
-    
-    // Buff - Invincibility
-    protected bool isGodMode = false;
-    // Buff - Dot
-    
-    // Buff - Stun
+	[field: SerializeField] public UnitStatus status { get; private set; }
+	public float CurrentHp { get { return status.currentHp; } set { status.currentHp = value; } } 
+    public float MaxHp => status.maxHp;
+    public float Speed => status.speed;
+    public float AttackPoint { get { return status.attack; } set { status.attack = value; } }
+    public float DefencePoint => status.defence;
+    public float CriticalChance { get { return status.criticalChance; } set { status.criticalChance = Mathf.Clamp(value, 0, 1); } }
+    public float CriticalDamageMultiplier => status.criticalDamageMultiplier;
 
-
-    public float CurrentHp { get { return currentHp; } set { currentHp = value; } } 
-    public float MaxHp => maxHp;
-    public float Speed => speed;
-    public float AttackPoint { get { return attack; } set { attack = value; } }
-    public float DefencePoint => defence;
-    public float CriticalChance { get { return criticalChance; } set { criticalChance = Mathf.Clamp(value, 0, 1); } }
-    public float CriticalDamageMultiplier => criticalDamageMultiplier;
+	public float DashSpeed => status.dashSpeed;
 
     // CriticalChance의 확률에 따라 데미지 계수가 CriticalDamageMultiplier 또는 1로 적용
     protected virtual float GetCritical()
@@ -49,18 +28,6 @@ public abstract class UnitBase : MonoBehaviour
 
     public abstract void Hit(UnitBase attacker, float damage); // Unit이 피격 됐을 때 호출
     public abstract void Attack(UnitBase target); // Unit이 공격할 때 호출
-
-    public abstract void DotHit(float damage);
-
-    public void SetSpeed(float changeSpeed)
-    {
-	    speed = changeSpeed;
-    }
-
-    public void SetGodMode(bool isTrigger)
-    {
-	    isGodMode = isTrigger;
-    }
 
 	public void OnDrawGizmos()
 	{
