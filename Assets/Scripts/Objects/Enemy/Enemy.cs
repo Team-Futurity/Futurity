@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static EnemyController;
 
 public class Enemy : UnitBase
 { 
-	private EnemyController ec;
+	[SerializeField] private EnemyController ec;
 
 
 	private void Start()
 	{
-		ec = GetComponent<EnemyController>();
+
 	}
 
 	public override void Attack(UnitBase target)
@@ -19,6 +20,16 @@ public class Enemy : UnitBase
 
 	public override void Hit(UnitBase attacker, float damage)
 	{
+		//Death event
+		if (CurrentHp <= 0)
+		{
+			if (!ec.IsCurrentState(EnemyState.Death))
+			{
+				ec.ChangeState(EnemyState.Death);
+			}
+		}
+
+
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
 		CurrentHp -= damage;
 	}

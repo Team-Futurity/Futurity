@@ -9,13 +9,14 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 {
 	private bool isForward;
 	private Vector3 position;
-	private float minX = 1.5f;
-	private float maxX = 4f;
-	private float minZ = 1.5f;
-	private float maxZ = 4f;
+	private float rand;
+	private float minF = 1.5f;
+	private float maxF = 2.5f;
 
 	public override void Begin(EnemyController unit)
 	{
+		rand = Random.Range(minF, maxF);
+
 		if (unit.moveIdleSpot == null)
 		{
 			unit.moveIdleSpot = GameObject.Instantiate(new GameObject("meleeIdlePos"),
@@ -27,17 +28,17 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 		if(isForward)
 		{
 			position =	
-				new Vector3(unit.transform.position.x + Random.Range(minX, maxX),
+				new Vector3(unit.transform.position.x + rand,
 				0f,
-				unit.transform.position.z + Random.Range(minZ, maxZ));
+				unit.transform.position.z + rand);
 			isForward = false;
 		}
 		else
 		{
 			position = 
-				new Vector3(unit.transform.position.x - Random.Range(minX, maxX),
+				new Vector3(unit.transform.position.x - rand,
 				0f,
-				unit.transform.position.z - Random.Range(minZ, maxZ));
+				unit.transform.position.z - rand);
 			isForward = true;
 		}
 
@@ -56,10 +57,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 		if (unit.transform.position == unit.moveIdleSpot.transform.position)
 		{
 			unit.rigid.velocity = Vector3.zero;
-			if (!unit.IsCurrentState(EnemyState.Idle))
-			{
-				unit.ChangeState(EnemyState.Idle);
-			}
+			unit.ChangeState(EnemyState.Idle);
 		}
 
 	}
@@ -78,10 +76,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 		if (other.CompareTag("Player") && !unit.isChasing)
 		{
 			unit.target = other.GetComponent<UnitBase>();
-			if (!unit.IsCurrentState(EnemyController.EnemyState.Chase))
-			{
-				unit.ChangeState(EnemyController.EnemyState.Chase);
-			}
+			unit.ChangeState(EnemyController.EnemyState.Chase);
 		}
 	}
 }

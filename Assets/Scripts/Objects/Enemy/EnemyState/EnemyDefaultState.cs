@@ -17,17 +17,11 @@ public class EnemyDefaultState : UnitState<EnemyController>
 	{
 		if (unit.randMoveFloat < unit.movePercentage)
 		{
-			if (!unit.IsCurrentState(EnemyController.EnemyState.MoveIdle))
-			{
-				unit.ChangeState(EnemyController.EnemyState.MoveIdle);
-			}
+			unit.ChangeState(EnemyController.EnemyState.MoveIdle);
 		}
 		else
 		{
-			if (!unit.IsCurrentState(EnemyController.EnemyState.Idle))
-			{
-				unit.ChangeState(EnemyController.EnemyState.Idle);
-			}
+			unit.ChangeState(EnemyController.EnemyState.Idle);
 		}
 	}
 
@@ -45,10 +39,7 @@ public class EnemyDefaultState : UnitState<EnemyController>
 		if (other.CompareTag("Player") && !unit.isChasing)
 		{
 			unit.target = other.GetComponent<UnitBase>();
-			if (!unit.IsCurrentState(EnemyController.EnemyState.Chase))
-			{
-				unit.ChangeState(EnemyController.EnemyState.Chase);
-			}
+			unit.ChangeState(EnemyController.EnemyState.Chase);
 		}
 	}
 }

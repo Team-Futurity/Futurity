@@ -1,26 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using static EnemyController;
 
 [FSMState((int)EnemyController.EnemyState.Idle)]
 public class EnemyIdleState : UnitState<EnemyController>
 {
+	float curTime;
+
 	public override void Begin(EnemyController unit)
 	{
+		curTime = 0;
 	}
 
 	public override void Update(EnemyController unit)
 	{
-		unit.stayCurTime += Time.deltaTime;
+		curTime += Time.deltaTime;
 
-		if (unit.stayCurTime > unit.staySetTime)
-		{
-			if (!unit.IsCurrentState(EnemyController.EnemyState.Default))
-			{
-				unit.ChangeState(EnemyController.EnemyState.Default);
-			}
-		}
+		unit.DelayChangeState(curTime, unit.idleSetTime, unit, EnemyController.EnemyState.Default);
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -30,7 +28,7 @@ public class EnemyIdleState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		unit.stayCurTime = 0f;
+
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
@@ -38,10 +36,7 @@ public class EnemyIdleState : UnitState<EnemyController>
 		if (other.CompareTag("Player") && !unit.isChasing)
 		{
 			unit.target = other.GetComponent<UnitBase>();
-			if (!unit.IsCurrentState(EnemyController.EnemyState.Chase))
-			{
-				unit.ChangeState(EnemyController.EnemyState.Chase);
-			}
+			unit.ChangeState(EnemyController.EnemyState.Chase);
 		}
 	}
 }

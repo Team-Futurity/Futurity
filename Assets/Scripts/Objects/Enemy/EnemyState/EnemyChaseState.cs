@@ -39,10 +39,7 @@ public class EnemyChaseState : UnitState<EnemyController>
 		if (other.CompareTag("Player"))
 		{
 			unit.rigid.velocity = Vector3.zero;
-			if (!unit.IsCurrentState(EnemyController.EnemyState.Attack))
-			{
-				unit.ChangeState(EnemyController.EnemyState.Attack);
-			}
+			unit.ChangeState(EnemyController.EnemyState.Attack);
 		}
 	}
 }
