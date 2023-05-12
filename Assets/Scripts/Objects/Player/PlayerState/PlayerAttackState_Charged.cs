@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEditor.TestTools.CodeCoverage;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static PlayerController;
 
 [FSMState((int)PlayerController.PlayerState.ChargedAttack)]
 public class PlayerAttackState_Charged : PlayerAttackState
@@ -12,6 +14,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private readonly float LengthMarkIncreasing = 200;
 	private readonly float AttackSTIncreasing = 1;
 	private readonly float LevelStandard = 1;
+	private readonly string WallTag = "Wall";
 
 	// Variables
 	private float playerOriginalSpeed;
@@ -34,6 +37,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		base.End(unit);
 		unit.playerData.SetSpeed(playerOriginalSpeed);
+		unit.rigid.velocity = Vector3.zero;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -44,6 +48,17 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
 		base.OnTriggerEnter(unit, other);
+	}
+
+	public override void OnCollisionEnter(PlayerController unit, Collision collision)
+	{
+		base.OnCollisionEnter(unit, collision);
+
+		if (collision.gameObject.CompareTag(WallTag))
+		{
+			unit.isRush = false;
+			unit.ChangeState(PlayerState.AttackDelay);
+		}
 	}
 
 	public override void Update(PlayerController unit)
@@ -72,6 +87,4 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		currentTime += Time.deltaTime;
 	}
-
-	
 }

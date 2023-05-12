@@ -22,5 +22,6 @@ public abstract class UnitState<T> where T : IFSM
 	public abstract void FixedUpdate(T unit);
 	public abstract void End(T unit);
 	public abstract void OnTriggerEnter(T unit, Collider other);
+	public abstract void OnCollisionEnter(T unit, Collision collision);
 }
 

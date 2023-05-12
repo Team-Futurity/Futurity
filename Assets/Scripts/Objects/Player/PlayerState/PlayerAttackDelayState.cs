@@ -41,4 +41,9 @@ public class PlayerAttackDelayState : UnitState<PlayerController>
 		}
 		currentTime += Time.deltaTime;
 	}
+
+	public override void OnCollisionEnter(PlayerController unit, Collision collision)
+	{
+		throw new System.NotImplementedException();
+	}
 }

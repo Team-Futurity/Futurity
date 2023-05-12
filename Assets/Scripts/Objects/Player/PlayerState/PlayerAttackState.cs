@@ -66,4 +66,8 @@ public class PlayerAttackState : UnitState<PlayerController>
 		FDebug.Log("test");
 	}
 
+	public override void OnCollisionEnter(PlayerController unit, Collision collision)
+	{
+
+	}
 }

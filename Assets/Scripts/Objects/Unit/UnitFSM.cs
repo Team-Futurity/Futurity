@@ -121,4 +121,9 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 	{
 		currentState?.OnTriggerEnter(unit, other);
 	}
+
+	protected virtual void OnCollisionEnter(Collision collision)
+	{
+		currentState?.OnCollisionEnter(unit, collision);
+	}
 }
