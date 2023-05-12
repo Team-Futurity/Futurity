@@ -36,6 +36,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public TrailRenderer dashEffect;
+	[HideInInspector] public CapsuleCollider basicCollider;
 
 	// move
 	//public Vector3 moveInput;
@@ -58,20 +59,17 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
 
-	// coroutine 
-	public bool isRush;
-
-	// math
-	private readonly int Meter = 100; // centimeter 단위
+	
 
 	private void Start()
 	{
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		dashEffect = GetComponent<TrailRenderer>();
+		basicCollider = GetComponent<CapsuleCollider>();
 
-		SetUp(PlayerState.Idle);
 		unit = this;
+		SetUp(PlayerState.Idle);
 		curNode = comboTree.top;
 	}
 
@@ -164,36 +162,55 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		return node;
 	}
 
-	float testCurTime = 0;
-
-	public IEnumerator ChargedAttackProc(float attackST, float attackLengthMark)
+	/*public IEnumerator ChargedAttackProc(float attackST, float attackLengthMark, float moveSpeed)
 	{
+		WaitForSeconds fixedDuration = new WaitForSeconds(Time.fixedDeltaTime);
+
 		while (true)
 		{
 			if (isRush)
 			{
-				Vector3 targetPos = transform.position + transform.forward * (attackLengthMark / Meter);
-				testCurTime = 0;
-				while (transform.position.magnitude < targetPos.magnitude && isRush)
+				// 필요 변수 세팅
+				Vector3 forward = transform.forward;										// 시선 벡터
+				Vector3 originPos = transform.position;										// 돌진 전 위치
+				Vector3 targetPos = originPos + forward * (attackLengthMark / Meter);		// 목표 위치
+				float targetMagnitude = (targetPos - originPos).magnitude;					// originPos에서 targetPos로 향하는 벡터의 크기^2
+				float rayLength = moveSpeed * Time.fixedDeltaTime + basicCollider.radius;	// ray의 길이
+				Ray ray = new Ray(originPos, forward);										// 사용할 ray
+				RaycastHit hit;																// RayCastHit
+				
+				// 돌진 전 위치에서 현재 위치로 향하는 벡터의 크기가 targetMagnitude보다 작고
+				// isRush가 참인 동안
+				// 해당 코드 반복
+				while (((transform.position - originPos).magnitude < targetMagnitude) && isRush)
 				{
-					// 한 프레임 당 이동 속도 계산(m/Frame)
-					float moveSpeed = (attackLengthMark * Time.deltaTime) / (Meter * curNode.attackDelay);
+					// 디버깅용 Ray
+					FDebug.DrawRay(transform.position, forward * rayLength, UnityEngine.Color.red);
 
-					rigid.velocity = transform.forward * moveSpeed;
+					// Collision연산으로 부족한 부분을 메꿀 Ray연산
+					// ray의 길이는 조금 논의가 필요할지도...?
+					if (Physics.Raycast(ray, out hit, rayLength, layer))
+					{
+						isRush = false;
+						break;
+					}
 
-					//transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime);
+					// while문이 도는 동안 속도를 moveSpeed로 고정
+					rigid.velocity = forward * moveSpeed;
 
-					testCurTime += Time.deltaTime;
-
-					yield return null;
+					// 물리 연산이므로 FixedUpdate에서 처리하 듯 
+					yield return fixedDuration;
 				}
-				FDebug.Log(testCurTime);
 
-				transform.position = targetPos;
-				isRush = false;
+				if(isRush)
+				{
+					transform.position = targetPos;
+					isRush = false;
+				}
+
 				ChangeState(PlayerState.AttackDelay);
 			}
 			yield return null;
 		}
-	}
+	}*/
 }
