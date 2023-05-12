@@ -75,7 +75,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 		if (other.CompareTag("Player") && !unit.isChasing)
 		{
 			unit.target = other.GetComponent<UnitBase>();
-			unit.ChangeState(EnemyController.EnemyState.Chase);
+			unit.ChangeChaseState(unit);
 		}
 	}
 }

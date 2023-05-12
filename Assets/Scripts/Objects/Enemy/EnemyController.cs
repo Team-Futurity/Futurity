@@ -9,14 +9,30 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
 	public enum EnemyState : int
 	{
-		Idle,       //대기
+		Idle,			//대기
 		Default,
-		MoveIdle,   //대기 중 랜덤 이동
-		Chase,      //추격
-		Attack,     //공격
-		Hitted,     //피격
-		Death,      //사망
+		MoveIdle,		//대기 중 랜덤 이동
+		Hitted,			//피격
+		Death,          //사망
+
+
+		//Melee Default
+		MDefaultChase,          //추격
+		MDefaultAttack,         //공격
+
+		//Ranged Default
+		RDefaultChase,	
+		RDefaultAttack,
 	}
+
+	public enum EnemyType : int
+	{
+		MeleeDefault,
+		RangedDefault,
+
+	}
+
+	[SerializeField] private EnemyType enemyType;
 
 	//spawn
 	private bool isSpawning;
@@ -105,6 +121,26 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		if(curTime >= maxTime)
 		{
 			unit.ChangeState(nextEnumState);
+		}
+	}
+
+	public void ChangeChaseState(EnemyController unit)
+	{
+		int enemyType = (int)unit.enemyType;
+
+		switch(enemyType)
+		{
+			case 0:
+				unit.ChangeState(EnemyController.EnemyState.MDefaultChase);
+				break;
+
+			case 1:
+				unit.ChangeState(EnemyController.EnemyState.RDefaultChase);
+				break;
+
+			default:
+				FDebug.Log("ERROR_ChangeChaseState()");
+				return;
 		}
 	}
 }

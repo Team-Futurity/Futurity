@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)EnemyController.EnemyState.Chase)]
+[FSMState((int)EnemyController.EnemyState.MDefaultChase)]
 public class EnemyChaseState : UnitState<EnemyController>
 {
 	public override void Begin(EnemyController unit)
@@ -37,7 +37,7 @@ public class EnemyChaseState : UnitState<EnemyController>
 		if (other.CompareTag("Player"))
 		{
 			unit.rigid.velocity = Vector3.zero;
-			unit.ChangeState(EnemyController.EnemyState.Attack);
+			unit.ChangeState(EnemyController.EnemyState.MDefaultAttack);
 		}
 	}
 }
