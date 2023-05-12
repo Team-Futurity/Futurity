@@ -22,13 +22,14 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	private bool isSpawning;
 	private float curSpawningTime;
 	[SerializeField] private float maxSpawningTime = 2f;
+	private BoxCollider enemyCollider;
 
 	//Reference
 	[HideInInspector] public UnitBase target;
 	[HideInInspector] public Enemy enemyData;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
-	[HideInInspector] public Material eMaterial;
+	public Material eMaterial;
 
 	public CapsuleCollider chaseRange;
 	public SphereCollider atkRange;
@@ -36,8 +37,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Idle Properties
 	[HideInInspector] public bool isChasing = false;
-	[HideInInspector] public float stayCurTime = 0f;
-	public float staySetTime = 3f;
+	public float idleSetTime = 3f;
 
 	//Default Properties
 	public float movePercentage = 5f;
@@ -46,15 +46,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	//MoveIdle Properties
 	public GameObject transformParent;
 	[HideInInspector] public GameObject moveIdleSpot;
-	public float idleSetTime = 2f;
 
 	//Attack Properties
 	public float attackSetTime = 2f;
-	[HideInInspector] public float attackCurTime;
 
 	//Hitted Properties
 	public float hitMaxTime = 1f;
-	[HideInInspector] public float hitCurTime;
 	[HideInInspector] public Color defaultColor = new Color(55f, 55f, 55f, 255f);
 
 	//animation name
@@ -69,7 +66,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		//Basic Set Up
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
-		eMaterial = GetComponentInChildren<SkinnedMeshRenderer>().material;
+		enemyCollider = GetComponent<BoxCollider>();
 		atkCollider.enabled = false;
 
 		unit = this;
@@ -90,28 +87,24 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			if (curSpawningTime <= maxSpawningTime)
 			{
 				curSpawningTime += Time.deltaTime;
-				this.GetComponent<BoxCollider>().enabled = false;
+				enemyCollider.enabled = false;
 			}
 			else
 			{
-				if (!unit.IsCurrentState(EnemyState.Default))
-				{
-					unit.ChangeState(EnemyState.Default);
-				}
-				this.GetComponent<BoxCollider>().enabled = true;
+				unit.ChangeState(EnemyState.Default);
+				enemyCollider.enabled = true;
 				isSpawning = false;
 			}
 		}
 		else
 			curSpawningTime = 0f;
+	}
 
-		//Death event
-		if(enemyData.CurrentHp <= 0)
+	public void DelayChangeState (float curTime, float maxTime, EnemyController unit, System.ValueType nextEnumState)
+	{
+		if(curTime >= maxTime)
 		{
-			if (!IsCurrentState(EnemyState.Death))
-			{
-				ChangeState(EnemyState.Death);
-			}
+			unit.ChangeState(nextEnumState);
 		}
 	}
 }
