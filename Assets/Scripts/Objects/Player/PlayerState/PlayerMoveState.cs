@@ -21,13 +21,11 @@ public class PlayerMoveState : UnitState<PlayerController>
 
 	public override void FixedUpdate(PlayerController pc)
 	{
-		//if (!pc.IsCurrentState(PlayerController.PlayerState.Dash) && !pc.IsCurrentState(PlayerController.PlayerState.Attack) && !pc.IsCurrentState(PlayerController.PlayerState.AttackDelay))
-		//{
-			Vector3 rotVec = Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
-			pc.transform.rotation = Quaternion.Lerp(pc.transform.rotation, Quaternion.LookRotation(rotVec), 1.0f * Time.deltaTime);
-			
-			pc.transform.position += rotVec.normalized * pc.playerData.Speed * Time.deltaTime;
-		//}
+		Vector3 rotVec = Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
+
+		//pc.transform.rotation = Quaternion.Lerp(pc.transform.rotation, Quaternion.LookRotation(rotVec), 1.0f * Time.deltaTime);
+		pc.transform.rotation = Quaternion.LookRotation(rotVec);
+		pc.transform.position += rotVec.normalized * pc.playerData.Speed * Time.deltaTime;
 	}
 
 	public override void End(PlayerController pc)
