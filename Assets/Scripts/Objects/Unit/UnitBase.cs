@@ -6,6 +6,8 @@ using UnityEngine;
 public abstract class UnitBase : MonoBehaviour
 {
 	public UnitStatus status;
+
+	public bool isGodMode = false;
 	
 	protected virtual float GetCritical()
 	{
@@ -17,7 +19,13 @@ public abstract class UnitBase : MonoBehaviour
 	protected abstract float GetDamage(); // 최종 데미지 반환
 
 	public abstract void Hit(UnitBase attacker, float damage); // Unit이 피격 됐을 때 호출
+	public abstract void DotHit(float damage);
 	public abstract void Attack(UnitBase target); // Unit이 공격할 때 호출
+
+	public void SetStatusData(StatusData data)
+	{
+		status.SetStatus(data);
+	}
 
 	public void OnDrawGizmos()
 	{
