@@ -29,7 +29,7 @@ public class Player : UnitBase
 		target.Hit(this, GetDamage());
 	}
 
-	public override void Hit(UnitBase attacker, float damage)
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{
@@ -42,14 +42,11 @@ public class Player : UnitBase
 
 		if (!isGodMode)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Hit);
+			if(!isDot)
+				pc.ChangeState(PlayerController.PlayerState.Hit);
+			
 			status.SetStatus(StatusName.CURRENT_HP, -damage);
 		}
-	}
-
-	public override void DotHit(float damage)
-	{
-		status.SetStatus(StatusName.CURRENT_HP, -damage);
 	}
 
 	protected override float GetAttakPoint()
