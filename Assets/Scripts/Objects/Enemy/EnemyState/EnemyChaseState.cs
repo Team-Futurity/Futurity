@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [FSMState((int)EnemyController.EnemyState.Chase)]
 public class EnemyChaseState : UnitState<EnemyController>
