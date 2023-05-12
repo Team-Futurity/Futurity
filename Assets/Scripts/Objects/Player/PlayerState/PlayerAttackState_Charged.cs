@@ -48,13 +48,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 	public override void Update(PlayerController unit)
 	{
-		int level = (int)(currentTime / LevelStandard);
+		int level = (int)(currentTime / LevelStandard) + 1;
 
 		if(currentLevel != level)
 		{
 			currentLevel = level;
 		}
 
+		// 버튼이 Release 됐다면
 		if (unit.specialIsReleased)
 		{
 			unit.specialIsReleased = false;

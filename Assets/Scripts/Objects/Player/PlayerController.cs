@@ -172,21 +172,26 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			if (isRush)
 			{
-				Vector3 targetPos = transform.position + transform.forward * attackLengthMark;
+				Vector3 targetPos = transform.position + transform.forward * (attackLengthMark / Meter);
 				testCurTime = 0;
-				while (transform.position.magnitude >= targetPos.magnitude)
+				while (transform.position.magnitude < targetPos.magnitude)
 				{
 					// 한 프레임 당 이동 속도 계산(m/Frame)
 					float moveSpeed = (attackLengthMark * Time.deltaTime) / (Meter * curNode.attackDelay);
 
-					transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime / curNode.attackDelay);
+					transform.position += transform.forward * moveSpeed;
+
+					//transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime);
 
 					testCurTime += Time.deltaTime;
 
 					yield return null;
 				}
+				FDebug.Log(testCurTime);
 
 				transform.position = targetPos;
+				isRush = false;
+				ChangeState(PlayerState.AttackDelay);
 			}
 			yield return null;
 		}
