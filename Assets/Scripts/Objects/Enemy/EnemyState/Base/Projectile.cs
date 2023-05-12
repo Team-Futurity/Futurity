@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] private EnemyController ec;
 
-    // Update is called once per frame
-    void Update()
+	private void Start()
+	{
+	}
+
+	private void Update()
     {
-        
-    }
+		transform.position += transform.forward * ec.projectileSpeed * Time.deltaTime;
+	}
 }

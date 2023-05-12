@@ -41,7 +41,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	private BoxCollider enemyCollider;
 
 	//Reference
-	/*[HideInInspector]*/ public UnitBase target;
+	[HideInInspector] public UnitBase target;
 	public Enemy enemyData;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
@@ -65,7 +65,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Attack Properties
 	public float attackSetTime = 2f;
-	public float distance;
+	public float rangedAttackDistance;
+	public GameObject rangedProjectile;
+	public float projectileSpeed;
 
 	//Chase Properties
 	public GameObject RangedBackPos;
@@ -87,7 +89,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
-		atkCollider.enabled = false;
+		if(atkCollider != null)
+			atkCollider.enabled = false;
 
 		unit = this;
 		SetUp(EnemyState.Idle);
@@ -101,6 +104,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	protected override void Update()
 	{
 		base.Update();
+
 		//spawning event
 		if (isSpawning)
 		{
