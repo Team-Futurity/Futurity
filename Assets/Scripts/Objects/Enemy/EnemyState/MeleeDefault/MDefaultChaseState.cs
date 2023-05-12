@@ -16,9 +16,7 @@ public class EnemyChaseState : UnitState<EnemyController>
 	{
 		if (unit.target == null)
 			return;
-		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 30.0f * Time.deltaTime);
 		unit.transform.LookAt(unit.target.transform.position);
-		float distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 		unit.transform.position += unit.transform.forward * unit.enemyData.Speed * Time.deltaTime;
 	}
 
@@ -30,6 +28,7 @@ public class EnemyChaseState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		unit.animator.SetBool("Move", false);
+		unit.isChasing = false;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

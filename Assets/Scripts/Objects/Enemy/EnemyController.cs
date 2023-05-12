@@ -41,8 +41,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	private BoxCollider enemyCollider;
 
 	//Reference
-	[HideInInspector] public UnitBase target;
-	[HideInInspector] public Enemy enemyData;
+	/*[HideInInspector]*/ public UnitBase target;
+	public Enemy enemyData;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	public Material eMaterial;
@@ -65,6 +65,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Attack Properties
 	public float attackSetTime = 2f;
+	public float distance;
+
+	//Chase Properties
+	public GameObject RangedBackPos;
 
 	//Hitted Properties
 	public float hitMaxTime = 1f;
