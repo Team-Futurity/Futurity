@@ -9,9 +9,12 @@ public abstract class TrapBehaviour : UnitBase
 	// 오브젝트와 충돌하면 동작을 취함
 	[SerializeField] protected UnityEvent startEvent;
 	[SerializeField] protected UnityEvent endEvent;
+	[SerializeField] protected UnityEvent resetEvent;
 
-	[SerializeField]
-	protected TrapData trapData;
+	[SerializeField] protected TrapData trapData;
+
+	private bool isStay = false;
+	private float cooltime = .0f;
 
 	// Buff System 추가 예정
 
@@ -42,11 +45,44 @@ public abstract class TrapBehaviour : UnitBase
 
 	#endregion
 
+	private void Awake()
+	{
+		startEvent.AddListener(SearchAround);
+		startEvent.AddListener(ActiveTrap);
+
+	}
+
+	private void Update()
+	{
+		if(isStay)
+		{
+			cooltime += Time.deltaTime;
+
+			if(cooltime >= trapData.cooldowns)
+			{
+				cooltime = .0f;
+
+				isStay = false;
+				resetEvent?.Invoke();
+			}
+		}
+	}
+
+
 	protected abstract void ActiveTrap();
-	protected abstract void ResetTrap();
+	protected virtual void ResetTrap()
+	{
+		isStay = true;
+	}
 
 	public override void Hit(UnitBase attacker, float damage)
 	{
+		if(isStay)
+		{
+			FDebug.Log("Trap Cooltime");
+			return;
+		}
+
 		// Trap Condition이 공격이 아닐 경우, currentHP가 0보다 작을 경우.
 		if(trapData.condition != 2 || status.currentHp is <= 0)
 		{
@@ -63,7 +99,13 @@ public abstract class TrapBehaviour : UnitBase
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if(trapData.condition != 1)
+		if (isStay)
+		{
+			FDebug.Log("Trap Cooltime");
+			return;
+		}
+
+		if (trapData.condition != 1)
 		{
 			return;
 		}
@@ -77,9 +119,6 @@ public abstract class TrapBehaviour : UnitBase
 	private void Active()
 	{
 		startEvent?.Invoke();
-
-		SearchAround();
-		ActiveTrap();
 
 		endEvent?.Invoke();
 
