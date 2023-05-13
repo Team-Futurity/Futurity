@@ -19,7 +19,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private float currentTime;			// 지난 시간
 	private float moveSpeed;			// 돌진할 속도
 	private float targetMagnitude;		// originPos에서 targetPos로 향하는 벡터의 크기^2
-	private float rayLength;			// ray의 길이
+	private float basicRayLength;		// ray의 기본 길이
+	private float enemyRayLength;		// 적을 고려한 Ray 길이
+	private float rayLength             // 최종 ray의 길이(basic + enemy)
+		{ get { return basicRayLength + enemyRayLength; } }
 	private RaycastHit hit;				// 충돌 정보를 가져올 RaycastHit
 	private Vector3 forward;			// 시선 벡터
 	private Vector3 originPos;          // 돌진 전 위치
@@ -119,7 +122,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				firstEnemy = collision.transform.GetComponent<Rigidbody>();
 				firstEnemy.constraints = RigidbodyConstraints.FreezeRotation;
 				enemyDistance = unit.basicCollider.radius + collision.collider.bounds.size.x * 0.5f;
-				rayLength += (enemyDistance - unit.basicCollider.radius) * 2;
+				enemyRayLength = (enemyDistance) * 2 - unit.basicCollider.radius;
 			}
 		}
 	}
@@ -157,7 +160,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			originPos = unit.transform.position;
 			targetPos = originPos + forward * (attackLengthMark / Meter);
 			targetMagnitude = (targetPos - originPos).magnitude;
-			rayLength = moveSpeed * Time.fixedDeltaTime + unit.basicCollider.radius;
+			basicRayLength = moveSpeed * Time.fixedDeltaTime + unit.basicCollider.radius;
 		}
 
 		if (firstEnemy != null)
