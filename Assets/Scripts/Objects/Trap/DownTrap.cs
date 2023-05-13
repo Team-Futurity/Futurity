@@ -18,6 +18,7 @@ public class DownTrap : TrapBehaviour
 	protected override void ActiveTrap()
 	{
 		// 하강 리소스가 플레이어와 충돌하면 데미지 입력.
+		fallObj.StartFall();
 	}
 
 }
