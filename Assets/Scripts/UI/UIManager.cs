@@ -13,4 +13,24 @@ public class UIManager : Singleton<UIManager>
 		rectTransform.localPosition = instancePosition;
 		return newUI;
 	}
+
+	//#설명#	모든 자식 UI창을 닫는 함수
+	public void CloseAllChildWindows(Transform parentTransform)
+	{
+		foreach (Transform child in parentTransform)
+		{
+			Destroy(child.gameObject);
+		}
+	}
+
+	//#설명#	특정 태그를 가진 UI창을 닫는 함수
+	public void CloseAllWindowsWithTag(string tag)
+	{
+		//#보완#	ObjectPull을 사용하도록 변경해볼것
+		GameObject[] taggedUIWindows = GameObject.FindGameObjectsWithTag(tag);
+		foreach (GameObject taggedUIWindow in taggedUIWindows)
+		{
+			Destroy(taggedUIWindow);
+		}
+	}
 }
