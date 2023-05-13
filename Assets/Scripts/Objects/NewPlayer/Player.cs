@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : UnitBase
-{
+{ 
 	[Space(10)]
 	[Header("기타")]
 	[Tooltip("대쉬 속도")]
 	[SerializeField] private float dashSpeed = 15f;
 	private PlayerController pc;
+
 
 	public float DashSpeed => dashSpeed;
 
@@ -28,7 +29,7 @@ public class Player : UnitBase
 		target.Hit(this, GetDamage());
 	}
 
-	public override void Hit(UnitBase attacker, float damage)
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{
@@ -41,14 +42,11 @@ public class Player : UnitBase
 
 		if (!isGodMode)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Hit);
-			CurrentHp -= damage;
+			if(!isDot)
+				pc.ChangeState(PlayerController.PlayerState.Hit);
+			
+			status.SetStatus(StatusName.CURRENT_HP, -damage);
 		}
-	}
-
-	public override void DotHit(float damage)
-	{
-		CurrentHp -= damage;
 	}
 
 	protected override float GetAttakPoint()

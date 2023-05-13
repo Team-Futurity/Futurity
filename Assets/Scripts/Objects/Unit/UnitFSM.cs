@@ -107,17 +107,17 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		return isProcessed;
 	}
 
-	private void Update()
+	protected virtual void Update()
 	{
 		currentState?.Update(unit);
 	}
 
-	private void FixedUpdate()
+	protected virtual void FixedUpdate()
 	{
 		currentState?.FixedUpdate(unit);
 	}
 
-	private void OnTriggerEnter(Collider other)
+	protected virtual void OnTriggerEnter(Collider other)
 	{
 		currentState?.OnTriggerEnter(unit, other);
 	}
