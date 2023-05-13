@@ -7,6 +7,7 @@ public class PlayerIdleState : UnitState<PlayerController>
 {
 	public override void Begin(PlayerController pc)
 	{
+		pc.rigid.velocity = Vector3.zero;
 		return;
 	}
 
