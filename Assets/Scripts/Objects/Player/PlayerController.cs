@@ -30,6 +30,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		SpecialAttack,
 		Dash
 	}
+
 	// Constants
 	public readonly string EnemyTag = "Enemy";
 
@@ -60,8 +61,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference dash;
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
-
-	
 
 	private void Start()
 	{
