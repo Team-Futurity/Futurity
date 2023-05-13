@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StunnedTrap : MonoBehaviour
+public class StunnedTrap : TrapBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	private void Start()
+	{
+		// Reset event에 추가
+		resetEvent.AddListener(ResetEvent);
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// Trap이 발동되었을 때
+	protected override void ActiveTrap()
+	{
+		FDebug.Log("감전이 발생되었습니다.");
+	}
+
+	private void ResetEvent()
+	{
+		FDebug.Log("리셋이 완료되었습니다.");
+	}
 }
