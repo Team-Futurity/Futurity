@@ -12,13 +12,12 @@ public class UpTrap : TrapBehaviour
 		{
 			if (obj.CompareTag("Player"))
 			{
-				obj.GetComponent<Rigidbody>().velocity += new Vector3(0f, 2f, 0f);
+				obj.GetComponent<Rigidbody>().velocity += new Vector3(0f, 15f, 0f);
 			}
 			
 			obj.GetComponent<UnitBase>().Hit(this,trapData.damage, true);
 			// Buff 추가 예정
 		}
-		
 	}
 	protected override void OnTrapEnd()
 	{

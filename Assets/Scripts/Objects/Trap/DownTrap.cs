@@ -10,16 +10,15 @@ public class DownTrap : TrapBehaviour
 	{
 		fallObj.StartFall();
 		fallObj.targetHitEvent.AddListener(SetDamage);
-		
 	}
 	protected override void OnTrapEnd()
 	{
-		
 	}
 
 	protected override void OnTrapReset()
 	{
-		
+		fallObj.targetHitEvent.RemoveListener(SetDamage);		
+		fallObj.Reset();
 	}
 
 	private void SetDamage()
