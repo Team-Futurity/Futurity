@@ -69,7 +69,7 @@ public abstract class TrapBehaviour : UnitBase
 
 
 	protected abstract void ActiveTrap();
-	private void ResetTrap()
+	private void ActiveBefore()
 	{
 		isStay = true;
 	}
@@ -96,15 +96,9 @@ public abstract class TrapBehaviour : UnitBase
 		}
 	}
 
-	private void OnTriggerEnter(Collider collider)
+	private void OnTriggerStay(Collider collider)
 	{
-		if (isStay)
-		{
-			FDebug.Log("Trap Cooltime");
-			return;
-		}
-
-		if (trapData.condition != 1)
+		if (isStay || trapData.condition != 1)
 		{
 			return;
 		}
@@ -124,7 +118,7 @@ public abstract class TrapBehaviour : UnitBase
 		// 함정이 일회용이 아닐 경우.
 		if(trapData.type != 3)
 		{
-			ResetTrap();
+			ActiveBefore();
 		}
 		else
 		{
