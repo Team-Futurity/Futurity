@@ -12,4 +12,6 @@ public class BuffData : ScriptableObject
 	[field: SerializeField] public float BuffActiveTime { get; private set; }
 
 	[field: SerializeField] public GameObject BuffEffect { get; private set; }
+	
+	[field: SerializeField] public UnitStatus status { get; private set; }
 }

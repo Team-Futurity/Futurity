@@ -50,13 +50,13 @@ public abstract class BuffBehaviour : MonoBehaviour
 		buffActiveTime -= Time.deltaTime;
 		currTime += Time.deltaTime;
 
-		if (1 <= currTime)
+		if (1 < currTime)
 		{
 			currTime = .0f;
 			buffStay?.Invoke();
 		}
 
-		if(0 >= buffActiveTime)
+		if(0 > buffActiveTime)
 		{
 			UnActive();
 		}

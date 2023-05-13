@@ -24,5 +24,7 @@ public class BuffDot : BuffBehaviour
 
 	public void DotHit()
 	{
+		// targetUnit.Hit(null);
+		
 	}
 }
