@@ -5,17 +5,18 @@ using UnityEngine.Events;
 
 public abstract class TrapBehaviour : UnitBase
 {
-	// 발동 조건에 따라서 함정이 발동됨. -> 현재까지는 2개
-	// 오브젝트와 충돌하면 동작을 취함
+	// Event 
 	[SerializeField] protected UnityEvent startEvent;
 	[SerializeField] protected UnityEvent endEvent;
 	[SerializeField] protected UnityEvent resetEvent;
 
+	// Data
 	[SerializeField] protected TrapData trapData;
 
 	private bool isStay = false;
 	private float cooltime = .0f;
 
+	// Unit Layer Check
 	private const int layerMask = (1 << 9);
 
 	// Buff System 추가 예정
@@ -49,11 +50,15 @@ public abstract class TrapBehaviour : UnitBase
 
 	private void Awake()
 	{
-		startEvent.AddListener(ActiveTrap);
+		startEvent.AddListener(OnTrapStart);
+		endEvent.AddListener(OnTrapEnd);
+		
+		resetEvent.AddListener(OnTrapReset);
 	}
 
 	private void Update()
 	{
+		// Cooltime Routine
 		if(isStay)
 		{
 			cooltime += Time.deltaTime;
@@ -68,29 +73,26 @@ public abstract class TrapBehaviour : UnitBase
 		}
 	}
 
-	protected abstract void ActiveTrap();
-	private void ActiveBeforeTrap()
-	{
-		isStay = true;
-	}
-
+	protected abstract void OnTrapStart();
+	protected abstract void OnTrapEnd();
+	protected abstract void OnTrapReset();
+	
 	public override void Hit(UnitBase attacker, float damage)
 	{
-		if(isStay)
+		if (isStay)
 		{
-			FDebug.Log("Trap Cooltime");
 			return;
 		}
-
-		// Trap Condition이 공격이 아닐 경우, currentHP가 0보다 작을 경우.
-		if(trapData.condition != 2 || status.currentHp is <= 0)
+		
+		// Trap Condition이 공격이 아닐 경우.
+		if(trapData.condition != TrapCondition.ATTACK)
 		{
 			return;
 		}
 
 		status.currentHp -= damage;
 		
-		if(status.currentHp is <= 0)
+		if(status.currentHp <= 0)
 		{
 			Active();
 		}
@@ -98,7 +100,13 @@ public abstract class TrapBehaviour : UnitBase
 
 	private void OnTriggerStay(Collider coll)
 	{
-		if (isStay || trapData.condition != 1)
+		if (isStay)
+		{
+			return;
+		}
+
+		// Trap Condition이 플레이어 접근이 아닐 경우.
+		if(trapData.condition != TrapCondition.IN)
 		{
 			return;
 		}
@@ -115,25 +123,16 @@ public abstract class TrapBehaviour : UnitBase
 
 		endEvent?.Invoke();
 
-		if(trapData.type != 3)
+		// Explosion은 일회용이기 때문에 해당 Reset을 통하지 않는다.
+		if(trapData.type != TrapType.Explosion)
 		{
-			ActiveBeforeTrap();
-		}
-		else
-		{
-
+			isStay = true;
 		}
 	}
 
-	protected Collider[] SearchAround()
+	protected Collider[] GetAroundObject()
 	{
-		//var objectList = Physics2D.OverlapCircleAll(transform.position, trapData.range);
 		var objectList = Physics.OverlapSphere(transform.position, trapData.range, layerMask);
-
-		if (objectList.Length is <= 0)
-			return null;
-
-		return objectList;
+		return (objectList.Length > 0) ? objectList : null;
 	}
-
 }
