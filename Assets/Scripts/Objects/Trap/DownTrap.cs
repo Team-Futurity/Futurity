@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DownTrap : MonoBehaviour
+public class DownTrap : TrapBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	// 하강 리소스 오브젝트
+	[SerializeField] private DownTrapFallObject fallObj;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void Awake()
+	{
+		if(fallObj is null)
+		{
+			FDebug.Log($"{fallObj.GetType()}이 존재하지 않습니다.");
+		}
+	}
+
+	protected override void ActiveTrap()
+	{
+		// 하강 리소스가 플레이어와 충돌하면 데미지 입력.
+	}
+
 }
