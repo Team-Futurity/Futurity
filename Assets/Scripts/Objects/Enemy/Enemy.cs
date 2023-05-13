@@ -18,10 +18,10 @@ public class Enemy : UnitBase
 		target.Hit(this, GetDamage());
 	}
 
-	public override void Hit(UnitBase attacker, float damage)
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		//Death event
-		if (CurrentHp <= 0)
+		if (status.GetStatus(StatusName.CURRENT_HP) <= 0)
 		{
 			if (!ec.IsCurrentState(EnemyState.Death))
 			{
@@ -31,7 +31,8 @@ public class Enemy : UnitBase
 
 
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
-		CurrentHp -= damage;
+		
+		status.SetStatus(StatusName.CURRENT_HP, -damage);
 	}
 
 	protected override float GetAttakPoint()
