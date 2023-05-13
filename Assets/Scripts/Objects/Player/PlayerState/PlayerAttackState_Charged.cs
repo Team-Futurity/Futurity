@@ -84,6 +84,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			// ray의 길이는 조금 논의가 필요할지도...?
 			if (Physics.Raycast(unit.transform.position, forward, out hit, rayLength, layer))
 			{
+				// 공식 등이 정상 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
+				unit.playerData.Attack(hit.transform.GetComponent<UnitBase>());
+				unit.playerData.Attack(hit.transform.GetComponent<UnitBase>());
+
 				// 벽(장애물)과 충돌했으니 바로 돌진 종료
 				unit.ChangeState(PlayerController.PlayerState.AttackDelay);
 			}
@@ -117,12 +121,20 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		if(collision.transform.CompareTag(unit.EnemyTag))
 		{
+			// 돌진 중 한 번도 적과 충돌한 적 없다면
 			if (firstEnemy == null)
 			{
 				firstEnemy = collision.transform.GetComponent<Rigidbody>();
 				firstEnemy.constraints = RigidbodyConstraints.FreezeRotation;
 				enemyDistance = unit.basicCollider.radius + collision.collider.bounds.size.x * 0.5f;
 				enemyRayLength = (enemyDistance) * 2 - unit.basicCollider.radius;
+			}
+			else // 적과 충돌했었다면
+			{
+				// 넉백 코드
+				// ...
+				var unitData = collision.transform.GetComponent<UnitBase>();
+				unit.playerData.Attack(unitData);
 			}
 		}
 	}
