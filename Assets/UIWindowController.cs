@@ -12,8 +12,12 @@ public class UIWindowController : MonoBehaviour
 		UIManager.Instance.UIWindowOpen(OpenUIWindowObject, transform.parent, rectTransform.localPosition + new Vector3(50, -50, 0));
     }
 
-    public void UIWindowExit()
-    {
-        Destroy(this.gameObject);
-    }
+	public void UIWindowClose()
+	{
+		Destroy(this.gameObject);
+	}
+	public void UIWindowSiblingAllClose()
+	{
+		UIManager.Instance.UIWindowChildAllClose(transform.parent);
+	}
 }
