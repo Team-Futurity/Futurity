@@ -11,7 +11,7 @@ public abstract class TrapBehaviour : UnitBase
 	[SerializeField] protected UnityEvent endEvent;
 	[SerializeField] protected UnityEvent resetEvent;
 
-	[SerializeField] protected TrapData trapData;
+	[SerializeField] private TrapData trapData;
 
 	private bool isStay = false;
 	private float cooltime = .0f;
@@ -49,7 +49,6 @@ public abstract class TrapBehaviour : UnitBase
 	{
 		startEvent.AddListener(SearchAround);
 		startEvent.AddListener(ActiveTrap);
-
 	}
 
 	private void Update()
@@ -61,8 +60,8 @@ public abstract class TrapBehaviour : UnitBase
 			if(cooltime >= trapData.cooldowns)
 			{
 				cooltime = .0f;
-
 				isStay = false;
+
 				resetEvent?.Invoke();
 			}
 		}
@@ -70,7 +69,7 @@ public abstract class TrapBehaviour : UnitBase
 
 
 	protected abstract void ActiveTrap();
-	protected virtual void ResetTrap()
+	private void ResetTrap()
 	{
 		isStay = true;
 	}
@@ -97,7 +96,7 @@ public abstract class TrapBehaviour : UnitBase
 		}
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void OnTriggerEnter(Collider collider)
 	{
 		if (isStay)
 		{
@@ -110,7 +109,7 @@ public abstract class TrapBehaviour : UnitBase
 			return;
 		}
 
-		if (collision.collider.CompareTag("Player"))
+		if (collider.CompareTag("Player"))
 		{
 			Active();
 		}
