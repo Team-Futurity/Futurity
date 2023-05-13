@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct TrapData
+[System.Serializable]
+public class TrapData
 {
 	// Trap Code - Not Unique
 	// 함정 오브젝트의 고유 코드
