@@ -45,7 +45,7 @@ public class Player : UnitBase
 			if(!isDot)
 				pc.ChangeState(PlayerController.PlayerState.Hit);
 			
-			status.SetStatus(StatusName.CURRENT_HP, -damage);
+			status.CalcSelfElement(StatusName.CURRENT_HP, -damage);
 		}
 	}
 
