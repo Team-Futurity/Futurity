@@ -15,6 +15,8 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 
 	private UnitState<Unit> currentState;
 	private UnitState<Unit> prevState;
+	// subState는 currentState에 종속적으로 작동하며 currentState가 End되면 같이 End되며 null이 된다.
+	private UnitState<Unit> subState; 
 
 	protected void SetUp(ValueType firstState)
 	{
@@ -59,6 +61,8 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 			if (currentState != null)
 			{
 				currentState.End(unit);
+				subState?.End(unit);
+				subState = null;
 				prevState = currentState;
 			}
 
@@ -68,6 +72,28 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		else
 		{
 			FDebug.Log($"NextState({nextState})가 null이거나 현재 상태와 동일합니다.\n현재 상태 : {currentState}");
+		}
+	}
+
+	public void AddSubState(ValueType subEnumState)
+	{
+		UnitState<Unit> state = null;
+		if (GetState(subEnumState, ref state))
+		{
+			AddSubState(state);
+		}
+	}
+
+	public void AddSubState(UnitState<Unit> subState)
+	{
+		if (subState != null && subState != currentState)
+		{
+			this.subState = subState;
+			this.subState.Begin(unit);
+		}
+		else
+		{
+			FDebug.Log($"NextState({subState})가 null이거나 현재 상태와 동일합니다.\n현재 상태 : {currentState}");
 		}
 	}
 
@@ -110,20 +136,24 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 	protected virtual void Update()
 	{
 		currentState?.Update(unit);
+		subState?.Update(unit);
 	}
 
 	protected virtual void FixedUpdate()
 	{
 		currentState?.FixedUpdate(unit);
+		subState?.FixedUpdate(unit);
 	}
 
 	protected virtual void OnTriggerEnter(Collider other)
 	{
 		currentState?.OnTriggerEnter(unit, other);
+		subState?.OnTriggerEnter(unit, other);
 	}
 
 	protected virtual void OnCollisionEnter(Collision collision)
 	{
 		currentState?.OnCollisionEnter(unit, collision);
+		subState?.OnCollisionEnter(unit, collision);
 	}
 }
