@@ -16,6 +16,8 @@ public abstract class TrapBehaviour : UnitBase
 	private bool isStay = false;
 	private float cooltime = .0f;
 
+	private const int layerMask = (1 << 9);
+
 	// Buff System 추가 예정
 
 	#region NotUsed
@@ -96,14 +98,14 @@ public abstract class TrapBehaviour : UnitBase
 		}
 	}
 
-	private void OnTriggerStay(Collider collider)
+	private void OnTriggerStay(Collider coll)
 	{
 		if (isStay || trapData.condition != 1)
 		{
 			return;
 		}
 
-		if (collider.CompareTag("Player"))
+		if (coll.CompareTag("Player"))
 		{
 			Active();
 		}
@@ -128,7 +130,8 @@ public abstract class TrapBehaviour : UnitBase
 
 	private void SearchAround()
 	{
-		var objectList = Physics2D.OverlapCircleAll(transform.position, trapData.range);
+		//var objectList = Physics2D.OverlapCircleAll(transform.position, trapData.range);
+		var objectList = Physics.OverlapSphere(transform.position, trapData.range, layerMask);
 
 		// 탐색된 Object가 없다면
 		if (objectList.Length is <= 0)
