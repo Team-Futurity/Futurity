@@ -26,7 +26,7 @@ public class PlayerMoveState : UnitState<PlayerController>
 			Vector3 rotVec = Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
 			pc.transform.rotation = Quaternion.Lerp(pc.transform.rotation, Quaternion.LookRotation(rotVec), 15.0f * Time.deltaTime);
 			
-			pc.transform.position += rotVec.normalized * 2.5f * pc.playerData.Speed * Time.deltaTime;
+			pc.transform.position += rotVec.normalized * 2.5f * pc.playerData.status.GetStatus(StatusName.SPEED) * Time.deltaTime;
 		//}
 	}
 
