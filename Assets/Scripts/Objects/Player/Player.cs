@@ -22,7 +22,7 @@ public class Player : UnitBase
 		target.Hit(this, GetDamage());
 	}
 
-	public override void Hit(UnitBase attacker, float damage)
+	public override void Hit(UnitBase attacker, float damage, bool isDot)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{
@@ -54,6 +54,6 @@ public class Player : UnitBase
 
 	public void SetSpeed(float speed)
 	{
-		status.speed = speed;
+		status.SetStatus(StatusName.SPEED, speed);
 	}
 }

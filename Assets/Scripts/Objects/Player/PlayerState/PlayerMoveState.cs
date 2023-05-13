@@ -25,7 +25,7 @@ public class PlayerMoveState : UnitState<PlayerController>
 
 		//pc.transform.rotation = Quaternion.Lerp(pc.transform.rotation, Quaternion.LookRotation(rotVec), 1.0f * Time.deltaTime);
 		pc.transform.rotation = Quaternion.LookRotation(rotVec);
-		pc.transform.position += rotVec.normalized * pc.playerData.Speed * Time.deltaTime;
+		pc.transform.position += rotVec.normalized * pc.playerData.status.GetStatus(StatusName.SPEED) * Time.deltaTime;
 	}
 
 	public override void End(PlayerController pc)

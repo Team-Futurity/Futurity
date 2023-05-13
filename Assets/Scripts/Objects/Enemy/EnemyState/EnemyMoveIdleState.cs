@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static EnemyController;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [FSMState((int)EnemyController.EnemyState.MoveIdle)]
 public class EnemyMoveIdleState : UnitState<EnemyController>
@@ -78,5 +77,10 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 			unit.target = other.GetComponent<UnitBase>();
 			unit.ChangeState(EnemyController.EnemyState.Chase);
 		}
+	}
+
+	public override void OnCollisionEnter(EnemyController unit, Collision collision)
+	{
+		throw new System.NotImplementedException();
 	}
 }

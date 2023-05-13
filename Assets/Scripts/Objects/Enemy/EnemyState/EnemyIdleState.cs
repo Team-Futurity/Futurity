@@ -39,4 +39,9 @@ public class EnemyIdleState : UnitState<EnemyController>
 			unit.ChangeState(EnemyController.EnemyState.Chase);
 		}
 	}
+
+	public override void OnCollisionEnter(EnemyController unit, Collision collision)
+	{
+		throw new System.NotImplementedException();
+	}
 }

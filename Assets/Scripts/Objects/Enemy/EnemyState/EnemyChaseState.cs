@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [FSMState((int)EnemyController.EnemyState.Chase)]
 public class EnemyChaseState : UnitState<EnemyController>
@@ -41,5 +40,10 @@ public class EnemyChaseState : UnitState<EnemyController>
 			unit.rigid.velocity = Vector3.zero;
 			unit.ChangeState(EnemyController.EnemyState.Attack);
 		}
+	}
+
+	public override void OnCollisionEnter(EnemyController unit, Collision collision)
+	{
+		throw new System.NotImplementedException();
 	}
 }

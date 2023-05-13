@@ -35,4 +35,8 @@ public class EnemyHittedState : UnitState<EnemyController>
 		
 	}
 
+	public override void OnCollisionEnter(EnemyController unit, Collision collision)
+	{
+		throw new System.NotImplementedException();
+	}
 }

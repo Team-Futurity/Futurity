@@ -39,8 +39,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
-		playerOriginalSpeed = unit.playerData.Speed;
-		unit.playerData.SetSpeed(unit.playerData.Speed * 0.5f);
+		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusName.SPEED);
+		unit.playerData.status.SetStatus(StatusName.SPEED, playerOriginalSpeed * 0.5f);
 		currentTime = 0;
 		currentLevel = 0;
 
@@ -62,7 +62,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		isReleased = false;
 		unit.specialIsReleased = false;
-		unit.playerData.SetSpeed(playerOriginalSpeed);
+		unit.playerData.status.SetStatus(StatusName.SPEED, playerOriginalSpeed);
 	}
 
 	public override void FixedUpdate(PlayerController unit)
