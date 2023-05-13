@@ -8,13 +8,22 @@ public class UIWindowOpenButton : MonoBehaviour
 	private GameObject OpenUiWindow;
 	[SerializeField]
 	private Vector2 instancePosition = Vector2.zero;
+	[SerializeField]
+	private bool isUiLock = false;
 
-	
+
 	public void UiOpenButtonClick()
 	{
 		if (OpenUiWindow)
 		{
-			UIManager.Instance.UIWindowOpen(OpenUiWindow, transform.parent, instancePosition);
+			if(isUiLock)
+			{
+				UIManager.Instance.UIWindowOpen(OpenUiWindow, transform.parent, instancePosition).GetComponent<UIWindowController>().isLock = true;
+			}
+			else
+			{
+				UIManager.Instance.UIWindowOpen(OpenUiWindow, transform, instancePosition).GetComponent<UIWindowController>().isLock = false;
+			}
 		}
 		else
 		{

@@ -18,7 +18,7 @@ public class UIWindowDragController : MonoBehaviour, IBeginDragHandler, IDragHan
 	private Vector2 _pointerPosition;
 	private Vector3 _windowPosition;
 
-	// Start is called before the first frame update
+
 	void Start()
     {
 		if (!parentUIWindow)
@@ -29,12 +29,15 @@ public class UIWindowDragController : MonoBehaviour, IBeginDragHandler, IDragHan
 		parentUIWindow.TryGetComponent<UIWindowController>(out uIWindowController);
 	}
 
+	//#설명#	UIWindow를 드래그 가능 하도록 드래그 시작 위치를 저장하고 UIWindow를 가장 앞으로 당겨오는 함수
 	public void OnBeginDrag(PointerEventData eventData)
 	{
 		_pointerPosition = eventData.position;
 		_windowPosition = rectTransform.localPosition;
 		uIWindowController.BringToFront();
 	}
+
+	//#설명#	UIWindow를 드래그시 위치를 실시간으로 업데이트 시켜주는 함수
 	public void OnDrag(PointerEventData eventData)
 	{
 		Vector2 pointerDelta = eventData.position - _pointerPosition;
