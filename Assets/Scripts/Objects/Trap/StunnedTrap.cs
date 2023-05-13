@@ -6,7 +6,6 @@ public class StunnedTrap : TrapBehaviour
 {
 	private void Start()
 	{
-		// Reset event¿¡ Ãß°¡
 		resetEvent.AddListener(ResetEvent);
 	}
 
