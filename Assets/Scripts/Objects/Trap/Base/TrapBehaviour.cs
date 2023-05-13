@@ -13,6 +13,8 @@ public abstract class TrapBehaviour : UnitBase
 	[SerializeField]
 	protected TrapData trapData;
 
+	// Buff System 추가 예정
+
 	#region NotUsed
 	protected override float GetAttakPoint()
 	{
@@ -40,7 +42,6 @@ public abstract class TrapBehaviour : UnitBase
 
 	#endregion
 
-
 	protected abstract void ActiveTrap();
 	protected abstract void ResetTrap();
 
@@ -67,8 +68,7 @@ public abstract class TrapBehaviour : UnitBase
 			return;
 		}
 
-		// Monster 혹은 Player일 경우.
-		if (collision.collider.CompareTag("Monster") || collision.collider.CompareTag("Player"))
+		if (collision.collider.CompareTag("Player"))
 		{
 			Active();
 		}
@@ -78,13 +78,46 @@ public abstract class TrapBehaviour : UnitBase
 	{
 		startEvent?.Invoke();
 
+		SearchAround();
 		ActiveTrap();
 
-		// 일회용이 아닐 경우
+		ResetTrap();
+
+		endEvent?.Invoke();
+
+		// 함정이 일회용이 아닐 경우.
 		if(trapData.type != 3)
 		{
 			ResetTrap();
 		}
+		else
+		{
+			// 일회용일 경우 삭제 or ETC
+
+		}
+	}
+
+	private void SearchAround()
+	{
+		var objectList = Physics2D.OverlapCircleAll(transform.position, trapData.range);
+
+		// 탐색된 Object가 없다면
+		if (objectList.Length is <= 0)
+			return;
+
+		// 탐색된 Object List를 가져와서 처리해준다.
+		foreach(var obj in objectList)
+		{
+			// 데미지를 주며
+			obj.GetComponent<UnitBase>().Hit(this, trapData.damage);
+
+			// 디버프를 할당한다. 단, 타입이 단순 데미지가 아니어야 함.
+			if(trapData.debuff == 1)
+			{
+				// 디버프 할당. -> BuffSystem이 PR이 되지 않음.
+			}
+		}
+		
 	}
 
 }
