@@ -34,7 +34,7 @@ public class Player : UnitBase
 		//}
 
 		pc.ChangeState(PlayerController.PlayerState.Hit);
-		CurrentHp -= damage;
+		status.SetStatus(StatusName.CURRENT_HP, status.GetStatus(StatusName.CURRENT_HP) - damage);
 	}
 
 	protected override float GetAttakPoint()
