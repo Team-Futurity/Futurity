@@ -1330,6 +1330,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 135122344}
     - target: {fileID: 4038901862359716574, guid: 7f520cc04daf4244c811361893cb3375, type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 11400000, guid: 77b7b9ea145d0f54e87d723005f010ae, type: 2}
+    - target: {fileID: 4038901862359716574, guid: 7f520cc04daf4244c811361893cb3375, type: 3}
       propertyPath: <status>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: bd79fa44e9b0faa4b834bfd36132ff61, type: 2}
@@ -1956,8 +1960,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1252058260}
-  - component: {fileID: 1252058259}
   - component: {fileID: 1252058258}
+  - component: {fileID: 1252058261}
   m_Layer: 0
   m_Name: TestStun
   m_TagString: Untagged
@@ -1979,39 +1983,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1252058259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252058257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e0bf3ab8367a3449b7735c16d8c8f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <status>k__BackingField: {fileID: 11400000, guid: 682e1bea3c8b30e4a9c91f7401c6701a, type: 2}
-  startEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  endEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  resetEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  trapData:
-    code: 2
-    uID: 2
-    name: "\uACE0\uC778\uBB3C"
-    condition: 1
-    type: 2
-    debuff: 1
-    range: 30
-    damage: 25
-    duration: 2
-    cooldowns: 1
 --- !u!4 &1252058260
 Transform:
   m_ObjectHideFlags: 0
@@ -2028,6 +1999,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1252058261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252058257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2e4f5c39c49d14487c14568db162c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 11400000, guid: 682e1bea3c8b30e4a9c91f7401c6701a, type: 2}
+  isGodMode: 0
+  startEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  endEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  resetEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  trapData:
+    code: 0
+    uID: 
+    name: 
+    condition: 0
+    type: 0
+    debuff: 0
+    range: 0
+    damage: 0
+    duration: 0
+    cooldowns: 0
 --- !u!1 &1276608346
 GameObject:
   m_ObjectHideFlags: 0
