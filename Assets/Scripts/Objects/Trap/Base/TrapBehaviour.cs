@@ -77,7 +77,7 @@ public abstract class TrapBehaviour : UnitBase
 	protected abstract void OnTrapEnd();
 	protected abstract void OnTrapReset();
 	
-	public override void Hit(UnitBase attacker, float damage)
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		if (isStay)
 		{
@@ -90,9 +90,9 @@ public abstract class TrapBehaviour : UnitBase
 			return;
 		}
 
-		status.currentHp -= damage;
+		status.SetStatus(StatusName.CURRENT_HP, -damage);
 		
-		if(status.currentHp <= 0)
+		if(status.GetStatus(StatusName.CURRENT_HP) <= 0)
 		{
 			Active();
 		}
