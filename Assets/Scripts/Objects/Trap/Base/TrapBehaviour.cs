@@ -81,8 +81,6 @@ public abstract class TrapBehaviour : UnitBase
 		SearchAround();
 		ActiveTrap();
 
-		ResetTrap();
-
 		endEvent?.Invoke();
 
 		// 함정이 일회용이 아닐 경우.
@@ -93,7 +91,6 @@ public abstract class TrapBehaviour : UnitBase
 		else
 		{
 			// 일회용일 경우 삭제 or ETC
-
 		}
 	}
 
