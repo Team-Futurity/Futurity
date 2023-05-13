@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [FSMState((int)EnemyController.EnemyState.Chase)]
 public class EnemyChaseState : UnitState<EnemyController>
@@ -21,7 +19,7 @@ public class EnemyChaseState : UnitState<EnemyController>
 		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 30.0f * Time.deltaTime);
 		unit.transform.LookAt(unit.target.transform.position);
 		float distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
-		unit.transform.position += unit.transform.forward * unit.enemyData.Speed * Time.deltaTime;
+		unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusName.SPEED) * Time.deltaTime;
 	}
 
 	public override void FixedUpdate(EnemyController unit)

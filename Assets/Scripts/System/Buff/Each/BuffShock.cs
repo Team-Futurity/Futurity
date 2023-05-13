@@ -15,14 +15,10 @@ public class BuffShock : BuffBehaviour
 	{
 		base.Active(unit);
 
-		currSpeed = targetUnit.Speed;
-		targetUnit.SetSpeed(buffSpeed);
 	}
 
 	public override void UnActive()
 	{
-		targetUnit.SetSpeed(currSpeed);
-		
 		base.UnActive();
 	}
 

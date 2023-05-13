@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static EnemyController;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [FSMState((int)EnemyController.EnemyState.MoveIdle)]
 public class EnemyMoveIdleState : UnitState<EnemyController>
@@ -52,7 +51,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 		unit.transform.LookAt(position);
 		unit.transform.position = Vector3.MoveTowards(unit.transform.position,
 			unit.moveIdleSpot.transform.position,
-		unit.enemyData.Speed * Time.deltaTime);
+		unit.enemyData.status.GetStatus(StatusName.SPEED) * Time.deltaTime);
 
 		if (unit.transform.position == unit.moveIdleSpot.transform.position)
 		{

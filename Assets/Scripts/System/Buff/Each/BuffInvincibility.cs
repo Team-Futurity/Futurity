@@ -10,14 +10,10 @@ public class BuffInvincibility : BuffBehaviour
 	public override void Active(UnitBase unit)
 	{
 		base.Active(unit);
-		
-		targetUnit.SetGodMode(true);
 	}
 
 	public override void UnActive()
 	{
-		targetUnit.SetGodMode(false);
-		
 		base.UnActive();
 	}
 }
