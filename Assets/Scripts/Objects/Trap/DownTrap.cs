@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class DownTrap : TrapBehaviour
 {
+	[SerializeField] private DownTrapFallObject fallObj;
+	
 	protected override void OnTrapStart()
 	{
+		fallObj.StartFall();
+		fallObj.targetHitEvent.AddListener(SetDamage);
 		
 	}
 	protected override void OnTrapEnd()
@@ -16,5 +20,15 @@ public class DownTrap : TrapBehaviour
 	protected override void OnTrapReset()
 	{
 		
+	}
+
+	private void SetDamage()
+	{
+		var objList = GetAroundObject();
+
+		foreach (var obj in objList)
+		{
+			obj.GetComponent<UnitBase>().Hit(this, trapData.damage);
+		}
 	}
 }

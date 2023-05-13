@@ -15,8 +15,8 @@ public class UpTrap : TrapBehaviour
 				obj.GetComponent<Rigidbody>().velocity += new Vector3(0f, 2f, 0f);
 			}
 			
-			obj.GetComponent<UnitBase>().Hit(this,trapData.damage);
-			// DeBuffs
+			obj.GetComponent<UnitBase>().Hit(this,trapData.damage, true);
+			// Buff 추가 예정
 		}
 		
 	}
@@ -29,7 +29,5 @@ public class UpTrap : TrapBehaviour
 	{
 		
 	}
-	
-	// Private
 	
 }
