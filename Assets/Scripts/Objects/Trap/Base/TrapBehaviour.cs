@@ -11,7 +11,7 @@ public abstract class TrapBehaviour : UnitBase
 	[SerializeField] protected UnityEvent endEvent;
 	[SerializeField] protected UnityEvent resetEvent;
 
-	[SerializeField] private TrapData trapData;
+	[SerializeField] protected TrapData trapData;
 
 	private bool isStay = false;
 	private float cooltime = .0f;
@@ -49,7 +49,6 @@ public abstract class TrapBehaviour : UnitBase
 
 	private void Awake()
 	{
-		startEvent.AddListener(SearchAround);
 		startEvent.AddListener(ActiveTrap);
 	}
 
@@ -69,9 +68,8 @@ public abstract class TrapBehaviour : UnitBase
 		}
 	}
 
-
 	protected abstract void ActiveTrap();
-	private void ActiveBefore()
+	private void ActiveBeforeTrap()
 	{
 		isStay = true;
 	}
@@ -117,39 +115,25 @@ public abstract class TrapBehaviour : UnitBase
 
 		endEvent?.Invoke();
 
-		// 함정이 일회용이 아닐 경우.
 		if(trapData.type != 3)
 		{
-			ActiveBefore();
+			ActiveBeforeTrap();
 		}
 		else
 		{
-			// 일회용일 경우 삭제 or ETC
+
 		}
 	}
 
-	private void SearchAround()
+	protected Collider[] SearchAround()
 	{
 		//var objectList = Physics2D.OverlapCircleAll(transform.position, trapData.range);
 		var objectList = Physics.OverlapSphere(transform.position, trapData.range, layerMask);
 
-		// 탐색된 Object가 없다면
 		if (objectList.Length is <= 0)
-			return;
+			return null;
 
-		// 탐색된 Object List를 가져와서 처리해준다.
-		foreach(var obj in objectList)
-		{
-			// 데미지를 주며
-			obj.GetComponent<UnitBase>().Hit(this, trapData.damage);
-
-			// 디버프를 할당한다. 단, 타입이 단순 데미지가 아니어야 함.
-			if(trapData.debuff == 1)
-			{
-				// 디버프 할당. -> BuffSystem이 PR이 되지 않음.
-			}
-		}
-		
+		return objectList;
 	}
 
 }
