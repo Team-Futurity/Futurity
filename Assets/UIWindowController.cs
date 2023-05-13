@@ -1,14 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
-public class UIWindowController : MonoBehaviour
+
+//#설명#	해당 스크립트는 UIWindow가 가지고 있는 핵심 스크립트로, UIWindow의 전반적인 행동 양식을 지니고 있습니다.
+public class UIWindowController : MonoBehaviour, IPointerClickHandler
 {
+
+	RectTransform rectTransform;
+
+	public void Start()
+	{
+		rectTransform = GetComponent<RectTransform>();
+	}
 
 	public void UIWindowNewOpen(GameObject OpenUIWindowObject)
     {
-		RectTransform rectTransform = GetComponent<RectTransform>();
-
 		UIManager.Instance.UIWindowOpen(OpenUIWindowObject, transform.parent, rectTransform.localPosition + new Vector3(50, -50, 0));
     }
 
@@ -20,4 +29,14 @@ public class UIWindowController : MonoBehaviour
 	{
 		UIManager.Instance.UIWindowChildAllClose(transform.parent);
 	}
+	public void OnPointerClick(PointerEventData eventData)
+	{
+		BringToFront();
+	}
+
+	public void BringToFront()
+	{
+		rectTransform.SetAsLastSibling();
+	}
+
 }
