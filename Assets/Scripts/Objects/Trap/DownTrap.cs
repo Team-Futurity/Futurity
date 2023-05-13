@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class DownTrap : TrapBehaviour
 {
-	// 하강 리소스 오브젝트
-	[SerializeField] private DownTrapFallObject fallObj;
-
-	private void Awake()
+	protected override void OnTrapStart()
 	{
-		if(fallObj is null)
-		{
-			FDebug.Log($"{fallObj.GetType()}이 존재하지 않습니다.");
-		}
+		
+	}
+	protected override void OnTrapEnd()
+	{
+		
 	}
 
-	protected override void ActiveTrap()
+	protected override void OnTrapReset()
 	{
-		// 하강 리소스가 플레이어와 충돌하면 데미지 입력.
-		fallObj.StartFall();
+		
 	}
-
 }

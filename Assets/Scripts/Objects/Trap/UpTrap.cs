@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class UpTrap : TrapBehaviour
 {
-	protected override void ActiveTrap()
+	protected override void OnTrapStart()
 	{
-		// trap이 실행되었을 경우
+		var objectList = GetAroundObject();
 
-		var objList = SearchAround();
-
-		// ObjList에서 몬스터와 Player를 구분한다.
-		foreach(var obj in objList)
+		foreach (var obj in objectList)
 		{
-			if(obj.CompareTag("Player"))
+			if (obj.CompareTag("Player"))
 			{
-				obj.GetComponent<Rigidbody>().velocity += new Vector3(0f, 3f, 0f);
+				obj.GetComponent<Rigidbody>().velocity += new Vector3(0f, 2f, 0f);
 			}
-
-			// OBJ 기절
-
-			// 버프 발동 시간이 끝나면 데미지
-			obj.GetComponent<UnitBase>().Hit(this, trapData.damage);
+			
+			obj.GetComponent<UnitBase>().Hit(this,trapData.damage);
+			// DeBuffs
 		}
+		
+	}
+	protected override void OnTrapEnd()
+	{
+		
 	}
 
+	protected override void OnTrapReset()
+	{
+		
+	}
+	
+	// Private
+	
 }

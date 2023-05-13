@@ -19,9 +19,9 @@ public class TrapData
 
 	// Int
 	// 함정의 발동 조건 ( 0 - NONE, 1 - 플레이어 접근, 2 - 플레이어 공격 )
-	public int condition;
+	public TrapCondition condition;
 	// 함정의 타입 ( 0 - NONE, 1 - FALL, 2 - Debuff, 3 - Explosion )
-	public int type;
+	public TrapType type;
 	// 함정 효과 ( 0 - NONE, 1 - Stun, 3 - Damage )
 	public int debuff;
 
@@ -34,4 +34,25 @@ public class TrapData
 	public float duration;
 	// 함정 쿨타임
 	public float cooldowns;
+}
+
+public enum TrapCondition
+{
+	NONE = 0,
+	
+	IN,
+	ATTACK,
+	
+	MAX
+}
+
+public enum TrapType
+{
+	NONE = 0,
+	
+	FALL,
+	Debuff,
+	Explosion,
+	
+	MAX
 }
