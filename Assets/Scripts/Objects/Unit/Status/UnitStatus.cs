@@ -14,9 +14,11 @@ public class UnitStatus : ScriptableObject
 
 	private void OnEnable()
 	{
-		copyStatus.Clear();
-		
-		CopyOrigin();
+		if (copyStatus is not null)
+		{
+			copyStatus.Clear();
+			CopyOrigin();
+		}
 	}
 
 	private void CopyOrigin()
