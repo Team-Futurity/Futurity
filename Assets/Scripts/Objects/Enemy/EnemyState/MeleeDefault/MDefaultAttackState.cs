@@ -32,7 +32,10 @@ public class MDefaultAttackState : UnitState<EnemyController>
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
+		if (other.CompareTag(unit.playerTag))
+		{
 
+		}
 	}
 
 }

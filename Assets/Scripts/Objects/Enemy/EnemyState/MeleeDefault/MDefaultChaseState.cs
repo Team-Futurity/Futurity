@@ -7,7 +7,7 @@ public class EnemyChaseState : UnitState<EnemyController>
 {
 	public override void Begin(EnemyController unit)
 	{
-		unit.animator.SetBool("Move", true);
+		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
 		unit.atkRange.enabled = true;
 		unit.isChasing = true;
@@ -27,13 +27,13 @@ public class EnemyChaseState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		unit.animator.SetBool("Move", false);
+		unit.animator.SetBool(unit.moveAnimParam, false);
 		unit.isChasing = false;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		if (other.CompareTag("Player"))
+		if (other.CompareTag(unit.playerTag))
 		{
 			unit.rigid.velocity = Vector3.zero;
 			unit.ChangeState(EnemyController.EnemyState.MDefaultAttack);

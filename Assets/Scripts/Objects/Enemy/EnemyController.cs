@@ -82,6 +82,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public readonly string atkAnimParam = "Attack";
 	public readonly string hitAnimParam = "Hit";
 
+	//tag name
+	public readonly string playerTag = "Player";
+
 
 
 	private void Start()

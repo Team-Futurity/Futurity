@@ -37,7 +37,7 @@ public class RDefaultAttackState : UnitState<EnemyController>
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		if (other.CompareTag("Player"))
+		if (other.CompareTag(unit.playerTag))
 		{
 
 		}
