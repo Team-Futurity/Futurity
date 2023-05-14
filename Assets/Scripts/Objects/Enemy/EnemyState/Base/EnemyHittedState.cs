@@ -17,7 +17,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 	{
 		curTime += Time.deltaTime;
 
-		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, EnemyController.EnemyState.Chase);
+		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, EnemyController.EnemyState.MDefaultChase);
 	}
 
 	public override void FixedUpdate(EnemyController unit)

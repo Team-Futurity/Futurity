@@ -72,10 +72,10 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		if (other.CompareTag("Player") && !unit.isChasing)
+		if (other.CompareTag(unit.playerTag) && !unit.isChasing)
 		{
 			unit.target = other.GetComponent<UnitBase>();
-			unit.ChangeState(EnemyController.EnemyState.Chase);
+			unit.ChangeChaseState(unit);
 		}
 	}
 

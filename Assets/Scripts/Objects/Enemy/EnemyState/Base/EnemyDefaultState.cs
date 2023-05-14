@@ -1,24 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
+using TMPro;
 using UnityEngine;
 using static EnemyController;
 
-[FSMState((int)EnemyController.EnemyState.Idle)]
-public class EnemyIdleState : UnitState<EnemyController>
+[FSMState((int)EnemyController.EnemyState.Default)]
+public class EnemyDefaultState : UnitState<EnemyController>
 {
-	float curTime;
 
 	public override void Begin(EnemyController unit)
 	{
-		curTime = 0;
+		unit.randMoveFloat = Random.Range(0, 10);
 	}
 
 	public override void Update(EnemyController unit)
 	{
-		curTime += Time.deltaTime;
-
-		unit.DelayChangeState(curTime, unit.idleSetTime, unit, EnemyController.EnemyState.Default);
+		if (unit.randMoveFloat < unit.movePercentage)
+		{
+			unit.ChangeState(EnemyController.EnemyState.MoveIdle);
+		}
+		else
+		{
+			unit.ChangeState(EnemyController.EnemyState.Idle);
+		}
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -28,15 +32,14 @@ public class EnemyIdleState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		if (other.CompareTag("Player") && !unit.isChasing)
+		if (other.CompareTag(unit.playerTag) && !unit.isChasing)
 		{
 			unit.target = other.GetComponent<UnitBase>();
-			unit.ChangeState(EnemyController.EnemyState.Chase);
+			unit.ChangeChaseState(unit);
 		}
 	}
 
