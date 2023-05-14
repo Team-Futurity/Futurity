@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2187621516431228537}
   - component: {fileID: 7418850354074117662}
   m_Layer: 5
-  m_Name: DefultUIWindow 1
+  m_Name: TestingLockUIWindow
   m_TagString: UIWindow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,6 +92,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa23e714aeb0764fb4e7eaef4fbaead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentObject: {fileID: 0}
+  parentCanvas: {fileID: 0}
+  rectTransform: {fileID: 0}
+  modalBackground: {fileID: 0}
+  isLock: 0
 --- !u!1 &916616509047004193
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,8 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7188db5d85634ac4d8499ba6566281b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 0}
   parentUIWindow: {fileID: 0}
+  rectTransform: {fileID: 0}
   uIWindowController: {fileID: 0}
 --- !u!1 &5127177968046562378
 GameObject:
