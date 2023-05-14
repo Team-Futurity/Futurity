@@ -41,7 +41,7 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		}
 		else if (distance > unit.rangedDistance + 1.0f)
 		{
-			unit.transform.position += unit.transform.forward * unit.enemyData.Speed * Time.deltaTime;
+			unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusName.SPEED) * Time.deltaTime;
 		}
 	}
 
@@ -64,5 +64,10 @@ public class RDefaultChaseState : UnitState<EnemyController>
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
 
+	}
+
+	public override void OnCollisionEnter(EnemyController unit, Collision collision)
+	{
+		//throw new System.NotImplementedException();
 	}
 }
