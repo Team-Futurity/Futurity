@@ -10,21 +10,13 @@ public class BuffStun : BuffBehaviour
 	{
 		base.Active(unit);
 
-		targetUnit.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-
-		if (targetUnit.transform.CompareTag("Player"))
-		{
-			
-		}
+		targetUnit.isStun = true;
 
 	}
 
 	public override void UnActive()
 	{
-		var rig = targetUnit.GetComponent<Rigidbody>();
-		
-		rig.constraints = RigidbodyConstraints.None;
-		rig.constraints = RigidbodyConstraints.FreezeRotation;
+		targetUnit.isStun = false;
 		
 		base.UnActive();
 	}

@@ -10,17 +10,17 @@ public class BuffShock : BuffBehaviour
 	{
 		base.Active(unit);
 
-		currSpeed = targetUnit.status.GetStatus(StatusName.SPEED);
-		var buffSpeed = BuffData.status.GetStatus(StatusName.SPEED);
-		
-		targetUnit.status.SetStatus(StatusName.SPEED, buffSpeed);
+		var buffSpeed = BuffData.BuffStatus.GetStatus(StatusType.SPEED).GetValue();
+
+		currSpeed = targetUnit.status.GetStatus(StatusType.SPEED).GetValue();
+		targetUnit.status.GetStatus(StatusType.SPEED).MultipleValue(buffSpeed);
 
 	}
 
 	public override void UnActive()
 	{
-		targetUnit.status.SetStatus(StatusName.SPEED, currSpeed);
-
+		targetUnit.status.GetStatus(StatusType.SPEED).SetValue(currSpeed);
+		
 		base.UnActive();
 	}
 

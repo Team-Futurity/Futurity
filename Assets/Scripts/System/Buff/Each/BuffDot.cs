@@ -24,7 +24,7 @@ public class BuffDot : BuffBehaviour
 
 	public void DotHit()
 	{
-		targetUnit.Hit(null, BuffData.status.GetStatus(StatusName.ATTACK_POINT), true);
-		
+		var damage = BuffData.BuffStatus.GetStatus(StatusType.ATTACK_POINT).GetValue();
+		targetUnit.status.GetStatus(StatusType.CURRENT_HP).MinusValue(damage);
 	}
 }
