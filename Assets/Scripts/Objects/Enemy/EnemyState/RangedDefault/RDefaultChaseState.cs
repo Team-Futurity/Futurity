@@ -26,38 +26,30 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		unit.transform.LookAt(unit.target.transform.position);
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 
-
-/*		if (distance < unit.rangedDistance - 3.0f)
+		if (distance < unit.rangedDistance)
 		{
-			unit.transform.position = Vector3.MoveTowards(unit.transform.position,
-				unit.RangedBackPos.transform.position,
-				unit.enemyData.Speed * Time.deltaTime);
-		}
-		else*/ if (distance < unit.rangedDistance - 1.0f/* && distance > unit.rangedDistance -3.0f*/)
-		{
-			FDebug.Log("1");
 			xPosSpeed += Time.deltaTime * 10.0f;
 			xPos = Mathf.Cos(xPosSpeed) * 3.0f;
 			zPos += Time.deltaTime * 8.0f;
 			unit.transform.position = new Vector3(xPos, 0f, -zPos);
 		}
-		else if (distance > unit.rangedDistance - 1.0f && distance < unit.rangedDistance + 1.0f)
+		else if (distance > unit.rangedDistance && distance < unit.rangedDistance + 1.0f)
 		{
-			FDebug.Log("22222");
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
 			unit.DelayChangeState(curTime, unit.attackSetTime, unit, EnemyController.EnemyState.RDefaultAttack);
 		}
 		else if (distance > unit.rangedDistance + 1.0f)
 		{
-			FDebug.Log("3333333333333");
 			unit.transform.position += unit.transform.forward * unit.enemyData.Speed * Time.deltaTime;
 		}
 	}
 
 	public override void FixedUpdate(EnemyController unit)
 	{
-
+		/*		unit.transform.position = Vector3.MoveTowards(unit.transform.position,
+				unit.RangedBackPos.transform.position,
+				unit.enemyData.Speed * Time.deltaTime);*/
 	}
 
 	public override void End(EnemyController unit)

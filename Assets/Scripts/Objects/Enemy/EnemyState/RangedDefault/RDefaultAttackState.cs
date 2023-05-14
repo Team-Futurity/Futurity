@@ -7,11 +7,10 @@ using UnityEngine.ProBuilder;
 public class RDefaultAttackState : UnitState<EnemyController>
 {
 	private float curTime = 0f;
-	private Vector3 projectilePos = Vector3.zero;
+
 	public override void Begin(EnemyController unit)
 	{
-		FDebug.Log("Attack Begin");
-
+		unit.rangedProjectile.transform.position = unit.transform.position;
 		unit.rangedProjectile.SetActive(true);
 	}
 
@@ -23,7 +22,7 @@ public class RDefaultAttackState : UnitState<EnemyController>
 		if (distance > unit.projectileDistance)
 			unit.rangedProjectile.SetActive(false);
 
-		unit.DelayChangeState(curTime, unit.attackSetTime, unit, EnemyController.EnemyState.RDefaultChase);
+		unit.DelayChangeState(curTime, /*unit.attackSetTime*/2.0f, unit, EnemyController.EnemyState.RDefaultChase);
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -33,8 +32,6 @@ public class RDefaultAttackState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		FDebug.Log("Attack End");
-		unit.rangedProjectile.transform.position = projectilePos;
 		curTime = 0f;
 	}
 
@@ -42,7 +39,7 @@ public class RDefaultAttackState : UnitState<EnemyController>
 	{
 		if (other.CompareTag("Player"))
 		{
-			FDebug.Log("Attack success");
+
 		}
 	}
 }
