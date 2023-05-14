@@ -5,14 +5,18 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.RDefaultChase)]
 public class RDefaultChaseState : UnitState<EnemyController>
 {
-	private float curTime;
+	private float curTime = 0f;
+	private float distance;
+
+	private float xPos = 0f;
+	private float zPos = 0f;
+	private float xPosSpeed = 0f;
 
 	public override void Begin(EnemyController unit)
 	{
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
 		unit.isChasing = true;
-		curTime = 0;
 	}
 
 	public override void Update(EnemyController unit)
@@ -20,26 +24,31 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		if (unit.target == null)
 			return;
 		unit.transform.LookAt(unit.target.transform.position);
+		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 
-		float distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 
-		if (distance < unit.rangedAttackDistance - 1.0f)
+/*		if (distance < unit.rangedDistance - 3.0f)
 		{
-			FDebug.Log("1");
 			unit.transform.position = Vector3.MoveTowards(unit.transform.position,
 				unit.RangedBackPos.transform.position,
 				unit.enemyData.Speed * Time.deltaTime);
 		}
-		else if (distance > unit.rangedAttackDistance - 1.0f && distance < unit.rangedAttackDistance + 1.0f)
+		else*/ if (distance < unit.rangedDistance - 1.0f/* && distance > unit.rangedDistance -3.0f*/)
+		{
+			FDebug.Log("1");
+			xPosSpeed += Time.deltaTime * 10.0f;
+			xPos = Mathf.Cos(xPosSpeed) * 3.0f;
+			zPos += Time.deltaTime * 8.0f;
+			unit.transform.position = new Vector3(xPos, 0f, -zPos);
+		}
+		else if (distance > unit.rangedDistance - 1.0f && distance < unit.rangedDistance + 1.0f)
 		{
 			FDebug.Log("22222");
-			if (curTime != 0)
-				curTime = 0;
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
 			unit.DelayChangeState(curTime, unit.attackSetTime, unit, EnemyController.EnemyState.RDefaultAttack);
 		}
-		else if (distance > unit.rangedAttackDistance + 1.0f)
+		else if (distance > unit.rangedDistance + 1.0f)
 		{
 			FDebug.Log("3333333333333");
 			unit.transform.position += unit.transform.forward * unit.enemyData.Speed * Time.deltaTime;
@@ -55,6 +64,9 @@ public class RDefaultChaseState : UnitState<EnemyController>
 	{
 		unit.animator.SetBool(unit.moveAnimParam, false);
 		unit.isChasing = false;
+		curTime = 0f;
+		xPos = 0f;
+		zPos = 0f;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

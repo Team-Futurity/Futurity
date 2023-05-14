@@ -65,7 +65,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Attack Properties
 	public float attackSetTime = 2f;
-	public float rangedAttackDistance;
+	public float rangedDistance;
+	public float projectileDistance;
 	public GameObject rangedProjectile;
 	public float projectileSpeed;
 
