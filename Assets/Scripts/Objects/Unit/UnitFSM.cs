@@ -97,6 +97,15 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		}
 	}
 
+	public void RemoveSubState()
+	{
+		if(subState != null)
+		{
+			subState.End(unit);
+			subState = null;
+		}
+	}
+
 	public void BackToPreviousState()
 	{
 		if (prevState != null)

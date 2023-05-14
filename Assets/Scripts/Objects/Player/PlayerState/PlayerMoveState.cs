@@ -15,7 +15,14 @@ public class PlayerMoveState : UnitState<PlayerController>
 	{
 		if(pc.moveDir == Vector3.zero)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Idle);
+			if(pc.IsCurrentState(PlayerController.PlayerState.Move))
+			{
+				pc.ChangeState(PlayerController.PlayerState.Idle);
+			}
+			else
+			{
+				pc.RemoveSubState();
+			}
 		}
 	}
 

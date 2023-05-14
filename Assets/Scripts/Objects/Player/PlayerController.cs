@@ -84,7 +84,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			moveDir = new Vector3(input.x, 0f, input.y);
 
-			if (!IsCurrentState(PlayerState.Move))
+			if(IsCurrentState(PlayerState.ChargedAttack))
+			{
+				AddSubState(PlayerState.Move);
+			}
+			else if (!IsCurrentState(PlayerState.Move))
 			{
 				ChangeState(PlayerState.Move);
 			}
