@@ -48,8 +48,10 @@ public class UnitStatus : ScriptableObject
 			if (!HasStatus(statusType))
 			{
 				if (statusType is StatusType.NONE or StatusType.MAX)
+				{
 					continue;
-				
+				}
+
 				status.Add(new StatusData(statusType));
 			}
 		}
@@ -64,12 +66,17 @@ public class UnitStatus : ScriptableObject
 		}
 	}
 
-	public void AddStatus(List<StatusData> statusDatas)
+	public void PlusStatus(List<StatusData> statusDatas)
 	{
 		if (statusDatas is not null)
 		{
 			foreach (var status in statusDatas)
 			{
+				if (!HasStatus(status.type))
+				{
+					continue;
+				}
+				
 				GetStatus(status.type).PlusValue(status.GetValue());
 			}
 		}
@@ -81,6 +88,11 @@ public class UnitStatus : ScriptableObject
 		{
 			foreach (var status in statusDatas)
 			{
+				if (!HasStatus(status.type))
+				{
+					continue;
+				}
+				
 				GetStatus(status.type).MinusValue(status.GetValue());
 			}
 		}
