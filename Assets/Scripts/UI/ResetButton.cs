@@ -8,6 +8,6 @@ public class ResetButton : MonoBehaviour
     public string _sceneName;
     public void RestartButton()
     {
-        SceneManager.LoadScene(_sceneName);
+		SceneChanger.Instance.SceneLoader(_sceneName);
     }
 }
