@@ -98,7 +98,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		}
 		else // targetPos에 도달한 경우
 		{
-			FDebug.Log("End");
 			unit.transform.position = targetPos;
 
 			if(firstEnemy != null)
