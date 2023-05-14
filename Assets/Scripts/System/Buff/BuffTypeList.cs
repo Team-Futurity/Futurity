@@ -12,7 +12,7 @@ public enum BuffTypeList
 	END
 }
 
-public enum BuffName
+public enum BuffNameList
 {
 	NONE = 0,
 	
