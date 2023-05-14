@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [FSMState((int)PlayerController.PlayerState.ChargedAttack)]
 public class PlayerAttackState_Charged : PlayerAttackState

@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
-using UnityEngine.XR;
 
 
 public class PlayerController : UnitFSM<PlayerController>, IFSM
