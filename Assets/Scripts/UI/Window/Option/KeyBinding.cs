@@ -24,7 +24,7 @@ public class KeyBinding : MonoBehaviour
 	//#설명#	현재 버튼에 할당된 키를 표시하는 텍스트를 업데이트합니다.
 	private void UpdateButtonText()
 	{
-		string currentBinding = actionReference.action.GetBindingDisplayString();
+		string currentBinding = actionReference.action.GetBindingDisplayString(0);
 		buttonText.text = currentBinding;
 	}
 
@@ -33,13 +33,22 @@ public class KeyBinding : MonoBehaviour
 	{
 		if (!waitingForKeyInput)
 		{
-			waitingForKeyInput = true;
-			buttonText.text = "...";
 			actionReference.action.PerformInteractiveRebinding()
-				.WithControlsExcluding("Mouse")
-				.OnMatchWaitForAnother(0.1f)
-				.OnComplete(operation => KeyRemapFinished())
-				.Start();
+	.WithControlsExcluding("Mouse")
+	.OnMatchWaitForAnother(0.1f)
+	.OnPotentialMatch((potentialNewBinding) => {
+		if (KeyBindingManager.Instance.CheckIfKeyIsUsed(actionReference, potentialNewBinding.selectedControl.path))
+		{
+			potentialNewBinding.Cancel();
+		}
+		else
+		{
+			potentialNewBinding.Complete();
+		}
+	})
+	.OnComplete(operation => KeyRemapFinished())
+	.Start();
+
 		}
 	}
 
