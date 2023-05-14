@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : Singleton<SceneChanger>
+public class SceneChangeManager : Singleton<SceneChangeManager>
 {
 	[SerializeField]
 	private string loadSceneName;
