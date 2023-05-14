@@ -19,6 +19,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		//Melee Default
 		MDefaultChase,          //추격
 		MDefaultAttack,         //공격
+		MDefaultAttack2nd,
 
 		//Ranged Default
 		RDefaultChase,	

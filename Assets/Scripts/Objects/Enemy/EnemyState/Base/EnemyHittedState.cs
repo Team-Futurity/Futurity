@@ -8,6 +8,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 	private float curTime;
 	public override void Begin(EnemyController unit)
 	{
+		FDebug.Log("Hit Begin");
 		curTime = 0;
 		unit.animator.SetTrigger(unit.hitAnimParam);
 		unit.eMaterial.color = Color.red;
@@ -15,6 +16,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 	public override void Update(EnemyController unit)
 	{
+		//여기서 death 연산 까지
 		curTime += Time.deltaTime;
 
 		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, EnemyController.EnemyState.MDefaultChase);
@@ -27,6 +29,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
+		FDebug.Log("Hit End");
 		unit.eMaterial.color = unit.defaultColor;
 	}
 
