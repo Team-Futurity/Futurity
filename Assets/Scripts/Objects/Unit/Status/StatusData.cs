@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,49 @@ using UnityEngine;
 [System.Serializable]
 public class StatusData
 {
-	public StatusData(StatusName name, float value)
+	public StatusData(StatusType type = StatusType.NONE, float value = .0f)
 	{
-		this.name = name;
+		this.type = type;
+		this.value = value;
+	}
+
+	public StatusData(StatusData data)
+	{
+		this.type = data.type;
+		value = data.value;
+	}
+	
+	public StatusType type;
+	[SerializeField] private float value;
+
+	public float GetValue()
+	{
+		return value;
+	}
+
+	public void SetValue(float value)
+	{
 		this.value = value;
 	}
 	
-	public StatusName name;
-	public float value;
+	public void PlusValue(float value)
+	{
+		this.value += value;
+	}
+
+	public void MultipleValue(float value)
+	{
+		this.value *= value;
+	}
+
+	public void DivideValue(float value)
+	{
+		this.value /= value;
+	}
+
+	public void MinusValue(float value)
+	{
+		this.value -= value;
+	}
+	
 }

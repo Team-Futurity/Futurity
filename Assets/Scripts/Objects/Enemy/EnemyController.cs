@@ -9,14 +9,30 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
 	public enum EnemyState : int
 	{
-		Idle,       //대기
+		Idle,			//대기
 		Default,
-		MoveIdle,   //대기 중 랜덤 이동
-		Chase,      //추격
-		Attack,     //공격
-		Hitted,     //피격
-		Death,      //사망
+		MoveIdle,		//대기 중 랜덤 이동
+		Hitted,			//피격
+		Death,          //사망
+
+
+		//Melee Default
+		MDefaultChase,          //추격
+		MDefaultAttack,         //공격
+
+		//Ranged Default
+		RDefaultChase,	
+		RDefaultAttack,
 	}
+
+	public enum EnemyType : int
+	{
+		MeleeDefault,
+		RangedDefault,
+
+	}
+
+	[SerializeField] private EnemyType enemyType;
 
 	//spawn
 	private bool isSpawning;
@@ -26,7 +42,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Reference
 	[HideInInspector] public UnitBase target;
-	[HideInInspector] public Enemy enemyData;
+	public Enemy enemyData;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	public Material eMaterial;
@@ -49,6 +65,13 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Attack Properties
 	public float attackSetTime = 2f;
+	public float rangedDistance;
+	public float projectileDistance;
+	public GameObject rangedProjectile;
+	public float projectileSpeed;
+
+	//Chase Properties
+	public GameObject RangedBackPos;
 
 	//Hitted Properties
 	public float hitMaxTime = 1f;
@@ -59,6 +82,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public readonly string atkAnimParam = "Attack";
 	public readonly string hitAnimParam = "Hit";
 
+	//tag name
+	public readonly string playerTag = "Player";
+
 
 
 	private void Start()
@@ -67,7 +93,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
-		atkCollider.enabled = false;
+		if(atkCollider != null)
+			atkCollider.enabled = false;
 
 		unit = this;
 		SetUp(EnemyState.Idle);
@@ -81,6 +108,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	protected override void Update()
 	{
 		base.Update();
+
 		//spawning event
 		if (isSpawning)
 		{
@@ -105,6 +133,26 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		if(curTime >= maxTime)
 		{
 			unit.ChangeState(nextEnumState);
+		}
+	}
+
+	public void ChangeChaseState(EnemyController unit)
+	{
+		int enemyType = (int)unit.enemyType;
+
+		switch(enemyType)
+		{
+			case 0:
+				unit.ChangeState(EnemyController.EnemyState.MDefaultChase);
+				break;
+
+			case 1:
+				unit.ChangeState(EnemyController.EnemyState.RDefaultChase);
+				break;
+
+			default:
+				FDebug.Log("ERROR_ChangeChaseState()");
+				return;
 		}
 	}
 }
