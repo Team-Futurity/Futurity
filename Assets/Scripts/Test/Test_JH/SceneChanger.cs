@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneLoadButtonTesting : MonoBehaviour
+public class SceneChanger : MonoBehaviour
 {
     public string loadSceneName;
 
-	public void Click()
+	public void SceneChange()
 	{
-		SceneChanger.Instance.SceneLoader(loadSceneName);
+		SceneChangeManager.Instance.SceneLoader(loadSceneName);
     }
 }
