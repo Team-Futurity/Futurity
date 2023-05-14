@@ -7,6 +7,9 @@ public class PlayerAttackDelayState : UnitState<PlayerController>
 	private float currentTime;
 	protected AttackNode attackNode;
 
+	// 임시 변수
+	public float animRatio = 0.3f;
+
 	public override void Begin(PlayerController unit)
 	{
 		attackNode = unit.curNode;
@@ -30,7 +33,7 @@ public class PlayerAttackDelayState : UnitState<PlayerController>
 
 	public override void Update(PlayerController unit)
 	{
-		if (currentTime > attackNode.skillSpeed * 0.3f)
+		if (currentTime > attackNode.skillSpeed * animRatio)
 		{
 			unit.curNode = unit.comboTree.top;
 			unit.ChangeState(PlayerState.Idle);

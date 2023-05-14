@@ -11,6 +11,9 @@ public class PlayerAttackState : UnitState<PlayerController>
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
 	protected readonly string MeleeAnimaKey = "Melee";
 
+	// 임시 변수
+	public float animRatio = 0.7f;
+
 	// etc
 	private float currentTime;
 	private Transform effect;
@@ -34,7 +37,7 @@ public class PlayerAttackState : UnitState<PlayerController>
 
 	public override void Update(PlayerController pc)
 	{
-		if(currentTime > attackNode.skillSpeed * 0.7f)
+		if(currentTime > attackNode.skillSpeed * animRatio)
 		{
 			pc.ChangeState(PlayerState.AttackDelay);
 		}
