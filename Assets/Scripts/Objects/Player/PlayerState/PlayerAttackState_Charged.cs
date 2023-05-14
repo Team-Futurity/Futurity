@@ -38,8 +38,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
-		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusName.SPEED);
-		unit.playerData.status.SetStatus(StatusName.SPEED, playerOriginalSpeed * 0.5f);
+		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
+		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
 		currentTime = 0;
 		currentLevel = 0;
 
@@ -61,7 +61,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		isReleased = false;
 		unit.specialIsReleased = false;
-		unit.playerData.status.SetStatus(StatusName.SPEED, playerOriginalSpeed);
+		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed);
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -98,7 +98,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		}
 		else // targetPos에 도달한 경우
 		{
-			FDebug.Log("End");
 			unit.transform.position = targetPos;
 
 			if(firstEnemy != null)

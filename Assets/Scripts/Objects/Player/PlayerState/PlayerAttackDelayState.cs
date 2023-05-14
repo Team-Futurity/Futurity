@@ -4,6 +4,7 @@ using static PlayerController;
 [FSMState((int)PlayerState.AttackDelay)]
 public class PlayerAttackDelayState : UnitState<PlayerController>
 {
+	private readonly string IsAtttackingAnimKey = "IsAttacking";
 	private float currentTime;
 	protected AttackNode attackNode;
 
@@ -18,12 +19,12 @@ public class PlayerAttackDelayState : UnitState<PlayerController>
 
 	public override void End(PlayerController unit)
 	{
-		
+		unit.animator.SetBool(IsAtttackingAnimKey, false);
 	}
 
 	public override void FixedUpdate(PlayerController unit)
 	{
-		throw new System.NotImplementedException();
+
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
@@ -43,6 +44,6 @@ public class PlayerAttackDelayState : UnitState<PlayerController>
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-		throw new System.NotImplementedException();
+
 	}
 }

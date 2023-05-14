@@ -20,7 +20,7 @@ public class MDefaultChaseState : UnitState<EnemyController>
 		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 30.0f * Time.deltaTime);
 		unit.transform.LookAt(unit.target.transform.position);
 		float distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
-		unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusName.SPEED) * Time.deltaTime;
+		unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
 	}
 
 	public override void FixedUpdate(EnemyController unit)
