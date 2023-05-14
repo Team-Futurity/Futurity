@@ -33,7 +33,7 @@ public class RDefaultChaseState : UnitState<EnemyController>
 			zPos += Time.deltaTime * 8.0f;
 			unit.transform.position = new Vector3(xPos, 0f, -zPos);
 		}
-		else if (distance > unit.rangedDistance && distance < unit.rangedDistance + 1.0f)
+		else if (distance < unit.rangedDistance + 1.0f)
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
