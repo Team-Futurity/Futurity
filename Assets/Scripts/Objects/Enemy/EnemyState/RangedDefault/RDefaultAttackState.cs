@@ -10,6 +10,7 @@ public class RDefaultAttackState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
+		FDebug.Log("RDefault attack Begin");
 		unit.rangedProjectile.transform.position = unit.transform.position;
 		unit.rangedProjectile.SetActive(true);
 	}
@@ -32,6 +33,7 @@ public class RDefaultAttackState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
+		FDebug.Log("RDefault attack End");
 		curTime = 0f;
 	}
 
@@ -39,7 +41,7 @@ public class RDefaultAttackState : UnitState<EnemyController>
 	{
 		if (other.CompareTag(unit.playerTag))
 		{
-
+			FDebug.Log("RDefault attack Trigger");
 		}
 	}
 

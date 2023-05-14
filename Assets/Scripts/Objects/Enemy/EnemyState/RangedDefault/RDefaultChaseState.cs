@@ -14,6 +14,7 @@ public class RDefaultChaseState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
+		FDebug.Log("RDefault chase Begin");
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
 		unit.isChasing = true;
@@ -54,6 +55,7 @@ public class RDefaultChaseState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
+		FDebug.Log("RDefault chase End");
 		unit.animator.SetBool(unit.moveAnimParam, false);
 		unit.isChasing = false;
 		curTime = 0f;
