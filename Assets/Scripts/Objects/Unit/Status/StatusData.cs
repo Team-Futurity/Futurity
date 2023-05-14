@@ -36,7 +36,17 @@ public class StatusData
 	{
 		this.value += value;
 	}
-	
+
+	public void MultipleValue(float value)
+	{
+		this.value *= value;
+	}
+
+	public void DivideValue(float value)
+	{
+		this.value /= value;
+	}
+
 	public void MinusValue(float value)
 	{
 		this.value -= value;

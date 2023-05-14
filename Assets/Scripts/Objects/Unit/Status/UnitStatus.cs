@@ -3,30 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Debug = FMOD.Debug;
 
 [CreateAssetMenu(fileName = "UnitStatus", menuName = "Status/UnitStatus", order = 0)]
 public class UnitStatus : ScriptableObject
 {
-	public List<StatusData> Status;
+	[SerializeField] private List<StatusData> status;
 	[Space(10)] 
 	[SerializeField] private List<StatusData> copyStatus;
 	
 	
 	private void OnEnable()
 	{
-		if (copyStatus is not null)
-		{
-			copyStatus.Clear();
-			CopyOrigin();
-		}
+		CopyOrigin();
 	}
 
 	#region Private
 
 	private void CopyOrigin()
 	{
-		copyStatus = Status.ToList();
+		if (copyStatus is not null)
+		{
+			copyStatus.Clear();
+
+			foreach (var stat in status)
+			{
+				StatusData newStatus = new StatusData();
+
+				newStatus.type = stat.type;
+				newStatus.SetValue(stat.GetValue());
+
+				copyStatus.Add(newStatus);
+			}
+		}
 	}
 
 	#endregion
@@ -39,11 +47,14 @@ public class UnitStatus : ScriptableObject
 		{
 			if (!HasStatus(statusType))
 			{
-				Status.Add(new StatusData(statusType));
+				Debug.Log($"{statusType}");
+				
+				if (statusType is StatusType.NONE or StatusType.MAX)
+					continue;
+				
+				status.Add(new StatusData(statusType));
 			}
-			
 		}
-		
 		CopyOrigin();
 	}
 
@@ -87,7 +98,6 @@ public class UnitStatus : ScriptableObject
 				return true;
 			}
 		}
-
 		return false;
 	}
 
