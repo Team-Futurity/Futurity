@@ -32,7 +32,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: Melee
     m_Mirror: 0
-  m_BlendParameter: Melee
+  m_BlendParameter: Combo
   m_BlendParameterY: Blend
   m_MinThreshold: 0
   m_MaxThreshold: 1
@@ -63,7 +63,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 2607316450448073625, guid: 49066920dfe8e144797608de67d7c8d0, type: 3}
   m_Tag: 
-  m_SpeedParameter: Melee
+  m_SpeedParameter: Combo
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -170,7 +170,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: NormalAttack
+    m_ConditionEvent: IsAttacking
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: AttackTrigger
@@ -237,7 +237,7 @@ AnimatorStateMachine:
     m_Position: {x: 440, y: 480, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7725854424292357697}
-    m_Position: {x: 440, y: 60, z: 0}
+    m_Position: {x: 470, y: 50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7944193198401892940}
     m_Position: {x: 470, y: 140, z: 0}
@@ -274,13 +274,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Melee
+  - m_Name: Combo
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Ranged
+  - m_Name: Charging
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -292,7 +292,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: NormalAttack
+  - m_Name: IsAttacking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -410,7 +410,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: Melee
     m_Mirror: 0
-  m_BlendParameter: Ranged
+  m_BlendParameter: Charging
   m_BlendParameterY: Blend
   m_MinThreshold: 0
   m_MaxThreshold: 1
@@ -530,7 +530,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: NormalAttack
+    m_ConditionEvent: IsAttacking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 927208069949211077}
