@@ -7,7 +7,7 @@ using static PlayerController;
 public class PlayerAttackState : UnitState<PlayerController>
 {
 	// Animation Key
-	protected readonly string NormalAttackAnimKey = "NormalAttack";
+	protected readonly string IsAttackingAnimKey = "IsAttacking";
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
 	protected readonly string MeleeAnimaKey = "Melee";
 
@@ -25,7 +25,7 @@ public class PlayerAttackState : UnitState<PlayerController>
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
 
-		pc.animator.SetBool(NormalAttackAnimKey, true);
+		pc.animator.SetBool(IsAttackingAnimKey, true);
 		pc.animator.SetTrigger(AttackTriggerAnimKey);
 		pc.animator.SetFloat(MeleeAnimaKey, pc.curNode.animFloat);
 		pc.curNode.Copy(pc.curNode);
@@ -58,7 +58,6 @@ public class PlayerAttackState : UnitState<PlayerController>
 		FDebug.Log($"{animEventEffect.effect.name}가 존재합니다.");
 		attackNode.effectPoolManager.DeactiveObject(animEventEffect.effect);
 		pc.attackCollider.radiusCollider.enabled = false;
-		pc.animator.SetBool(NormalAttackAnimKey, false);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
