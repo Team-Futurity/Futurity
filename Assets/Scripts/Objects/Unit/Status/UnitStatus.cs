@@ -4,81 +4,147 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName ="UnitStatus", menuName = "Status/UnitStatus", order = 0)]
+[CreateAssetMenu(fileName = "UnitStatus", menuName = "Status/UnitStatus", order = 0)]
 public class UnitStatus : ScriptableObject
 {
-	public List<StatusData> Status;
-	[Space(10)]
-	public List<StatusData> copyStatus;
-
+	[SerializeField] private List<StatusData> status;
+	[Space(10)] 
+	[SerializeField] private List<StatusData> copyStatus;
+	
+	
 	private void OnEnable()
+	{
+		CopyOrigin();
+	}
+
+	#region Private
+
+	private void CopyOrigin()
 	{
 		if (copyStatus is not null)
 		{
 			copyStatus.Clear();
-			CopyOrigin();
+
+			foreach (var stat in status)
+			{
+				StatusData newStatus = new StatusData();
+
+				newStatus.type = stat.type;
+				newStatus.SetValue(stat.GetValue());
+
+				copyStatus.Add(newStatus);
+			}
 		}
 	}
 
-	private void CopyOrigin()
-	{
-		foreach (var element in Status)
-		{
-			copyStatus.Add(new StatusData(element.name, element.value));
-			
-		}
-	}
+	#endregion
 
-	public float GetStatus(StatusName name)
+	public void AutoGenerator()
 	{
-		if (!ValidationStatus(name))
-		{
-			FDebug.Log($" {name}에 해당하는 Status는 존재하지 않습니다.");
-			Debug.Break();
-		}
+		var statusTypeList = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
 		
-		return copyStatus.First(x => x.name == name).value;
-	}
-
-	public void SetStatus(StatusName name, float value)
-	{
-		if (!ValidationStatus(name))
+		foreach (var statusType in statusTypeList)
 		{
-			FDebug.Log($" {name}에 해당하는 Status는 존재하지 않습니다.");
-			Debug.Break();
+			if (!HasStatus(statusType))
+			{
+				if (statusType is StatusType.NONE or StatusType.MAX)
+				{
+					continue;
+				}
+
+				status.Add(new StatusData(statusType));
+			}
 		}
-		
-		copyStatus.First(x => x.name == name).value = value;
+		CopyOrigin();
 	}
-	
-	public void SetStatus(StatusData data)
+
+	public void SetStatus(List<StatusData> statusDatas)
 	{
-		if (!ValidationStatus(data.name))
+		if (statusDatas is not null)
 		{
-			FDebug.Log($" {data.name}에 해당하는 Status는 존재하지 않습니다.");
-			Debug.Break();
+			copyStatus = statusDatas.ToList();
 		}
-
-		copyStatus.Find(x => x.name == data.name).value += data.value;
 	}
 
-	public void CalcSelfElement(StatusName name, float value)
+	public void PlusStatus(List<StatusData> statusDatasList)
 	{
-		copyStatus.First(x => x.name == name).value += value;
-	}
-
-	// 해당하는 데이터가 있는지 검증한다.
-	private bool ValidationStatus(StatusName name)
-	{
-		foreach (var element in copyStatus)
+		if (statusDatasList is not null)
 		{
-			if (element.name == name)
+			foreach (var statusData in statusDatasList)
+			{
+				if (!HasStatus(statusData.type))
+				{
+					continue;
+				}
+				
+				GetStatus(statusData.type).PlusValue(statusData.GetValue());
+			}
+		}
+	}
+
+	public void PlusStatus(StatusData statusData)
+	{
+		if (statusData is not null)
+		{
+			if (HasStatus(statusData.type))
+			{
+				GetStatus(statusData.type).PlusValue(statusData.GetValue());
+			}
+		}
+	}
+
+	public void MinusStatus(List<StatusData> statusDatasList)
+	{
+		if (statusDatasList is not null)
+		{
+			foreach (var statusData in statusDatasList)
+			{
+				if (!HasStatus(statusData.type))
+				{
+					continue;
+				}
+				
+				GetStatus(statusData.type).MinusValue(statusData.GetValue());
+			}
+		}
+	}
+
+	public void MinusStatus(StatusData statusData)
+	{
+		if (statusData is not null)
+		{
+			if (HasStatus(statusData.type))
+			{
+				GetStatus(statusData.type).MinusValue(statusData.GetValue());
+			}
+		}
+	}
+
+	// 해당 Status를 가지고 있는지 확인
+	public bool HasStatus(StatusType type)
+	{
+		foreach (var status in copyStatus)
+		{
+			if (status.type == type)
 			{
 				return true;
 			}
 		}
-
 		return false;
+	}
+
+	// 해당 Status의 데이터를 가져온다.
+	public StatusData GetStatus(StatusType type)
+	{
+		// 현재 Status에 해당 Status Type이 있는지 확인
+		var hasStatus = HasStatus(type);
+
+		if (!hasStatus)
+		{
+			FDebug.Log($"{type}에 해당하는 Status Key가 존재하지 않습니다.");
+			return null;
+		}
+
+		return copyStatus.Find(x => x.type == type);
 	}
 }
