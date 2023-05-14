@@ -9,7 +9,6 @@ public abstract class BuffBehaviour : MonoBehaviour
 
 	[field: Header("Data")]
 	[field: SerializeField] public BuffData BuffData { get; private set; }
-	public BuffName CurrBuffName = BuffName.NONE;
 
 	[Space(10)]
 	[Header("Event")]
@@ -23,15 +22,9 @@ public abstract class BuffBehaviour : MonoBehaviour
 
 	private void Start()
 	{
-		if (CurrBuffName == BuffName.NONE)
+		if (BuffData.BuffName == BuffNameList.NONE)
 		{
 			FDebug.Log("Curr Buf의 Name이 정해지지 않았습니다.");
-			Debug.Break();
-		}
-
-		if (targetUnit == null)
-		{
-			FDebug.Log("TargetUnit이 NULL 입니다.");
 			Debug.Break();
 		}
 
@@ -68,14 +61,14 @@ public abstract class BuffBehaviour : MonoBehaviour
 
 		targetUnit = unit;
 		
-		FDebug.Log($"{CurrBuffName}가 실행되었습니다.");
+		FDebug.Log($"{BuffData.BuffName}가 실행되었습니다.");
 	}
 
 	public virtual void UnActive()
 	{
 		buffEnd?.Invoke();
 		
-		FDebug.Log($"{CurrBuffName}가 종료되었습니다.");
+		FDebug.Log($"{BuffData.BuffName}가 종료되었습니다.");
 		Destroy(gameObject);
 	}
 }
