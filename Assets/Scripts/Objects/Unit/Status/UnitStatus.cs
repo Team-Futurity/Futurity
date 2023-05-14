@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using Debug = FMOD.Debug;
 
 [CreateAssetMenu(fileName = "UnitStatus", menuName = "Status/UnitStatus", order = 0)]
 public class UnitStatus : ScriptableObject
@@ -11,7 +11,8 @@ public class UnitStatus : ScriptableObject
 	public List<StatusData> Status;
 	[Space(10)] 
 	[SerializeField] private List<StatusData> copyStatus;
-
+	
+	
 	private void OnEnable()
 	{
 		if (copyStatus is not null)
@@ -29,6 +30,22 @@ public class UnitStatus : ScriptableObject
 	}
 
 	#endregion
+
+	public void AutoGenerator()
+	{
+		var statusTypeList = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
+		
+		foreach (var statusType in statusTypeList)
+		{
+			if (!HasStatus(statusType))
+			{
+				Status.Add(new StatusData(statusType));
+			}
+			
+		}
+		
+		CopyOrigin();
+	}
 
 	public void SetStatus(List<StatusData> statusDatas)
 	{
