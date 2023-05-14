@@ -3,25 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : UnitBase
-{ 
-	[Space(10)]
-	[Header("기타")]
-	[Tooltip("대쉬 속도")]
-	[SerializeField] private float dashSpeed = 15f;
+{
 	private PlayerController pc;
-
-
-	public float DashSpeed => dashSpeed;
 
 	private void Start()
 	{
 		pc = GetComponent<PlayerController>();
-	}
-
-	private void Update()
-	{
-		if (pc.isComboState)
-			pc.ComboTimer();
 	}
 
 	public override void Attack(UnitBase target)
@@ -29,7 +16,7 @@ public class Player : UnitBase
 		target.Hit(this, GetDamage());
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	public override void Hit(UnitBase attacker, float damage, bool isDot)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{
@@ -40,13 +27,8 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
-		if (!isGodMode)
-		{
-			if(!isDot)
-				pc.ChangeState(PlayerController.PlayerState.Hit);
-			
-			status.SetStatus(StatusName.CURRENT_HP, -damage);
-		}
+		pc.ChangeState(PlayerController.PlayerState.Hit);
+		status.SetStatus(StatusName.CURRENT_HP, status.GetStatus(StatusName.CURRENT_HP) - damage);
 	}
 
 	protected override float GetAttakPoint()
@@ -62,5 +44,10 @@ public class Player : UnitBase
 	protected override float GetDefensePoint()
 	{
 		throw new System.NotImplementedException();
+	}
+
+	public void SetSpeed(float speed)
+	{
+		status.SetStatus(StatusName.SPEED, speed);
 	}
 }

@@ -42,4 +42,9 @@ public class EnemyDefaultState : UnitState<EnemyController>
 			unit.ChangeState(EnemyController.EnemyState.Chase);
 		}
 	}
+
+	public override void OnCollisionEnter(EnemyController unit, Collision collision)
+	{
+
+	}
 }

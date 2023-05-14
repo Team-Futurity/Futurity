@@ -34,4 +34,9 @@ public class PlayerAnimationEvents : MonoBehaviour
 	{
 		AudioManager.instance.PlayOneShot(walk, transform.position);
 	}
+
+	public void MoveWithAttack(float pow)
+	{
+		pc.rigid.velocity = pc.transform.forward * pow;
+	}
 }

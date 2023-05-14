@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
-using UnityEngine.XR;
 
 
 public class PlayerController : UnitFSM<PlayerController>, IFSM
@@ -12,6 +10,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		Idle,           // 대기
 		Attack,         // 공격
+			NormalAttack,	// 일반공격 
+			ChargedAttack,	// 차지공격
 		AttackDelay,    // 공격 후 딜레이
 		Hit,            // 피격
 		Move,           // 이동
@@ -28,11 +28,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		Dash
 	}
 
+	// Constants
+	public readonly string EnemyTag = "Enemy";
+
 	// reference
 	public Player playerData;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public TrailRenderer dashEffect;
+	[HideInInspector] public CapsuleCollider basicCollider;
 
 	// move
 	//public Vector3 moveInput;
@@ -44,10 +48,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public Tree comboTree;
 	public RadiusCapsuleCollider attackCollider;
 
-	[SerializeField] private float comboEndTime = 2.0f;
-	[HideInInspector]public float comboCurTime = 0f;
-	[HideInInspector] public bool isComboState = false;
-	[HideInInspector] public bool isAttacking = false;
+	// input
+	public bool specialIsReleased = false;
 
 	//임시
 	public GameObject glove;
@@ -62,9 +64,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		dashEffect = GetComponent<TrailRenderer>();
+		basicCollider = GetComponent<CapsuleCollider>();
 
-		SetUp(PlayerState.Idle);
 		unit = this;
+		SetUp(PlayerState.Idle);
 		curNode = comboTree.top;
 	}
 
@@ -78,7 +81,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			moveDir = new Vector3(input.x, 0f, input.y);
 
-			if (!IsCurrentState(PlayerState.Move))
+			if(IsCurrentState(PlayerState.ChargedAttack))
+			{
+				AddSubState(PlayerState.Move);
+			}
+			else if (!IsCurrentState(PlayerState.Move))
 			{
 				ChangeState(PlayerState.Move);
 			}
@@ -102,10 +109,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnNormalAttack(InputAction.CallbackContext context)
 	{
-		if (context.performed)
+		if (context.started)
 		{
 			AttackNode node = FindInput(PlayerInput.NormalAttack);
-			if (node != null && !isAttacking)
+			if (node != null && !IsCurrentState(PlayerState.Attack))
 			{
 				curNode = node;
 				curCombo = node.command;
@@ -118,15 +125,30 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		if (context.performed)
 		{
+			// 현재 노드가 top노드인지 체크
+			// top노드라는 건, 콤보 입력 중이 아니라는 것.
+			bool isInit = curNode == comboTree.top;
+
 			AttackNode node = FindInput(PlayerInput.SpecialAttack);
-			if (node != null && !isAttacking)
+			if (node != null )
 			{
 				curNode = node;
 				curCombo = node.command;
-				ChangeState(PlayerState.Attack);
+
+				if (isInit) // 콤보 입력 중이 아니면 차지
+				{
+					ChangeState(PlayerState.ChargedAttack);
+				}
+				else        // 콤보 입력 중이면 일반
+				{
+					ChangeState(PlayerState.NormalAttack);
+				}
 			}
 		}
-
+		else if(context.canceled)
+		{
+			specialIsReleased = true;
+		}
 	}
 
 	public AttackNode FindInput(PlayerInput input)
@@ -141,13 +163,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		return node;
 	}
 
-	public void ComboTimer()
+	public void SetCollider(bool isEnabled)
 	{
-		comboCurTime += Time.deltaTime;
-		if (comboCurTime > comboEndTime)
-		{
-			curNode = comboTree.top;
-			isComboState = false;
-		}
+		basicCollider.enabled = isEnabled;
+		attackCollider.enabled = isEnabled;
 	}
 }
