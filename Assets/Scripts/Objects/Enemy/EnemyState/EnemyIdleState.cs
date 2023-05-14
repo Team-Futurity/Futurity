@@ -42,6 +42,6 @@ public class EnemyIdleState : UnitState<EnemyController>
 
 	public override void OnCollisionEnter(EnemyController unit, Collision collision)
 	{
-		throw new System.NotImplementedException();
+
 	}
 }
