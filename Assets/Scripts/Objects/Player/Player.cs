@@ -28,7 +28,7 @@ public class Player : UnitBase
 		//}
 
 		pc.ChangeState(PlayerController.PlayerState.Hit);
-		status.SetStatus(StatusName.CURRENT_HP, status.GetStatus(StatusName.CURRENT_HP) - damage);
+		status.GetStatus(StatusType.CURRENT_HP).MinusValue(damage);
 	}
 
 	protected override float GetAttakPoint()
@@ -44,10 +44,5 @@ public class Player : UnitBase
 	protected override float GetDefensePoint()
 	{
 		throw new System.NotImplementedException();
-	}
-
-	public void SetSpeed(float speed)
-	{
-		status.SetStatus(StatusName.SPEED, speed);
 	}
 }

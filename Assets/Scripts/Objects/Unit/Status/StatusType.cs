@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StatusName
+public enum StatusType
 {
 	NONE,
 	
@@ -16,5 +16,4 @@ public enum StatusName
 	DASH_SPEED,
 
 	MAX
-
 }
