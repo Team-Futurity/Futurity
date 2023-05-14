@@ -33,7 +33,15 @@ public class UIWindowOpenButton : MonoBehaviour
 
 			UIWindowController windowController = instanceUi.GetComponent<UIWindowController>();
 			windowController.isLock = isWindowLock;
-			windowController.windowEvents = windowEvents;
+
+			for (int i = 0; i < windowEvents.Length; i++)
+			{
+				if (windowEvents[i].GetPersistentEventCount() > 0)
+				{
+					windowController.windowEvents[i] = windowEvents[i];
+					Debug.Log($"{i}번째 할당 {windowEvents[i]}");
+				}
+			}
 		}
 		else
 		{
