@@ -1,29 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UIWindowOpenButton : MonoBehaviour
 {
 	[SerializeField]
-	private GameObject OpenUiWindow;
+	private GameObject openUiWindow;
 	[SerializeField]
 	private Vector2 instancePosition = Vector2.zero;
 	[SerializeField]
-	private bool isUiLock = false;
+	private Vector2 windowScale = Vector2.zero;
+	[SerializeField]
+	private bool isWindowLock = false;
+	[SerializeField]
+	private UnityEvent[] windowEvents = new UnityEvent[8];
 
 
 	public void UiOpenButtonClick()
 	{
-		if (OpenUiWindow)
+		GameObject instanceUi;
+		if (openUiWindow)
 		{
-			if(isUiLock)
+			if (isWindowLock)
 			{
-				UIManager.Instance.UIWindowOpen(OpenUiWindow, transform.parent, instancePosition).GetComponent<UIWindowController>().isLock = true;
+				instanceUi = UIWindowManager.Instance.UIWindowOpen(openUiWindow, transform.parent, instancePosition, windowScale);
 			}
 			else
 			{
-				UIManager.Instance.UIWindowOpen(OpenUiWindow, transform, instancePosition).GetComponent<UIWindowController>().isLock = false;
+				instanceUi = UIWindowManager.Instance.UIWindowOpen(openUiWindow, transform.parent, instancePosition, windowScale);
 			}
+
+			UIWindowController windowController = instanceUi.GetComponent<UIWindowController>();
+			windowController.isLock = isWindowLock;
+			windowController.windowEvents = windowEvents;
 		}
 		else
 		{
