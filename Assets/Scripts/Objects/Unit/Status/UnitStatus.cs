@@ -5,78 +5,87 @@ using System.Linq;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName ="UnitStatus", menuName = "Status/UnitStatus", order = 0)]
+[CreateAssetMenu(fileName = "UnitStatus", menuName = "Status/UnitStatus", order = 0)]
 public class UnitStatus : ScriptableObject
 {
 	public List<StatusData> Status;
-	[Space(10)]
-	public List<StatusData> copyStatus;
+	[Space(10)] 
+	[SerializeField] private List<StatusData> copyStatus;
 
 	private void OnEnable()
 	{
-		copyStatus.Clear();
-		
-		CopyOrigin();
+		if (copyStatus is not null)
+		{
+			copyStatus.Clear();
+			CopyOrigin();
+		}
 	}
+
+	#region Private
 
 	private void CopyOrigin()
 	{
-		foreach (var element in Status)
+		copyStatus = Status.ToList();
+	}
+
+	#endregion
+
+	public void SetStatus(List<StatusData> statusDatas)
+	{
+		if (statusDatas is not null)
 		{
-			copyStatus.Add(new StatusData(element.name, element.value));
-			
+			copyStatus = statusDatas.ToList();
 		}
 	}
 
-	public float GetStatus(StatusName name)
+	public void AddStatus(List<StatusData> statusDatas)
 	{
-		if (!ValidationStatus(name))
+		if (statusDatas is not null)
 		{
-			FDebug.Log($" {name}에 해당하는 Status는 존재하지 않습니다.");
-			Debug.Break();
+			foreach (var status in statusDatas)
+			{
+				GetStatus(status.type).PlusValue(status.GetValue());
+			}
 		}
-		
-		return copyStatus.First(x => x.name == name).value;
 	}
 
-	public void SetStatus(StatusName name, float value)
+	public void MinusStatus(List<StatusData> statusDatas)
 	{
-		if (!ValidationStatus(name))
+		if (statusDatas is not null)
 		{
-			FDebug.Log($" {name}에 해당하는 Status는 존재하지 않습니다.");
-			Debug.Break();
+			foreach (var status in statusDatas)
+			{
+				GetStatus(status.type).MinusValue(status.GetValue());
+			}
 		}
-		
-		copyStatus.First(x => x.name == name).value = value;
 	}
-	
-	public void SetStatus(StatusData data)
+
+	// 해당 Status를 가지고 있는지 확인
+	public bool HasStatus(StatusType type)
 	{
-		if (!ValidationStatus(data.name))
+		foreach (var status in copyStatus)
 		{
-			FDebug.Log($" {data.name}에 해당하는 Status는 존재하지 않습니다.");
-			Debug.Break();
-		}
-
-		copyStatus.Find(x => x.name == data.name).value += data.value;
-	}
-
-	public void CalcSelfElement(StatusName name, float value)
-	{
-		copyStatus.First(x => x.name == name).value += value;
-	}
-
-	// 해당하는 데이터가 있는지 검증한다.
-	private bool ValidationStatus(StatusName name)
-	{
-		foreach (var element in copyStatus)
-		{
-			if (element.name == name)
+			if (status.type == type)
 			{
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	// 해당 Status의 데이터를 가져온다.
+	public StatusData GetStatus(StatusType type)
+	{
+		// 현재 Status에 해당 Status Type이 있는지 확인
+		var hasStatus = HasStatus(type);
+
+		if (!hasStatus)
+		{
+			FDebug.Log($"{type}에 해당하는 Status Key가 존재하지 않습니다.");
+			return null;
+		}
+
+		return copyStatus.Find(x => x.type == type);
 	}
 }
