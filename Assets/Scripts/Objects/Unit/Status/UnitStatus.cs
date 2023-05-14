@@ -47,8 +47,6 @@ public class UnitStatus : ScriptableObject
 		{
 			if (!HasStatus(statusType))
 			{
-				Debug.Log($"{statusType}");
-				
 				if (statusType is StatusType.NONE or StatusType.MAX)
 					continue;
 				
