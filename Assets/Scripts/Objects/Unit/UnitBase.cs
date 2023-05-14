@@ -12,7 +12,6 @@ public abstract class UnitBase : MonoBehaviour
 	protected virtual float GetCritical()
 	{
 		return UnityEngine.Random.Range(0, 1) < status.GetStatus(StatusType.CRITICAL_CHANCE).GetValue() ? status.GetStatus(StatusType.CRITICAL_DAMAGE_MULTIPLIER).GetValue() : 1;
-		return .0f;
 	}
 
 	protected abstract float GetAttakPoint(); // 최종 공격력을 반환
