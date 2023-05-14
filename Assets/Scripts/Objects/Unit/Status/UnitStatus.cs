@@ -66,34 +66,56 @@ public class UnitStatus : ScriptableObject
 		}
 	}
 
-	public void PlusStatus(List<StatusData> statusDatas)
+	public void PlusStatus(List<StatusData> statusDatasList)
 	{
-		if (statusDatas is not null)
+		if (statusDatasList is not null)
 		{
-			foreach (var status in statusDatas)
+			foreach (var statusData in statusDatasList)
 			{
-				if (!HasStatus(status.type))
+				if (!HasStatus(statusData.type))
 				{
 					continue;
 				}
 				
-				GetStatus(status.type).PlusValue(status.GetValue());
+				GetStatus(statusData.type).PlusValue(statusData.GetValue());
 			}
 		}
 	}
 
-	public void MinusStatus(List<StatusData> statusDatas)
+	public void PlusStatus(StatusData statusData)
 	{
-		if (statusDatas is not null)
+		if (statusData is not null)
 		{
-			foreach (var status in statusDatas)
+			if (HasStatus(statusData.type))
 			{
-				if (!HasStatus(status.type))
+				GetStatus(statusData.type).PlusValue(statusData.GetValue());
+			}
+		}
+	}
+
+	public void MinusStatus(List<StatusData> statusDatasList)
+	{
+		if (statusDatasList is not null)
+		{
+			foreach (var statusData in statusDatasList)
+			{
+				if (!HasStatus(statusData.type))
 				{
 					continue;
 				}
 				
-				GetStatus(status.type).MinusValue(status.GetValue());
+				GetStatus(statusData.type).MinusValue(statusData.GetValue());
+			}
+		}
+	}
+
+	public void MinusStatus(StatusData statusData)
+	{
+		if (statusData is not null)
+		{
+			if (HasStatus(statusData.type))
+			{
+				GetStatus(statusData.type).MinusValue(statusData.GetValue());
 			}
 		}
 	}
