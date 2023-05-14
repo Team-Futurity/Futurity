@@ -10,7 +10,7 @@ public class UIWindowOpenButton : MonoBehaviour
 	[SerializeField]
 	private Vector2 instancePosition = Vector2.zero;
 	[SerializeField]
-	private Vector2 windowScale = Vector2.zero;
+	private Vector2 windowScale = Vector2.one;
 	[SerializeField]
 	private bool isWindowLock = false;
 	[SerializeField]
