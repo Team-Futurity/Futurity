@@ -41,7 +41,7 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		}
 		else if (distance > unit.rangedDistance + 1.0f)
 		{
-			unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusName.SPEED) * Time.deltaTime;
+			unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
 		}
 	}
 
