@@ -14,7 +14,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		pc.animator.SetTrigger("Dash");
 		currentTime = 0;
 		pc.dashEffect.enabled = true;
-		pc.rigid.velocity = pc.transform.forward * pc.playerData.DashSpeed;
+		pc.rigid.velocity = pc.transform.forward * pc.playerData.status.GetStatus(StatusName.DASH_SPEED);
 		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);
 	}
 
