@@ -5,10 +5,12 @@ using UnityEngine;
 [FSMState((int)PlayerController.PlayerState.Move)]
 public class PlayerMoveState : UnitState<PlayerController>
 {
+	private readonly string MoveAnimKey = "Move";
+
 	public override void Begin(PlayerController pc)
 	{
 		//base.Begin(pc);
-		pc.animator.SetBool("Move", true);
+		pc.animator.SetBool(MoveAnimKey, true);
 	}
 
 	public override void Update(PlayerController pc)
@@ -38,7 +40,7 @@ public class PlayerMoveState : UnitState<PlayerController>
 	public override void End(PlayerController pc)
 	{
 		//base.End(pc);
-		pc.animator.SetBool("Move", false);
+		pc.animator.SetBool(MoveAnimKey, false);
 		pc.rigid.velocity = Vector3.zero;
 	}
 

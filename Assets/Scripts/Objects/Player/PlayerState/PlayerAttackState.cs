@@ -6,6 +6,12 @@ using static PlayerController;
 [FSMState((int)PlayerController.PlayerState.Attack)]
 public class PlayerAttackState : UnitState<PlayerController>
 {
+	// Animation Key
+	protected readonly string NormalAttackAnimKey = "NormalAttack";
+	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
+	protected readonly string MeleeAnimaKey = "Melee";
+
+	// etc
 	private float currentTime;
 	private Transform effect;
 	//private CameraController cam;
@@ -16,10 +22,9 @@ public class PlayerAttackState : UnitState<PlayerController>
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
 
-		pc.animator.SetBool("NormalAttack", true);
-		pc.animator.SetTrigger("AttackTrigger");
-		FDebug.Log("Attack IN");
-		pc.animator.SetFloat("Melee", pc.curNode.animFloat);
+		pc.animator.SetBool(NormalAttackAnimKey, true);
+		pc.animator.SetTrigger(AttackTriggerAnimKey);
+		pc.animator.SetFloat(MeleeAnimaKey, pc.curNode.animFloat);
 		pc.curNode.Copy(pc.curNode);
 		attackNode = pc.curNode;
 		//effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
@@ -50,20 +55,18 @@ public class PlayerAttackState : UnitState<PlayerController>
 		FDebug.Log($"{animEventEffect.effect.name}가 존재합니다.");
 		attackNode.effectPoolManager.DeactiveObject(animEventEffect.effect);
 		pc.attackCollider.radiusCollider.enabled = false;
-		pc.animator.SetBool("NormalAttack", false);
+		pc.animator.SetBool(NormalAttackAnimKey, false);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		if(other.CompareTag("Enemy"))
+		if(other.CompareTag(unit.EnemyTag))
 		{
 			if (unit.attackCollider.IsInCollider(other.gameObject))
 			{
 				unit.playerData.Attack(other.GetComponent<UnitBase>());
 			}
-			FDebug.Log("EnemyCollision");
 		}
-		FDebug.Log("test");
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)

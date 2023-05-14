@@ -5,12 +5,16 @@ using UnityEngine;
 [FSMState((int)PlayerController.PlayerState.Dash)]
 public class PlayerDashState : UnitState<PlayerController>
 {
+	// anim keys
+	private readonly string DashTriggerAnimKey = "Dash";
+
+	// etc
 	private float currentTime;
 	private const float dashTime = 0.2f;
 	public override void Begin(PlayerController pc)
 	{
 		//base.Begin(pc);
-		pc.animator.SetTrigger("Dash");
+		pc.animator.SetTrigger(DashTriggerAnimKey);
 		currentTime = 0;
 		pc.dashEffect.enabled = true;
 		pc.rigid.velocity = pc.transform.forward * pc.playerData.status.GetStatus(StatusName.DASH_SPEED);
