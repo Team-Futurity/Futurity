@@ -537,6 +537,7 @@ GameObject:
   - component: {fileID: 1289300021}
   - component: {fileID: 1289300020}
   - component: {fileID: 1289300019}
+  - component: {fileID: 1289300022}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -608,7 +609,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1289300020}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1289300022}
+        m_TargetAssemblyTypeName: UIWindowOpenButton, Assembly-CSharp
+        m_MethodName: UiOpenButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1289300020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,6 +660,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1289300017}
   m_CullTransparentMesh: 1
+--- !u!114 &1289300022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289300017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca86bcf95c7e8f43ac2897d08623b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openUiWindow: {fileID: 280084176244655351, guid: 72bcc13b71ac4004496ff1750601b73a, type: 3}
+  instancePosition: {x: 0, y: 0}
+  windowScale: {x: 5, y: 5}
+  isWindowLock: 0
+  windowEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1485979559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,6 +1367,7 @@ GameObject:
   - component: {fileID: 1927414439}
   - component: {fileID: 1927414438}
   - component: {fileID: 1927414437}
+  - component: {fileID: 1927414440}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -1431,6 +1478,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927414435}
   m_CullTransparentMesh: 1
+--- !u!114 &1927414440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927414435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05f0351dd142b446adab1a56a628ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadSceneName: TitleScene
 --- !u!1 &1928501594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,9 +1639,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca86bcf95c7e8f43ac2897d08623b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openUiWindow: {fileID: 280084176244655351, guid: 72bcc13b71ac4004496ff1750601b73a, type: 3}
+  openUiWindow: {fileID: 280084176244655351, guid: c84eb82f34d12d24392206c6efbe7ea9, type: 3}
   instancePosition: {x: 0, y: 0}
-  windowScale: {x: 600, y: 300}
+  windowScale: {x: 2, y: 2}
   isWindowLock: 0
   windowEvents:
   - m_PersistentCalls:
