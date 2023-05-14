@@ -49,7 +49,7 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		}
 		RectTransform rectTransform = newUI.GetComponent<RectTransform>();
 		rectTransform.localPosition = instancePosition;
-		rectTransform.sizeDelta = windowScale;
+		rectTransform.localScale = windowScale;
 		newUI.GetComponent<UIWindowController>().parentObject = uiParent.gameObject;
 
 		return newUI;
