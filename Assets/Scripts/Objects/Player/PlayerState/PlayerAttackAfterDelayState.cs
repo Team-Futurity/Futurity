@@ -2,7 +2,7 @@
 using static PlayerController;
 
 [FSMState((int)PlayerState.AttackDelay)]
-public class PlayerAttackDelayState : UnitState<PlayerController>
+public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 {
 	private readonly string IsAtttackingAnimKey = "IsAttacking";
 	private float currentTime;
@@ -34,7 +34,7 @@ public class PlayerAttackDelayState : UnitState<PlayerController>
 
 	public override void Update(PlayerController unit)
 	{
-		if (currentTime > attackNode.skillSpeed * animRatio)
+		if (currentTime > attackNode.attackSpeed * animRatio)
 		{
 			unit.curNode = unit.comboTree.top;
 			unit.ChangeState(PlayerState.Idle);

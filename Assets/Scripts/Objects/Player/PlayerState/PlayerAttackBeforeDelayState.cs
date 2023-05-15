@@ -4,15 +4,11 @@ using UnityEngine;
 using static PlayerController;
 
 //[FSMState((int)PlayerController.PlayerState.Attack)]
-public class PlayerAttackState : UnitState<PlayerController>
+public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 {
 	// Animation Key
 	protected readonly string IsAttackingAnimKey = "IsAttacking";
-	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
 	protected readonly string AttackTypeAnimaKey = "Combo";
-
-	// 임시 변수
-	public float animRatio = 0.7f;
 
 	// etc
 	private float currentTime;
@@ -20,28 +16,16 @@ public class PlayerAttackState : UnitState<PlayerController>
 	//private CameraController cam;
 	protected AttackNode attackNode;
 
-	protected PlayerAttackState(string attackTriggerKey, string attackTypeKey)
-	{
-		AttackTriggerAnimKey = attackTriggerKey;
-		AttackTypeAnimaKey = attackTypeKey;
-	}
-
 	public override void Begin(PlayerController pc)
 	{
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
 
 		pc.animator.SetBool(IsAttackingAnimKey, true);
-		//pc.animator.SetTrigger(AttackTriggerAnimKey);
 		pc.animator.SetFloat(AttackTypeAnimaKey, pc.curNode.animFloat);
 		pc.curNode.Copy(pc.curNode);
 		attackNode = pc.curNode;
-		//effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
 		currentTime = 0;
-		//cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
-
-		pc.SetCollider(true);
-		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength);
 
 		pc.glove.SetActive(true);
 	}
@@ -61,20 +45,12 @@ public class PlayerAttackState : UnitState<PlayerController>
 
 	public override void End(PlayerController pc)
 	{
-		pc.rigid.velocity = Vector3.zero;
 
-		pc.attackCollider.radiusCollider.enabled = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		if(other.CompareTag(unit.EnemyTag))
-		{
-			if (unit.attackCollider.IsInCollider(other.gameObject))
-			{
-				unit.playerData.Attack(other.GetComponent<UnitBase>());
-			}
-		}
+
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
