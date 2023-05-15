@@ -1,61 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.InputSystem;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class KeyBinding : MonoBehaviour
 {
-	//#주의#	InputActionReference를 inspecter창에서 할당해주기 때문에 사용중인 InputActionReference가 변경 혹은 삭제될 경우 문제가 발생할 수 있습니다.
 	public InputActionReference actionReference;
-	public TextMeshProUGUI buttonText;
+	[SerializeField]
+	private KeyBindingManager keyBindingManager;
 	[SerializeField]
 	private Button button;
+	[SerializeField]
+	private TextMeshProUGUI buttonText;
 	private bool waitingForKeyInput;
+	private string newBinding;
 
-	private void Awake()
+	private void Start()
 	{
 		button.onClick.AddListener(StartKeyRemap);
 		UpdateButtonText();
-		KeyBindingManager.Instance.RegisterKeyBinding(this);
 	}
 
-	//#설명#	현재 버튼에 할당된 키를 표시하는 텍스트를 업데이트합니다.
+	//#설명#	이 함수는 키 텍스트를 처음으로 업데이트하고 표시합니다. 이 텍스트는 해당 버튼이 현재 어떤 키에 바인딩되어 있는지를 보여줍니다.
 	private void UpdateButtonText()
 	{
-		string currentBinding = actionReference.action.GetBindingDisplayString(0);
+		string currentBinding = actionReference.action.GetBindingDisplayString();
 		buttonText.text = currentBinding;
 	}
 
-	//#설명#	사용자가 키를 변경하려 할 때 호출되는 함수입니다. 사용자 입력을 기다리고 새 키를 할당합니다.
+	//#설명#	이 메서드는 사용자가 키 바인딩 버튼을 누를경우 작동되며, Player의 키 입력을 기다립니다.
 	private void StartKeyRemap()
 	{
 		if (!waitingForKeyInput)
 		{
+			waitingForKeyInput = true;
+			buttonText.text = "...";
 			actionReference.action.PerformInteractiveRebinding()
-	.WithControlsExcluding("Mouse")
-	.OnMatchWaitForAnother(0.1f)
-	.OnPotentialMatch((potentialNewBinding) => {
-		if (KeyBindingManager.Instance.CheckIfKeyIsUsed(actionReference, potentialNewBinding.selectedControl.path))
-		{
-			potentialNewBinding.Cancel();
-		}
-		else
-		{
-			potentialNewBinding.Complete();
-		}
-	})
-	.OnComplete(operation => KeyRemapFinished())
-	.Start();
-
+				.WithControlsExcluding("Mouse")
+				.OnMatchWaitForAnother(0.1f)
+				.OnComplete(operation => KeyRemapFinished())
+				.Start();
 		}
 	}
 
-	//#설명#	키 변경 프로세스가 완료되면 호출되는 함수입니다. 텍스트를 업데이트하고 대기 상태를 종료합니다.
+	//#설명#	KeyBindingManager에 키 바인딩 데이터 값을 전달하는 함수입니다.
 	private void KeyRemapFinished()
 	{
 		waitingForKeyInput = false;
-		UpdateButtonText();
+		newBinding = actionReference.action.GetBindingDisplayString();
+		buttonText.text = newBinding;
+		keyBindingManager.RegisterPendingBinding(actionReference, newBinding);
 	}
 }

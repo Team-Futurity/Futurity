@@ -1,36 +1,26 @@
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine;
 
-public class KeyBindingManager : Singleton<KeyBindingManager>
+public class KeyBindingManager : MonoBehaviour
 {
-	private List<KeyBinding> keyBindings;
+	private Dictionary<InputActionReference, string> pendingBindings = new Dictionary<InputActionReference, string>();
 
-	protected override void Awake()
+	public void RegisterPendingBinding(InputActionReference actionReference, string key)
 	{
-		base.Awake();
-		keyBindings = new List<KeyBinding>();
+		pendingBindings[actionReference] = key;
 	}
 
-	public void RegisterKeyBinding(KeyBinding keyBinding)
-	{	
-		keyBindings.Add(keyBinding);
-	}
-
-	public bool CheckIfKeyIsUsed(InputActionReference actionReference, string newBinding)
+	public void ApplyBindings()
 	{
-		foreach (KeyBinding keyBinding in keyBindings)
+		foreach (var binding in pendingBindings)
 		{
-			if (keyBinding != null && keyBinding.actionReference != actionReference)
-			{
-				string currentBinding = keyBinding.actionReference.action.GetBindingDisplayString(0);
-				if (currentBinding == newBinding)
-				{
-					FDebug.Log("중복 키 바인딩");
-					return true;
-				}
-			}
+			var action = binding.Key.action;
+			action.ApplyBindingOverride(binding.Value);
 		}
-		return false;
+
+		pendingBindings.Clear();
 	}
 }
+
+	
