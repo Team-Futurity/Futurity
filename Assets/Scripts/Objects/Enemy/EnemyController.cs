@@ -121,7 +121,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			}
 			else
 			{
-				unit.ChangeState(EnemyState./*Default*/Hitted);
+				unit.ChangeState(EnemyState.Default);
 				enemyCollider.enabled = true;
 				chaseRange.enabled = true;
 				curSpawningTime = 0f;
