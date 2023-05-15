@@ -11,9 +11,6 @@ public class PlayerAttackState : UnitState<PlayerController>
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
 	protected readonly string AttackTypeAnimaKey = "Combo";
 
-	// 임시 변수
-	public float animRatio = 0.7f;
-
 	// etc
 	private float currentTime;
 	private Transform effect;
@@ -78,6 +75,11 @@ public class PlayerAttackState : UnitState<PlayerController>
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
+	{
+
+	}
+
+	public override void OnCollisionStay(PlayerController unit, Collision collision)
 	{
 
 	}

@@ -162,7 +162,15 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 
 	protected virtual void OnCollisionEnter(Collision collision)
 	{
+		Debug.Log("¿øÁ¶ ¸ÀÁý");
+
 		currentState?.OnCollisionEnter(unit, collision);
 		subState?.OnCollisionEnter(unit, collision);
+	}
+
+	protected virtual void OnCollisionStay(Collision collision)
+	{
+		currentState?.OnCollisionStay(unit, collision);
+		subState?.OnCollisionStay(unit, collision);
 	}
 }

@@ -59,6 +59,13 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	//임시
 	public GameObject glove;
+	public struct EffectData
+	{
+		public Transform effectPos;
+		public GameObject effect;
+	}
+	public List<EffectData> rushEffects;
+	public ObjectPoolManager<Transform> rushObjectPool;
 
 	// sound 
 	public FMODUnity.EventReference dash;
@@ -148,7 +155,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
-		if (context.performed && !playerData.isStun)
+		if (context.started && !playerData.isStun)
 		{
 			// 현재 노드가 top노드인지 체크
 			// top노드라는 건, 콤보 입력 중이 아니라는 것.
@@ -179,10 +186,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			{
 				if (nextCombo == PlayerInput.None)
 				{
-					nextCombo = PlayerInput.NormalAttack;
+					nextCombo = PlayerInput.SpecialAttack;
 				}
 			}
-
 		}
 		else if (context.canceled)
 		{

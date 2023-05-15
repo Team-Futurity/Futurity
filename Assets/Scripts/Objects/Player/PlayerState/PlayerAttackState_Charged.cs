@@ -33,7 +33,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public bool isReleased;	// 돌진 버튼이 Release되면 true
 
 	// Layer
-	public LayerMask layer = 1 << 6; // wall Layer
+	public LayerMask wallLayer = 1 << 6; // wall Layer
 
 	public PlayerAttackState_Charged() : base("ChargeTrigger", "Charging") { }
 
@@ -45,7 +45,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		currentTime = 0;
 		currentLevel = 0;
 
-		unit.specialIsReleased = false;
+		//unit.specialIsReleased = false;
 	}
 
 	public override void End(PlayerController unit)
@@ -75,7 +75,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		FDebug.DrawRay(unit.transform.position, unit.transform.forward * rayLength, UnityEngine.Color.blue);
 
 		if (!isReleased) { return; }
-
 		// 돌진 전 위치에서 현재 위치로 향하는 벡터의 크기가 targetMagnitude보다 작고
 		if (((unit.transform.position - originPos).magnitude < targetMagnitude))
 		{
@@ -83,14 +82,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			// Collision연산으로 부족한 부분을 메꿀 Ray연산
 			// ray의 길이는 조금 논의가 필요할지도...?
-			if (Physics.Raycast(unit.transform.position, forward, out hit, rayLength, layer))
+			if (Physics.Raycast(unit.transform.position, forward, out hit, rayLength, wallLayer))
 			{
-				// 공식 등이 정상 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
-				unit.playerData.Attack(hit.transform.GetComponent<UnitBase>());
-				unit.playerData.Attack(hit.transform.GetComponent<UnitBase>());
-
-				// 벽(장애물)과 충돌했으니 바로 돌진 종료
-				unit.ChangeState(PlayerController.PlayerState.AttackDelay);
+				//CollisionToWallProc(unit);
 			}
 
 			unit.SetCollider(true);
@@ -106,7 +100,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				firstEnemy.transform.position = targetPos + forward * (enemyDistance + moveSpeed * Time.fixedDeltaTime);
 			}
-			unit.ChangeState(PlayerController.PlayerState.AttackDelay);
+			unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
 		}
 	}
 
@@ -119,8 +113,13 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		base.OnCollisionEnter(unit, collision);
 
-		if(collision.transform.CompareTag(unit.EnemyTag))
+		Debug.Log("COLL" + collision.gameObject.layer);
+		Debug.Log("LM" + LayerMask.NameToLayer("Wall"));
+		Debug.Log("VALUE " + wallLayer.value);
+
+		if (collision.transform.CompareTag(unit.EnemyTag))
 		{
+			Debug.Log("ENTER START");
 			// 돌진 중 한 번도 적과 충돌한 적 없다면
 			if (firstEnemy == null)
 			{
@@ -136,6 +135,22 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				var unitData = collision.transform.GetComponent<UnitBase>();
 				unit.playerData.Attack(unitData);
 			}
+			return;
+		}
+		else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+		{
+			CollisionToWallProc(unit);
+			return;
+		}
+		Debug.Log("하윙");
+	}
+
+	public override void OnCollisionStay(PlayerController unit, Collision collision)
+	{
+		Debug.Log("STAY TEN");
+		if (collision.gameObject.layer == wallLayer.value)
+		{
+			CollisionToWallProc(unit);
 		}
 	}
 
@@ -143,7 +158,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		int level = 0;
 
-		// 버튼이 눌려있는 상태라면
 		if (!unit.specialIsReleased)
 		{
 			level = (int)(currentTime / LevelStandard);
@@ -181,5 +195,18 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		}
 
 		currentTime += Time.deltaTime;
+	}
+
+	private void CollisionToWallProc(PlayerController unit)
+	{
+		if(firstEnemy != null) 
+		{
+			// 공식 등이 정상 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
+			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
+			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
+		}
+
+		// 벽(장애물)과 충돌했으니 바로 돌진 종료
+		unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
 	}
 }

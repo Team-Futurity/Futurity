@@ -19,7 +19,6 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 
 	public override void End(PlayerController unit)
 	{
-		unit.animator.SetBool(IsAtttackingAnimKey, false);
 		unit.nextCombo = PlayerInput.None;
 	}
 
@@ -37,21 +36,24 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 	{
 		if(unit.nextCombo != PlayerInput.None)
 		{
-			AttackNode node = unit.FindInput(PlayerInput.NormalAttack);
+			AttackNode node = unit.FindInput(unit.nextCombo);
 
 			if (node == null) { return; }
 				
 			unit.curNode = node;
 			unit.curCombo = node.command;
+			unit.currentAttackState = PlayerState.NormalAttack;
 
-			unit.ChangeState(unit.nextCombo);
+			unit.ChangeState(PlayerState.AttackDelay);
 			return;
 		}
 
 		if (currentTime > attackNode.attackAfterDelay)
 		{
 			unit.curNode = unit.comboTree.top;
+			unit.animator.SetBool(IsAtttackingAnimKey, false);
 			unit.ChangeState(PlayerState.Idle);
+
 			return;
 		}
 		currentTime += Time.deltaTime;
