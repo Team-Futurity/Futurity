@@ -11,6 +11,8 @@ public class UIWindowManager : Singleton<UIWindowManager>
 
 	private void Awake()
 	{
+		base.Awake();
+
 		if (!modalBackground)
 		{
 			modalBackground = new GameObject("modalBackground");
