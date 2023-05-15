@@ -41,7 +41,7 @@ public class PlayerAttackState : UnitState<PlayerController>
 		//cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
 
 		pc.SetCollider(true);
-		//pc.attackCollider.SetCollider(attackNode.)
+		pc.attackCollider.SetCollider(attackNode.skillAngle, attackNode.skillRange);
 	}
 
 	public override void Update(PlayerController pc)
