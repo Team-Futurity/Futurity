@@ -33,6 +33,7 @@ public class MDefaultChaseState : UnitState<EnemyController>
 	{
 		FDebug.Log("MDefault Chase end");
 		unit.animator.SetBool("Move", false);
+		unit.atkRange.enabled = false;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

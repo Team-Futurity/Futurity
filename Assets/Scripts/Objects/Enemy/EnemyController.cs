@@ -23,6 +23,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		//Ranged Default
 		RDefaultChase,	
+		RDefaultBackMove,
 		RDefaultAttack,
 	}
 
