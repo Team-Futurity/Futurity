@@ -19,6 +19,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		//Melee Default
 		MDefaultChase,          //추격
 		MDefaultAttack,         //공격
+		MDefaultAttack2nd,
 
 		//Ranged Default
 		RDefaultChase,	
@@ -75,7 +76,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Hitted Properties
 	public float hitMaxTime = 1f;
-	[HideInInspector] public Color defaultColor = new Color(55f, 55f, 55f, 255f);
+	public Color defaultColor;
 
 	//animation name
 	public readonly string moveAnimParam = "Move";
@@ -95,6 +96,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		enemyCollider = GetComponent<BoxCollider>();
 		if(atkCollider != null)
 			atkCollider.enabled = false;
+		chaseRange.enabled = false;
+		enemyCollider.enabled = false;
 
 		unit = this;
 		SetUp(EnemyState.Idle);
@@ -115,17 +118,16 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			if (curSpawningTime <= maxSpawningTime)
 			{
 				curSpawningTime += Time.deltaTime;
-				enemyCollider.enabled = false;
 			}
 			else
 			{
 				unit.ChangeState(EnemyState.Default);
 				enemyCollider.enabled = true;
+				chaseRange.enabled = true;
+				curSpawningTime = 0f;
 				isSpawning = false;
 			}
 		}
-		else
-			curSpawningTime = 0f;
 	}
 
 	public void DelayChangeState (float curTime, float maxTime, EnemyController unit, System.ValueType nextEnumState)

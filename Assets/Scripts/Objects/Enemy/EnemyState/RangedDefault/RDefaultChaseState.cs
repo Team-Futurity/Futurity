@@ -14,6 +14,7 @@ public class RDefaultChaseState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
+		FDebug.Log("RDefault chase Begin");
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
 		unit.isChasing = true;
@@ -28,17 +29,18 @@ public class RDefaultChaseState : UnitState<EnemyController>
 
 		if (distance < unit.rangedDistance)
 		{
-			xPosSpeed += Time.deltaTime * 10.0f;
+			xPosSpeed += Time.deltaTime * 20.0f;
 			xPos = Mathf.Cos(xPosSpeed) * 3.0f;
-			zPos += Time.deltaTime * 8.0f;
-			unit.transform.position = new Vector3(xPos, 0f, -zPos);
+			zPos += Time.deltaTime * 13.0f;
+			unit.transform.position = new Vector3(xPos, 0f, zPos);
+
 		}
-		else if (distance < unit.rangedDistance + 1.0f)
+/*		else if (distance < unit.rangedDistance + 1.0f)
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
 			unit.DelayChangeState(curTime, unit.attackSetTime, unit, EnemyController.EnemyState.RDefaultAttack);
-		}
+		}*/
 		else if (distance > unit.rangedDistance + 1.0f)
 		{
 			unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
@@ -54,6 +56,7 @@ public class RDefaultChaseState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
+		FDebug.Log("RDefault chase End");
 		unit.animator.SetBool(unit.moveAnimParam, false);
 		unit.isChasing = false;
 		curTime = 0f;
