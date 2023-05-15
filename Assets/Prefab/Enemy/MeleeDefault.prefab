@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &314941651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 314941652}
+  m_Layer: 0
+  m_Name: BackPos (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &314941652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314941651}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4439521067689912936}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1191699735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1191699736}
+  m_Layer: 0
+  m_Name: effectPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1191699736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191699735}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4439521067689912936}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4439521066975479230
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,13 +121,14 @@ GameObject:
   - component: {fileID: 4439521067689912933}
   - component: {fileID: 4439521067689912938}
   - component: {fileID: 4439521067689912939}
+  - component: {fileID: 1686940416}
   m_Layer: 0
   m_Name: MeleeDefault
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4439521067689912936
 Transform:
   m_ObjectHideFlags: 0
@@ -82,6 +145,8 @@ Transform:
   - {fileID: 4439521067800669049}
   - {fileID: 4439521066975479225}
   - {fileID: 4439521068934908809}
+  - {fileID: 314941652}
+  - {fileID: 1191699736}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -139,7 +204,7 @@ MonoBehaviour:
   enemyData: {fileID: 4439521067689912932}
   animator: {fileID: 0}
   rigid: {fileID: 0}
-  eMaterial: {fileID: 2100000, guid: 15017b30e4f67a04189f54b5ee37a900, type: 2}
+  eMaterial: {fileID: 2100000, guid: 3ec43bd881cbfc04c9bb6d133ed6a47c, type: 2}
   chaseRange: {fileID: 4439521068934908808}
   atkRange: {fileID: 4439521066975479224}
   atkCollider: {fileID: 4439521067800669048}
@@ -149,12 +214,16 @@ MonoBehaviour:
   randMoveFloat: 0
   transformParent: {fileID: 0}
   moveIdleSpot: {fileID: 0}
-  attackSetTime: 2
+  attackSetTime: 1
+  attackDelayTime: 1.3
   rangedDistance: 0
   projectileDistance: 0
   rangedProjectile: {fileID: 0}
   projectileSpeed: 0
-  RangedBackPos: {fileID: 0}
+  effectPos: {fileID: 1191699736}
+  effectPrefab: {fileID: 6954409050191911308, guid: ab17821d1f5cef74e97c6954f18f1123, type: 3}
+  effectParent: {fileID: 4439521067689912937}
+  RangedBackPos: {fileID: 314941651}
   hitMaxTime: 1.5
   defaultColor: {r: 0.21568628, g: 0.21568628, b: 0.21568628, a: 255}
 --- !u!54 &4439521067689912938
@@ -186,6 +255,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2, z: 0.8}
   m_Center: {x: 0, y: 1, z: 0.1}
+--- !u!114 &1686940416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4439521067689912937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0d8f3730f8c934692f66816b8856df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 0}
 --- !u!1 &4439521067800669054
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +422,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: F_02_01_01_meleemonster_dummy
       objectReference: {fileID: 0}
+    - target: {fileID: 1442477315262443259, guid: 89d7b7848b4af584784ca46213014782, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3ec43bd881cbfc04c9bb6d133ed6a47c, type: 2}
     - target: {fileID: 3769509461735893700, guid: 89d7b7848b4af584784ca46213014782, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.1390777
