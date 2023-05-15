@@ -103,19 +103,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4467906768959609520}
-        m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
-        m_MethodName: ThisDestroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
   - m_PersistentCalls:
@@ -522,8 +510,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionReference: {fileID: 5616901767795273573, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
-  buttonText: {fileID: 6449712160091191690}
+  keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 6835128895482188188}
+  buttonText: {fileID: 6449712160091191690}
 --- !u!1 &2718308044979112194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,8 +1548,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionReference: {fileID: -5144039874049788391, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
-  buttonText: {fileID: 4598153484674351202}
+  keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 917023315591850424}
+  buttonText: {fileID: 4598153484674351202}
 --- !u!1 &4156818857164874903
 GameObject:
   m_ObjectHideFlags: 0
@@ -2113,7 +2103,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4753679080237439884}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5942435398739702045}
+        m_TargetAssemblyTypeName: KeyBindingManager, Assembly-CSharp
+        m_MethodName: ApplyBindings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4467906768959609520}
+        m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
+        m_MethodName: ThisDestroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4255122934779674853
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,8 +2278,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionReference: {fileID: 1110001176822212523, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
-  buttonText: {fileID: 6165816881486519321}
+  keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 564233701013845701}
+  buttonText: {fileID: 6165816881486519321}
 --- !u!1 &4314168264445457522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,8 +2568,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionReference: {fileID: -8659454788159735415, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
-  buttonText: {fileID: 7291906682189440787}
+  keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 1713509855572372633}
+  buttonText: {fileID: 7291906682189440787}
 --- !u!1 &4656369602068715069
 GameObject:
   m_ObjectHideFlags: 0
@@ -2840,8 +2856,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionReference: {fileID: 4010393911575345089, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
-  buttonText: {fileID: 8408359034302225496}
+  keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 2056486725810010958}
+  buttonText: {fileID: 8408359034302225496}
 --- !u!1 &4737483785869127513
 GameObject:
   m_ObjectHideFlags: 0
@@ -3675,6 +3692,7 @@ GameObject:
   - component: {fileID: 4312403229511778173}
   - component: {fileID: 8567780219914059607}
   - component: {fileID: 4026730598060094386}
+  - component: {fileID: 5942435398739702045}
   m_Layer: 5
   m_Name: KeySetting
   m_TagString: Untagged
@@ -3747,6 +3765,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5942435398739702045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6896944338244697810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f07f36f3ce8e8574b94336aa941d7dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7441622326189086062
 GameObject:
   m_ObjectHideFlags: 0
@@ -3897,8 +3927,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionReference: {fileID: -1881624358652635337, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
-  buttonText: {fileID: 8367124548741835631}
+  keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 3647300805989729801}
+  buttonText: {fileID: 8367124548741835631}
 --- !u!1 &7830962679408833168
 GameObject:
   m_ObjectHideFlags: 0
