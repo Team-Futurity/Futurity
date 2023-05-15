@@ -41,7 +41,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 	public void PrintEffect()
 	{
 		//effect = ec.effectPoolManager.ActiveObject(ec.effectPos.position, ec.transform.rotation);
-		effectPrefab.transform.rotation = ec.effectParent.transform.rotation;
+		//effectPrefab.transform.rotation = ec.effectParent.transform.rotation;
 		effectActive = true;
 		curTime = 0f;
 	}
