@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,14 +10,16 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public enum PlayerState : int
 	{
 		Idle,           // 대기
-		Attack,         // 공격
-			NormalAttack,	// 일반공격 
-			ChargedAttack,	// 차지공격
-		AttackDelay,    // 공격 후 딜레이
+
+		// 공격
+		AttackDelay,        // 공격 전 딜레이
+		NormalAttack,       // 일반공격 
+		ChargedAttack,      // 차지공격
+		AttackAfterDelay,   // 공격 후 딜레이
+
 		Hit,            // 피격
 		Move,           // 이동
 		Dash,           // 대시
-		Stun,           // 기절
 		Death,          // 사망
 	}
 
@@ -30,6 +33,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// Constants
 	public readonly string EnemyTag = "Enemy";
+	public readonly string ComboAttackAnimaKey = "Combo";
+	public readonly string ChargedAttackAnimaKey = "Combo";
 
 	// reference
 	public Player playerData;
@@ -44,15 +49,26 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// attack
 	public PlayerInput curCombo;
+	public PlayerInput nextCombo;
 	public AttackNode curNode;
 	public Tree comboTree;
 	public RadiusCapsuleCollider attackCollider;
+	public PlayerState currentAttackState;
 
 	// input
 	public bool specialIsReleased = false;
 
 	//임시
 	public GameObject glove;
+	[Serializable]
+	public struct EffectData
+	{
+		public Transform effectPos;
+		public GameObject effect;
+	}
+	public List<EffectData> rushEffects;
+	public ObjectPoolManager<Transform> rushObjectPool;
+	public ObjectPoolManager<Transform> rushObjectPool2;
 
 	// sound 
 	public FMODUnity.EventReference dash;
@@ -69,21 +85,33 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		unit = this;
 		SetUp(PlayerState.Idle);
 		curNode = comboTree.top;
+
+		nextCombo = PlayerInput.None;
+
+		glove.SetActive(false);
 	}
 
 	public void OnMove(InputAction.CallbackContext context)
 	{
-		//if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Stun))
-		//	return;
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun)
+		{
+			return;
+		}
+		
 
 		Vector3 input = context.ReadValue<Vector3>();
-		if (input != null && !playerData.isStun)
+		if (input != null)
 		{
 			moveDir = new Vector3(input.x, 0f, input.y);
 
-			if(IsCurrentState(PlayerState.ChargedAttack))
+			if (IsAttackProcess())
 			{
-				AddSubState(PlayerState.Move);
+				if (IsCurrentState(PlayerState.ChargedAttack))
+				{
+					//AddSubState(PlayerState.Move);
+				}
+				return;
+
 			}
 			else if (!IsCurrentState(PlayerState.Move))
 			{
@@ -111,41 +139,64 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		if (context.started && !playerData.isStun)
 		{
-			AttackNode node = FindInput(PlayerInput.NormalAttack);
-			if (node != null && !IsCurrentState(PlayerState.Attack))
+			if (!IsAttackProcess())
 			{
+				AttackNode node = FindInput(PlayerInput.NormalAttack);
+
+				if (node == null) { return; }
+
 				curNode = node;
 				curCombo = node.command;
-				ChangeState(PlayerState.Attack);
+				//ChangeState(PlayerState.NormalAttack);
+				currentAttackState = PlayerState.NormalAttack;
+				ChangeState(PlayerState.AttackDelay);
+			}
+			else
+			{
+				if (nextCombo == PlayerInput.None)
+				{
+					nextCombo = PlayerInput.NormalAttack;
+				}
 			}
 		}
 	}
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
-		if (context.performed && !playerData.isStun)
-		{
-			// 현재 노드가 top노드인지 체크
-			// top노드라는 건, 콤보 입력 중이 아니라는 것.
-			bool isInit = curNode == comboTree.top;
+		if(playerData.isStun) { return; }
 
-			AttackNode node = FindInput(PlayerInput.SpecialAttack);
-			if (node != null )
+		if (context.started)
+		{
+			if (!IsAttackProcess())
 			{
+				AttackNode node = FindInput(PlayerInput.SpecialAttack);
+				if (node == null) { return; }
+
 				curNode = node;
 				curCombo = node.command;
 
-				if (isInit) // 콤보 입력 중이 아니면 차지
+				if (!IsCurrentState(PlayerState.AttackAfterDelay)) // 콤보 입력 중이 아니면 차지
 				{
-					ChangeState(PlayerState.ChargedAttack);
+					currentAttackState = PlayerState.ChargedAttack;
+					//ChangeState(PlayerState.ChargedAttack);
 				}
-				else        // 콤보 입력 중이면 일반
+				else // 콤보 입력 중이면 일반
 				{
-					ChangeState(PlayerState.NormalAttack);
+					currentAttackState = PlayerState.NormalAttack;
+					//ChangeState(PlayerState.NormalAttack);
+				}
+
+				ChangeState(PlayerState.AttackDelay);
+			}
+			else
+			{
+				if (nextCombo == PlayerInput.None)
+				{
+					nextCombo = PlayerInput.SpecialAttack;
 				}
 			}
 		}
-		else if(context.canceled)
+		else if (context.canceled && currentAttackState != PlayerState.NormalAttack)
 		{
 			specialIsReleased = true;
 		}
@@ -167,5 +218,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		basicCollider.enabled = isEnabled;
 		attackCollider.enabled = isEnabled;
+	}
+
+	public bool IsAttackProcess()
+	{
+		return IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
 	}
 }

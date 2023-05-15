@@ -8,6 +8,8 @@ public class PlayerHitState : UnitState<PlayerController>
 	public override void Begin(PlayerController pc)
 	{
 		Camera.main.gameObject.GetComponent<PostProcessController>().SetVignette(0.5f);
+
+		pc.glove.SetActive(false);
 	}
 
 	public override void Update(PlayerController pc)

@@ -27,11 +27,11 @@ public class PlayerIdleState : UnitState<PlayerController>
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		throw new System.NotImplementedException();
+
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-		throw new System.NotImplementedException();
+
 	}
 }
