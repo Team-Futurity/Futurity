@@ -21,6 +21,8 @@ public class PlayerAnimationEvents : MonoBehaviour
 	{
 		attackNode = pc.curNode;
 		effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
+		var particles = effect.GetComponent<ParticleController>();
+		particles.Initialize(attackNode.effectPoolManager);
 	}
 
 	public void CameraShake()
