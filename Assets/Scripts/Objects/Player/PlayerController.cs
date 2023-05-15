@@ -34,7 +34,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Constants
 	public readonly string EnemyTag = "Enemy";
 	public readonly string ComboAttackAnimaKey = "Combo";
-	public readonly string ChargedAttackAnimaKey = "Charging";
+	public readonly string ChargedAttackAnimaKey = "Combo";
 
 	// reference
 	public Player playerData;
@@ -68,6 +68,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 	public List<EffectData> rushEffects;
 	public ObjectPoolManager<Transform> rushObjectPool;
+	public ObjectPoolManager<Transform> rushObjectPool2;
 
 	// sound 
 	public FMODUnity.EventReference dash;
@@ -195,7 +196,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				}
 			}
 		}
-		else if (context.canceled && !IsAttackProcess())
+		else if (context.canceled && currentAttackState != PlayerState.NormalAttack)
 		{
 			specialIsReleased = true;
 		}
