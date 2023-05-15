@@ -18,7 +18,7 @@ public class MDefaultAttack2ndState : UnitState<EnemyController>
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.attackSetTime, unit, EnemyController.EnemyState.MDefaultChase);
+		unit.DelayChangeState(curTime, unit.attackSetTime + unit.attackDelayTime, unit, EnemyController.EnemyState.MDefaultChase);
 	}
 
 	public override void FixedUpdate(EnemyController unit)

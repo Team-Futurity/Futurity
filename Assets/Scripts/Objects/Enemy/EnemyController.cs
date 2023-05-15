@@ -66,10 +66,16 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Attack Properties
 	public float attackSetTime = 2f;
+	public float attackDelayTime = 1.3f;
 	public float rangedDistance;
 	public float projectileDistance;
 	public GameObject rangedProjectile;
 	public float projectileSpeed;
+
+	public Transform effectPos;
+	public GameObject effectPrefab;
+	public GameObject effectParent;
+/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
 
 	//Chase Properties
 	public GameObject RangedBackPos;
@@ -98,6 +104,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			atkCollider.enabled = false;
 		chaseRange.enabled = false;
 		enemyCollider.enabled = false;
+/*		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);*/
 
 		unit = this;
 		SetUp(EnemyState.Idle);

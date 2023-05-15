@@ -6,6 +6,8 @@ public class WarpPotalController : MonoBehaviour
 {
 	[SerializeField] private Transform targetPosition;
 	[SerializeField] private bool isSceneChanger = false;
+	public float delay = .0f;
+
 
 	private void OnTriggerEnter(Collider collision)
 	{
@@ -13,7 +15,7 @@ public class WarpPotalController : MonoBehaviour
 		{
 			if (!isSceneChanger)
 			{
-				AreaWarpManager.Instance.WarpStart(collision.gameObject, targetPosition);
+				AreaWarpManager.Instance.WarpStart(collision.gameObject, targetPosition, delay);
 			} 
 		}
 	}

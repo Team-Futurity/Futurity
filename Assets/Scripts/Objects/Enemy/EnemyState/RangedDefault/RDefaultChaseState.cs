@@ -35,12 +35,12 @@ public class RDefaultChaseState : UnitState<EnemyController>
 			unit.transform.position = new Vector3(xPos, 0f, zPos);
 
 		}
-/*		else if (distance < unit.rangedDistance + 1.0f)
+		else if (distance < unit.rangedDistance + 1.0f)
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
 			unit.DelayChangeState(curTime, unit.attackSetTime, unit, EnemyController.EnemyState.RDefaultAttack);
-		}*/
+		}
 		else if (distance > unit.rangedDistance + 1.0f)
 		{
 			unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
