@@ -54,7 +54,6 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 			unit.moveIdleSpot.transform.position,
 		unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime);
 
-		//FDebug.Log(unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue());
 		if (unit.transform.position == unit.moveIdleSpot.transform.position)
 		{
 			unit.rigid.velocity = Vector3.zero;

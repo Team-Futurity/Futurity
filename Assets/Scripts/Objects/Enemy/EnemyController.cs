@@ -72,6 +72,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float projectileDistance;
 	public GameObject rangedProjectile;
 	public float projectileSpeed;
+	[HideInInspector] public bool isClose;
 
 	public Transform effectPos;
 	public GameObject effectPrefab;
