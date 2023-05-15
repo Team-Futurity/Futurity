@@ -15,8 +15,6 @@ public class PlayerAttackState_Normal : PlayerAttackState
 
 		//юс╫ц
 		pc.glove.SetActive(true);
-		pc.rigid.velocity = Vector3.zero;
-		pc.rigid.velocity = pc.transform.forward * attackNode.moveDistance;
 	}
 
 	public override void End(PlayerController pc)
