@@ -127,7 +127,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			// 현재 노드가 top노드인지 체크
 			// top노드라는 건, 콤보 입력 중이 아니라는 것.
-			bool isInit = curNode == comboTree.top;
+			//bool isInit = curNode == comboTree.top;
 
 			AttackNode node = FindInput(PlayerInput.SpecialAttack);
 			if (node != null )
@@ -135,7 +135,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				curNode = node;
 				curCombo = node.command;
 
-				if (isInit) // 콤보 입력 중이 아니면 차지
+				if (!IsCurrentState(PlayerState.AttackDelay)) // 콤보 입력 중이 아니면 차지
 				{
 					ChangeState(PlayerState.ChargedAttack);
 				}
