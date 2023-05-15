@@ -31,7 +31,7 @@ public class AttackNode
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
 	public float animFloat;
-	public float moveDistance = 0f;
+	//public float moveDistance = 0f;
 
 	public float randomShakePower;
 	public float curveShakePower;

@@ -8,6 +8,7 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 {
 	// Animation Key
 	protected readonly string IsAttackingAnimKey = "IsAttacking";
+	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
 
 	// etc
 	private float currentTime;
@@ -24,6 +25,7 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 
 		pc.animator.SetBool(IsAttackingAnimKey, true);
 		pc.animator.SetFloat(key, pc.curNode.animFloat);
+		pc.animator.SetTrigger(AttackTriggerAnimKey);
 		pc.curNode.Copy(pc.curNode);
 		attackNode = pc.curNode;
 		currentTime = 0;

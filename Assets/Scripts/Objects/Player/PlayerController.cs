@@ -124,12 +124,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		if (context.started && !playerData.isStun)
 		{
-			AttackNode node = FindInput(PlayerInput.NormalAttack);
-
-			if(node == null) { return; }
-
 			if (!IsAttackProcess())
 			{
+				AttackNode node = FindInput(PlayerInput.NormalAttack);
+
+				if (node == null) { return; }
+
 				curNode = node;
 				curCombo = node.command;
 				//ChangeState(PlayerState.NormalAttack);
@@ -154,14 +154,14 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			// top노드라는 건, 콤보 입력 중이 아니라는 것.
 			//bool isInit = curNode == comboTree.top;
 
-			AttackNode node = FindInput(PlayerInput.SpecialAttack);
-			if (node == null) { return; }
-
-			curNode = node;
-			curCombo = node.command;
-
 			if(!IsAttackProcess())
 			{
+				AttackNode node = FindInput(PlayerInput.SpecialAttack);
+				if (node == null) { return; }
+
+				curNode = node;
+				curCombo = node.command;
+
 				if (!IsCurrentState(PlayerState.AttackAfterDelay)) // 콤보 입력 중이 아니면 차지
 				{
 					currentAttackState = PlayerState.ChargedAttack;
