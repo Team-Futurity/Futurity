@@ -9,10 +9,13 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public enum PlayerState : int
 	{
 		Idle,           // 대기
-		//Attack,         // 공격
-			NormalAttack,	// 일반공격 
-			ChargedAttack,	// 차지공격
-		AttackDelay,    // 공격 후 딜레이
+
+		// 공격
+		AttackDelay,		// 공격 전 딜레이
+		NormalAttack,		// 일반공격 
+		ChargedAttack,		// 차지공격
+		AttackAfterDelay,	// 공격 후 딜레이
+
 		Hit,            // 피격
 		Move,           // 이동
 		Dash,           // 대시
@@ -30,6 +33,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// Constants
 	public readonly string EnemyTag = "Enemy";
+	public readonly string ComboAttackAnimaKey = "Combo";
+	public readonly string ChargedAttackAnimaKey = "Charging";
 
 	// reference
 	public Player playerData;
@@ -44,9 +49,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// attack
 	public PlayerInput curCombo;
+	public PlayerInput nextCombo;
 	public AttackNode curNode;
 	public Tree comboTree;
 	public RadiusCapsuleCollider attackCollider;
+	public PlayerState currentAttackState;
 
 	// input
 	public bool specialIsReleased = false;
@@ -114,11 +121,13 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (context.started && !playerData.isStun)
 		{
 			AttackNode node = FindInput(PlayerInput.NormalAttack);
-			if (node != null && !IsCurrentState(PlayerState.NormalAttack))
+			if (node != null && !IsCurrentState(PlayerState.NormalAttack) && !IsCurrentState(PlayerState.AttackDelay))
 			{
 				curNode = node;
 				curCombo = node.command;
-				ChangeState(PlayerState.NormalAttack);
+				//ChangeState(PlayerState.NormalAttack);
+				currentAttackState = PlayerState.NormalAttack;
+				ChangeState(PlayerState.AttackDelay);
 			}
 		}
 	}
@@ -132,19 +141,23 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			//bool isInit = curNode == comboTree.top;
 
 			AttackNode node = FindInput(PlayerInput.SpecialAttack);
-			if (node != null )
+			if (node != null)
 			{
 				curNode = node;
 				curCombo = node.command;
 
-				if (!IsCurrentState(PlayerState.AttackDelay)) // 콤보 입력 중이 아니면 차지
+				if (!IsCurrentState(PlayerState.AttackAfterDelay)) // 콤보 입력 중이 아니면 차지
 				{
-					ChangeState(PlayerState.ChargedAttack);
+					currentAttackState = PlayerState.ChargedAttack;
+					//ChangeState(PlayerState.ChargedAttack);
 				}
 				else        // 콤보 입력 중이면 일반
 				{
-					ChangeState(PlayerState.NormalAttack);
+					currentAttackState = PlayerState.NormalAttack;
+					//ChangeState(PlayerState.NormalAttack);
 				}
+
+				ChangeState(PlayerState.AttackDelay);
 			}
 		}
 		else if(context.canceled)

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using static PlayerController;
 
-[FSMState((int)PlayerState.AttackDelay)]
+[FSMState((int)PlayerState.AttackAfterDelay)]
 public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 {
 	private readonly string IsAtttackingAnimKey = "IsAttacking";
@@ -29,12 +29,12 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		throw new System.NotImplementedException();
+
 	}
 
 	public override void Update(PlayerController unit)
 	{
-		if (currentTime > attackNode.attackSpeed * animRatio)
+		if (currentTime > attackNode.attackAfterDelay)
 		{
 			unit.curNode = unit.comboTree.top;
 			unit.ChangeState(PlayerState.Idle);

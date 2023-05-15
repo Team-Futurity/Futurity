@@ -31,10 +31,10 @@ public class PlayerAttackState : UnitState<PlayerController>
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
 
-		pc.animator.SetBool(IsAttackingAnimKey, true);
+		/*pc.animator.SetBool(IsAttackingAnimKey, true);*/
 		//pc.animator.SetTrigger(AttackTriggerAnimKey);
-		pc.animator.SetFloat(AttackTypeAnimaKey, pc.curNode.animFloat);
-		pc.curNode.Copy(pc.curNode);
+		/*pc.animator.SetFloat(AttackTypeAnimaKey, pc.curNode.animFloat);
+		pc.curNode.Copy(pc.curNode);*/
 		attackNode = pc.curNode;
 		//effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
 		currentTime = 0;
@@ -42,15 +42,13 @@ public class PlayerAttackState : UnitState<PlayerController>
 
 		pc.SetCollider(true);
 		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength);
-
-		pc.glove.SetActive(true);
 	}
 
 	public override void Update(PlayerController pc)
 	{
-		if(currentTime > attackNode.attackSpeed * animRatio)
+		if(currentTime > attackNode.attackSpeed)
 		{
-			pc.ChangeState(PlayerState.AttackDelay);
+			pc.ChangeState(PlayerState.AttackAfterDelay);
 		}
 		currentTime += Time.deltaTime;
 	}

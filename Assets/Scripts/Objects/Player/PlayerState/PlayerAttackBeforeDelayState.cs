@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerController;
 
-//[FSMState((int)PlayerController.PlayerState.Attack)]
+[FSMState((int)PlayerController.PlayerState.AttackDelay)]
 public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 {
 	// Animation Key
 	protected readonly string IsAttackingAnimKey = "IsAttacking";
-	protected readonly string AttackTypeAnimaKey = "Combo";
 
 	// etc
 	private float currentTime;
@@ -21,8 +20,10 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
 
+		string key = pc.currentAttackState == PlayerState.NormalAttack ? pc.ComboAttackAnimaKey : pc.ChargedAttackAnimaKey;
+
 		pc.animator.SetBool(IsAttackingAnimKey, true);
-		pc.animator.SetFloat(AttackTypeAnimaKey, pc.curNode.animFloat);
+		pc.animator.SetFloat(key, pc.curNode.animFloat);
 		pc.curNode.Copy(pc.curNode);
 		attackNode = pc.curNode;
 		currentTime = 0;
@@ -32,9 +33,9 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 
 	public override void Update(PlayerController pc)
 	{
-		if(currentTime > attackNode.attackSpeed * animRatio)
+		if(currentTime > attackNode.attackDelay)
 		{
-			pc.ChangeState(PlayerState.AttackDelay);
+			pc.ChangeState(pc.currentAttackState);
 		}
 		currentTime += Time.deltaTime;
 	}
