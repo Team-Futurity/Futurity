@@ -11,7 +11,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		FDebug.Log("Hit Begin");
 		curTime = 0;
 		unit.animator.SetTrigger(unit.hitAnimParam);
-		unit.eMaterial.color = Color.red;
+		unit.eMaterial.color = /*Color.red;*/new Color(225 / 255f, 100 / 255f, 100 / 255f);
 	}
 
 	public override void Update(EnemyController unit)
