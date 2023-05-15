@@ -2,23 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIWindowManager : Singleton<UIWindowManager>
 {
 	public GameObject modalBackground;
-	GameObject parentCanvas;
+	private GameObject parentCanvas;
+	private Transform topCanvasTransform;
 
-	private void Awake()
+	private void Start()
 	{
-		base.Awake();
-
 		if (!modalBackground)
 		{
 			modalBackground = new GameObject("modalBackground");
 			modalBackground.AddComponent<CanvasRenderer>();
 			Image image = modalBackground.AddComponent<Image>();
 			image.color = new Color(0, 0, 0, 0.5f);
+		}
+
+
+		topCanvasTransform = FindTopCanvas().transform;
+
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	//#설명#	Scene이 로드될 때마다 topCanvasTransform을 다시 설정하기 위해 FindTopCanvas를 호출한다.
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		topCanvasTransform = FindTopCanvas().transform;
+	}
+
+	//#설명#	가장 상위 Canvas를 찾아서 topCanvasTransform에 할당함
+	private GameObject FindTopCanvas()
+	{
+		Canvas[] allCanvases = FindObjectsOfType<Canvas>();
+
+		Canvas topCanvas = null;
+		foreach (Canvas canvas in allCanvases)
+		{
+			if (topCanvas == null || canvas.sortingOrder > topCanvas.sortingOrder)
+			{
+				topCanvas = canvas;
+			}
+		}
+		
+		if (topCanvas != null)
+        {
+            Debug.Log("Top Canvas: " + topCanvas.name);
+			return topCanvas.gameObject;
+		}
+        else
+        {
+            Debug.Log("No Canvas found.");
+			return null;
 		}
 	}
 
@@ -53,6 +90,22 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		rectTransform.localPosition = instancePosition;
 		rectTransform.localScale = windowScale;
 		newUI.GetComponent<UIWindowController>().parentObject = uiParent.gameObject;
+
+		return newUI;
+	}
+
+	//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
+	public GameObject UIWindowTopOpen(GameObject OpenUiWindowObject, Vector2 instancePosition, Vector2 windowScale)
+	{
+		GameObject newUI = Instantiate(OpenUiWindowObject, topCanvasTransform);
+		if (!newUI.CompareTag("UIWindow"))
+		{
+			newUI.tag = "UIWindow";
+		}
+		RectTransform rectTransform = newUI.GetComponent<RectTransform>();
+		rectTransform.localPosition = instancePosition;
+		rectTransform.localScale = windowScale;
+		newUI.GetComponent<UIWindowController>().parentObject = topCanvasTransform.gameObject;
 
 		return newUI;
 	}
