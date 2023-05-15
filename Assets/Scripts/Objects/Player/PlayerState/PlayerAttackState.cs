@@ -42,6 +42,8 @@ public class PlayerAttackState : UnitState<PlayerController>
 
 		pc.SetCollider(true);
 		pc.attackCollider.SetCollider(attackNode.skillAngle, attackNode.skillRange);
+
+		pc.glove.SetActive(true);
 	}
 
 	public override void Update(PlayerController pc)
@@ -59,8 +61,6 @@ public class PlayerAttackState : UnitState<PlayerController>
 
 	public override void End(PlayerController pc)
 	{
-		//юс╫ц
-		pc.glove.SetActive(false);
 		pc.rigid.velocity = Vector3.zero;
 
 		pc.attackCollider.radiusCollider.enabled = false;

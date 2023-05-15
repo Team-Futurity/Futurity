@@ -69,6 +69,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		unit = this;
 		SetUp(PlayerState.Idle);
 		curNode = comboTree.top;
+
+		glove.SetActive(false);
 	}
 
 	public void OnMove(InputAction.CallbackContext context)
