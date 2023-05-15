@@ -65,7 +65,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4439521067689912936
 Transform:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   enemyData: {fileID: 4439521067689912932}
   animator: {fileID: 0}
   rigid: {fileID: 0}
-  eMaterial: {fileID: 2100000, guid: 15017b30e4f67a04189f54b5ee37a900, type: 2}
+  eMaterial: {fileID: 2100000, guid: 2a76badc884bbd943acdef287cc9086f, type: 2}
   chaseRange: {fileID: 4439521068934908808}
   atkRange: {fileID: 4439521066975479224}
   atkCollider: {fileID: 4439521067800669048}
@@ -156,7 +156,7 @@ MonoBehaviour:
   projectileSpeed: 0
   RangedBackPos: {fileID: 0}
   hitMaxTime: 1.5
-  defaultColor: {r: 0.21568628, g: 0.21568628, b: 0.21568628, a: 255}
+  defaultColor: {r: 1, g: 1, b: 1, a: 255}
 --- !u!54 &4439521067689912938
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -340,6 +340,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: F_02_01_01_meleemonster_dummy
       objectReference: {fileID: 0}
+    - target: {fileID: 1442477315262443259, guid: 89d7b7848b4af584784ca46213014782, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a76badc884bbd943acdef287cc9086f, type: 2}
     - target: {fileID: 3769509461735893700, guid: 89d7b7848b4af584784ca46213014782, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.1390777
