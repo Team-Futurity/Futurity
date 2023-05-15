@@ -9,6 +9,7 @@ public class PlayerHitState : UnitState<PlayerController>
 	{
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
 		pc.specialIsReleased = false;
+		pc.curNode = pc.comboTree.top;
 
 		Camera.main.gameObject.GetComponent<PostProcessController>().SetVignette(0.5f);
 
