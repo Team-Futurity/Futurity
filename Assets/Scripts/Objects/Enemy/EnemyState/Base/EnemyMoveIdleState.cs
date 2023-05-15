@@ -14,13 +14,13 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		FDebug.Log("Move Idle Begin");
+		//FDebug.Log("Move Idle Begin");
 		rand = Random.Range(minF, maxF);
 
 		if (unit.moveIdleSpot == null)
 		{
-			unit.moveIdleSpot = GameObject.Instantiate(new GameObject("meleeIdlePos"),
-				unit.transformParent == null ? null : unit.transformParent.transform);
+			unit.moveIdleSpot = new GameObject("moveIdlePos");
+			unit.moveIdleSpot.transform.SetParent(unit.transformParent.transform);
 		}
 
 		unit.animator.SetBool(unit.moveAnimParam, true);
@@ -68,7 +68,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		FDebug.Log("Move Idle End");
+		//FDebug.Log("Move Idle End");
 		unit.animator.SetBool(unit.moveAnimParam, false);
 	}
 
@@ -76,7 +76,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 	{
 		if (other.CompareTag(unit.playerTag) && !unit.isChasing)
 		{
-			FDebug.Log("Move Idle Trigger");
+			//FDebug.Log("Move Idle Trigger");
 			unit.target = other.GetComponent<UnitBase>();
 			unit.ChangeChaseState(unit);
 		}

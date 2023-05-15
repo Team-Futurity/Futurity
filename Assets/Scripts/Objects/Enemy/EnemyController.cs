@@ -47,7 +47,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Enemy enemyData;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
-	public Material eMaterial;
 
 	public CapsuleCollider chaseRange;
 	public SphereCollider atkRange;
@@ -83,8 +82,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public GameObject RangedBackPos;
 
 	//Hitted Properties
-	public float hitMaxTime = 1f;
+	public float hitMaxTime = 2f;
 	public Color defaultColor;
+	public Color damagedColor;
+
+	public Material eMaterial;
+	public SkinnedMeshRenderer skinnedMeshRenderer;
 
 	//animation name
 	public readonly string moveAnimParam = "Move";

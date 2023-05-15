@@ -8,7 +8,7 @@ public class MDefaultAttack2ndState : UnitState<EnemyController>
 	private float curTime;
 	public override void Begin(EnemyController unit)
 	{
-		FDebug.Log("MDefault Attack2nd begin");
+		//FDebug.Log("MDefault Attack2nd begin");
 		unit.animator.SetTrigger(unit.atkAnimParam);
 		curTime = 0f;
 		unit.atkRange.enabled = false;
@@ -28,7 +28,7 @@ public class MDefaultAttack2ndState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		FDebug.Log("MDefault Attack2nd End");
+		//FDebug.Log("MDefault Attack2nd End");
 		unit.atkCollider.enabled = false;
 	}
 
@@ -36,7 +36,8 @@ public class MDefaultAttack2ndState : UnitState<EnemyController>
 	{
 		if (other.CompareTag(unit.playerTag))
 		{
-			FDebug.Log("MDefault Attack2nd Trigger");
+			//FDebug.Log("MDefault Attack2nd Trigger");
+			unit.enemyData.Attack(unit.target);
 		}
 	}
 

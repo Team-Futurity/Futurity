@@ -11,7 +11,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	private bool effectActive = false;
 	private float curTime = 0f;
-	private float endTime = 1.0f;
+	private float endTime = 0.8f;
 
 	private void Start()
 	{

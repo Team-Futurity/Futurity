@@ -8,7 +8,7 @@ public class MDefaultChaseState : UnitState<EnemyController>
 {
 	public override void Begin(EnemyController unit)
 	{
-		FDebug.Log("MDefault Chase begin");
+		//FDebug.Log("MDefault Chase begin");
 		unit.animator.SetBool("Move", true);
 		unit.chaseRange.enabled = false;
 		unit.atkRange.enabled = true;
@@ -31,7 +31,7 @@ public class MDefaultChaseState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		FDebug.Log("MDefault Chase end");
+		//FDebug.Log("MDefault Chase end");
 		unit.animator.SetBool("Move", false);
 		unit.atkRange.enabled = false;
 	}
@@ -40,7 +40,7 @@ public class MDefaultChaseState : UnitState<EnemyController>
 	{
 		if (other.CompareTag("Player"))
 		{
-			FDebug.Log("MDefault Chase Trigger");
+			//FDebug.Log("MDefault Chase Trigger");
 			unit.rigid.velocity = Vector3.zero;
 			unit.ChangeState(EnemyController.EnemyState.MDefaultAttack);
 		}

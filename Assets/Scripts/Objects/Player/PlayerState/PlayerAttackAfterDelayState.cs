@@ -5,7 +5,6 @@ using static PlayerController;
 [FSMState((int)PlayerState.AttackAfterDelay)]
 public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 {
-	private readonly string IsAtttackingAnimKey = "IsAttacking";
 	private float currentTime;
 	protected AttackNode attackNode;
 
@@ -51,7 +50,7 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 		if (currentTime > attackNode.attackAfterDelay)
 		{
 			unit.curNode = unit.comboTree.top;
-			unit.animator.SetBool(IsAtttackingAnimKey, false);
+			unit.animator.SetBool(unit.IsAttackingAnimKey, false);
 			unit.ChangeState(PlayerState.Idle);
 
 			return;

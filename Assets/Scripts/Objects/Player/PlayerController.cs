@@ -35,6 +35,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public readonly string EnemyTag = "Enemy";
 	public readonly string ComboAttackAnimaKey = "Combo";
 	public readonly string ChargedAttackAnimaKey = "Combo";
+	public readonly string IsAttackingAnimKey = "IsAttacking";
 
 	// reference
 	public Player playerData;
