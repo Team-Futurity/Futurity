@@ -19,7 +19,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		Hit,            // 피격
 		Move,           // 이동
 		Dash,           // 대시
-		Stun,           // 기절
 		Death,          // 사망
 	}
 
@@ -77,16 +76,21 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		SetUp(PlayerState.Idle);
 		curNode = comboTree.top;
 
+		nextCombo = PlayerInput.None;
+
 		glove.SetActive(false);
 	}
 
 	public void OnMove(InputAction.CallbackContext context)
 	{
-		//if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Stun))
-		//	return;
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || IsAttackProcess())
+		{
+			return;
+		}
+		
 
 		Vector3 input = context.ReadValue<Vector3>();
-		if (input != null && !playerData.isStun)
+		if (input != null)
 		{
 			moveDir = new Vector3(input.x, 0f, input.y);
 
@@ -121,13 +125,23 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (context.started && !playerData.isStun)
 		{
 			AttackNode node = FindInput(PlayerInput.NormalAttack);
-			if (node != null && !IsCurrentState(PlayerState.NormalAttack) && !IsCurrentState(PlayerState.AttackDelay))
+
+			if(node == null) { return; }
+
+			if (!IsAttackProcess())
 			{
 				curNode = node;
 				curCombo = node.command;
 				//ChangeState(PlayerState.NormalAttack);
 				currentAttackState = PlayerState.NormalAttack;
 				ChangeState(PlayerState.AttackDelay);
+			}
+			else
+			{
+				if(nextCombo == PlayerInput.None)
+				{
+					nextCombo = PlayerInput.NormalAttack;
+				}
 			}
 		}
 	}
@@ -141,17 +155,19 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			//bool isInit = curNode == comboTree.top;
 
 			AttackNode node = FindInput(PlayerInput.SpecialAttack);
-			if (node != null)
-			{
-				curNode = node;
-				curCombo = node.command;
+			if (node == null) { return; }
 
+			curNode = node;
+			curCombo = node.command;
+
+			if(!IsAttackProcess())
+			{
 				if (!IsCurrentState(PlayerState.AttackAfterDelay)) // 콤보 입력 중이 아니면 차지
 				{
 					currentAttackState = PlayerState.ChargedAttack;
 					//ChangeState(PlayerState.ChargedAttack);
 				}
-				else        // 콤보 입력 중이면 일반
+				else // 콤보 입력 중이면 일반
 				{
 					currentAttackState = PlayerState.NormalAttack;
 					//ChangeState(PlayerState.NormalAttack);
@@ -159,8 +175,16 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 				ChangeState(PlayerState.AttackDelay);
 			}
+			else
+			{
+				if (nextCombo == PlayerInput.None)
+				{
+					nextCombo = PlayerInput.NormalAttack;
+				}
+			}
+
 		}
-		else if(context.canceled)
+		else if (context.canceled)
 		{
 			specialIsReleased = true;
 		}
@@ -182,5 +206,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		basicCollider.enabled = isEnabled;
 		attackCollider.enabled = isEnabled;
+	}
+
+	public bool IsAttackProcess()
+	{
+  		 return IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
 	}
 }

@@ -36,12 +36,14 @@ public class PlayerAttackState : UnitState<PlayerController>
 		/*pc.animator.SetFloat(AttackTypeAnimaKey, pc.curNode.animFloat);
 		pc.curNode.Copy(pc.curNode);*/
 		attackNode = pc.curNode;
-		//effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
+		effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
 		currentTime = 0;
 		//cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
 
 		pc.SetCollider(true);
 		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength);
+
+		FDebug.Log("CurrentState : Attack");
 	}
 
 	public override void Update(PlayerController pc)
