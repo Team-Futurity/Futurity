@@ -95,7 +95,7 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	}
 
 	//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
-	public GameObject UIWindowTopOpen(GameObject OpenUiWindowObject, Vector2 instancePosition, Vector2 windowScale)
+	public GameObject UIWindowTopOpen(GameObject OpenUiWindowObject, Vector2 windowPosition, Vector2 windowScale)
 	{
 		GameObject newUI = Instantiate(OpenUiWindowObject, topCanvasTransform);
 		if (!newUI.CompareTag("UIWindow"))
@@ -103,7 +103,7 @@ public class UIWindowManager : Singleton<UIWindowManager>
 			newUI.tag = "UIWindow";
 		}
 		RectTransform rectTransform = newUI.GetComponent<RectTransform>();
-		rectTransform.localPosition = instancePosition;
+		rectTransform.localPosition = windowPosition;
 		rectTransform.localScale = windowScale;
 		newUI.GetComponent<UIWindowController>().parentObject = topCanvasTransform.gameObject;
 
