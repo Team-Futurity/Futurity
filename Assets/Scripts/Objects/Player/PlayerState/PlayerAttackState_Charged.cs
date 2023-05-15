@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [FSMState((int)PlayerController.PlayerState.ChargedAttack)]
@@ -35,13 +36,15 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	// Layer
 	public LayerMask wallLayer = 1 << 6; // wall Layer
 
+	private Transform curEffect;
+
 	public PlayerAttackState_Charged() : base("ChargeTrigger", "Charging") { }
 
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
-		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
-		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
+		//playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
+		//unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
 		currentTime = 0;
 		currentLevel = 0;
 
@@ -75,10 +78,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		FDebug.DrawRay(unit.transform.position, unit.transform.forward * rayLength, UnityEngine.Color.blue);
 
 		if (!isReleased) { return; }
+
 		// 돌진 전 위치에서 현재 위치로 향하는 벡터의 크기가 targetMagnitude보다 작고
 		if (((unit.transform.position - originPos).magnitude < targetMagnitude))
 		{
-			unit.SetCollider(false);
+			/*unit.SetCollider(false);
 
 			// Collision연산으로 부족한 부분을 메꿀 Ray연산
 			// ray의 길이는 조금 논의가 필요할지도...?
@@ -87,9 +91,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				//CollisionToWallProc(unit);
 			}
 
-			unit.SetCollider(true);
+			unit.SetCollider(true);*/
 
 			// while문이 도는 동안 속도를 moveSpeed로 고정
+			FDebug.Log("This is Fixed");
 			unit.rigid.velocity = forward * moveSpeed;
 		}
 		else // targetPos에 도달한 경우
@@ -119,7 +124,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		if (collision.transform.CompareTag(unit.EnemyTag))
 		{
-			Debug.Log("ENTER START");
 			// 돌진 중 한 번도 적과 충돌한 적 없다면
 			if (firstEnemy == null)
 			{
@@ -142,12 +146,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			CollisionToWallProc(unit);
 			return;
 		}
-		Debug.Log("하윙");
 	}
 
 	public override void OnCollisionStay(PlayerController unit, Collision collision)
 	{
-		Debug.Log("STAY TEN");
 		if (collision.gameObject.layer == wallLayer.value)
 		{
 			CollisionToWallProc(unit);
@@ -167,11 +169,25 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			if (currentLevel != level)
 			{
 				currentLevel = level;
+
+				if(currentLevel > 0)
+				{
+					if(curEffect != null)
+					{
+						unit.rushObjectPool.DeactiveObject(curEffect);
+					}
+						
+					unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[level-1].effect);
+					curEffect = unit.rushObjectPool.ActiveObject(unit.rushEffects[level-1].effectPos.position);
+					var particle = curEffect.GetComponent<ParticleController>();
+					particle.Initialize(unit.rushObjectPool);
+				}
+				
 			}
 		}
 		else
 		{
-			FDebug.Log($"Level : {currentLevel}");
+			FDebug.Log($"Rush Level : {currentLevel}");
 			unit.specialIsReleased = false;
 			isReleased = true;
 
@@ -187,6 +203,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			targetPos = originPos + forward * (attackLengthMark / Meter);
 			targetMagnitude = (targetPos - originPos).magnitude;
 			basicRayLength = moveSpeed * Time.fixedDeltaTime + unit.basicCollider.radius;
+
+			if (curEffect != null)
+			{
+				unit.rushObjectPool.DeactiveObject(curEffect);
+			}
 		}
 
 		if (firstEnemy != null)

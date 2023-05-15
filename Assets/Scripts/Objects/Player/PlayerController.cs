@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,6 +60,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	//임시
 	public GameObject glove;
+	[Serializable]
 	public struct EffectData
 	{
 		public Transform effectPos;
@@ -94,7 +96,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			return;
 		}
-
 		
 
 		Vector3 input = context.ReadValue<Vector3>();
@@ -106,7 +107,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			{
 				if (IsCurrentState(PlayerState.ChargedAttack))
 				{
-					AddSubState(PlayerState.Move);
+					//AddSubState(PlayerState.Move);
 				}
 				return;
 
@@ -161,12 +162,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
-		if (context.started && !playerData.isStun)
-		{
-			// 현재 노드가 top노드인지 체크
-			// top노드라는 건, 콤보 입력 중이 아니라는 것.
-			//bool isInit = curNode == comboTree.top;
+		if(playerData.isStun) { return; }
 
+		if (context.started)
+		{
 			if (!IsAttackProcess())
 			{
 				AttackNode node = FindInput(PlayerInput.SpecialAttack);
@@ -196,7 +195,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				}
 			}
 		}
-		else if (context.canceled)
+		else if (context.canceled && !IsAttackProcess())
 		{
 			specialIsReleased = true;
 		}
