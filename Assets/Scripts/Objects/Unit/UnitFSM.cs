@@ -81,6 +81,7 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		if (GetState(subEnumState, ref state))
 		{
 			AddSubState(state);
+			Debug.Log("SUB STATE" + state);
 		}
 	}
 
@@ -162,8 +163,6 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 
 	protected virtual void OnCollisionEnter(Collision collision)
 	{
-		Debug.Log("¿øÁ¶ ¸ÀÁý");
-
 		currentState?.OnCollisionEnter(unit, collision);
 		subState?.OnCollisionEnter(unit, collision);
 	}

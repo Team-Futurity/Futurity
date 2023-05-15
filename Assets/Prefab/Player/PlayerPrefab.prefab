@@ -208,6 +208,37 @@ MonoBehaviour:
   angle: 0
   radius: 0
   radiusCollider: {fileID: 0}
+--- !u!1 &6911967478866673180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7136293741209816592}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7136293741209816592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6911967478866673180}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 4.685, z: 0}
+  m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5328251835375101389}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9199333450892302302
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,10 +275,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3131349103004748970}
+  - {fileID: 8955659005879542691}
   - {fileID: 774150179230461155}
   - {fileID: 2014832257133555644}
   - {fileID: 2014832257151512454}
+  - {fileID: 7136293741209816592}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -260,7 +292,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9199333450892302302}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 38533b871cd808b4594f1765969c915b, type: 3}
   m_Controller: {fileID: 9100000, guid: cf80628b31e3f5a4ca765b29e756872c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -519,6 +551,7 @@ MonoBehaviour:
   basicCollider: {fileID: 0}
   moveDir: {x: 0, y: 0, z: 0}
   curCombo: 0
+  nextCombo: 0
   curNode:
     command: 0
     childNodes:
@@ -526,12 +559,12 @@ MonoBehaviour:
       childNodes:
       - command: 0
         childNodes: []
-        skillRange: 0
-        skillSpeed: 0
-        skillDelay: 0
-        skillAngle: 0
+        attackLength: 0
+        attackAngle: 0
         attackLengthMark: 0
         attackDelay: 0
+        attackSpeed: 0
+        attackAfterDelay: 0
         attackST: 0
         loopCount: 0
         loopDelay: 0
@@ -540,7 +573,6 @@ MonoBehaviour:
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
         animFloat: 0
-        moveDistance: 0
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
@@ -558,12 +590,12 @@ MonoBehaviour:
             Data3: 0
             Data4: 0
           Path: 
-      skillRange: 1
-      skillSpeed: 1
-      skillDelay: 0
-      skillAngle: 90
+      attackLength: 0
+      attackAngle: 0
       attackLengthMark: 0
       attackDelay: 0
+      attackSpeed: 0
+      attackAfterDelay: 0
       attackST: 0
       loopCount: 0
       loopDelay: 0
@@ -572,7 +604,6 @@ MonoBehaviour:
       effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
       effectParent: {fileID: 0}
       animFloat: 0
-      moveDistance: 0
       randomShakePower: 0
       curveShakePower: 0
       shakeTime: 0
@@ -590,12 +621,12 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
-    skillRange: 0
-    skillSpeed: 0
-    skillDelay: 0
-    skillAngle: 0
+    attackLength: 0
+    attackAngle: 0
     attackLengthMark: 0
     attackDelay: 0
+    attackSpeed: 0
+    attackAfterDelay: 0
     attackST: 0
     loopCount: 0
     loopDelay: 0
@@ -604,7 +635,6 @@ MonoBehaviour:
     effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
     effectParent: {fileID: 0}
     animFloat: 0
-    moveDistance: 0
     randomShakePower: 0
     curveShakePower: 0
     shakeTime: 0
@@ -632,21 +662,20 @@ MonoBehaviour:
           childNodes:
           - command: 1
             childNodes: []
-            skillRange: 1
-            skillSpeed: 1
-            skillDelay: 0
-            skillAngle: 120
+            attackLength: 200
+            attackAngle: 360
             attackLengthMark: 0
-            attackDelay: 0
-            attackST: 0
+            attackDelay: 0.933
+            attackSpeed: 0.266
+            attackAfterDelay: 0
+            attackST: 4
             loopCount: 0
             loopDelay: 0
             collider: {fileID: 4068547685948332291}
             effectPos: {fileID: 2014832257133555644}
             effectPrefab: {fileID: 574209011667149413, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
             effectParent: {fileID: 0}
-            animFloat: 1
-            moveDistance: 5
+            animFloat: 2
             randomShakePower: 0.2
             curveShakePower: 0.2
             shakeTime: 0.25
@@ -666,21 +695,20 @@ MonoBehaviour:
               Path: 
           - command: 2
             childNodes: []
-            skillRange: 1
-            skillSpeed: 1.4
-            skillDelay: 0.533
-            skillAngle: 40
+            attackLength: 600
+            attackAngle: 40
             attackLengthMark: 0
-            attackDelay: 0
+            attackDelay: 0.533
+            attackSpeed: 1.4
+            attackAfterDelay: 0
             attackST: 4
             loopCount: 0
             loopDelay: 0
             collider: {fileID: 4068547685948332291}
             effectPos: {fileID: 2014832257133555644}
-            effectPrefab: {fileID: 919132149155446097, guid: 84c94b00c45f6f541b75d59deac06838, type: 3}
+            effectPrefab: {fileID: 2413003215335193371, guid: ef081fd31c8e4eb4c89400ca6530c908, type: 3}
             effectParent: {fileID: 0}
-            animFloat: 0
-            moveDistance: 0
+            animFloat: 2.5
             randomShakePower: 0
             curveShakePower: 0
             shakeTime: 0
@@ -698,21 +726,20 @@ MonoBehaviour:
                 Data3: 0
                 Data4: 0
               Path: 
-          skillRange: 1
-          skillSpeed: 1
-          skillDelay: 0
-          skillAngle: 120
+          attackLength: 120
+          attackAngle: 130
           attackLengthMark: 0
-          attackDelay: 0
-          attackST: 0
+          attackDelay: 0.433
+          attackSpeed: 0.666
+          attackAfterDelay: 0
+          attackST: 2
           loopCount: 0
           loopDelay: 0
           collider: {fileID: 4068547685948332291}
           effectPos: {fileID: 2014832257133555644}
           effectPrefab: {fileID: 840705841883797951, guid: cd5ce593c16eea54c8e4846e1e3a8871, type: 3}
           effectParent: {fileID: 0}
-          animFloat: 0.5
-          moveDistance: 1
+          animFloat: 1.5
           randomShakePower: 0
           curveShakePower: 0
           shakeTime: 0
@@ -730,21 +757,20 @@ MonoBehaviour:
               Data3: 0
               Data4: 0
             Path: 
-        skillRange: 1
-        skillSpeed: 1
-        skillDelay: 0
-        skillAngle: 90
+        attackLength: 100
+        attackAngle: 90
         attackLengthMark: 0
-        attackDelay: 0
-        attackST: 0
+        attackDelay: 0.433
+        attackSpeed: 0.666
+        attackAfterDelay: 0
+        attackST: 1
         loopCount: 0
         loopDelay: 0
         collider: {fileID: 4068547685948332291}
         effectPos: {fileID: 2014832257133555644}
         effectPrefab: {fileID: 1882690260921930028, guid: 172d659acead98c40b2a7de240a27523, type: 3}
         effectParent: {fileID: 0}
-        animFloat: 0
-        moveDistance: 1
+        animFloat: 1
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
@@ -764,21 +790,20 @@ MonoBehaviour:
           Path: 
       - command: 2
         childNodes: []
-        skillRange: 0
-        skillSpeed: 0
-        skillDelay: 0
-        skillAngle: 0
+        attackLength: 0
+        attackAngle: 0
         attackLengthMark: 100
-        attackDelay: 0.5
-        attackST: 0
+        attackDelay: 2
+        attackSpeed: 0
+        attackAfterDelay: 0
+        attackST: 2
         loopCount: 0
         loopDelay: 0
-        collider: {fileID: 0}
+        collider: {fileID: 4068547685948332291}
         effectPos: {fileID: 5328251835375101389}
-        effectPrefab: {fileID: 8138624772055843197, guid: 44cbe8a36b06fa04b8ad651622abf341, type: 3}
+        effectPrefab: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
         effectParent: {fileID: 0}
         animFloat: 0
-        moveDistance: 0
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
@@ -800,12 +825,12 @@ MonoBehaviour:
         childNodes:
         - command: 1
           childNodes: []
-          skillRange: 0
-          skillSpeed: 0
-          skillDelay: 0
-          skillAngle: 0
+          attackLength: 0
+          attackAngle: 0
           attackLengthMark: 0
           attackDelay: 0
+          attackSpeed: 0
+          attackAfterDelay: 0
           attackST: 0
           loopCount: 0
           loopDelay: 0
@@ -814,7 +839,6 @@ MonoBehaviour:
           effectPrefab: {fileID: 0}
           effectParent: {fileID: 0}
           animFloat: 0
-          moveDistance: 0
           randomShakePower: 0
           curveShakePower: 0
           shakeTime: 0
@@ -832,12 +856,12 @@ MonoBehaviour:
               Data3: 0
               Data4: 0
             Path: 
-        skillRange: 0
-        skillSpeed: 0
-        skillDelay: 0
-        skillAngle: 0
+        attackLength: 0
+        attackAngle: 0
         attackLengthMark: 0
         attackDelay: 0
+        attackSpeed: 0
+        attackAfterDelay: 0
         attackST: 0
         loopCount: 0
         loopDelay: 0
@@ -846,7 +870,6 @@ MonoBehaviour:
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
         animFloat: 0
-        moveDistance: 0
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
@@ -864,12 +887,12 @@ MonoBehaviour:
             Data3: 0
             Data4: 0
           Path: 
-      skillRange: 0
-      skillSpeed: 0
-      skillDelay: 0
-      skillAngle: 0
+      attackLength: 0
+      attackAngle: 0
       attackLengthMark: 0
       attackDelay: 0
+      attackSpeed: 0
+      attackAfterDelay: 0
       attackST: 0
       loopCount: 0
       loopDelay: 0
@@ -878,7 +901,6 @@ MonoBehaviour:
       effectPrefab: {fileID: 0}
       effectParent: {fileID: 0}
       animFloat: 0
-      moveDistance: 0
       randomShakePower: 0
       curveShakePower: 0
       shakeTime: 0
@@ -898,8 +920,9 @@ MonoBehaviour:
         Path: 
     dataCount: 3
   attackCollider: {fileID: 4068547685948332288}
+  currentAttackState: 0
   specialIsReleased: 0
-  glove: {fileID: 8865832759358682353}
+  glove: {fileID: 0}
   dash:
     Guid:
       Data1: -1749257826
@@ -971,71 +994,66 @@ MonoBehaviour:
       Data3: -396244858
       Data4: -2039320639
     Path: event:/SE/01move/F_S_01_01_basicmove
---- !u!1001 &3242152023003196225
+--- !u!1001 &8917792569006949448
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 5328251835375101389}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
+    - target: {fileID: 919132149155446097, guid: 38533b871cd808b4594f1765969c915b, type: 3}
       propertyPath: m_Name
       value: F_02_01_01_mainchar
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 5866666021909216657, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
---- !u!4 &3131349103004748970 stripped
+    - {fileID: 5866666021909216657, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+--- !u!4 &8955659005879542691 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
-  m_PrefabInstance: {fileID: 3242152023003196225}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8865832759358682353 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -2884639134055194704, guid: cb4fdddfc4d6b5a43be09e2539aca58b, type: 3}
-  m_PrefabInstance: {fileID: 3242152023003196225}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+  m_PrefabInstance: {fileID: 8917792569006949448}
   m_PrefabAsset: {fileID: 0}

@@ -18,6 +18,8 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 
 	public override void Begin(PlayerController pc)
 	{
+		//pc.rigid.velocity = Vector3.zero;
+
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
 

@@ -11,10 +11,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		Idle,           // 대기
 
 		// 공격
-		AttackDelay,		// 공격 전 딜레이
-		NormalAttack,		// 일반공격 
-		ChargedAttack,		// 차지공격
-		AttackAfterDelay,	// 공격 후 딜레이
+		AttackDelay,        // 공격 전 딜레이
+		NormalAttack,       // 일반공격 
+		ChargedAttack,      // 차지공격
+		AttackAfterDelay,   // 공격 후 딜레이
 
 		Hit,            // 피격
 		Move,           // 이동
@@ -90,10 +90,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnMove(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || IsAttackProcess())
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun)
 		{
 			return;
 		}
+
 		
 
 		Vector3 input = context.ReadValue<Vector3>();
@@ -101,9 +102,14 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			moveDir = new Vector3(input.x, 0f, input.y);
 
-			if(IsCurrentState(PlayerState.ChargedAttack))
+			if (IsAttackProcess())
 			{
-				AddSubState(PlayerState.Move);
+				if (IsCurrentState(PlayerState.ChargedAttack))
+				{
+					AddSubState(PlayerState.Move);
+				}
+				return;
+
 			}
 			else if (!IsCurrentState(PlayerState.Move))
 			{
@@ -145,7 +151,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 			else
 			{
-				if(nextCombo == PlayerInput.None)
+				if (nextCombo == PlayerInput.None)
 				{
 					nextCombo = PlayerInput.NormalAttack;
 				}
@@ -161,7 +167,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			// top노드라는 건, 콤보 입력 중이 아니라는 것.
 			//bool isInit = curNode == comboTree.top;
 
-			if(!IsAttackProcess())
+			if (!IsAttackProcess())
 			{
 				AttackNode node = FindInput(PlayerInput.SpecialAttack);
 				if (node == null) { return; }
@@ -216,6 +222,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public bool IsAttackProcess()
 	{
-  		 return IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
+		return IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
 	}
 }
