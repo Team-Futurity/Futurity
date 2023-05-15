@@ -39,6 +39,9 @@ public class PlayerAttackState : UnitState<PlayerController>
 		//effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
 		currentTime = 0;
 		//cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
+
+		pc.SetCollider(true);
+		//pc.attackCollider.SetCollider(attackNode.)
 	}
 
 	public override void Update(PlayerController pc)
@@ -60,9 +63,6 @@ public class PlayerAttackState : UnitState<PlayerController>
 		pc.glove.SetActive(false);
 		pc.rigid.velocity = Vector3.zero;
 
-		PlayerAnimationEvents animEventEffect = pc.GetComponent<PlayerAnimationEvents>();
-		FDebug.Log($"{animEventEffect.effect.name}가 존재합니다.");
-		attackNode.effectPoolManager.DeactiveObject(animEventEffect.effect);
 		pc.attackCollider.radiusCollider.enabled = false;
 	}
 
