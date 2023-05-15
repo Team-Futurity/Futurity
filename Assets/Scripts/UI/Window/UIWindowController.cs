@@ -9,7 +9,6 @@ using UnityEngine.Events;
 //#설명#	해당 스크립트는 UIWindow가 가지고 있는 핵심 스크립트로, UIWindow의 전반적인 행동 양식을 지니고 있습니다.
 public class UIWindowController : MonoBehaviour, IPointerClickHandler
 {
-	public GameObject parentObject;
 	[SerializeField]
 	private RectTransform rectTransform;
 	[SerializeField]
@@ -22,11 +21,16 @@ public class UIWindowController : MonoBehaviour, IPointerClickHandler
 	[SerializeField]
 	public bool isLock = false;
 
+	[SerializeField]
+	private List<Button> buttons;
+
+
 
 	public void Start()
 	{
 		TryGetComponent<RectTransform>(out rectTransform);
 
+		//#설명#	isLock이 true라면 타 UI를 간섭하지 못하도록 막음
 		if (isLock)
 		{
 			modalBackground = UIWindowManager.Instance.CreateModalBackground(gameObject);
@@ -37,6 +41,9 @@ public class UIWindowController : MonoBehaviour, IPointerClickHandler
 
 			BringToFront();
 		}
+
+
+		UIWindowManager.Instance.SetButtons(buttons);
 	}
 
 
