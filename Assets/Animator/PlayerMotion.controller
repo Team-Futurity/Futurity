@@ -87,11 +87,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.84126985
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -208,14 +208,6 @@ BlendTree:
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: -3942342354247911635, guid: a499b51732388534c9ef984f295ae09a, type: 3}
-    m_Threshold: 0
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: Combo
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: -3942342354247911635, guid: 97961ad17566dba4eba52153db78e2fc, type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -223,16 +215,16 @@ BlendTree:
     m_DirectBlendParameter: Combo
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 5403238299585917123, guid: 84c94b00c45f6f541b75d59deac06838, type: 3}
-    m_Threshold: 2
+    m_Motion: {fileID: -3942342354247911635, guid: 73d802286a00d58438438ee02ddb31f7, type: 3}
+    m_Threshold: 1.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Combo
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -3942342354247911635, guid: 73d802286a00d58438438ee02ddb31f7, type: 3}
-    m_Threshold: 3
+    m_Motion: {fileID: -3942342354247911635, guid: 97961ad17566dba4eba52153db78e2fc, type: 3}
+    m_Threshold: 2
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -240,8 +232,8 @@ BlendTree:
     m_Mirror: 0
   m_BlendParameter: Combo
   m_BlendParameterY: Combo
-  m_MinThreshold: 0
-  m_MaxThreshold: 3
+  m_MinThreshold: 1
+  m_MaxThreshold: 2
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -362,9 +354,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: AttackTrigger
     m_EventTreshold: 0
-  - m_ConditionMode: 3
-    m_ConditionEvent: Combo
-    m_EventTreshold: 9999
+  - m_ConditionMode: 1
+    m_ConditionEvent: Move
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7944193198401892940}
   m_Solo: 0
@@ -389,6 +381,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: IsAttacking
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: AttackTrigger
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2846954627476364120}
@@ -467,18 +462,18 @@ AnimatorStateMachine:
     m_Position: {x: 440, y: 480, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7725854424292357697}
-    m_Position: {x: 470, y: 50, z: 0}
+    m_Position: {x: 530, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7944193198401892940}
-    m_Position: {x: 470, y: 140, z: 0}
+    m_Position: {x: 530, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2846954627476364120}
-    m_Position: {x: 510, y: 220, z: 0}
+    m_Position: {x: 530, y: 200, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
+  - {fileID: -2174133838426047755}
   - {fileID: -2365312929232512313}
   - {fileID: 8818177463903857251}
-  - {fileID: -2174133838426047755}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
