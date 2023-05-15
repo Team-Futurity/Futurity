@@ -18,10 +18,11 @@ public class AreaWarpManager : Singleton<AreaWarpManager>
 		waitForFadeDuration = new WaitForSeconds(fadeDelay + warpEndDelay);
 	}
 
-	public void WarpStart(GameObject useObject, Transform targetPosition)
+	public void WarpStart(GameObject useObject, Transform targetPosition, float delay)
 	{
 		this.useObject = useObject;
 		this.targetPosition = targetPosition;
+		fadeDelay = delay;
 
 		StartCoroutine(FadeAndWarpCoroutine());
 	}
