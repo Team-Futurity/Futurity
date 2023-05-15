@@ -35,6 +35,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	// Layer
 	public LayerMask layer = 1 << 6; // wall Layer
 
+	public PlayerAttackState_Charged() : base("ChargeTrigger", "ChargeTrigger") { }
+
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);

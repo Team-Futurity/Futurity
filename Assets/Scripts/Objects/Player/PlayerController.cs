@@ -9,7 +9,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public enum PlayerState : int
 	{
 		Idle,           // 대기
-		Attack,         // 공격
+		//Attack,         // 공격
 			NormalAttack,	// 일반공격 
 			ChargedAttack,	// 차지공격
 		AttackDelay,    // 공격 후 딜레이
@@ -112,11 +112,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (context.started)
 		{
 			AttackNode node = FindInput(PlayerInput.NormalAttack);
-			if (node != null && !IsCurrentState(PlayerState.Attack))
+			if (node != null && !IsCurrentState(PlayerState.NormalAttack))
 			{
 				curNode = node;
 				curCombo = node.command;
-				ChangeState(PlayerState.Attack);
+				ChangeState(PlayerState.NormalAttack);
 			}
 		}
 	}

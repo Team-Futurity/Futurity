@@ -5,6 +5,8 @@ using UnityEngine;
 [FSMState((int)PlayerController.PlayerState.NormalAttack)]
 public class PlayerAttackState_Normal : PlayerAttackState
 {
+	public PlayerAttackState_Normal() : base("ComboTrigger", "Combo") { }
+
 	public override void Begin(PlayerController pc)
 	{
 		base.Begin(pc);

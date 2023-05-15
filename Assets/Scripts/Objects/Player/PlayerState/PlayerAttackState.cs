@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerController;
 
-[FSMState((int)PlayerController.PlayerState.Attack)]
+//[FSMState((int)PlayerController.PlayerState.Attack)]
 public class PlayerAttackState : UnitState<PlayerController>
 {
 	// Animation Key
@@ -19,6 +19,12 @@ public class PlayerAttackState : UnitState<PlayerController>
 	private Transform effect;
 	//private CameraController cam;
 	protected AttackNode attackNode;
+
+	protected PlayerAttackState(string attackTriggerKey, string attackTypeKey)
+	{
+		AttackTriggerAnimKey = attackTriggerKey;
+		AttackTypeAnimaKey = attackTypeKey;
+	}
 
 	public override void Begin(PlayerController pc)
 	{
