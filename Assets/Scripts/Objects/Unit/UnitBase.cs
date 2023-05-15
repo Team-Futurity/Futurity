@@ -8,6 +8,7 @@ public abstract class UnitBase : MonoBehaviour
 	public UnitStatus status;
 
 	public bool isGodMode = false;
+	public bool isStun = false;
 
 	protected virtual float GetCritical()
 	{

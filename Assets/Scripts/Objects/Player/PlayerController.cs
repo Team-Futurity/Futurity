@@ -77,7 +77,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		//	return;
 
 		Vector3 input = context.ReadValue<Vector3>();
-		if (input != null)
+		if (input != null && !playerData.isStun)
 		{
 			moveDir = new Vector3(input.x, 0f, input.y);
 
@@ -97,7 +97,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		/*if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Stun))
 			return;
 */
-		if (context.performed)
+		if (context.performed && !playerData.isStun)
 		{
 			if (!IsCurrentState(PlayerState.Dash))
 			{
@@ -109,7 +109,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnNormalAttack(InputAction.CallbackContext context)
 	{
-		if (context.started)
+		if (context.started && !playerData.isStun)
 		{
 			AttackNode node = FindInput(PlayerInput.NormalAttack);
 			if (node != null && !IsCurrentState(PlayerState.NormalAttack))
@@ -123,7 +123,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
-		if (context.performed)
+		if (context.performed && !playerData.isStun)
 		{
 			// 현재 노드가 top노드인지 체크
 			// top노드라는 건, 콤보 입력 중이 아니라는 것.
