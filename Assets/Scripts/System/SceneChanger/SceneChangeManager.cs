@@ -32,7 +32,7 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 		asyncOperation.allowSceneActivation = false;
 
 
-		loadingBar = GameObject.Find("LoadingBar").GetComponent<Image>();
+		loadingBar = GameObject.Find("LoadingBar(Image)").GetComponent<Image>();
 
 		float timer = 0f;
 		while (!asyncOperation.isDone)
