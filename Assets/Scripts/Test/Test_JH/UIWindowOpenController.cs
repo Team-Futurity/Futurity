@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class UIWindowOpenButton : MonoBehaviour
+public class UIWindowOpenController : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject openUiWindow;
 	[SerializeField]
 	private Transform openUiWindowParent;
 	[SerializeField]
-	private Vector2 instancePosition = Vector2.zero;
+	private Vector2 windowPosition = Vector2.zero;
 	[SerializeField]
 	private Vector2 windowScale = Vector2.one;
 	[SerializeField]
@@ -18,25 +18,27 @@ public class UIWindowOpenButton : MonoBehaviour
 	[SerializeField]
 	private UnityEvent[] windowEvents = new UnityEvent[8];
 
+
+
 	//#설명#	세로운 UI를 인스턴스화 시킨다.
-	public void UiOpenButtonClick()
+	public void UiOpen()
 	{
 		GameObject instanceUi;
 		if (openUiWindow)
 		{
 			if (isWindowLock)
 			{
-				instanceUi = UIWindowManager.Instance.UIWindowTopOpen(openUiWindow, instancePosition, windowScale);
+				instanceUi = UIWindowManager.Instance.UIWindowTopOpen(openUiWindow, windowPosition, windowScale);
 			}
 			else
 			{
 				if (openUiWindowParent)
 				{
-					instanceUi = UIWindowManager.Instance.UIWindowOpen(openUiWindow, openUiWindowParent, instancePosition, windowScale);
+					instanceUi = UIWindowManager.Instance.UIWindowOpen(openUiWindow, openUiWindowParent, windowPosition, windowScale);
 				}
 				else
 				{
-					instanceUi = UIWindowManager.Instance.UIWindowOpen(openUiWindow, transform.parent, instancePosition, windowScale);
+					instanceUi = UIWindowManager.Instance.UIWindowOpen(openUiWindow, transform.parent, windowPosition, windowScale);
 				}
 			}
 
