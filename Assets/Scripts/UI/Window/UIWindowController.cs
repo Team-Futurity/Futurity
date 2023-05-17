@@ -56,8 +56,7 @@ public class UIWindowController : MonoBehaviour, IPointerClickHandler
 	//#설명#	자기 자신을 닫는다.
 	public void UIWindowClose()
 	{
-		UIWindowManager.Instance.modalBackground.SetActive(false);
-		Destroy(this.gameObject);
+		UIWindowManager.Instance.UIWindowClose(this.gameObject);
 	}
 
 	//#설명#	형제 객체들을 전부 닫아버린다.
@@ -82,5 +81,10 @@ public class UIWindowController : MonoBehaviour, IPointerClickHandler
 	public void EventStarter(int eventNumber)
 	{
 		windowEvents[eventNumber]?.Invoke();
+	}
+
+	public List<Button> GetButtons()
+	{
+		return buttons;
 	}
 }

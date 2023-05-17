@@ -9,10 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class UIWindowManager : Singleton<UIWindowManager>
 {
-	public InputActionReference leftAction;
-	public InputActionReference rightAction;
-	public InputActionReference selectAction;
-
+	public List<GameObject> windows = new List<GameObject>();
 	public List<Button> buttons;
 
 	[SerializeField]
@@ -21,8 +18,11 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	private GameObject currentButton;
 
 	public GameObject modalBackground;
-	private GameObject parentCanvas;
 	private Transform topCanvasTransform;
+
+	public InputActionReference leftAction;
+	public InputActionReference rightAction;
+	public InputActionReference selectAction;
 
 	private void Start()
 	{
@@ -111,15 +111,20 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		return modalBackground;
 	}
 
+	public void SetWindow(GameObject window)
+	{
+		windows.Add(window);
+	}
 
 
-	#region UIWindowOpenClose
-	public GameObject UIWindowOpen(GameObject OpenUiWindowObject, Transform uiParent, Vector2 instancePosition, Vector2 windowScale)
+
+	#region UIWindowOpen&Close
+	public GameObject UIWindowOpen(GameObject openUiWindowObject, Transform uiParent, Vector2 instancePosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
 
-		GameObject newUI = Instantiate(OpenUiWindowObject, uiParent);
+		GameObject newUI = Instantiate(openUiWindowObject, uiParent);
 		if (!newUI.CompareTag("UIWindow"))
 		{
 			newUI.tag = "UIWindow";
@@ -127,16 +132,18 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		RectTransform rectTransform = newUI.GetComponent<RectTransform>();
 		rectTransform.localPosition = instancePosition;
 		rectTransform.localScale = windowScale;
+		windows.Add(newUI);
 
+		SelectButton(0);
 		return newUI;
 	}
 
-	public GameObject UIWindowTopOpen(GameObject OpenUiWindowObject, Vector2 windowPosition, Vector2 windowScale)
+	public GameObject UIWindowTopOpen(GameObject openUiWindowObject, Vector2 windowPosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
 
 
-		GameObject newUI = Instantiate(OpenUiWindowObject, topCanvasTransform);
+		GameObject newUI = Instantiate(openUiWindowObject, topCanvasTransform);
 		if (!newUI.CompareTag("UIWindow"))
 		{
 			newUI.tag = "UIWindow";
@@ -144,8 +151,27 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		RectTransform rectTransform = newUI.GetComponent<RectTransform>();
 		rectTransform.localPosition = windowPosition;
 		rectTransform.localScale = windowScale;
+		windows.Add(newUI);
+
+		SelectButton(0);
 
 		return newUI;
+	}
+	public void UIWindowClose(GameObject closeUiWindowObject)
+	{
+		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
+
+		int windowNum = windows.Count - 2;
+		windows.Remove(closeUiWindowObject);
+		modalBackground.SetActive(false);
+
+		if (windowNum >= 0)
+		{
+			SetButtons(windows[windowNum].GetComponent<UIWindowController>().GetButtons());
+			SelectButton(0);
+		}
+
+		Destroy(closeUiWindowObject);
 	}
 
 	public void UIWindowChildAllClose(Transform parentTransform)
