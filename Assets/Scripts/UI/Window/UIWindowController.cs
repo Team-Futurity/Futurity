@@ -24,6 +24,9 @@ public class UIWindowController : MonoBehaviour, IPointerClickHandler
 	[SerializeField]
 	private List<Button> buttons;
 
+	[SerializeField]
+	private UnityEvent closeEvent;
+
 
 
 	public void Start()
@@ -57,6 +60,7 @@ public class UIWindowController : MonoBehaviour, IPointerClickHandler
 	public void UIWindowClose()
 	{
 		UIWindowManager.Instance.UIWindowClose(this.gameObject);
+		closeEvent?.Invoke();
 	}
 
 	//#설명#	형제 객체들을 전부 닫아버린다.
