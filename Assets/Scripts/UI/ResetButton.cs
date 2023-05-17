@@ -5,9 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class ResetButton : MonoBehaviour
 {
-    public string _sceneName;
+    private SceneKeyData sceneKeyData;
     public void RestartButton()
     {
-		SceneChangeManager.Instance.SceneLoader(_sceneName);
+		sceneKeyData = new SceneKeyData();
+
+		sceneKeyData.sceneName = SceneManager.GetActiveScene().name;
+
+		SceneChangeManager.Instance.SceneLoader(sceneKeyData);
     }
 }
