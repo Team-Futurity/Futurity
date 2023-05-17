@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-	public void SceneChange(string loadSceneName)
+	public void SceneChange(SceneKeyData sceneKeyData)
 	{
-		SceneChangeManager.Instance.SceneLoader(loadSceneName);
+		SceneChangeManager.Instance.SceneLoader(sceneKeyData);
     }
 
 	public void ResetScene()

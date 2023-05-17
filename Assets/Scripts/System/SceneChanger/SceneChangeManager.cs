@@ -9,11 +9,17 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 	private string loadSceneName;
 
 	[SerializeField]
-	private Image loadingBar;
+	private Image loadingBarImage;
+	[SerializeField]
+	private GameObject loadingBar;
 
-	public void SceneLoader(string loadSceneName)
+	[SerializeField]
+	private SceneKeyData loadSceneKey;
+
+	public void SceneLoader(SceneKeyData loadSceneKey)
 	{
-		this.loadSceneName = loadSceneName;
+		this.loadSceneKey = loadSceneKey;
+		loadSceneName = loadSceneKey.sceneName;
 		SceneManager.LoadScene("LoadingScene");
 		StartCoroutine(LoadSceneProcess());
 	}
@@ -32,7 +38,13 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 		asyncOperation.allowSceneActivation = false;
 
 
-		loadingBar = GameObject.Find("LoadingBar(Image)").GetComponent<Image>();
+		loadingBar = GameObject.Find("LoadingBar");
+		LoadingSceneController loadingController = loadingBar.GetComponent<LoadingSceneController>();
+		loadingBarImage = loadingController.loadingBar;
+
+
+		loadingController.SetStageNameObject(loadSceneKey.chapterName, loadSceneKey.sceneName, loadSceneKey.incidentName);
+
 
 		float timer = 0f;
 		while (!asyncOperation.isDone)
@@ -41,20 +53,22 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 
 			if (asyncOperation.progress < 0.9f)
 			{
-				loadingBar.fillAmount = asyncOperation.progress;
+				loadingBarImage.fillAmount = asyncOperation.progress;
 			}
 			else
 			{
 				timer += Time.unscaledDeltaTime;
-				loadingBar.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
+				loadingBarImage.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
 
 				//Scene의 로딩이 끝날경우 Scene활성화(번경)
-				if (loadingBar.fillAmount >= 1f)
+				if (loadingBarImage.fillAmount >= 1f)
 				{
 					asyncOperation.allowSceneActivation = true;
 					yield break;
 				}
 			}
+
+			FDebug.Log($"Loading 진행도 : {(int)(loadingBarImage.fillAmount * 100)}");
 		}
 	}
 }
