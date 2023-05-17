@@ -24,9 +24,15 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 
 		string key = pc.currentAttackState == PlayerState.NormalAttack ? pc.ComboAttackAnimaKey : pc.ChargedAttackAnimaKey;
 
+
+		if(!pc.animator.GetBool(pc.IsAttackingAnimKey))
+		{
+			pc.animator.SetTrigger(AttackTriggerAnimKey);
+		}
+
 		pc.animator.SetBool(pc.IsAttackingAnimKey, true);
 		pc.animator.SetFloat(key, pc.curNode.animFloat);
-		pc.animator.SetTrigger(AttackTriggerAnimKey);
+		
 		pc.curNode.Copy(pc.curNode);
 		attackNode = pc.curNode;
 		currentTime = 0;
