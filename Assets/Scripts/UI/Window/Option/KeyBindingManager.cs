@@ -12,11 +12,13 @@ public class KeyBindingManager : MonoBehaviour
 
 	public void RegisterPendingBinding(InputActionReference actionReference, string key)
 	{
+		//#설명# 이 함수는 키 바인딩을 아직 적용되지 않은 바인딩 리스트에 등록합니다.
 		pendingBindings[actionReference] = key;
 	}
 
 	public void RegisterMovePendingBinding(InputActionReference actionReference, string key, string actionName)
 	{
+		//#설명# 이 함수는 움직임을 담당하는 키의 바인딩을 아직 적용되지 않은 바인딩 리스트에 등록합니다.
 		if (!pendingMultiBindings.ContainsKey(actionReference))
 		{
 			pendingMultiBindings[actionReference] = new List<string[]>();
@@ -27,6 +29,7 @@ public class KeyBindingManager : MonoBehaviour
 
 	public void ApplyBindings()
 	{
+		//#설명# 이 함수는 아직 적용되지 않은 모든 키 바인딩을 적용합니다.
 		foreach (var bindingObject in pendingBindings)
 		{
 			var action = bindingObject.Key.action;

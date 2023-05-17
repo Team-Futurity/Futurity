@@ -40,9 +40,9 @@ public class KeyBinding : MonoBehaviour
 		UpdateButtonText();
 	}
 
-	//#설명#	이 함수는 키 텍스트를 처음으로 업데이트하고 표시합니다. 이 텍스트는 해당 버튼이 현재 어떤 키에 바인딩되어 있는지를 보여줍니다.
 	private void UpdateButtonText()
 	{
+		//#설명#	이 함수는 키 텍스트를 처음으로 업데이트하고 표시합니다. 이 텍스트는 해당 버튼이 현재 어떤 키에 바인딩되어 있는지를 보여줍니다.
 		if (newBinding != "")
 		{
 			if (!isControlTypeVector3)
@@ -91,9 +91,9 @@ public class KeyBinding : MonoBehaviour
 
 
 
-	//#설명#	이 메서드는 사용자가 키 바인딩 버튼을 누를경우 작동되며, Player의 키 입력을 기다리는동안 text값을 "..."으로 둡니다.
 	private void StartKeyRemap()
 	{
+		//#설명#	이 메서드는 사용자가 키 바인딩 버튼을 누를경우 작동되며, Player의 키 입력을 기다리는동안 text값을 "..."으로 둡니다.
 		if (!waitingForKeyInput)
 		{
 			waitingForKeyInput = true;
@@ -103,8 +103,12 @@ public class KeyBinding : MonoBehaviour
 		}
 	}
 
+	WaitForSeconds WaitForKeyInputDalayTime = new WaitForSeconds(0.1f);
 	private IEnumerator WaitForKeyInput()
 	{
+		//#설명#	이 메서드는 사용자의 키 입력을 기다립니다. 키 입력이 감지되면 새로운 키 바인딩을 등록하고 텍스트를 업데이트합니다.
+		yield return WaitForKeyInputDalayTime;
+
 		while (!Keyboard.current.anyKey.wasPressedThisFrame)
 		{
 			yield return null;
