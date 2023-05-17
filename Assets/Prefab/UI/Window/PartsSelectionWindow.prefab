@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1130e4b543b6f4cace916fb887fc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentObject: {fileID: 0}
   rectTransform: {fileID: 2261325128641194246}
   windowEvents:
   - m_PersistentCalls:
@@ -115,6 +114,7 @@ MonoBehaviour:
       m_Calls: []
   modalBackground: {fileID: 0}
   isLock: 0
+  buttons: []
 --- !u!114 &5722729118103309754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,8 +254,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5666479107628937975}
-        m_TargetAssemblyTypeName: UIWindowOpenButton, Assembly-CSharp
-        m_MethodName: UiOpenButtonClick
+        m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
+        m_MethodName: UiOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openUiWindow: {fileID: 280084176244655351, guid: eb07404c3399f8f4788a725f32f2a3a6, type: 3}
   openUiWindowParent: {fileID: 0}
-  instancePosition: {x: 0, y: 0}
+  windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
   isWindowLock: 0
   windowEvents:
@@ -1385,8 +1385,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3500808714063206437}
-        m_TargetAssemblyTypeName: UIWindowOpenButton, Assembly-CSharp
-        m_MethodName: UiOpenButtonClick
+        m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
+        m_MethodName: UiOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1410,7 +1410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openUiWindow: {fileID: 280084176244655351, guid: eb07404c3399f8f4788a725f32f2a3a6, type: 3}
   openUiWindowParent: {fileID: 0}
-  instancePosition: {x: 0, y: 0}
+  windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
   isWindowLock: 0
   windowEvents:
@@ -1823,8 +1823,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3913401361947789495}
-        m_TargetAssemblyTypeName: UIWindowOpenButton, Assembly-CSharp
-        m_MethodName: UiOpenButtonClick
+        m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
+        m_MethodName: UiOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1848,7 +1848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openUiWindow: {fileID: 280084176244655351, guid: eb07404c3399f8f4788a725f32f2a3a6, type: 3}
   openUiWindowParent: {fileID: 0}
-  instancePosition: {x: 0, y: 0}
+  windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
   isWindowLock: 0
   windowEvents:
