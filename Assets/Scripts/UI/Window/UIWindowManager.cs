@@ -247,8 +247,11 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	{
 		//#설명#	주어진 인덱스의 버튼을 선택합니다.
 		currentButtonIndex = index;
-		currentButton = buttons[currentButtonIndex].gameObject;
-		EventSystem.current.SetSelectedGameObject(currentButton);
+		if (buttons.Count > 0 && buttons[currentButtonIndex] != null)
+		{
+			currentButton = buttons[currentButtonIndex].gameObject;
+			EventSystem.current.SetSelectedGameObject(currentButton);
+		}
 	}
 	#endregion
 }
