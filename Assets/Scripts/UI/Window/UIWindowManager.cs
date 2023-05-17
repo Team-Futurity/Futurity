@@ -17,7 +17,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	[SerializeField]
 	private GameObject currentButton;
 
-	public GameObject modalBackground;
 	private Transform topCanvasTransform;
 
 	public InputActionReference leftAction;
@@ -26,13 +25,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 
 	private void Start()
 	{
-		if (!modalBackground)
-		{
-			modalBackground = new GameObject("modalBackground");
-			modalBackground.AddComponent<CanvasRenderer>();
-			Image image = modalBackground.AddComponent<Image>();
-			image.color = new Color(0, 0, 0, 0.5f);
-		}
 
 		topCanvasTransform = FindTopCanvas().transform;
 
@@ -90,27 +82,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		}
 	}
 
-	public GameObject CreateModalBackground(GameObject uiWindow)
-	{
-		//#설명#	가장 상위 Canvas에다가 ModalBackground를 생성해서 다른 UI 간섭을 막음
-
-
-		modalBackground.transform.parent = topCanvasTransform;
-
-		RectTransform modalRectTransform = modalBackground.GetComponent<RectTransform>();
-		modalRectTransform.anchorMin = Vector2.zero;
-		modalRectTransform.anchorMax = Vector2.one;
-		modalRectTransform.offsetMin = Vector2.zero;
-		modalRectTransform.offsetMax = Vector2.zero;
-		modalRectTransform.SetAsLastSibling();
-
-		modalRectTransform.SetSiblingIndex(modalRectTransform.GetSiblingIndex() - 1);
-
-		modalBackground.SetActive(true);
-
-		return modalBackground;
-	}
-
 	public void SetWindow(GameObject window)
 	{
 		windows.Add(window);
@@ -163,7 +134,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 
 		int windowNum = windows.Count - 2;
 		windows.Remove(closeUiWindowObject);
-		modalBackground.SetActive(false);
 
 		if (windowNum >= 0)
 		{
