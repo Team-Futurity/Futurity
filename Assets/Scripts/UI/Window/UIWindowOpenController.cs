@@ -42,7 +42,7 @@ public class UIWindowOpenController : MonoBehaviour
 				}
 			}
 
-			SetUiEvent(instanceUi);
+			SetUiEvents(instanceUi);
 		}
 		else
 		{
@@ -51,7 +51,7 @@ public class UIWindowOpenController : MonoBehaviour
 	}
 
 	//#설명#	이벤트 전달
-	private void SetUiEvent(GameObject instanceUi)
+	private void SetUiEvents(GameObject instanceUi)
 	{
 		UIWindowController windowController = instanceUi.GetComponent<UIWindowController>();
 		windowController.isLock = isWindowLock;
@@ -65,5 +65,4 @@ public class UIWindowOpenController : MonoBehaviour
 			}
 		}
 	}
-	
 }

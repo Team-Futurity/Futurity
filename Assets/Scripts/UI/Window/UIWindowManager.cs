@@ -134,7 +134,7 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		rectTransform.localScale = windowScale;
 		windows.Add(newUI);
 
-		SelectButton(0);
+		SetButtons(newUI.GetComponent<UIWindowController>().GetButtons());
 		return newUI;
 	}
 
@@ -153,7 +153,7 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		rectTransform.localScale = windowScale;
 		windows.Add(newUI);
 
-		SelectButton(0);
+		SetButtons(newUI.GetComponent<UIWindowController>().GetButtons());
 
 		return newUI;
 	}
@@ -168,7 +168,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		if (windowNum >= 0)
 		{
 			SetButtons(windows[windowNum].GetComponent<UIWindowController>().GetButtons());
-			SelectButton(0);
 		}
 
 		Destroy(closeUiWindowObject);
@@ -191,7 +190,10 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	#region SelectButton
 	public void SetButtons(List<Button> buttons)
 	{
+		//#설명#	각 버튼값을 할당하며, 버튼 번호를 0으로 돌린다.
 		this.buttons = buttons;
+
+		SelectButton(0);
 	}
 
 	public void SetInputActionReference(InputActionReference leftAction, InputActionReference rightAction, InputActionReference selectAction)
@@ -231,8 +233,14 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	private void ClickCurrentButton()
 	{
 		//#설명#	현재 선택된 버튼을 클릭합니다.
-		Button currentButton = buttons[currentButtonIndex];
-		ExecuteEvents.Execute(currentButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+		if (buttons.Count != 0)
+		{
+			Button currentButton = buttons[currentButtonIndex];
+			ExecuteEvents.Execute(currentButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+		} else
+		{
+			Debug.Log($"할당된 버튼이 없습니다. buttons.Count : {buttons.Count}");
+		}
 	}
 
 	private void SelectButton(int index)
