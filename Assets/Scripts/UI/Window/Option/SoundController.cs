@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SoundSliderController : MonoBehaviour
+public class SoundController : MonoBehaviour
 {
 	[SerializeField]
 	private AudioManager audioManager;
@@ -15,6 +15,6 @@ public class SoundSliderController : MonoBehaviour
 
 	public void SetMasterVolume(float volume)
 	{
-		FDebug.Log($"Sound : {volume}");
+		FDebug.Log($"Sound : {(int)(volume * 100)}");
 	}
 }
