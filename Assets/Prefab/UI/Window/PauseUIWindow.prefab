@@ -107,10 +107,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 923916854844435301}
   - {fileID: 8064692914582204498}
   - {fileID: 7150548159677108194}
   - {fileID: 3719304132147746354}
-  - {fileID: 923916854844435301}
   - {fileID: 3156601622317360207}
   m_Father: {fileID: 2261325128641194246}
   m_RootOrder: 4
@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 2187621516431228537}
   - component: {fileID: 2232427404663660247}
   - component: {fileID: 4467906768959609520}
+  - component: {fileID: 9167772150873159901}
   m_Layer: 5
   m_Name: PauseUIWindow
   m_TagString: UIWindow
@@ -330,7 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1130e4b543b6f4cace916fb887fc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentObject: {fileID: 0}
   rectTransform: {fileID: 2261325128641194246}
   windowEvents:
   - m_PersistentCalls:
@@ -363,6 +363,26 @@ MonoBehaviour:
       m_Calls: []
   modalBackground: {fileID: 0}
   isLock: 0
+  buttons:
+  - {fileID: 1046871606196465850}
+  - {fileID: 438403613296470364}
+  - {fileID: 1078777666624441806}
+  - {fileID: 2240135241534694095}
+  closeEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9167772150873159901}
+        m_TargetAssemblyTypeName: pauseMenuWindowManager, Assembly-CSharp
+        m_MethodName: PauseRelease
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4467906768959609520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +397,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setDestroy: 0
   destroyDelayTime: 0
+--- !u!114 &9167772150873159901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280084176244655351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 644fbfca7378ba84f9e4b3a0d3514076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upWidthValue: 100
 --- !u!1 &387013806784618414
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +422,7 @@ GameObject:
   - component: {fileID: 6808325678499401903}
   - component: {fileID: 6711320338539743004}
   - component: {fileID: 1046871606196465850}
+  - component: {fileID: 6677571532124909286}
   m_Layer: 5
   m_Name: Continue
   m_TagString: Untagged
@@ -410,7 +444,7 @@ RectTransform:
   m_Children:
   - {fileID: 387908561852226942}
   m_Father: {fileID: 378656772469677694}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -498,7 +532,61 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6711320338539743004}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
+        m_MethodName: UIWindowClose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6677571532124909286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387013806784618414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3e8bad665be194da34314392b6ff95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onButtonClickedEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9167772150873159901}
+        m_TargetAssemblyTypeName: pauseMenuWindowManager, Assembly-CSharp
+        m_MethodName: PauseUIButtonUpWidth
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 387013806784618414}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  offButtonClickedEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9167772150873159901}
+        m_TargetAssemblyTypeName: pauseMenuWindowManager, Assembly-CSharp
+        m_MethodName: PauseUIButtonDownWidth
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 387013806784618414}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &410298145273668030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1541,7 +1629,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 378656772469677694}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3125,6 +3213,7 @@ GameObject:
   - component: {fileID: 4911224906635151379}
   - component: {fileID: 8877665042745375360}
   - component: {fileID: 1078777666624441806}
+  - component: {fileID: 3750345857509476374}
   m_Layer: 5
   m_Name: Option
   m_TagString: Untagged
@@ -3146,7 +3235,7 @@ RectTransform:
   m_Children:
   - {fileID: 3707522315086676091}
   m_Father: {fileID: 378656772469677694}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3235,6 +3324,48 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3750345857509476374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6638870048645441521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3e8bad665be194da34314392b6ff95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onButtonClickedEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9167772150873159901}
+        m_TargetAssemblyTypeName: pauseMenuWindowManager, Assembly-CSharp
+        m_MethodName: PauseUIButtonUpWidth
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 6638870048645441521}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  offButtonClickedEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9167772150873159901}
+        m_TargetAssemblyTypeName: pauseMenuWindowManager, Assembly-CSharp
+        m_MethodName: PauseUIButtonDownWidth
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 6638870048645441521}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6715935211958005239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3712,6 +3843,7 @@ GameObject:
   - component: {fileID: 7739501116095947228}
   - component: {fileID: 6226247973308537147}
   - component: {fileID: 438403613296470364}
+  - component: {fileID: 3432482546793361982}
   m_Layer: 5
   m_Name: Save & MainTitle
   m_TagString: Untagged
@@ -3733,7 +3865,7 @@ RectTransform:
   m_Children:
   - {fileID: 1061498632052337059}
   m_Father: {fileID: 378656772469677694}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3822,6 +3954,48 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3432482546793361982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7651605159539696751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3e8bad665be194da34314392b6ff95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onButtonClickedEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9167772150873159901}
+        m_TargetAssemblyTypeName: pauseMenuWindowManager, Assembly-CSharp
+        m_MethodName: PauseUIButtonUpWidth
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 7651605159539696751}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  offButtonClickedEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9167772150873159901}
+        m_TargetAssemblyTypeName: pauseMenuWindowManager, Assembly-CSharp
+        m_MethodName: PauseUIButtonDownWidth
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 7651605159539696751}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7830962679408833168
 GameObject:
   m_ObjectHideFlags: 0
