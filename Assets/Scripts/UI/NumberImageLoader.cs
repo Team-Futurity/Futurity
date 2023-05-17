@@ -18,7 +18,7 @@ public class NumberImageLoader : MonoBehaviour
 		int i10 = (num / 10) % 10;
 		int i100 = num / 100;
 
-		Debug.Log($"{gameObject}ÀÇ SetNumber : {i1}{i10}{i100}");
+		Debug.Log($"{gameObject.name}ÀÇ SetNumber : {i1}{i10}{i100}");
 
 		numberLoadField[0].sprite = numberSprite[i1];
 		numberLoadField[1].sprite = numberSprite[i10];
