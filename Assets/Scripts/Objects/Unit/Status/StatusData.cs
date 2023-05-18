@@ -32,7 +32,7 @@ public class StatusData
 		this.value = value;
 	}
 	
-	public void PlusValue(float value)
+	public void AddValue(float value)
 	{
 		this.value += value;
 	}
@@ -47,7 +47,7 @@ public class StatusData
 		this.value /= value;
 	}
 
-	public void MinusValue(float value)
+	public void SubValue(float value)
 	{
 		this.value -= value;
 	}

@@ -36,7 +36,6 @@ public class StatusManager : MonoBehaviour
 	}
 	#endregion
 
-	// Set
 	public void SetStatus(List<StatusData> datas)
 	{
 		if(datas is not null)
@@ -45,7 +44,6 @@ public class StatusManager : MonoBehaviour
 		}
 	}
 
-	// Get
 	public List<StatusData> GetStatus()
 	{
 		return copyStatus;
@@ -56,7 +54,6 @@ public class StatusManager : MonoBehaviour
 		return copyStatus?.Find((x) => x.type == type);
 	}
 
-	// Plus
 	public void AddStatus(List<StatusData> datas)
 	{
 		if(datas is not null)
@@ -65,7 +62,7 @@ public class StatusManager : MonoBehaviour
 			{
 				if (HasStatus(data.type))
 				{
-					GetStatus(data.type).PlusValue(data.GetValue());
+					GetStatus(data.type).AddValue(data.GetValue());
 				}
 			}
 		}
@@ -77,12 +74,11 @@ public class StatusManager : MonoBehaviour
 		{
 			if(HasStatus(data.type))
 			{ 
-				GetStatus(data.type).PlusValue(data.GetValue());
+				GetStatus(data.type).AddValue(data.GetValue());
 			}
 		}
 	}
 
-	// Minus
 	public void SubStatus(List<StatusData> datas)
 	{
 		if (datas is not null)
@@ -91,7 +87,7 @@ public class StatusManager : MonoBehaviour
 			{
 				if (HasStatus(data.type))
 				{
-					GetStatus(data.type).MinusValue(data.GetValue());
+					GetStatus(data.type).SubValue(data.GetValue());
 				}
 			}
 		}
@@ -103,12 +99,11 @@ public class StatusManager : MonoBehaviour
 		{
 			if (HasStatus(data.type))
 			{
-				GetStatus(data.type).MinusValue(data.GetValue());
+				GetStatus(data.type).SubValue(data.GetValue());
 			}
 		}
 	}
 
-	// Multiple
 	public void MultipleStatus(List<StatusData> datas)
 	{
 		if (datas is not null)
@@ -134,7 +129,6 @@ public class StatusManager : MonoBehaviour
 		}
 	}
 
-	// Divide
 	public void DivideStatus(List<StatusData> datas)
 	{
 		if (datas is not null)
