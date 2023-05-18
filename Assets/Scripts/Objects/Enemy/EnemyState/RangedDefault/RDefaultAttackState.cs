@@ -43,6 +43,7 @@ public class RDefaultAttackState : UnitState<EnemyController>
 		if (other.CompareTag(unit.playerTag))
 		{
 			//FDebug.Log("RDefault attack Trigger");
+			unit.enemyData.Attack(unit.target);
 		}
 	}
 
