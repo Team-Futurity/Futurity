@@ -7,7 +7,6 @@ using static PlayerController;
 public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 {
 	// Animation Key
-	protected readonly string IsAttackingAnimKey = "IsAttacking";
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
 
 	// etc
@@ -25,7 +24,7 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 
 		string key = pc.currentAttackState == PlayerState.NormalAttack ? pc.ComboAttackAnimaKey : pc.ChargedAttackAnimaKey;
 
-		pc.animator.SetBool(IsAttackingAnimKey, true);
+		pc.animator.SetBool(pc.IsAttackingAnimKey, true);
 		pc.animator.SetFloat(key, pc.curNode.animFloat);
 		pc.animator.SetTrigger(AttackTriggerAnimKey);
 		pc.curNode.Copy(pc.curNode);

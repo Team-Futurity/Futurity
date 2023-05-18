@@ -27,13 +27,17 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
-		pc.ChangeState(PlayerController.PlayerState.Hit);
+		if(!pc.IsCurrentState(PlayerController.PlayerState.ChargedAttack))
+		{
+			//pc.ChangeState(PlayerController.PlayerState.Hit);
+		}
+		
 		status.GetStatus(StatusType.CURRENT_HP).MinusValue(damage);
 	}
 
 	protected override float GetAttakPoint()
 	{
-		return 50;
+		return status.GetStatus(StatusType.ATTACK_POINT).GetValue();
 	}
 
 	protected override float GetDamage()

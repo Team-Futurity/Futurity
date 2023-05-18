@@ -23,6 +23,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		//Ranged Default
 		RDefaultChase,	
+		RDefaultBackMove,
 		RDefaultAttack,
 	}
 
@@ -46,7 +47,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Enemy enemyData;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
-	public Material eMaterial;
 
 	public CapsuleCollider chaseRange;
 	public SphereCollider atkRange;
@@ -66,17 +66,28 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//Attack Properties
 	public float attackSetTime = 2f;
+	public float attackDelayTime = 1.3f;
 	public float rangedDistance;
 	public float projectileDistance;
 	public GameObject rangedProjectile;
 	public float projectileSpeed;
+	[HideInInspector] public bool isClose;
+
+	public Transform effectPos;
+	public GameObject effectPrefab;
+	public GameObject effectParent;
+/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
 
 	//Chase Properties
 	public GameObject RangedBackPos;
 
 	//Hitted Properties
-	public float hitMaxTime = 1f;
+	public float hitMaxTime = 2f;
 	public Color defaultColor;
+	public Color damagedColor;
+
+	public Material eMaterial;
+	public SkinnedMeshRenderer skinnedMeshRenderer;
 
 	//animation name
 	public readonly string moveAnimParam = "Move";
@@ -98,6 +109,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			atkCollider.enabled = false;
 		chaseRange.enabled = false;
 		enemyCollider.enabled = false;
+/*		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);*/
 
 		unit = this;
 		SetUp(EnemyState.Idle);

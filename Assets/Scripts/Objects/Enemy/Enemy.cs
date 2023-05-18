@@ -20,16 +20,6 @@ public class Enemy : UnitBase
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot)
 	{
-		//Death event
-		if (status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
-		{
-			if (!ec.IsCurrentState(EnemyState.Death))
-			{
-				ec.ChangeState(EnemyState.Death);
-			}
-		}
-
-
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).MinusValue(damage);
 	}
@@ -41,7 +31,7 @@ public class Enemy : UnitBase
 
 	protected override float GetDamage()
 	{
-		throw new System.NotImplementedException();
+		return 10;
 	}
 
 	protected override float GetDefensePoint()

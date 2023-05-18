@@ -7,7 +7,6 @@ using static PlayerController;
 public class PlayerAttackState : UnitState<PlayerController>
 {
 	// Animation Key
-	protected readonly string IsAttackingAnimKey = "IsAttacking";
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
 	protected readonly string AttackTypeAnimaKey = "Combo";
 
@@ -38,7 +37,8 @@ public class PlayerAttackState : UnitState<PlayerController>
 		//cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
 
 		pc.SetCollider(true);
-		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength);
+		pc.attackCollider.radiusCollider.enabled = true;
+		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength/100);
 
 		FDebug.Log("CurrentState : Attack");
 	}
@@ -65,10 +65,13 @@ public class PlayerAttackState : UnitState<PlayerController>
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		if(other.CompareTag(unit.EnemyTag))
+		FDebug.Log("1|" + other);
+		if (other.CompareTag(unit.EnemyTag))
 		{
+			FDebug.Log("2|" + other);
 			if (unit.attackCollider.IsInCollider(other.gameObject))
 			{
+				FDebug.Log("3|" + other);
 				unit.playerData.Attack(other.GetComponent<UnitBase>());
 			}
 		}

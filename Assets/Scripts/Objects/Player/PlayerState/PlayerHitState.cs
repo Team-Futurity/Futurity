@@ -7,9 +7,15 @@ public class PlayerHitState : UnitState<PlayerController>
 {
 	public override void Begin(PlayerController pc)
 	{
+		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
+		pc.specialIsReleased = false;
+		pc.curNode = pc.comboTree.top;
+
 		Camera.main.gameObject.GetComponent<PostProcessController>().SetVignette(0.5f);
 
 		pc.glove.SetActive(false);
+
+		pc.ChangeState(PlayerController.PlayerState.Idle);
 	}
 
 	public override void Update(PlayerController pc)
