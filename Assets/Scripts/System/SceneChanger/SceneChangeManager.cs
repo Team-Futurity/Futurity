@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneChangeManager : Singleton<SceneChangeManager>
 {
+	[Header("Scene 변경 총괄 메니저")]
+
+
+
 	[SerializeField]
 	private string loadSceneName;
 
@@ -16,12 +20,23 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 	[SerializeField]
 	private SceneKeyData loadSceneKey;
 
-	public void SceneLoader(SceneKeyData loadSceneKey)
+	public void SceneLoad(SceneKeyData loadSceneKey)
 	{
 		this.loadSceneKey = loadSceneKey;
 		loadSceneName = loadSceneKey.sceneName;
 		SceneManager.LoadScene("LoadingScene");
 		StartCoroutine(LoadSceneProcess());
+	}
+
+	public void SelfSceneLoad()
+	{
+		//#설명#	자기 자신을 다시 불러오는 함수
+
+		SceneKeyData sceneKeyData = new SceneKeyData();
+
+		sceneKeyData.sceneName = SceneManager.GetActiveScene().name;
+
+		SceneChangeManager.Instance.SceneLoad(sceneKeyData);
 	}
 
 	IEnumerator LoadSceneProcess()
@@ -64,6 +79,8 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 				if (loadingBarImage.fillAmount >= 1f)
 				{
 					asyncOperation.allowSceneActivation = true;
+
+					WindowManager.Instance.WindowsClearner();
 					yield break;
 				}
 			}

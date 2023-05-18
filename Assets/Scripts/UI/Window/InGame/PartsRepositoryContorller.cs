@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PartsRepositoryContorller : MonoBehaviour
 {
+	[Header("Parts를 저장하고 관리하는 스크립트입니다.")]
+	[Space(15)]
+
+
 	[SerializeField]
 	private PartsData currentPartsData;
 	[SerializeField]

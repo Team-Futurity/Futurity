@@ -7,12 +7,11 @@ public class SceneChanger : MonoBehaviour
 {
 	public void SceneChange(SceneKeyData sceneKeyData)
 	{
-		SceneChangeManager.Instance.SceneLoader(sceneKeyData);
+		SceneChangeManager.Instance.SceneLoad(sceneKeyData);
     }
 
 	public void ResetScene()
 	{
-		int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-		SceneManager.LoadScene(currentSceneIndex);
+		SceneChangeManager.Instance.SelfSceneLoad();
 	}
 }

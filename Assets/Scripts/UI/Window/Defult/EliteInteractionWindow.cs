@@ -32,7 +32,7 @@ public class EliteInteractionWindow : MonoBehaviour
 			enemyWorldPosition.x -= Screen.width / 2;
 			enemyWorldPosition.y -= Screen.height / 2;
 			Debug.Log($"enemyWorldPosition : {enemyWorldPosition}");
-			currentWindow = UIWindowManager.Instance.UIWindowTopOpen(eliteInteractonWindow, enemyWorldPosition, Vector2.one);
+			currentWindow = WindowManager.Instance.WindowTopOpen(eliteInteractonWindow, enemyWorldPosition, Vector2.one);
 
 			playerInRange = true;
 		}

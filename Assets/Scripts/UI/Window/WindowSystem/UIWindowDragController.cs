@@ -12,7 +12,7 @@ public class UIWindowDragController : MonoBehaviour, IBeginDragHandler, IDragHan
 	[SerializeField]
 	RectTransform rectTransform;
 	[SerializeField]
-	UIWindowController uIWindowController;
+	WindowController uIWindowController;
 
 	//#설명#	마우스 포인터와 Window의 Position값
 	private Vector2 _pointerPosition;
@@ -26,7 +26,7 @@ public class UIWindowDragController : MonoBehaviour, IBeginDragHandler, IDragHan
 			parentUIWindow = transform.parent.gameObject;
 		}
 		parentUIWindow.TryGetComponent<RectTransform>(out rectTransform);
-		parentUIWindow.TryGetComponent<UIWindowController>(out uIWindowController);
+		parentUIWindow.TryGetComponent<WindowController>(out uIWindowController);
 	}
 
 	//#설명#	UIWindow를 드래그 가능 하도록 드래그 시작 위치를 저장하고 UIWindow를 가장 앞으로 당겨오는 함수

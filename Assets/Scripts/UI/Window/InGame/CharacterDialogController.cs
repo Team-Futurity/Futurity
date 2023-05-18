@@ -7,6 +7,9 @@ using UnityEngine.UIElements;
 
 public class CharacterDialogController : MonoBehaviour
 {
+	[Header ("Character의 이미지를 변경하거나 텍스트 출력을 변경하는 스크립트")]
+	[Space (15)]
+
 	[SerializeField]
 	private UnityEngine.UI.Image charactorImage;
 	[SerializeField]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class pauseMenuWindowManager : MonoBehaviour
+public class PauseMenuWindowManager : MonoBehaviour
 {
 	[SerializeField]
 	float upWidthValue;
@@ -11,7 +11,7 @@ public class pauseMenuWindowManager : MonoBehaviour
 	public void PauseRelease()
 	{
 		Time.timeScale = 1f;
-		UIWindowManager.Instance.UIWindowClose(gameObject);
+		WindowManager.Instance.WindowClose(gameObject);
 	}
 
 	public void PauseUIButtonUpWidth(GameObject upWidthUI)

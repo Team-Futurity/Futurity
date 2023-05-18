@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2187621516431228537}
   - component: {fileID: 2232427404663660247}
   - component: {fileID: 60636968616731021}
-  - component: {fileID: 4467906768959609520}
   m_Layer: 5
   m_Name: DefultUIWindow
   m_TagString: UIWindow
@@ -144,6 +143,9 @@ MonoBehaviour:
   - {fileID: 2483059080621291478}
   - {fileID: 8601192166998698682}
   - {fileID: 1336884860992712450}
+  closeEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &60636968616731021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,20 +161,6 @@ MonoBehaviour:
   mainText: {fileID: 0}
   rightButtonText: {fileID: 0}
   leftButtonText: {fileID: 0}
---- !u!114 &4467906768959609520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 280084176244655351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63c53b8bd25c34244a6b7c432523babc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  setDestroy: 0
-  destroyDelayTime: 0
 --- !u!1 &916616509047004193
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,8 +780,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2232427404663660247}
-        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
-        m_MethodName: UIWindowClose
+        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
+        m_MethodName: WindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -7,8 +7,12 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class UIWindowManager : Singleton<UIWindowManager>
+public class WindowManager : Singleton<WindowManager>
 {
+	//#설명#	윈도우 총괄 메니저로 Window를 열고 닫는것은 물론
+	[Header ("윈도우 시스템 총괄 메니저")]
+	[Space(15)]
+
 	public List<GameObject> windows = new List<GameObject>();
 	public List<Button> buttons;
 
@@ -25,7 +29,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 
 	private void Start()
 	{
-
 		topCanvasTransform = FindTopCanvas().transform;
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
@@ -90,7 +93,7 @@ public class UIWindowManager : Singleton<UIWindowManager>
 
 
 	#region UIWindowOpen&Close
-	public GameObject UIWindowOpen(GameObject openUiWindowObject, Transform uiParent, Vector2 instancePosition, Vector2 windowScale)
+	public GameObject WindowOpen(GameObject openUiWindowObject, Transform uiParent, Vector2 instancePosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
@@ -105,30 +108,30 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		rectTransform.localScale = windowScale;
 		windows.Add(newUI);
 
-		SetButtons(newUI.GetComponent<UIWindowController>().GetButtons());
+		SetButtons(newUI.GetComponent<WindowController>().GetButtons());
 		return newUI;
 	}
 
-	public GameObject UIWindowTopOpen(GameObject openUiWindowObject, Vector2 windowPosition, Vector2 windowScale)
+	public GameObject WindowTopOpen(GameObject openWindowObject, Vector2 windowPosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
 
 
-		GameObject newUI = Instantiate(openUiWindowObject, topCanvasTransform);
-		if (!newUI.CompareTag("UIWindow"))
+		GameObject newWindow = Instantiate(openWindowObject, topCanvasTransform);
+		if (!newWindow.CompareTag("UIWindow"))
 		{
-			newUI.tag = "UIWindow";
+			newWindow.tag = "UIWindow";
 		}
-		RectTransform rectTransform = newUI.GetComponent<RectTransform>();
+		RectTransform rectTransform = newWindow.GetComponent<RectTransform>();
 		rectTransform.localPosition = windowPosition;
 		rectTransform.localScale = windowScale;
-		windows.Add(newUI);
+		windows.Add(newWindow);
 
-		SetButtons(newUI.GetComponent<UIWindowController>().GetButtons());
+		SetButtons(newWindow.GetComponent<WindowController>().GetButtons());
 
-		return newUI;
+		return newWindow;
 	}
-	public void UIWindowClose(GameObject closeUiWindowObject)
+	public void WindowClose(GameObject closeUiWindowObject)
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
@@ -137,13 +140,13 @@ public class UIWindowManager : Singleton<UIWindowManager>
 
 		if (windowNum >= 0)
 		{
-			SetButtons(windows[windowNum].GetComponent<UIWindowController>().GetButtons());
+			SetButtons(windows[windowNum].GetComponent<WindowController>().GetButtons());
 		}
 
 		Destroy(closeUiWindowObject);
 	}
 
-	public void UIWindowChildAllClose(Transform parentTransform)
+	public void WindowChildAllClose(Transform parentTransform)
 	{
 		//#설명#	모든 자식 UI창을 닫는 함수
 
@@ -151,8 +154,14 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		foreach (Transform child in parentTransform)
 		{
 			if (child.CompareTag("UIWindow"))
-				child.gameObject.GetComponent<UIWindowController>().UIWindowClose();
+				child.gameObject.GetComponent<WindowController>().WindowClose();
 		}
+	}
+
+	public void WindowsClearner()
+	{
+		//#설명#	windows의 할당된 모든 window를 지우는 함수
+		
 	}
 	#endregion
 

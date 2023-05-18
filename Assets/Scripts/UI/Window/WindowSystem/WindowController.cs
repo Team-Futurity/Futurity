@@ -8,8 +8,12 @@ using Unity.VisualScripting;
 
 
 //#설명#	해당 스크립트는 UIWindow가 가지고 있는 핵심 스크립트로, UIWindow의 전반적인 행동 양식을 지니고 있습니다.
-public class UIWindowController : MonoBehaviour, IPointerClickHandler
+public class WindowController : MonoBehaviour, IPointerClickHandler
 {
+	[Header ("Window라면 무조건 가지고 있어야할 필수 관리자")]
+	[Space (15)]
+
+
 	[SerializeField]
 	private RectTransform rectTransform;
 	[SerializeField]
@@ -34,34 +38,33 @@ public class UIWindowController : MonoBehaviour, IPointerClickHandler
 	{
 		TryGetComponent<RectTransform>(out rectTransform);
 
+		WindowManager.Instance.SetButtons(buttons);
+
 		//#설명#	isLock이 true라면 타 UI를 간섭하지 못하도록 막음
 		if (isLock)
 		{
 			BringToFront();
 		}
-
-
-		UIWindowManager.Instance.SetButtons(buttons);
 	}
 
 
-	public void UIWindowNewOpen(GameObject OpenUIWindowObject)
+	public void WindowNewOpen(GameObject OpenUIWindowObject)
 	{
 		//#설명#	태스트용 스크립트로 새로운 Window창을 연다.
-		UIWindowManager.Instance.UIWindowOpen(OpenUIWindowObject, transform.parent, rectTransform.localPosition + new Vector3(50, -50, 0), rectTransform.sizeDelta);
+		WindowManager.Instance.WindowOpen(OpenUIWindowObject, transform.parent, rectTransform.localPosition + new Vector3(50, -50, 0), rectTransform.sizeDelta);
 	}
 
-	public void UIWindowClose()
+	public void WindowClose()
 	{
 		//#설명#	자기 자신을 닫는다.
-		UIWindowManager.Instance.UIWindowClose(this.gameObject);
+		WindowManager.Instance.WindowClose(this.gameObject);
 		closeEvent?.Invoke();
 	}
 
-	public void UIWindowSiblingAllClose()
+	public void WindowSiblingAllClose()
 	{
 		//#설명#	형제 객체들을 전부 닫아버린다.
-		UIWindowManager.Instance.UIWindowChildAllClose(transform.parent);
+		WindowManager.Instance.WindowChildAllClose(transform.parent);
 	}
 
 	public void OnPointerClick(PointerEventData eventData)
@@ -80,7 +83,7 @@ public class UIWindowController : MonoBehaviour, IPointerClickHandler
 	{
 		//#설명#	이벤트 호출기
 		windowEvents[eventNumber]?.Invoke();
-		UIWindowClose();
+		WindowClose();
 	}
 
 	public List<Button> GetButtons()

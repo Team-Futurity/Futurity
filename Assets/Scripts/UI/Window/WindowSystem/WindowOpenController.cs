@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class UIWindowOpenController : MonoBehaviour
+public class WindowOpenController : MonoBehaviour
 {
+	//#설명#	해당 스크립트는 특정 Window를 열때 사용하는 스크립트입니다.
+	[Header ("해당 스크립트는 특정 Window를 열때 사용하는 스크립트입니다.")]
+	[Space(15)]
+
+
 	[SerializeField]
 	private GameObject openUiWindow;
 	[SerializeField]
@@ -20,29 +25,29 @@ public class UIWindowOpenController : MonoBehaviour
 
 
 
-	//#설명#	세로운 UI를 인스턴스화 시킨다.
-	public void UiOpen()
+	public void WindowOpen()
 	{
+		//#설명#	세로운 UI를 인스턴스화.
 		GameObject instanceUi;
 		if (openUiWindow)
 		{
 			if (isWindowLock)
 			{
-				instanceUi = UIWindowManager.Instance.UIWindowTopOpen(openUiWindow, windowPosition, windowScale);
+				instanceUi = WindowManager.Instance.WindowTopOpen(openUiWindow, windowPosition, windowScale);
 			}
 			else
 			{
 				if (openUiWindowParent)
 				{
-					instanceUi = UIWindowManager.Instance.UIWindowOpen(openUiWindow, openUiWindowParent, windowPosition, windowScale);
+					instanceUi = WindowManager.Instance.WindowOpen(openUiWindow, openUiWindowParent, windowPosition, windowScale);
 				}
 				else
 				{
-					instanceUi = UIWindowManager.Instance.UIWindowOpen(openUiWindow, transform.parent, windowPosition, windowScale);
+					instanceUi = WindowManager.Instance.WindowOpen(openUiWindow, transform.parent, windowPosition, windowScale);
 				}
 			}
 
-			SetUiEvents(instanceUi);
+			SetWindowEvents(instanceUi);
 		}
 		else
 		{
@@ -50,10 +55,11 @@ public class UIWindowOpenController : MonoBehaviour
 		}
 	}
 
-	//#설명#	이벤트 전달
-	private void SetUiEvents(GameObject instanceUi)
+
+	private void SetWindowEvents(GameObject instanceUi)
 	{
-		UIWindowController windowController = instanceUi.GetComponent<UIWindowController>();
+		//#설명#	생성한 Window에 이벤트 전달.
+		WindowController windowController = instanceUi.GetComponent<WindowController>();
 		windowController.isLock = isWindowLock;
 
 		for (int i = 0; i < windowEvents.Length; i++)

@@ -31,13 +31,13 @@ public class PauseMenuManager : MonoBehaviour
 	void Pause()
 	{
 		Time.timeScale = 0f;
-		currentPauseMenuWindow = UIWindowManager.Instance.UIWindowTopOpen(pauseMenuWindow, Vector2.zero, Vector2.one);
+		currentPauseMenuWindow = WindowManager.Instance.WindowTopOpen(pauseMenuWindow, Vector2.zero, Vector2.one);
 	}
 
 	//#설명#	게임 시간을 1로 설정하여 움직임을 원래대로 복구합니다.
 	void Resume()
 	{
 		Time.timeScale = 1f; 
-		UIWindowManager.Instance.UIWindowClose(pauseMenuWindow);
+		WindowManager.Instance.WindowClose(pauseMenuWindow);
 	}
 }

@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 3265852211830335721}
   - component: {fileID: 2187621516431228537}
   - component: {fileID: 2232427404663660247}
-  - component: {fileID: 5722729118103309754}
   m_Layer: 5
   m_Name: PartsSettingWindow
   m_TagString: UIWindow
@@ -256,23 +255,10 @@ MonoBehaviour:
   - {fileID: 2308480296023525882}
   - {fileID: 2482706310098461186}
   - {fileID: 4980221340222044908}
+  - {fileID: 7773297176037588278}
   closeEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5722729118103309754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 280084176244655351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63c53b8bd25c34244a6b7c432523babc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  setDestroy: 0
-  destroyDelayTime: 0
 --- !u!1 &978854447751398633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,8 +1107,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5103428930669615493}
-        m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
-        m_MethodName: UiOpen
+        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
+        m_MethodName: WindowOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1153,8 +1139,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2232427404663660247}
-        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
-        m_MethodName: UIWindowClose
+        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
+        m_MethodName: WindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2295,7 +2281,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5722729118103309754}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
         m_MethodName: ThisDestroy
         m_Mode: 1
@@ -3369,8 +3355,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8691078956842298707}
-        m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
-        m_MethodName: UiOpen
+        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
+        m_MethodName: WindowOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3401,8 +3387,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2232427404663660247}
-        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
-        m_MethodName: UIWindowClose
+        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
+        m_MethodName: WindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3661,8 +3647,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3759498144823088906}
-        m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
-        m_MethodName: UiOpen
+        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
+        m_MethodName: WindowOpen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3693,8 +3679,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2232427404663660247}
-        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
-        m_MethodName: UIWindowClose
+        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
+        m_MethodName: WindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

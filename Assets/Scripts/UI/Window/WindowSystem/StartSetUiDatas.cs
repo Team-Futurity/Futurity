@@ -13,7 +13,7 @@ public class StartSetUiDatas : MonoBehaviour
 
 	void Start()
 	{
-		UIWindowManager.Instance.SetInputActionReference(leftAction, rightAction, selectAction);
-		UIWindowManager.Instance.SetWindow(this.gameObject);
+		WindowManager.Instance.SetInputActionReference(leftAction, rightAction, selectAction);
+		WindowManager.Instance.SetWindow(this.gameObject);
 	}
 }

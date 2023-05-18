@@ -1,11 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 
-public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class PartsSlotSettingButton : MonoBehaviour
 {
+	[Header ("파츠 데이터를 UI에 출력하거나, 저장소에 파츠 데이터를 전달하는 스크립트")]
+	[Space (15)]
+
+
+	[SerializeField]
+	[Tooltip("파츠 슬롯의 넘버")]
+	private int partsSlotNum;
+
 	[SerializeField]
 	[Tooltip("파츠의 정보가 담긴 스크립터블 오브젝트")]
 	private PartsData partsData;
@@ -21,18 +30,26 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	[SerializeField]
 	[Tooltip("파츠 이미지를 출력할 ImageUI 오브젝트")]
 	private Image partsSpriteWriter;
-	
+
 	[SerializeField]
 	[Tooltip("선택된 파츠를 저장하는 PartsSettingController 오브젝트")]
-	private PartsRepositoryContorller partsSettingContorller;
+	private PartsRepositoryContorller partsRepositoryContorller;
 
 	private void Start()
 	{
-		partsSpriteWriter.sprite = partsData.partsSprite;
-		partsNameText.text = partsData.partsName;
-
 		//#변경예정#	해당부분 find쓰지 않도록 할 것
-		partsSettingContorller = GameObject.Find("Player").GetComponent<PartsRepositoryContorller>();
+		partsRepositoryContorller = GameObject.Find("Player").GetComponent<PartsRepositoryContorller>();
+
+		if(!partsData)
+		{
+			partsData = partsRepositoryContorller.GetRepositoryPartsData(partsSlotNum);
+		}
+
+		if (partsData)
+		{
+			partsSpriteWriter.sprite = partsData.partsSprite;
+			partsNameText.text = partsData.partsName;
+		}
 	}
 
 	public void OnSelect(BaseEventData eventData)
@@ -41,16 +58,15 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 		partsMenualText.text = partsData.partsMenual;
 	}
 
-	// 선택 해제시
 	public void OnDeselect(BaseEventData eventData)
 	{
 		//#설명#	선택 해제시 파츠 설명 제거
 		partsMenualText.text = "";
 	}
 
-	public void partsDataSelect()
+
+	public void SetRepositoryCurrentPartsData()
 	{
-		// 파츠 데이터 저장
-		partsSettingContorller.SelectedPartsData(partsData);
+		partsRepositoryContorller.SettingPartsData(partsSlotNum);
 	}
 }
