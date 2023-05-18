@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class UnitBase : MonoBehaviour
 {
-	public UnitStatus status;
+	public StatusManager status;
 
 	public bool isGodMode = false;
 	public bool isStun = false;
