@@ -25,6 +25,12 @@ public class StatusManager : MonoBehaviour
 
 			foreach (var stat in statusData)
 			{
+				if(HasStatus(stat.type))
+				{
+					FDebug.Log("중복되는 Key가 존재합니다!");
+					return;
+				}
+
 				StatusData newStatus = new StatusData();
 
 				newStatus.type = stat.type;
