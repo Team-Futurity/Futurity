@@ -17,7 +17,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	[SerializeField]
 	private GameObject currentButton;
 
-	public GameObject modalBackground;
 	private Transform topCanvasTransform;
 
 	public InputActionReference leftAction;
@@ -26,13 +25,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 
 	private void Start()
 	{
-		if (!modalBackground)
-		{
-			modalBackground = new GameObject("modalBackground");
-			modalBackground.AddComponent<CanvasRenderer>();
-			Image image = modalBackground.AddComponent<Image>();
-			image.color = new Color(0, 0, 0, 0.5f);
-		}
 
 		topCanvasTransform = FindTopCanvas().transform;
 
@@ -90,27 +82,6 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		}
 	}
 
-	public GameObject CreateModalBackground(GameObject uiWindow)
-	{
-		//#설명#	가장 상위 Canvas에다가 ModalBackground를 생성해서 다른 UI 간섭을 막음
-
-
-		modalBackground.transform.parent = topCanvasTransform;
-
-		RectTransform modalRectTransform = modalBackground.GetComponent<RectTransform>();
-		modalRectTransform.anchorMin = Vector2.zero;
-		modalRectTransform.anchorMax = Vector2.one;
-		modalRectTransform.offsetMin = Vector2.zero;
-		modalRectTransform.offsetMax = Vector2.zero;
-		modalRectTransform.SetAsLastSibling();
-
-		modalRectTransform.SetSiblingIndex(modalRectTransform.GetSiblingIndex() - 1);
-
-		modalBackground.SetActive(true);
-
-		return modalBackground;
-	}
-
 	public void SetWindow(GameObject window)
 	{
 		windows.Add(window);
@@ -134,7 +105,7 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		rectTransform.localScale = windowScale;
 		windows.Add(newUI);
 
-		SelectButton(0);
+		SetButtons(newUI.GetComponent<UIWindowController>().GetButtons());
 		return newUI;
 	}
 
@@ -153,7 +124,7 @@ public class UIWindowManager : Singleton<UIWindowManager>
 		rectTransform.localScale = windowScale;
 		windows.Add(newUI);
 
-		SelectButton(0);
+		SetButtons(newUI.GetComponent<UIWindowController>().GetButtons());
 
 		return newUI;
 	}
@@ -163,12 +134,10 @@ public class UIWindowManager : Singleton<UIWindowManager>
 
 		int windowNum = windows.Count - 2;
 		windows.Remove(closeUiWindowObject);
-		modalBackground.SetActive(false);
 
 		if (windowNum >= 0)
 		{
 			SetButtons(windows[windowNum].GetComponent<UIWindowController>().GetButtons());
-			SelectButton(0);
 		}
 
 		Destroy(closeUiWindowObject);
@@ -191,7 +160,10 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	#region SelectButton
 	public void SetButtons(List<Button> buttons)
 	{
+		//#설명#	각 버튼값을 할당하며, 버튼 번호를 0으로 돌린다.
 		this.buttons = buttons;
+
+		SelectButton(0);
 	}
 
 	public void SetInputActionReference(InputActionReference leftAction, InputActionReference rightAction, InputActionReference selectAction)
@@ -231,16 +203,25 @@ public class UIWindowManager : Singleton<UIWindowManager>
 	private void ClickCurrentButton()
 	{
 		//#설명#	현재 선택된 버튼을 클릭합니다.
-		Button currentButton = buttons[currentButtonIndex];
-		ExecuteEvents.Execute(currentButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+		if (buttons.Count != 0)
+		{
+			Button currentButton = buttons[currentButtonIndex];
+			ExecuteEvents.Execute(currentButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+		} else
+		{
+			Debug.Log($"할당된 버튼이 없습니다. buttons.Count : {buttons.Count}");
+		}
 	}
 
 	private void SelectButton(int index)
 	{
 		//#설명#	주어진 인덱스의 버튼을 선택합니다.
 		currentButtonIndex = index;
-		currentButton = buttons[currentButtonIndex].gameObject;
-		EventSystem.current.SetSelectedGameObject(currentButton);
+		if (buttons.Count > 0 && buttons[currentButtonIndex] != null)
+		{
+			currentButton = buttons[currentButtonIndex].gameObject;
+			EventSystem.current.SetSelectedGameObject(currentButton);
+		}
 	}
 	#endregion
 }

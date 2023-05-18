@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2232427404663660247}
   - component: {fileID: 60636968616731021}
   - component: {fileID: 4467906768959609520}
+  - component: {fileID: 6583858979610608049}
   m_Layer: 5
   m_Name: EliteEnemyCorpsesWindow
   m_TagString: UIWindow
@@ -95,7 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1130e4b543b6f4cace916fb887fc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentObject: {fileID: 0}
   rectTransform: {fileID: 2261325128641194246}
   windowEvents:
   - m_PersistentCalls:
@@ -128,6 +128,8 @@ MonoBehaviour:
       m_Calls: []
   modalBackground: {fileID: 0}
   isLock: 0
+  buttons:
+  - {fileID: 0}
 --- !u!114 &60636968616731021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +159,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setDestroy: 0
   destroyDelayTime: 0
+--- !u!114 &6583858979610608049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280084176244655351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79b4fefffa28e647847a64499f5d216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typingText: {fileID: 3056765949920312282}
+  typingDelay: 0.05
+  fullText: EliteEnemyUI
 --- !u!1 &916616509047004193
 GameObject:
   m_ObjectHideFlags: 0

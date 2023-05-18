@@ -441,60 +441,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &999024566
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 999024568}
-  - component: {fileID: 999024567}
-  m_Layer: 0
-  m_Name: UISelectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &999024567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999024566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f67e0c69fd922844a90875a3a8079b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftAction: {fileID: -6798271496427210981, guid: 69867c00c4b4e43478576e0e49da1562, type: 3}
-  rightAction: {fileID: -1685383783587716413, guid: 69867c00c4b4e43478576e0e49da1562, type: 3}
-  selectAction: {fileID: -4416903144310093591, guid: 69867c00c4b4e43478576e0e49da1562, type: 3}
-  buttons:
-  - {fileID: 1289300019}
-  - {fileID: 1927414437}
-  - {fileID: 1871279313}
-  - {fileID: 1928501596}
-  currentButtonIndex: 0
-  currentButton: {fileID: 0}
---- !u!4 &999024568
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999024566}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1271.589, y: 779.50574, z: 3.578003}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1039621616
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,42 +863,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1485979559}
   m_CullTransparentMesh: 1
---- !u!1 &1711255158
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1711255159}
-  m_Layer: 5
-  m_Name: TitleSceneSelectButtonListManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1711255159
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711255158}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1938837648}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1718589607
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,10 +1478,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1927414440}
         m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
         m_MethodName: SceneChange
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 1f7d5cc28a1ab3c40bdf8829a6482856, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: InGameUI
@@ -1641,6 +1551,7 @@ GameObject:
   - component: {fileID: 1928501596}
   - component: {fileID: 1928501599}
   - component: {fileID: 1928501600}
+  - component: {fileID: 1928501601}
   m_Layer: 5
   m_Name: GameEndButton
   m_TagString: Untagged
@@ -1783,16 +1694,16 @@ MonoBehaviour:
   windowEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1928501600}
-        m_TargetAssemblyTypeName: ResetButton, Assembly-CSharp
-        m_MethodName: RestartButton
-        m_Mode: 1
+      - m_Target: {fileID: 1928501601}
+        m_TargetAssemblyTypeName: DebugLogger, Assembly-CSharp
+        m_MethodName: TextDebugLog
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: "GameEnd \uC548\uB155\uD788 \uAC00\uC154\uC694~"
           m_BoolArgument: 0
         m_CallState: 2
   - m_PersistentCalls:
@@ -1821,7 +1732,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5c58b541ea0c54cb1a7218a0ec9b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: TitleScene
+--- !u!114 &1928501601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928501594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afc7f02895780ba40ae04025907e16b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1938837644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,7 +1843,6 @@ RectTransform:
   - {fileID: 1927414436}
   - {fileID: 1871279312}
   - {fileID: 1928501595}
-  - {fileID: 1711255159}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1982,6 +1903,9 @@ MonoBehaviour:
   - {fileID: 1927414437}
   - {fileID: 1871279313}
   - {fileID: 1928501596}
+  closeEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1993853707
 GameObject:
   m_ObjectHideFlags: 0

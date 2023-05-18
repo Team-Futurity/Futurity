@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class PauseMenuManager : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject pauseMenuWindow;
 	private GameObject currentPauseMenuWindow;
-	private bool isPaused = false;
 
 
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			if (isPaused)
+			if (Time.timeScale == 0)
 			{
 				Resume();
 			}
@@ -31,7 +31,6 @@ public class PauseMenuManager : MonoBehaviour
 	void Pause()
 	{
 		Time.timeScale = 0f;
-		isPaused = true;
 		currentPauseMenuWindow = UIWindowManager.Instance.UIWindowTopOpen(pauseMenuWindow, Vector2.zero, Vector2.one);
 	}
 
@@ -39,7 +38,6 @@ public class PauseMenuManager : MonoBehaviour
 	void Resume()
 	{
 		Time.timeScale = 1f; 
-		isPaused = false;
-		Destroy(currentPauseMenuWindow);
+		UIWindowManager.Instance.UIWindowClose(pauseMenuWindow);
 	}
 }

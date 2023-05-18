@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DefultWindowController : MonoBehaviour
 {
 	[SerializeField]
-	private Text mainText;
+	private TextMeshPro mainText;
 	[SerializeField]
-	private Text rightButtonText;
+	private TextMeshPro rightButtonText;
 	[SerializeField]
-	private Text leftButtonText;
+	private TextMeshPro leftButtonText;
 
 
 	public void SetText(string mainTextInput, string rightButtonTextInput, string leftButtonTextInput)

@@ -33,8 +33,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5640165812563696881}
   - {fileID: 1984094872401601129}
+  - {fileID: 5640165812563696881}
   - {fileID: 1746217628265603012}
   - {fileID: 6768765485949942540}
   - {fileID: 8381215857044728587}
@@ -99,12 +99,24 @@ MonoBehaviour:
   rectTransform: {fileID: 2261325128641194246}
   windowEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
+        m_MethodName: UIWindowClose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4467906768959609520}
-        m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
-        m_MethodName: ThisDestroy
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
+        m_MethodName: UIWindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -314,7 +326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1984094872401601129
 RectTransform:
   m_ObjectHideFlags: 0
@@ -328,7 +340,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2261325128641194246}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -356,7 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -690,7 +702,7 @@ RectTransform:
   m_Children:
   - {fileID: 7926108103017245329}
   m_Father: {fileID: 2261325128641194246}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
