@@ -92,14 +92,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1130e4b543b6f4cace916fb887fc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentObject: {fileID: 0}
   rectTransform: {fileID: 2261325128641194246}
   windowEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4467906768959609520}
-        m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
-        m_MethodName: ThisDestroy
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
+        m_MethodName: UIWindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -111,9 +110,9 @@ MonoBehaviour:
         m_CallState: 2
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4467906768959609520}
-        m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
-        m_MethodName: ThisDestroy
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
+        m_MethodName: UIWindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -137,6 +136,12 @@ MonoBehaviour:
       m_Calls: []
   modalBackground: {fileID: 0}
   isLock: 0
+  buttons:
+  - {fileID: 2830577719013166662}
+  - {fileID: 756654073303753062}
+  closeEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &60636968616731021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,7 +896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1130e4b543b6f4cace916fb887fc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentObject: {fileID: 0}
   rectTransform: {fileID: 7114028333353910279}
   windowEvents:
   - m_PersistentCalls:
@@ -912,6 +916,10 @@ MonoBehaviour:
       m_Calls: []
   modalBackground: {fileID: 0}
   isLock: 0
+  buttons: []
+  closeEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3444512884099914772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,7 +971,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -25}
-  m_SizeDelta: {x: 800, y: 300}
+  m_SizeDelta: {x: 775, y: 300}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7035689981509393355
 CanvasRenderer:
@@ -993,11 +1001,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Convert the existing component into debris and equip the obtained component
-    in the corresponding slot?
+  m_text: "\uAE30\uC874 \uBD80\uD488\uC744 \uC794\uD574\uB85C \uBCC0\uD658\uD558\uACE0
+    \uD68D\uB4DD\uD55C \uBD80\uD488\uC744 \uD574\uB2F9 \uCE78\uC5D0 \uC7A5\uCC29\uD560\uAE4C?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
+  m_sharedMaterial: {fileID: 2001311532004720964, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

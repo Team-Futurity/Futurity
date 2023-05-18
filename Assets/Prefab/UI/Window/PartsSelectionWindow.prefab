@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2187621516431228537}
   - component: {fileID: 2232427404663660247}
   - component: {fileID: 5722729118103309754}
+  - component: {fileID: 6135869757375573293}
   m_Layer: 5
   m_Name: PartsSelectionWindow
   m_TagString: UIWindow
@@ -114,7 +115,13 @@ MonoBehaviour:
       m_Calls: []
   modalBackground: {fileID: 0}
   isLock: 0
-  buttons: []
+  buttons:
+  - {fileID: 6636867171712867584}
+  - {fileID: 2999521238355347221}
+  - {fileID: 409703576457680777}
+  closeEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5722729118103309754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +136,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setDestroy: 0
   destroyDelayTime: 0
+--- !u!114 &6135869757375573293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280084176244655351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 741bdafc17aafe240924da28af0c0083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &703610519281762983
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +161,7 @@ GameObject:
   - component: {fileID: 8602628360339638471}
   - component: {fileID: 6636867171712867584}
   - component: {fileID: 5666479107628937975}
+  - component: {fileID: 1149555001747995662}
   m_Layer: 5
   m_Name: Parts1
   m_TagString: Untagged
@@ -169,7 +189,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -750, y: 250}
-  m_SizeDelta: {x: 500, y: 700}
+  m_SizeDelta: {x: 550, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1144612824836850093
 CanvasRenderer:
@@ -192,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -231,10 +251,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+    m_SelectedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -253,9 +273,33 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1149555001747995662}
+        m_TargetAssemblyTypeName: PartsSelectButton, Assembly-CSharp
+        m_MethodName: partsDataSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 5666479107628937975}
         m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
         m_MethodName: UiOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
+        m_MethodName: UIWindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -281,7 +325,7 @@ MonoBehaviour:
   openUiWindowParent: {fileID: 0}
   windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
-  isWindowLock: 0
+  isWindowLock: 1
   windowEvents:
   - m_PersistentCalls:
       m_Calls: []
@@ -299,6 +343,23 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1149555001747995662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703610519281762983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31036dd8d3992e0449e904747c7e971e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partsData: {fileID: 11400000, guid: 00da1a9809ef83b4eaaaa5a9f15fb342, type: 2}
+  partsNameText: {fileID: 6415656084122417511}
+  partsMenualText: {fileID: 5730381374226747762}
+  partsSpriteWriter: {fileID: 641168293746593727}
+  partsSettingContorller: {fileID: 0}
 --- !u!1 &871987525169960184
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,10 +605,10 @@ RectTransform:
   m_Father: {fileID: 6733712040669843920}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 125}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5673380474798365954
 CanvasRenderer:
@@ -620,10 +681,10 @@ RectTransform:
   m_Father: {fileID: 6733712040669843920}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 500}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7880392249552080049
 CanvasRenderer:
@@ -731,8 +792,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Parts Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
+  m_sharedMaterial: {fileID: 2001311532004720964, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1082,10 +1143,10 @@ RectTransform:
   m_Father: {fileID: 4239385853632835197}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 500}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7658753400688679172
 CanvasRenderer:
@@ -1137,7 +1198,7 @@ GameObject:
   - component: {fileID: 7216692406989626006}
   - component: {fileID: 5730381374226747762}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PartsMenualText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1193,8 +1254,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Parts Menual Text Parts  Text Parts Menual Text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
+  m_sharedMaterial: {fileID: 2001311532004720964, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1218,8 +1279,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 128
-  m_fontSizeBase: 128
+  m_fontSize: 64
+  m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1273,6 +1334,7 @@ GameObject:
   - component: {fileID: 7858409717485146509}
   - component: {fileID: 409703576457680777}
   - component: {fileID: 3500808714063206437}
+  - component: {fileID: 2339734784775120494}
   m_Layer: 5
   m_Name: Parts3
   m_TagString: Untagged
@@ -1300,7 +1362,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 750, y: 250}
-  m_SizeDelta: {x: 500, y: 700}
+  m_SizeDelta: {x: 550, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3937755642434253867
 CanvasRenderer:
@@ -1323,7 +1385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1362,10 +1424,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+    m_SelectedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1384,9 +1446,33 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2339734784775120494}
+        m_TargetAssemblyTypeName: PartsSelectButton, Assembly-CSharp
+        m_MethodName: partsDataSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 3500808714063206437}
         m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
         m_MethodName: UiOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
+        m_MethodName: UIWindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1412,7 +1498,7 @@ MonoBehaviour:
   openUiWindowParent: {fileID: 0}
   windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
-  isWindowLock: 0
+  isWindowLock: 1
   windowEvents:
   - m_PersistentCalls:
       m_Calls: []
@@ -1430,6 +1516,23 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2339734784775120494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4094538293614865551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31036dd8d3992e0449e904747c7e971e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partsData: {fileID: 11400000, guid: 09c1576d1479b9746af65c15b2f35ed2, type: 2}
+  partsNameText: {fileID: 5071118652675644977}
+  partsMenualText: {fileID: 5730381374226747762}
+  partsSpriteWriter: {fileID: 5613841874906059161}
+  partsSettingContorller: {fileID: 0}
 --- !u!1 &5127177968046562378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,6 +1814,7 @@ GameObject:
   - component: {fileID: 3445984965853470864}
   - component: {fileID: 2999521238355347221}
   - component: {fileID: 3913401361947789495}
+  - component: {fileID: 7124960638894515913}
   m_Layer: 5
   m_Name: Parts2
   m_TagString: Untagged
@@ -1738,7 +1842,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 250}
-  m_SizeDelta: {x: 500, y: 700}
+  m_SizeDelta: {x: 550, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3958696786142453387
 CanvasRenderer:
@@ -1761,7 +1865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1800,10 +1904,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+    m_SelectedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1822,9 +1926,33 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 7124960638894515913}
+        m_TargetAssemblyTypeName: PartsSelectButton, Assembly-CSharp
+        m_MethodName: partsDataSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 3913401361947789495}
         m_TargetAssemblyTypeName: UIWindowOpenController, Assembly-CSharp
         m_MethodName: UiOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: UIWindowController, Assembly-CSharp
+        m_MethodName: UIWindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1850,7 +1978,7 @@ MonoBehaviour:
   openUiWindowParent: {fileID: 0}
   windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
-  isWindowLock: 0
+  isWindowLock: 1
   windowEvents:
   - m_PersistentCalls:
       m_Calls: []
@@ -1868,6 +1996,23 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7124960638894515913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5422435116328219689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31036dd8d3992e0449e904747c7e971e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partsData: {fileID: 11400000, guid: cd3ec16582af0f141bfd5760b165f8bd, type: 2}
+  partsNameText: {fileID: 6420321869822907088}
+  partsMenualText: {fileID: 5730381374226747762}
+  partsSpriteWriter: {fileID: 4164668216398811595}
+  partsSettingContorller: {fileID: 0}
 --- !u!1 &5583139255570984448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,10 +2047,10 @@ RectTransform:
   m_Father: {fileID: 4239385853632835197}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 125}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1903076507442299811
 CanvasRenderer:
@@ -2113,10 +2258,10 @@ RectTransform:
   m_Father: {fileID: 5452772464501004765}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 125}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &8625317245946941553
 CanvasRenderer:
@@ -2224,8 +2369,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Parts Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
+  m_sharedMaterial: {fileID: 2001311532004720964, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2596,10 +2741,10 @@ RectTransform:
   m_Father: {fileID: 5452772464501004765}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 500}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5212424220399013124
 CanvasRenderer:
@@ -2707,8 +2852,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Parts Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
+  m_sharedMaterial: {fileID: 2001311532004720964, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
