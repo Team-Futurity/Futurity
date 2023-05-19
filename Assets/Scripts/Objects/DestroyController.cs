@@ -12,25 +12,34 @@ public class DestroyController : MonoBehaviour
     int setDestroy = 1;
 
     [SerializeField]
-    [Tooltip("\"setDestroy\"이 \"1\"일경우 파괴 될 시간을 지정한다.")]
+    [Tooltip("오브젝트가 파괴 될 시간을 지정한다.")]
     float destroyDelayTime = 1;
 
 
 
-    void Start()
+    private void Start()
     {
         switch(setDestroy)
         {
-            case 0:
+            case 1:
+                StartCoroutine(DelayDestroy(gameObject, destroyDelayTime));
                 break;
 
-            case 1:
-                StartCoroutine(DelayDestroy(destroyDelayTime));
-                break;
-        }
+			default:
+				break;
+		}
     }
 
-    IEnumerator DelayDestroy (float delay)
+	public void DestroyObject(GameObject destroyObject)
+	{
+		StartCoroutine(DelayDestroy(destroyObject, destroyDelayTime));
+	}
+	public void ThisDestroy()
+	{
+		StartCoroutine(DelayDestroy(this.gameObject, destroyDelayTime));
+	}
+
+	IEnumerator DelayDestroy (GameObject destroyObject, float delay)
     {
         yield return new WaitForSeconds(delay);
 
