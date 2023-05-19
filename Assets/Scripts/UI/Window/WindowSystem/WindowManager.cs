@@ -190,6 +190,26 @@ public class WindowManager : Singleton<WindowManager>
 		rightAction.action.Enable();
 		selectAction.action.Enable();
 	}
+	public void EnableActionReference()
+	{
+		//#설명#	각 액션에 대한 이벤트 핸들러를 할당합니다.
+		DisableActionReference();
+
+		leftAction.action.performed += _ => SelectPreviousButton();
+		rightAction.action.performed += _ => SelectNextButton();
+
+		leftAction.action.Enable();
+		rightAction.action.Enable();
+	}
+	public void DisableActionReference()
+	{
+		//#설명#	각 액션에 대한 이벤트 핸들러를 헤제합니다.
+		leftAction.action.performed -= _ => SelectPreviousButton();
+		rightAction.action.performed -= _ => SelectNextButton();
+
+		leftAction.action.Disable();
+		rightAction.action.Disable();
+	}
 
 	private void SelectPreviousButton()
 	{
