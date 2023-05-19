@@ -140,7 +140,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 495370362374482743}
   buttonText: {fileID: 3824784049579077223}
-  isControlTypeVector3: 1
+  isWSAD: 0
   moveActionName: down
   subBindingIndex: 0
   newBinding: 
@@ -275,7 +275,7 @@ MonoBehaviour:
   - {fileID: 7085720546295067019}
   - {fileID: 495370362374482743}
   - {fileID: 3338600056826364876}
-  - {fileID: 1336884860992712450}
+  - {fileID: 5856324222722856125}
   - {fileID: 1336884860992712450}
   closeEvent:
     m_PersistentCalls:
@@ -799,7 +799,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 3338600056826364876}
   buttonText: {fileID: 6274454410308153855}
-  isControlTypeVector3: 1
+  isWSAD: 0
   moveActionName: right
   subBindingIndex: 0
   newBinding: 
@@ -957,7 +957,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 6835128895482188188}
   buttonText: {fileID: 6449712160091191690}
-  isControlTypeVector3: 0
+  isWSAD: 0
   moveActionName: 
   subBindingIndex: 0
   newBinding: 
@@ -2541,7 +2541,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 917023315591850424}
   buttonText: {fileID: 4598153484674351202}
-  isControlTypeVector3: 0
+  isWSAD: 0
   moveActionName: 
   subBindingIndex: 0
   newBinding: 
@@ -2876,7 +2876,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 5, y: 0}
-  m_SizeDelta: {x: 150, y: 50}
+  m_SizeDelta: {x: 100, y: 25}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4756035034326135040
 CanvasRenderer:
@@ -2906,12 +2906,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'KeySetting
-
-'
+  m_text: "\uD0A4 \uC124 \uC815"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
+  m_sharedMaterial: {fileID: 2001311532004720964, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2935,13 +2933,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -3111,9 +3109,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4467906768959609520}
-        m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
-        m_MethodName: ThisDestroy
+      - m_Target: {fileID: 2232427404663660247}
+        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
+        m_MethodName: WindowClose
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3276,7 +3274,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 564233701013845701}
   buttonText: {fileID: 6165816881486519321}
-  isControlTypeVector3: 0
+  isWSAD: 0
   moveActionName: 
   subBindingIndex: 0
   newBinding: 
@@ -3571,7 +3569,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 1713509855572372633}
   buttonText: {fileID: 7291906682189440787}
-  isControlTypeVector3: 0
+  isWSAD: 0
   moveActionName: 
   subBindingIndex: 0
   newBinding: 
@@ -4005,7 +4003,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 2056486725810010958}
   buttonText: {fileID: 8408359034302225496}
-  isControlTypeVector3: 0
+  isWSAD: 0
   moveActionName: 
   subBindingIndex: 0
   newBinding: 
@@ -4516,7 +4514,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 5, y: 0}
-  m_SizeDelta: {x: 150, y: 50}
+  m_SizeDelta: {x: 100, y: 25}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2676017294897372211
 CanvasRenderer:
@@ -4546,10 +4544,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sound
+  m_text: "\uC0AC\uC6B4\uB4DC"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
+  m_sharedMaterial: {fileID: 2001311532004720964, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4573,13 +4571,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -5030,7 +5028,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 8988778900342961389}
   buttonText: {fileID: 7090110802421196678}
-  isControlTypeVector3: 1
+  isWSAD: 0
   moveActionName: up
   subBindingIndex: 0
   newBinding: 
@@ -5175,7 +5173,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 7085720546295067019}
   buttonText: {fileID: 6279330995140482330}
-  isControlTypeVector3: 1
+  isWSAD: 0
   moveActionName: left
   subBindingIndex: 0
   newBinding: 
@@ -5216,8 +5214,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -7.5, y: 30}
-  m_SizeDelta: {x: 105, y: 30}
+  m_AnchoredPosition: {x: -7.5, y: 25}
+  m_SizeDelta: {x: 180, y: 25}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8063080822284065219
 CanvasRenderer:
@@ -5507,7 +5505,7 @@ MonoBehaviour:
   keyBindingManager: {fileID: 5942435398739702045}
   button: {fileID: 3647300805989729801}
   buttonText: {fileID: 8367124548741835631}
-  isControlTypeVector3: 0
+  isWSAD: 0
   moveActionName: 
   subBindingIndex: 0
   newBinding: 
@@ -6191,6 +6189,7 @@ GameObject:
   - component: {fileID: 1178844316001179633}
   - component: {fileID: 872622224910655689}
   - component: {fileID: 1262536951316418886}
+  - component: {fileID: 8891224372174145214}
   m_Layer: 5
   m_Name: Sound
   m_TagString: Untagged
@@ -6313,4 +6312,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4138bd129eb6df84b95f766f0cc236e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
+  button: {fileID: 872622224910655689}
+  volumeSlider: {fileID: 9130553433083830356}
+  volumeChangeRate: 0.025
+  increaseVolumeAction: {fileID: 0}
+  decreaseVolumeAction: {fileID: 0}
+  isActivate: 0
+--- !u!114 &8891224372174145214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139289193082099329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662c81b0e51f80a4797c39bbd7116f9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorDefault: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  colorSelected: {r: 0.25, g: 0.65, b: 0.8, a: 1}
+  nameLabel: {fileID: 0}
+  valueToggle: {fileID: 0}
+  toggles: []
