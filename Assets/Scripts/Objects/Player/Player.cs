@@ -29,10 +29,10 @@ public class Player : UnitBase
 
 		if(!pc.IsCurrentState(PlayerController.PlayerState.ChargedAttack))
 		{
-			pc.ChangeState(PlayerController.PlayerState.Hit);
+			//pc.ChangeState(PlayerController.PlayerState.Hit);
 		}
 		
-		status.GetStatus(StatusType.CURRENT_HP).MinusValue(damage);
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 	}
 
 	protected override float GetAttakPoint()

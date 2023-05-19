@@ -21,7 +21,7 @@ public class Enemy : UnitBase
 	public override void Hit(UnitBase attacker, float damage, bool isDot)
 	{
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
-		status.GetStatus(StatusType.CURRENT_HP).MinusValue(damage);
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 	}
 
 	protected override float GetAttakPoint()

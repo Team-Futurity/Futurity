@@ -244,10 +244,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[3].effect);
 			curEffect = unit.rushObjectPool.ActiveObject(unit.rushEffects[3].effectPos.position);
-			curEffect.transform.rotation = unit.transform.rotation;
+			curEffect.rotation = unit.transform.rotation;
 			unit.rushObjectPool2 = new ObjectPoolManager<Transform>(unit.rushEffects[4].effect);
 			curEffect2 = unit.rushObjectPool2.ActiveObject(unit.rushEffects[4].effectPos.position);
-			curEffect2.transform.rotation = unit.transform.rotation;
+			curEffect2.rotation = unit.rushEffects[4].effectPos.rotation;
 
 		}
 

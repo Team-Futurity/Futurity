@@ -6,7 +6,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 	private static object _lock = new object();
 	private static bool _applicationQuit = false;
 
-	protected void Awake()
+	protected virtual void Awake()
 	{
 		if (_instance == null)
 		{
