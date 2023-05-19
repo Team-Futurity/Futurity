@@ -4,6 +4,11 @@ using UnityEngine;
 
 public abstract class PartBehaviour : MonoBehaviour
 {
-	[field:SerializeField] public PartItemData itemData { get; private set; }
+	private PartItemData partItemData;
+
+	public void SetData(PartItemData data)
+	{
+		partItemData = data;
+	}
 
 }
