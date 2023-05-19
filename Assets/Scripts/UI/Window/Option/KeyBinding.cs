@@ -20,7 +20,7 @@ public class KeyBinding : MonoBehaviour
 	[Header("↓하위 바인딩을 사용해야할 경우 할당↓")]
 	[SerializeField]
 	[Tooltip("움직임을 담당하는 키를 할당경우 true 아닐경우 전부 false")]
-	private bool isControlTypeVector3 = false;
+	private bool isWSAD = false;
 	[SerializeField]
 	[Tooltip ("움직임을 담당하는 키를 할당할때만 값을 넣어주세요 그 외에는 공백")]
 	private string moveActionName;
@@ -45,7 +45,7 @@ public class KeyBinding : MonoBehaviour
 		//#설명#	이 함수는 키 텍스트를 처음으로 업데이트하고 표시합니다. 이 텍스트는 해당 버튼이 현재 어떤 키에 바인딩되어 있는지를 보여줍니다.
 		if (newBinding != "")
 		{
-			if (!isControlTypeVector3)
+			if (!isWSAD)
 			{
 				currentBinding = actionReference.action.GetBindingDisplayString();
 				buttonText.text = newBinding.Replace("<Keyboard>/", "").ToUpper();
@@ -68,7 +68,7 @@ public class KeyBinding : MonoBehaviour
 		}
 		else
 		{
-			if (!isControlTypeVector3)
+			if (!isWSAD)
 			{
 				currentBinding = actionReference.action.GetBindingDisplayString();
 				buttonText.text = currentBinding;
@@ -123,7 +123,7 @@ public class KeyBinding : MonoBehaviour
 			}
 		}
 
-		if (!isControlTypeVector3)
+		if (!isWSAD)
 		{
 			keyBindingManager.RegisterPendingBinding(actionReference, newBinding);
 		}
