@@ -12,12 +12,12 @@ public class AttackNode
 	public List<AttackNode> childNodes;
 	public AttackNode parent;
 
-	public float skillRange; // 
-	public float skillSpeed;
-	public float skillDelay;
-	public float skillAngle;
+	public float attackLength;
+	public float attackAngle;
 	public float attackLengthMark;
 	public float attackDelay;
+	public float attackSpeed;
+	public float attackAfterDelay;
 	public float attackST;
 
 	public int loopCount;
@@ -31,7 +31,7 @@ public class AttackNode
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
 	public float animFloat;
-	public float moveDistance = 0f;
+	//public float moveDistance = 0f;
 
 	public float randomShakePower;
 	public float curveShakePower;
@@ -58,9 +58,8 @@ public class AttackNode
 		command = node.command;
 		childNodes = node.childNodes;
 		parent = node.parent;
-		skillRange = node.skillRange;
-		skillSpeed = node.skillSpeed;
-		skillDelay = node.skillDelay;
+		attackLength = node.attackLength;
+		attackSpeed = node.attackSpeed;
 		loopCount = node.loopCount;
 		loopDelay = node.loopDelay;
 		attackST = node.attackST;

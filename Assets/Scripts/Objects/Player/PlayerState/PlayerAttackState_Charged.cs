@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [FSMState((int)PlayerController.PlayerState.ChargedAttack)]
@@ -33,7 +35,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public bool isReleased;	// 돌진 버튼이 Release되면 true
 
 	// Layer
-	public LayerMask layer = 1 << 6; // wall Layer
+	public LayerMask wallLayer = 1 << 6; // wall Layer
+
+	private Transform curEffect;
+	private Transform curEffect2;
+
+	public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { }
 
 	public override void Begin(PlayerController unit)
 	{
@@ -43,7 +50,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		currentTime = 0;
 		currentLevel = 0;
 
-		unit.specialIsReleased = false;
+		//unit.specialIsReleased = false;
 	}
 
 	public override void End(PlayerController unit)
@@ -52,7 +59,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		unit.rigid.velocity = Vector3.zero;
 
-		if(firstEnemy != null )
+		if (firstEnemy != null)
 		{
 			firstEnemy.velocity = Vector3.zero;
 			firstEnemy.transform.eulerAngles = new Vector3(0, firstEnemy.rotation.eulerAngles.y, 0);
@@ -62,6 +69,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		isReleased = false;
 		unit.specialIsReleased = false;
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed);
+		
+		if(curEffect != null)
+		{
+			unit.rushObjectPool.DeactiveObject(curEffect);
+		}
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -74,6 +86,20 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		if (!isReleased) { return; }
 
+		// 이펙트 업데이트
+		if(curEffect != null)
+		{
+			curEffect.transform.position = unit.rushEffects[3].effectPos.position;
+			curEffect.transform.rotation = unit.transform.rotation;
+		}
+
+		if (curEffect2 != null)
+		{
+			curEffect2.transform.position = unit.rushEffects[4].effectPos.position;
+			curEffect2.transform.rotation = unit.transform.rotation;
+		}
+
+
 		// 돌진 전 위치에서 현재 위치로 향하는 벡터의 크기가 targetMagnitude보다 작고
 		if (((unit.transform.position - originPos).magnitude < targetMagnitude))
 		{
@@ -81,30 +107,37 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			// Collision연산으로 부족한 부분을 메꿀 Ray연산
 			// ray의 길이는 조금 논의가 필요할지도...?
-			if (Physics.Raycast(unit.transform.position, forward, out hit, rayLength, layer))
+			if (Physics.Raycast(unit.transform.position, forward, out hit, rayLength, wallLayer))
 			{
-				// 공식 등이 정상 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
-				unit.playerData.Attack(hit.transform.GetComponent<UnitBase>());
-				unit.playerData.Attack(hit.transform.GetComponent<UnitBase>());
-
-				// 벽(장애물)과 충돌했으니 바로 돌진 종료
-				unit.ChangeState(PlayerController.PlayerState.AttackDelay);
+				//CollisionToWallProc(unit);
 			}
 
 			unit.SetCollider(true);
 
 			// while문이 도는 동안 속도를 moveSpeed로 고정
+			FDebug.Log("This is Fixed");
 			unit.rigid.velocity = forward * moveSpeed;
 		}
 		else // targetPos에 도달한 경우
 		{
 			unit.transform.position = targetPos;
 
-			if(firstEnemy != null)
+			if (firstEnemy != null)
 			{
 				firstEnemy.transform.position = targetPos + forward * (enemyDistance + moveSpeed * Time.fixedDeltaTime);
 			}
-			unit.ChangeState(PlayerController.PlayerState.AttackDelay);
+
+			if (curEffect != null)
+			{
+				unit.rushObjectPool.DeactiveObject(curEffect);
+			}
+
+			if (curEffect2 != null)
+			{
+				unit.rushObjectPool2.DeactiveObject(curEffect2);
+			}
+
+			unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
 		}
 	}
 
@@ -117,7 +150,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		base.OnCollisionEnter(unit, collision);
 
-		if(collision.transform.CompareTag(unit.EnemyTag))
+		if (collision.transform.CompareTag(unit.EnemyTag))
 		{
 			// 돌진 중 한 번도 적과 충돌한 적 없다면
 			if (firstEnemy == null)
@@ -134,6 +167,27 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				var unitData = collision.transform.GetComponent<UnitBase>();
 				unit.playerData.Attack(unitData);
 			}
+			return;
+		}
+		else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+		{
+			if (curEffect != null)
+			{
+				unit.rushObjectPool.DeactiveObject(curEffect);
+			}
+
+			if (curEffect2 != null)
+			{
+				unit.rushObjectPool2.DeactiveObject(curEffect2);
+			}
+
+			ContactPoint point = collision.GetContact(0);
+
+			unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[5].effect);
+			curEffect = unit.rushObjectPool.ActiveObject(point.point);
+
+			CollisionToWallProc(unit);
+			return;
 		}
 	}
 
@@ -141,7 +195,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		int level = 0;
 
-		// 버튼이 눌려있는 상태라면
 		if (!unit.specialIsReleased)
 		{
 			level = (int)(currentTime / LevelStandard);
@@ -151,11 +204,23 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			if (currentLevel != level)
 			{
 				currentLevel = level;
+
+				if (currentLevel > 0)
+				{
+					if (curEffect != null)
+					{
+						unit.rushObjectPool.DeactiveObject(curEffect);
+					}
+
+					unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[level - 1].effect);
+					curEffect = unit.rushObjectPool.ActiveObject(unit.rushEffects[level - 1].effectPos.position);
+				}
+
 			}
 		}
 		else
 		{
-			FDebug.Log($"Level : {currentLevel}");
+			FDebug.Log($"Rush Level : {currentLevel}");
 			unit.specialIsReleased = false;
 			isReleased = true;
 
@@ -171,6 +236,19 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			targetPos = originPos + forward * (attackLengthMark / Meter);
 			targetMagnitude = (targetPos - originPos).magnitude;
 			basicRayLength = moveSpeed * Time.fixedDeltaTime + unit.basicCollider.radius;
+
+			if (curEffect != null)
+			{
+				unit.rushObjectPool.DeactiveObject(curEffect);
+			}
+
+			unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[3].effect);
+			curEffect = unit.rushObjectPool.ActiveObject(unit.rushEffects[3].effectPos.position);
+			curEffect.rotation = unit.transform.rotation;
+			unit.rushObjectPool2 = new ObjectPoolManager<Transform>(unit.rushEffects[4].effect);
+			curEffect2 = unit.rushObjectPool2.ActiveObject(unit.rushEffects[4].effectPos.position);
+			curEffect2.rotation = unit.rushEffects[4].effectPos.rotation;
+
 		}
 
 		if (firstEnemy != null)
@@ -179,5 +257,18 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		}
 
 		currentTime += Time.deltaTime;
+	}
+
+	private void CollisionToWallProc(PlayerController unit)
+	{
+		if(firstEnemy != null) 
+		{
+			// 공식 등이 정상 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
+			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
+			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
+		}
+
+		// 벽(장애물)과 충돌했으니 바로 돌진 종료
+		unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
 	}
 }

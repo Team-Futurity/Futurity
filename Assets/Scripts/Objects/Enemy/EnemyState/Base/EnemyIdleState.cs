@@ -11,6 +11,7 @@ public class EnemyIdleState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
+		//FDebug.Log("IdleBegin");
 		curTime = 0;
 	}
 
@@ -28,13 +29,14 @@ public class EnemyIdleState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-
+		//FDebug.Log("IdleEnd");
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
 		if (other.CompareTag(unit.playerTag) && !unit.isChasing)
 		{
+			//FDebug.Log("Idle Trigger");
 			unit.target = other.GetComponent<UnitBase>();
 			unit.ChangeChaseState(unit);
 		}

@@ -5,6 +5,8 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.Death)]
 public class EnemyDeathState : UnitState<EnemyController>
 {
+	private float curTime = 0f;
+
 	public override void Begin(EnemyController unit)
 	{
 
@@ -12,7 +14,12 @@ public class EnemyDeathState : UnitState<EnemyController>
 
 	public override void Update(EnemyController unit)
 	{
+		curTime += Time.deltaTime;
 
+		if(curTime > 1.0f)
+		{
+			unit.gameObject.SetActive(false);
+		}
 	}
 
 	public override void FixedUpdate(EnemyController unit)
