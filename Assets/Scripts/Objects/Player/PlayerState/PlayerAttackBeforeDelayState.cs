@@ -38,13 +38,11 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 		currentTime = 0;
 
 		pc.glove.SetActive(true);
-
-		FDebug.Log("CurrentState : AttackBefore");
 	}
 
 	public override void Update(PlayerController pc)
 	{
-		if(currentTime > attackNode.attackDelay)
+		if(currentTime >= attackNode.attackDelay)
 		{
 			pc.ChangeState(pc.currentAttackState);
 		}
