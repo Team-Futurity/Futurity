@@ -10,7 +10,8 @@ public class TempTestManager : MonoBehaviour
 	GaugeBarController comboGuageBarController;
 	[SerializeField]
 	GaugeBarController hpGuageBarController;
-	bool isGaugeMax = true;
+	float targetGaugeValue;
+	bool isValueReached = true;
 
 	[SerializeField]
 	NumberImageLoader numberImageLoader;
@@ -41,33 +42,25 @@ public class TempTestManager : MonoBehaviour
 
 	void ComboGuageBarValueChanger()
 	{
-		float gaugeBarValue = comboGuageBarController.GetGaugeFillAmount();
+		float gaugeBarValue = comboGuageBarController.comboGaugeBar.fillAmount;
 
-
-		if (gaugeBarValue >= 1f)
+		if (Mathf.Abs(gaugeBarValue - targetGaugeValue) <= 0.01f)
 		{
-			isGaugeMax = false;
-		}
-		else if (gaugeBarValue <= 0f)
-		{
-			isGaugeMax = true;
+			isValueReached = true;
 		}
 
-		if (isGaugeMax)
+		if (isValueReached)
 		{
-			comboGuageBarController.SetGaugeFillAmount(gaugeBarValue + 0.05f);
-			hpGuageBarController.SetGaugeFillAmount(gaugeBarValue + 0.05f);
+			targetGaugeValue = Random.Range(0f, 1f);
+			comboGuageBarController.SetGaugeFillAmount(targetGaugeValue);
+			hpGuageBarController.SetGaugeFillAmount(targetGaugeValue);
+			isValueReached = false;
 		}
-		else
-		{
-			comboGuageBarController.SetGaugeFillAmount(gaugeBarValue - 0.05f);
-			hpGuageBarController.SetGaugeFillAmount(gaugeBarValue + 0.05f);
-		}
-
 
 		Debug.Log($"GetGaugeIntegerPercent : {comboGuageBarController.GetGaugeIntegerPercent()}");
 		Debug.Log($"hpGuageBarController : {hpGuageBarController.GetGaugeIntegerPercent()}");
 	}
+
 
 
 	void NumberImageValueChanger()
