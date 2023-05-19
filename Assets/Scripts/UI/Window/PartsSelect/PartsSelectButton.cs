@@ -36,6 +36,14 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 		partsSettingContorller = GameObject.Find("Player").GetComponent<PartsRepositoryContorller>();
 	}
 
+	public void SetPartsData(PartsData newPartsData)
+	{
+		partsData = newPartsData;
+
+		partsSpriteWriter.sprite = partsData.partsSprite;
+		partsNameText.text = partsData.partsName;
+	}
+
 	public void OnSelect(BaseEventData eventData)
 	{
 		//#설명#	선택시 파츠 설명 출력

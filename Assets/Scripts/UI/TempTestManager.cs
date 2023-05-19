@@ -42,7 +42,7 @@ public class TempTestManager : MonoBehaviour
 
 	void ComboGuageBarValueChanger()
 	{
-		float gaugeBarValue = comboGuageBarController.comboGaugeBar.fillAmount;
+		float gaugeBarValue = comboGuageBarController.gaugeBar.fillAmount;
 
 		if (Mathf.Abs(gaugeBarValue - targetGaugeValue) <= 0.01f)
 		{

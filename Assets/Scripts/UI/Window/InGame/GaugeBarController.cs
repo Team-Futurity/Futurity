@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GaugeBarController : MonoBehaviour
 {
 	[SerializeField]
-	public Image comboGaugeBar;
+	public Image gaugeBar;
 	private Image comboGaugeTempBar;
 
 	[SerializeField]
@@ -32,18 +32,18 @@ public class GaugeBarController : MonoBehaviour
 	private IEnumerator FillGaugeOverTime(float target)
 	{
 		float time = 0f;
-		float startValue = comboGaugeBar.fillAmount;
+		float startValue = gaugeBar.fillAmount;
 		float duration = 1f;
 
 		while (time < duration)
 		{
 			float easedTime = EaseInOut(time / duration);
-			comboGaugeBar.fillAmount = Mathf.Lerp(startValue, target, easedTime);
+			gaugeBar.fillAmount = Mathf.Lerp(startValue, target, easedTime);
 			time += Time.deltaTime;
 			yield return null;
 		}
 
-		comboGaugeBar.fillAmount = target;
+		gaugeBar.fillAmount = target;
 	}
 
 	private float EaseInOut(float t)

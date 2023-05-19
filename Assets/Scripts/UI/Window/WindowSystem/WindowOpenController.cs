@@ -11,15 +11,13 @@ public class WindowOpenController : MonoBehaviour
 
 
 	[SerializeField]
-	private GameObject openUiWindow;
+	private GameObject openWindow;
 	[SerializeField]
-	private Transform openUiWindowParent;
+	private Transform openWindowParent;
 	[SerializeField]
 	private Vector2 windowPosition = Vector2.zero;
 	[SerializeField]
 	private Vector2 windowScale = Vector2.one;
-	[SerializeField]
-	private bool isWindowLock = false;
 	[SerializeField]
 	private UnityEvent[] windowEvents = new UnityEvent[8];
 
@@ -29,23 +27,17 @@ public class WindowOpenController : MonoBehaviour
 	{
 		//#설명#	세로운 UI를 인스턴스화.
 		GameObject instanceUi;
-		if (openUiWindow)
+		if (openWindow)
 		{
-			if (isWindowLock)
-			{
-				instanceUi = WindowManager.Instance.WindowTopOpen(openUiWindow, windowPosition, windowScale);
-			}
-			else
-			{
-				if (openUiWindowParent)
+				if (openWindowParent)
 				{
-					instanceUi = WindowManager.Instance.WindowOpen(openUiWindow, openUiWindowParent, windowPosition, windowScale);
+					instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, windowPosition, windowScale);
 				}
 				else
 				{
-					instanceUi = WindowManager.Instance.WindowOpen(openUiWindow, transform.parent, windowPosition, windowScale);
+					instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, windowPosition, windowScale);
 				}
-			}
+			
 
 			SetWindowEvents(instanceUi);
 		}
@@ -60,7 +52,6 @@ public class WindowOpenController : MonoBehaviour
 	{
 		//#설명#	생성한 Window에 이벤트 전달.
 		WindowController windowController = instanceUi.GetComponent<WindowController>();
-		windowController.isLock = isWindowLock;
 
 		for (int i = 0; i < windowEvents.Length; i++)
 		{
