@@ -39,8 +39,6 @@ public class PlayerAttackState : UnitState<PlayerController>
 		pc.SetCollider(true);
 		pc.attackCollider.radiusCollider.enabled = true;
 		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength/100);
-
-		FDebug.Log("CurrentState : Attack");
 	}
 
 	public override void Update(PlayerController pc)

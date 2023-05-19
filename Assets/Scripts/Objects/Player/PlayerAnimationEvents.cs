@@ -20,8 +20,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public void EffectPooling()
 	{
 		attackNode = pc.curNode;
-		FDebug.Log("Node : " + attackNode);
-		FDebug.Log("\nEffectPos : " + attackNode.effectPos);
 		effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
 		var particles = effect.GetComponent<ParticleController>();
 		particles.Initialize(attackNode.effectPoolManager);
