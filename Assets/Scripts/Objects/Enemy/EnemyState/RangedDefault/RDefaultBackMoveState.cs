@@ -10,10 +10,8 @@ public class RDefaultBackMoveState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		FDebug.Log("RDefaultBackMove Begin");
-		unit.atkRange.enabled = false;
-		unit.rigid.AddForce(-GetAngle(unit, 60) * 900.0f, ForceMode.Impulse);
-		//unit.ChangeState(EnemyState.RDefaultChase);
+		//FDebug.Log("RDefaultBackMove Begin");
+		unit.rigid.AddForce(-GetAngle(unit, 60) * 800.0f, ForceMode.Impulse);
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -27,7 +25,7 @@ public class RDefaultBackMoveState : UnitState<EnemyController>
 	}
 	public override void End(EnemyController unit)
 	{
-		FDebug.Log("RDefaultBackMove End");
+		//FDebug.Log("RDefaultBackMove End");
 		unit.rigid.AddForce(-GetAngle(unit, -80) * 900.0f, ForceMode.Impulse);
 		curTime = 0f;
 
