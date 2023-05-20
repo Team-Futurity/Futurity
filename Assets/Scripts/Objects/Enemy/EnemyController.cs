@@ -61,7 +61,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public float randMoveFloat;
 
 	//MoveIdle Properties
-	public GameObject transformParent;
+	public Transform transformParent;
 	[HideInInspector] public GameObject moveIdleSpot;
 
 	//Attack Properties
@@ -71,7 +71,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float projectileDistance;
 	public GameObject rangedProjectile;
 	public float projectileSpeed;
-	[HideInInspector] public bool isClose;
 
 	public Transform effectPos;
 	public GameObject effectPrefab;
@@ -79,7 +78,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 /*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
 
 	//Chase Properties
-	public GameObject RangedBackPos;
+
+
+	//BackMove Properties
+
 
 	//Hitted Properties
 	public float hitMaxTime = 2f;
