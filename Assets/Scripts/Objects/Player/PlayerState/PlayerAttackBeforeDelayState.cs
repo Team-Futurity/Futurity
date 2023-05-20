@@ -23,16 +23,16 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
 
-		string key = pc.currentAttackState == PlayerState.NormalAttack ? pc.ComboAttackAnimaKey : pc.ChargedAttackAnimaKey;
+		pc.currentAttackAnimKey = pc.currentAttackState == PlayerState.NormalAttack ? pc.ComboAttackAnimaKey : pc.ChargedAttackAnimaKey;
 
 
-		if(!pc.animator.GetBool(pc.IsAttackingAnimKey))
+		if (!pc.animator.GetBool(pc.IsAttackingAnimKey))
 		{
 			pc.animator.SetTrigger(AttackTriggerAnimKey);
 		}
 
 		pc.animator.SetBool(pc.IsAttackingAnimKey, true);
-		pc.animator.SetInteger(key, pc.curNode.animInteger);
+		pc.animator.SetInteger(pc.currentAttackAnimKey, pc.curNode.animInteger);
 		
 		pc.curNode.Copy(pc.curNode);
 		attackNode = pc.curNode;
