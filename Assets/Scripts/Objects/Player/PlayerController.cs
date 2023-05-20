@@ -54,6 +54,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public AttackNode curNode;
 	public Tree comboTree;
 	public RadiusCapsuleCollider attackCollider;
+	public RadiusCapsuleCollider autoTargetCollider;
 	public PlayerState currentAttackState;
 
 	// input
@@ -218,6 +219,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		basicCollider.enabled = isEnabled;
 		attackCollider.enabled = isEnabled;
+		autoTargetCollider.enabled = isEnabled;
 	}
 
 	public bool IsAttackProcess()

@@ -14,6 +14,8 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 	private Transform effect;
 	//private CameraController cam;
 	protected AttackNode attackNode;
+	private List<GameObject> targets = new List<GameObject>();
+	private AutoTarget autoTarget = new AutoTarget();
 
 	public override void Begin(PlayerController pc)
 	{
@@ -38,10 +40,20 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 		currentTime = 0;
 
 		pc.glove.SetActive(true);
+
+		// autoTargetting
+		pc.autoTargetCollider.radiusCollider.enabled = true;
+		pc.autoTargetCollider.SetCollider(360, attackNode.attackLength / 100);
+		targets.Clear();
 	}
 
 	public override void Update(PlayerController pc)
 	{
+		if(targets.Count > 0)
+		{
+			autoTarget.TurnToNearstObject(targets, pc.gameObject);
+		}
+
 		if(currentTime >= attackNode.attackDelay)
 		{
 			pc.ChangeState(pc.currentAttackState);
@@ -55,12 +67,15 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 
 	public override void End(PlayerController pc)
 	{
-
+		pc.autoTargetCollider.radiusCollider.enabled = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-
+		if(other.CompareTag(unit.EnemyTag))
+		{
+			targets.Add(other.gameObject);
+		}
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
