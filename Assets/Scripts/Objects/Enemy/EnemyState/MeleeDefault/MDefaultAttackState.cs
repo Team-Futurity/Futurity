@@ -10,7 +10,6 @@ public class MDefaultAttackState : UnitState<EnemyController>
 	{
 		//FDebug.Log("MDefault Attack begin");
 		unit.animator.SetTrigger(unit.atkAnimParam);
-		curTime = 0f;
 		unit.atkRange.enabled = false;
 		unit.atkCollider.enabled = true;
 	}
@@ -30,6 +29,7 @@ public class MDefaultAttackState : UnitState<EnemyController>
 	{
 		//FDebug.Log("MDefault Attack End");
 		unit.atkCollider.enabled = false;
+		curTime = 0f;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

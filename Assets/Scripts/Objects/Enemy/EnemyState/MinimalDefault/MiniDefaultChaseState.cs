@@ -44,6 +44,7 @@ public class MiniDefaultChaseState : UnitState<EnemyController>
 		//FDebug.Log("MiniDefault Chase end");
 		unit.animator.SetBool(unit.moveAnimParam, false);
 		unit.isChasing = false;
+		curTime = 0;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

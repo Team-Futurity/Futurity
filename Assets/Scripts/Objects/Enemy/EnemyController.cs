@@ -29,6 +29,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		//MinimalDefault
 		MiniDefaultChase,
 		MiniDefaultAttack,
+		MiniDefaultKnockback,
 	}
 
 	public enum EnemyType : int
