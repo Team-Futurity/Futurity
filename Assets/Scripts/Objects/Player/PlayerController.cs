@@ -189,13 +189,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				if (!IsCurrentState(PlayerState.AttackAfterDelay)) // 콤보 입력 중이 아니면 차지
 				{
 					currentAttackState = PlayerState.ChargedAttack;
-					currentAttackAnimKey = ChargedAttackAnimaKey;
 					//ChangeState(PlayerState.ChargedAttack);
 				}
 				else // 콤보 입력 중이면 일반
 				{
 					currentAttackState = PlayerState.NormalAttack;
-					currentAttackAnimKey = ComboAttackAnimaKey;
 					//ChangeState(PlayerState.NormalAttack);
 				}
 
