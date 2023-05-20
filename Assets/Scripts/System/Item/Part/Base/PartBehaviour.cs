@@ -11,4 +11,6 @@ public abstract class PartBehaviour : MonoBehaviour
 		partItemData = data;
 	}
 
+	public abstract void OnAction(UnitBase unit);
+
 }

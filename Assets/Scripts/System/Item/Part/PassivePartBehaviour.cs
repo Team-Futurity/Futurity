@@ -18,13 +18,10 @@ public class PassivePartBehaviour : PartBehaviour
 		SetData(PassivePartData);
 	}
 
-	public void OnAction(UnitBase unit)
+	public override void OnAction(UnitBase unit)
 	{
-		if (buffSystem is not null)
-		{
-			buffSystem.OnBuff(buffName, unit);
-		}
-		
+		buffSystem?.OnBuff(buffName, unit);
+
 		if(statusManager is not null)
 		{
 			unit.status.AddStatus(statusManager.GetStatus());

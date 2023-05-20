@@ -590,6 +590,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
+--- !u!1 &1228892843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1228892845}
+  - component: {fileID: 1228892844}
+  m_Layer: 0
+  m_Name: PartOwner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1228892844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228892843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd033acb7f030d44945225742a1d92f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipPart:
+  - {fileID: 1269420913}
+  - {fileID: 1269420913}
+  - {fileID: 1269420913}
+--- !u!4 &1228892845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228892843}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.467614, y: 18.436396, z: -20.031013}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1269420911
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,7 +652,7 @@ GameObject:
   - component: {fileID: 1269420916}
   - component: {fileID: 1269420915}
   m_Layer: 0
-  m_Name: Part
+  m_Name: TestPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -624,6 +672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PassivePartData>k__BackingField: {fileID: 11400000, guid: f1b04a7e1ba02e644bcd57041bd5dd54, type: 2}
   <buffSystem>k__BackingField: {fileID: 1269420916}
+  <buffName>k__BackingField: 0
   <statusManager>k__BackingField: {fileID: 1269420915}
 --- !u!114 &1269420913
 MonoBehaviour:
@@ -637,7 +686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508cfae24ae7daa498b93480a2563352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiData: {fileID: 0}
+  uiData: {fileID: 11400000, guid: de96d671b946be14797f46c283cfe75d, type: 2}
   partBehaviour: {fileID: 1269420912}
 --- !u!4 &1269420914
 Transform:
@@ -667,7 +716,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: {fileID: 11400000, guid: 8ae54ed77e28f7540b0e4ac2fb5f2f44, type: 2}
-  copyStatus: []
+  copyStatus:
+  - type: 6
+    value: 25
+  - type: 3
+    value: 13
 --- !u!114 &1269420916
 MonoBehaviour:
   m_ObjectHideFlags: 0
