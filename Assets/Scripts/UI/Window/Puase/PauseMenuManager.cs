@@ -46,6 +46,6 @@ public class PauseMenuManager : MonoBehaviour
 	void Resume()
 	{
 		Time.timeScale = 1f;
-		WindowManager.Instance.WindowClose(pauseMenuWindow);
+		WindowManager.Instance.WindowClose(currentPauseMenuWindow);
 	}
 }
