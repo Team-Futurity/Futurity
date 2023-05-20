@@ -38,7 +38,7 @@ public class EnemyIdleState : UnitState<EnemyController>
 		{
 			//FDebug.Log("Idle Trigger");
 			unit.target = other.GetComponent<UnitBase>();
-			unit.ChangeChaseState(unit);
+			unit.ChangeState(unit.UnitChaseState(unit));
 		}
 	}
 

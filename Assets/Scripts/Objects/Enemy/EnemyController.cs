@@ -25,13 +25,17 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		RDefaultChase,	
 		RDefaultBackMove,
 		RDefaultAttack,
+
+		//MinimalDefault
+		MiniDefaultChase,
+		MiniDefaultAttack,
 	}
 
 	public enum EnemyType : int
 	{
 		MeleeDefault,
 		RangedDefault,
-
+		MinimalDefault,
 	}
 
 	[SerializeField] private EnemyType enemyType;
@@ -64,10 +68,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Transform transformParent;
 	[HideInInspector] public GameObject moveIdleSpot;
 
+	//Chase Properties
+	public float chaseDistance;
+	public float chaseDelayTime;
+
 	//Attack Properties
-	public float attackSetTime = 2f;
-	public float attackDelayTime = 1.3f;
-	public float rangedDistance;
+	public float attackDelayTime;
 	public float projectileDistance;
 	public GameObject rangedProjectile;
 	public float projectileSpeed;
@@ -152,23 +158,24 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		}
 	}
 
-	public void ChangeChaseState(EnemyController unit)
+	public System.ValueType UnitChaseState(EnemyController unit)
 	{
 		int enemyType = (int)unit.enemyType;
 
-		switch(enemyType)
+		switch (enemyType)
 		{
 			case 0:
-				unit.ChangeState(EnemyController.EnemyState.MDefaultChase);
-				break;
+				return EnemyController.EnemyState.MDefaultChase;
 
 			case 1:
-				unit.ChangeState(EnemyController.EnemyState.RDefaultChase);
-				break;
+				return EnemyController.EnemyState.RDefaultChase;
+
+			case 2:
+				return EnemyController.EnemyState.MiniDefaultChase;
 
 			default:
 				FDebug.Log("ERROR_ChangeChaseState()");
-				return;
+				return null;
 		}
 	}
 }
