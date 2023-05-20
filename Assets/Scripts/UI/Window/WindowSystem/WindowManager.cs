@@ -90,7 +90,10 @@ public class WindowManager : Singleton<WindowManager>
 		windows.Add(window);
 	}
 
+	public void PauseWindowDisable()
+	{
 
+	}
 
 	#region UIWindowOpen&Close
 	public GameObject WindowOpen(GameObject openUiWindowObject, Transform uiParent, Vector2 instancePosition, Vector2 windowScale)
@@ -138,8 +141,10 @@ public class WindowManager : Singleton<WindowManager>
 		int windowNum = windows.Count - 2;
 		windows.Remove(closeUiWindowObject);
 
-		if (windowNum >= 0)
+		if (windowNum >= 0 && windows.Count > windowNum)
 		{
+			Debug.Log($"windows[windowNum]{windows[windowNum]}");
+
 			SetButtons(windows[windowNum].GetComponent<WindowController>().GetButtons());
 		}
 
@@ -246,10 +251,13 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		//#설명#	주어진 인덱스의 버튼을 선택합니다.
 		currentButtonIndex = index;
-		if (buttons.Count > 0 && buttons[currentButtonIndex] != null)
+		if (buttons.Count > 0)
 		{
-			currentButton = buttons[currentButtonIndex].gameObject;
-			EventSystem.current.SetSelectedGameObject(currentButton);
+			if (buttons[currentButtonIndex] != null)
+			{
+				currentButton = buttons[currentButtonIndex].gameObject;
+				EventSystem.current.SetSelectedGameObject(currentButton);
+			}
 		}
 	}
 	#endregion

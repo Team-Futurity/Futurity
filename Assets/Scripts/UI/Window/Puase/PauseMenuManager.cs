@@ -6,6 +6,9 @@ using UnityEngine.SocialPlatforms;
 
 public class PauseMenuManager : MonoBehaviour
 {
+	//#설명#	게임을 일시 정지시키고, PauseWindow를 출력합니다.
+
+
 	[SerializeField]
 	private GameObject pauseMenuWindow;
 	private GameObject currentPauseMenuWindow;
