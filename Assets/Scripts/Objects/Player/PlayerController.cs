@@ -148,7 +148,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 				curNode = node;
 				curCombo = node.command;
-				//ChangeState(PlayerState.NormalAttack);
 				currentAttackState = PlayerState.NormalAttack;
 				ChangeState(PlayerState.AttackDelay);
 			}
