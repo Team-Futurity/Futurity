@@ -33,7 +33,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// Constants
 	public readonly string EnemyTag = "Enemy";
-	public readonly string ComboAttackAnimaKey = "Combo";
+	public readonly string ComboAttackAnimaKey = "ComboParam";
 	public readonly string ChargedAttackAnimaKey = "Combo";
 	public readonly string IsAttackingAnimKey = "IsAttacking";
 

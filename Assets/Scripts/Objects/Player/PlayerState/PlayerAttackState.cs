@@ -8,7 +8,7 @@ public class PlayerAttackState : UnitState<PlayerController>
 {
 	// Animation Key
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
-	protected readonly string AttackTypeAnimaKey = "Combo";
+	protected readonly string AttackTypeAnimaKey = "ComboParam";
 
 	// etc
 	private float currentTime;

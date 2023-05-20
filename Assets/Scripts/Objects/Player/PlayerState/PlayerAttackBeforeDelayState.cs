@@ -15,7 +15,6 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 	//private CameraController cam;
 	protected AttackNode attackNode;
 	private List<GameObject> targets = new List<GameObject>();
-	private AutoTarget autoTarget = new AutoTarget();
 
 	public override void Begin(PlayerController pc)
 	{
@@ -33,7 +32,7 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 		}
 
 		pc.animator.SetBool(pc.IsAttackingAnimKey, true);
-		pc.animator.SetFloat(key, pc.curNode.animFloat);
+		pc.animator.SetInteger(key, pc.curNode.animInteger);
 		
 		pc.curNode.Copy(pc.curNode);
 		attackNode = pc.curNode;
@@ -51,7 +50,7 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 	{
 		if(targets.Count > 0)
 		{
-			autoTarget.TurnToNearstObject(targets, pc.gameObject);
+			AutoTarget.Instance.TurnToNearstObject(targets, pc.gameObject);
 		}
 
 		if(currentTime >= attackNode.attackDelay)
