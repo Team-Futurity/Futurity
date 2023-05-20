@@ -22,7 +22,8 @@ public class MiniDefaultChaseState : UnitState<EnemyController>
 			return;
 
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
-		unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 15.0f * Time.deltaTime);
+		unit.transform.LookAt(unit.target.transform.position);
+		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 1000.0f * Time.deltaTime);
 
 		if(distance < unit.chaseDistance)
 		{

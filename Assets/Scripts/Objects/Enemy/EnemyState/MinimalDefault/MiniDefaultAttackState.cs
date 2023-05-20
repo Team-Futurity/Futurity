@@ -12,7 +12,7 @@ public class MiniDefaultAttackState : UnitState<EnemyController>
 		//FDebug.Log("MiniDefault Attack begin");
 		unit.animator.SetTrigger(unit.atkAnimParam);
 		unit.atkCollider.enabled = true;
-		unit.rigid.AddForce(unit.transform.forward * 10.0f, ForceMode.Acceleration);
+		unit.rigid.AddForce(unit.transform.forward * 250.0f, ForceMode.Impulse);
 	}
 
 	public override void Update(EnemyController unit)
