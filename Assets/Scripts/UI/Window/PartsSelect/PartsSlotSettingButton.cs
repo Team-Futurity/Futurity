@@ -60,6 +60,6 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	public void SetRepositoryCurrentPartsData()
 	{
-		PartsRepositoryContorller.Instance.SettingPartsData(partsSlotNum);
+		PartsRepositoryContorller.Instance.SetPartsData(partsSlotNum);
 	}
 }

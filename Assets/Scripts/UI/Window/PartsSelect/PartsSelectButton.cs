@@ -23,12 +23,25 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	[Tooltip("파츠 이미지를 출력할 ImageUI 오브젝트")]
 	private Image partsSpriteWriter;
 
+	[SerializeField]
+	[Tooltip("해당 버튼의 번호")]
+	private int buttonNum;
+
+
 
 	private void Start()
 	{
-		partsSpriteWriter.sprite = partsData.partsSprite;
-		partsNameText.text = partsData.partsName;
-		
+		partsData = PartsRepositoryContorller.Instance.GetEnemyData(buttonNum);
+
+		if (partsData != null)
+		{
+			partsSpriteWriter.sprite = partsData.partsSprite;
+			partsNameText.text = partsData.partsName;
+		} else
+		{
+			partsSpriteWriter.sprite = null;
+			partsNameText.text = null;
+		}
 	}
 
 	public void SetPartsData(PartsData newPartsData)
@@ -55,6 +68,6 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	public void partsDataSelect()
 	{
 		// 파츠 데이터 저장
-		PartsRepositoryContorller.Instance.SelectedPartsData(partsData);
+		PartsRepositoryContorller.Instance.SetCurrentPartsData(partsData);
 	}
 }
