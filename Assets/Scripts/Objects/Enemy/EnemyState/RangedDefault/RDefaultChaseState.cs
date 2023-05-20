@@ -13,7 +13,6 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		//FDebug.Log("RDefault chase Begin");
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
-		unit.atkRange.enabled = true;
 		unit.isChasing = true;
 	}
 
@@ -21,12 +20,16 @@ public class RDefaultChaseState : UnitState<EnemyController>
 	{
 		if (unit.target == null)
 			return;
-		/*unit.transform.LookAt(unit.target.transform.position);*/
-		unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 15.0f * Time.deltaTime);
+		unit.transform.LookAt(unit.target.transform.position);
+		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 15.0f * Time.deltaTime);
 
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 
-		if (distance < unit.chaseDistance)
+		if(distance < unit.chaseDistance * 0.5f)
+		{
+			unit.ChangeState(EnemyController.EnemyState.RDefaultBackMove);
+		}
+		else if (distance < unit.chaseDistance)
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
@@ -53,12 +56,12 @@ public class RDefaultChaseState : UnitState<EnemyController>
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		if (other.CompareTag(unit.playerTag))
+/*		if (other.CompareTag(unit.playerTag))
 		{
 			//FDebug.Log("RDefault Chase Trigger");
 			unit.rigid.velocity = Vector3.zero;
 			unit.ChangeState(EnemyController.EnemyState.RDefaultBackMove);
-		}
+		}*/
 	}
 
 	public override void OnCollisionEnter(EnemyController unit, Collision collision)
