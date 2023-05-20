@@ -30,6 +30,7 @@ public class MiniDefaultAttackState : UnitState<EnemyController>
 	{
 		//FDebug.Log("MiniDefault Attack End");
 		unit.atkCollider.enabled = false;
+		curTime = 0f;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
