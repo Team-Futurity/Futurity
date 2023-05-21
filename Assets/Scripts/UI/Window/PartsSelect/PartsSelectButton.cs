@@ -31,7 +31,7 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
 	private void Start()
 	{
-		partsData = PartsRepositoryContorller.Instance.GetEnemyData(buttonNum);
+		partsData = PartsRepositoryManager.Instance.GetEnemyData(buttonNum);
 
 		if (partsData != null)
 		{
@@ -68,6 +68,6 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	public void partsDataSelect()
 	{
 		// 파츠 데이터 저장
-		PartsRepositoryContorller.Instance.SetCurrentPartsData(partsData);
+		PartsRepositoryManager.Instance.SetCurrentPartsData(partsData);
 	}
 }

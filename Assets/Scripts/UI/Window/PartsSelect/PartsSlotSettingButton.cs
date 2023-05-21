@@ -33,9 +33,9 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	private void Start()
 	{
-		if (!partsData && PartsRepositoryContorller.Instance.GetRepositoryPartsData(partsSlotNum) != null)
+		if (!partsData && PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum) != null)
 		{
-			partsData = PartsRepositoryContorller.Instance.GetRepositoryPartsData(partsSlotNum);
+			partsData = PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum);
 		}
 
 		if (partsData)
@@ -60,6 +60,6 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	public void SetRepositoryCurrentPartsData()
 	{
-		PartsRepositoryContorller.Instance.SetPartsData(partsSlotNum);
+		PartsRepositoryManager.Instance.SetPartsData(partsSlotNum);
 	}
 }
