@@ -63,7 +63,7 @@ public class ComboGaugeSystem : MonoBehaviour
 			return -1;
 		}
 
-		return (int)(addedGauge + Mathf.Sqrt(addedGauge) * hittedEnemyCount);
+		return Mathf.CeilToInt(addedGauge + Mathf.Sqrt(addedGauge) * hittedEnemyCount);
 	}
 
 	public void SetComboGaugeProc(bool isSucceed, int hittedEnemyCount)
@@ -76,6 +76,6 @@ public class ComboGaugeSystem : MonoBehaviour
 
 		currentGauge = Mathf.Clamp(currentGauge + addedComboGauge, minComboGauge, maxComboGauge);
 
-		gaugeBar.SetGaugeFillAmount(currentGauge / maxComboGauge);
+		gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge);
 	}
 }
