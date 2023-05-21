@@ -8,7 +8,7 @@ public class PlayerAttackState : UnitState<PlayerController>
 {
 	// Animation Key
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
-	protected readonly string AttackTypeAnimaKey = "Combo";
+	protected readonly string AttackTypeAnimaKey = "ComboParam";
 
 	// etc
 	private float currentTime;
@@ -39,8 +39,6 @@ public class PlayerAttackState : UnitState<PlayerController>
 		pc.SetCollider(true);
 		pc.attackCollider.radiusCollider.enabled = true;
 		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength/100);
-
-		FDebug.Log("CurrentState : Attack");
 	}
 
 	public override void Update(PlayerController pc)

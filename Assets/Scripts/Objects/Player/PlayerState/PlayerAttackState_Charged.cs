@@ -90,13 +90,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		if(curEffect != null)
 		{
 			curEffect.transform.position = unit.rushEffects[3].effectPos.position;
-			curEffect.transform.rotation = unit.transform.rotation;
 		}
 
 		if (curEffect2 != null)
 		{
 			curEffect2.transform.position = unit.rushEffects[4].effectPos.position;
-			curEffect2.transform.rotation = unit.transform.rotation;
 		}
 
 
@@ -247,7 +245,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			curEffect.rotation = unit.transform.rotation;
 			unit.rushObjectPool2 = new ObjectPoolManager<Transform>(unit.rushEffects[4].effect);
 			curEffect2 = unit.rushObjectPool2.ActiveObject(unit.rushEffects[4].effectPos.position);
-			curEffect2.rotation = unit.rushEffects[4].effectPos.rotation;
+			curEffect2.rotation = unit.transform.rotation;
 
 		}
 

@@ -30,7 +30,7 @@ public class AttackNode
 	[SerializeField] private GameObject effectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
-	public float animFloat;
+	public int animInteger;
 	//public float moveDistance = 0f;
 
 	public float randomShakePower;

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.XR;
 using static PlayerController;
 
 [FSMState((int)PlayerState.AttackAfterDelay)]
@@ -12,8 +11,6 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 	{
 		attackNode = unit.curNode;
 		currentTime = 0;
-
-		FDebug.Log("CurrentState : AttackAfter");
 	}
 
 	public override void End(PlayerController unit)
@@ -47,10 +44,11 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 			return;
 		}
 
-		if (currentTime > attackNode.attackAfterDelay)
+		if (currentTime >= attackNode.attackAfterDelay)
 		{
 			unit.curNode = unit.comboTree.top;
 			unit.animator.SetBool(unit.IsAttackingAnimKey, false);
+			unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);
 			unit.ChangeState(PlayerState.Idle);
 
 			return;
