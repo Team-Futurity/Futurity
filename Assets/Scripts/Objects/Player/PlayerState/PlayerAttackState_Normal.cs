@@ -10,8 +10,6 @@ public class PlayerAttackState_Normal : PlayerAttackState
 	public override void Begin(PlayerController pc)
 	{
 		base.Begin(pc);
-
-		AudioManager.instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
 	}
 
 	public override void End(PlayerController pc)

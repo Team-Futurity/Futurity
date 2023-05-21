@@ -23,8 +23,14 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
 
-		pc.currentAttackAnimKey = pc.currentAttackState == PlayerState.NormalAttack ? pc.ComboAttackAnimaKey : pc.ChargedAttackAnimaKey;
 
+		// node
+		pc.curNode.Copy(pc.curNode);
+		attackNode = pc.curNode;
+
+		// animation
+		bool isCombo = pc.currentAttackState == PlayerState.NormalAttack;
+		pc.currentAttackAnimKey = isCombo ? pc.ComboAttackAnimaKey : pc.ChargedAttackAnimaKey;
 
 		if (!pc.animator.GetBool(pc.IsAttackingAnimKey))
 		{
@@ -33,17 +39,21 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 
 		pc.animator.SetBool(pc.IsAttackingAnimKey, true);
 		pc.animator.SetInteger(pc.currentAttackAnimKey, pc.curNode.animInteger);
-		
-		pc.curNode.Copy(pc.curNode);
-		attackNode = pc.curNode;
-		currentTime = 0;
 
-		pc.glove.SetActive(true);
+		// sound
+		if(isCombo)
+		{
+			AudioManager.instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
+		}
 
 		// autoTargetting
 		pc.autoTargetCollider.radiusCollider.enabled = true;
 		pc.autoTargetCollider.SetCollider(360, attackNode.attackLength / 100);
 		targets.Clear();
+
+		// ohter Setting
+		currentTime = 0;
+		pc.glove.SetActive(true);
 	}
 
 	public override void Update(PlayerController pc)
