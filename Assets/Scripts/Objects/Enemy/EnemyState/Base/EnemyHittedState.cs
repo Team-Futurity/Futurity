@@ -7,23 +7,25 @@ using static EnemyController;
 [FSMState((int)EnemyController.EnemyState.Hitted)]
 public class EnemyHittedState : UnitState<EnemyController>
 {
-	private float curTime;
+	private float curTime = .0f;
 	private Material copyMat;
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("Hit Begin");
-		curTime = 0;
 
 		unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
 		unit.animator.SetTrigger(unit.hitAnimParam);
 		if(copyMat == null )
+		{
 			copyMat = new Material(unit.eMaterial);
+			unit.skinnedMeshRenderer.material = copyMat;
+		}
 		
 		copyMat.SetColor("_MainColor", unit.damagedColor);
 
-		unit.skinnedMeshRenderer.material = copyMat;
+
 
 		unit.rigid.AddForce(-unit.transform.forward * 450.0f, ForceMode.Impulse);
 	}
@@ -40,7 +42,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		curTime += Time.deltaTime;
 
-		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, EnemyController.EnemyState.MDefaultChase);
+		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState(unit));
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -50,9 +52,10 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
-		unit.rigid.velocity = Vector3.zero;
 		//FDebug.Log("Hit End");
+		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
+		unit.rigid.velocity = Vector3.zero;
+		curTime = 0;
 		copyMat.SetColor("_MainColor", unit.defaultColor);
 	}
 

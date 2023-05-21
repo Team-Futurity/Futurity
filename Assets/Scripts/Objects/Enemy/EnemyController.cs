@@ -28,6 +28,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		//MinimalDefault
 		MiniDefaultChase,
+		MiniDefaultDelay,
 		MiniDefaultAttack,
 		MiniDefaultKnockback,
 	}
@@ -82,10 +83,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Transform effectPos;
 	public GameObject effectPrefab;
 	public GameObject effectParent;
-/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
+	/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
 
 	//Chase Properties
-
+	public Material whiteMaterial;
 
 	//BackMove Properties
 

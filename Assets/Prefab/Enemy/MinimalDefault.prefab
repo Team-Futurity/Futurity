@@ -114,7 +114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2955528926438800398
 Transform:
   m_ObjectHideFlags: 0
@@ -205,9 +205,10 @@ MonoBehaviour:
   effectPos: {fileID: 0}
   effectPrefab: {fileID: 0}
   effectParent: {fileID: 0}
+  whiteMaterial: {fileID: 2100000, guid: e6b0a41e26417274dad6308701ad3386, type: 2}
   hitMaxTime: 2
-  defaultColor: {r: 1, g: 1, b: 1, a: 0}
-  damagedColor: {r: 1, g: 0.6666667, b: 0.6666667, a: 0}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  damagedColor: {r: 1, g: 0.6666667, b: 0.6666667, a: 1}
   eMaterial: {fileID: 2100000, guid: 2ec99c51c2527304dbaebdcd6f3dfdf6, type: 2}
   skinnedMeshRenderer: {fileID: 8408782429421553157}
 --- !u!114 &2955528926438800393
@@ -336,7 +337,15 @@ PrefabInstance:
       value: F_02_01_01_minimalmonster_default
       objectReference: {fileID: 0}
     - target: {fileID: 6752543971842539597, guid: b5bccf0e26b8a7642b3d014175e7ae57, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752543971842539597, guid: b5bccf0e26b8a7642b3d014175e7ae57, type: 3}
       propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752543971842539597, guid: b5bccf0e26b8a7642b3d014175e7ae57, type: 3}
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 2ec99c51c2527304dbaebdcd6f3dfdf6, type: 2}
     m_RemovedComponents: []
