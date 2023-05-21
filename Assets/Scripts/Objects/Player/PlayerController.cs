@@ -137,6 +137,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			moveDir = new Vector3(input.x, 0f, input.y);
 
+			// 돌진 중 이동 기능
 			if (IsAttackProcess())
 			{
 				if (IsCurrentState(PlayerState.ChargedAttack))
@@ -146,7 +147,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				return;
 
 			}
-			else if (!IsCurrentState(PlayerState.Move))
+
+			// 후딜 중엔 이동 못하게 처리
+			if(IsCurrentState(PlayerState.AttackAfterDelay)) { return; }
+
+			// 이동 기능
+			if (!IsCurrentState(PlayerState.Move))
 			{
 				ChangeState(PlayerState.Move);
 			}
@@ -155,9 +161,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnDash(InputAction.CallbackContext context)
 	{
-		/*if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Stun))
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun)
+		{
 			return;
-*/
+		}
+
 		if (context.performed && !playerData.isStun)
 		{
 			if (!IsCurrentState(PlayerState.Dash))
