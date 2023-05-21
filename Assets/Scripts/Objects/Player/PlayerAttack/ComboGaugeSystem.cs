@@ -26,9 +26,16 @@ public class ComboGaugeSystem : MonoBehaviour
 	private int currentGauge;
 	private int maxGauge;
 	public List<ComboCountData> comboData;
+	public GaugeBarController gaugeBar;
 
 	public int ComboCount { get { return comboCount; } }
 	public int CurrentGauge { get { return currentGauge;} }
+
+	private void Start()
+	{
+		currentGauge = 0;
+		gaugeBar.SetGaugeFillAmount(0);
+	}
 
 	// ComboCount∏¶ ∞·¡§
 	private void SetComboCount(bool isSucceed)
@@ -68,5 +75,7 @@ public class ComboGaugeSystem : MonoBehaviour
 		int addedComboGauge = CalculateCurrentGauge(hittedEnemyCount);
 
 		currentGauge = Mathf.Clamp(currentGauge + addedComboGauge, minComboGauge, maxComboGauge);
+
+		gaugeBar.SetGaugeFillAmount(currentGauge / maxComboGauge);
 	}
 }

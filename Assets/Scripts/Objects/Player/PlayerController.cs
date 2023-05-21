@@ -75,9 +75,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("References")]
 	public GameObject glove;
 	public Player playerData;
+	public ComboGaugeSystem comboGaugeSystem;
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
-	[HideInInspector] public CapsuleCollider basicCollider;
+	public CapsuleCollider basicCollider;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public TrailRenderer dashEffect;
@@ -106,7 +107,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		dashEffect = GetComponent<TrailRenderer>();
-		basicCollider = GetComponent<CapsuleCollider>();
 
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
