@@ -9,25 +9,20 @@ public class EnemyHittedState : UnitState<EnemyController>
 {
 	private float curTime = .0f;
 	private Material copyMat;
+	private Color defaultColor = Color.white;
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("Hit Begin");
-
-		unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+		//unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
 		unit.animator.SetTrigger(unit.hitAnimParam);
 		if(copyMat == null )
-		{
 			copyMat = new Material(unit.eMaterial);
-			unit.skinnedMeshRenderer.material = copyMat;
-		}
-		
+		unit.skinnedMeshRenderer.material = copyMat;
 		copyMat.SetColor("_MainColor", unit.damagedColor);
 
-
-
-		unit.rigid.AddForce(-unit.transform.forward * 450.0f, ForceMode.Impulse);
+		unit.rigid.AddForce(-unit.transform.forward * unit.hitPower, ForceMode.Impulse);
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -56,7 +51,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
 		curTime = 0;
-		copyMat.SetColor("_MainColor", unit.defaultColor);
+		copyMat.SetColor("_MainColor", defaultColor);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

@@ -5,19 +5,18 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.MDefaultAttack)]
 public class MDefaultAttackState : UnitState<EnemyController>
 {
-	private float curTime;
+	private float curTime = .0f;
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Attack begin");
 		unit.animator.SetTrigger(unit.atkAnimParam);
-		unit.atkRange.enabled = false;
 		unit.atkCollider.enabled = true;
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.chaseDelayTime, unit, EnemyController.EnemyState.MDefaultAttack2nd);
+		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.MDefaultAttack2nd);
 	}
 
 	public override void FixedUpdate(EnemyController unit)
