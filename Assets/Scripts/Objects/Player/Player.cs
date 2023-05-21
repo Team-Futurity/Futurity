@@ -5,14 +5,19 @@ using UnityEngine;
 public class Player : UnitBase
 {
 	private PlayerController pc;
+	private PartController partController;
 
 	private void Start()
 	{
 		pc = GetComponent<PlayerController>();
+		TryGetComponent(out partController);
+
+		partController.SetOwnerUnit(this);
 	}
 
 	public override void Attack(UnitBase target)
 	{
+		OnAttack?.Invoke(target);
 		target.Hit(this, GetDamage());
 	}
 

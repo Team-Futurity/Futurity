@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class UnitBase : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public abstract class UnitBase : MonoBehaviour
 
 	public bool isGodMode = false;
 	public bool isStun = false;
+
+	public UnityEvent<UnitBase> OnAttack;
 
 	protected virtual float GetCritical()
 	{
