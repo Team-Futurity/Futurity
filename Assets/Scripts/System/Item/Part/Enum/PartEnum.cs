@@ -39,6 +39,18 @@ public enum PassiveApplyType
 	MAX = 99
 }
 
+public struct PassiveData
+{
+	public PassiveData(List<StatusData> status, BuffNameList buffName)
+	{
+		this.status = status;
+		this.buffName = buffName;
+	}
+
+	public List<StatusData> status;
+	public BuffNameList buffName;
+}
+
 
 // Active
 
