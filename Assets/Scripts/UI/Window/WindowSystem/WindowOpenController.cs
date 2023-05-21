@@ -20,13 +20,16 @@ public class WindowOpenController : MonoBehaviour
 	private Vector2 windowScale = Vector2.one;
 	[SerializeField]
 	private UnityEvent[] windowEvents = new UnityEvent[8];
+	[SerializeField]
+	private Dictionary<string, object> variables = new Dictionary<string, object>();
+
 
 
 
 	public void WindowOpen()
 	{
 		//#설명#	세로운 UI를 인스턴스화.
-		GameObject instanceUi;
+		GameObject instanceUi = null;
 		if (openWindow)
 		{
 				if (openWindowParent)
@@ -45,6 +48,9 @@ public class WindowOpenController : MonoBehaviour
 		{
 			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
 		}
+
+		SetWindowEvents(instanceUi);
+		SetVariablesToWindow(instanceUi);
 	}
 
 
@@ -60,6 +66,21 @@ public class WindowOpenController : MonoBehaviour
 				windowController.windowEvents[i] = windowEvents[i];
 				FDebug.Log($"{i}번째 할당 {windowEvents[i]}");
 			}
+		}
+	}
+
+
+	public void AddVariable(string name, object value)
+	{
+		variables[name] = value;
+	}
+	private void SetVariablesToWindow(GameObject instanceUi)
+	{
+		WindowController windowController = instanceUi.GetComponent<WindowController>();
+
+		foreach (var pair in variables)
+		{
+			windowController.SetVariable(pair.Key, pair.Value);
 		}
 	}
 }

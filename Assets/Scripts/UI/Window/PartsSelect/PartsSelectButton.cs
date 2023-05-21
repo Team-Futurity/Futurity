@@ -22,18 +22,26 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	[SerializeField]
 	[Tooltip("파츠 이미지를 출력할 ImageUI 오브젝트")]
 	private Image partsSpriteWriter;
-	
+
 	[SerializeField]
-	[Tooltip("선택된 파츠를 저장하는 PartsSettingController 오브젝트")]
-	private PartsRepositoryContorller partsSettingContorller;
+	[Tooltip("해당 버튼의 번호")]
+	private int buttonNum;
+
+
 
 	private void Start()
 	{
-		partsSpriteWriter.sprite = partsData.partsSprite;
-		partsNameText.text = partsData.partsName;
+		partsData = PartsRepositoryManager.Instance.GetEnemyData(buttonNum);
 
-		//#변경예정#	해당부분 find쓰지 않도록 할 것
-		partsSettingContorller = GameObject.Find("Player").GetComponent<PartsRepositoryContorller>();
+		if (partsData != null)
+		{
+			partsSpriteWriter.sprite = partsData.partsSprite;
+			partsNameText.text = partsData.partsName;
+		} else
+		{
+			partsSpriteWriter.sprite = null;
+			partsNameText.text = null;
+		}
 	}
 
 	public void SetPartsData(PartsData newPartsData)
@@ -60,6 +68,6 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	public void partsDataSelect()
 	{
 		// 파츠 데이터 저장
-		partsSettingContorller.SelectedPartsData(partsData);
+		PartsRepositoryManager.Instance.SetCurrentPartsData(partsData);
 	}
 }

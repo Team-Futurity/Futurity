@@ -31,18 +31,11 @@ public class PartsSlotSettingButton : MonoBehaviour
 	[Tooltip("파츠 이미지를 출력할 ImageUI 오브젝트")]
 	private Image partsSpriteWriter;
 
-	[SerializeField]
-	[Tooltip("선택된 파츠를 저장하는 PartsSettingController 오브젝트")]
-	private PartsRepositoryContorller partsRepositoryContorller;
-
 	private void Start()
 	{
-		//#변경예정#	해당부분 find쓰지 않도록 할 것
-		partsRepositoryContorller = GameObject.Find("Player").GetComponent<PartsRepositoryContorller>();
-
-		if(!partsData)
+		if (!partsData && PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum) != null)
 		{
-			partsData = partsRepositoryContorller.GetRepositoryPartsData(partsSlotNum);
+			partsData = PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum);
 		}
 
 		if (partsData)
@@ -67,6 +60,6 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	public void SetRepositoryCurrentPartsData()
 	{
-		partsRepositoryContorller.SettingPartsData(partsSlotNum);
+		PartsRepositoryManager.Instance.SetPartsData(partsSlotNum);
 	}
 }
