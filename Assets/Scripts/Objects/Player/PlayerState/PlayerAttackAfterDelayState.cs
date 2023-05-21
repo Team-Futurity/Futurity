@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.XR;
 using static PlayerController;
 
 [FSMState((int)PlayerState.AttackAfterDelay)]
@@ -49,6 +48,7 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 		{
 			unit.curNode = unit.comboTree.top;
 			unit.animator.SetBool(unit.IsAttackingAnimKey, false);
+			unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);
 			unit.ChangeState(PlayerState.Idle);
 
 			return;

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(CapsuleCollider))]
 public class RadiusCapsuleCollider : MonoBehaviour 
@@ -47,5 +49,44 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		}
 
 		return objects;
+	}
+
+	public Vector3[] GetRadiusVector()
+	{
+		Vector3[] vecs = new Vector3[2];
+		float clampedAngle = angle % 360 * 0.5f;
+		float posX, posY, posZ;
+		float theta = 90 - transform.eulerAngles.y;
+
+		posY = transform.position.y;
+
+		// right
+		posX = Mathf.Cos((theta - clampedAngle) * Mathf.Deg2Rad) * radius;
+		posZ = Mathf.Sin((theta - clampedAngle) * Mathf.Deg2Rad) * radius;
+		vecs[0] = new Vector3(posX, posY, posZ);
+
+		// left
+		posX = Mathf.Cos((theta + clampedAngle) * Mathf.Deg2Rad) * radius;
+		posZ = Mathf.Sin((theta + clampedAngle) * Mathf.Deg2Rad) * radius;
+		vecs[1] = new Vector3(posX, posY, posZ);
+
+		return vecs;
+	}
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.red;
+		var vecs = GetRadiusVector();
+		Vector3 leftPos = transform.position + vecs[1];
+		Vector3 rightPos = transform.position + vecs[0];
+
+		// Arc
+		Handles.color = new Color(1, 0, 0, 0.1f);
+		Handles.DrawSolidArc(transform.position, Vector3.up, vecs[1], angle, radius);
+
+		// Line
+		if (angle % 360 == 0) return;
+		Gizmos.DrawLine(transform.position, rightPos);
+		Gizmos.DrawLine(transform.position, leftPos);
 	}
 }

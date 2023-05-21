@@ -33,9 +33,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// Constants
 	public readonly string EnemyTag = "Enemy";
-	public readonly string ComboAttackAnimaKey = "Combo";
-	public readonly string ChargedAttackAnimaKey = "Combo";
+	public readonly string ComboAttackAnimaKey = "ComboParam";
+	public readonly string ChargedAttackAnimaKey = "ChargingParam";
 	public readonly string IsAttackingAnimKey = "IsAttacking";
+	public const int NullState = -1;
 
 	// reference
 	public Player playerData;
@@ -54,7 +55,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public AttackNode curNode;
 	public Tree comboTree;
 	public RadiusCapsuleCollider attackCollider;
+	public RadiusCapsuleCollider autoTargetCollider;
 	public PlayerState currentAttackState;
+	public string currentAttackAnimKey;
 
 	// input
 	public bool specialIsReleased = false;
@@ -83,12 +86,19 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		dashEffect = GetComponent<TrailRenderer>();
 		basicCollider = GetComponent<CapsuleCollider>();
 
+		// Animator Init
+		animator.SetInteger(ComboAttackAnimaKey, NullState);
+		animator.SetInteger(ChargedAttackAnimaKey, NullState);
+
+		// UnitFSM Init
 		unit = this;
 		SetUp(PlayerState.Idle);
-		curNode = comboTree.top;
 
+		// Attack Init
+		curNode = comboTree.top;
 		nextCombo = PlayerInput.None;
 
+		// Glove Init
 		glove.SetActive(false);
 	}
 
@@ -149,6 +159,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				curNode = node;
 				curCombo = node.command;
 				currentAttackState = PlayerState.NormalAttack;
+				currentAttackAnimKey = ComboAttackAnimaKey;
 				ChangeState(PlayerState.AttackDelay);
 			}
 			else
@@ -218,6 +229,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		basicCollider.enabled = isEnabled;
 		attackCollider.enabled = isEnabled;
+		autoTargetCollider.enabled = isEnabled;
 	}
 
 	public bool IsAttackProcess()
