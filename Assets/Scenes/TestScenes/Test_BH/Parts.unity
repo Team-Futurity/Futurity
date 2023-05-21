@@ -322,7 +322,6 @@ GameObject:
   m_Component:
   - component: {fileID: 532819544}
   - component: {fileID: 532819543}
-  - component: {fileID: 532819542}
   - component: {fileID: 532819546}
   - component: {fileID: 532819545}
   m_Layer: 0
@@ -332,21 +331,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &532819542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 532819541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d4d17f5a98c765499dae789512f49e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <status>k__BackingField: {fileID: 0}
-  <buffSystem>k__BackingField: {fileID: 0}
-  <PartApplyType>k__BackingField: 1
 --- !u!114 &532819543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,7 +345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PartUIData>k__BackingField: {fileID: 11400000, guid: 8861ab287f81ec64ebbd9d2b3ed5017b, type: 2}
   <PartItemData>k__BackingField: {fileID: 11400000, guid: cd7232d9217fb784cb86a3b538367017, type: 2}
-  <Behaviour>k__BackingField: {fileID: 532819542}
+  <PartApplyType>k__BackingField: 2
 --- !u!4 &532819544
 Transform:
   m_ObjectHideFlags: 0
@@ -402,8 +386,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  status: {fileID: 0}
-  copyStatus: []
+  status: {fileID: 11400000, guid: cac8501f29a824243a0a2b619f78bab8, type: 2}
+  copyStatus:
+  - type: 4
+    value: 25
 --- !u!1 &728488038
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,7 +1354,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipPart:
-  - {fileID: 11400000, guid: de646d7218f45974bbc3808e8d18df04, type: 2}
+  - {fileID: 532819543}
+  - {fileID: 0}
+  equipCount: 3
   status: {fileID: 0}
 --- !u!4 &2141957092
 Transform:
