@@ -4,19 +4,36 @@ using UnityEngine;
 
 public class PartController : MonoBehaviour
 {
-	// List Part
 	public List<Part> equipPart = new List<Part>();
 	public int equipCount = 0;
 
-	// Calc
-	public OriginStatus status;
+	// Owner Data
+	private UnitBase ownerUnit;
 
-	public void Awake()
+	private StatusManager manager = new StatusManager();
+	
+	private OriginStatus status;
+
+	private void Awake()
 	{
 		status = ScriptableObject.CreateInstance<OriginStatus>();
 		status.AutoGenerator();
 
-		//PassiveEquip(equipPart[0]);
+		manager.SetStatus(status.GetStatus());
+
+	}
+
+	private void Start()
+	{
+		PassiveEquip(equipPart[0]);
+	}
+
+	public void SetOwnerUnit(UnitBase unit)
+	{
+		if (unit is not null)
+		{
+			ownerUnit = unit;
+		}
 	}
 
 	public void EquipPart(Part part)
@@ -45,15 +62,56 @@ public class PartController : MonoBehaviour
 
 	public void UnequipPart(Part part)
 	{
-		// Find -> Remove
-		// UnEquip Process Start
+		if(equipPart.Count <= 0)
+		{
+			return;
+		}
+
+		switch(part.PartItemData.PartType)
+		{
+			case PartTriggerType.PASSIVE:
+				PassiveUnequip(part);
+				break;
+
+			case PartTriggerType.ACTIVE:
+				ActiveUnequip(part);
+				break;
+
+			default:
+				break;
+		}
+
+		equipPart.Remove(part);
+
 	}
 
 	private void PassiveEquip(Part part)
 	{
-		IPassive passivePart;
+		part.TryGetComponent(out IPassive passivePart);
 
-		part.TryGetComponent(out passivePart);
+		if (passivePart is null)
+		{
+			FDebug.Log($"{part.GetType()}이(가) 존재하지 않습니다.");
+			return;
+		}
+
+		// 패시브 타입은 버프 혹은 스탯을 반환한다.
+		var data = passivePart.GetData();
+
+		manager.AddStatus(data.status);
+
+		ownerUnit.status.AddStatus(data.status);
+	}
+
+	private void ActiveEquip(Part part)
+	{
+
+	}
+
+
+	private void PassiveUnequip(Part part)
+	{
+		part.TryGetComponent(out IPassive passivePart);
 
 		if(passivePart is null)
 		{
@@ -61,10 +119,14 @@ public class PartController : MonoBehaviour
 			return;
 		}
 
-		passivePart.Active(status);
+		var data = passivePart.GetData();
+
+		manager.SubStatus(data.status);
+
+		ownerUnit.status.SubStatus(data.status);
 	}
 
-	private void ActiveEquip(Part part)
+	private void ActiveUnequip(Part part)
 	{
 
 	}
