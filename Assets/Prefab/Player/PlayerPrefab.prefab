@@ -5694,6 +5694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5328251835375101389}
   - component: {fileID: 1070719927369175192}
+  - component: {fileID: 6307489441031809494}
   - component: {fileID: 2214123608498936178}
   - component: {fileID: 1070719927369175194}
   - component: {fileID: 507041425030904175}
@@ -5742,114 +5743,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106ac3badaf664445aaae88fc61fb65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 1070719927369175194}
-  animator: {fileID: 5821464009680269676}
-  rigid: {fileID: 0}
-  dashEffect: {fileID: 0}
-  basicCollider: {fileID: 0}
-  moveDir: {x: 0, y: 0, z: 0}
-  curCombo: 0
-  nextCombo: 0
-  curNode:
-    command: 0
-    childNodes:
-    - command: 1
-      childNodes:
-      - command: 0
-        childNodes: []
-        attackLength: 0
-        attackAngle: 0
-        attackLengthMark: 0
-        attackDelay: 0
-        attackSpeed: 0
-        attackAfterDelay: 0
-        attackST: 0
-        loopCount: 0
-        loopDelay: 0
-        collider: {fileID: 0}
-        effectPos: {fileID: 0}
-        effectPrefab: {fileID: 0}
-        effectParent: {fileID: 0}
-        animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
-        shakeTime: 0
-        attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-        attackSound2:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-      attackLength: 0
-      attackAngle: 0
-      attackLengthMark: 0
-      attackDelay: 0
-      attackSpeed: 0
-      attackAfterDelay: 0
-      attackST: 0
-      loopCount: 0
-      loopDelay: 0
-      collider: {fileID: 0}
-      effectPos: {fileID: 0}
-      effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
-      effectParent: {fileID: 0}
-      animInteger: 0
-      randomShakePower: 0
-      curveShakePower: 0
-      shakeTime: 0
-      attackSound:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      attackSound2:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-    attackLength: 0
-    attackAngle: 0
-    attackLengthMark: 0
-    attackDelay: 0
-    attackSpeed: 0
-    attackAfterDelay: 0
-    attackST: 0
-    loopCount: 0
-    loopDelay: 0
-    collider: {fileID: 0}
-    effectPos: {fileID: 774150179230461155}
-    effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
-    effectParent: {fileID: 0}
-    animInteger: 0
-    randomShakePower: 0
-    curveShakePower: 0
-    shakeTime: 0
-    attackSound:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    attackSound2:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
   comboTree:
     top:
       command: 0
@@ -6117,12 +6010,120 @@ MonoBehaviour:
           Data4: 0
         Path: 
     dataCount: 3
-  attackCollider: {fileID: 4068547685948332288}
-  autoTargetCollider: {fileID: 625353277}
+  moveDir: {x: 0, y: 0, z: 0}
+  specialIsReleased: 0
+  curCombo: 0
+  nextCombo: 0
+  curNode:
+    command: 0
+    childNodes:
+    - command: 1
+      childNodes:
+      - command: 0
+        childNodes: []
+        attackLength: 0
+        attackAngle: 0
+        attackLengthMark: 0
+        attackDelay: 0
+        attackSpeed: 0
+        attackAfterDelay: 0
+        attackST: 0
+        loopCount: 0
+        loopDelay: 0
+        collider: {fileID: 0}
+        effectPos: {fileID: 0}
+        effectPrefab: {fileID: 0}
+        effectParent: {fileID: 0}
+        animInteger: 0
+        randomShakePower: 0
+        curveShakePower: 0
+        shakeTime: 0
+        attackSound:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+        attackSound2:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+      attackLength: 0
+      attackAngle: 0
+      attackLengthMark: 0
+      attackDelay: 0
+      attackSpeed: 0
+      attackAfterDelay: 0
+      attackST: 0
+      loopCount: 0
+      loopDelay: 0
+      collider: {fileID: 0}
+      effectPos: {fileID: 0}
+      effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
+      effectParent: {fileID: 0}
+      animInteger: 0
+      randomShakePower: 0
+      curveShakePower: 0
+      shakeTime: 0
+      attackSound:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attackSound2:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    attackLength: 0
+    attackAngle: 0
+    attackLengthMark: 0
+    attackDelay: 0
+    attackSpeed: 0
+    attackAfterDelay: 0
+    attackST: 0
+    loopCount: 0
+    loopDelay: 0
+    collider: {fileID: 0}
+    effectPos: {fileID: 774150179230461155}
+    effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
+    effectParent: {fileID: 0}
+    animInteger: 0
+    randomShakePower: 0
+    curveShakePower: 0
+    shakeTime: 0
+    attackSound:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    attackSound2:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   currentAttackState: 0
   currentAttackAnimKey: 
-  specialIsReleased: 0
   glove: {fileID: 8555240636614569704}
+  playerData: {fileID: 1070719927369175194}
+  attackCollider: {fileID: 4068547685948332288}
+  autoTargetCollider: {fileID: 625353277}
+  basicCollider: {fileID: 0}
+  animator: {fileID: 5821464009680269676}
+  rigid: {fileID: 0}
+  dashEffect: {fileID: 0}
   rushEffects:
   - effectPos: {fileID: 2093832577}
     effect: {fileID: 2131523196075662621, guid: 8f83a2171f859c04ca34ce2e7f7c7022, type: 3}
@@ -6157,6 +6158,31 @@ MonoBehaviour:
       Data3: 2056250528
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
+--- !u!114 &6307489441031809494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfc91daa824630448df397687cf760e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minComboCount: 0
+  maxComboCount: 3
+  minComboGauge: 0
+  maxComboGauge: 100
+  comboData:
+  - <ComboCount>k__BackingField: 0
+    <AddedGauge>k__BackingField: 3
+  - <ComboCount>k__BackingField: 1
+    <AddedGauge>k__BackingField: 1
+  - <ComboCount>k__BackingField: 2
+    <AddedGauge>k__BackingField: 0
+  - <ComboCount>k__BackingField: 3
+    <AddedGauge>k__BackingField: 0
 --- !u!114 &2214123608498936178
 MonoBehaviour:
   m_ObjectHideFlags: 0
