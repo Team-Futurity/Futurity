@@ -16,6 +16,8 @@ public class PlayerAttackState : UnitState<PlayerController>
 	//private CameraController cam;
 	protected AttackNode attackNode;
 
+	private int hittedEnemyCount;
+
 	protected PlayerAttackState(string attackTriggerKey, string attackTypeKey)
 	{
 		AttackTriggerAnimKey = attackTriggerKey;
@@ -34,6 +36,7 @@ public class PlayerAttackState : UnitState<PlayerController>
 		attackNode = pc.curNode;
 		//effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
 		currentTime = 0;
+		hittedEnemyCount = 0;
 		//cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
 
 		pc.SetCollider(true);
@@ -59,6 +62,8 @@ public class PlayerAttackState : UnitState<PlayerController>
 		pc.rigid.velocity = Vector3.zero;
 
 		pc.attackCollider.radiusCollider.enabled = false;
+
+		pc.comboGaugeSystem.SetComboGaugeProc(hittedEnemyCount > 0, hittedEnemyCount);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
@@ -71,6 +76,7 @@ public class PlayerAttackState : UnitState<PlayerController>
 			{
 				FDebug.Log("3|" + other);
 				unit.playerData.Attack(other.GetComponent<UnitBase>());
+				hittedEnemyCount++;
 			}
 		}
 	}
