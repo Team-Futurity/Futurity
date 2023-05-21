@@ -5,7 +5,6 @@ using UnityEngine;
 public class ActivePart : Part
 {
 	// Active Behaviour
-	[field: SerializeField] public ActiveBehaviour Behaviour { get; private set; }
 
 	private void Awake()
 	{
