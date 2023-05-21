@@ -81,7 +81,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float powerReference2;
 
 	public Transform effectPos;								//이펙트 출력 위치
-	public GameObject effectPrefab;							//이펙트 프리팹
+	public List<GameObject> effectPrefab;							//이펙트 프리팹
 	public GameObject effectParent;                         //이펙트 출력 부모
 	/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
 	

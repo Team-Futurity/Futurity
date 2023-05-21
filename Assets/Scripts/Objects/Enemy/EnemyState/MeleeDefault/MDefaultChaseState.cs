@@ -24,7 +24,9 @@ public class MDefaultChaseState : UnitState<EnemyController>
 
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 
-		unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
+		//unit.transform.rotation = Quaternion.LookRotation(unit.target.transform.position);
+		unit.transform.LookAt(unit.target.transform.position);
+		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
 		if(distance < unit.attackRange)
 		{
 			unit.rigid.velocity = Vector3.zero;
