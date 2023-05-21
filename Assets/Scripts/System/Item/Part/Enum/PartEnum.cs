@@ -4,6 +4,15 @@ using UnityEngine;
 
 // Common
 
+public enum PartTriggerType
+{
+	NONE = 0,
+
+	PASSIVE,
+	ACTIVE,
+
+	MAX = 99
+}
 
 
 // Passive
@@ -20,16 +29,12 @@ public enum PassivePartGrade
 	MAX = 99
 }
 
-public enum PassivePartAbility
+public enum PassiveApplyType
 {
 	NONE = 0,
 
-	ATTACKEFFECT_HEALTH = 11,
-	ATTACKEFFECT_SHOCK,
-
-	CHANGED_DEFENCE = 21,
-	CHANGED_CRITICAL_CHANCE,
-	CHANGED_ATTACK,
+	ATTACK,
+	STATUS,
 
 	MAX = 99
 }
