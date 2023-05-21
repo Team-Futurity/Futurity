@@ -96,31 +96,12 @@ public class WindowManager : Singleton<WindowManager>
 	}
 
 	#region UIWindowOpen&Close
-	public GameObject WindowOpen(GameObject openUiWindowObject, Transform uiParent, Vector2 instancePosition, Vector2 windowScale)
+	public GameObject WindowOpen(GameObject openUiWindowObject, Transform WindowParent, Vector2 windowPosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
 
-		GameObject newUI = Instantiate(openUiWindowObject, uiParent);
-		if (!newUI.CompareTag("UIWindow"))
-		{
-			newUI.tag = "UIWindow";
-		}
-		RectTransform rectTransform = newUI.GetComponent<RectTransform>();
-		rectTransform.localPosition = instancePosition;
-		rectTransform.localScale = windowScale;
-		windows.Add(newUI);
-
-		SetButtons(newUI.GetComponent<WindowController>().GetButtons());
-		return newUI;
-	}
-
-	public GameObject WindowTopOpen(GameObject openWindowObject, Vector2 windowPosition, Vector2 windowScale)
-	{
-		//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
-
-
-		GameObject newWindow = Instantiate(openWindowObject, topCanvasTransform);
+		GameObject newWindow = Instantiate(openUiWindowObject, WindowParent);
 		if (!newWindow.CompareTag("UIWindow"))
 		{
 			newWindow.tag = "UIWindow";
@@ -131,6 +112,15 @@ public class WindowManager : Singleton<WindowManager>
 		windows.Add(newWindow);
 
 		SetButtons(newWindow.GetComponent<WindowController>().GetButtons());
+		return newWindow;
+	}
+
+	public GameObject WindowTopOpen(GameObject openWindowObject, Vector2 windowPosition, Vector2 windowScale)
+	{
+		//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
+
+		
+		GameObject newWindow = WindowOpen(openWindowObject, topCanvasTransform, windowPosition, windowScale);
 
 		return newWindow;
 	}
@@ -141,7 +131,7 @@ public class WindowManager : Singleton<WindowManager>
 		int windowNum = windows.Count - 2;
 		windows.Remove(closeUiWindowObject);
 
-		if (windowNum >= 0 && windows.Count > windowNum)
+		if (windowNum >= 0 && windows.Count > windowNum && windows[windowNum] != null)
 		{
 			Debug.Log($"windows[windowNum]{windows[windowNum]}");
 
