@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 2232427404663660247}
   - component: {fileID: 4467906768959609520}
   - component: {fileID: 9167772150873159901}
+  - component: {fileID: 8380963796421586679}
   m_Layer: 5
   m_Name: PauseUIWindow
   m_TagString: UIWindow
@@ -410,6 +411,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upWidthValue: 100
+--- !u!114 &8380963796421586679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280084176244655351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05f0351dd142b446adab1a56a628ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &387013806784618414
 GameObject:
   m_ObjectHideFlags: 0
@@ -3239,6 +3252,7 @@ GameObject:
   - component: {fileID: 8877665042745375360}
   - component: {fileID: 1078777666624441806}
   - component: {fileID: 3750345857509476374}
+  - component: {fileID: 1896217706505842086}
   m_Layer: 5
   m_Name: Option
   m_TagString: Untagged
@@ -3348,7 +3362,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8877665042745375360}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1896217706505842086}
+        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
+        m_MethodName: WindowOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3750345857509476374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3391,6 +3417,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1896217706505842086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6638870048645441521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca86bcf95c7e8f43ac2897d08623b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openWindow: {fileID: 280084176244655351, guid: 72bcc13b71ac4004496ff1750601b73a, type: 3}
+  openWindowParent: {fileID: 0}
+  windowPosition: {x: 0, y: 0}
+  windowScale: {x: 1, y: 1}
+  windowEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6715935211958005239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3978,7 +4037,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6226247973308537147}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8380963796421586679}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: SceneChange
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 0630cd3fc58addb4d91816b1da472da2, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3432482546793361982
 MonoBehaviour:
   m_ObjectHideFlags: 0
