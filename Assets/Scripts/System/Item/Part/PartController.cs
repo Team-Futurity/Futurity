@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PartController : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class PartController : MonoBehaviour
 		status.AutoGenerator();
 
 		manager.SetStatus(status.GetStatus());
-
+		// On Gauge Event Add
 	}
 
 	private void Start()
@@ -44,20 +45,6 @@ public class PartController : MonoBehaviour
 		}
 
 		equipPart.Add(part);
-
-		switch (part.PartItemData.PartType)
-		{
-			case PartTriggerType.PASSIVE:
-				PassiveEquip(part);
-				break;
-
-			case PartTriggerType.ACTIVE:
-				ActiveEquip(part);
-				break;
-
-			default:
-				break;
-		}
 	}
 
 	public void UnequipPart(Part part)
@@ -67,25 +54,37 @@ public class PartController : MonoBehaviour
 			return;
 		}
 
-		switch(part.PartItemData.PartType)
+		if (part.PartItemData.PartType == PartTriggerType.PASSIVE)
 		{
-			case PartTriggerType.PASSIVE:
-				PassiveUnequip(part);
-				break;
-
-			case PartTriggerType.ACTIVE:
-				ActiveUnequip(part);
-				break;
-
-			default:
-				break;
+			StopPassive(part);
+		}
+		else
+		{
+			StopActive(part);
 		}
 
 		equipPart.Remove(part);
-
 	}
 
-	private void PassiveEquip(Part part)
+	private void OnGaugeChanged(float gauge)
+	{
+		foreach(var part in equipPart)
+		{
+			var partActivation = part.PartItemData.PartActivation;
+
+			if(partActivation <= gauge && !part.GetActive())
+			{
+				part.SetActive(true);
+
+				// Passive
+				RunPassive(part);
+			}
+		}
+	}
+
+	// Passive
+
+	private void RunPassive(Part part)
 	{
 		part.TryGetComponent(out IPassive passivePart);
 
@@ -95,21 +94,13 @@ public class PartController : MonoBehaviour
 			return;
 		}
 
-		// 패시브 타입은 버프 혹은 스탯을 반환한다.
-		var data = passivePart.GetData();
+		var partData = passivePart.GetData();
 
-		manager.AddStatus(data.status);
-
-		ownerUnit.status.AddStatus(data.status);
+		manager.AddStatus(partData.status);
+		ownerUnit.status.AddStatus(partData.status);
 	}
 
-	private void ActiveEquip(Part part)
-	{
-
-	}
-
-
-	private void PassiveUnequip(Part part)
+	private void StopPassive(Part part)
 	{
 		part.TryGetComponent(out IPassive passivePart);
 
@@ -119,14 +110,20 @@ public class PartController : MonoBehaviour
 			return;
 		}
 
-		var data = passivePart.GetData();
+		var partData = passivePart.GetData();
 
-		manager.SubStatus(data.status);
-
-		ownerUnit.status.SubStatus(data.status);
+		manager.SubStatus(partData.status);
+		ownerUnit.status.SubStatus(partData.status);
 	}
 
-	private void ActiveUnequip(Part part)
+	// Active
+
+	private void RunActive(Part part)
+	{
+
+	}
+
+	private void StopActive(Part part)
 	{
 
 	}

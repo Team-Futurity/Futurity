@@ -1,16 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class PassivePart : Part, IPassive
 {
 	private BuffSystem buffSystem;
-
-	private OriginStatus originStatus;
-
-	private UnityEvent<OriginStatus> OnSet;
-	private UnityEvent OnRemove;
 
 	[field: Space(10)]
 	[field: Header("파츠 스테이터스")]
@@ -36,7 +30,7 @@ public class PassivePart : Part, IPassive
 			Debug.Break();
 		}
 
-		if(PartUIData is null)
+		if (PartUIData is null)
 		{
 			FDebug.Log($"{PartUIData.GetType()}이(가) 존재하지 않습니다.");
 			Debug.Break();
