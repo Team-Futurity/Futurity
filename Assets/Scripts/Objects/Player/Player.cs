@@ -5,20 +5,15 @@ using UnityEngine;
 public class Player : UnitBase
 {
 	private PlayerController pc;
-	private PartController partController;
 
 	private void Start()
 	{
 		pc = GetComponent<PlayerController>();
-		TryGetComponent(out partController);
-
-		partController.SetOwnerUnit(this);
 	}
 
 	public override void Attack(UnitBase target)
 	{
-		OnAttack?.Invoke(target);
-		target.Hit(this, GetDamage());
+		target.Hit(this, GetDamage(1));
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot)
@@ -45,9 +40,9 @@ public class Player : UnitBase
 		return status.GetStatus(StatusType.ATTACK_POINT).GetValue();
 	}
 
-	protected override float GetDamage()
+	protected override float GetDamage(float attackST)
 	{
-		return GetAttakPoint();
+		return GetAttakPoint() * 1;
 	}
 
 	protected override float GetDefensePoint()
