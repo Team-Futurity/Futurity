@@ -41,6 +41,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		//base.End(pc);
 		pc.dashEffect.enabled = false;
 		pc.rigid.velocity = Vector3.zero;
+		pc.coolTimeIsEnd = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

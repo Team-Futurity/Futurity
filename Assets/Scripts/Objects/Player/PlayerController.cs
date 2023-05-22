@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,9 +42,14 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("[수치 조절]────────────────────────────────────────────────────────────────────────────────────────────")]
 
 	// attack
-	[Space(2f)]
+	[Space(2)]
 	[Header("콤보")]
 	public Tree comboTree;
+
+	// dash
+	[Space(5)]
+	[Header("대시. 런타임 변경 불가")]
+	public float dashCoolTime;
 
 	[Space(15)]
 	[Header("[디버깅용]─────────────────────────────────────────────────────────────────────────────────────────────")]
@@ -52,6 +58,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(2)]
 	[Header("이동 관련")]
 	public Vector3 moveDir;
+
+	// dash
+	[Space(5)]
+	[Header("대시 관련")]
+	public bool coolTimeIsEnd = false;
 
 	// input
 	[Space(5)]
@@ -82,6 +93,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public TrailRenderer dashEffect;
+	private WaitForSeconds dashCoolTimeWFS;
 
 	[Serializable]
 	public struct EffectData
@@ -122,6 +134,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		// Glove Init
 		glove.SetActive(false);
+
+		// dash
+		dashCoolTimeWFS = new WaitForSeconds(dashCoolTime);
+		StartCoroutine(DashDelayCoroutine());
 	}
 
 	public void OnMove(InputAction.CallbackContext context)
@@ -154,7 +170,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnDash(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun) { return; }
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !coolTimeIsEnd) { return; }
 
 		if (context.performed)
 		{
@@ -261,5 +277,18 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		bool isAttack = IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
 		return (isContainedAfterDelay ? (isAttack || IsCurrentState(PlayerState.AttackAfterDelay)) : (isAttack));
+	}
+
+	private IEnumerator DashDelayCoroutine()
+	{
+		while(true)
+		{
+			if(!coolTimeIsEnd)
+			{
+				yield return dashCoolTimeWFS;
+				coolTimeIsEnd = true;
+			}
+			yield return null;
+		}
 	}
 }
