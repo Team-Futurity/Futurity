@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class StartSetUiDatas : MonoBehaviour
+public class SetStartWindowDatas : MonoBehaviour
 {
 	//#설명#	인스팩터에서 각 InputActionReference를 할당해주세요.
 	public InputActionReference leftAction;
