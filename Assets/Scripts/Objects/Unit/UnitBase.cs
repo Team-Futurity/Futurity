@@ -23,7 +23,7 @@ public abstract class UnitBase : MonoBehaviour
 	public abstract void Hit(UnitBase attacker, float damage, bool isDot = false); // Unit이 피격 됐을 때 호출
 	public abstract void Attack(UnitBase target); // Unit이 공격할 때 호출
 
-	public virtual void KnockBack(Vector3 direction, float power)
+	public virtual void Knockback(Vector3 direction, float power)
 	{
 		rigid.AddForce(direction * power, ForceMode.Impulse);
 	}
