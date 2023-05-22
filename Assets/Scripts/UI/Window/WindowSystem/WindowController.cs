@@ -14,7 +14,7 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	[Space (15)]
 
 
-	[SerializeField]
+	[SerializeField] 
 	private RectTransform rectTransform;
 	[SerializeField]
 	public UnityEvent[] windowEvents = new UnityEvent[8];

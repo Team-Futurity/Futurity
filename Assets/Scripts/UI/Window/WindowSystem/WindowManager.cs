@@ -241,7 +241,7 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		//#설명#	주어진 인덱스의 버튼을 선택합니다.
 		currentButtonIndex = index;
-		if (buttons.Count > 0)
+		if (buttons != null && buttons.Count > 0)
 		{
 			if (buttons[currentButtonIndex] != null)
 			{
