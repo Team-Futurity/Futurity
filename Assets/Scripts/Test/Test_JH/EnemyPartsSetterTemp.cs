@@ -5,10 +5,10 @@ using UnityEngine;
 public class EnemyPartsSetterTemp : MonoBehaviour
 {
 	[SerializeField]
-	List<PartsData> partsDatas;
+	List<ItemUIData> ItemUIDatas;
 
 	private void Start()
 	{
-		PartsRepositoryManager.Instance.SetEnemyDatas(partsDatas);
+		PartsRepositoryManager.Instance.SetEnemyDatas(ItemUIDatas);
 	}
 }

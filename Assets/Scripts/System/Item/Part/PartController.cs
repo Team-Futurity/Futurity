@@ -25,7 +25,7 @@ public class PartController : MonoBehaviour
 
 	private void Start()
 	{
-		//PassiveEquip(equipPart[0]);
+		PassiveEquip(equipPart[0]);
 	}
 
 	public void SetOwnerUnit(UnitBase unit)

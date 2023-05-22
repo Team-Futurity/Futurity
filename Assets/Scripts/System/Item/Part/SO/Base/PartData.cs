@@ -12,5 +12,5 @@ public class PartData : ScriptableObject
 	// Passive
 	[field: SerializeField] public PassivePartGrade PartGrade { get; private set; }
 
-	[field: SerializeField] public float PartActivation { get; private set; }
+	[field: SerializeField] public float PartActivaton { get; private set; }
 }
