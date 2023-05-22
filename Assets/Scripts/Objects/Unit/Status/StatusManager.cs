@@ -15,7 +15,8 @@ public class StatusManager : MonoBehaviour
 		CopyOrigin();
 	}
 
-	private void CopyOrigin()
+	#endregion
+	public void CopyOrigin()
 	{
 		if (copyStatus is not null && status is not null)
 		{
@@ -40,7 +41,6 @@ public class StatusManager : MonoBehaviour
 			}
 		}
 	}
-	#endregion
 
 	public void SetStatus(List<StatusData> datas)
 	{
