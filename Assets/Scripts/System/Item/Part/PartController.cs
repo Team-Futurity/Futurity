@@ -6,14 +6,16 @@ using UnityEngine.Events;
 public class PartController : MonoBehaviour
 {
 	public List<Part> equipPart = new List<Part>();
-	public int equipCount = 0;
+	private const int MaxEquipCount = 4;
 
 	// Owner Data
-	private UnitBase ownerUnit;
-
+	private PlayerController ownerUnit;
+	
 	private StatusManager manager = new StatusManager();
 	
 	private OriginStatus status;
+
+	private float playerGauge = .0f;
 
 	private void Awake()
 	{
@@ -21,27 +23,27 @@ public class PartController : MonoBehaviour
 		status.AutoGenerator();
 
 		manager.SetStatus(status.GetStatus());
-		// On Gauge Event Add
+
+		TryGetComponent(out ownerUnit);
 	}
 
 	private void Start()
 	{
 		//PassiveEquip(equipPart[0]);
-	}
 
-	public void SetOwnerUnit(UnitBase unit)
-	{
-		if (unit is not null)
-		{
-			ownerUnit = unit;
-		}
 	}
 
 	public void EquipPart(Part part)
 	{
-		if (equipPart.Count >= equipCount)
+		if (equipPart.Count >= MaxEquipCount)
 		{
 			return;
+		}
+
+		if (part.PartItemData.PartActivation > playerGauge)
+		{
+			part.SetActive(true);
+			RunPassive(part);
 		}
 
 		equipPart.Add(part);
@@ -68,16 +70,23 @@ public class PartController : MonoBehaviour
 
 	private void OnGaugeChanged(float gauge)
 	{
+		playerGauge = gauge;
+		
 		foreach(var part in equipPart)
 		{
 			var partActivation = part.PartItemData.PartActivation;
 
-			if(partActivation <= gauge && !part.GetActive())
+			if(partActivation >= gauge && !part.GetActive())
 			{
 				part.SetActive(true);
 
-				// Passive
 				RunPassive(part);
+			}
+			else if (partActivation < gauge && part.GetActive())
+			{
+				part.SetActive(false);
+				
+				StopPassive(part);
 			}
 		}
 	}
@@ -97,7 +106,7 @@ public class PartController : MonoBehaviour
 		var partData = passivePart.GetData();
 
 		manager.AddStatus(partData.status);
-		ownerUnit.status.AddStatus(partData.status);
+		ownerUnit.playerData.status.AddStatus(partData.status);
 	}
 
 	private void StopPassive(Part part)
@@ -113,7 +122,7 @@ public class PartController : MonoBehaviour
 		var partData = passivePart.GetData();
 
 		manager.SubStatus(partData.status);
-		ownerUnit.status.SubStatus(partData.status);
+		ownerUnit.playerData.status.SubStatus(partData.status);
 	}
 
 	// Active
