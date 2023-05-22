@@ -76,7 +76,7 @@ public class AttackNode
 public class Tree
 {
 	public AttackNode top; // 최상단 노드
-	public int dataCount;
+	[HideInInspector] public int dataCount;
 
 	public Tree()
 	{

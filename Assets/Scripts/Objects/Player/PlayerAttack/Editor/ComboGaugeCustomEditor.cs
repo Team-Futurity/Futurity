@@ -18,9 +18,10 @@ public class ComboGaugeCustomEditor : Editor
 		// ComboData 리스트 변경
 		comboGaugeSystem.comboData = comboGaugeSystem.comboData == null ? new List<ComboCountData>() : comboGaugeSystem.comboData;
 		var list = comboGaugeSystem.comboData;
+
 		int minCount = comboGaugeSystem.minComboCount;
 		int maxCount = comboGaugeSystem.maxComboCount;
-		int comboCount = maxCount - minCount + 1;
+		int comboCount = maxCount - minCount;
 		
 		if (list.Count == comboCount) { return; }
 

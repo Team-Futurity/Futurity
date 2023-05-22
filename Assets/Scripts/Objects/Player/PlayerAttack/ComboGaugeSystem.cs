@@ -52,9 +52,10 @@ public class ComboGaugeSystem : MonoBehaviour
 	private int CalculateCurrentGauge(int hittedEnemyCount)
 	{
 		int addedGauge = -1;
+		int compareComboCount = comboCount == 3 ? 0 : comboCount + 1;
 		foreach(ComboCountData data in comboData)
 		{
-			if(data.ComboCount == comboCount) { addedGauge = data.AddedGauge; break; }
+			if(data.ComboCount == compareComboCount) { addedGauge = data.AddedGauge; break; }
 		}
 
 		if(addedGauge == -1)
