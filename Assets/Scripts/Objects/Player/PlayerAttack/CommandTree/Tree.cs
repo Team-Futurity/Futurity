@@ -19,6 +19,7 @@ public class AttackNode
 	public float attackSpeed;
 	public float attackAfterDelay;
 	public float attackST;
+	public float attackKnockback;
 
 	public int loopCount;
 	public float loopDelay;

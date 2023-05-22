@@ -10,6 +10,9 @@ public class PlayerAttackState_Normal : PlayerAttackState
 	public override void Begin(PlayerController pc)
 	{
 		base.Begin(pc);
+
+		pc.attackCollider.radiusCollider.enabled = true;
+		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength / 100);
 	}
 
 	public override void End(PlayerController pc)

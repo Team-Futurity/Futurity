@@ -25,6 +25,7 @@ public abstract class UnitBase : MonoBehaviour
 
 	public virtual void Knockback(Vector3 direction, float power)
 	{
+		rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 		rigid.AddForce(direction * power, ForceMode.Impulse);
 	}
 
