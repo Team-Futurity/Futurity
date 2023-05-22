@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 public class ComboCountData
@@ -27,6 +28,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	private int maxGauge;
 	public List<ComboCountData> comboData;
 	public GaugeBarController gaugeBar;
+	[HideInInspector] public UnityEvent<float> OnGaugeChanged;
 
 	public int ComboCount { get { return comboCount; } }
 	public int CurrentGauge { get { return currentGauge;} }
@@ -78,5 +80,6 @@ public class ComboGaugeSystem : MonoBehaviour
 		currentGauge = Mathf.Clamp(currentGauge + addedComboGauge, minComboGauge, maxComboGauge);
 
 		gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge);
+		OnGaugeChanged.Invoke(currentGauge);
 	}
 }
