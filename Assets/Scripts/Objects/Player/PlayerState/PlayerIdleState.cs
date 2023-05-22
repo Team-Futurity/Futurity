@@ -28,7 +28,7 @@ public class PlayerIdleState : UnitState<PlayerController>
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-
+		
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)

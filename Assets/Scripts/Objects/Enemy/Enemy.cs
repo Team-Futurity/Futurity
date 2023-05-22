@@ -15,7 +15,7 @@ public class Enemy : UnitBase
 
 	public override void Attack(UnitBase target)
 	{
-		target.Hit(this, GetDamage());
+		target.Hit(this, GetDamage(10));
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot)
@@ -29,9 +29,9 @@ public class Enemy : UnitBase
 		throw new System.NotImplementedException();
 	}
 
-	protected override float GetDamage()
+	protected override float GetDamage(float attackCount)
 	{
-		return 10;
+		return attackCount;
 	}
 
 	protected override float GetDefensePoint()

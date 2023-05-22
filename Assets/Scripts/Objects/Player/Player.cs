@@ -13,7 +13,7 @@ public class Player : UnitBase
 
 	public override void Attack(UnitBase target)
 	{
-		target.Hit(this, GetDamage());
+		target.Hit(this, GetDamage(1));
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot)
@@ -40,9 +40,9 @@ public class Player : UnitBase
 		return status.GetStatus(StatusType.ATTACK_POINT).GetValue();
 	}
 
-	protected override float GetDamage()
+	protected override float GetDamage(float attackST)
 	{
-		return GetAttakPoint();
+		return GetAttakPoint() * 1;
 	}
 
 	protected override float GetDefensePoint()
