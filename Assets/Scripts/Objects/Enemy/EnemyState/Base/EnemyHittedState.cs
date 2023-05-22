@@ -55,8 +55,8 @@ public class EnemyHittedState : UnitState<EnemyController>
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
-	{
-		
+	{ 
+
 	}
 
 	public override void OnCollisionEnter(EnemyController unit, Collision collision)
