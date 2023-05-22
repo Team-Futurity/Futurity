@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 
 public class PartsSlotSettingButton : MonoBehaviour
 {
-	[Header ("파츠 데이터를 UI에 출력하거나, 저장소에 파츠 데이터를 전달하는 스크립트")]
-	[Space (15)]
+	[Header("파츠 데이터를 UI에 출력하거나, 저장소에 파츠 데이터를 전달하는 스크립트")]
+	[Space(15)]
 
 
 	[SerializeField]
@@ -17,7 +17,7 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	[SerializeField]
 	[Tooltip("파츠의 정보가 담긴 스크립터블 오브젝트")]
-	private ItemUIData partsData;
+	private ItemUIData itemUIData;
 
 	[SerializeField]
 	[Tooltip("파츠 이름을 출력할 TextMeshProUGUI 오브젝트")]
@@ -33,22 +33,22 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	private void Start()
 	{
-		if (!partsData && PartsRepositoryManager.Instance.GetRepositoryItemUIData(partsSlotNum) != null)
+		if (!itemUIData && PartsRepositoryManager.Instance.GetRepositoryItemUIData(partsSlotNum) != null)
 		{
-			partsData = PartsRepositoryManager.Instance.GetRepositoryItemUIData(partsSlotNum);
+			itemUIData = PartsRepositoryManager.Instance.GetRepositoryItemUIData(partsSlotNum);
 		}
 
-		if (partsData)
+		if (itemUIData)
 		{
-			partsSpriteWriter.sprite = partsData.itemSprite;
-			partsNameText.text = partsData.itemName;
+			partsSpriteWriter.sprite = itemUIData.itemSprite;
+			partsNameText.text = itemUIData.itemName;
 		}
 	}
 
 	public void OnSelect(BaseEventData eventData)
 	{
 		//#설명#	선택시 파츠 설명 출력
-		partsMenualText.text = partsData.itemDescription;
+		partsMenualText.text = itemUIData.itemDescription;
 	}
 
 	public void OnDeselect(BaseEventData eventData)

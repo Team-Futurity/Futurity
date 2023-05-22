@@ -1190,11 +1190,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 654688326, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 407
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053615263, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053615263, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 1053615263, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 307
+      value: -250
       objectReference: {fileID: 0}
     - target: {fileID: 238119511511649840, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_FillAmount
@@ -1390,7 +1398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2089540018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1403,7 +1411,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f62b124ff9f61498b9ce55b2d0dfd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemUIDatas: []
+  ItemUIDatas:
+  - {fileID: 11400000, guid: 8861ab287f81ec64ebbd9d2b3ed5017b, type: 2}
+  - {fileID: 11400000, guid: 8861ab287f81ec64ebbd9d2b3ed5017b, type: 2}
+  - {fileID: 11400000, guid: 8861ab287f81ec64ebbd9d2b3ed5017b, type: 2}
 --- !u!4 &2089540019
 Transform:
   m_ObjectHideFlags: 0
@@ -2301,7 +2312,7 @@ MonoBehaviour:
             effectPos: {fileID: 2014832256361753889}
             effectPrefab: {fileID: 574209011667149413, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
             effectParent: {fileID: 0}
-            animInteger: 2
+            animInteger: 0
             randomShakePower: 0.2
             curveShakePower: 0.2
             shakeTime: 0.25
@@ -2334,7 +2345,7 @@ MonoBehaviour:
             effectPos: {fileID: 2014832256361753889}
             effectPrefab: {fileID: 2413003215335193371, guid: ef081fd31c8e4eb4c89400ca6530c908, type: 3}
             effectParent: {fileID: 0}
-            animInteger: 3
+            animInteger: 0
             randomShakePower: 0
             curveShakePower: 0
             shakeTime: 0
@@ -2365,7 +2376,7 @@ MonoBehaviour:
           effectPos: {fileID: 2014832256361753889}
           effectPrefab: {fileID: 840705841883797951, guid: cd5ce593c16eea54c8e4846e1e3a8871, type: 3}
           effectParent: {fileID: 0}
-          animInteger: 1
+          animInteger: 0
           randomShakePower: 0
           curveShakePower: 0
           shakeTime: 0
@@ -2546,7 +2557,7 @@ MonoBehaviour:
         Path: 
     dataCount: 3
   attackCollider: {fileID: 4068547684639792029}
-  autoTargetCollider: {fileID: 2001166496}
+  autoTargetCollider: {fileID: 0}
   currentAttackState: 0
   currentAttackAnimKey: 
   specialIsReleased: 0

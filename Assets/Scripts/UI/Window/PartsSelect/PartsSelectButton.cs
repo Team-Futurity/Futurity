@@ -37,7 +37,8 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 		{
 			partsSpriteWriter.sprite = ItemUIData.itemSprite;
 			partsNameText.text = ItemUIData.itemName;
-		} else
+		}
+		else
 		{
 			partsSpriteWriter.sprite = null;
 			partsNameText.text = null;
@@ -55,14 +56,19 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	public void OnSelect(BaseEventData eventData)
 	{
 		//#설명#	선택시 파츠 설명 출력
-		partsMenualText.text = ItemUIData.itemDescription;
+
+		if (ItemUIData != null)
+		{
+			partsMenualText.text = ItemUIData.itemDescription;
+		}
 	}
 
 	// 선택 해제시
 	public void OnDeselect(BaseEventData eventData)
 	{
 		//#설명#	선택 해제시 파츠 설명 제거
-		partsMenualText.text = "";
+
+			partsMenualText.text = "";
 	}
 
 	public void ItemUIDataSelect()

@@ -36,7 +36,7 @@ public class PartsRepositoryManager : Singleton<PartsRepositoryManager>
 	}
 
 	/// <summary>
-	/// 해당 함수는 ItemUIData를 가져옵니다.
+	/// 해당 함수는 ItemUIData를  가져옵니다.
 	/// </summary>
 	/// <param name="settingNum">가져올 데이터 저장소 넘버</param>
 	/// <returns>repositoryItemUIDatas[settingNum]를 반환합니다.</returns>
