@@ -126,17 +126,14 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnMove(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun)
-		{
-			return;
-		}
-		
-
+		// Input
 		Vector3 input = context.ReadValue<Vector3>();
-		if (input != null)
-		{
-			moveDir = new Vector3(input.x, 0f, input.y);
+		if (input == null) { return; }
+		moveDir = new Vector3(input.x, 0f, input.y);
 
+		// 예외처리
+		if (!IsCurrentState(PlayerState.Idle))
+		{
 			// 돌진 중 이동 기능
 			if (IsAttackProcess())
 			{
@@ -144,29 +141,22 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				{
 					//AddSubState(PlayerState.Move);
 				}
-				return;
-
 			}
+			return;
+		}
 
-			// 후딜 중엔 이동 못하게 처리
-			if(IsCurrentState(PlayerState.AttackAfterDelay)) { return; }
-
-			// 이동 기능
-			if (!IsCurrentState(PlayerState.Move))
-			{
-				ChangeState(PlayerState.Move);
-			}
+		// 이동 기능
+		if (!IsCurrentState(PlayerState.Move))
+		{
+			ChangeState(PlayerState.Move);
 		}
 	}
 
 	public void OnDash(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun)
-		{
-			return;
-		}
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun) { return; }
 
-		if (context.performed && !playerData.isStun)
+		if (context.performed)
 		{
 			if (!IsCurrentState(PlayerState.Dash))
 			{
@@ -178,33 +168,38 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnNormalAttack(InputAction.CallbackContext context)
 	{
-		if (context.started && !playerData.isStun)
+		// 입력이 되지 않았으면(Pressed 시점이 아니면) 리턴
+		if (!context.started) { return; }
+
+		// Idle, Move, Attack 관련 State가 아니면 리턴
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+
+		// AfterDelay나 다른 스테이트(Idle, Move)라면
+		if (!IsAttackProcess())
 		{
-			if (!IsAttackProcess())
-			{
-				AttackNode node = FindInput(PlayerInput.NormalAttack);
+			AttackNode node = FindInput(PlayerInput.NormalAttack);
 
-				if (node == null) { return; }
+			if (node == null) { return; }
 
-				curNode = node;
-				curCombo = node.command;
-				currentAttackState = PlayerState.NormalAttack;
-				currentAttackAnimKey = ComboAttackAnimaKey;
-				ChangeState(PlayerState.AttackDelay);
-			}
-			else
+			curNode = node;
+			curCombo = node.command;
+			currentAttackState = PlayerState.NormalAttack;
+			currentAttackAnimKey = ComboAttackAnimaKey;
+			ChangeState(PlayerState.AttackDelay);
+		}
+		else // 공격 중이라면
+		{
+			if (nextCombo == PlayerInput.None)
 			{
-				if (nextCombo == PlayerInput.None)
-				{
-					nextCombo = PlayerInput.NormalAttack;
-				}
+				nextCombo = PlayerInput.NormalAttack;
 			}
 		}
 	}
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
-		if(playerData.isStun) { return; }
+		// Idle, Move, Attack 관련 State가 아니면 리턴
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
 
 		if (context.started)
 		{
@@ -262,8 +257,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		autoTargetCollider.enabled = isEnabled;
 	}
 
-	public bool IsAttackProcess()
+	public bool IsAttackProcess(bool isContainedAfterDelay = false)
 	{
-		return IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
+		bool isAttack = IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
+		return (isContainedAfterDelay ? (isAttack || IsCurrentState(PlayerState.AttackAfterDelay)) : (isAttack));
 	}
 }

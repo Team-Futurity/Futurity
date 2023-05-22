@@ -29,7 +29,7 @@ public class Player : UnitBase
 
 		if(!pc.IsCurrentState(PlayerController.PlayerState.ChargedAttack))
 		{
-			//pc.ChangeState(PlayerController.PlayerState.Hit);
+			pc.ChangeState(PlayerController.PlayerState.Hit);
 		}
 		
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
