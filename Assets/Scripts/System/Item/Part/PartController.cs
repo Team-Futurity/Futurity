@@ -5,17 +5,20 @@ using UnityEngine.Events;
 
 public class PartController : MonoBehaviour
 {
-	public List<Part> equipPart = new List<Part>();
+	[Header("장착 중인 파츠")]
+	public List<Part> equipPart;
 	private const int MaxEquipCount = 4;
 
-	// Owner Data
 	private PlayerController ownerUnit;
-	
 	private StatusManager manager = new StatusManager();
-	
 	private OriginStatus status;
 
+	// Player Gauge를 캐싱
 	private float playerGauge = .0f;
+
+	[Header("테스트용 파츠")]
+	// Test용 코드 <- Epic Monster가 구현되지 않아서 부품 설정을 위함
+	public List<Part> testPart;
 
 	private void Awake()
 	{
@@ -25,12 +28,16 @@ public class PartController : MonoBehaviour
 		manager.SetStatus(status.GetStatus());
 
 		TryGetComponent(out ownerUnit);
+		
+		ownerUnit.comboGaugeSystem.OnGaugeChanged.AddListener(OnGaugeChanged);
 	}
 
 	private void Start()
 	{
-		//PassiveEquip(equipPart[0]);
-
+		foreach (var VARIABLE in testPart)
+		{
+			EquipPart(VARIABLE);
+		}
 	}
 
 	public void EquipPart(Part part)
@@ -40,7 +47,7 @@ public class PartController : MonoBehaviour
 			return;
 		}
 
-		if (part.PartItemData.PartActivation > playerGauge)
+		if (part.PartItemData.PartActivation <= playerGauge)
 		{
 			part.SetActive(true);
 			RunPassive(part);
@@ -71,18 +78,23 @@ public class PartController : MonoBehaviour
 	private void OnGaugeChanged(float gauge)
 	{
 		playerGauge = gauge;
+
+		if (equipPart.Count <= 0)
+		{
+			return;
+		}
 		
 		foreach(var part in equipPart)
 		{
 			var partActivation = part.PartItemData.PartActivation;
 
-			if(partActivation >= gauge && !part.GetActive())
+			if(partActivation <= gauge && !part.GetActive())
 			{
 				part.SetActive(true);
 
 				RunPassive(part);
 			}
-			else if (partActivation < gauge && part.GetActive())
+			else if (partActivation > gauge && part.GetActive())
 			{
 				part.SetActive(false);
 				
