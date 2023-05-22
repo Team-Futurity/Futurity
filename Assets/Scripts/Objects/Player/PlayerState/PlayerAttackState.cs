@@ -16,6 +16,8 @@ public class PlayerAttackState : UnitState<PlayerController>
 	//private CameraController cam;
 	protected AttackNode attackNode;
 
+	private int hittedEnemyCount;
+
 	protected PlayerAttackState(string attackTriggerKey, string attackTypeKey)
 	{
 		AttackTriggerAnimKey = attackTriggerKey;
@@ -34,11 +36,10 @@ public class PlayerAttackState : UnitState<PlayerController>
 		attackNode = pc.curNode;
 		//effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
 		currentTime = 0;
+		hittedEnemyCount = 0;
 		//cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
 
 		pc.SetCollider(true);
-		pc.attackCollider.radiusCollider.enabled = true;
-		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength/100);
 	}
 
 	public override void Update(PlayerController pc)
@@ -59,6 +60,8 @@ public class PlayerAttackState : UnitState<PlayerController>
 		pc.rigid.velocity = Vector3.zero;
 
 		pc.attackCollider.radiusCollider.enabled = false;
+
+		pc.comboGaugeSystem.SetComboGaugeProc(hittedEnemyCount > 0, hittedEnemyCount);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
@@ -70,7 +73,10 @@ public class PlayerAttackState : UnitState<PlayerController>
 			if (unit.attackCollider.IsInCollider(other.gameObject))
 			{
 				FDebug.Log("3|" + other);
-				unit.playerData.Attack(other.GetComponent<UnitBase>());
+				var enemy = other.gameObject.GetComponent<UnitBase>();
+				unit.playerData.Attack(enemy);
+				enemy.Knockback(unit.transform.forward, attackNode.attackKnockback);
+				hittedEnemyCount++;
 			}
 		}
 	}

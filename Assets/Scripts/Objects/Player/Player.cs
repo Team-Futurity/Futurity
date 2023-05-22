@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : UnitBase
 {
@@ -29,7 +30,7 @@ public class Player : UnitBase
 
 		if(!pc.IsCurrentState(PlayerController.PlayerState.ChargedAttack))
 		{
-			//pc.ChangeState(PlayerController.PlayerState.Hit);
+			pc.ChangeState(PlayerController.PlayerState.Hit);
 		}
 		
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);

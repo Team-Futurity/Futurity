@@ -25,7 +25,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		unit.skinnedMeshRenderer.material = copyMat;
 
-		unit.rigid.AddForce(-unit.transform.forward * 450.0f, ForceMode.Impulse);
+		//unit.rigid.AddForce(-unit.transform.forward * 450.0f, ForceMode.Impulse);
 	}
 	public override void Update(EnemyController unit)
 	{
