@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class UnitBase : MonoBehaviour
 {
 	public StatusManager status;
-	protected Rigidbody rigid;
+	[SerializeField] protected Rigidbody rigid;
 
 	public bool isGodMode = false;
 	public bool isStun = false;
