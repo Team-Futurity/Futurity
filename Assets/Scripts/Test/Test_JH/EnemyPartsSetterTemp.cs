@@ -9,6 +9,6 @@ public class EnemyPartsSetterTemp : MonoBehaviour
 
 	private void Start()
 	{
-		PartsRepositoryManager.Instance.SetEnemyDatas(partsDatas);
+		//PartsRepositoryContorller.Instance.SetEnemyDatas(partsDatas);
 	}
 }

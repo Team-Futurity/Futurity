@@ -5693,15 +5693,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5328251835375101389}
+  - component: {fileID: 1070719927369175192}
+  - component: {fileID: 6307489441031809494}
+  - component: {fileID: 2214123608498936178}
+  - component: {fileID: 1070719927369175194}
+  - component: {fileID: 507041425030904175}
   - component: {fileID: 5821464009680269676}
   - component: {fileID: 6599983942192001998}
   - component: {fileID: 7039203949321405940}
-  - component: {fileID: 1070719927369175194}
-  - component: {fileID: 2214123608498936178}
-  - component: {fileID: 1070719927369175192}
   - component: {fileID: 1070719927369175188}
   - component: {fileID: 1070719927369175189}
-  - component: {fileID: 507041425030904175}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -5730,6 +5731,521 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1070719927369175192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 106ac3badaf664445aaae88fc61fb65e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comboTree:
+    top:
+      command: 0
+      childNodes:
+      - command: 1
+        childNodes:
+        - command: 1
+          childNodes:
+          - command: 1
+            childNodes: []
+            attackLength: 235
+            attackAngle: 360
+            attackLengthMark: 0
+            attackDelay: 0.9
+            attackSpeed: 0.4
+            attackAfterDelay: 0.6
+            attackST: 4
+            attackKnockback: 0
+            loopCount: 0
+            loopDelay: 0
+            collider: {fileID: 4068547685948332291}
+            effectPos: {fileID: 2014832257133555644}
+            effectPrefab: {fileID: 574209011667149413, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
+            effectParent: {fileID: 0}
+            animInteger: 2
+            randomShakePower: 0.2
+            curveShakePower: 0.2
+            shakeTime: 0.25
+            attackSound:
+              Guid:
+                Data1: 1134026463
+                Data2: 1319667708
+                Data3: 1757666958
+                Data4: -356488086
+              Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-j
+            attackSound2:
+              Guid:
+                Data1: 0
+                Data2: 0
+                Data3: 0
+                Data4: 0
+              Path: 
+          - command: 2
+            childNodes: []
+            attackLength: 600
+            attackAngle: 40
+            attackLengthMark: 0
+            attackDelay: 0.5
+            attackSpeed: 0.333
+            attackAfterDelay: 1.134
+            attackST: 4
+            attackKnockback: 120
+            loopCount: 0
+            loopDelay: 0
+            collider: {fileID: 4068547685948332291}
+            effectPos: {fileID: 2014832257133555644}
+            effectPrefab: {fileID: 2413003215335193371, guid: ef081fd31c8e4eb4c89400ca6530c908, type: 3}
+            effectParent: {fileID: 0}
+            animInteger: 3
+            randomShakePower: 0
+            curveShakePower: 0
+            shakeTime: 0
+            attackSound:
+              Guid:
+                Data1: 1260165558
+                Data2: 1273239174
+                Data3: 1441446575
+                Data4: -410480518
+              Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-k
+            attackSound2:
+              Guid:
+                Data1: 0
+                Data2: 0
+                Data3: 0
+                Data4: 0
+              Path: 
+          attackLength: 250
+          attackAngle: 130
+          attackLengthMark: 0
+          attackDelay: 0.2
+          attackSpeed: 0.1
+          attackAfterDelay: 0.1
+          attackST: 2
+          attackKnockback: 100
+          loopCount: 0
+          loopDelay: 0
+          collider: {fileID: 4068547685948332291}
+          effectPos: {fileID: 2014832257133555644}
+          effectPrefab: {fileID: 840705841883797951, guid: cd5ce593c16eea54c8e4846e1e3a8871, type: 3}
+          effectParent: {fileID: 0}
+          animInteger: 1
+          randomShakePower: 0
+          curveShakePower: 0
+          shakeTime: 0
+          attackSound:
+            Guid:
+              Data1: -1140022161
+              Data2: 1165864781
+              Data3: -350210426
+              Data4: -188375705
+            Path: event:/SE/02basicattack/F_S_01_02_attack_j-j
+          attackSound2:
+            Guid:
+              Data1: 0
+              Data2: 0
+              Data3: 0
+              Data4: 0
+            Path: 
+        attackLength: 160
+        attackAngle: 90
+        attackLengthMark: 0
+        attackDelay: 0.367
+        attackSpeed: 0.134
+        attackAfterDelay: 0.099
+        attackST: 1
+        attackKnockback: 270
+        loopCount: 0
+        loopDelay: 0
+        collider: {fileID: 4068547685948332291}
+        effectPos: {fileID: 2014832257133555644}
+        effectPrefab: {fileID: 1882690260921930028, guid: 172d659acead98c40b2a7de240a27523, type: 3}
+        effectParent: {fileID: 0}
+        animInteger: 0
+        randomShakePower: 0
+        curveShakePower: 0
+        shakeTime: 0
+        attackSound:
+          Guid:
+            Data1: 457418093
+            Data2: 1117554763
+            Data3: -682623315
+            Data4: -2132575348
+          Path: event:/SE/02basicattack/F_S_01_02_attack_j
+        attackSound2:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+      - command: 2
+        childNodes: []
+        attackLength: 0
+        attackAngle: 0
+        attackLengthMark: 100
+        attackDelay: 0.3
+        attackSpeed: 1.7
+        attackAfterDelay: 0
+        attackST: 2
+        attackKnockback: 0
+        loopCount: 0
+        loopDelay: 0
+        collider: {fileID: 4068547685948332291}
+        effectPos: {fileID: 5328251835375101389}
+        effectPrefab: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
+        effectParent: {fileID: 0}
+        animInteger: 0
+        randomShakePower: 0
+        curveShakePower: 0
+        shakeTime: 0
+        attackSound:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+        attackSound2:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+      - command: 3
+        childNodes:
+        - command: 1
+          childNodes: []
+          attackLength: 0
+          attackAngle: 0
+          attackLengthMark: 0
+          attackDelay: 0
+          attackSpeed: 0
+          attackAfterDelay: 0
+          attackST: 0
+          attackKnockback: 0
+          loopCount: 0
+          loopDelay: 0
+          collider: {fileID: 0}
+          effectPos: {fileID: 0}
+          effectPrefab: {fileID: 0}
+          effectParent: {fileID: 0}
+          animInteger: 0
+          randomShakePower: 0
+          curveShakePower: 0
+          shakeTime: 0
+          attackSound:
+            Guid:
+              Data1: 0
+              Data2: 0
+              Data3: 0
+              Data4: 0
+            Path: 
+          attackSound2:
+            Guid:
+              Data1: 0
+              Data2: 0
+              Data3: 0
+              Data4: 0
+            Path: 
+        attackLength: 0
+        attackAngle: 0
+        attackLengthMark: 0
+        attackDelay: 0
+        attackSpeed: 0
+        attackAfterDelay: 0
+        attackST: 0
+        attackKnockback: 0
+        loopCount: 0
+        loopDelay: 0
+        collider: {fileID: 0}
+        effectPos: {fileID: 5328251835375101389}
+        effectPrefab: {fileID: 0}
+        effectParent: {fileID: 0}
+        animInteger: 0
+        randomShakePower: 0
+        curveShakePower: 0
+        shakeTime: 0
+        attackSound:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+        attackSound2:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+      attackLength: 0
+      attackAngle: 0
+      attackLengthMark: 0
+      attackDelay: 0
+      attackSpeed: 0
+      attackAfterDelay: 0
+      attackST: 0
+      attackKnockback: 0
+      loopCount: 0
+      loopDelay: 0
+      collider: {fileID: 0}
+      effectPos: {fileID: 0}
+      effectPrefab: {fileID: 0}
+      effectParent: {fileID: 0}
+      animInteger: 0
+      randomShakePower: 0
+      curveShakePower: 0
+      shakeTime: 0
+      attackSound:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attackSound2:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    dataCount: 3
+  dashCoolTime: 1
+  moveDir: {x: 0, y: 0, z: 0}
+  coolTimeIsEnd: 0
+  specialIsReleased: 0
+  curCombo: 0
+  nextCombo: 0
+  curNode:
+    command: 0
+    childNodes:
+    - command: 1
+      childNodes:
+      - command: 0
+        childNodes: []
+        attackLength: 0
+        attackAngle: 0
+        attackLengthMark: 0
+        attackDelay: 0
+        attackSpeed: 0
+        attackAfterDelay: 0
+        attackST: 0
+        attackKnockback: 0
+        loopCount: 0
+        loopDelay: 0
+        collider: {fileID: 0}
+        effectPos: {fileID: 0}
+        effectPrefab: {fileID: 0}
+        effectParent: {fileID: 0}
+        animInteger: 0
+        randomShakePower: 0
+        curveShakePower: 0
+        shakeTime: 0
+        attackSound:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+        attackSound2:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
+      attackLength: 0
+      attackAngle: 0
+      attackLengthMark: 0
+      attackDelay: 0
+      attackSpeed: 0
+      attackAfterDelay: 0
+      attackST: 0
+      attackKnockback: 0
+      loopCount: 0
+      loopDelay: 0
+      collider: {fileID: 0}
+      effectPos: {fileID: 0}
+      effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
+      effectParent: {fileID: 0}
+      animInteger: 0
+      randomShakePower: 0
+      curveShakePower: 0
+      shakeTime: 0
+      attackSound:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      attackSound2:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+    attackLength: 0
+    attackAngle: 0
+    attackLengthMark: 0
+    attackDelay: 0
+    attackSpeed: 0
+    attackAfterDelay: 0
+    attackST: 0
+    attackKnockback: 0
+    loopCount: 0
+    loopDelay: 0
+    collider: {fileID: 0}
+    effectPos: {fileID: 774150179230461155}
+    effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
+    effectParent: {fileID: 0}
+    animInteger: 0
+    randomShakePower: 0
+    curveShakePower: 0
+    shakeTime: 0
+    attackSound:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    attackSound2:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+  currentAttackState: 0
+  currentAttackAnimKey: 
+  glove: {fileID: 8555240636614569704}
+  playerData: {fileID: 1070719927369175194}
+  comboGaugeSystem: {fileID: 6307489441031809494}
+  attackCollider: {fileID: 4068547685948332288}
+  autoTargetCollider: {fileID: 625353277}
+  basicCollider: {fileID: 1070719927369175189}
+  animator: {fileID: 5821464009680269676}
+  rigid: {fileID: 0}
+  dashEffect: {fileID: 0}
+  rushEffects:
+  - effectPos: {fileID: 2093832577}
+    effect: {fileID: 2131523196075662621, guid: 8f83a2171f859c04ca34ce2e7f7c7022, type: 3}
+  - effectPos: {fileID: 2093832577}
+    effect: {fileID: 7544085061441626784, guid: 8c9a4a0a6eb6d4f45a2b9ae7c4df78a9, type: 3}
+  - effectPos: {fileID: 2093832577}
+    effect: {fileID: 2284399170899902541, guid: cd85815ca133e0c42aa564ff3e7de1b3, type: 3}
+  - effectPos: {fileID: 2093832577}
+    effect: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
+  - effectPos: {fileID: 5328251835375101389}
+    effect: {fileID: 7506839206146220242, guid: 190364edb40d056438d536a71e9c8601, type: 3}
+  - effectPos: {fileID: 2093832577}
+    effect: {fileID: 3972384986883409432, guid: 91ac065fcdf48a74c8f971a4391ab51b, type: 3}
+  dash:
+    Guid:
+      Data1: -1749257826
+      Data2: 1289851513
+      Data3: -1451679350
+      Data4: -1498346246
+    Path: event:/SE/01move/F_S_01_01_dash
+  hitMelee:
+    Guid:
+      Data1: -2041504659
+      Data2: 1234635826
+      Data3: 472059055
+      Data4: -170203123
+    Path: event:/SE/04hit/F_S_01_04_meleemonster
+  hitRanged:
+    Guid:
+      Data1: 836098725
+      Data2: 1292596392
+      Data3: 2056250528
+      Data4: 521687612
+    Path: event:/SE/04hit/F_S_01_04_rangedmonster
+--- !u!114 &6307489441031809494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfc91daa824630448df397687cf760e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minComboCount: 0
+  maxComboCount: 3
+  minComboGauge: 0
+  maxComboGauge: 100
+  comboData:
+  - <ComboCount>k__BackingField: 0
+    <AddedGauge>k__BackingField: 3
+  - <ComboCount>k__BackingField: 1
+    <AddedGauge>k__BackingField: 1
+  - <ComboCount>k__BackingField: 2
+    <AddedGauge>k__BackingField: 0
+  gaugeBar: {fileID: 0}
+--- !u!114 &2214123608498936178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 11400000, guid: 7b132e736a636334383caf67478965ff, type: 2}
+  copyStatus: []
+--- !u!114 &1070719927369175194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e586bd859c67b4e8fd0eef524c346b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 2214123608498936178}
+  rigid: {fileID: 0}
+  isGodMode: 0
+  isStun: 0
+--- !u!114 &507041425030904175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962e1aa5112a26e42ba20eee4b065a24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 0}
+  walk:
+    Guid:
+      Data1: -1126315909
+      Data2: 1142875067
+      Data3: -396244858
+      Data4: -2039320639
+    Path: event:/SE/01move/F_S_01_01_basicmove
 --- !u!95 &5821464009680269676
 Animator:
   serializedVersion: 5
@@ -5964,461 +6480,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1070719927369175194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1e586bd859c67b4e8fd0eef524c346b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: {fileID: 2214123608498936178}
-  isGodMode: 0
-  isStun: 0
---- !u!114 &2214123608498936178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: {fileID: 11400000, guid: 7b132e736a636334383caf67478965ff, type: 2}
-  copyStatus: []
---- !u!114 &1070719927369175192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 106ac3badaf664445aaae88fc61fb65e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerData: {fileID: 1070719927369175194}
-  animator: {fileID: 5821464009680269676}
-  rigid: {fileID: 0}
-  dashEffect: {fileID: 0}
-  basicCollider: {fileID: 0}
-  moveDir: {x: 0, y: 0, z: 0}
-  curCombo: 0
-  nextCombo: 0
-  curNode:
-    command: 0
-    childNodes:
-    - command: 1
-      childNodes:
-      - command: 0
-        childNodes: []
-        attackLength: 0
-        attackAngle: 0
-        attackLengthMark: 0
-        attackDelay: 0
-        attackSpeed: 0
-        attackAfterDelay: 0
-        attackST: 0
-        loopCount: 0
-        loopDelay: 0
-        collider: {fileID: 0}
-        effectPos: {fileID: 0}
-        effectPrefab: {fileID: 0}
-        effectParent: {fileID: 0}
-        animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
-        shakeTime: 0
-        attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-        attackSound2:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-      attackLength: 0
-      attackAngle: 0
-      attackLengthMark: 0
-      attackDelay: 0
-      attackSpeed: 0
-      attackAfterDelay: 0
-      attackST: 0
-      loopCount: 0
-      loopDelay: 0
-      collider: {fileID: 0}
-      effectPos: {fileID: 0}
-      effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
-      effectParent: {fileID: 0}
-      animInteger: 0
-      randomShakePower: 0
-      curveShakePower: 0
-      shakeTime: 0
-      attackSound:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      attackSound2:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-    attackLength: 0
-    attackAngle: 0
-    attackLengthMark: 0
-    attackDelay: 0
-    attackSpeed: 0
-    attackAfterDelay: 0
-    attackST: 0
-    loopCount: 0
-    loopDelay: 0
-    collider: {fileID: 0}
-    effectPos: {fileID: 774150179230461155}
-    effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
-    effectParent: {fileID: 0}
-    animInteger: 0
-    randomShakePower: 0
-    curveShakePower: 0
-    shakeTime: 0
-    attackSound:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    attackSound2:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-  comboTree:
-    top:
-      command: 0
-      childNodes:
-      - command: 1
-        childNodes:
-        - command: 1
-          childNodes:
-          - command: 1
-            childNodes: []
-            attackLength: 235
-            attackAngle: 360
-            attackLengthMark: 0
-            attackDelay: 0.9
-            attackSpeed: 0.4
-            attackAfterDelay: 0.6
-            attackST: 4
-            loopCount: 0
-            loopDelay: 0
-            collider: {fileID: 4068547685948332291}
-            effectPos: {fileID: 2014832257133555644}
-            effectPrefab: {fileID: 574209011667149413, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
-            effectParent: {fileID: 0}
-            animInteger: 2
-            randomShakePower: 0.2
-            curveShakePower: 0.2
-            shakeTime: 0.25
-            attackSound:
-              Guid:
-                Data1: 1134026463
-                Data2: 1319667708
-                Data3: 1757666958
-                Data4: -356488086
-              Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-j
-            attackSound2:
-              Guid:
-                Data1: 0
-                Data2: 0
-                Data3: 0
-                Data4: 0
-              Path: 
-          - command: 2
-            childNodes: []
-            attackLength: 600
-            attackAngle: 40
-            attackLengthMark: 0
-            attackDelay: 0.5
-            attackSpeed: 0.333
-            attackAfterDelay: 1.134
-            attackST: 4
-            loopCount: 0
-            loopDelay: 0
-            collider: {fileID: 4068547685948332291}
-            effectPos: {fileID: 2014832257133555644}
-            effectPrefab: {fileID: 2413003215335193371, guid: ef081fd31c8e4eb4c89400ca6530c908, type: 3}
-            effectParent: {fileID: 0}
-            animInteger: 3
-            randomShakePower: 0
-            curveShakePower: 0
-            shakeTime: 0
-            attackSound:
-              Guid:
-                Data1: 1260165558
-                Data2: 1273239174
-                Data3: 1441446575
-                Data4: -410480518
-              Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-k
-            attackSound2:
-              Guid:
-                Data1: 0
-                Data2: 0
-                Data3: 0
-                Data4: 0
-              Path: 
-          attackLength: 250
-          attackAngle: 130
-          attackLengthMark: 0
-          attackDelay: 0.2
-          attackSpeed: 0.1
-          attackAfterDelay: 0.1
-          attackST: 2
-          loopCount: 0
-          loopDelay: 0
-          collider: {fileID: 4068547685948332291}
-          effectPos: {fileID: 2014832257133555644}
-          effectPrefab: {fileID: 840705841883797951, guid: cd5ce593c16eea54c8e4846e1e3a8871, type: 3}
-          effectParent: {fileID: 0}
-          animInteger: 1
-          randomShakePower: 0
-          curveShakePower: 0
-          shakeTime: 0
-          attackSound:
-            Guid:
-              Data1: -1140022161
-              Data2: 1165864781
-              Data3: -350210426
-              Data4: -188375705
-            Path: event:/SE/02basicattack/F_S_01_02_attack_j-j
-          attackSound2:
-            Guid:
-              Data1: 0
-              Data2: 0
-              Data3: 0
-              Data4: 0
-            Path: 
-        attackLength: 160
-        attackAngle: 90
-        attackLengthMark: 0
-        attackDelay: 0.367
-        attackSpeed: 0.134
-        attackAfterDelay: 0.099
-        attackST: 1
-        loopCount: 0
-        loopDelay: 0
-        collider: {fileID: 4068547685948332291}
-        effectPos: {fileID: 2014832257133555644}
-        effectPrefab: {fileID: 1882690260921930028, guid: 172d659acead98c40b2a7de240a27523, type: 3}
-        effectParent: {fileID: 0}
-        animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
-        shakeTime: 0
-        attackSound:
-          Guid:
-            Data1: 457418093
-            Data2: 1117554763
-            Data3: -682623315
-            Data4: -2132575348
-          Path: event:/SE/02basicattack/F_S_01_02_attack_j
-        attackSound2:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-      - command: 2
-        childNodes: []
-        attackLength: 0
-        attackAngle: 0
-        attackLengthMark: 100
-        attackDelay: 0.3
-        attackSpeed: 1.7
-        attackAfterDelay: 0
-        attackST: 2
-        loopCount: 0
-        loopDelay: 0
-        collider: {fileID: 4068547685948332291}
-        effectPos: {fileID: 5328251835375101389}
-        effectPrefab: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
-        effectParent: {fileID: 0}
-        animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
-        shakeTime: 0
-        attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-        attackSound2:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-      - command: 3
-        childNodes:
-        - command: 1
-          childNodes: []
-          attackLength: 0
-          attackAngle: 0
-          attackLengthMark: 0
-          attackDelay: 0
-          attackSpeed: 0
-          attackAfterDelay: 0
-          attackST: 0
-          loopCount: 0
-          loopDelay: 0
-          collider: {fileID: 0}
-          effectPos: {fileID: 0}
-          effectPrefab: {fileID: 0}
-          effectParent: {fileID: 0}
-          animInteger: 0
-          randomShakePower: 0
-          curveShakePower: 0
-          shakeTime: 0
-          attackSound:
-            Guid:
-              Data1: 0
-              Data2: 0
-              Data3: 0
-              Data4: 0
-            Path: 
-          attackSound2:
-            Guid:
-              Data1: 0
-              Data2: 0
-              Data3: 0
-              Data4: 0
-            Path: 
-        attackLength: 0
-        attackAngle: 0
-        attackLengthMark: 0
-        attackDelay: 0
-        attackSpeed: 0
-        attackAfterDelay: 0
-        attackST: 0
-        loopCount: 0
-        loopDelay: 0
-        collider: {fileID: 0}
-        effectPos: {fileID: 5328251835375101389}
-        effectPrefab: {fileID: 0}
-        effectParent: {fileID: 0}
-        animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
-        shakeTime: 0
-        attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-        attackSound2:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-      attackLength: 0
-      attackAngle: 0
-      attackLengthMark: 0
-      attackDelay: 0
-      attackSpeed: 0
-      attackAfterDelay: 0
-      attackST: 0
-      loopCount: 0
-      loopDelay: 0
-      collider: {fileID: 0}
-      effectPos: {fileID: 0}
-      effectPrefab: {fileID: 0}
-      effectParent: {fileID: 0}
-      animInteger: 0
-      randomShakePower: 0
-      curveShakePower: 0
-      shakeTime: 0
-      attackSound:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      attackSound2:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-    dataCount: 3
-  attackCollider: {fileID: 4068547685948332288}
-  autoTargetCollider: {fileID: 625353277}
-  currentAttackState: 0
-  specialIsReleased: 0
-  glove: {fileID: 8555240636614569704}
-  rushEffects:
-  - effectPos: {fileID: 2093832577}
-    effect: {fileID: 2131523196075662621, guid: 8f83a2171f859c04ca34ce2e7f7c7022, type: 3}
-  - effectPos: {fileID: 2093832577}
-    effect: {fileID: 7544085061441626784, guid: 8c9a4a0a6eb6d4f45a2b9ae7c4df78a9, type: 3}
-  - effectPos: {fileID: 2093832577}
-    effect: {fileID: 2284399170899902541, guid: cd85815ca133e0c42aa564ff3e7de1b3, type: 3}
-  - effectPos: {fileID: 2093832577}
-    effect: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
-  - effectPos: {fileID: 5328251835375101389}
-    effect: {fileID: 7506839206146220242, guid: 190364edb40d056438d536a71e9c8601, type: 3}
-  - effectPos: {fileID: 2093832577}
-    effect: {fileID: 3972384986883409432, guid: 91ac065fcdf48a74c8f971a4391ab51b, type: 3}
-  dash:
-    Guid:
-      Data1: -1749257826
-      Data2: 1289851513
-      Data3: -1451679350
-      Data4: -1498346246
-    Path: event:/SE/01move/F_S_01_01_dash
-  hitMelee:
-    Guid:
-      Data1: -2041504659
-      Data2: 1234635826
-      Data3: 472059055
-      Data4: -170203123
-    Path: event:/SE/04hit/F_S_01_04_meleemonster
-  hitRanged:
-    Guid:
-      Data1: 836098725
-      Data2: 1292596392
-      Data3: 2056250528
-      Data4: 521687612
-    Path: event:/SE/04hit/F_S_01_04_rangedmonster
 --- !u!54 &1070719927369175188
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6449,23 +6510,3 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &507041425030904175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 962e1aa5112a26e42ba20eee4b065a24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effect: {fileID: 0}
-  walk:
-    Guid:
-      Data1: -1126315909
-      Data2: 1142875067
-      Data3: -396244858
-      Data4: -2039320639
-    Path: event:/SE/01move/F_S_01_01_basicmove

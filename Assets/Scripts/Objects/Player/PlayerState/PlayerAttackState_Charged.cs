@@ -45,12 +45,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
+		unit.attackCollider.radiusCollider.enabled = false;
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
 		currentTime = 0;
 		currentLevel = 0;
-
-		//unit.specialIsReleased = false;
 	}
 
 	public override void End(PlayerController unit)
@@ -101,19 +100,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		// 돌진 전 위치에서 현재 위치로 향하는 벡터의 크기가 targetMagnitude보다 작고
 		if (((unit.transform.position - originPos).magnitude < targetMagnitude))
 		{
-			unit.SetCollider(false);
-
-			// Collision연산으로 부족한 부분을 메꿀 Ray연산
-			// ray의 길이는 조금 논의가 필요할지도...?
-			if (Physics.Raycast(unit.transform.position, forward, out hit, rayLength, wallLayer))
-			{
-				//CollisionToWallProc(unit);
-			}
-
-			unit.SetCollider(true);
-
-			// while문이 도는 동안 속도를 moveSpeed로 고정
-			FDebug.Log("This is Fixed");
 			unit.rigid.velocity = forward * moveSpeed;
 		}
 		else // targetPos에 도달한 경우
@@ -160,10 +146,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			}
 			else // 적과 충돌했었다면
 			{
-				// 넉백 코드
-				// ...
 				var unitData = collision.transform.GetComponent<UnitBase>();
 				unit.playerData.Attack(unitData);
+				unitData.Knockback(collision.GetContact(0).normal, LengthMarkIncreasing);
 			}
 			return;
 		}

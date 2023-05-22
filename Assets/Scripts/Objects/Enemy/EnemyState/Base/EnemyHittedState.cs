@@ -7,22 +7,25 @@ using static EnemyController;
 [FSMState((int)EnemyController.EnemyState.Hitted)]
 public class EnemyHittedState : UnitState<EnemyController>
 {
-	private float curTime = .0f;
+	private float curTime;
 	private Material copyMat;
-	private Color defaultColor = Color.white;
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("Hit Begin");
-		//unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+		curTime = 0;
+
+		unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
 		unit.animator.SetTrigger(unit.hitAnimParam);
 		if(copyMat == null )
 			copyMat = new Material(unit.eMaterial);
-		unit.skinnedMeshRenderer.material = copyMat;
+		
 		copyMat.SetColor("_MainColor", unit.damagedColor);
 
-		unit.rigid.AddForce(-unit.transform.forward * unit.hitPower, ForceMode.Impulse);
+		unit.skinnedMeshRenderer.material = copyMat;
+
+		//unit.rigid.AddForce(-unit.transform.forward * 450.0f, ForceMode.Impulse);
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -37,7 +40,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		curTime += Time.deltaTime;
 
-		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState(unit));
+		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, EnemyController.EnemyState.MDefaultChase);
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -47,16 +50,15 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		//FDebug.Log("Hit End");
-		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
+		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
-		curTime = 0;
-		copyMat.SetColor("_MainColor", defaultColor);
+		//FDebug.Log("Hit End");
+		copyMat.SetColor("_MainColor", unit.defaultColor);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
-	{ 
-
+	{
+		
 	}
 
 	public override void OnCollisionEnter(EnemyController unit, Collision collision)

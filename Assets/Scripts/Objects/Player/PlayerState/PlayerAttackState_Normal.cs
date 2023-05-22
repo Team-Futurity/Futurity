@@ -11,7 +11,8 @@ public class PlayerAttackState_Normal : PlayerAttackState
 	{
 		base.Begin(pc);
 
-		AudioManager.instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
+		pc.attackCollider.radiusCollider.enabled = true;
+		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength / 100);
 	}
 
 	public override void End(PlayerController pc)
