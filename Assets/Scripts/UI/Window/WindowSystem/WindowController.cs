@@ -32,6 +32,8 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	[SerializeField]
 	private UnityEvent closeEvent;
 
+	[SerializeField]
+	private Dictionary<string, object> variables = new Dictionary<string, object>();
 
 
 	public void Start()
@@ -89,5 +91,10 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	public List<Button> GetButtons()
 	{
 		return buttons;
+	}
+
+	public void SetVariable(string name, object value)
+	{
+		variables[name] = value;
 	}
 }

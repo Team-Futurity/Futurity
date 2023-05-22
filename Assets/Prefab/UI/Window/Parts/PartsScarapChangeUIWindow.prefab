@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 2261325128641194246}
   - component: {fileID: 3265852211830335721}
   - component: {fileID: 2187621516431228537}
-  - component: {fileID: 2232427404663660247}
   - component: {fileID: 60636968616731021}
+  - component: {fileID: 2232427404663660247}
   - component: {fileID: 4467906768959609520}
   m_Layer: 5
-  m_Name: PartsChangeCheckWindow
+  m_Name: PartsScarapChangeUIWindow
   m_TagString: UIWindow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,6 +80,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &60636968616731021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280084176244655351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88b2a82d1a012444af6d2250c5cc804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainText: {fileID: 0}
+  rightButtonText: {fileID: 0}
+  leftButtonText: {fileID: 0}
 --- !u!114 &2232427404663660247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,9 +111,9 @@ MonoBehaviour:
   windowEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2232427404663660247}
-        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: WindowClose
+      - m_Target: {fileID: 4467906768959609520}
+        m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
+        m_MethodName: ThisDestroy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -110,9 +125,9 @@ MonoBehaviour:
         m_CallState: 2
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2232427404663660247}
-        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: WindowClose
+      - m_Target: {fileID: 4467906768959609520}
+        m_TargetAssemblyTypeName: DestroyController, Assembly-CSharp
+        m_MethodName: ThisDestroy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -142,21 +157,6 @@ MonoBehaviour:
   closeEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &60636968616731021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 280084176244655351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c88b2a82d1a012444af6d2250c5cc804, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainText: {fileID: 0}
-  rightButtonText: {fileID: 0}
-  leftButtonText: {fileID: 0}
 --- !u!114 &4467906768959609520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,10 +634,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_PressedColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
-    m_SelectedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.5019608}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -813,8 +813,6 @@ GameObject:
   - component: {fileID: 7114028333353910279}
   - component: {fileID: 8037949829915704371}
   - component: {fileID: 4348661336757758982}
-  - component: {fileID: 1921607930768487353}
-  - component: {fileID: 3444512884099914772}
   m_Layer: 5
   m_Name: PartsScarapChangeUIWindow
   m_TagString: UIWindow
@@ -884,57 +882,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1921607930768487353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3999607416487982471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce1130e4b543b6f4cace916fb887fc39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rectTransform: {fileID: 7114028333353910279}
-  windowEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  modalBackground: {fileID: 0}
-  isLock: 0
-  buttons: []
-  closeEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &3444512884099914772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3999607416487982471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c88b2a82d1a012444af6d2250c5cc804, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainText: {fileID: 0}
-  rightButtonText: {fileID: 0}
-  leftButtonText: {fileID: 0}
 --- !u!1 &6822621420083130935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,8 +948,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAE30\uC874 \uBD80\uD488\uC744 \uC794\uD574\uB85C \uBCC0\uD658\uD558\uACE0
-    \uD68D\uB4DD\uD55C \uBD80\uD488\uC744 \uD574\uB2F9 \uCE78\uC5D0 \uC7A5\uCC29\uD560\uAE4C?"
+  m_text: "\uD68D\uB4DD\uD55C \uBD80\uD488\uC744 \uBD80\uD488 \uC794\uD574\uB85C
+    \uBCC0\uD658\uD569\uB2C8\uAE4C?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
   m_sharedMaterial: {fileID: 2001311532004720964, guid: 2c40e42b8cd2b914a83b570370c6fd25, type: 2}
@@ -1306,10 +1253,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_PressedColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
-    m_SelectedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.5019608}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
