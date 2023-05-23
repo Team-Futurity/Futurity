@@ -16,7 +16,7 @@ public class CharacterDialogController : MonoBehaviour
 	private TextMeshProUGUI charactorText;
 
 	[SerializeField]
-	private float typingTelay = 0.05f;
+	private float typingDelay = 0.05f;
 	[SerializeField]
 	private string fullText;
 	private string currentText = "";
@@ -38,7 +38,7 @@ public class CharacterDialogController : MonoBehaviour
 		{
 			currentText = fullText.Substring(0, i);
 			charactorText.text = currentText;
-			yield return new WaitForSeconds(typingTelay);
+			yield return new WaitForSeconds(typingDelay);
 		}
 		TypingTextEnd();
 	}
@@ -63,5 +63,10 @@ public class CharacterDialogController : MonoBehaviour
 	public void SetCharactorSprite(Sprite changeSprite)
 	{
 		charactorImage.sprite = changeSprite;
+	}
+
+	public void SetTypingDelay(float delayTime)
+	{
+		typingDelay = delayTime;
 	}
 }
