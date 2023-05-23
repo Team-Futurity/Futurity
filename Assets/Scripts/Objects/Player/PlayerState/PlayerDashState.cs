@@ -27,7 +27,7 @@ public class PlayerDashState : UnitState<PlayerController>
 	{
 		if (currentTime > dashTime)
 		{
-			pc.BackToPreviousState();
+			pc.ChangeState(PlayerController.PlayerState.Idle);
 		}
 		currentTime += Time.deltaTime;
 	}
@@ -46,11 +46,11 @@ public class PlayerDashState : UnitState<PlayerController>
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		throw new System.NotImplementedException();
+		
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-		throw new System.NotImplementedException();
+		
 	}
 }
