@@ -19,6 +19,7 @@ public class AttackNode
 	public float attackSpeed;
 	public float attackAfterDelay;
 	public float attackST;
+	public float attackKnockback;
 
 	public int loopCount;
 	public float loopDelay;
@@ -30,7 +31,7 @@ public class AttackNode
 	[SerializeField] private GameObject effectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
-	public float animFloat;
+	public int animInteger;
 	//public float moveDistance = 0f;
 
 	public float randomShakePower;
@@ -76,7 +77,7 @@ public class AttackNode
 public class Tree
 {
 	public AttackNode top; // 최상단 노드
-	public int dataCount;
+	[HideInInspector] public int dataCount;
 
 	public Tree()
 	{
