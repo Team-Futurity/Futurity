@@ -209,7 +209,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			curCombo = node.command;
 			currentAttackState = PlayerState.NormalAttack;
 			currentAttackAnimKey = ComboAttackAnimaKey;
-			FDebug.Log("Attack : " + currentState + "NextNode : " + curNode.attackDelay );
+			//FDebug.Log("Attack : " + currentState + "NextNode : " + curNode.attackDelay );
 
 			if(IsCurrentState(PlayerState.AttackAfterDelay))
 			{
