@@ -60,7 +60,7 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 
 	}
 
-	protected virtual void NextAttackState(PlayerController unit, PlayerState nextState)
+	public virtual void NextAttackState(PlayerController unit, PlayerState nextState)
 	{
 		isNextAttackState = true;
 		unit.ChangeState(nextState);	

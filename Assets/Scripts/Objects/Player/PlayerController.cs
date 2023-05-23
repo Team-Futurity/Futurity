@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 
@@ -95,6 +95,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[HideInInspector] public TrailRenderer dashEffect;
 	private WaitForSeconds dashCoolTimeWFS;
 
+	// event
+	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
+
+	// Temporary
 	[Serializable]
 	public struct EffectData
 	{
@@ -127,6 +131,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// UnitFSM Init
 		unit = this;
 		SetUp(PlayerState.Idle);
+		UnitState<PlayerController> astate = null;
+		GetState(PlayerState.AttackAfterDelay, ref astate);
+		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
 		curNode = comboTree.top;
@@ -197,11 +204,19 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 			if (node == null) { return; }
 
+
 			curNode = node;
 			curCombo = node.command;
 			currentAttackState = PlayerState.NormalAttack;
 			currentAttackAnimKey = ComboAttackAnimaKey;
-			ChangeState(PlayerState.AttackDelay);
+			FDebug.Log("Attack : " + currentState + "NextNode : " + curNode.attackDelay );
+
+			if(IsCurrentState(PlayerState.AttackAfterDelay))
+			{
+				FDebug.Log("FG");
+			}
+
+			nextStateEvent.Invoke(PlayerState.AttackDelay);
 		}
 		else // 공격 중이라면
 		{

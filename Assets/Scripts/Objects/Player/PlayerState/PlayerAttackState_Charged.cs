@@ -17,7 +17,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	// Variables
 	private float playerOriginalSpeed;	// 원래 속도(속도 감쇄용)
 	private int currentLevel;			// 현재 차지 단계
-	private float currentTime;			// 지난 시간
 	private float moveSpeed;			// 돌진할 속도
 	private float targetMagnitude;		// originPos에서 targetPos로 향하는 벡터의 크기^2
 	private float basicRayLength;		// ray의 기본 길이

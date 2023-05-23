@@ -13,7 +13,7 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 
 	protected Unit unit;
 
-	private UnitState<Unit> currentState;
+	public UnitState<Unit> currentState;
 	private UnitState<Unit> prevState;
 	// subState는 currentState에 종속적으로 작동하며 currentState가 End되면 같이 End되며 null이 된다.
 	private UnitState<Unit> subState; 

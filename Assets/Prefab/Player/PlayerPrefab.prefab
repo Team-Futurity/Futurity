@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &625353278
 CapsuleCollider:
@@ -4413,37 +4413,6 @@ Transform:
   m_Father: {fileID: 5128305486959229751}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6911967478866673180
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7136293741209816592}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7136293741209816592
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6911967478866673180}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 4.685, z: 0}
-  m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7000257671278195721
 GameObject:
   m_ObjectHideFlags: 0
@@ -5726,7 +5695,6 @@ Transform:
   - {fileID: 774150179230461155}
   - {fileID: 2014832257133555644}
   - {fileID: 2014832257151512454}
-  - {fileID: 7136293741209816592}
   - {fileID: 625353276}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -6196,6 +6164,9 @@ MonoBehaviour:
   - <ComboCount>k__BackingField: 2
     <AddedGauge>k__BackingField: 0
   gaugeBar: {fileID: 0}
+  OnGaugeChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2214123608498936178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6226,6 +6197,9 @@ MonoBehaviour:
   rigid: {fileID: 0}
   isGodMode: 0
   isStun: 0
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &507041425030904175
 MonoBehaviour:
   m_ObjectHideFlags: 0
