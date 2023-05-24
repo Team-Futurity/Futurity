@@ -17,7 +17,7 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	[SerializeField]
 	[Tooltip("파츠의 정보가 담긴 스크립터블 오브젝트")]
-	private PartsData partsData;
+	private ItemUIData itemUiData;
 
 	[SerializeField]
 	[Tooltip("파츠 이름을 출력할 TextMeshProUGUI 오브젝트")]
@@ -33,22 +33,25 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	private void Start()
 	{
-		if (!partsData && PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum) != null)
+		if (!itemUiData && PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum) != null)
 		{
-			partsData = PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum);
+			itemUiData = PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum);
 		}
 
-		if (partsData)
+		if (itemUiData)
 		{
-			partsSpriteWriter.sprite = partsData.partsSprite;
-			partsNameText.text = partsData.partsName;
+			partsSpriteWriter.sprite = itemUiData.ItemSprite;
+			partsNameText.text = itemUiData.ItemName;
 		}
 	}
 
 	public void OnSelect(BaseEventData eventData)
 	{
 		//#설명#	선택시 파츠 설명 출력
-		partsMenualText.text = partsData.partsMenual;
+		if (itemUiData != null)
+		{
+			partsMenualText.text = itemUiData.ItemDescription;
+		}
 	}
 
 	public void OnDeselect(BaseEventData eventData)
@@ -58,6 +61,9 @@ public class PartsSlotSettingButton : MonoBehaviour
 	}
 
 
+	///<summary>
+	/// 선택한 해당 스크립트의 파츠 번호 데이터를 저장소에 전달합니다.
+	///</summary>
 	public void SetRepositoryCurrentPartsData()
 	{
 		PartsRepositoryManager.Instance.SetPartsData(partsSlotNum);

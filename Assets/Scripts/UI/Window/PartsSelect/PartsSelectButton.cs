@@ -9,7 +9,7 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
 	[SerializeField]
 	[Tooltip("파츠의 정보가 담긴 스크립터블 오브젝트")]
-	private PartsData partsData;
+	private ItemUIData itemUiData;
 
 	[SerializeField]
 	[Tooltip("파츠 이름을 출력할 TextMeshProUGUI 오브젝트")]
@@ -31,12 +31,12 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
 	private void Start()
 	{
-		partsData = PartsRepositoryManager.Instance.GetEnemyData(buttonNum);
+		itemUiData = PartsRepositoryManager.Instance.GetEnemyData(buttonNum);
 
-		if (partsData != null)
+		if (itemUiData != null)
 		{
-			partsSpriteWriter.sprite = partsData.partsSprite;
-			partsNameText.text = partsData.partsName;
+			partsSpriteWriter.sprite = itemUiData.ItemSprite;
+			partsNameText.text = itemUiData.ItemName;
 		} else
 		{
 			partsSpriteWriter.sprite = null;
@@ -44,18 +44,18 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 		}
 	}
 
-	public void SetPartsData(PartsData newPartsData)
+	public void SetPartsData(ItemUIData newItemUiData)
 	{
-		partsData = newPartsData;
+		itemUiData = newItemUiData;
 
-		partsSpriteWriter.sprite = partsData.partsSprite;
-		partsNameText.text = partsData.partsName;
+		partsSpriteWriter.sprite = itemUiData.ItemSprite;
+		partsNameText.text = itemUiData.ItemName;
 	}
 
 	public void OnSelect(BaseEventData eventData)
 	{
 		//#설명#	선택시 파츠 설명 출력
-		partsMenualText.text = partsData.partsMenual;
+		partsMenualText.text = itemUiData.ItemDescription;
 	}
 
 	// 선택 해제시
@@ -68,6 +68,6 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	public void partsDataSelect()
 	{
 		// 파츠 데이터 저장
-		PartsRepositoryManager.Instance.SetCurrentPartsData(partsData);
+		PartsRepositoryManager.Instance.SetCurrentPartsData(itemUiData);
 	}
 }
