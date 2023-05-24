@@ -73,6 +73,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		return vecs;
 	}
 
+#if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
@@ -89,4 +90,5 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		Gizmos.DrawLine(transform.position, rightPos);
 		Gizmos.DrawLine(transform.position, leftPos);
 	}
+#endif
 }
