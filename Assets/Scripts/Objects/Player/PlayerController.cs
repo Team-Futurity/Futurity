@@ -160,6 +160,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		moveDir = new Vector3(input.x, 0f, input.y);
 		moveAction = context.action;
 
+		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
+
 		// 예외처리
 		if (!IsCurrentState(PlayerState.Idle))
 		{
@@ -210,17 +212,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 			if (node == null) { return; }
 
-
 			curNode = node;
 			curCombo = node.command;
 			currentAttackState = PlayerState.NormalAttack;
 			currentAttackAnimKey = ComboAttackAnimaKey;
-			//FDebug.Log("Attack : " + currentState + "NextNode : " + curNode.attackDelay );
-
-			if(IsCurrentState(PlayerState.AttackAfterDelay))
-			{
-				FDebug.Log("FG");
-			}
 
 			nextStateEvent.Invoke(PlayerState.AttackDelay);
 		}

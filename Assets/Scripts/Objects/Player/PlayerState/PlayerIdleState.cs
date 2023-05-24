@@ -11,7 +11,12 @@ public class PlayerIdleState : UnitState<PlayerController>
 		pc.rigid.velocity = Vector3.zero;
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
 
-		if (pc.moveAction.IsInProgress())
+		/*if (pc.moveAction.)
+		{
+			pc.ChangeState(PlayerController.PlayerState.Move);
+		}*/
+
+		if(pc.moveIsPressed)
 		{
 			pc.ChangeState(PlayerController.PlayerState.Move);
 		}
