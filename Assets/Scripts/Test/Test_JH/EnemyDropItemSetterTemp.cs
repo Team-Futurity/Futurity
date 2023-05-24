@@ -11,6 +11,7 @@ public class EnemyDropItemSetterTemp : MonoBehaviour
 
 	private void Start()
 	{
+		partsRepositoryManager = GameObject.Find("Player").GetComponent<PartsRepositoryManager>();
 		partsRepositoryManager.SetEnemyItemUiDatas(itemUiData);
 	}
 }

@@ -38,15 +38,15 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
 		itemUiData = partsRepositoryManager.GetEnemyData(buttonNum);
 
-		if (itemUiData != null)
+		if (itemUiData is not null)
 		{
 			partsSpriteWriter.sprite = itemUiData.ItemSprite;
-			partsNameText.text = itemUiData.ItemName;
+			partsMenualText.text = itemUiData.ItemDescription;
+
 		} 
 		else
 		{
 			partsSpriteWriter.sprite = null;
-			partsNameText.text = null;
 		}
 	}
 
@@ -61,19 +61,23 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	public void OnSelect(BaseEventData eventData)
 	{
 		//#설명#	선택시 파츠 설명 출력
-		partsMenualText.text = itemUiData.ItemDescription;
+
+		if (itemUiData is not null)
+		{
+			partsMenualText.text = itemUiData.ItemDescription;
+			partsNameText.text = itemUiData.ItemName;
+		}
 	}
 
-	// 선택 해제시
 	public void OnDeselect(BaseEventData eventData)
 	{
 		//#설명#	선택 해제시 파츠 설명 제거
 		partsMenualText.text = "";
 	}
 
-	public void partsDataSelect()
+	public void PartsDataSelect()
 	{
-		// 파츠 데이터 저장
+		//#설명#	파츠 데이터 저장
 		partsRepositoryManager.SetCurrentPartsData(itemUiData);
 	}
 }

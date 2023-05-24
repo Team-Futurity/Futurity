@@ -51,6 +51,9 @@ public class PartsSlotSettingButton : MonoBehaviour
 		}
 	}
 
+	// public SetSlot(PartData data) -> PartController -> SetSlot
+	// public SetSlot[PartData[] datas) 
+
 	public void OnSelect(BaseEventData eventData)
 	{
 		//#설명#	선택시 파츠 설명 출력
