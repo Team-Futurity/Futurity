@@ -72,7 +72,7 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		//#설명#	해당 UIWindow가 클릭되었을때 가장 앞으로 끌고오는 역할
-		BringToFront();
+		//BringToFront();
 	}
 
 	public void BringToFront()

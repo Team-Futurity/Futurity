@@ -9,6 +9,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 {
 	private float curTime;
 	private Material copyMat;
+	private Color defaultColor = Color.white;
 
 	public override void Begin(EnemyController unit)
 	{
@@ -53,7 +54,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
 		//FDebug.Log("Hit End");
-		copyMat.SetColor("_MainColor", unit.defaultColor);
+		copyMat.SetColor("_MainColor", defaultColor);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

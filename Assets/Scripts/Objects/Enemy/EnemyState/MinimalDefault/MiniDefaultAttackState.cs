@@ -12,13 +12,13 @@ public class MiniDefaultAttackState : UnitState<EnemyController>
 		//FDebug.Log("MiniDefault Attack begin");
 		unit.animator.SetTrigger(unit.atkAnimParam);
 		unit.atkCollider.enabled = true;
-		unit.rigid.AddForce(unit.transform.forward * 250.0f, ForceMode.Impulse);
+		unit.rigid.AddForce(unit.transform.forward * unit.powerReference1, ForceMode.Impulse);
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.attackDelayTime, unit, EnemyController.EnemyState.MiniDefaultChase);
+		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.MiniDefaultChase);
 	}
 
 	public override void FixedUpdate(EnemyController unit)
