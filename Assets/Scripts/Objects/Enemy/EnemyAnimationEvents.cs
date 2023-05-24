@@ -16,9 +16,9 @@ public class EnemyAnimationEvents : MonoBehaviour
 	private void Start()
 	{
 		ec = GetComponent<EnemyController>();
-		if(effectPrefab == null)
+		if (effectPrefab == null)
 		{
-			effectPrefab = GameObject.Instantiate(ec.effectPrefab, ec.effectParent == null ? null : ec.effectPos.transform);
+			//effectPrefab = GameObject.Instantiate(ec.effectPrefab, ec.effectParent == null ? null : ec.effectPos.transform);
 			effectPrefab.SetActive(false);
 		}
 	}

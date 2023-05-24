@@ -9,12 +9,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
 	public enum EnemyState : int
 	{
-		Idle,			//대기
+		Idle,					//대기
 		Default,
-		MoveIdle,		//대기 중 랜덤 이동
-		Hitted,			//피격
-		Death,          //사망
-
+		MoveIdle,				//대기 중 랜덤 이동
+		Hitted,					//피격
+		Death,					//사망
 
 		//Melee Default
 		MDefaultChase,          //추격
@@ -28,6 +27,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		//MinimalDefault
 		MiniDefaultChase,
+		MiniDefaultDelay,
 		MiniDefaultAttack,
 		MiniDefaultKnockback,
 	}
@@ -42,69 +42,66 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[SerializeField] private EnemyType enemyType;
 
 	//spawn
-	private bool isSpawning;
-	private float curSpawningTime;
-	[SerializeField] private float maxSpawningTime = 2f;
-	private BoxCollider enemyCollider;
+	private bool isSpawning;								//스폰 중인가 여부
+	private float curSpawningTime;							
+	[SerializeField] private float maxSpawningTime = 2f;	//스폰 최대 시간
+	private BoxCollider enemyCollider;						//피격 Collider
 
 	//Reference
-	[HideInInspector] public UnitBase target;
-	public Enemy enemyData;
+	[HideInInspector] public UnitBase target;				//Attack target 지정
+	public Enemy enemyData;									//Enemy status 캐싱
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 
-	public CapsuleCollider chaseRange;
-	public SphereCollider atkRange;
-	public SphereCollider atkCollider;
+	public CapsuleCollider chaseRange;						//추적 반경
+	public SphereCollider atkCollider;						//타격 Collider
 
 	//Idle Properties
-	[HideInInspector] public bool isChasing = false;
-	public float idleSetTime = 3f;
+	/*[HideInInspector] public bool isChasing = false;*/
+	public float idleSetTime = 3f;							//Default로 변환 전 대기 시간
 
 	//Default Properties
-	public float movePercentage = 5f;
-	[HideInInspector] public float randMoveFloat;
+	public float movePercentage = 5f;						//MoveIdle/Idle 중 변환 랜덤 수치
 
 	//MoveIdle Properties
-	public Transform transformParent;
-	[HideInInspector] public GameObject moveIdleSpot;
+	public Transform transformParent;						//Hierarchy MoveIdle Transform 정리용
+	[HideInInspector] public GameObject moveIdleSpot;		//MoveIdle 이동 타겟
 
 	//Chase Properties
-	public float chaseDistance;
-	public float chaseDelayTime;
+	public float attackRange;								//공격 전환 사거리
+	public float attackChangeDelay;                         //공격 딜레이
+	public float turnSpeed = 15.0f;							//회전 전환 속도
 
 	//Attack Properties
-	public float attackDelayTime;
-	public float projectileDistance;
-	public GameObject rangedProjectile;
-	public float projectileSpeed;
+	public float projectileDistance;						//발사체 사거리
+	public GameObject rangedProjectile;						//발사체 캐싱
+	public float projectileSpeed;                           //발사체 속도
 
-	public Transform effectPos;
-	public GameObject effectPrefab;
-	public GameObject effectParent;
-/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
+	public float powerReference1;							//돌진 등
+	public float powerReference2;
 
-	//Chase Properties
-
-
-	//BackMove Properties
-
+	public Transform effectPos;								//이펙트 출력 위치
+	public List<GameObject> effectPrefab;							//이펙트 프리팹
+	public GameObject effectParent;                         //이펙트 출력 부모
+	/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
+	
+	public Material whiteMaterial;							//쫄 돌진 차징 머테리얼
 
 	//Hitted Properties
-	public float hitMaxTime = 2f;
-	public Color defaultColor;
-	public Color damagedColor;
+	public float hitMaxTime = 2f;                           //피격 딜레이
+	public float hitPower;									//피격 AddForce 값
+	public Color damagedColor;								//피격 변환 컬러값
 
-	public Material eMaterial;
-	public SkinnedMeshRenderer skinnedMeshRenderer;
+	public Material eMaterial;								//머테리얼 복제용 캐싱
+	public SkinnedMeshRenderer skinnedMeshRenderer;			//머테리얼 인덱스 캐싱
 
 	//animation name
-	public readonly string moveAnimParam = "Move";
-	public readonly string atkAnimParam = "Attack";
-	public readonly string hitAnimParam = "Hit";
+	public readonly string moveAnimParam = "Move";			//이동 애니 파라미터
+	public readonly string atkAnimParam = "Attack";			//공격 애니 파라미터
+	public readonly string hitAnimParam = "Hit";			//피격 애니 파라미터
 
 	//tag name
-	public readonly string playerTag = "Player";
+	public readonly string playerTag = "Player";			//플레이어 태그 이름
 
 
 

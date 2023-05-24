@@ -48,8 +48,8 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 	public override void Update(EnemyController unit)
 	{
 
-		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(position), 23.0f * Time.deltaTime);
-		unit.transform.LookAt(position);
+		unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(position), unit.turnSpeed * Time.deltaTime);
+		//unit.transform.LookAt(position);
 		unit.transform.position = Vector3.MoveTowards(unit.transform.position,
 			unit.moveIdleSpot.transform.position,
 		unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime);
@@ -74,7 +74,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		if (other.CompareTag(unit.playerTag) && !unit.isChasing)
+		if (other.CompareTag(unit.playerTag) /*&& !unit.isChasing*/)
 		{
 			//FDebug.Log("Move Idle Trigger");
 			unit.target = other.GetComponent<UnitBase>();
