@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartsRepositoryManager : Singleton<PartsRepositoryManager>
+public class PartsRepositoryManager : MonoBehaviour
 {
 	[Header("Parts를 저장하고 관리하는 스크립트입니다.")]
 	[Space(15)]

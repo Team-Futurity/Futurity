@@ -6,6 +6,9 @@ using Unity.VisualScripting;
 
 public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
+	[SerializeField]
+	[Tooltip("파츠 저장소 위치 (보통 Player가 가지고있음)")]
+	private PartsRepositoryManager partsRepositoryManager;
 
 	[SerializeField]
 	[Tooltip("파츠의 정보가 담긴 스크립터블 오브젝트")]
@@ -31,7 +34,9 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
 	private void Start()
 	{
-		itemUiData = PartsRepositoryManager.Instance.GetEnemyData(buttonNum);
+		partsRepositoryManager = GameObject.Find("Player").GetComponent<PartsRepositoryManager>();
+
+		itemUiData = partsRepositoryManager.GetEnemyData(buttonNum);
 
 		if (itemUiData != null)
 		{
@@ -69,6 +74,6 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	public void partsDataSelect()
 	{
 		// 파츠 데이터 저장
-		PartsRepositoryManager.Instance.SetCurrentPartsData(itemUiData);
+		partsRepositoryManager.SetCurrentPartsData(itemUiData);
 	}
 }

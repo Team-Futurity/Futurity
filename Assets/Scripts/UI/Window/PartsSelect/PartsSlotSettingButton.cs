@@ -12,6 +12,10 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 
 	[SerializeField]
+	[Tooltip("파츠 저장소 위치 (보통 Player가 가지고있음)")]
+	private PartsRepositoryManager partsRepositoryManager;
+
+	[SerializeField]
 	[Tooltip("파츠 슬롯의 넘버")]
 	private int partsSlotNum;
 
@@ -33,9 +37,11 @@ public class PartsSlotSettingButton : MonoBehaviour
 
 	private void Start()
 	{
-		if (!itemUiData && PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum) != null)
+		partsRepositoryManager = GameObject.Find("Player").GetComponent<PartsRepositoryManager>();
+
+		if (!itemUiData && partsRepositoryManager.GetRepositoryPartsData(partsSlotNum) != null)
 		{
-			itemUiData = PartsRepositoryManager.Instance.GetRepositoryPartsData(partsSlotNum);
+			itemUiData = partsRepositoryManager.GetRepositoryPartsData(partsSlotNum);
 		}
 
 		if (itemUiData)
@@ -66,6 +72,6 @@ public class PartsSlotSettingButton : MonoBehaviour
 	///</summary>
 	public void SetRepositoryCurrentPartsData()
 	{
-		PartsRepositoryManager.Instance.SetPartsData(partsSlotNum);
+		partsRepositoryManager.SetPartsData(partsSlotNum);
 	}
 }

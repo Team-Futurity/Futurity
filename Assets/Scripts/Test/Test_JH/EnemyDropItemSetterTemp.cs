@@ -5,10 +5,12 @@ using UnityEngine;
 public class EnemyDropItemSetterTemp : MonoBehaviour
 {
 	[SerializeField]
+	PartsRepositoryManager partsRepositoryManager;
+	[SerializeField]
 	List<ItemUIData> itemUiData;
 
 	private void Start()
 	{
-		PartsRepositoryManager.Instance.SetEnemyItemUiDatas(itemUiData);
+		partsRepositoryManager.SetEnemyItemUiDatas(itemUiData);
 	}
 }
