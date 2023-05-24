@@ -68,6 +68,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(5)]
 	[Header("입력 관련")]
 	public bool specialIsReleased = false;
+	public bool moveIsPressed = false;
 
 	// attack
 	[Space(5)]
@@ -97,6 +98,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// event
 	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
+	[HideInInspector] public InputAction moveAction;
 
 	// Temporary
 	[Serializable]
@@ -117,6 +119,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference dash;
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
+
+	// etc
+	
 
 	private void Start()
 	{
@@ -149,10 +154,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnMove(InputAction.CallbackContext context)
 	{
+
 		// Input
 		Vector3 input = context.ReadValue<Vector3>();
 		if (input == null) { return; }
 		moveDir = new Vector3(input.x, 0f, input.y);
+		moveAction = context.action;
 
 		// 예외처리
 		if (!IsCurrentState(PlayerState.Idle))
