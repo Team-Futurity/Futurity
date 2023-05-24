@@ -17,7 +17,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		pc.animator.SetTrigger(DashTriggerAnimKey);
 		currentTime = 0;
 		pc.dashEffect.enabled = true;
-		Vector3 rotVec = Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
+		Vector3 rotVec = pc.moveDir == Vector3.zero ? pc.transform.forward : Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
 		pc.transform.rotation = Quaternion.LookRotation(rotVec);
 		pc.rigid.velocity = rotVec.normalized * pc.playerData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
 		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);

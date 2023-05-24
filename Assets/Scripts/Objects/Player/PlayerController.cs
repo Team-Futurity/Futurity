@@ -191,7 +191,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			if (!IsCurrentState(PlayerState.Dash))
 			{
-				curNode = comboTree.top;
 				ChangeState(PlayerState.Dash);
 			}
 		}
