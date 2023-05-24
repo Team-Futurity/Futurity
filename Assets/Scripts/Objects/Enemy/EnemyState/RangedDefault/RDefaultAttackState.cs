@@ -36,6 +36,7 @@ public class RDefaultAttackState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		//FDebug.Log("RDefault attack End");
+		unit.rangedProjectile.SetActive(false);
 		curTime = 0f;
 	}
 

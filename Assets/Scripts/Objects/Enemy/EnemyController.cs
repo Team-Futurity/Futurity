@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -39,40 +40,50 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MinimalDefault,
 	}
 
+	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
 
-	//spawn
+	[Space(3)]
+	[Header("Spawn")]
 	private bool isSpawning;								//스폰 중인가 여부
 	private float curSpawningTime;							
 	[SerializeField] private float maxSpawningTime = 2f;	//스폰 최대 시간
-	private BoxCollider enemyCollider;						//피격 Collider
+	private BoxCollider enemyCollider;                      //피격 Collider
 
-	//Reference
+
+	[Space(3)]
+	[Header("Reference")]
 	[HideInInspector] public UnitBase target;				//Attack target 지정
 	public Enemy enemyData;									//Enemy status 캐싱
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 
 	public CapsuleCollider chaseRange;						//추적 반경
-	public SphereCollider atkCollider;						//타격 Collider
+	public SphereCollider atkCollider;                      //타격 Collider
 
-	//Idle Properties
+
+	[Space(3)]
+	[Header("Idle")]
 	/*[HideInInspector] public bool isChasing = false;*/
-	public float idleSetTime = 3f;							//Default로 변환 전 대기 시간
+	public float idleSetTime = 3f;                          //Default로 변환 전 대기 시간
 
-	//Default Properties
-	public float movePercentage = 5f;						//MoveIdle/Idle 중 변환 랜덤 수치
+	[Space(3)]
+	[Header("Default")]
+	public float movePercentage = 5f;                       //MoveIdle/Idle 중 변환 랜덤 수치
 
-	//MoveIdle Properties
+	[Space(3)]
+	[Header("MoveIdle")]
 	public Transform transformParent;						//Hierarchy MoveIdle Transform 정리용
-	[HideInInspector] public GameObject moveIdleSpot;		//MoveIdle 이동 타겟
+	[HideInInspector] public GameObject moveIdleSpot;       //MoveIdle 이동 타겟
 
-	//Chase Properties
+	[Space(3)]
+	[Header("Chase")]
 	public float attackRange;								//공격 전환 사거리
 	public float attackChangeDelay;                         //공격 딜레이
-	public float turnSpeed = 15.0f;							//회전 전환 속도
+	public float turnSpeed = 15.0f;                         //회전 전환 속도
 
-	//Attack Properties
+	[Space(3)]
+	[Header("Attack")]
 	public float projectileDistance;						//발사체 사거리
 	public GameObject rangedProjectile;						//발사체 캐싱
 	public float projectileSpeed;                           //발사체 속도
@@ -80,14 +91,22 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float powerReference1;							//돌진 등
 	public float powerReference2;
 
-	public Transform effectPos;								//이펙트 출력 위치
-	public List<GameObject> effectPrefab;							//이펙트 프리팹
-	public GameObject effectParent;                         //이펙트 출력 부모
-	/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
-	
-	public Material whiteMaterial;							//쫄 돌진 차징 머테리얼
+	[Serializable]
+	public struct Effects
+	{
+		public GameObject effect;
+		public Transform effectPos;
+		public GameObject effectParent;
+	}
 
-	//Hitted Properties
+	public List<Effects> effects;                           //이펙트 프리팹
+	[HideInInspector] public List<GameObject> initiateEffects;
+	//[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
+
+	public Material whiteMaterial;                          //쫄 돌진 차징 머테리얼
+
+	[Space(2)]
+	[Header("Hitted")]
 	public float hitMaxTime = 2f;                           //피격 딜레이
 	public float hitPower;									//피격 AddForce 값
 	public Color damagedColor;								//피격 변환 컬러값
@@ -111,18 +130,30 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
+
+
 		if(atkCollider != null)
 			atkCollider.enabled = false;
 		chaseRange.enabled = false;
 		enemyCollider.enabled = false;
-/*		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);*/
+
 
 		unit = this;
 		SetUp(EnemyState.Idle);
 
+
 		//spawning event
 		isSpawning = true;
 		curSpawningTime = 0f;
+
+
+		for (int i = 0; i < effects.Count; i++)
+		{
+			initiateEffects.Add(GameObject.Instantiate(effects[i].effect, effects[i].effectParent == null ? null : effects[i].effectPos.transform));
+			initiateEffects[i].SetActive(false);
+		}
+
+		//effectPoolManager = new ObjectPoolManager<Transform>(effects[0].effect, effects[0].effectParent);
 	}
 
 
