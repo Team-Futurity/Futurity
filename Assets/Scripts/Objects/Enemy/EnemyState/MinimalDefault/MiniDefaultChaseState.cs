@@ -5,7 +5,6 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.MiniDefaultChase)]
 public class MiniDefaultChaseState : UnitState<EnemyController>
 {
-	private float curTime = .0f;
 	private float distance;
 
 	public override void Begin(EnemyController unit)
@@ -13,7 +12,7 @@ public class MiniDefaultChaseState : UnitState<EnemyController>
 		//FDebug.Log("MiniDefault Chase begin");
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
-		unit.isChasing = true;
+		/*unit.isChasing = true;*/
 	}
 
 	public override void Update(EnemyController unit)
@@ -22,16 +21,15 @@ public class MiniDefaultChaseState : UnitState<EnemyController>
 			return;
 
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
+		//unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
 		unit.transform.LookAt(unit.target.transform.position);
-		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 1000.0f * Time.deltaTime);
 
-		if(distance < unit.chaseDistance)
+		if (distance < unit.attackRange)
 		{
-			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
-			unit.DelayChangeState(curTime, unit.chaseDelayTime, unit, EnemyController.EnemyState.MiniDefaultAttack);
+			unit.ChangeState(EnemyController.EnemyState.MiniDefaultDelay);
 		}
-		else if (distance > unit.chaseDistance)
+		else if (distance > unit.attackRange)
 			unit.transform.position += unit.transform.forward.normalized * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
 	}
 
@@ -44,8 +42,7 @@ public class MiniDefaultChaseState : UnitState<EnemyController>
 	{
 		//FDebug.Log("MiniDefault Chase end");
 		unit.animator.SetBool(unit.moveAnimParam, false);
-		unit.isChasing = false;
-		curTime = 0;
+		/*unit.isChasing = false;*/
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
