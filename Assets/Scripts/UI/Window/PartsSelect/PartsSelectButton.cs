@@ -37,7 +37,8 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 		{
 			partsSpriteWriter.sprite = itemUiData.ItemSprite;
 			partsNameText.text = itemUiData.ItemName;
-		} else
+		} 
+		else
 		{
 			partsSpriteWriter.sprite = null;
 			partsNameText.text = null;
