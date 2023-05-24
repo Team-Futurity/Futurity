@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Value: 1
   scatter:
     m_OverrideState: 0
-    m_Value: 0.7
+    m_Value: 0.321
   clamp:
     m_OverrideState: 0
     m_Value: 65472
@@ -41,6 +41,25 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-7924184706224033835
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a84c21161d1ab7b458201d861683e1fb, type: 3}
+  m_Name: Grayscale
+  m_EditorClassIdentifier: 
+  active: 1
+  IsEnable:
+    m_OverrideState: 0
+    m_Value: 0
+  amount:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &-7575555493078041534
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -57,34 +76,6 @@ MonoBehaviour:
   mode:
     m_OverrideState: 1
     m_Value: 2
---- !u!114 &-6945824221941721809
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
-  m_Name: Vignette
-  m_EditorClassIdentifier: 
-  active: 0
-  color:
-    m_OverrideState: 0
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
-  center:
-    m_OverrideState: 0
-    m_Value: {x: 0.5, y: 0.5}
-  intensity:
-    m_OverrideState: 0
-    m_Value: 0
-  smoothness:
-    m_OverrideState: 0
-    m_Value: 0.2
-  rounded:
-    m_OverrideState: 0
-    m_Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +89,6 @@ MonoBehaviour:
   m_Name: Main Camera Profile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: -6945824221941721809}
   - {fileID: -8328601460628882864}
   - {fileID: -7575555493078041534}
+  - {fileID: -7924184706224033835}
