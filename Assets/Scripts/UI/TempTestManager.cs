@@ -12,6 +12,9 @@ public class TempTestManager : MonoBehaviour
 	GaugeBarController hpGuageBarController;
 	[SerializeField]
 	GaugeBarController bossHpGuageBarController;
+	[SerializeField]
+	GaugeBarController enemyGauageBarrController;
+
 	float targetGaugeValue;
 	bool isValueReached = true;
 
@@ -57,12 +60,14 @@ public class TempTestManager : MonoBehaviour
 			comboGuageBarController.SetGaugeFillAmount(targetGaugeValue);
 			hpGuageBarController.SetGaugeFillAmount(targetGaugeValue);
 			bossHpGuageBarController.SetGaugeFillAmount(targetGaugeValue);
+			enemyGauageBarrController.SetGaugeFillAmount(targetGaugeValue);
 			isValueReached = false;
 		}
 
 		Debug.Log($"GetGaugeIntegerPercent : {comboGuageBarController.GetGaugeIntegerPercent()}");
 		Debug.Log($"hpGuageBarController : {hpGuageBarController.GetGaugeIntegerPercent()}");
 		Debug.Log($"bossHpGuageBarController : {bossHpGuageBarController.GetGaugeIntegerPercent()}");
+		Debug.Log($"enemyGauageBarrController : {enemyGauageBarrController.GetGaugeIntegerPercent()}");
 	}
 
 
