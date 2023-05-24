@@ -154,7 +154,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnMove(InputAction.CallbackContext context)
 	{
-
 		// Input
 		Vector3 input = context.ReadValue<Vector3>();
 		if (input == null) { return; }
