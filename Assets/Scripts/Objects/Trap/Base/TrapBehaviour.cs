@@ -6,14 +6,11 @@ using UnityEngine.Events;
 public abstract class TrapBehaviour : UnitBase
 {
 	// Event 
-	[SerializeField] protected UnityEvent startEvent;
-	[SerializeField] protected UnityEvent endEvent;
-	[SerializeField] protected UnityEvent resetEvent;
+	[SerializeField] protected UnityEvent OnStart;
+	[SerializeField] protected UnityEvent OnStay;
+	[SerializeField] protected UnityEvent OnEnd;
+	[SerializeField] protected UnityEvent OnReset;
 
-	// Data
-	[SerializeField] protected TrapData trapData;
-
-	private bool isStay = false;
 	private float cooltime = .0f;
 
 	// Unit Layer Check
@@ -37,102 +34,9 @@ public abstract class TrapBehaviour : UnitBase
 		return .0f;
 	}
 
-	protected override float GetDamage()
-	{
-		return .0f;
-	}
-
 	public override void Attack(UnitBase target)
 	{
 	}
 
 	#endregion
-
-	private void Awake()
-	{
-		startEvent.AddListener(OnTrapStart);
-		endEvent.AddListener(OnTrapEnd);
-		
-		resetEvent.AddListener(OnTrapReset);
-	}
-
-	private void Update()
-	{
-		// Cooltime Routine
-		if(isStay)
-		{
-			cooltime += Time.deltaTime;
-
-			if(cooltime >= trapData.cooldowns)
-			{
-				cooltime = .0f;
-				isStay = false;
-
-				resetEvent?.Invoke();
-			}
-		}
-	}
-
-	protected abstract void OnTrapStart();
-	protected abstract void OnTrapEnd();
-	protected abstract void OnTrapReset();
-	
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
-	{
-		if (isStay)
-		{
-			return;
-		}
-		
-		// Trap Condition이 공격이 아닐 경우.
-		if(trapData.condition != TrapCondition.ATTACK)
-		{
-			return;
-		}
-
-		status.SetStatus(StatusName.CURRENT_HP, -damage);
-		
-		if(status.GetStatus(StatusName.CURRENT_HP) <= 0)
-		{
-			Active();
-		}
-	}
-
-	private void OnTriggerStay(Collider coll)
-	{
-		if (isStay)
-		{
-			return;
-		}
-
-		// Trap Condition이 플레이어 접근이 아닐 경우.
-		if(trapData.condition != TrapCondition.IN)
-		{
-			return;
-		}
-
-		if (coll.CompareTag("Player"))
-		{
-			Active();
-		}
-	}
-
-	private void Active()
-	{
-		startEvent?.Invoke();
-
-		endEvent?.Invoke();
-
-		// Explosion은 일회용이기 때문에 해당 Reset을 통하지 않는다.
-		if(trapData.type != TrapType.Explosion)
-		{
-			isStay = true;
-		}
-	}
-
-	protected Collider[] GetAroundObject()
-	{
-		var objectList = Physics.OverlapSphere(transform.position, trapData.range, layerMask);
-		return (objectList.Length > 0) ? objectList : null;
-	}
 }
