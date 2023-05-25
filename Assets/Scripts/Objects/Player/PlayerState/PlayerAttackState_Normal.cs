@@ -5,16 +5,14 @@ using UnityEngine;
 [FSMState((int)PlayerController.PlayerState.NormalAttack)]
 public class PlayerAttackState_Normal : PlayerAttackState
 {
+	public PlayerAttackState_Normal() : base("ComboTrigger", "Combo") { }
+
 	public override void Begin(PlayerController pc)
 	{
 		base.Begin(pc);
 
-		AudioManager.instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
-
-		//юс╫ц
-		pc.glove.SetActive(true);
-		pc.rigid.velocity = Vector3.zero;
-		pc.rigid.velocity = pc.transform.forward * attackNode.moveDistance;
+		pc.attackCollider.radiusCollider.enabled = true;
+		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength / 100);
 	}
 
 	public override void End(PlayerController pc)

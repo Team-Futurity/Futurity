@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : UnitBase
 {
@@ -13,7 +14,7 @@ public class Player : UnitBase
 
 	public override void Attack(UnitBase target)
 	{
-		target.Hit(this, GetDamage());
+		target.Hit(this, GetDamage(1));
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot)
@@ -27,18 +28,22 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
-		pc.ChangeState(PlayerController.PlayerState.Hit);
-		status.GetStatus(StatusType.CURRENT_HP).MinusValue(damage);
+		if(!pc.IsCurrentState(PlayerController.PlayerState.ChargedAttack))
+		{
+			pc.ChangeState(PlayerController.PlayerState.Hit);
+		}
+		
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 	}
 
 	protected override float GetAttakPoint()
 	{
-		return 50;
+		return status.GetStatus(StatusType.ATTACK_POINT).GetValue();
 	}
 
-	protected override float GetDamage()
+	protected override float GetDamage(float attackST)
 	{
-		return GetAttakPoint();
+		return GetAttakPoint() * 1;
 	}
 
 	protected override float GetDefensePoint()

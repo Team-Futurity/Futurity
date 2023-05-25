@@ -19,6 +19,8 @@ public class PlayerDashState : UnitState<PlayerController>
 		pc.dashEffect.enabled = true;
 		pc.rigid.velocity = pc.transform.forward * pc.playerData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
 		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);
+
+		pc.glove.SetActive(false);
 	}
 
 	public override void Update(PlayerController pc)
@@ -39,6 +41,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		//base.End(pc);
 		pc.dashEffect.enabled = false;
 		pc.rigid.velocity = Vector3.zero;
+		pc.coolTimeIsEnd = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

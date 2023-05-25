@@ -12,13 +12,14 @@ public class AttackNode
 	public List<AttackNode> childNodes;
 	public AttackNode parent;
 
-	public float skillRange; // 
-	public float skillSpeed;
-	public float skillDelay;
-	public float skillAngle;
+	public float attackLength;
+	public float attackAngle;
 	public float attackLengthMark;
 	public float attackDelay;
+	public float attackSpeed;
+	public float attackAfterDelay;
 	public float attackST;
+	public float attackKnockback;
 
 	public int loopCount;
 	public float loopDelay;
@@ -30,8 +31,8 @@ public class AttackNode
 	[SerializeField] private GameObject effectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
-	public float animFloat;
-	public float moveDistance = 0f;
+	public int animInteger;
+	//public float moveDistance = 0f;
 
 	public float randomShakePower;
 	public float curveShakePower;
@@ -58,9 +59,8 @@ public class AttackNode
 		command = node.command;
 		childNodes = node.childNodes;
 		parent = node.parent;
-		skillRange = node.skillRange;
-		skillSpeed = node.skillSpeed;
-		skillDelay = node.skillDelay;
+		attackLength = node.attackLength;
+		attackSpeed = node.attackSpeed;
 		loopCount = node.loopCount;
 		loopDelay = node.loopDelay;
 		attackST = node.attackST;
@@ -77,7 +77,7 @@ public class AttackNode
 public class Tree
 {
 	public AttackNode top; // 최상단 노드
-	public int dataCount;
+	[HideInInspector] public int dataCount;
 
 	public Tree()
 	{
