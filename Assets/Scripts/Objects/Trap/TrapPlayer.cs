@@ -28,12 +28,22 @@ public class TrapPlayer : MonoBehaviour
 
 	public void SearchArround()
 	{
-		var test = Physics.OverlapSphere(transform.position, trapData.range, 1 << 9);
+	}
+
+	private void ActiveTrap(UnitBase unit)
+	{
+		trapBehaviour.ActiveTrap(unit);
+	}
+
+	private void ActiveTrap(UnitBase[] units)
+	{
+		trapBehaviour.ActiveTrap(units);
 	}
 
 	private void ResetTrap()
 	{
 		isActive = true;
+		trapBehaviour.SetData();
 	}
 
 }

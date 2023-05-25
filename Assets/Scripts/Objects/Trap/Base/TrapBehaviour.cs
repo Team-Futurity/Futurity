@@ -18,6 +18,11 @@ public abstract class TrapBehaviour : UnitBase
 
 	// Buff System 추가 예정
 
+	public void SetData()
+	{
+
+	}
+
 	#region NotUsed
 	protected override float GetAttakPoint()
 	{
