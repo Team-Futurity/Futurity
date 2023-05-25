@@ -23,6 +23,16 @@ public abstract class TrapBehaviour : UnitBase
 
 	}
 
+	public void ActiveTrap(UnitBase unit)
+	{
+
+	}
+
+	public void ActiveTrap(UnitBase[] units)
+	{
+
+	}
+
 	#region NotUsed
 	protected override float GetAttakPoint()
 	{
