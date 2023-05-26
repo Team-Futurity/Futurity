@@ -42,7 +42,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	// ComboCount∏¶ ∞·¡§
 	private void SetComboCount(bool isSucceed)
 	{
-		comboCount = isSucceed ? comboCount-1 : 0;
+		comboCount = isSucceed ? comboCount-1 : comboCount;
 
 		if(comboCount == minComboCount - 1)
 		{
@@ -54,7 +54,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	private int CalculateCurrentGauge(int hittedEnemyCount)
 	{
 		int addedGauge = -1;
-		int compareComboCount = comboCount == 3 ? 0 : comboCount + 1;
+		int compareComboCount = comboCount == maxComboCount ? minComboCount : comboCount;
 		foreach(ComboCountData data in comboData)
 		{
 			if(data.ComboCount == compareComboCount) { addedGauge = data.AddedGauge; break; }
@@ -62,8 +62,8 @@ public class ComboGaugeSystem : MonoBehaviour
 
 		if(addedGauge == -1)
 		{
-			FDebug.LogError("[ComboGaugeSystem]Cannot Found ComboCountData");
-			return -1;
+			FDebug.LogError($"[ComboGaugeSystem]Cannot Found ComboCountData : {compareComboCount}");
+			return 0;
 		}
 
 		return Mathf.CeilToInt(addedGauge + Mathf.Sqrt(addedGauge) * hittedEnemyCount);
