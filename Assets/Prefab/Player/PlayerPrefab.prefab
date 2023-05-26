@@ -5630,6 +5630,7 @@ GameObject:
   - component: {fileID: 5328251835375101389}
   - component: {fileID: 1070719927369175192}
   - component: {fileID: 6307489441031809494}
+  - component: {fileID: 8247117609381097480}
   - component: {fileID: 2214123608498936178}
   - component: {fileID: 1070719927369175194}
   - component: {fileID: 507041425030904175}
@@ -5701,7 +5702,7 @@ MonoBehaviour:
             loopDelay: 0
             collider: {fileID: 4068547685948332291}
             effectPos: {fileID: 292770056}
-            effectPrefab: {fileID: 574209011667149413, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
+            effectPrefab: {fileID: 743645502276010547, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
             effectParent: {fileID: 0}
             animInteger: 2
             randomShakePower: 0.2
@@ -5735,7 +5736,7 @@ MonoBehaviour:
             loopDelay: 0
             collider: {fileID: 4068547685948332291}
             effectPos: {fileID: 292770056}
-            effectPrefab: {fileID: 2413003215335193371, guid: ef081fd31c8e4eb4c89400ca6530c908, type: 3}
+            effectPrefab: {fileID: 7824830144992791228, guid: c0587accfc987084fbdcc4d87255d219, type: 3}
             effectParent: {fileID: 0}
             animInteger: 3
             randomShakePower: 0
@@ -5767,7 +5768,7 @@ MonoBehaviour:
           loopDelay: 0
           collider: {fileID: 4068547685948332291}
           effectPos: {fileID: 2014832257133555644}
-          effectPrefab: {fileID: 840705841883797951, guid: cd5ce593c16eea54c8e4846e1e3a8871, type: 3}
+          effectPrefab: {fileID: 8210732400216373646, guid: ce45194a96c5df94e97e15d0320870f6, type: 3}
           effectParent: {fileID: 0}
           animInteger: 1
           randomShakePower: 0
@@ -5799,7 +5800,7 @@ MonoBehaviour:
         loopDelay: 0
         collider: {fileID: 4068547685948332291}
         effectPos: {fileID: 1941853247}
-        effectPrefab: {fileID: 1882690260921930028, guid: 172d659acead98c40b2a7de240a27523, type: 3}
+        effectPrefab: {fileID: 7485104759053717443, guid: 491302905a445004892ba748307860e5, type: 3}
         effectParent: {fileID: 0}
         animInteger: 0
         randomShakePower: 0
@@ -6069,6 +6070,7 @@ MonoBehaviour:
   glove: {fileID: 7164896735125955485}
   playerData: {fileID: 1070719927369175194}
   comboGaugeSystem: {fileID: 6307489441031809494}
+  hitCountSystem: {fileID: 8247117609381097480}
   attackCollider: {fileID: 4068547685948332288}
   autoTargetCollider: {fileID: 625353277}
   basicCollider: {fileID: 1070719927369175189}
@@ -6148,6 +6150,22 @@ MonoBehaviour:
   OnGaugeChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8247117609381097480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d1098cb328b6843a733f57e279d0f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHitCount: 999
+  coolTime: 10
+  hitCountUI: {fileID: 0}
+  <hitCount>k__BackingField: 0
 --- !u!114 &2214123608498936178
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -88,6 +88,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public GameObject glove;
 	public Player playerData;
 	public ComboGaugeSystem comboGaugeSystem;
+	public HitCountSystem hitCountSystem;
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
