@@ -2,19 +2,17 @@
 using static PlayerController;
 
 [FSMState((int)PlayerState.AttackAfterDelay)]
-public class PlayerAttackAfterDelayState : UnitState<PlayerController>
+public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 {
-	private float currentTime;
-	protected AttackNode attackNode;
-
 	public override void Begin(PlayerController unit)
 	{
-		attackNode = unit.curNode;
-		currentTime = 0;
+		base.Begin(unit);
 	}
 
 	public override void End(PlayerController unit)
 	{
+		base.End(unit);
+
 		unit.nextCombo = PlayerInput.None;
 	}
 
@@ -30,6 +28,7 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 
 	public override void Update(PlayerController unit)
 	{
+		base.Update(unit);
 		if(unit.nextCombo != PlayerInput.None)
 		{
 			AttackNode node = unit.FindInput(unit.nextCombo);
@@ -40,20 +39,16 @@ public class PlayerAttackAfterDelayState : UnitState<PlayerController>
 			unit.curCombo = node.command;
 			unit.currentAttackState = PlayerState.NormalAttack;
 
-			unit.ChangeState(PlayerState.AttackDelay);
+			NextAttackState(unit, PlayerState.AttackDelay);
 			return;
 		}
 
 		if (currentTime >= attackNode.attackAfterDelay)
 		{
-			unit.curNode = unit.comboTree.top;
-			unit.animator.SetBool(unit.IsAttackingAnimKey, false);
-			unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);
 			unit.ChangeState(PlayerState.Idle);
 
 			return;
 		}
-		currentTime += Time.deltaTime;
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)

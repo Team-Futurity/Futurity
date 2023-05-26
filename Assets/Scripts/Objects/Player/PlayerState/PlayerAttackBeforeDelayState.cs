@@ -4,29 +4,24 @@ using UnityEngine;
 using static PlayerController;
 
 [FSMState((int)PlayerController.PlayerState.AttackDelay)]
-public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
+public class PlayerAttackBeforeDelayState : PlayerAttackBaseState
 {
 	// Animation Key
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
 
 	// etc
-	private float currentTime;
 	private Transform effect;
 	//private CameraController cam;
-	protected AttackNode attackNode;
 	private List<GameObject> targets = new List<GameObject>();
 
 	public override void Begin(PlayerController pc)
 	{
+		base.Begin(pc);
+
 		//pc.rigid.velocity = Vector3.zero;
 
 		/*if(cam == null)	
 			cam = Camera.main.GetComponent<CameraController>();*/
-
-
-		// node
-		pc.curNode.Copy(pc.curNode);
-		attackNode = pc.curNode;
 
 		// animation
 		bool isCombo = pc.currentAttackState == PlayerState.NormalAttack;
@@ -41,7 +36,7 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 		pc.animator.SetInteger(pc.currentAttackAnimKey, pc.curNode.animInteger);
 
 		// sound
-		if(isCombo)
+		if (isCombo)
 		{
 			AudioManager.instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
 		}
@@ -52,22 +47,22 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 		targets.Clear();
 
 		// ohter Setting
-		currentTime = 0;
 		pc.glove.SetActive(true);
 	}
 
 	public override void Update(PlayerController pc)
 	{
-		if(targets.Count > 0)
+		base.Update(pc);
+
+		if (targets.Count > 0)
 		{
 			AutoTarget.Instance.TurnToNearstObject(targets, pc.gameObject);
 		}
 
-		if(currentTime >= attackNode.attackDelay)
+		if (currentTime >= attackNode.attackDelay)
 		{
-			pc.ChangeState(pc.currentAttackState);
+			NextAttackState(pc, pc.currentAttackState);
 		}
-		currentTime += Time.deltaTime;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -76,12 +71,13 @@ public class PlayerAttackBeforeDelayState : UnitState<PlayerController>
 
 	public override void End(PlayerController pc)
 	{
+		base.End(pc);
 		pc.autoTargetCollider.radiusCollider.enabled = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		if(other.CompareTag(unit.EnemyTag))
+		if (other.CompareTag(unit.EnemyTag))
 		{
 			targets.Add(other.gameObject);
 		}
