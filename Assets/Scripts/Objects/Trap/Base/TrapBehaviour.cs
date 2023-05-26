@@ -3,29 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class TrapBehaviour : ScriptableObject
+public abstract class TrapBehaviour : MonoBehaviour
 {
 	// Event 
-	[SerializeField] protected UnityEvent trapStart;
-	[SerializeField] protected UnityEvent trapEnd;
-	[SerializeField] protected UnityEvent trapReset;
+	[SerializeField] public UnityEvent trapStart;
+	[SerializeField] public UnityEvent trapEnd;
+	[SerializeField] public UnityEvent trapReset;
 
-	
-	
 	public virtual void SetData()
 	{
 		trapReset?.Invoke();
 	}
 
-	public abstract void ActiveTrap(UnitBase[] units);
-
-	protected virtual void StartTrap(UnitBase[] units)
+	public virtual void ActiveTrap(List<UnitBase> units)
 	{
-		trapStart?.Invoke();
-	}
-
-	protected virtual void EndTrap(UnitBase[] units)
-	{
-		trapEnd?.Invoke();
 	}
 }

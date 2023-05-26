@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class TrapPlayer : UnitBase
 {
+	private List<UnitBase> detectList;
 	public TrapBehaviour trapBehaviour;
 	[field: SerializeField] public TrapData TrapData { get; private set; }
+
+	public UnitBase test;
 	
 	private bool isActive;
 
 	private void Awake()
 	{
+		detectList = new List<UnitBase>();
+		
 		ResetTrap();
+		detectList.Add(test);
+	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			ActiveTrap(detectList);
+		}
 	}
 
 	private void FixedUpdate()
@@ -21,14 +35,14 @@ public class TrapPlayer : UnitBase
 			SearchAround();
 		}
 	}
-
+	
 	public void SearchAround()
 	{
 		// 해당 메서드에서 일정 범위 만큼의 주변을 검색한다.
 		// 다중 검색 여부를 확인할 것.
 	}
 
-	private void ActiveTrap(UnitBase[] units)
+	private void ActiveTrap(List<UnitBase> units)
 	{
 		trapBehaviour.ActiveTrap(units);
 	}
