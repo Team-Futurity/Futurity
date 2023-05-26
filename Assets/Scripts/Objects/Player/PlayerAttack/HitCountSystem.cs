@@ -18,9 +18,14 @@ public class HitCountSystem : MonoBehaviour
 
 	public void AddHitCount(int count)
 	{
-		hitCount = Mathf.Clamp(hitCount + count, 0, maxHitCount);
+		SetHitCount(hitCount + count);
 		currentTime = 0;
 		isCounting = true;
+	}
+
+	private void SetHitCount(int number)
+	{
+		hitCount = Mathf.Clamp(number, 0, maxHitCount);
 		hitCountUI.SetNumber(hitCount);
 	}
 
@@ -29,11 +34,11 @@ public class HitCountSystem : MonoBehaviour
 		if (isCounting)
 		{
 			currentTime += Time.deltaTime;
-			if(currentTime >= maxHitCount)
+			if(currentTime >= coolTime)
 			{
 				isCounting = false;
 				currentTime = 0;
-				hitCount = 0;
+				SetHitCount(0);
 			}
 		}
 	}
