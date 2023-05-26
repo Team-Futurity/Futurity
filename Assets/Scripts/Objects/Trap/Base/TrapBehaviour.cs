@@ -3,55 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class TrapBehaviour : UnitBase
+public abstract class TrapBehaviour : ScriptableObject
 {
 	// Event 
-	[SerializeField] protected UnityEvent OnStart;
-	[SerializeField] protected UnityEvent OnStay;
-	[SerializeField] protected UnityEvent OnEnd;
-	[SerializeField] protected UnityEvent OnReset;
+	[SerializeField] protected UnityEvent trapStart;
+	[SerializeField] protected UnityEvent trapEnd;
+	[SerializeField] protected UnityEvent trapReset;
 
-	private float cooltime = .0f;
-
-	// Unit Layer Check
-	private const int layerMask = (1 << 9);
-
-	// Buff System 추가 예정
-
-	public void SetData()
+	
+	
+	public virtual void SetData()
 	{
-
+		trapReset?.Invoke();
 	}
 
-	public void ActiveTrap(UnitBase unit)
-	{
+	public abstract void ActiveTrap(UnitBase[] units);
 
+	protected virtual void StartTrap(UnitBase[] units)
+	{
+		trapStart?.Invoke();
 	}
 
-	public void ActiveTrap(UnitBase[] units)
+	protected virtual void EndTrap(UnitBase[] units)
 	{
-
+		trapEnd?.Invoke();
 	}
-
-	#region NotUsed
-	protected override float GetAttakPoint()
-	{
-		return .0f;
-	}
-
-	protected override float GetDefensePoint()
-	{
-		return .0f;
-	}
-
-	protected override float GetCritical()
-	{
-		return .0f;
-	}
-
-	public override void Attack(UnitBase target)
-	{
-	}
-
-	#endregion
 }
