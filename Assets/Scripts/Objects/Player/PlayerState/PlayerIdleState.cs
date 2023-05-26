@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [FSMState((int)PlayerController.PlayerState.Idle)]
 public class PlayerIdleState : UnitState<PlayerController>
@@ -9,12 +10,21 @@ public class PlayerIdleState : UnitState<PlayerController>
 	{
 		pc.rigid.velocity = Vector3.zero;
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
-		return;
+
+		/*if (pc.moveAction.)
+		{
+			pc.ChangeState(PlayerController.PlayerState.Move);
+		}*/
+
+		if(pc.moveIsPressed)
+		{
+			pc.ChangeState(PlayerController.PlayerState.Move);
+		}
 	}
 
 	public override void Update(PlayerController pc)
 	{
-		return;
+		
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -23,7 +33,7 @@ public class PlayerIdleState : UnitState<PlayerController>
 
 	public override void End(PlayerController pc)
 	{
-		return;
+
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
