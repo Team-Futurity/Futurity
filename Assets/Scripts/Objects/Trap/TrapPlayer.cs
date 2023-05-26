@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapPlayer : MonoBehaviour
+public class TrapPlayer : UnitBase
 {
-	// Code
-	public int trapCode { get; private set; }
-
-	private bool isActive;
-
 	public TrapBehaviour trapBehaviour;
-	[SerializeField] public TrapData trapData { get; private set; }
-
+	[field: SerializeField] public TrapData TrapData { get; private set; }
+	
+	private bool isActive;
 
 	private void Awake()
 	{
@@ -22,18 +18,14 @@ public class TrapPlayer : MonoBehaviour
 	{
 		if(isActive)
 		{
-			SearchArround();
+			SearchAround();
 		}
 	}
 
-	public void SearchArround()
+	public void SearchAround()
 	{
-		var units = Physics.castall
-	}
-
-	private void ActiveTrap(UnitBase unit)
-	{
-		trapBehaviour.ActiveTrap(unit);
+		// 해당 메서드에서 일정 범위 만큼의 주변을 검색한다.
+		// 다중 검색 여부를 확인할 것.
 	}
 
 	private void ActiveTrap(UnitBase[] units)
@@ -46,5 +38,37 @@ public class TrapPlayer : MonoBehaviour
 		isActive = true;
 		trapBehaviour.SetData();
 	}
+	
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	{
+		
+	}
+
+	#region NotUsed
+	protected override float GetAttakPoint()
+	{
+		return .0f;
+	}
+
+	protected override float GetDefensePoint()
+	{
+		return .0f;
+	}
+
+	protected override float GetCritical()
+	{
+		return .0f;
+	}
+
+	protected override float GetDamage(float damageValue)
+	{
+		return .0f;
+	}
+
+	public override void Attack(UnitBase target)
+	{
+	}
+
+	#endregion
 
 }
