@@ -33,11 +33,14 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
+			unit.navMesh.enabled = false;
 			unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.RDefaultAttack);
 		}
 		else if (distance > unit.attackRange)
 		{
-			unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+			//unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+			unit.navMesh.enabled = true;
+			unit.navMesh.SetDestination(unit.target.transform.position);
 		}
 	}
 

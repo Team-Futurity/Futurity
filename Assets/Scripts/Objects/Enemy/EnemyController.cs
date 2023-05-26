@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.AI;
 
 public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
@@ -57,6 +54,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Enemy enemyData;									//Enemy status 캐싱
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
+	[HideInInspector] public NavMeshAgent navMesh;
 
 	public CapsuleCollider chaseRange;						//추적 반경
 	public SphereCollider atkCollider;                      //타격 Collider
@@ -131,8 +129,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 
+		navMesh = GetComponent<NavMeshAgent>();
+		navMesh.speed = enemyData.status.GetStatus(StatusType.SPEED).GetValue();
 
-		if(atkCollider != null)
+
+		if (atkCollider != null)
 			atkCollider.enabled = false;
 		chaseRange.enabled = false;
 		enemyCollider.enabled = false;

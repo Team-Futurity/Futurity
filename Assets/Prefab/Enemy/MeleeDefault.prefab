@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2396154895953505876}
   - component: {fileID: 1222416392369050357}
   - component: {fileID: 3867396437893702998}
+  - component: {fileID: 7664875056306253619}
   m_Layer: 0
   m_Name: MeleeDefault
   m_TagString: Enemy
@@ -101,6 +102,7 @@ MonoBehaviour:
   enemyData: {fileID: 4439521067689912932}
   animator: {fileID: 0}
   rigid: {fileID: 0}
+  navMesh: {fileID: 0}
   chaseRange: {fileID: 4439521068934908808}
   atkCollider: {fileID: 4439521067800669048}
   idleSetTime: 2
@@ -119,11 +121,12 @@ MonoBehaviour:
   - effect: {fileID: 4031016503150977069, guid: ab17821d1f5cef74e97c6954f18f1123, type: 3}
     effectPos: {fileID: 8403025469566084697}
     effectParent: {fileID: 4439521067689912937}
+  initiateEffects: []
   whiteMaterial: {fileID: 0}
   hitMaxTime: 0.8
   hitPower: 450
   damagedColor: {r: 1, g: 0.54901963, b: 0.627451, a: 0}
-  eMaterial: {fileID: 2100000, guid: 2a76badc884bbd943acdef287cc9086f, type: 2}
+  eMaterial: {fileID: 2100000, guid: fef7e7b18c1fbaf458568667beb05055, type: 2}
   skinnedMeshRenderer: {fileID: 2997406798983315672}
 --- !u!54 &4439521067689912938
 Rigidbody:
@@ -166,7 +169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0d8f3730f8c934692f66816b8856df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effect: {fileID: 0}
 --- !u!114 &1222416392369050357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +197,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 11400000, guid: 8c16dd75d463cac409d318d8f12fab24, type: 2}
   copyStatus: []
+--- !u!195 &7664875056306253619
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4439521067689912937}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4439521067800669054
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +407,7 @@ PrefabInstance:
     - target: {fileID: 1442477315262443259, guid: 89d7b7848b4af584784ca46213014782, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2a76badc884bbd943acdef287cc9086f, type: 2}
+      objectReference: {fileID: 2100000, guid: fef7e7b18c1fbaf458568667beb05055, type: 2}
     - target: {fileID: 3769509461735893700, guid: 89d7b7848b4af584784ca46213014782, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.1390777
