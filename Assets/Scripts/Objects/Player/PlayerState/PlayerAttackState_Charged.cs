@@ -34,9 +34,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private Vector3 targetPos;          // 목표 위치
 	private Rigidbody firstEnemy;       // 첫번째로 충돌한 적
 	private float enemyDistance;		// 첫번째로 충돌한 적과의 거리
+	
 
 	// Trigger
-	public bool isReleased;	// 돌진 버튼이 Release되면 true
+	public bool isReleased; // 돌진 버튼이 Release되면 true
+	private bool levelIsChanged;
 
 	// Layer
 	public LayerMask wallLayer = 1 << 6; // wall Layer
@@ -44,14 +46,18 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { }
 
 	// effects
-	// keys
-	private RushEffectData chargeEffectKey;
+		// keys
+		private RushEffectData chargeEffectKey;
 
-	// effects
-	private GameObject normalAttackEffect;
-	private GameObject rangeEffect;
-	private GameObject rushBodyEffect;
-	private GameObject rushGroundEffect;
+		// effects
+		private GameObject normalAttackEffect;
+		private GameObject rangeEffect;
+		private GameObject rushBodyEffect;
+		private GameObject rushGroundEffect;
+
+		// etc
+		private Vector3 maxRangeEffectScale;
+
 
 	public override void Begin(PlayerController unit)
 	{
@@ -189,6 +195,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			level = (int)(currentTime / LevelStandard);
 			level = Mathf.Clamp(level, 0, MaxLevel - 1);
 
+			if(rangeEffect != null)
+			{
+				rangeEffect.transform.localScale = Vector3.Lerp(rangeEffect.transform.localScale, maxRangeEffectScale, LevelStandard / Time.deltaTime);
+			}
+
 			// 단계가 바뀌었다면
 			if (currentLevel != level)
 			{
@@ -201,6 +212,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 					{
 						chargeEffectKey = unit.rushEffectManager.ActiveLevelEffect(EffectType.Ready, EffectTarget.Caster, null, unit.rushEffects[0].effectPos.position);
 						rangeEffect = unit.rushEffectManager.ActiveEffect(EffectType.Ready, EffectTarget.Ground, null, unit.transform.position, unit.transform.rotation);
+						maxRangeEffectScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + (MaxLevel - 1) * LengthMarkIncreasing) / Meter);
 					}
 					else
 					{
@@ -256,6 +268,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			curEffect2 = unit.rushObjectPool2.ActiveObject(unit.rushEffects[4].effectPos.position);
 			curEffect2.rotation = unit.transform.rotation;*/
 		}
+
+		
 
 		currentTime += Time.deltaTime;
 	}
