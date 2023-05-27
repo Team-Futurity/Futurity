@@ -68,7 +68,9 @@ public class UpTrap : TrapBehaviour
 	private IEnumerator ActiveEffect(UnitBase unit)
 	{
 		var unitObj = unit.gameObject;
-		
+
+		buffSystem.OnBuff(BuffNameList.STUN, unit);
+
 		while (timer <= animTime)
 		{
 			timer += Time.deltaTime;
@@ -82,12 +84,12 @@ public class UpTrap : TrapBehaviour
 		{
 			timer += Time.deltaTime;
 			yield return null;
-			unitObj.transform.position = Vector3.Lerp(endPos, startPos, downCurve.Evaluate(timer / animTime));
+
+			var downCurveTimer = downCurve.Evaluate(timer / animTime);
+			
+			unitObj.transform.position = Vector3.Lerp(endPos, startPos, downCurveTimer);
 		}
-		
-		// Active
-		buffSystem.OnBuff(BuffNameList.STUN, unit);
+
 		unit.Hit(trapUnit, 0);
-		// Player is Ground
 	}
 }
