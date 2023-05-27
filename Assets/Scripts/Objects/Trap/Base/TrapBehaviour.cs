@@ -15,7 +15,5 @@ public abstract class TrapBehaviour : MonoBehaviour
 		trapReset?.Invoke();
 	}
 
-	public virtual void ActiveTrap(List<UnitBase> units)
-	{
-	}
+	public abstract void ActiveTrap(List<UnitBase> units);
 }
