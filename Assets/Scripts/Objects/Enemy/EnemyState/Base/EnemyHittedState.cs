@@ -22,7 +22,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		if(copyMat == null )
 			copyMat = new Material(unit.eMaterial);
 		
-		copyMat.SetColor("_MainColor", unit.damagedColor);
+		copyMat.SetColor(unit.matColorProperty, unit.damagedColor);
 
 		unit.skinnedMeshRenderer.material = copyMat;
 
@@ -54,7 +54,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
 		//FDebug.Log("Hit End");
-		copyMat.SetColor("_MainColor", defaultColor);
+		copyMat.SetColor(unit.matColorProperty, defaultColor);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

@@ -118,7 +118,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public readonly string hitAnimParam = "Hit";			//피격 애니 파라미터
 
 	//tag name
-	public readonly string playerTag = "Player";			//플레이어 태그 이름
+	public readonly string playerTag = "Player";            //플레이어 태그 이름
+
+	public readonly string matColorProperty = "_BaseColor";
 
 
 
