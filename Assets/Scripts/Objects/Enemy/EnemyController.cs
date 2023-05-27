@@ -102,6 +102,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	//[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
 	public Material whiteMaterial;                          //쫄 돌진 차징 머테리얼
+	[HideInInspector] public Material copyWhiteMat;
 
 	[Space(3)]
 	[Header("Hitted")]
@@ -109,7 +110,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	//public float hitPower;									//피격 AddForce 값
 	public Color damagedColor;								//피격 변환 컬러값
 
-	public Material eMaterial;								//머테리얼 복제용 캐싱
+	public Material eMaterial;                              //머테리얼 복제용 캐싱
+	[HideInInspector] public Material copyMat;
 	public SkinnedMeshRenderer skinnedMeshRenderer;			//머테리얼 인덱스 캐싱
 
 	//animation name
@@ -131,6 +133,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 		navMesh = GetComponent<NavMeshAgent>();
+		if(whiteMaterial != null)
+			copyWhiteMat = new Material(whiteMaterial);
+		if (eMaterial != null)
+			copyMat = new Material(eMaterial);
 
 		unit = this;
 		SetUp(EnemyState.Spawn);

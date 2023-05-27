@@ -8,7 +8,6 @@ using static EnemyController;
 public class EnemyHittedState : UnitState<EnemyController>
 {
 	private float curTime;
-	private Material copyMat;
 	private Color defaultColor = Color.white;
 
 	public override void Begin(EnemyController unit)
@@ -20,13 +19,9 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		unit.animator.SetTrigger(unit.hitAnimParam);
 
-		if(copyMat == null )
-			copyMat = new Material(unit.eMaterial);
+		unit.skinnedMeshRenderer.material = unit.copyMat;
 
-		else if (unit.skinnedMeshRenderer.material != copyMat)
-			unit.skinnedMeshRenderer.material = copyMat;
-
-		copyMat.SetColor(unit.matColorProperty, unit.damagedColor);
+		unit.copyMat.SetColor(unit.matColorProperty, unit.damagedColor);
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -55,7 +50,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
-		copyMat.SetColor(unit.matColorProperty, defaultColor);
+		unit.copyMat.SetColor(unit.matColorProperty, defaultColor);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

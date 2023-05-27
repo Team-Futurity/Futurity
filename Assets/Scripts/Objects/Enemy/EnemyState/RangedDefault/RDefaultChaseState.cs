@@ -25,13 +25,13 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 		unit.transform.LookAt(unit.target.transform.position);
 		//unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
-		
 
-		/*if(distance < unit.attackRange * 0.5f)
+
+		if (distance < unit.attackRange * 0.5f)
 		{
 			unit.ChangeState(EnemyController.EnemyState.RDefaultBackMove);
 		}
-		else */if (distance < unit.attackRange)
+		else if (distance < unit.attackRange)
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
