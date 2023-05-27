@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DownTrapFall : MonoBehaviour
 {
@@ -12,13 +13,15 @@ public class DownTrapFall : MonoBehaviour
 
 	private Vector3 startPos;
 
-	private void OnTriggerEnter(Collider other)
+	[HideInInspector] public UnityEvent endEvent; 
+
+	private void OnCollisionEnter(Collision other)
 	{
-		if (other.CompareTag("Ground"))
+		if (other.collider.CompareTag("Ground"))
 		{
 			EndFall();
 		}
-		else if (other.CompareTag("Monster") || other.CompareTag("Player"))
+		else if (other.collider.CompareTag("Monster") || other.collider.CompareTag("Player"))
 		{
 			var otherObject = other.gameObject;
 
@@ -38,7 +41,7 @@ public class DownTrapFall : MonoBehaviour
 
 	public void SetPos(Vector3 pos)
 	{
-		transform.localPosition = pos;
+		transform.position = pos;
 		startPos = pos;
 		TryGetComponent(out rig);
 	}
@@ -71,12 +74,15 @@ public class DownTrapFall : MonoBehaviour
 
 			gameObject.SetActive(isFall);
 			ResetFall();
+			endEvent?.Invoke();
 		}
 	}
 
 	private void ResetFall()
 	{
 		rig.velocity = Vector3.zero;
-		transform.localPosition = startPos;
+		rig.angularVelocity = Vector3.zero;
+		
+		SetPos(startPos);
 	}
 }

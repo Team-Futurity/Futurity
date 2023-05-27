@@ -27,12 +27,13 @@ public class DownTrap : TrapBehaviour
 			fall.SetPos(fallPos);
 			fall.SetOwner(GetComponent<UnitBase>());
 		}
+		
+		fall.endEvent.AddListener(SetEndEvent);
 	}
 	
 	public override void ActiveTrap(List<UnitBase> units)
 	{
 		trapStart?.Invoke();
-		
 		StartProcess();
 	}
 
@@ -42,5 +43,10 @@ public class DownTrap : TrapBehaviour
 		{
 			fall.StartFall();
 		}
-	} 
+	}
+
+	private void SetEndEvent()
+	{
+		trapEnd?.Invoke();
+	}
 }
