@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BuffSystem))]
+[RequireComponent(typeof(StatusManager))]
 public class TrapPlayer : UnitBase
 {
 	private List<UnitBase> detectList;
