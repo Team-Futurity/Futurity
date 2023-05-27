@@ -43,6 +43,8 @@ public class TrapPlayer : UnitBase
 	{
 		// 해당 메서드에서 일정 범위 만큼의 주변을 검색한다.
 		// 다중 검색 여부를 확인할 것.
+		
+		// var unit = Physics.OverlapSphere(transform.position, )
 	}
 
 	private void ActiveTrap(List<UnitBase> units)
