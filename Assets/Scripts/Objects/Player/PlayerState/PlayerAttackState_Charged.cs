@@ -34,8 +34,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private Vector3 originPos;          // 돌진 전 위치
 	private Vector3 targetPos;          // 목표 위치
 	private Rigidbody firstEnemy;       // 첫번째로 충돌한 적
+	private Collider firstEnemyCollider;       // 첫번째로 충돌한 적
 	private float enemyDistance;        // 첫번째로 충돌한 적과의 거리
-	private Vector3 groundPos;			// Enemy의 체공 이전 좌표
+	private Vector3 groundPos;          // Enemy의 체공 이전 좌표
+	private float originScale;		// Player의 원래 콜라이더 크기
 	
 
 	// Trigger
@@ -85,6 +87,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			firstEnemy.transform.eulerAngles = new Vector3(0, firstEnemy.rotation.eulerAngles.y, 0);
 			firstEnemy.constraints = RigidbodyConstraints.FreezeAll;
 			firstEnemy = null;
+			firstEnemyCollider = null;
 		}
 
 		isReleased = false;
@@ -124,6 +127,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Ground, null, groundPos, null, 0, currentLevel - 1);
 				firstEnemy.transform.position = groundPos;
+				var unitData = firstEnemy.transform.GetComponent<UnitBase>();
+				unit.playerData.Attack(unitData);
 				unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
 			}
 			return;
@@ -149,8 +154,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			unit.SetCollider(true);
 
+			if(unit.rigid.velocity.normalized == -forward.normalized)
+			{
+				FDebug.Log("T");
+			}
+
 			// 이동
 			unit.rigid.velocity = forward * moveSpeed;
+
 			if (firstEnemy != null)
 			{
 				firstEnemy.transform.position = unit.transform.position + forward * enemyDistance;
@@ -166,11 +177,13 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				firstEnemy.transform.position = targetPos + forward * (enemyDistance + moveSpeed * Time.fixedDeltaTime);
 				groundPos = firstEnemy.transform.position;
 				firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
+				firstEnemyCollider.enabled = true;
 				firstEnemy.AddForce(Vector3.up * FlyPower, ForceMode.VelocityChange);
 				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Target, null, firstEnemy.transform.position);
 
 				isEnd = true;
 
+				unit.basicCollider.radius = originScale;
 				unit.rigid.velocity = Vector3.zero;
 
 				return;
@@ -194,24 +207,32 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			// 돌진 중 한 번도 적과 충돌한 적 없다면
 			if (firstEnemy == null)
 			{
-				firstEnemy = collision.transform.GetComponent<Rigidbody>();
+				// enemy의 콜라이더 절반 크기 계산
+				Vector3 localScale = collision.transform.localScale;
+				float halfSize = Vector3.Dot(localScale, (collision.transform.position - unit.transform.position).normalized);
+
+				// Enemy 기본 세팅
+				firstEnemy = collision.rigidbody;
 				firstEnemy.constraints = RigidbodyConstraints.FreezeRotation;
-				enemyDistance = unit.basicCollider.radius + collision.collider.bounds.size.x * 0.5f;
+				firstEnemyCollider = collision.collider;
+				firstEnemyCollider.enabled = false;
+				enemyDistance = unit.basicCollider.radius + halfSize * 0.5f;
 				enemyRayLength = (enemyDistance) * 2 - unit.basicCollider.radius;
+
+
+				// 콜라이더 조정
+				unit.basicCollider.radius = originScale + 2 * halfSize;
 			}
-			else // 적과 충돌했었다면
+			else if(collision.body != firstEnemy) // 적과 충돌했고, 그게 처음 부딪친 적이 아니라면
 			{
 				var unitData = collision.transform.GetComponent<UnitBase>();
 				unit.playerData.Attack(unitData);
-				unitData.Knockback(collision.GetContact(0).normal, LengthMarkIncreasing);
+				unitData.Knockback(-collision.GetContact(0).normal, LengthMarkIncreasing * 2);
 			}
 			return;
 		}
 		else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
 		{
-			ContactPoint point = collision.GetContact(0);
-
-
 			CollisionToWallProc(unit);
 			return;
 		}
@@ -272,15 +293,20 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			CalculateRushData(unit);
 
-			// 돌진 이펙트는 1단계 이상에서만 실행
+			// 돌진이라면
 			if(currentLevel > 0)
 			{
+				// 돌진 이펙트는 1단계 이상에서만 실행
+
 				// Remove Charge Effect
 				unit.rushEffectManager.RemoveEffectByKey(chargeEffectKey);
 
 				// Active Move Effects
 				rushBodyEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Caster, unit.transform);
 				rushGroundEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Ground, unit.transform);
+
+				// 별도 처리
+				originScale = unit.basicCollider.radius; 
 			}
 			else
 			{
@@ -300,8 +326,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			curEffect2 = unit.rushObjectPool2.ActiveObject(unit.rushEffects[4].effectPos.position);
 			curEffect2.rotation = unit.transform.rotation;*/
 		}
-
-		
 
 		currentTime += Time.deltaTime;
 	}
