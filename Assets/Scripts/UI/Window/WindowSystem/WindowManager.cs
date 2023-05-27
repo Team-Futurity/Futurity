@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class WindowManager : Singleton<WindowManager>
 {
@@ -102,6 +103,7 @@ public class WindowManager : Singleton<WindowManager>
 
 
 		GameObject newWindow = Instantiate(openUiWindowObject, WindowParent);
+		WindowController windowController = newWindow.GetComponent<WindowController>();
 		if (!newWindow.CompareTag("UIWindow"))
 		{
 			newWindow.tag = "UIWindow";
@@ -110,8 +112,9 @@ public class WindowManager : Singleton<WindowManager>
 		rectTransform.localPosition = windowPosition;
 		rectTransform.localScale = windowScale;
 		windows.Add(newWindow);
+		SetButtons(windowController.GetButtons());
+		windowController.EnabledWindow();
 
-		SetButtons(newWindow.GetComponent<WindowController>().GetButtons());
 		return newWindow;
 	}
 
@@ -131,11 +134,14 @@ public class WindowManager : Singleton<WindowManager>
 		windows.Remove(closeUiWindowObject);
 		int windowNum = windows.Count - 1;
 
+
 		if (windowNum >= 0 && windows.Count > windowNum && windows[windowNum] != null)
 		{
 			Debug.Log($"windows[windowNum]{windows[windowNum]}");
 
-			SetButtons(windows[windowNum].GetComponent<WindowController>().GetButtons());
+			WindowController windowController = windows[windowNum].GetComponent<WindowController>();
+			SetButtons(windowController.GetButtons());
+			windowController.EnabledWindow();
 		}
 
 		Destroy(closeUiWindowObject);

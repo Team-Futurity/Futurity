@@ -30,6 +30,9 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	private List<Button> buttons;
 
 	[SerializeField]
+	private UnityEvent enabledEvent;
+
+	[SerializeField]
 	private UnityEvent closeEvent;
 
 	[SerializeField]
@@ -49,6 +52,11 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 		}
 	}
 
+	public void EnabledWindow()
+	{
+		enabledEvent?.Invoke();
+		Debug.Log("EnabledWindow °¡µ¿");
+	}
 
 	public void WindowNewOpen(GameObject OpenUIWindowObject)
 	{
