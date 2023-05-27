@@ -128,7 +128,8 @@ public class RushEffectManager : Singleton<RushEffectManager>
 
 	public void RemoveEffectByKey(RushEffectData key, int? trackingNumber = null)
 	{
-		RushLevelEffect  obj;
+		RushLevelEffect obj;
+		if(key == null) { return; }
 		if (!rushLevelEffectDictionary.TryGetValue(key, out obj)) { FDebug.LogWarning("[RushEffectManager] This key is not Invalid"); return; }
 
 		RemoveEffect(obj.effect, trackingNumber);
@@ -142,6 +143,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 		foreach(var effectData in trackingEffects)
 		{
 			effectData.effect.transform.position = effectData.target.position;
+			effectData.effect.transform.rotation = effectData.target.rotation;
 		}
 	}
 }
