@@ -113,6 +113,14 @@ public class WindowManager : Singleton<WindowManager>
 		rectTransform.localScale = windowScale;
 		windows.Add(newWindow);
 		SetButtons(windowController.GetButtons());
+
+
+		int windowNum = windows.Count - 1;
+		for (int i = 0; i < windowNum; i++)
+		{
+			windows[i].SetActive(false);
+		}
+
 		windowController.EnabledWindow();
 
 		return newWindow;
@@ -135,9 +143,12 @@ public class WindowManager : Singleton<WindowManager>
 		int windowNum = windows.Count - 1;
 
 
-		if (windowNum >= 0 && windows.Count > windowNum && windows[windowNum] != null)
+		if (windowNum >= 0 && windows[windowNum] != null)
 		{
 			Debug.Log($"windows[windowNum]{windows[windowNum]}");
+
+
+			windows[windowNum].SetActive(true);
 
 			WindowController windowController = windows[windowNum].GetComponent<WindowController>();
 			SetButtons(windowController.GetButtons());
