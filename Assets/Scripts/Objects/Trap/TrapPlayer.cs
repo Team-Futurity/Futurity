@@ -83,7 +83,6 @@ public class TrapPlayer : UnitBase
 	private void SetCooldowns()
 	{
 		StartCoroutine(StartCooltime());
-		Debug.Log("END");
 	}
 
 	private IEnumerator StartCooltime()
