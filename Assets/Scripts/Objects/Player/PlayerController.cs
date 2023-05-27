@@ -241,10 +241,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				AttackNode node = FindInput(PlayerInput.SpecialAttack);
 				if (node == null) { return; }
 
-				curNode = node;
-				curCombo = node.command;
-
-				if (!IsCurrentState(PlayerState.AttackAfterDelay)) // 콤보 입력 중이 아니면 차지
+				if (curCombo != PlayerInput.NormalAttack) // 콤보 입력 중이 아니면 차지
 				{
 					currentAttackState = PlayerState.ChargedAttack;
 					//ChangeState(PlayerState.ChargedAttack);
@@ -254,6 +251,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 					currentAttackState = PlayerState.NormalAttack;
 					//ChangeState(PlayerState.NormalAttack);
 				}
+
+				curNode = node;
+				curCombo = node.command;
 
 				ChangeState(PlayerState.AttackDelay);
 			}
@@ -273,12 +273,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public AttackNode FindInput(PlayerInput input)
 	{
-		AttackNode node = comboTree.FindNode(input, curNode);
-
-		if (node == null)
-		{
-			node = comboTree.FindNode(input, comboTree.top);
-		}
+		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
+		AttackNode node = comboTree.FindNode(input, compareNode);
 
 		return node;
 	}
