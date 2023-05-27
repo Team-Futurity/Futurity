@@ -5,6 +5,8 @@ using UnityEngine;
 public class TrapPlayer : UnitBase
 {
 	private List<UnitBase> detectList;
+	
+	[Header("트랩")]
 	public TrapBehaviour trapBehaviour;
 	[field: SerializeField] public TrapData TrapData { get; private set; }
 
@@ -30,6 +32,7 @@ public class TrapPlayer : UnitBase
 
 	private void FixedUpdate()
 	{
+		// 함정 타입이 안에 들어왔을 경우라면
 		if(isActive)
 		{
 			SearchAround();

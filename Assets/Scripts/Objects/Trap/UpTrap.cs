@@ -33,11 +33,11 @@ public class UpTrap : TrapBehaviour
 
 			if (check)
 			{
-				ProcessPlayer(unit);
+				ProceedWithPlayer(unit);
 			}
 			else
 			{
-				ProcessMonster(unit);
+				ProceedWithMonster(unit);
 			}
 		}
 		
@@ -49,23 +49,23 @@ public class UpTrap : TrapBehaviour
 		return unitTag.Equals("Player");
 	}
 
-	private void ProcessPlayer(UnitBase unit)
+	private void ProceedWithPlayer(UnitBase unit)
 	{
 		startPos = unit.gameObject.transform.position;
 		endPos = startPos;
 
 		endPos.y += 5f;
 		
-		StartCoroutine(ActiveEffect(unit));
+		StartCoroutine(ActivePlayerEffect(unit));
 	}
 
-	private void ProcessMonster(UnitBase unit)
+	private void ProceedWithMonster(UnitBase unit)
 	{
 		unit.Hit(trapUnit, 0);
 		buffSystem.OnBuff(BuffNameList.STUN, unit);
 	}
 
-	private IEnumerator ActiveEffect(UnitBase unit)
+	private IEnumerator ActivePlayerEffect(UnitBase unit)
 	{
 		var unitObj = unit.gameObject;
 
