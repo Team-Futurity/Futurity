@@ -24,6 +24,7 @@ public class DownTrap : TrapBehaviour
 			fallPos.y += fallObjYDistance;
 
 			fall.SetPos(fallPos);
+			fall.SetOwner(GetComponent<UnitBase>());
 		}
 	}
 	

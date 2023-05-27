@@ -5,32 +5,47 @@ using UnityEngine;
 
 public class DownTrapFall : MonoBehaviour
 {
+	private UnitBase trapUnit;
 	private bool isFall = false;
-	private List<int> detectObj = new List<int>();
-	
+	private List<int> detectObjID = new List<int>();
+	private Rigidbody rig;
+
+	private Vector3 startPos;
+
 	private void OnTriggerEnter(Collider other)
 	{
-		// other의 instanceID를 저장한다. 
-		// 다시 충돌 시, instanceID를 확인 후 문제 없을 경우만 처리
-		// 몬스터나 플레이어와 충돌 시, 데미지를 준다.
-		
-		switch (other.tag)
+		if (other.CompareTag("Ground"))
 		{
-			case "Ground":
-				// Ground 체크 시에는 다시 리셋 상태로 돌아간다.
-				break;
-			
-			case "Player":
-				break;
-			
-			case "Monster":
-				break;
+			EndFall();
+		}
+		else if (other.CompareTag("Monster") || other.CompareTag("Player"))
+		{
+			var otherObject = other.gameObject;
+
+			foreach (var obj in detectObjID)
+			{
+				if (otherObject.GetInstanceID() == obj)
+				{
+					return;
+				}
+
+				otherObject.TryGetComponent(out UnitBase objUnit);
+				
+				objUnit.Hit(trapUnit, 0);
+			}
 		}
 	}
-	
+
 	public void SetPos(Vector3 pos)
 	{
-		transform.position = pos;
+		transform.localPosition = pos;
+		startPos = pos;
+		TryGetComponent(out rig);
+	}
+
+	public void SetOwner(UnitBase unit)
+	{
+		trapUnit = unit;
 	}
 
 	public void StartFall()
@@ -38,7 +53,7 @@ public class DownTrapFall : MonoBehaviour
 		if (!isFall)
 		{
 			isFall = true;
-			
+
 			gameObject.SetActive(isFall);
 		}
 	}
@@ -53,9 +68,15 @@ public class DownTrapFall : MonoBehaviour
 		if (isFall)
 		{
 			isFall = false;
-			
+
 			gameObject.SetActive(isFall);
+			ResetFall();
 		}
 	}
-	
+
+	private void ResetFall()
+	{
+		rig.velocity = Vector3.zero;
+		transform.localPosition = startPos;
+	}
 }
