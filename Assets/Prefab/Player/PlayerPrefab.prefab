@@ -5698,13 +5698,14 @@ GameObject:
   - component: {fileID: 6307489441031809494}
   - component: {fileID: 8247117609381097480}
   - component: {fileID: 2214123608498936178}
-  - component: {fileID: 1070719927369175194}
   - component: {fileID: 507041425030904175}
   - component: {fileID: 5821464009680269676}
   - component: {fileID: 6599983942192001998}
   - component: {fileID: 7039203949321405940}
   - component: {fileID: 1070719927369175188}
   - component: {fileID: 1070719927369175189}
+  - component: {fileID: 1070719927369175194}
+  - component: {fileID: 926590480872082409}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -6138,6 +6139,7 @@ MonoBehaviour:
   attackCollider: {fileID: 4068547685948332288}
   autoTargetCollider: {fileID: 625353277}
   basicCollider: {fileID: 1070719927369175189}
+  rushEffectManager: {fileID: 926590480872082409}
   animator: {fileID: 5821464009680269676}
   rigid: {fileID: 0}
   dashEffect: {fileID: 0}
@@ -6244,25 +6246,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 11400000, guid: 7b132e736a636334383caf67478965ff, type: 2}
   copyStatus: []
---- !u!114 &1070719927369175194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1e586bd859c67b4e8fd0eef524c346b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: {fileID: 2214123608498936178}
-  rigid: {fileID: 0}
-  isGodMode: 0
-  isStun: 0
-  OnAttack:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &507041425030904175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6547,6 +6530,39 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &1070719927369175194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e586bd859c67b4e8fd0eef524c346b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 2214123608498936178}
+  rigid: {fileID: 1070719927369175188}
+  isGodMode: 0
+  isStun: 0
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &926590480872082409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33db36c7b6cb34141be8551874420422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rushEffectData: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
+  rushEffectParent: {fileID: 0}
 --- !u!1 &9205117049474632282
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,10 +36,15 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	// Layer
 	public LayerMask wallLayer = 1 << 6; // wall Layer
 
-	private Transform curEffect;
-	private Transform curEffect2;
-
 	public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { }
+
+	// effects
+	// keys
+	private RushEffectData chargeEffectKey;
+
+	// effects
+	private GameObject rushBodyEffect;
+	private GameObject rushGroundEffect;
 
 	public override void Begin(PlayerController unit)
 	{
@@ -177,6 +182,13 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		int level = 0;
 
+		if (firstEnemy != null)
+		{
+			firstEnemy.transform.position = unit.transform.position + forward * enemyDistance;
+		}
+
+		if(isReleased) { return; }
+
 		if (!unit.specialIsReleased)
 		{
 			level = (int)(currentTime / LevelStandard);
@@ -186,16 +198,25 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			if (currentLevel != level)
 			{
 				currentLevel = level;
+				FDebug.Log(currentLevel);
 
 				if (currentLevel > 0)
 				{
-					if (curEffect != null)
+					if(currentLevel == 1)
+					{
+						chargeEffectKey = unit.rushEffectManager.ActiveLevelEffect(EffectType.Ready, EffectTarget.Caster, 0, null, unit.rushEffects[0].effectPos.position);
+					}
+					else
+					{
+						unit.rushEffectManager.SetEffectLevel(chargeEffectKey, currentLevel - 1);
+					}
+					/*if (curEffect != null)
 					{
 						unit.rushObjectPool.DeactiveObject(curEffect);
 					}
 
 					unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[level - 1].effect);
-					curEffect = unit.rushObjectPool.ActiveObject(unit.rushEffects[level - 1].effectPos.position);
+					curEffect = unit.rushObjectPool.ActiveObject(unit.rushEffects[level - 1].effectPos.position);*/
 				}
 
 			}
@@ -219,23 +240,22 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			targetMagnitude = (targetPos - originPos).magnitude;
 			basicRayLength = moveSpeed * Time.fixedDeltaTime + unit.basicCollider.radius;
 
-			if (curEffect != null)
+			/*if (curEffect != null)
 			{
 				unit.rushObjectPool.DeactiveObject(curEffect);
-			}
+			}*/
 
-			unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[3].effect);
+			unit.rushEffectManager.RemoveEffectByKey(chargeEffectKey);
+
+			/*unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[3].effect);
 			curEffect = unit.rushObjectPool.ActiveObject(unit.rushEffects[3].effectPos.position);
 			curEffect.rotation = unit.transform.rotation;
 			unit.rushObjectPool2 = new ObjectPoolManager<Transform>(unit.rushEffects[4].effect);
 			curEffect2 = unit.rushObjectPool2.ActiveObject(unit.rushEffects[4].effectPos.position);
-			curEffect2.rotation = unit.transform.rotation;
+			curEffect2.rotation = unit.transform.rotation;*/
 
-		}
-
-		if (firstEnemy != null)
-		{
-			firstEnemy.transform.position = unit.transform.position + forward * enemyDistance;
+			rushBodyEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Caster, 0, 0, unit.transform);
+			rushGroundEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Ground, 0, 0, unit.transform);
 		}
 
 		currentTime += Time.deltaTime;
