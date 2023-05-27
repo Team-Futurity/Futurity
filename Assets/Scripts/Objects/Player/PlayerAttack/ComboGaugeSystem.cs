@@ -35,8 +35,9 @@ public class ComboGaugeSystem : MonoBehaviour
 
 	private void Start()
 	{
+		comboCount = maxComboCount;
 		currentGauge = 0;
-		gaugeBar.SetGaugeFillAmount(0);
+		gaugeBar.SetGaugeFillAmount(currentGauge);
 	}
 
 	// ComboCount∏¶ ∞·¡§
@@ -76,10 +77,15 @@ public class ComboGaugeSystem : MonoBehaviour
 		if(!isSucceed || hittedEnemyCount == 0) { return; }
 
 		int addedComboGauge = CalculateCurrentGauge(hittedEnemyCount);
-
+		FDebug.Log("Combo : " + addedComboGauge);
 		currentGauge = Mathf.Clamp(currentGauge + addedComboGauge, minComboGauge, maxComboGauge);
 
 		gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge);
 		OnGaugeChanged.Invoke(currentGauge);
+	}
+
+	public void ResetComboCount()
+	{
+		comboCount = maxComboCount;
 	}
 }

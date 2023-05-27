@@ -42,6 +42,8 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 
 			unit.animator.SetBool(unit.IsAttackingAnimKey, false);
 			unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);
+
+			unit.comboGaugeSystem.ResetComboCount();
 		}
 	}
 
