@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 
@@ -9,21 +10,25 @@ using UnityEngine;
 public class TrapPlayer : UnitBase
 {
 	private List<UnitBase> detectList;
+	private bool isActive = true;
 	
 	[Header("트랩")]
-	public TrapBehaviour trapBehaviour;
+	private TrapBehaviour trapBehaviour;
 	[field: SerializeField] public TrapData TrapData { get; private set; }
+	[SerializeField] private LayerMask searchLayer;
 
-	public UnitBase test;
-	
-	private bool isActive;
+	private WaitForSeconds waitTime;
 
 	private void Awake()
 	{
 		detectList = new List<UnitBase>();
+		TryGetComponent(out trapBehaviour);
+		waitTime = new WaitForSeconds(TrapData.TrapCooldowns);
 		
 		ResetTrap();
-		detectList.Add(test);
+		
+		trapBehaviour.trapEnd.AddListener(ResetTrap);
+		trapBehaviour.trapEnd.AddListener(SetCooldowns);
 	}
 
 	private void Update()
@@ -36,8 +41,7 @@ public class TrapPlayer : UnitBase
 
 	private void FixedUpdate()
 	{
-		// 함정 타입이 안에 들어왔을 경우라면
-		if(isActive)
+		if(isActive && TrapData.TrapCondition == TrapCondition.IN)
 		{
 			SearchAround();
 		}
@@ -45,12 +49,50 @@ public class TrapPlayer : UnitBase
 	
 	public void SearchAround()
 	{
-		// 해당 메서드에서 일정 범위 만큼의 주변을 검색한다.
-		// 다중 검색 여부를 확인할 것.
+		var allUnit = Physics.OverlapSphere(transform.position, TrapData.TrapRange, searchLayer);
 		
-		// var unit = Physics.OverlapSphere(transform.position, )
+		if (allUnit.Length > 0)
+		{
+			isActive = false;
+		}
+		else
+		{
+			return;
+		}
+		
+		foreach (var unit in allUnit)
+		{
+			detectList.Add(unit.GetComponent<UnitBase>());
+		}
+		
+		ActiveTrap(detectList);
 	}
 
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	{
+		if (isActive && TrapData.TrapCondition == TrapCondition.ATTACK)
+		{
+			isActive = false;
+
+			detectList.Add(attacker);
+		}
+		
+		ActiveTrap(detectList);
+	}
+
+	private void SetCooldowns()
+	{
+		StartCoroutine(StartCooltime());
+		Debug.Log("END");
+	}
+
+	private IEnumerator StartCooltime()
+	{
+		yield return waitTime;
+		
+		isActive = true;
+	}
+	
 	private void ActiveTrap(List<UnitBase> units)
 	{
 		trapBehaviour.ActiveTrap(units);
@@ -58,14 +100,20 @@ public class TrapPlayer : UnitBase
 
 	private void ResetTrap()
 	{
-		isActive = true;
 		trapBehaviour.SetData();
+		detectList.Clear();
 	}
 	
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	#if UNITY_EDITOR
+	private void OnDrawGizmos()
 	{
-		
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(transform.position, TrapData.TrapRange);
+
+		Gizmos.color = Color.green;
+		Gizmos.DrawRay(transform.position, Vector3.forward);
 	}
+	#endif
 
 	#region NotUsed
 	protected override float GetAttakPoint()
