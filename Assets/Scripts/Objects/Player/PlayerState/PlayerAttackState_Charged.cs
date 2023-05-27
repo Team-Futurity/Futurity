@@ -16,6 +16,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private readonly int MaxLevel = 4;					// 최대 차지 단계
 	private readonly int Meter = 100;                   // centimeter 단위
 	private readonly float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
+	private readonly float FlyPower = 45;				// 공중 체공 힘
 
 	// Variables
 	private float playerOriginalSpeed;	// 원래 속도(속도 감쇄용)
@@ -33,12 +34,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private Vector3 originPos;          // 돌진 전 위치
 	private Vector3 targetPos;          // 목표 위치
 	private Rigidbody firstEnemy;       // 첫번째로 충돌한 적
-	private float enemyDistance;		// 첫번째로 충돌한 적과의 거리
+	private float enemyDistance;        // 첫번째로 충돌한 적과의 거리
+	private Vector3 groundPos;			// Enemy의 체공 이전 좌표
 	
 
 	// Trigger
 	public bool isReleased; // 돌진 버튼이 Release되면 true
-	private bool levelIsChanged;
+	private bool isEnd;     // 돌진 프로세스(이동)가 종료되었는가
+	private bool isLanding;	// Enemy가 착지중이라면
 
 	// Layer
 	public LayerMask wallLayer = 1 << 6; // wall Layer
@@ -68,7 +71,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
 		currentTime = 0;
 		currentLevel = 0;
-		firstEnemy = null;
 	}
 
 	public override void End(PlayerController unit)
@@ -81,11 +83,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		{
 			firstEnemy.velocity = Vector3.zero;
 			firstEnemy.transform.eulerAngles = new Vector3(0, firstEnemy.rotation.eulerAngles.y, 0);
+			firstEnemy.constraints = RigidbodyConstraints.FreezeAll;
 			firstEnemy = null;
 		}
 
 		isReleased = false;
 		unit.specialIsReleased = false;
+		isEnd = false;
+		isLanding = false;
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed);
 
 		RemoveEffects(unit);
@@ -105,6 +110,24 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		FDebug.DrawRay(unit.transform.position, unit.transform.forward * rayLength, UnityEngine.Color.blue);
 
 		if (!isReleased) { return; }
+		if (isEnd)
+		{
+			firstEnemy.AddForce(Physics.gravity, ForceMode.Force); // 중력 적용
+			if (firstEnemy.velocity.magnitude < 0.1f && !isLanding)
+			{
+				firstEnemy.velocity = Vector3.zero;
+				firstEnemy.AddForce(Vector3.down * FlyPower, ForceMode.VelocityChange);
+				isLanding = true;
+			}
+
+			if (firstEnemy.velocity.magnitude < 0.3f && isLanding)
+			{
+				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Ground, null, groundPos, null, 0, currentLevel - 1);
+				firstEnemy.transform.position = groundPos;
+				unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
+			}
+			return;
+		}
 
 		// 돌진 전 위치에서 현재 위치로 향하는 벡터의 크기가 targetMagnitude보다 작고
 		if ((unit.transform.position - originPos).magnitude < targetMagnitude)
@@ -141,6 +164,16 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			if (firstEnemy != null)
 			{
 				firstEnemy.transform.position = targetPos + forward * (enemyDistance + moveSpeed * Time.fixedDeltaTime);
+				groundPos = firstEnemy.transform.position;
+				firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
+				firstEnemy.AddForce(Vector3.up * FlyPower, ForceMode.VelocityChange);
+				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Target, null, firstEnemy.transform.position);
+
+				isEnd = true;
+
+				unit.rigid.velocity = Vector3.zero;
+
+				return;
 			}
 
 			unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
@@ -237,7 +270,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			unit.specialIsReleased = false;
 			isReleased = true;
 
-
 			CalculateRushData(unit);
 
 			// 돌진 이펙트는 1단계 이상에서만 실행
@@ -316,5 +348,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		RemoveEffect(unit, rangeEffect);
 		RemoveEffect(unit, rushBodyEffect);
 		RemoveEffect(unit, rushGroundEffect);
+
+		if(currentLevel > 0)
+		{
+			unit.rushEffectManager.RemoveEffectByKey(chargeEffectKey);
+		}
 	}
 }
