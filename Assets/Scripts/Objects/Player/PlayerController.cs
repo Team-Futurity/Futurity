@@ -259,7 +259,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 			else
 			{
-				if (nextCombo == PlayerInput.None)
+				if (nextCombo == PlayerInput.None && curCombo != PlayerInput.SpecialAttack)
 				{
 					nextCombo = PlayerInput.SpecialAttack;
 				}
