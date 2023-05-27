@@ -36,7 +36,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	private void Start()
 	{
 		currentGauge = 0;
-		gaugeBar.SetGaugeFillAmount(0);
+		//gaugeBar.SetGaugeFillAmount(0);
 	}
 
 	// ComboCount∏¶ ∞·¡§

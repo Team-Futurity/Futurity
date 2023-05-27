@@ -51,7 +51,7 @@ public class PlayerAttackState : PlayerAttackBaseState
 
 		unit.attackCollider.radiusCollider.enabled = false;
 
-		unit.comboGaugeSystem.SetComboGaugeProc(hittedEnemyCount > 0, hittedEnemyCount);
+		//unit.comboGaugeSystem.SetComboGaugeProc(hittedEnemyCount > 0, hittedEnemyCount);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
