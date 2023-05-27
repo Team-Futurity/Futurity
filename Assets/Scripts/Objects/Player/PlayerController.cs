@@ -265,7 +265,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				}
 			}
 		}
-		else if (context.canceled && currentAttackState != PlayerState.NormalAttack)
+		else if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
 		{
 			specialIsReleased = true;
 		}

@@ -37,6 +37,7 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 		{
 			unit.curNode = unit.comboTree.top;
 			unit.curCombo = PlayerInput.None;
+			unit.currentAttackState = PlayerState.Idle;
 
 			unit.autoTargetCollider.radiusCollider.enabled = false;
 			unit.attackCollider.radiusCollider.enabled = false;
