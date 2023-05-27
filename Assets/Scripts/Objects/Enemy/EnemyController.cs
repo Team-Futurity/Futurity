@@ -7,6 +7,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
 	public enum EnemyState : int
 	{
+		Spawn,					//스폰
 		Idle,					//대기
 		Default,
 		MoveIdle,				//대기 중 랜덤 이동
@@ -41,11 +42,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[SerializeField] private EnemyType enemyType;
 
 	[Space(3)]
-	[Header("Spawn")]
-	private bool isSpawning;								//스폰 중인가 여부
-	private float curSpawningTime;							
-	[SerializeField] private float maxSpawningTime = 2f;	//스폰 최대 시간
-	private BoxCollider enemyCollider;                      //피격 Collider
+	[Header("Spawn")]				
+	public float maxSpawningTime;  //스폰 최대 시간
+	[HideInInspector] public BoxCollider enemyCollider;                      //피격 Collider
+	public GameObject spawnEffect;
 
 
 	[Space(3)]
@@ -103,10 +103,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public Material whiteMaterial;                          //쫄 돌진 차징 머테리얼
 
-	[Space(2)]
+	[Space(3)]
 	[Header("Hitted")]
 	public float hitMaxTime = 2f;                           //피격 딜레이
-	public float hitPower;									//피격 AddForce 값
+	//public float hitPower;									//피격 AddForce 값
 	public Color damagedColor;								//피격 변환 컬러값
 
 	public Material eMaterial;								//머테리얼 복제용 캐싱
@@ -130,25 +130,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
-
 		navMesh = GetComponent<NavMeshAgent>();
-		navMesh.speed = enemyData.status.GetStatus(StatusType.SPEED).GetValue();
-
-
-		if (atkCollider != null)
-			atkCollider.enabled = false;
-		chaseRange.enabled = false;
-		enemyCollider.enabled = false;
-
 
 		unit = this;
-		SetUp(EnemyState.Idle);
-
-
-		//spawning event
-		isSpawning = true;
-		curSpawningTime = 0f;
-
+		SetUp(EnemyState.Spawn);
 
 		for (int i = 0; i < effects.Count; i++)
 		{
@@ -163,23 +148,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	protected override void Update()
 	{
 		base.Update();
-
-		//spawning event
-		if (isSpawning)
-		{
-			if (curSpawningTime <= maxSpawningTime)
-			{
-				curSpawningTime += Time.deltaTime;
-			}
-			else
-			{
-				unit.ChangeState(EnemyState.Default);
-				enemyCollider.enabled = true;
-				chaseRange.enabled = true;
-				curSpawningTime = 0f;
-				isSpawning = false;
-			}
-		}
 	}
 
 	public void DelayChangeState (float curTime, float maxTime, EnemyController unit, System.ValueType nextEnumState)

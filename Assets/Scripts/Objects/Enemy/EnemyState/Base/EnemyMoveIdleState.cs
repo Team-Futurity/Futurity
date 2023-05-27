@@ -14,7 +14,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		//FDebug.Log("Move Idle Begin");
+		FDebug.Log("Move Idle Begin");
 		rand = Random.Range(minF, maxF);
 
 		if (unit.moveIdleSpot == null)
@@ -68,7 +68,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		//FDebug.Log("Move Idle End");
+		FDebug.Log("Move Idle End");
 		unit.animator.SetBool(unit.moveAnimParam, false);
 	}
 
