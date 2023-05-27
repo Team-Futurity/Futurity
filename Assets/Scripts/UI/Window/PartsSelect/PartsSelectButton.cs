@@ -23,8 +23,10 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	private TextMeshProUGUI partsMenualText;
 
 	[SerializeField]
-	[Tooltip("파츠 이미지를 출력할 ImageUI 오브젝트")]
-	private Image partsSpriteWriter;
+	[Tooltip("파츠 이미지를 출력할 ImageUI sprite")]
+	private GameObject partsSpriteObject;
+	private Image partsSprite;
+	private Color deselectColor = new Color(0.5f, 0.5f, 0.5f);
 
 	[SerializeField]
 	[Tooltip("해당 버튼의 번호")]
@@ -40,13 +42,19 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
 		if (itemUiData is not null)
 		{
-			partsSpriteWriter.sprite = itemUiData.ItemSprite;
+			partsSprite = partsSpriteObject.GetComponent<Image>();
+			if (buttonNum != 0)
+			{
+				partsSprite.color = deselectColor;
+			}
+
+			partsSprite.sprite = itemUiData.ItemSprite;
 			partsMenualText.text = itemUiData.ItemDescription;
 
 		} 
 		else
 		{
-			partsSpriteWriter.sprite = null;
+			partsSprite.sprite = null;
 		}
 	}
 
@@ -54,7 +62,7 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	{
 		itemUiData = newItemUiData;
 
-		partsSpriteWriter.sprite = itemUiData.ItemSprite;
+		partsSprite.sprite = itemUiData.ItemSprite;
 		partsNameText.text = itemUiData.ItemName;
 	}
 
@@ -66,6 +74,7 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 		{
 			partsMenualText.text = itemUiData.ItemDescription;
 			partsNameText.text = itemUiData.ItemName;
+			partsSprite.color = Color.white;
 		}
 	}
 
@@ -73,6 +82,7 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	{
 		//#설명#	선택 해제시 파츠 설명 제거
 		partsMenualText.text = "";
+		partsSprite.color = deselectColor;
 	}
 
 	public void PartsDataSelect()
