@@ -10,6 +10,17 @@ public abstract class TrapBehaviour : MonoBehaviour
 	[SerializeField] public UnityEvent trapEnd;
 	[SerializeField] public UnityEvent trapReset;
 
+	protected UnitBase trapUnit;
+	protected BuffSystem buffSystem;
+	protected StatusManager statusManager;
+
+	protected void Awake()
+	{
+		TryGetComponent(out trapUnit);
+		TryGetComponent(out buffSystem);
+		TryGetComponent(out statusManager);
+	}
+
 	public virtual void SetData()
 	{
 		trapReset?.Invoke();

@@ -5,23 +5,14 @@ using UnityEngine;
 
 public class UpTrap : TrapBehaviour
 {
-	private BuffSystem buffSystem;
-	private UnitBase trapUnit;
-
 	private Vector3 startPos;
 	private Vector3 endPos;
 
 	[SerializeField] private AnimationCurve upCurve;
 	[SerializeField] private AnimationCurve downCurve;
 
-	[SerializeField] private float animTime = .0f;
+	[SerializeField] private float activeTime = .0f;
 	private float timer;
-
-
-	private void Awake()
-	{
-		TryGetComponent(out buffSystem);
-	}
 
 	public override void ActiveTrap(List<UnitBase> units)
 	{
@@ -40,10 +31,14 @@ public class UpTrap : TrapBehaviour
 				ProceedWithMonster(unit);
 			}
 		}
-		
-		trapEnd?.Invoke();
 	}
 
+	public override void SetData()
+	{
+		base.SetData();
+		timer = .0f;
+	}
+	
 	private bool CheckPlayerTag(string unitTag)
 	{
 		return unitTag.Equals("Player");
@@ -71,25 +66,28 @@ public class UpTrap : TrapBehaviour
 
 		buffSystem.OnBuff(BuffNameList.STUN, unit);
 
-		while (timer <= animTime)
+		while (timer <= activeTime)
 		{
 			timer += Time.deltaTime;
 			yield return null;
-			unitObj.transform.position = Vector3.Lerp(startPos, endPos, upCurve.Evaluate(timer / animTime));
+			unitObj.transform.position = Vector3.Lerp(startPos, endPos, upCurve.Evaluate(timer / activeTime));
 		}
 
 		timer = .0f;
 		
-		while (timer <= animTime)
+		while (timer <= activeTime)
 		{
 			timer += Time.deltaTime;
 			yield return null;
 
-			var downCurveTimer = downCurve.Evaluate(timer / animTime);
+			var downCurveTimer = downCurve.Evaluate(timer / activeTime);
 			
 			unitObj.transform.position = Vector3.Lerp(endPos, startPos, downCurveTimer);
 		}
 
-		unit.Hit(trapUnit, 0);
+		// unit.Hit(trapUnit, 0);
+		
+		trapEnd?.Invoke();
 	}
+	
 }
