@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class DownTrap : TrapBehaviour
 {
-	public DownTrapFall fall;
+	private DownTrapFall fall;
 
 	public float fallObjYDistance = .0f;
+	
 	private void Awake()
 	{
+		TryGetComponent(out fall);
+		
 		if (fall is null)
 		{
 			FDebug.Log($"fallObj가 존재하지 않습니다.");
@@ -42,6 +45,4 @@ public class DownTrap : TrapBehaviour
 			fall.StartFall();
 		}
 	} 
-	
-	
 }
