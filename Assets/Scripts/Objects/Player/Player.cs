@@ -36,14 +36,14 @@ public class Player : UnitBase
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 	}
 
-	protected override float GetAttakPoint()
+	protected override float GetAttackPoint()
 	{
 		return status.GetStatus(StatusType.ATTACK_POINT).GetValue();
 	}
 
 	protected override float GetDamage(float attackST)
 	{
-		return GetAttakPoint() * 1;
+		return GetAttackPoint() * 1;
 	}
 
 	protected override float GetDefensePoint()

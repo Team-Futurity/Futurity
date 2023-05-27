@@ -11,7 +11,7 @@ public class EnemyIdleState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		FDebug.Log("IdleBegin");
+		//FDebug.Log("IdleBegin");
 	}
 
 	public override void Update(EnemyController unit)
@@ -28,7 +28,7 @@ public class EnemyIdleState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		FDebug.Log("IdleEnd");
+		//FDebug.Log("IdleEnd");
 		curTime = 0;
 	}
 

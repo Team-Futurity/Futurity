@@ -1,65 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 using static EnemyController;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 [FSMState((int)EnemyController.EnemyState.MoveIdle)]
 public class EnemyMoveIdleState : UnitState<EnemyController>
 {
-	private bool isForward;
-	private Vector3 position;
-	private float rand;
-	private float minF = 1.5f;
-	private float maxF = 2.5f;
+	private Vector3 targetPos;
+	private float randPercentage;
+	private float randVec;
+	private float distance;
 
 	public override void Begin(EnemyController unit)
 	{
-		FDebug.Log("Move Idle Begin");
-		rand = Random.Range(minF, maxF);
-
-		if (unit.moveIdleSpot == null)
-		{
-			unit.moveIdleSpot = new GameObject("moveIdlePos");
-			unit.moveIdleSpot.transform.SetParent(unit.transformParent.transform);
-		}
+		FDebug.Log("MoveIdle begin");
 
 		unit.animator.SetBool(unit.moveAnimParam, true);
 
-		if(isForward)
-		{
-			position =	
-				new Vector3(unit.transform.position.x + rand,
-				0f,
-				unit.transform.position.z + rand);
-			isForward = false;
-		}
-		else
-		{
-			position = 
-				new Vector3(unit.transform.position.x - rand,
-				0f,
-				unit.transform.position.z - rand);
-			isForward = true;
-		}
+		randPercentage = Random.Range(0, 4);
+		randVec = Random.Range(1.5f, 3.0f);
 
-		unit.moveIdleSpot.transform.position = position;
+		if (randPercentage == 0)
+		{
+			targetPos = new Vector3(unit.transform.position.x + randVec, 0, unit.transform.position.z + randVec);
+		}
+		else if (randPercentage == 1)
+		{
+			targetPos = new Vector3(unit.transform.position.x - randVec, 0, unit.transform.position.z - randVec);
+		}
+		else if (randPercentage == 2)
+		{
+			targetPos = new Vector3(unit.transform.position.x - randVec, 0, unit.transform.position.z + randVec);
+		}
+		else if (randPercentage == 3)
+		{
+			targetPos = new Vector3(unit.transform.position.x + randVec, 0, unit.transform.position.z - randVec);
+		}
 	}
 
 	public override void Update(EnemyController unit)
 	{
+		distance = Vector3.Distance(targetPos, unit.transform.position);
 
-		unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(position), unit.turnSpeed * Time.deltaTime);
-		//unit.transform.LookAt(position);
-		unit.transform.position = Vector3.MoveTowards(unit.transform.position,
-			unit.moveIdleSpot.transform.position,
-		unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime);
+		if (distance < 1.0f)
+			unit.ChangeState(EnemyController.EnemyState.Idle);
 
-		if (unit.transform.position == unit.moveIdleSpot.transform.position)
-		{
-			unit.rigid.velocity = Vector3.zero;
-			unit.ChangeState(EnemyState.Idle);
-		}
-
+		unit.navMesh.SetDestination(targetPos);
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -69,6 +58,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		FDebug.Log("Move Idle End");
+		unit.rigid.velocity = Vector3.zero;
 		unit.animator.SetBool(unit.moveAnimParam, false);
 	}
 
