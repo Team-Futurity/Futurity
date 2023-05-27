@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using static PlayerController;
 
 public class RushEffectManager : Singleton<RushEffectManager>
 {
@@ -30,9 +31,13 @@ public class RushEffectManager : Singleton<RushEffectManager>
 	}
 
 	// 추적 설정
-	private void RegisterTracking(GameObject effect, Transform target)
+	private void RegisterTracking(GameObject effect, Transform target, Vector3? inputPosition = null, Quaternion? inputRotation = null)
 	{
-		trackingEffects.Add(new TrackingEffectData(effect, target));
+		Vector3 marginPos = inputPosition == null ? Vector3.zero : inputPosition.Value - target.position;
+		Quaternion rot = new Quaternion();
+		rot.eulerAngles = inputRotation == null? Vector3.zero : inputRotation.Value.eulerAngles - target.rotation.eulerAngles;
+
+		trackingEffects.Add(new TrackingEffectData(effect, target, marginPos, rot));
 	}
 
 	// 알맞은 RushEffectData를 반환
@@ -50,7 +55,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 	}
 
 	// 이펙트 생성
-	public GameObject ActiveEffect(EffectType type, EffectTarget target = EffectTarget.Caster, int index = 0, int effectListIndex = 0, Transform trackingTarget = null, Vector3? position = null, quaternion? rotation = null)
+	public GameObject ActiveEffect(EffectType type, EffectTarget target = EffectTarget.Caster, Transform trackingTarget = null, Vector3? position = null, quaternion? rotation = null, int index = 0, int effectListIndex = 0)
 	{
 		Vector3 pos = position ?? Vector3.zero;
 		quaternion rot = rotation ?? Quaternion.identity;
@@ -61,16 +66,16 @@ public class RushEffectManager : Singleton<RushEffectManager>
 		// 추적설정
 		if(trackingTarget != null)
 		{
-			RegisterTracking(effectObject, trackingTarget);
+			RegisterTracking(effectObject, trackingTarget, position, rotation);
 		}
 
 		return effectObject;
 	}
 
 	// 단계 기반 이펙트 생성
-	public RushEffectData ActiveLevelEffect(EffectType type, EffectTarget target = EffectTarget.Caster, int index = 0, Transform trackingTarget = null, Vector3? position = null, quaternion? rotation = null)
+	public RushEffectData ActiveLevelEffect(EffectType type, EffectTarget target = EffectTarget.Caster, Transform trackingTarget = null, Vector3? position = null, quaternion? rotation = null, int index = 0)
 	{
-		var obj = ActiveEffect(type, target, index, 0, trackingTarget, position, rotation);
+		var obj = ActiveEffect(type, target, trackingTarget, position, rotation, index, 0);
 
 		// 단계 세팅
 		RushEffectData effectData = GetRushEffectData(index, type, target);
@@ -106,7 +111,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 		GameObject nextEffect;
 
 		// 새 단계 이펙트 생성
-		nextEffect = ActiveEffect(data.effectType, data.effectTarget, levelEffect.index, level, traceTarget, levelEffect.effect.transform.position, levelEffect.effect.transform.rotation);
+		nextEffect = ActiveEffect(data.effectType, data.effectTarget, traceTarget, levelEffect.effect.transform.position, levelEffect.effect.transform.rotation, levelEffect.index, level);
 
 		// 이펙트 제거 및 단계 변경
 		RemoveEffect(levelEffect.effect, trackingNumber);
@@ -135,15 +140,32 @@ public class RushEffectManager : Singleton<RushEffectManager>
 		RemoveEffect(obj.effect, trackingNumber);
 	}
 
-	private void Update()
+	private void LateUpdate()
 	{
 		if(trackingEffects.Count <= 0) { return; }
+
+		List<TrackingEffectData> list = null;
 
 		// 추적 설정한 오브젝트 이동
 		foreach(var effectData in trackingEffects)
 		{
-			effectData.effect.transform.position = effectData.target.position;
-			effectData.effect.transform.rotation = effectData.target.rotation;
+			if(effectData.effect == null)
+			{
+				if (list == null) { list = new List<TrackingEffectData>(); }
+
+				list.Add(effectData);
+				continue;
+			}
+
+			effectData.effect.transform.position = effectData.target.position + effectData.positionMargin;
+			effectData.effect.transform.eulerAngles = effectData.target.rotation.eulerAngles + effectData.rotationMargin.eulerAngles;
+		}
+
+		if(list == null) { return; }
+
+		foreach(var data in list)
+		{
+			trackingEffects.Remove(data);
 		}
 	}
 }

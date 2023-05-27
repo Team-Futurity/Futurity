@@ -48,6 +48,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private RushEffectData chargeEffectKey;
 
 	// effects
+	private GameObject normalAttackEffect;
 	private GameObject rangeEffect;
 	private GameObject rushBodyEffect;
 	private GameObject rushGroundEffect;
@@ -57,6 +58,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		base.Begin(unit);
 		unit.attackCollider.radiusCollider.enabled = false;
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
+		attackLengthMark = unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing; // 0 Level Length Mark
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
 		currentTime = 0;
 		currentLevel = 0;
@@ -99,23 +101,26 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		if (!isReleased) { return; }
 
 		// 돌진 전 위치에서 현재 위치로 향하는 벡터의 크기가 targetMagnitude보다 작고
-		if (((unit.transform.position - originPos).magnitude < targetMagnitude))
+		if ((unit.transform.position - originPos).magnitude < targetMagnitude)
 		{
+			// 벽 연산 처리(추후 가능하면 OnCollisionEnter에서의 Wall 체크부분과 합칠 것)
 			unit.SetCollider(false);
 
 			// Collision연산으로 부족한 부분을 메꿀 Ray연산
 			// ray의 길이는 조금 논의가 필요할지도...?
 			if (Physics.Raycast(unit.transform.position, forward, out hit, rayLength, wallLayer))
 			{
-				CollisionToWallProc(unit);
-
 				/*unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[5].effect);
 				curEffect = unit.rushObjectPool.ActiveObject(point.point);*/
-				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Target, 1, 0, null, hit.point, Quaternion.LookRotation(hit.normal));
+				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Target, null, hit.point, Quaternion.LookRotation(hit.normal), 1);
+				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Caster, null, unit.rushEffects[0].effectPos.position, Quaternion.LookRotation(hit.normal));
+				
+				CollisionToWallProc(unit);
 			}
 
 			unit.SetCollider(true);
 
+			// 이동
 			unit.rigid.velocity = forward * moveSpeed;
 			if (firstEnemy != null)
 			{
@@ -124,6 +129,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		}
 		else // targetPos에 도달한 경우
 		{
+			// 위치 보정
 			unit.transform.position = targetPos;
 
 			if (firstEnemy != null)
@@ -193,8 +199,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				{
 					if(currentLevel == 1)
 					{
-						chargeEffectKey = unit.rushEffectManager.ActiveLevelEffect(EffectType.Ready, EffectTarget.Caster, 0, null, unit.rushEffects[0].effectPos.position);
-						rangeEffect = unit.rushEffectManager.ActiveEffect(EffectType.Ready, EffectTarget.Ground, 0, 0, null, unit.transform.position, unit.transform.rotation);
+						chargeEffectKey = unit.rushEffectManager.ActiveLevelEffect(EffectType.Ready, EffectTarget.Caster, null, unit.rushEffects[0].effectPos.position);
+						rangeEffect = unit.rushEffectManager.ActiveEffect(EffectType.Ready, EffectTarget.Ground, null, unit.transform.position, unit.transform.rotation);
 					}
 					else
 					{
@@ -219,14 +225,24 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			unit.specialIsReleased = false;
 			isReleased = true;
 
+
 			CalculateRushData(unit);
 
-			// Remove Charge Effect
-			unit.rushEffectManager.RemoveEffectByKey(chargeEffectKey);
+			// 돌진 이펙트는 1단계 이상에서만 실행
+			if(currentLevel > 0)
+			{
+				// Remove Charge Effect
+				unit.rushEffectManager.RemoveEffectByKey(chargeEffectKey);
 
-			// Active Move Effects
-			rushBodyEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Caster, 0, 0, unit.transform);
-			rushGroundEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Ground, 0, 0, unit.transform);
+				// Active Move Effects
+				rushBodyEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Caster, unit.transform);
+				rushGroundEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Ground, unit.transform);
+			}
+			else
+			{
+				normalAttackEffect = unit.rushEffectManager.ActiveEffect(EffectType.InstanceAttack, EffectTarget.Caster, unit.rushEffects[1].effectPos);
+			}
+			
 
 			/*if (curEffect != null)
 			{
@@ -246,12 +262,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 	private void CollisionToWallProc(PlayerController unit)
 	{
-		/*if(firstEnemy != null) 
+		if (firstEnemy != null)
 		{
-			// 공식 등이 정상 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
+			// 공식 등이 작업 당시 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
 			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
 			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
-		}*/
+		}
 
 		// 벽(장애물)과 충돌했으니 바로 돌진 종료
 		unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);

@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 368163753}
   m_Layer: 0
-  m_Name: EffectTransform_Charge
+  m_Name: EffectTransform_K
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368163752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.16, z: 0.9}
+  m_LocalPosition: {x: 0, y: 1.16, z: 1.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3684,6 +3684,37 @@ Transform:
   m_Father: {fileID: 1568681330646911914}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5180193562067198251
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3970360354596990030}
+  m_Layer: 0
+  m_Name: EffectTransform_Charge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3970360354596990030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5180193562067198251}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.16, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3806605646931967196}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5309565383692274943
 GameObject:
   m_ObjectHideFlags: 0
@@ -3968,6 +3999,7 @@ Transform:
   - {fileID: 2014832257133555644}
   - {fileID: 292770056}
   - {fileID: 368163753}
+  - {fileID: 3970360354596990030}
   m_Father: {fileID: 5328251835375101389}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5763,8 +5795,6 @@ MonoBehaviour:
             attackAfterDelay: 1.533
             attackST: 4
             attackKnockback: 0
-            loopCount: 0
-            loopDelay: 0
             collider: {fileID: 4068547685948332291}
             effectPos: {fileID: 292770056}
             effectPrefab: {fileID: 743645502276010547, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
@@ -5797,8 +5827,6 @@ MonoBehaviour:
             attackAfterDelay: 1.134
             attackST: 4
             attackKnockback: 120
-            loopCount: 0
-            loopDelay: 0
             collider: {fileID: 4068547685948332291}
             effectPos: {fileID: 292770056}
             effectPrefab: {fileID: 7824830144992791228, guid: c0587accfc987084fbdcc4d87255d219, type: 3}
@@ -5829,8 +5857,6 @@ MonoBehaviour:
           attackAfterDelay: 0.1
           attackST: 2
           attackKnockback: 100
-          loopCount: 0
-          loopDelay: 0
           collider: {fileID: 4068547685948332291}
           effectPos: {fileID: 2014832257133555644}
           effectPrefab: {fileID: 8210732400216373646, guid: ce45194a96c5df94e97e15d0320870f6, type: 3}
@@ -5861,8 +5887,6 @@ MonoBehaviour:
         attackAfterDelay: 0.134
         attackST: 1
         attackKnockback: 270
-        loopCount: 0
-        loopDelay: 0
         collider: {fileID: 4068547685948332291}
         effectPos: {fileID: 1941853247}
         effectPrefab: {fileID: 7485104759053717443, guid: 491302905a445004892ba748307860e5, type: 3}
@@ -5895,8 +5919,6 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 2
         attackKnockback: 0
-        loopCount: 0
-        loopDelay: 0
         collider: {fileID: 4068547685948332291}
         effectPos: {fileID: 5328251835375101389}
         effectPrefab: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
@@ -5931,8 +5953,6 @@ MonoBehaviour:
           attackAfterDelay: 0
           attackST: 0
           attackKnockback: 0
-          loopCount: 0
-          loopDelay: 0
           collider: {fileID: 0}
           effectPos: {fileID: 0}
           effectPrefab: {fileID: 0}
@@ -5963,8 +5983,6 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 0
         attackKnockback: 0
-        loopCount: 0
-        loopDelay: 0
         collider: {fileID: 0}
         effectPos: {fileID: 5328251835375101389}
         effectPrefab: {fileID: 0}
@@ -5995,8 +6013,6 @@ MonoBehaviour:
       attackAfterDelay: 0
       attackST: 0
       attackKnockback: 0
-      loopCount: 0
-      loopDelay: 0
       collider: {fileID: 0}
       effectPos: {fileID: 0}
       effectPrefab: {fileID: 0}
@@ -6042,8 +6058,6 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 0
         attackKnockback: 0
-        loopCount: 0
-        loopDelay: 0
         collider: {fileID: 0}
         effectPos: {fileID: 0}
         effectPrefab: {fileID: 0}
@@ -6074,8 +6088,6 @@ MonoBehaviour:
       attackAfterDelay: 0
       attackST: 0
       attackKnockback: 0
-      loopCount: 0
-      loopDelay: 0
       collider: {fileID: 0}
       effectPos: {fileID: 0}
       effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
@@ -6106,8 +6118,6 @@ MonoBehaviour:
     attackAfterDelay: 0
     attackST: 0
     attackKnockback: 0
-    loopCount: 0
-    loopDelay: 0
     collider: {fileID: 0}
     effectPos: {fileID: 774150179230461155}
     effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
@@ -6156,7 +6166,7 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   rushEffects:
-  - effectPos: {fileID: 368163753}
+  - effectPos: {fileID: 3970360354596990030}
     effect: {fileID: 2131523196075662621, guid: 8f83a2171f859c04ca34ce2e7f7c7022, type: 3}
   - effectPos: {fileID: 368163753}
     effect: {fileID: 7544085061441626784, guid: 8c9a4a0a6eb6d4f45a2b9ae7c4df78a9, type: 3}

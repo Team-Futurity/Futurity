@@ -45,10 +45,14 @@ public class TrackingEffectData
 {
 	public GameObject effect;
 	public Transform target;
+	public Vector3 positionMargin;
+	public Quaternion rotationMargin;
 
-	public TrackingEffectData(GameObject effect, Transform target)
+	public TrackingEffectData(GameObject effect, Transform target, Vector3 marginPos, Quaternion marginRot)
 	{
 		this.effect = effect;
 		this.target = target;
+		positionMargin = marginPos;
+		rotationMargin = marginRot;
 	}
 }
