@@ -90,9 +90,9 @@ public class WindowManager : Singleton<WindowManager>
 		windows.Add(window);
 	}
 
-	public void PauseWindowDisable()
+	public void ClearWindow()
 	{
-
+		windows.Clear();
 	}
 
 	#region UIWindowOpen&Close
@@ -128,8 +128,8 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
-		int windowNum = windows.Count - 2;
 		windows.Remove(closeUiWindowObject);
+		int windowNum = windows.Count - 1;
 
 		if (windowNum >= 0 && windows.Count > windowNum && windows[windowNum] != null)
 		{
