@@ -33,4 +33,17 @@ public class OriginStatus : ScriptableObject
 	{
 		return status;
 	}
+
+	public StatusData GetStatusElement(StatusType type)
+	{
+		foreach(var e in status)
+		{
+			if(e.type == type)
+			{
+				return e;
+			}
+		}
+
+		return null;
+	}
 }
