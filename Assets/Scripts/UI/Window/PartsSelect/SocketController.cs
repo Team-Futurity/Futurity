@@ -55,11 +55,11 @@ public class SocketController : MonoBehaviour
 
 			if (itemImage.sprite is not null)
 			{
-				itemImage.color = new Color(255, 255, 255, 255);
+				itemImage.color = Color.white;
 			}
 			else
 			{
-				itemImage.color = new Color(255, 255, 255, 0);
+				itemImage.color = Color.clear;
 			}
 		}
 		else
