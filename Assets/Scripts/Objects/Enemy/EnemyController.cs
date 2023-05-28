@@ -38,6 +38,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MinimalDefault,
 	}
 
+	[HideInInspector] public TestHPBar hpBar; //임시
+
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
 
@@ -128,6 +130,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	private void Start()
 	{
+		hpBar = GetComponent<TestHPBar>(); //임시
+
 		//Basic Set Up
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
