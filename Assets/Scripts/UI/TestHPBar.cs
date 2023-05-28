@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TestHPBar : MonoBehaviour
 {
-	public Enemy enemy;
+	public UnitBase unit;
 	public Slider slider;
 
 	private void Start()
@@ -15,7 +15,7 @@ public class TestHPBar : MonoBehaviour
 
 	void Update()
     {
-		slider.value = enemy.status.GetStatus(StatusType.CURRENT_HP).GetValue() / enemy.status.GetStatus(StatusType.MAX_HP).GetValue();
+		slider.value = unit.status.GetStatus(StatusType.CURRENT_HP).GetValue() / unit.status.GetStatus(StatusType.MAX_HP).GetValue();
 		slider.transform.rotation = Camera.main.transform.rotation;
 	}
 }

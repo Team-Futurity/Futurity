@@ -27,10 +27,15 @@ public class MiniDefaultChaseState : UnitState<EnemyController>
 		if (distance < unit.attackRange)
 		{
 			unit.rigid.velocity = Vector3.zero;
+			unit.navMesh.enabled = false;
 			unit.ChangeState(EnemyController.EnemyState.MiniDefaultDelay);
 		}
 		else if (distance > unit.attackRange)
-			unit.transform.position += unit.transform.forward.normalized * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+		{
+			//unit.transform.position += unit.transform.forward.normalized * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+			unit.navMesh.enabled = true;
+			unit.navMesh.SetDestination(unit.target.transform.position);
+		}
 	}
 
 	public override void FixedUpdate(EnemyController unit)
