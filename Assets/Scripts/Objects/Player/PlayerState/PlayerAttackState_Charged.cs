@@ -222,7 +222,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				var unitData = collision.transform.GetComponent<UnitBase>();
 				unit.playerData.Attack(unitData);
-				unitData.Knockback(-collision.GetContact(0).normal, LengthMarkIncreasing * 2);
+				unitData.Knockback((collision.transform.position - unit.transform.position).normalized, LengthMarkIncreasing * 2);
 			}
 			return;
 		}
