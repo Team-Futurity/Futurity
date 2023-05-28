@@ -16,7 +16,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		FDebug.Log("MoveIdle begin");
+		//FDebug.Log("MoveIdle begin");
 
 		unit.animator.SetBool(unit.moveAnimParam, true);
 
@@ -57,7 +57,7 @@ public class EnemyMoveIdleState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		FDebug.Log("Move Idle End");
+		//FDebug.Log("Move Idle End");
 		unit.rigid.velocity = Vector3.zero;
 		unit.animator.SetBool(unit.moveAnimParam, false);
 	}

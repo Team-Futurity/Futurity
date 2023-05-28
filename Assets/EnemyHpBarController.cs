@@ -21,7 +21,7 @@ public class EnemyHpBarController : MonoBehaviour
 	void Start()
     {
 		if(currentHpBar == null)
-		currentHpBar = WindowManager.Instance.WindowTopOpen(enemyHpBar, hpBarPosition, Vector3.zero);
+		currentHpBar = WindowManager.Instance.HpBarOpen(enemyHpBar);
     }
 
     void Update()

@@ -8,6 +8,7 @@ public abstract class UnitBase : MonoBehaviour
 {
 	public StatusManager status;
 	[SerializeField] protected Rigidbody rigid;
+	public GaugeBarController hpBar;
 
 	public bool isGodMode = false;
 	public bool isStun = false;
