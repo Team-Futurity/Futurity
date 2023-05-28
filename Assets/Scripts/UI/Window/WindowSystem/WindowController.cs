@@ -19,9 +19,10 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	[SerializeField]
 	public UnityEvent[] windowEvents = new UnityEvent[8];
 
-	//#설명#	타 UIWindow보다 앞에 나와 간섭을 막는 UI
+
 	[SerializeField]
-	private GameObject modalBackground;
+	private int poolingWindowNum;
+	public int thisWindowNum;
 
 	[SerializeField]
 	public bool isLock = false;
@@ -58,16 +59,21 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 		Debug.Log("EnabledWindow 가동");
 	}
 
-	public void WindowNewOpen(GameObject OpenUIWindowObject)
+	public void WindowCaching(GameObject OpenUIWindowObject)
+	{
+		poolingWindowNum = WindowManager.Instance.WindowPooling(OpenUIWindowObject);
+	}
+
+	public void WindowNewOpen()
 	{
 		//#설명#	태스트용 스크립트로 새로운 Window창을 연다.
-		WindowManager.Instance.WindowOpen(OpenUIWindowObject, transform.parent, rectTransform.localPosition + new Vector3(50, -50, 0), rectTransform.sizeDelta);
+		WindowManager.Instance.WindowOpen(poolingWindowNum, rectTransform.localPosition + new Vector3(50, -50, 0), rectTransform.sizeDelta);
 	}
 
 	public void WindowClose()
 	{
 		//#설명#	자기 자신을 닫는다.
-		WindowManager.Instance.WindowClose(this.gameObject);
+		WindowManager.Instance.WindowClose(thisWindowNum);
 		closeEvent?.Invoke();
 	}
 

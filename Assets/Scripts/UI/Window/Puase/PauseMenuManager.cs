@@ -9,6 +9,8 @@ public class PauseMenuManager : MonoBehaviour
 	[SerializeField]
 	private GameObject pauseMenuWindow;
 	private GameObject currentPauseMenuWindow;
+	private int windowNum;
+
 
 	private void OnEnable()
 	{
@@ -23,6 +25,7 @@ public class PauseMenuManager : MonoBehaviour
 	void Awake()
 	{
 		pauseActionReference.action.performed += _ => TogglePause();
+		windowNum = WindowManager.Instance.WindowPooling(pauseMenuWindow);
 	}
 
 	private void TogglePause()
@@ -40,12 +43,12 @@ public class PauseMenuManager : MonoBehaviour
 	void Pause()
 	{
 		Time.timeScale = 0f;
-		currentPauseMenuWindow = WindowManager.Instance.WindowTopOpen(pauseMenuWindow, Vector2.zero, Vector2.one);
+		currentPauseMenuWindow = WindowManager.Instance.WindowOpen(windowNum, Vector2.zero, Vector2.one);
 	}
 
 	void Resume()
 	{
 		Time.timeScale = 1f;
-		WindowManager.Instance.WindowClose(currentPauseMenuWindow);
+		WindowManager.Instance.WindowClose(windowNum);
 	}
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EliteInteractionWindow : MonoBehaviour
@@ -7,11 +5,18 @@ public class EliteInteractionWindow : MonoBehaviour
 	[SerializeField]
 	private GameObject eliteInteractonWindow;
 	[SerializeField]
+	private int windowNum;
+	[SerializeField]
 	private Canvas EnemyCanvas;
 	[SerializeField]
 	private float detectRadius = 5f;
 	private bool playerInRange = false;
 	private GameObject currentWindow;
+
+	private void Start()
+	{
+		WindowManager.Instance.WindowPooling(eliteInteractonWindow);
+	}
 
 	void Update()
 	{
@@ -31,7 +36,7 @@ public class EliteInteractionWindow : MonoBehaviour
 			Vector3 enemyWorldPosition = Camera.main.WorldToScreenPoint(transform.position);
 			enemyWorldPosition.x -= Screen.width / 2;
 			enemyWorldPosition.y -= Screen.height / 2;
-			currentWindow = WindowManager.Instance.WindowTopOpen(eliteInteractonWindow, enemyWorldPosition, Vector2.one);
+			currentWindow = WindowManager.Instance.WindowOpen(windowNum, enemyWorldPosition, Vector2.one);
 
 			playerInRange = true;
 		}

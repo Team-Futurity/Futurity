@@ -7,10 +7,8 @@ public class EnemyHpBarController : MonoBehaviour
 	[SerializeField]
 	[Header("만약 인스터스화 되지 않았다면 enemyHpBar에 값을 넣어주세요")]
 	private GameObject enemyHpBar;
-	[Space(10)]
-	[SerializeField]
-	[Header("만약 인게임에 HpBar가 존재한다면 currentHpBar에 값을 넣어주세요")]
 	private GameObject currentHpBar;
+	private int poolingHpBarNum;
 
 	[Space(30)]
 	[SerializeField]
@@ -20,8 +18,8 @@ public class EnemyHpBarController : MonoBehaviour
 
 	void Start()
     {
-		if(currentHpBar == null)
-		currentHpBar = WindowManager.Instance.WindowTopOpen(enemyHpBar, hpBarPosition, Vector3.zero);
+		poolingHpBarNum = WindowManager.Instance.WindowPooling(enemyHpBar);
+		currentHpBar = WindowManager.Instance.WindowOpen(poolingHpBarNum, hpBarPosition, Vector3.zero);
     }
 
     void Update()

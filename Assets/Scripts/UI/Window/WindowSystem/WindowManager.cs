@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
+
 
 public class WindowManager : Singleton<WindowManager>
 {
@@ -15,6 +15,10 @@ public class WindowManager : Singleton<WindowManager>
 	[Space(15)]
 
 	public List<GameObject> windows = new List<GameObject>();
+	public List<ObjectPoolManager<WindowController>> cachingWindows = new List<ObjectPoolManager<WindowController>>();
+	public List<WindowController> windowControllers = new List<WindowController>();
+
+
 	public List<Button> buttons;
 
 	[SerializeField]
@@ -22,7 +26,7 @@ public class WindowManager : Singleton<WindowManager>
 	[SerializeField]
 	private GameObject currentButton;
 
-	private Transform topCanvasTransform;
+	private GameObject topCanvasObject;
 
 	public InputActionReference leftAction;
 	public InputActionReference rightAction;
@@ -30,7 +34,7 @@ public class WindowManager : Singleton<WindowManager>
 
 	private void Start()
 	{
-		topCanvasTransform = FindTopCanvas().transform;
+		topCanvasObject = FindTopCanvas();
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
 		SelectButton(0);
@@ -55,7 +59,7 @@ public class WindowManager : Singleton<WindowManager>
 		//#설명#	Scene이 로드될 때마다 topCanvasTransform을 다시 설정하기 위해 FindTopCanvas를 호출한다.
 
 
-		topCanvasTransform = FindTopCanvas().transform;
+		topCanvasObject = FindTopCanvas();
 	}
 
 	private GameObject FindTopCanvas()
@@ -97,17 +101,63 @@ public class WindowManager : Singleton<WindowManager>
 	}
 
 	#region UIWindowOpen&Close
-	public GameObject WindowOpen(GameObject openUiWindowObject, Transform WindowParent, Vector2 windowPosition, Vector2 windowScale)
+
+	public int WindowSelectParentPooling(GameObject windowObject, GameObject parent)
 	{
-		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
+		cachingWindows.Add(new ObjectPoolManager<WindowController>(windowObject, parent));
+		int cachingNumber = windows.Count - 1;
+
+		Debug.Log(cachingNumber);
+
+		// Check if cachingWindows is not empty and cachingNumber is within range
+		if (cachingWindows.Count > 0 && cachingNumber < cachingWindows.Count)
+		{
+			WindowController activeObject = cachingWindows[cachingNumber].ActiveObject();
+
+			// Check if ActiveObject returned a non-null WindowController
+			if (activeObject != null)
+			{
+				windowControllers.Add(activeObject);
+			}
+			else
+			{
+				Debug.LogError("ActiveObject returned null");
+				return -1;
+			}
+			cachingWindows[cachingNumber].DeactiveObject(windowControllers[cachingNumber]);
+		}
+		else
+		{
+			Debug.LogError("cachingWindows is empty or cachingNumber is out of range");
+			return -1;
+		}
+
+		return cachingNumber;
+	}
 
 
-		GameObject newWindow = Instantiate(openUiWindowObject, WindowParent);
-		WindowController windowController = newWindow.GetComponent<WindowController>();
+	public int WindowPooling(GameObject windowObject)
+	{
+		//#설명#	UI 창을 캐싱하되, 부모를 가장 상위 Canvas로 설정하고, 캐싱한 위치를 반환한다.
+
+
+		return WindowSelectParentPooling(windowObject, topCanvasObject);
+	}
+
+
+	public GameObject WindowOpen(int cachingNumber, Vector2 windowPosition, Vector2 windowScale)
+	{
+		//#설명#	UI 창을 활성화하고 부모와 위치를 설정하는 함수
+
+
+		WindowController windowController = cachingWindows[cachingNumber].ActiveObject();
+		GameObject newWindow = windowController.gameObject;
+
 		if (!newWindow.CompareTag("UIWindow"))
 		{
 			newWindow.tag = "UIWindow";
 		}
+
 		RectTransform rectTransform = newWindow.GetComponent<RectTransform>();
 		rectTransform.localPosition = windowPosition;
 		rectTransform.localScale = windowScale;
@@ -126,20 +176,12 @@ public class WindowManager : Singleton<WindowManager>
 		return newWindow;
 	}
 
-	public GameObject WindowTopOpen(GameObject openWindowObject, Vector2 windowPosition, Vector2 windowScale)
-	{
-		//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
 
-		
-		GameObject newWindow = WindowOpen(openWindowObject, topCanvasTransform, windowPosition, windowScale);
-
-		return newWindow;
-	}
-	public void WindowClose(GameObject closeUiWindowObject)
+	public void WindowClose(int closeWindowNum)
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
-		windows.Remove(closeUiWindowObject);
+		windows.RemoveAt(closeWindowNum);
 		int windowNum = windows.Count - 1;
 
 
@@ -155,7 +197,7 @@ public class WindowManager : Singleton<WindowManager>
 			windowController.EnabledWindow();
 		}
 
-		Destroy(closeUiWindowObject);
+		cachingWindows[closeWindowNum].DeactiveObject(windowControllers[closeWindowNum]);
 	}
 
 	public void WindowChildAllClose(Transform parentTransform)

@@ -11,14 +11,12 @@ public class PauseMenuWindowManager : MonoBehaviour
 	public void PauseRelease()
 	{
 		Time.timeScale = 1f;
-		WindowManager.Instance.WindowClose(gameObject);
+		WindowManager.Instance.WindowClose(0);
 	}
 
 	public void PauseUIButtonUpWidth(GameObject upWidthUI)
 	{
 		RectTransform uiRectTransform = upWidthUI.GetComponent<RectTransform>();
-
-
 
 		uiRectTransform.sizeDelta = new Vector2(uiRectTransform.sizeDelta.x + upWidthValue, uiRectTransform.sizeDelta.y);
 	}

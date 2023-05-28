@@ -13,7 +13,7 @@ public class WindowOpenController : MonoBehaviour
 	[SerializeField]
 	private GameObject openWindow;
 	[SerializeField]
-	private Transform openWindowParent;
+	private int windowNum;
 	[SerializeField]
 	private Vector2 windowPosition = Vector2.zero;
 	[SerializeField]
@@ -24,24 +24,18 @@ public class WindowOpenController : MonoBehaviour
 	private Dictionary<string, object> variables = new Dictionary<string, object>();
 
 
-
+	void Start()
+	{
+		windowNum = WindowManager.Instance.WindowPooling(openWindow);
+	}
 
 	public void WindowOpen()
 	{
 		//#설명#	세로운 UI를 인스턴스화.
 		GameObject instanceUi = null;
 		if (openWindow)
-		{
-				if (openWindowParent)
-				{
-					instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, windowPosition, windowScale);
-				}
-				else
-				{
-					instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, windowPosition, windowScale);
-				}
-			
-
+		{ 
+			instanceUi = WindowManager.Instance.WindowOpen(windowNum, windowPosition, windowScale);
 			SetWindowEvents(instanceUi);
 		}
 		else
