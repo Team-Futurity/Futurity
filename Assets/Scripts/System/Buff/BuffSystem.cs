@@ -41,12 +41,12 @@ public class BuffSystem : MonoBehaviour
 		//var buff = buffDic[buffName];
 
 		//var buffObj = Instantiate(buff);
-		buffObj.gameObject.SetActive(false);
+		//buffObj.gameObject.SetActive(false);
 
-		var unitPos = unit.transform.position;
-		buffObj.transform.position = unitPos;
-		buffObj.GetComponent<BuffBehaviour>().Active(unit);
+		//var unitPos = unit.transform.position;
+		//buffObj.transform.position = unitPos;
+		//buffObj.GetComponent<BuffBehaviour>().Active(unit);
 
-		buffObj.gameObject.SetActive(true);
+		//buffObj.gameObject.SetActive(true);
 	}
 }
