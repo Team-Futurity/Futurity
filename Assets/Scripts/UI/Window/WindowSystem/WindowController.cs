@@ -61,7 +61,7 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	public void WindowNewOpen(GameObject OpenUIWindowObject)
 	{
 		//#설명#	태스트용 스크립트로 새로운 Window창을 연다.
-		WindowManager.Instance.WindowOpen(OpenUIWindowObject, transform.parent, rectTransform.localPosition + new Vector3(50, -50, 0), rectTransform.sizeDelta);
+		WindowManager.Instance.WindowOpen(OpenUIWindowObject, transform.parent, true, rectTransform.localPosition + new Vector3(50, -50, 0), rectTransform.sizeDelta);
 	}
 
 	public void WindowClose()

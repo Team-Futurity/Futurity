@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using System.Collections;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.LowLevel;
 
 public class TempTestManager : MonoBehaviour
 {
+	[SerializeField]
+	UnityEvent startEvent;
+
 	[SerializeField]
 	List<GaugeBarController> guageBarControllers;
 
@@ -15,6 +19,8 @@ public class TempTestManager : MonoBehaviour
 	[SerializeField]
 	NumberImageLoader numberImageLoader;
 
+	[SerializeField]
+	WindowOpenController openController;
 	[SerializeField]
 	CharacterDialogController characterDialogController;
 	bool isAdWard = true;
@@ -26,6 +32,8 @@ public class TempTestManager : MonoBehaviour
 
 	void Start()
 	{
+		characterDialogController = openController.WindowActiveOpen().GetComponent<CharacterDialogController>();
+
 		TextValueSetter();
 		scrapUIController.SetScrapValue(scrapValue);
 		StartCoroutine(NumberImageValueChanger());
@@ -48,8 +56,6 @@ public class TempTestManager : MonoBehaviour
 		{
 			isValueReached = true;
 		}
-
-		
 
 		if (isValueReached)
 		{
