@@ -4,42 +4,43 @@ using UnityEngine;
 
 public class BuffSystem : MonoBehaviour
 {
-	// 버프를 추가하는 List
 	[field: SerializeField] public List<BuffBehaviour> BuffList { get; private set; }
-	// 버프를 관리하는 Dic
-	private Dictionary<BuffNameList, BuffBehaviour> buffDic;
-    
+
+	private Dictionary<int, BuffBehaviour> buffSaveDic;
+
+
     private void Awake()
     {
-		buffDic = new Dictionary<BuffNameList, BuffBehaviour>();
+		buffSaveDic = new Dictionary<int, BuffBehaviour>();
+
 
 		if(BuffList is not null)
 		{
 			foreach(var buff in BuffList)
 			{
-				buffDic.Add(buff.BuffData.BuffName, buff);
+				//buffSaveDic.Add(buff.BuffData.BuffName, buff);
 			}
 		}
     }
 
-	private bool HasBuff(BuffNameList buffName)
+	private bool HasBuff(int buffCode)
 	{
-		return buffDic.ContainsKey(buffName);
+		return buffSaveDic.ContainsKey(buffCode);
 	}
 
-	public void OnBuff(BuffNameList buffName, UnitBase unit)
+	public void OnBuff(int buffCode, UnitBase unit)
     {
-		var hasBuff = HasBuff(buffName);
+		var hasBuff = HasBuff(buffCode);
 
 		if (!hasBuff)
 		{
-			FDebug.Log($"{buffName}이(가) 존재하지 않습니다;");
+			FDebug.Log($"{buffCode}이(가) 존재하지 않습니다;");
 			return;
 		}
 
-		var buff = buffDic[buffName];
+		//var buff = buffDic[buffName];
 
-		var buffObj = Instantiate(buff);
+		//var buffObj = Instantiate(buff);
 		buffObj.gameObject.SetActive(false);
 
 		var unitPos = unit.transform.position;
