@@ -29,7 +29,7 @@ public class CharacterDialogController : MonoBehaviour
 		currentText = "";
 		charactorText.text = "";
 		isTextEnd = false;
-		//StartCoroutine(ShowText());
+		StartCoroutine(ShowText());
 	}
 
 	IEnumerator ShowText()
