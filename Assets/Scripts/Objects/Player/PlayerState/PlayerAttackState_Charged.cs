@@ -154,11 +154,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			unit.SetCollider(true);
 
-			if(unit.rigid.velocity.normalized == -forward.normalized)
-			{
-				FDebug.Log("T");
-			}
-
 			// ¿Ãµø
 			unit.rigid.velocity = forward * moveSpeed;
 
