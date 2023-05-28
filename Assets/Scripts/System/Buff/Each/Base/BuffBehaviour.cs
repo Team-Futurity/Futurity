@@ -83,7 +83,7 @@ public abstract class BuffBehaviour : MonoBehaviour
 		
 		FDebug.Log($"{BuffData.BuffName}가 종료되었습니다.");
 
-		executor.RemoveBuff(BuffData.BuffCode);
+		executor.RemoveActiveBuff(BuffData.BuffCode);
 
 		Destroy(gameObject);
 	}
