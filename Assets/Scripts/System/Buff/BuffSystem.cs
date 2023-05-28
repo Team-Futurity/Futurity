@@ -7,35 +7,66 @@ public class BuffSystem : MonoBehaviour
 	[field: SerializeField] public List<BuffBehaviour> BuffList { get; private set; }
 
 	private Dictionary<int, BuffBehaviour> buffSaveDic;
-	private Dictionary<int, BuffBehaviour> currActiveBuff;
+	private Dictionary<int, BuffBehaviour> currActiveBuffDic;
 
     private void Awake()
     {
 		buffSaveDic = new Dictionary<int, BuffBehaviour>();
-		currActiveBuff = new Dictionary<int, BuffBehaviour>();
+		currActiveBuffDic = new Dictionary<int, BuffBehaviour>();
 
-		if(BuffList is not null)
-		{
-			foreach(var buff in BuffList)
-			{
-				//buffSaveDic.Add(buff.BuffData.BuffName, buff);
-			}
-		}
+		SaveBuff();
     }
 
-	private bool HasBuff(int buffCode)
+	// 해당 버프가 있는지 확인한다.
+	public bool HasSaveBuff(int buffCode)
 	{
 		return buffSaveDic.ContainsKey(buffCode);
 	}
 
-	public void OnBuff(int buffCode, BuffBehaviour buff)
-    {
-		var hasBuff = HasBuff(buffCode);
+	public BuffBehaviour GetSaveBuff(int buffCode)
+	{
+		return buffSaveDic[buffCode];
+	}
 
-		if (!hasBuff)
+	// 버프를 적용한다.
+	public void SetActiveBuff(BuffBehaviour buff)
+    {
+		if(buff is null)
 		{
-			FDebug.Log($"{buffCode}이(가) 존재하지 않습니다;");
+			FDebug.Log($"{buff}이(가) 존재하지 않습니다.");
 			return;
+		}
+
+		// Buff Object 생성
+		Instantiate(buff, transform.position, Quaternion.identity, transform);
+		currActiveBuffDic.Add(buff.BuffData.BuffCode, buff);
+	}
+
+	public void RemoveActiveBuff(int buffCode)
+	{
+		var hasActiveBuff = GetActiveBuff(buffCode);
+
+		if (hasActiveBuff)
+		{
+			currActiveBuffDic.Remove(buffCode);
+		}
+	}
+
+	private bool GetActiveBuff(int buffCode)
+	{
+		return currActiveBuffDic.ContainsKey(buffCode);
+	}
+
+	private void SaveBuff()
+	{
+		if(BuffList is null)
+		{
+			return;
+		}
+
+		foreach(var buff in BuffList)
+		{
+			buffSaveDic.Add(buff.BuffData.BuffCode, buff);
 		}
 	}
 }
