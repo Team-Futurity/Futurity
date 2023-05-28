@@ -7,12 +7,12 @@ public class BuffSystem : MonoBehaviour
 	[field: SerializeField] public List<BuffBehaviour> BuffList { get; private set; }
 
 	private Dictionary<int, BuffBehaviour> buffSaveDic;
-
+	private Dictionary<int, BuffBehaviour> currActiveBuff;
 
     private void Awake()
     {
 		buffSaveDic = new Dictionary<int, BuffBehaviour>();
-
+		currActiveBuff = new Dictionary<int, BuffBehaviour>();
 
 		if(BuffList is not null)
 		{
@@ -28,7 +28,7 @@ public class BuffSystem : MonoBehaviour
 		return buffSaveDic.ContainsKey(buffCode);
 	}
 
-	public void OnBuff(int buffCode, UnitBase unit)
+	public void OnBuff(int buffCode, BuffBehaviour buff)
     {
 		var hasBuff = HasBuff(buffCode);
 
@@ -37,16 +37,5 @@ public class BuffSystem : MonoBehaviour
 			FDebug.Log($"{buffCode}이(가) 존재하지 않습니다;");
 			return;
 		}
-
-		//var buff = buffDic[buffName];
-
-		//var buffObj = Instantiate(buff);
-		//buffObj.gameObject.SetActive(false);
-
-		//var unitPos = unit.transform.position;
-		//buffObj.transform.position = unitPos;
-		//buffObj.GetComponent<BuffBehaviour>().Active(unit);
-
-		//buffObj.gameObject.SetActive(true);
 	}
 }
