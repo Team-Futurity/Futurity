@@ -45,7 +45,7 @@ public class CharacterDialogController : MonoBehaviour
 
 	public void TypingTextEnd()
 	{
-		Debug.Log($"{gameObject}의 \"{fullText}\" Text 타이핑 완료");
+		FDebug.Log($"{gameObject}의 \"{fullText}\" Text 타이핑 완료");
 		isTextEnd = true;
 	}
 

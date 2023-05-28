@@ -37,7 +37,7 @@ public class ScrapUIController : MonoBehaviour
 			yield return new WaitForSeconds(typingTime / (float)typingInterval);
 		}
 
-		Debug.Log($"scrapValue : {scrapValue}");
+		FDebug.Log($"scrapValue : {scrapValue}");
 		scrapValue = setScrapValue;
 		textMeshProUGUI.text = $"{scrapValue}";
 	}

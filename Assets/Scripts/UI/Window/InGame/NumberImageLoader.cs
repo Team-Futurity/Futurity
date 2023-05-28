@@ -23,7 +23,7 @@ public class NumberImageLoader : MonoBehaviour
 		currntCombos[1] = (num / 10) % 10;
 		currntCombos[2] = num % 10;
 
-		Debug.Log($"{gameObject.name}의 SetNumber : {currntCombos[0]}{currntCombos[1]}{currntCombos[2]}");
+		FDebug.Log($"{gameObject.name}의 SetNumber : {currntCombos[0]}{currntCombos[1]}{currntCombos[2]}");
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -31,7 +31,7 @@ public class NumberImageLoader : MonoBehaviour
 			numberComboParticle[i].Stop();
 			numberComboParticle[i].Play();
 
-			Debug.Log($"{numberComboMaterial[i].name}의 mainTexture : {numberComboMaterial[i].GetTexture("_maintex")}");
+			FDebug.Log($"{numberComboMaterial[i].name}의 mainTexture : {numberComboMaterial[i].GetTexture("_maintex")}");
 		}
 	}
 }

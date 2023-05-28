@@ -30,7 +30,7 @@ public class PartsRepositoryManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Input ItemUIData is null");
+			FDebug.LogError("Input ItemUIData is null");
 		}
 	}
 
@@ -47,7 +47,7 @@ public class PartsRepositoryManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Invalid setting number");
+			FDebug.LogError("Invalid setting number");
 		}
 	}
 	/// <summary>
@@ -63,7 +63,7 @@ public class PartsRepositoryManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Input ItemUIData is null or invalid setting number");
+			FDebug.LogError("Input ItemUIData is null or invalid setting number");
 		}
 	}
 
@@ -81,7 +81,7 @@ public class PartsRepositoryManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Invalid setting number");
+			FDebug.LogError("Invalid setting number");
 			return null;
 		}
 	}
@@ -99,7 +99,7 @@ public class PartsRepositoryManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Input list is null or has too many items");
+			FDebug.LogError("Input list is null or has too many items");
 		}
 	}
 
@@ -116,7 +116,7 @@ public class PartsRepositoryManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Input ItemUIData is null or invalid setting number");
+			FDebug.LogError("Input ItemUIData is null or invalid setting number");
 		}
 	}
 

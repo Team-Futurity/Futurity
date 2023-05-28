@@ -6,6 +6,6 @@ public class DebugLogger : MonoBehaviour
 {
 	public void TextDebugLog(string text)
 	{
-		Debug.Log(text);
+		FDebug.Log(text);
 	}
 }

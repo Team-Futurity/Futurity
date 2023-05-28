@@ -76,12 +76,12 @@ public class WindowManager : Singleton<WindowManager>
 
 		if (topCanvas != null)
 		{
-			Debug.Log("Top Canvas: " + topCanvas.name);
+			FDebug.Log("Top Canvas: " + topCanvas.name);
 			return topCanvas.gameObject;
 		}
 		else
 		{
-			Debug.Log("No Canvas found.");
+			FDebug.Log("No Canvas found.");
 			return null;
 		}
 	}
@@ -145,7 +145,7 @@ public class WindowManager : Singleton<WindowManager>
 
 		if (windowNum >= 0 && windows[windowNum] != null)
 		{
-			Debug.Log($"windows[windowNum]{windows[windowNum]}");
+			FDebug.Log($"windows[windowNum]{windows[windowNum]}");
 
 
 			windows[windowNum].SetActive(true);
@@ -250,7 +250,7 @@ public class WindowManager : Singleton<WindowManager>
 			ExecuteEvents.Execute(currentButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
 		} else
 		{
-			Debug.Log($"할당된 버튼이 없습니다. buttons.Count : {buttons.Count}");
+			FDebug.Log($"할당된 버튼이 없습니다. buttons.Count : {buttons.Count}");
 		}
 	}
 
