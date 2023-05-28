@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 
@@ -68,6 +68,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(5)]
 	[Header("입력 관련")]
 	public bool specialIsReleased = false;
+	public bool moveIsPressed = false;
 
 	// attack
 	[Space(5)]
@@ -87,14 +88,21 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public GameObject glove;
 	public Player playerData;
 	public ComboGaugeSystem comboGaugeSystem;
+	public HitCountSystem hitCountSystem;
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
+	public RushEffectManager rushEffectManager;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public TrailRenderer dashEffect;
 	private WaitForSeconds dashCoolTimeWFS;
 
+	// event
+	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
+	[HideInInspector] public InputAction moveAction;
+
+	// Temporary
 	[Serializable]
 	public struct EffectData
 	{
@@ -114,6 +122,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
 
+	// etc
+	
+
 	private void Start()
 	{
 		animator = GetComponent<Animator>();
@@ -127,6 +138,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// UnitFSM Init
 		unit = this;
 		SetUp(PlayerState.Idle);
+		UnitState<PlayerController> astate = null;
+		GetState(PlayerState.AttackAfterDelay, ref astate);
+		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
 		curNode = comboTree.top;
@@ -146,6 +160,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		Vector3 input = context.ReadValue<Vector3>();
 		if (input == null) { return; }
 		moveDir = new Vector3(input.x, 0f, input.y);
+		moveAction = context.action;
+
+		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
 		// 예외처리
 		if (!IsCurrentState(PlayerState.Idle))
@@ -176,7 +193,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			if (!IsCurrentState(PlayerState.Dash))
 			{
-				curNode = comboTree.top;
 				ChangeState(PlayerState.Dash);
 			}
 		}
@@ -201,7 +217,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			curCombo = node.command;
 			currentAttackState = PlayerState.NormalAttack;
 			currentAttackAnimKey = ComboAttackAnimaKey;
-			ChangeState(PlayerState.AttackDelay);
+
+			nextStateEvent.Invoke(PlayerState.AttackDelay);
 		}
 		else // 공격 중이라면
 		{
@@ -224,10 +241,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				AttackNode node = FindInput(PlayerInput.SpecialAttack);
 				if (node == null) { return; }
 
-				curNode = node;
-				curCombo = node.command;
-
-				if (!IsCurrentState(PlayerState.AttackAfterDelay)) // 콤보 입력 중이 아니면 차지
+				if (curCombo != PlayerInput.NormalAttack) // 콤보 입력 중이 아니면 차지
 				{
 					currentAttackState = PlayerState.ChargedAttack;
 					//ChangeState(PlayerState.ChargedAttack);
@@ -238,17 +252,20 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 					//ChangeState(PlayerState.NormalAttack);
 				}
 
+				curNode = node;
+				curCombo = node.command;
+
 				ChangeState(PlayerState.AttackDelay);
 			}
 			else
 			{
-				if (nextCombo == PlayerInput.None)
+				if (nextCombo == PlayerInput.None && curCombo != PlayerInput.SpecialAttack)
 				{
 					nextCombo = PlayerInput.SpecialAttack;
 				}
 			}
 		}
-		else if (context.canceled && currentAttackState != PlayerState.NormalAttack)
+		else if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
 		{
 			specialIsReleased = true;
 		}
@@ -256,12 +273,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public AttackNode FindInput(PlayerInput input)
 	{
-		AttackNode node = comboTree.FindNode(input, curNode);
-
-		if (node == null)
-		{
-			node = comboTree.FindNode(input, comboTree.top);
-		}
+		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
+		AttackNode node = comboTree.FindNode(input, compareNode);
 
 		return node;
 	}
