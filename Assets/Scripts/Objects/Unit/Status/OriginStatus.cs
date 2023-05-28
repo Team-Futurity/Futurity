@@ -50,7 +50,7 @@ public class OriginStatus : ScriptableObject
 	{
 		if (HasStatus(type))
 		{
-			FDebug.Log("Status µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			FDebug.Log("Status ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			return null;
 		}
 
