@@ -28,7 +28,7 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
-		if(!pc.IsCurrentState(PlayerController.PlayerState.ChargedAttack))
+		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerController.PlayerState.Dash) && !pc.playerData.isStun)
 		{
 			pc.ChangeState(PlayerController.PlayerState.Hit);
 		}

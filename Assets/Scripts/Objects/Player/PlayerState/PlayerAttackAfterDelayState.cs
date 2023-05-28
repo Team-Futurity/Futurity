@@ -33,7 +33,7 @@ public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 		{
 			AttackNode node = unit.FindInput(unit.nextCombo);
 
-			if (node == null) { return; }
+			if (node == null) { unit.nextCombo = PlayerInput.None; return; }
 				
 			unit.curNode = node;
 			unit.curCombo = node.command;
