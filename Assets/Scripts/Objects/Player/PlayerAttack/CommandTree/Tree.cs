@@ -21,9 +21,6 @@ public class AttackNode
 	public float attackST;
 	public float attackKnockback;
 
-	public int loopCount;
-	public float loopDelay;
-
 	public Collider collider;
 
 	public Transform effectPos;
@@ -61,8 +58,6 @@ public class AttackNode
 		parent = node.parent;
 		attackLength = node.attackLength;
 		attackSpeed = node.attackSpeed;
-		loopCount = node.loopCount;
-		loopDelay = node.loopDelay;
 		attackST = node.attackST;
 		collider = node.collider;
 		effectPrefab = node.effectPrefab;

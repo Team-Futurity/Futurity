@@ -36,12 +36,16 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 		if(!isNextAttackState)
 		{
 			unit.curNode = unit.comboTree.top;
+			unit.curCombo = PlayerInput.None;
+			unit.currentAttackState = PlayerState.Idle;
 
 			unit.autoTargetCollider.radiusCollider.enabled = false;
 			unit.attackCollider.radiusCollider.enabled = false;
 
 			unit.animator.SetBool(unit.IsAttackingAnimKey, false);
 			unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);
+
+			unit.comboGaugeSystem.ResetComboCount();
 		}
 	}
 
