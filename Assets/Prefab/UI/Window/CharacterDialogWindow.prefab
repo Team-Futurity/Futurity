@@ -122,9 +122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3115153076598801795}
-        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: WindowClose
+      - m_Target: {fileID: 1107517668370494704}
+        m_TargetAssemblyTypeName: CharacterDialogController, Assembly-CSharp
+        m_MethodName: WriteCharactorText
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -617,7 +617,7 @@ GameObject:
   - component: {fileID: 3115153076598801795}
   - component: {fileID: 1107517668370494704}
   m_Layer: 5
-  m_Name: CharacterScriptUniqueWindow
+  m_Name: CharacterDialogWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -734,10 +734,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92100cc552ac664891824c26f5c4229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windowController: {fileID: 3115153076598801795}
   charactorImage: {fileID: 1267338906561006910}
   charactorText: {fileID: 8876507370604688550}
   typingDelay: 0.05
-  fullText: 
+  fullText: []
+  textNum: 0
 --- !u!1 &7158120594137517289
 GameObject:
   m_ObjectHideFlags: 0
