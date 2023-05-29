@@ -17,32 +17,35 @@ public class SocketController : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-
 		PartsRepositoryManager partsRepository = GameObject.Find("Player").GetComponent<PartsRepositoryManager>();
-		if (partsRepository.GetRepositoryPartsData(itemNum) is not null)
+
+		if (partsRepository is not null)
 		{
-			itemUIData = partsRepository.GetRepositoryPartsData(itemNum);
-
-			if (itemUIData is not null)
+			if (partsRepository.GetRepositoryPartsData(itemNum) is not null)
 			{
-				itemImage.sprite = itemUIData.ItemSprite;
+				itemUIData = partsRepository.GetRepositoryPartsData(itemNum);
 
-				if (itemImage.sprite is not null)
+				if (itemUIData is not null)
 				{
-					itemImage.color = new Color(255, 255, 255, 255);
+					itemImage.sprite = itemUIData.ItemSprite;
+
+					if (itemImage.sprite is not null)
+					{
+						itemImage.color = new Color(255, 255, 255, 255);
+					}
+					else
+					{
+						itemImage.color = new Color(255, 255, 255, 0);
+					}
 				}
 				else
 				{
-					itemImage.color = new Color(255, 255, 255, 0);
+					itemImage.sprite = null;
 				}
 			}
-			else
 			{
-				itemImage.sprite = null;
+				itemUIData = null;
 			}
-		}
-		{
-			itemUIData = null;
 		}
 	}
 
