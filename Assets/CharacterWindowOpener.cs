@@ -20,7 +20,14 @@ public class CharacterWindowOpener : MonoBehaviour
 
 	private void Start()
 	{
-		currentCharacterWindow = WindowManager.Instance.WindowOpen(characterWindow, canvas.transform, false, Vector2.zero, Vector2.one);
+		if (canvas != null)
+		{
+			currentCharacterWindow = WindowManager.Instance.WindowOpen(characterWindow, canvas.transform, false, Vector2.zero, Vector2.one);
+		}
+		else
+		{
+			currentCharacterWindow = WindowManager.Instance.WindowTopOpen(characterWindow, false, Vector2.zero, Vector2.one);
+		}
 
 		characterDialogController = currentCharacterWindow.GetComponent<CharacterDialogController>();
 
