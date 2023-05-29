@@ -49,13 +49,18 @@ public class NumberImageLoader : MonoBehaviour
 
 		FDebug.Log($"{gameObject.name}ÀÇ SetNumber : {currntCombos[0]}{currntCombos[1]}{currntCombos[2]}");
 
-		for (int i = 0; i < 3; i++)
+
+		for (int i = 0; i < numberComboMaterial.Count; i++)
 		{
 			numberComboMaterial[i].SetTexture("_maintex", numberSprite[currntCombos[i]]);
-			numberComboParticle[i].Stop();
-			numberComboParticle[i].Play();
 
 			FDebug.Log($"{numberComboMaterial[i].name}ÀÇ mainTexture : {numberComboMaterial[i].GetTexture("_maintex")}");
+		}
+
+		for (int i = 0; i < numberComboParticle.Count; i++)
+		{
+			numberComboParticle[i].Stop();
+			numberComboParticle[i].Play();
 		}
 
 		comboDeactiveDelayCorutine = StartCoroutine(ComboDeactiveDelay());
