@@ -146,7 +146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2955528926438800398
 Transform:
   m_ObjectHideFlags: 0
@@ -202,6 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 2955528926438800394}
   rigid: {fileID: 2955528926438800395}
+  hpBar: {fileID: 0}
   isGodMode: 0
   isStun: 0
   OnAttack:
@@ -220,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8676add6620b0e409274690c724b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpBar: {fileID: 0}
   enemyType: 2
   maxSpawningTime: 3.8
   enemyCollider: {fileID: 0}
@@ -326,7 +328,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
+  canvas: {fileID: 0}
   slider: {fileID: 0}
+  sliderPos: {x: 0, y: 0, z: 0}
+  copySlider: {fileID: 0}
 --- !u!195 &1731697029185738527
 NavMeshAgent:
   m_ObjectHideFlags: 0
