@@ -9,7 +9,7 @@ public class MDefaultAttack2ndState : UnitState<EnemyController>
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Attack2nd begin");
-		unit.animator.SetTrigger(unit.atkAnimParam);
+		/*unit.animator.SetTrigger(unit.atkAnimParam);*/
 		unit.atkCollider.enabled = true;
 	}
 
