@@ -88,7 +88,14 @@ public class CharacterDialogController : MonoBehaviour
 
 	public string GetThisText()
 	{
-		return fullText[textNum];
+		if (fullText.Count > textNum)
+		{
+			return fullText[textNum];
+		} 
+		else
+		{
+			return fullText[fullText.Count - 1];
+		}
 	}
 	public bool GetTextEnd()
 	{
