@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8676add6620b0e409274690c724b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpBar: {fileID: 0}
   enemyType: 0
   maxSpawningTime: 3.8
   enemyCollider: {fileID: 0}
@@ -115,7 +116,7 @@ MonoBehaviour:
   transformParent: {fileID: 0}
   moveIdleSpot: {fileID: 0}
   attackRange: 1.5
-  attackChangeDelay: 1.3
+  attackChangeDelay: 1
   turnSpeed: 150
   projectileDistance: 0
   rangedProjectile: {fileID: 0}
@@ -123,6 +124,9 @@ MonoBehaviour:
   powerReference1: 0
   powerReference2: 0
   effects:
+  - effect: {fileID: 4031016503150977069, guid: ab17821d1f5cef74e97c6954f18f1123, type: 3}
+    effectPos: {fileID: 8403025469566084697}
+    effectParent: {fileID: 4439521067689912937}
   - effect: {fileID: 4031016503150977069, guid: ab17821d1f5cef74e97c6954f18f1123, type: 3}
     effectPos: {fileID: 8403025469566084697}
     effectParent: {fileID: 4439521067689912937}
@@ -191,6 +195,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   slider: {fileID: 0}
   sliderPos: {x: 0, y: 2, z: 0}
+  copySlider: {fileID: 0}
 --- !u!114 &3867396437893702998
 MonoBehaviour:
   m_ObjectHideFlags: 0
