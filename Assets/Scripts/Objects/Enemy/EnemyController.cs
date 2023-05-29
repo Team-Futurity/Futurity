@@ -142,6 +142,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		if (eMaterial != null)
 			copyMat = new Material(eMaterial);
 
+		chaseRange.enabled = false;
+
 		unit = this;
 		SetUp(EnemyState.Spawn);
 
