@@ -17,7 +17,9 @@ public class SocketController : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		//#주의# 해당 Find 스크립트를 비롯 
 		PartsRepositoryManager partsRepository = GameObject.Find("Player").GetComponent<PartsRepositoryManager>();
+		
 
 		if (partsRepository is not null)
 		{
