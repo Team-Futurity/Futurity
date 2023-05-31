@@ -10,50 +10,14 @@ public class SocketController : MonoBehaviour
 
 	[SerializeField]
 	private Image itemImage;
-
-
 	private ItemUIData itemUIData;
 
-	// Start is called before the first frame update
-	void Start()
+
+
+	public void ResetItemUIDatas(ItemUIData setItemData)
 	{
-		//#주의# 해당 Find 스크립트를 비롯 
-		PartsRepositoryManager partsRepository = GameObject.Find("Player").GetComponent<PartsRepositoryManager>();
-		
+		itemUIData = setItemData;
 
-		if (partsRepository is not null)
-		{
-			if (partsRepository.GetRepositoryPartsData(itemNum) is not null)
-			{
-				itemUIData = partsRepository.GetRepositoryPartsData(itemNum);
-
-				if (itemUIData is not null)
-				{
-					itemImage.sprite = itemUIData.ItemSprite;
-
-					if (itemImage.sprite is not null)
-					{
-						itemImage.color = new Color(255, 255, 255, 255);
-					}
-					else
-					{
-						itemImage.color = new Color(255, 255, 255, 0);
-					}
-				}
-				else
-				{
-					itemImage.sprite = null;
-				}
-			}
-			{
-				itemUIData = null;
-			}
-		}
-	}
-
-	public void ResetItemUIDatas()
-	{
-		itemUIData = GameObject.Find("Player").GetComponent<PartsRepositoryManager>().GetRepositoryPartsData(itemNum);
 		if (itemUIData is not null)
 		{
 			itemImage.sprite = itemUIData.ItemSprite;
@@ -70,6 +34,28 @@ public class SocketController : MonoBehaviour
 		else
 		{
 			itemImage.sprite = null;
+			itemImage.color = Color.clear;
+		}
+	}
+	public void ResetItemUIDatas()
+	{
+		if (itemUIData is not null)
+		{
+			itemImage.sprite = itemUIData.ItemSprite;
+
+			if (itemImage.sprite is not null)
+			{
+				itemImage.color = Color.white;
+			}
+			else
+			{
+				itemImage.color = Color.clear;
+			}
+		}
+		else
+		{
+			itemImage.sprite = null;
+			itemImage.color = Color.clear;
 		}
 	}
 }

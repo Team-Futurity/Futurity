@@ -121,19 +121,20 @@ public class WindowManager : Singleton<WindowManager>
 	public GameObject WindowOpen(GameObject openUiWindowObject, Transform WindowParent, bool isDeActive, Vector2 windowPosition, Vector2 windowScale)
 	{
 		GameObject newWindow = Instantiate(openUiWindowObject, WindowParent);
-		FDebug.Log($"WindowParent : {WindowParent}");
-		newWindow.transform.parent = WindowParent;
 		WindowController windowController = newWindow.GetComponent<WindowController>();
+		RectTransform rectTransform = newWindow.GetComponent<RectTransform>();
+
+		rectTransform.localPosition = windowPosition;
+		rectTransform.localScale = windowScale;
+		SetButtons(windowController.GetButtons());
+
 		if (!newWindow.CompareTag("UIWindow"))
 		{
 			newWindow.tag = "UIWindow";
 		}
-		RectTransform rectTransform = newWindow.GetComponent<RectTransform>();
-		rectTransform.localPosition = windowPosition;
-		rectTransform.localScale = windowScale;
-		windows.Add(newWindow);
-		SetButtons(windowController.GetButtons());
 
+
+		windows.Add(newWindow);
 
 		if (isDeActive)
 		{
