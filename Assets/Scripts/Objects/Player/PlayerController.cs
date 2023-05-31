@@ -31,9 +31,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		SpecialAttack,
 		Dash
 	}
-
-	public bool isCantAct; //임시 : 추후 삭제 예정, 크리틱 빌드를 위함
-
 	// Constants
 	public readonly string EnemyTag = "Enemy";
 	public readonly string ComboAttackAnimaKey = "ComboParam";
@@ -129,8 +126,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	private void Start()
 	{
-		isCantAct = true; //임시 : 스크립트 출력 중 플레이어 행동을 막기 위함
-
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		dashEffect = GetComponent<TrailRenderer>();
@@ -183,7 +178,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 
 		// 이동 기능
-		if (!IsCurrentState(PlayerState.Move) && !isCantAct)
+		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
 		}
@@ -195,7 +190,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		if (context.performed)
 		{
-			if (!IsCurrentState(PlayerState.Dash) && !isCantAct)
+			if (!IsCurrentState(PlayerState.Dash))
 			{
 				ChangeState(PlayerState.Dash);
 			}
@@ -211,7 +206,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
 
 		// AfterDelay나 다른 스테이트(Idle, Move)라면
-		if (!IsAttackProcess() && !isCantAct)
+		if (!IsAttackProcess())
 		{
 			AttackNode node = FindInput(PlayerInput.NormalAttack);
 
@@ -240,7 +235,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		if (context.started)
 		{
-			if (!IsAttackProcess() && !isCantAct)
+			if (!IsAttackProcess())
 			{
 				AttackNode node = FindInput(PlayerInput.SpecialAttack);
 				if (node == null) { return; }
