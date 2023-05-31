@@ -13,7 +13,7 @@ public class HitCountSystem : MonoBehaviour
 
 	private void Start()
 	{
-		hitCountUI.SetNumber(0);
+		//hitCountUI.SetNumber(0);
 	}
 
 	public void AddHitCount(int count)
@@ -26,7 +26,11 @@ public class HitCountSystem : MonoBehaviour
 	private void SetHitCount(int number)
 	{
 		hitCount = Mathf.Clamp(number, 0, maxHitCount);
-		hitCountUI.SetNumber(hitCount);
+
+		if (hitCount != 0)
+		{
+			hitCountUI.SetNumber(hitCount);
+		}
 	}
 
 	private void Update()

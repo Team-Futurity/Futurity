@@ -69,6 +69,12 @@ public class CharacterDialogController : MonoBehaviour
 		else
 		{
 			windowController.WindowClose();
+
+			//임시 : 추후 삭제 예정, 크리틱 빌드를 위함
+			for(int i = 0; i < InGameUnitManager.Instance.enemys.Count; i++)
+			{
+				InGameUnitManager.Instance.enemys[i].gameObject.SetActive(true);
+			}
 		}
 	}
 

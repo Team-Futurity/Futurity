@@ -130,7 +130,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	private void Start()
 	{
-		hpBar = GetComponent<TestHPBar>(); //임시
+		//임시 : 추후 삭제 에정, 크리틱 빌드를 위함
+		this.gameObject.SetActive(false); 
+		hpBar = GetComponent<TestHPBar>();
 
 		//Basic Set Up
 		animator = GetComponent<Animator>();
@@ -141,6 +143,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			copyWhiteMat = new Material(whiteMaterial);
 		if (eMaterial != null)
 			copyMat = new Material(eMaterial);
+
+		chaseRange.enabled = false;
 
 		unit = this;
 		SetUp(EnemyState.Spawn);
