@@ -4,6 +4,8 @@ using static PlayerController;
 [FSMState((int)PlayerState.AttackAfterDelay)]
 public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 {
+	bool comboIsEnd = false;
+
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
@@ -47,6 +49,6 @@ public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-
+		
 	}
 }

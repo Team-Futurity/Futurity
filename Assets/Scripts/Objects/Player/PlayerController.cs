@@ -63,6 +63,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(5)]
 	[Header("대시 관련")]
 	public bool coolTimeIsEnd = false;
+	public bool comboIsEnd = false;
 
 	// input
 	[Space(5)]
@@ -257,11 +258,14 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
 		PlayerInput nextNodeInput = input;
 
-		if(IsTopNode(compareNode) && firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInput.None && firstBehaiviorNode.command != input) 
+		if(IsTopNode(compareNode) 
+			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInput.None 
+			&& firstBehaiviorNode.command != input) 
 		{
-			FDebug.Log($"F : {firstBehaiviorNode?.command}, I : {input}");
 			nextNodeInput = firstBehaiviorNode.command;
-		}else{ FDebug.Log($"F : {firstBehaiviorNode?.command}, I : {input}"); }
+			
+			return null;
+		}
 
 		AttackNode node = comboTree.FindNode(nextNodeInput, compareNode);
 
@@ -313,12 +317,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		if (node == null) 
 		{
-			unit.nextCombo = PlayerInput.None; 
-			if(!IsCurrentState(PlayerState.Idle))
-			{
-				unit.ChangeState(PlayerState.Idle);
-			}
-			
+			unit.nextCombo = PlayerInput.None;
+
 			return false; 
 		}
 
