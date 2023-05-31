@@ -38,6 +38,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MinimalDefault,
 	}
 
+	[HideInInspector] public TestHPBar hpBar; //임시
+
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
 
@@ -128,6 +130,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	private void Start()
 	{
+		//임시 : 추후 삭제 에정, 크리틱 빌드를 위함
+		this.gameObject.SetActive(false); 
+		hpBar = GetComponent<TestHPBar>();
+
 		//Basic Set Up
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
@@ -137,6 +143,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			copyWhiteMat = new Material(whiteMaterial);
 		if (eMaterial != null)
 			copyMat = new Material(eMaterial);
+
+		chaseRange.enabled = false;
 
 		unit = this;
 		SetUp(EnemyState.Spawn);

@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
-using static EnemyController;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 [FSMState((int)EnemyController.EnemyState.MoveIdle)]
 public class EnemyMoveIdleState : UnitState<EnemyController>
