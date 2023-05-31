@@ -10,12 +10,6 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 	public override void Begin(PlayerController unit)
 	{
 		isNextAttackState = false;
-
-		// node
-		if(unit.IsCurrentState(PlayerState.AttackDelay))
-		{
-			unit.curNode.Copy(unit.curNode);
-		}
 		
 		attackNode = unit.curNode;
 
@@ -35,17 +29,13 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 	{
 		if(!isNextAttackState)
 		{
-			unit.curNode = unit.comboTree.top;
-			unit.curCombo = PlayerInput.None;
-			unit.currentAttackState = PlayerState.Idle;
+			unit.ResetCombo();
 
 			unit.autoTargetCollider.radiusCollider.enabled = false;
 			unit.attackCollider.radiusCollider.enabled = false;
 
 			unit.animator.SetBool(unit.IsAttackingAnimKey, false);
 			unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);
-
-			unit.comboGaugeSystem.ResetComboCount();
 		}
 	}
 

@@ -31,13 +31,7 @@ public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 		base.Update(unit);
 		if(unit.nextCombo != PlayerInput.None)
 		{
-			AttackNode node = unit.FindInput(unit.nextCombo);
-
-			if (node == null) { unit.nextCombo = PlayerInput.None; return; }
-				
-			unit.curNode = node;
-			unit.curCombo = node.command;
-			unit.currentAttackState = PlayerState.NormalAttack;
+			if(!unit.NodeTransitionProc(unit.nextCombo, PlayerState.NormalAttack)) { return; }
 
 			NextAttackState(unit, PlayerState.AttackDelay);
 			return;

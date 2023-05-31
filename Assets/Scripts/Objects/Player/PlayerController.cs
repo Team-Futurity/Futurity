@@ -76,6 +76,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerInput curCombo;
 	public PlayerInput nextCombo;
 	public AttackNode curNode;
+	public AttackNode firstBehaiviorNode;
 	public PlayerState currentAttackState;
 	[HideInInspector] public string currentAttackAnimKey;
 
@@ -145,6 +146,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// Attack Init
 		curNode = comboTree.top;
 		nextCombo = PlayerInput.None;
+		firstBehaiviorNode = null;
+		comboTree.SetTree(comboTree.top, null);
 
 		// Glove Init
 		glove.SetActive(false);
@@ -209,14 +212,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// AfterDelay나 다른 스테이트(Idle, Move)라면
 		if (!IsAttackProcess())
 		{
-			AttackNode node = FindInput(PlayerInput.NormalAttack);
-
-			if (node == null) { return; }
-
-			curNode = node;
-			curCombo = node.command;
-			currentAttackState = PlayerState.NormalAttack;
-			currentAttackAnimKey = ComboAttackAnimaKey;
+			if(!NodeTransitionProc(PlayerInput.NormalAttack, PlayerState.NormalAttack)) { return; }
 
 			nextStateEvent.Invoke(PlayerState.AttackDelay);
 		}
@@ -238,22 +234,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			if (!IsAttackProcess())
 			{
-				AttackNode node = FindInput(PlayerInput.SpecialAttack);
-				if (node == null) { return; }
-
-				if (curCombo != PlayerInput.NormalAttack) // 콤보 입력 중이 아니면 차지
-				{
-					currentAttackState = PlayerState.ChargedAttack;
-					//ChangeState(PlayerState.ChargedAttack);
-				}
-				else // 콤보 입력 중이면 일반
-				{
-					currentAttackState = PlayerState.NormalAttack;
-					//ChangeState(PlayerState.NormalAttack);
-				}
-
-				curNode = node;
-				curCombo = node.command;
+				if(!NodeTransitionProc(PlayerInput.SpecialAttack, curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack)) { return; }
 
 				ChangeState(PlayerState.AttackDelay);
 			}
@@ -274,7 +255,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public AttackNode FindInput(PlayerInput input)
 	{
 		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
-		AttackNode node = comboTree.FindNode(input, compareNode);
+		PlayerInput nextNodeInput = input;
+
+		if(IsTopNode(compareNode) && firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInput.None && firstBehaiviorNode.command != input) 
+		{
+			FDebug.Log($"F : {firstBehaiviorNode?.command}, I : {input}");
+			nextNodeInput = firstBehaiviorNode.command;
+		}else{ FDebug.Log($"F : {firstBehaiviorNode?.command}, I : {input}"); }
+
+		AttackNode node = comboTree.FindNode(nextNodeInput, compareNode);
 
 		return node;
 	}
@@ -303,5 +292,46 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 			yield return null;
 		}
+	}
+
+	public void ResetCombo()
+	{
+		nextCombo = PlayerInput.None;
+		curNode = unit.comboTree.top;
+		curCombo = PlayerInput.None;
+		currentAttackState = PlayerState.Idle;
+		firstBehaiviorNode = null;
+
+		comboGaugeSystem.ResetComboCount();
+	}
+
+	public bool IsTopNode(AttackNode node) => node == comboTree.top;
+
+	public bool NodeTransitionProc(PlayerInput input, PlayerState nextCombo)
+	{
+		AttackNode node = FindInput(input);
+
+		if (node == null) 
+		{
+			unit.nextCombo = PlayerInput.None; 
+			if(!IsCurrentState(PlayerState.Idle))
+			{
+				unit.ChangeState(PlayerState.Idle);
+			}
+			
+			return false; 
+		}
+
+		curNode = node;
+		curCombo = node.command;
+		currentAttackState = nextCombo;
+		currentAttackAnimKey = ComboAttackAnimaKey;
+
+		if (IsTopNode(curNode.parent))
+		{
+			firstBehaiviorNode = curNode;
+		}
+
+		return true;
 	}
 }
