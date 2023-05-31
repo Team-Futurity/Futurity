@@ -10,7 +10,7 @@ public class AttackNode
 {
 	public PlayerController.PlayerInput command;
 	public List<AttackNode> childNodes;
-	public AttackNode parent;
+	[field:SerializeField] public AttackNode parent;
 
 	public float attackLength;
 	public float attackAngle;
@@ -46,12 +46,12 @@ public class AttackNode
 		//collider.enabled = false;
 	}
 
-	public AttackNode(AttackNode node)
+/*	public AttackNode(AttackNode node)
 	{
 		Copy(node);
-	}
+	}*/
 
-	public void Copy(AttackNode node)
+/*	public void Copy(AttackNode node)
 	{
 		command = node.command;
 		childNodes = node.childNodes;
@@ -63,8 +63,13 @@ public class AttackNode
 		effectPrefab = node.effectPrefab;
 		effectParent = node.effectParent;
 		effectPoolManager = new  ObjectPoolManager<Transform>(effectPrefab, effectParent);
-		/*ObjectPoolManager<Transform> manager = effectParent.AddComponent<ObjectPoolManager<Transform>>();
-		manager.SetManager(effectPrefab, effectParent);*/
+		*//*ObjectPoolManager<Transform> manager = effectParent.AddComponent<ObjectPoolManager<Transform>>();
+		manager.SetManager(effectPrefab, effectParent);*//*
+	}*/
+
+	public void AddPoolManager()
+	{
+		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
 	}
 }
 
@@ -79,7 +84,19 @@ public class Tree
 		top = new AttackNode(PlayerController.PlayerInput.None);
 	}
 
-	#region Insert
+	public void SetTree(AttackNode curNode, AttackNode parent)
+	{
+		int childCount = 0;
+		curNode.parent = parent;
+		curNode.AddPoolManager();
+
+		while (curNode.childNodes.Count > childCount)
+		{
+			SetTree(curNode.childNodes[childCount++], curNode);
+		}
+	}
+
+/*	#region Insert
 	public void InsertNewNode(AttackNode newNode, AttackNode curNode = null, int nodePos = 0)
 	{
 		if (top != null) // top이 null이 아닌 경우
@@ -101,7 +118,7 @@ public class Tree
 		targetNode.childNodes.Insert(nodePos, new AttackNode(newNode));
 		newNode.parent = targetNode;
 	}
-	#endregion
+	#endregion*/
 
 	#region Find
 	private AttackNode FindProc(PlayerController.PlayerInput targetInput, AttackNode curNode)
