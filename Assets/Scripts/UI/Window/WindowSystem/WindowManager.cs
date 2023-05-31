@@ -14,6 +14,7 @@ public class WindowManager : Singleton<WindowManager>
 	[Header ("윈도우 시스템 총괄 메니저")]
 	[Space(15)]
 
+	private List<ObjectPoolManager<WindowController>> poolingWindows = new List<ObjectPoolManager<WindowController>>();
 	public List<GameObject> windows = new List<GameObject>();
 	public List<Button> buttons;
 
@@ -88,36 +89,25 @@ public class WindowManager : Singleton<WindowManager>
 		}
 	}
 
-	///<summary>
-	/// 윈도우 리스트에 값을 추가합니다.
-	///</summary>
-	public void SetWindow(GameObject window)
-	{
-		windows.Add(window);
-	}
 
-	///<summary>
-	/// 윈도우 리스트를 초기화합니다.
-	///</summary>
-	public void ClearWindow()
+	#region ObjectPooling
+	private int ObjectPooling(GameObject poolingWindow, GameObject windowParent)
 	{
-		windows.Clear();
-	}
+		poolingWindows.Add(new ObjectPoolManager<WindowController>(poolingWindow, windowParent));
+		int poolingNum = poolingWindows.Count - 1;
 
-	///<summary>
-	/// 플레이어가 사용하지 않는 즉, 보여지기만 하는 창을 생성하고 위치를 설정합니다.
-	///</summary>
-	public GameObject DontUsedWindowOpen(GameObject dontUsedWindow)
-	{
-		GameObject newWindow = Instantiate(dontUsedWindow, topCanvasTransform);
+		WindowController obj = poolingWindows[poolingNum].ActiveObject();
+		poolingWindows[poolingNum].DeactiveObject(obj);
 
-		return newWindow;
+		return poolingNum;
 	}
+	#endregion
+
+	#region UIWindowOpen&Close
 
 	///<summary>
 	/// 새로운 UI 창을 생성하고 부모와 위치를 설정합니다.
 	///</summary>
-	#region UIWindowOpen&Close
 	public GameObject WindowOpen(GameObject openUiWindowObject, Transform WindowParent, bool isDeActive, Vector2 windowPosition, Vector2 windowScale)
 	{
 		GameObject newWindow = Instantiate(openUiWindowObject, WindowParent);
@@ -158,6 +148,16 @@ public class WindowManager : Singleton<WindowManager>
 		FDebug.Log($"topCanvasTransform {topCanvasTransform}");
 
 		GameObject newWindow = WindowOpen(openWindowObject, topCanvasTransform, isDeActive, windowPosition, windowScale);
+
+		return newWindow;
+	}
+
+	///<summary>
+	/// 플레이어가 사용하지 않는 즉, 보여지기만 하는 창을 생성하고 위치를 설정합니다.
+	///</summary>
+	public GameObject DontUsedWindowOpen(GameObject dontUsedWindow)
+	{
+		GameObject newWindow = Instantiate(dontUsedWindow, topCanvasTransform);
 
 		return newWindow;
 	}
@@ -212,8 +212,24 @@ public class WindowManager : Singleton<WindowManager>
 		buttons.Clear();
 		ClearWindow();
 	}
-	#endregion
 
+	///<summary>
+	/// 윈도우 리스트에 값을 추가합니다.
+	///</summary>
+	public void SetWindow(GameObject window)
+	{
+		windows.Add(window);
+	}
+
+	///<summary>
+	/// 윈도우 리스트를 초기화합니다.
+	///</summary>
+	public void ClearWindow()
+	{
+		windows.Clear();
+	}
+
+	#endregion
 
 	#region SelectButton
 
