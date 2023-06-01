@@ -21,7 +21,7 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	[SerializeField]
 	[Tooltip("파츠 이미지를 출력할 ImageUI sprite")]
 	private GameObject partsSpriteObject;
-	private Image partsSprite;
+	private Image partsImage;
 	private Color deselectColor = new Color(0.5f, 0.5f, 0.5f);
 
 	[SerializeField]
@@ -33,22 +33,26 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	/// 해당 Button 생성시 각 이미지를 할당하고, 0번째 버튼이 아니라면 color값을 절반으로 낮춘다.
 	/// </summary>
 	private void Start()
-	{ 
+	{
+		partsImage = partsSpriteObject.GetComponent<Image>();
+
+		if (buttonNum != 0)
+		{
+			partsImage.color = deselectColor;
+		} else
+		{
+			partsImage.color = Color.white;
+		}
+
 		if (itemUiData is not null)
 		{
-			partsSprite = partsSpriteObject.GetComponent<Image>();
-			if (buttonNum != 0)
-			{
-				partsSprite.color = deselectColor;
-			}
-
-			partsSprite.sprite = itemUiData.ItemSprite;
+			partsImage.sprite = itemUiData.ItemSprite;
 			partsMenualText.text = itemUiData.ItemDescription;
 
 		} 
 		else
 		{
-			partsSprite.sprite = null;
+			partsImage.sprite = null;
 			partsMenualText.text = "";
 		}
 	}
@@ -61,7 +65,7 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	{
 		itemUiData = newItemUIData;
 
-		partsSprite.sprite = itemUiData.ItemSprite;
+		partsImage.sprite = itemUiData.ItemSprite;
 	}
 
 	#region ButtonSelect
@@ -71,11 +75,14 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	///</summary>
 	public void OnSelect(BaseEventData eventData)
 	{
+		if (partsImage is not null)
+		{
+			partsImage.color = Color.white;
+		}
 		if (itemUiData is not null)
 		{
 			partsMenualText.text = itemUiData.ItemDescription;
 			partsNameText.text = itemUiData.ItemName;
-			partsSprite.color = Color.white;
 		}
 	}
 
@@ -86,7 +93,10 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	{
 		//#설명#	"선택 해제"시 파츠 설명 제거
 		partsMenualText.text = "";
-		partsSprite.color = deselectColor;
+		if (partsImage is not null)
+		{
+			partsImage.color = deselectColor;
+		}
 	}
 	#endregion
 }

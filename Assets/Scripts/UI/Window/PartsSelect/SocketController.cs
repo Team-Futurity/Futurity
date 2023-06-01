@@ -20,13 +20,18 @@ public class SocketController : MonoBehaviour
 		ResetItemUIData();
 	}
 
-	public void SetItemUIData()
+	/// <summary>
+	/// ItemUIData를 새롭게 할당합니다.
+	/// </summary>
+	public void SetItemUIData(ItemUIData newItemData)
 	{
-		itemUIData = new ItemUIData();
+		itemUIData = newItemData;
+
+		ResetItemUIData();
 	}
 
 	/// <summary>
-	/// ItemUIData에 맞추어서 Image.Sprite를 변경함
+	/// ItemUIData에 맞추어서 Image.Sprite를 변경합니다.
 	/// </summary>
 	private void ResetItemUIData()
 	{
