@@ -65,10 +65,7 @@ public class PlayerAttackState : PlayerAttackBaseState
 		{
 			if (unit.attackCollider.IsInCollider(other.gameObject))
 			{
-				var enemyController = other.gameObject.GetComponent<EnemyController>();
-				var enemy = enemyController.enemyData;
-
-				if(enemyController.IsCurrentState(EnemyController.EnemyState.Death)) { return; }
+				var enemy = other.gameObject.GetComponent<UnitBase>();
 
 				unit.playerData.Attack(enemy);
 				enemy.Knockback(unit.transform.forward, attackNode.attackKnockback);
