@@ -41,6 +41,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public TestHPBar hpBar; //임시
 
 	[Header("Enemy Parameter")]
+	public ClusteringManager clusteringManager;
 	[SerializeField] private EnemyType enemyType;
 
 	[Space(3)]
@@ -130,9 +131,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	private void Start()
 	{
-		//임시 : 추후 삭제 에정, 크리틱 빌드를 위함
-		this.gameObject.SetActive(false); 
-		hpBar = GetComponent<TestHPBar>();
+		hpBar = GetComponent<TestHPBar>(); //임시
 
 		//Basic Set Up
 		animator = GetComponent<Animator>();

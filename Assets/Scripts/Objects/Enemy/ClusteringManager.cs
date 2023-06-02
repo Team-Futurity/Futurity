@@ -8,11 +8,21 @@ public class ClusteringManager : Singleton<ClusteringManager>
 	public List<Cluster> clusters;
 	public List<EnemyController> elseEnemy;
 
-
-	private void Start()
+	public void AddEnemyInManager(EnemyController unit)
 	{
-		/*for (int i = 0; i < elseEnemy.Count; i++)
-			AddToCluster(elseEnemy[i]);*/
+		elseEnemy.Add(unit);
+
+		if(elseEnemy.Count > 3)
+		{
+			clusters.Add(new Cluster());
+
+			for (int i = 0; i < 3; i++)
+			{
+				clusters[clusters.Count - 1].enemys.Add(new EnemyController());
+				clusters[clusters.Count - 1].enemys[i] = elseEnemy[i];
+				elseEnemy.RemoveAt(i);
+			}
+		}
 	}
 }
 
