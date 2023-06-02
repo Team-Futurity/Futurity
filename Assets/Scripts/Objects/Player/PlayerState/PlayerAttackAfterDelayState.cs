@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Windows;
 using static PlayerController;
 
 [FSMState((int)PlayerState.AttackAfterDelay)]
@@ -14,8 +15,6 @@ public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 	public override void End(PlayerController unit)
 	{
 		base.End(unit);
-
-		unit.nextCombo = PlayerInput.None;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -33,8 +32,13 @@ public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 		base.Update(unit);
 		if(unit.nextCombo != PlayerInput.None)
 		{
-			if(!unit.NodeTransitionProc(unit.nextCombo, PlayerState.NormalAttack)) { return; }
+			//unit.StartNextComboAttack(unit.nextCombo, PlayerState.NormalAttack);
+			if (!unit.NodeTransitionProc(unit.nextCombo, PlayerState.NormalAttack)) { /*unit.ChangeState(PlayerState.Idle);*/ return; }
 
+			FDebug.Log("NEXT");
+
+			unit.nextCombo = PlayerInput.None;
+			unit.LockNextCombo(false);
 			NextAttackState(unit, PlayerState.AttackDelay);
 			return;
 		}

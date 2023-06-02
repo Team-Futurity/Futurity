@@ -70,6 +70,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("입력 관련")]
 	public bool specialIsReleased = false;
 	public bool moveIsPressed = false;
+	private bool comboIsLock = false;
 
 	// attack
 	[Space(5)]
@@ -123,9 +124,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference dash;
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
-
-	// etc
-	
 
 	private void Start()
 	{
@@ -204,8 +202,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnNormalAttack(InputAction.CallbackContext context)
 	{
+
 		// 입력이 되지 않았으면(Pressed 시점이 아니면) 리턴
 		if (!context.started) { return; }
+		FDebug.Log("Normal");
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
@@ -213,37 +213,35 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// AfterDelay나 다른 스테이트(Idle, Move)라면
 		if (!IsAttackProcess())
 		{
-			if(!NodeTransitionProc(PlayerInput.NormalAttack, PlayerState.NormalAttack)) { return; }
-
-			nextStateEvent.Invoke(PlayerState.AttackDelay);
+			StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
 		}
 		else // 공격 중이라면
 		{
 			if (nextCombo == PlayerInput.None)
 			{
-				nextCombo = PlayerInput.NormalAttack;
+				SetNextCombo(PlayerInput.NormalAttack);
 			}
 		}
 	}
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
+
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
 
 		if (context.started)
 		{
+			FDebug.Log("Special");
 			if (!IsAttackProcess())
 			{
-				if(!NodeTransitionProc(PlayerInput.SpecialAttack, curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack)) { return; }
-
-				ChangeState(PlayerState.AttackDelay);
+				StartNextComboAttack(PlayerInput.SpecialAttack, curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack);
 			}
 			else
 			{
 				if (nextCombo == PlayerInput.None && curCombo != PlayerInput.SpecialAttack)
 				{
-					nextCombo = PlayerInput.SpecialAttack;
+					SetNextCombo(PlayerInput.SpecialAttack);
 				}
 			}
 		}
@@ -258,12 +256,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
 		PlayerInput nextNodeInput = input;
 
-		if(IsTopNode(compareNode) 
-			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInput.None 
-			&& firstBehaiviorNode.command != input) 
+		if(IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
+			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInput.None // 콤보를 진행 중이며,
+			&& firstBehaiviorNode.command != input)											// 해당 콤보가 입력값과 다르다면
 		{
 			nextNodeInput = firstBehaiviorNode.command;
-			
+
 			return null;
 		}
 
@@ -305,26 +303,28 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		curCombo = PlayerInput.None;
 		currentAttackState = PlayerState.Idle;
 		firstBehaiviorNode = null;
+		LockNextCombo(false);
 
 		comboGaugeSystem.ResetComboCount();
 	}
 
 	public bool IsTopNode(AttackNode node) => node == comboTree.top;
 
-	public bool NodeTransitionProc(PlayerInput input, PlayerState nextCombo)
+	public bool NodeTransitionProc(PlayerInput input, PlayerState nextAttackState)
 	{
+		if(comboIsLock) { return false; }
+		
 		AttackNode node = FindInput(input);
 
 		if (node == null) 
 		{
-			unit.nextCombo = PlayerInput.None;
-
+			LockNextCombo(true);
 			return false; 
 		}
 
 		curNode = node;
 		curCombo = node.command;
-		currentAttackState = nextCombo;
+		currentAttackState = nextAttackState;
 		currentAttackAnimKey = ComboAttackAnimaKey;
 
 		if (IsTopNode(curNode.parent))
@@ -333,5 +333,30 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 
 		return true;
+	}
+
+	public void SetNextCombo(PlayerInput nextCommand)
+	{
+		if(!comboIsLock)
+		{
+			nextCombo = nextCommand;
+		}
+	}
+
+	public void LockNextCombo(bool isLock)
+	{
+		comboIsLock = isLock;
+
+		if(comboIsLock) { nextCombo = PlayerInput.None; }
+	}
+	
+	public void StartNextComboAttack(PlayerInput input, PlayerState nextAttackState)
+	{
+		if (nextCombo != PlayerInput.None) input = nextCombo;
+		if (!NodeTransitionProc(input, nextAttackState)) { return; }
+
+		nextCombo = PlayerInput.None;
+		LockNextCombo(false);
+		ChangeState(PlayerState.AttackDelay);
 	}
 }
