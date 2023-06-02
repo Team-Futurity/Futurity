@@ -4,24 +4,17 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [FSMState((int)EnemyController.EnemyState.MDefaultChase)]
-public class MDefaultChaseState : UnitState<EnemyController>
+public class MDefaultChaseState : EnemyChaseBaseState
 {
-	private float distance = .0f;
-
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Chase begin");
-		unit.animator.SetBool(unit.moveAnimParam, true);
-		unit.chaseRange.enabled = false;
 
-		/*unit.isChasing = true;*/
+		base.Begin(unit);
 	}
 	public override void Update(EnemyController unit)
 	{
-		if (unit.target == null)
-			return;
-
-		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
+		base.Update(unit);
 
 		//unit.transform.rotation = Quaternion.LookRotation(unit.target.transform.position);
 		//unit.transform.LookAt(unit.target.transform.position);
@@ -48,9 +41,8 @@ public class MDefaultChaseState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Chase end");
-		unit.animator.SetBool(unit.moveAnimParam, false);
 
-		/*unit.isChasing = false;*/
+		base.End(unit);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

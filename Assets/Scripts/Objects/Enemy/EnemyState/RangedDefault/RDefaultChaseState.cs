@@ -4,25 +4,21 @@ using TMPro;
 using UnityEngine;
 
 [FSMState((int)EnemyController.EnemyState.RDefaultChase)]
-public class RDefaultChaseState : UnitState<EnemyController>
+public class RDefaultChaseState : EnemyChaseBaseState
 {
 	private float curTime = .0f;
-	private float distance = .0f;
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("RDefault chase Begin");
-		unit.animator.SetBool(unit.moveAnimParam, true);
-		unit.chaseRange.enabled = false;
-		/*unit.isChasing = true;*/
+
+		base.Begin(unit);
 	}
 
 	public override void Update(EnemyController unit)
 	{
-		if (unit.target == null)
-			return;
+		base.Update(unit);
 
-		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 		unit.transform.LookAt(unit.target.transform.position);
 		//unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
 
@@ -54,8 +50,8 @@ public class RDefaultChaseState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		//FDebug.Log("RDefault chase End");
-		unit.animator.SetBool(unit.moveAnimParam, false);
-		/*unit.isChasing = false;*/
+
+		base.End(unit);
 		curTime = 0f;
 	}
 

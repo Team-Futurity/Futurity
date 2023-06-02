@@ -97,11 +97,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	{
 		public GameObject effect;
 		public Transform effectPos;
-		public GameObject effectParent;
 	}
 
 	public List<Effects> effects;                           //ÀÌÆåÆ® ÇÁ¸®ÆÕ
+	public Effects hitEffect;
 	[HideInInspector] public List<GameObject> initiateEffects;
+	[HideInInspector] public GameObject initiateHitEffect;
 	//[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
 	public Material whiteMaterial;                          //ÂÌ µ¹Áø Â÷Â¡ ¸ÓÅ×¸®¾ó
@@ -150,7 +151,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		for (int i = 0; i < effects.Count; i++)
 		{
-			initiateEffects.Add(GameObject.Instantiate(effects[i].effect, effects[i].effectParent == null ? null : effects[i].effectPos.transform));
+			initiateEffects.Add(GameObject.Instantiate(effects[i].effect, effects[i].effectPos == null ? null : effects[i].effectPos.transform));
 			initiateEffects[i].SetActive(false);
 		}
 
@@ -190,5 +191,16 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 				FDebug.Log("ERROR_ChangeChaseState()");
 				return null;
 		}
+	}
+
+	public void InitiateHitEffect()
+	{
+		hitEffect.effectPos = target.transform;
+
+		if (initiateHitEffect == null)
+			initiateHitEffect = Instantiate(hitEffect.effect, hitEffect.effectPos == null ? null : hitEffect.effectPos.transform);
+
+		else
+			initiateHitEffect.SetActive(true);
 	}
 }
