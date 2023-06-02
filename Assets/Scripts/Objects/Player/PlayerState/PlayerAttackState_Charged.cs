@@ -214,7 +214,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				enemyDistance = unit.basicCollider.radius + halfSize * 0.5f;
 				enemyRayLength = (enemyDistance) * 2 - unit.basicCollider.radius;
 
-
 				// 콜라이더 조정
 				unit.basicCollider.radius = originScale + 2 * halfSize;
 			}
@@ -222,7 +221,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				var unitData = collision.transform.GetComponent<UnitBase>();
 				unit.playerData.Attack(unitData);
-				unitData.Knockback((collision.transform.position - unit.transform.position).normalized, LengthMarkIncreasing * 2);
+
+				Vector3 targetDir = (collision.transform.position - unit.transform.position).normalized;
+				Vector3 knockbackDir = Vector3.Dot(Vector3.Cross(unit.transform.forward, targetDir), Vector3.up) > 0 ? unit.transform.right : -unit.transform.right;
+				unitData.Knockback(knockbackDir, LengthMarkIncreasing * 2);
 			}
 			return;
 		}
