@@ -33,6 +33,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		particles.Initialize(pc.rushObjectPool);
 	}
 
+	public void HitEffectPooling()
+	{
+
+	}
+
 	public void CameraShake()
 	{
 		CameraController cam;

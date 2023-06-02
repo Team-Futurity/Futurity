@@ -37,6 +37,7 @@ public class MDefaultAttackState : UnitState<EnemyController>
 		{
 			//FDebug.Log("MDefault Attack Trigger");
 			unit.enemyData.Attack(unit.target);
+			unit.InitiateHitEffect();
 		}
 	}
 

@@ -18,6 +18,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MDefaultChase,          //추격
 		MDefaultAttack,         //공격
 		MDefaultAttack2nd,
+		MDefaultClusterChase,
 
 		//Ranged Default
 		RDefaultChase,	
@@ -42,12 +43,15 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Header("Enemy Parameter")]
 	public ClusteringManager clusteringManager;
+	/*[HideInInspector]*/ public bool isClustering = false;
+	/*[HideInInspector]*/ public int clusterNum;
+	/*[HideInInspector]*/ public int individualNum = 0;
 	[SerializeField] private EnemyType enemyType;
 
 	[Space(3)]
 	[Header("Spawn")]				
-	public float maxSpawningTime;  //스폰 최대 시간
-	[HideInInspector] public BoxCollider enemyCollider;                      //피격 Collider
+	public float maxSpawningTime;							//스폰 최대 시간
+	[HideInInspector] public BoxCollider enemyCollider;     //피격 Collider
 	public GameObject spawnEffect;
 
 
@@ -92,6 +96,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float powerReference1;							//돌진 등
 	public float powerReference2;
 
+	public Material whiteMaterial;                          //쫄 돌진 차징 머테리얼
+	[HideInInspector] public Material copyWhiteMat;
+
 	[Serializable]
 	public struct Effects
 	{
@@ -103,10 +110,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Effects hitEffect;
 	[HideInInspector] public List<GameObject> initiateEffects;
 	[HideInInspector] public GameObject initiateHitEffect;
-	//[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
-	public Material whiteMaterial;                          //쫄 돌진 차징 머테리얼
-	[HideInInspector] public Material copyWhiteMat;
 
 	[Space(3)]
 	[Header("Hitted")]

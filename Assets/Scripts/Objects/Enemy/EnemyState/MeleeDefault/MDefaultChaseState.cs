@@ -11,6 +11,9 @@ public class MDefaultChaseState : EnemyChaseBaseState
 		//FDebug.Log("MDefault Chase begin");
 
 		base.Begin(unit);
+
+		if (unit.isClustering && unit.individualNum > 0)
+			unit.ChangeState(EnemyController.EnemyState.MDefaultClusterChase);
 	}
 	public override void Update(EnemyController unit)
 	{
