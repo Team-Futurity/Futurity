@@ -31,8 +31,7 @@ public class EliteInteractionWindow : MonoBehaviour
 			Vector3 enemyWorldPosition = Camera.main.WorldToScreenPoint(transform.position);
 			enemyWorldPosition.x -= Screen.width / 2;
 			enemyWorldPosition.y -= Screen.height / 2;
-			Debug.Log($"enemyWorldPosition : {enemyWorldPosition}");
-			currentWindow = WindowManager.Instance.WindowTopOpen(eliteInteractonWindow, enemyWorldPosition, Vector2.one);
+			currentWindow = WindowManager.Instance.WindowTopOpen(eliteInteractonWindow, true, enemyWorldPosition, Vector2.one);
 
 			playerInRange = true;
 		}

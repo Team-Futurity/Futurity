@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class WindowManager : Singleton<WindowManager>
 {
@@ -75,12 +76,12 @@ public class WindowManager : Singleton<WindowManager>
 
 		if (topCanvas != null)
 		{
-			Debug.Log("Top Canvas: " + topCanvas.name);
+			FDebug.Log("Top Canvas: " + topCanvas.name);
 			return topCanvas.gameObject;
 		}
 		else
 		{
-			Debug.Log("No Canvas found.");
+			FDebug.Log("No Canvas found.");
 			return null;
 		}
 	}
@@ -90,18 +91,29 @@ public class WindowManager : Singleton<WindowManager>
 		windows.Add(window);
 	}
 
-	public void PauseWindowDisable()
+	public void ClearWindow()
 	{
+		windows.Clear();
+	}
 
+	public GameObject HpBarOpen(GameObject hpBarObject)
+	{
+		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
+
+
+		GameObject newWindow = Instantiate(hpBarObject, topCanvasTransform);
+
+		return newWindow;
 	}
 
 	#region UIWindowOpen&Close
-	public GameObject WindowOpen(GameObject openUiWindowObject, Transform WindowParent, Vector2 windowPosition, Vector2 windowScale)
+	public GameObject WindowOpen(GameObject openUiWindowObject, Transform WindowParent, bool isDeActive, Vector2 windowPosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
 
 		GameObject newWindow = Instantiate(openUiWindowObject, WindowParent);
+		WindowController windowController = newWindow.GetComponent<WindowController>();
 		if (!newWindow.CompareTag("UIWindow"))
 		{
 			newWindow.tag = "UIWindow";
@@ -110,17 +122,30 @@ public class WindowManager : Singleton<WindowManager>
 		rectTransform.localPosition = windowPosition;
 		rectTransform.localScale = windowScale;
 		windows.Add(newWindow);
+		SetButtons(windowController.GetButtons());
 
-		SetButtons(newWindow.GetComponent<WindowController>().GetButtons());
+
+		if (isDeActive)
+		{
+			int windowNum = windows.Count - 1;
+			for (int i = 0; i < windowNum; i++)
+			{
+				windows[i].SetActive(false);
+			}
+		}
+
+		windowController.EnabledWindow();
+
 		return newWindow;
 	}
 
-	public GameObject WindowTopOpen(GameObject openWindowObject, Vector2 windowPosition, Vector2 windowScale)
+	public GameObject WindowTopOpen(GameObject openWindowObject, bool isDeActive, Vector2 windowPosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
 
-		
-		GameObject newWindow = WindowOpen(openWindowObject, topCanvasTransform, windowPosition, windowScale);
+		FDebug.Log($"topCanvasTransform {topCanvasTransform.name}");
+
+		GameObject newWindow = WindowOpen(openWindowObject, topCanvasTransform, isDeActive, windowPosition, windowScale);
 
 		return newWindow;
 	}
@@ -128,14 +153,20 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
-		int windowNum = windows.Count - 2;
 		windows.Remove(closeUiWindowObject);
+		int windowNum = windows.Count - 1;
 
-		if (windowNum >= 0 && windows.Count > windowNum && windows[windowNum] != null)
+
+		if (windowNum >= 0 && windows[windowNum] != null)
 		{
-			Debug.Log($"windows[windowNum]{windows[windowNum]}");
+			FDebug.Log($"windows[windowNum]{windows[windowNum]}");
 
-			SetButtons(windows[windowNum].GetComponent<WindowController>().GetButtons());
+
+			windows[windowNum].SetActive(true);
+
+			WindowController windowController = windows[windowNum].GetComponent<WindowController>();
+			SetButtons(windowController.GetButtons());
+			windowController.EnabledWindow();
 		}
 
 		Destroy(closeUiWindowObject);
@@ -233,7 +264,7 @@ public class WindowManager : Singleton<WindowManager>
 			ExecuteEvents.Execute(currentButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
 		} else
 		{
-			Debug.Log($"할당된 버튼이 없습니다. buttons.Count : {buttons.Count}");
+			FDebug.Log($"할당된 버튼이 없습니다. buttons.Count : {buttons.Count}");
 		}
 	}
 
@@ -241,7 +272,7 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		//#설명#	주어진 인덱스의 버튼을 선택합니다.
 		currentButtonIndex = index;
-		if (buttons.Count > 0)
+		if (buttons != null && buttons.Count > 0)
 		{
 			if (buttons[currentButtonIndex] != null)
 			{

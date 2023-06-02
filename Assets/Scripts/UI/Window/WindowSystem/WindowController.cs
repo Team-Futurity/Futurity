@@ -14,7 +14,7 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	[Space (15)]
 
 
-	[SerializeField]
+	[SerializeField] 
 	private RectTransform rectTransform;
 	[SerializeField]
 	public UnityEvent[] windowEvents = new UnityEvent[8];
@@ -28,6 +28,9 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 
 	[SerializeField]
 	private List<Button> buttons;
+
+	[SerializeField]
+	private UnityEvent enabledEvent;
 
 	[SerializeField]
 	private UnityEvent closeEvent;
@@ -49,11 +52,16 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 		}
 	}
 
+	public void EnabledWindow()
+	{
+		enabledEvent?.Invoke();
+		Debug.Log("EnabledWindow 가동");
+	}
 
 	public void WindowNewOpen(GameObject OpenUIWindowObject)
 	{
 		//#설명#	태스트용 스크립트로 새로운 Window창을 연다.
-		WindowManager.Instance.WindowOpen(OpenUIWindowObject, transform.parent, rectTransform.localPosition + new Vector3(50, -50, 0), rectTransform.sizeDelta);
+		WindowManager.Instance.WindowOpen(OpenUIWindowObject, transform.parent, true, rectTransform.localPosition + new Vector3(50, -50, 0), rectTransform.sizeDelta);
 	}
 
 	public void WindowClose()
@@ -72,7 +80,7 @@ public class WindowController : MonoBehaviour, IPointerClickHandler
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		//#설명#	해당 UIWindow가 클릭되었을때 가장 앞으로 끌고오는 역할
-		BringToFront();
+		//BringToFront();
 	}
 
 	public void BringToFront()

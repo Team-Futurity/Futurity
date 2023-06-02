@@ -8,7 +8,7 @@ using UnityEngine;
 public class OriginStatus : ScriptableObject
 {
 	[SerializeField] private List<StatusData> status = new List<StatusData>();
-	
+
 	public void AutoGenerator()
 	{
 		if (status is not null)
@@ -17,7 +17,7 @@ public class OriginStatus : ScriptableObject
 		}
 
 		var statusTypeList = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
-		
+
 		foreach (var statusType in statusTypeList)
 		{
 			if (statusType is StatusType.NONE or StatusType.MAX)
@@ -32,5 +32,29 @@ public class OriginStatus : ScriptableObject
 	public List<StatusData> GetStatus()
 	{
 		return status;
+	}
+
+	public bool HasStatus(StatusType type)
+	{
+		var element = status.Find((x) => x.type == type);
+
+		if (element is null)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public StatusData GetElement(StatusType type)
+	{
+		if (HasStatus(type))
+		{
+			FDebug.Log("Status �����Ͱ� �������� �ʽ��ϴ�.");
+			return null;
+		}
+
+		return status.Find((x) => x.type == type);
+
 	}
 }
