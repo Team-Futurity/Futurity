@@ -4,69 +4,63 @@ using UnityEngine;
 
 public class BuffSystem : MonoBehaviour
 {
-	[field: SerializeField] public List<BuffBehaviour> BuffList { get; private set; }
+	private Dictionary<int, BuffBehaviour> activeBuffDic;
 
-	private Dictionary<int, BuffBehaviour> buffSaveDic;
-	private Dictionary<int, BuffBehaviour> currActiveBuffDic;
+	[SerializeField] private List<int> debugBuffList;
 
     private void Awake()
     {
-		buffSaveDic = new Dictionary<int, BuffBehaviour>();
-		currActiveBuffDic = new Dictionary<int, BuffBehaviour>();
-
-		SaveBuff();
+		activeBuffDic = new Dictionary<int, BuffBehaviour>();
     }
 
-	// 해당 버프가 있는지 확인한다.
-	public bool HasSaveBuff(int buffCode)
+	public void AddBuff(BuffBehaviour buff)
 	{
-		return buffSaveDic.ContainsKey(buffCode);
-	}
-
-	public BuffBehaviour GetSaveBuff(int buffCode)
-	{
-		return buffSaveDic[buffCode];
-	}
-
-	// 버프를 적용한다.
-	public void SetActiveBuff(BuffBehaviour buff)
-    {
 		if(buff is null)
 		{
-			FDebug.Log($"{buff}이(가) 존재하지 않습니다.");
+			FDebug.Log("[BuffSystem] 해당 버프는 존재하지 않습니다.");
 			return;
 		}
 
-		// Buff Object 생성
-		Instantiate(buff, transform.position, Quaternion.identity, transform);
-		currActiveBuffDic.Add(buff.BuffData.BuffCode, buff);
+		AddBuffer(buff);
 	}
 
-	public void RemoveActiveBuff(int buffCode)
+	public void RemoveBuff(int buffCode)
 	{
-		var hasActiveBuff = GetActiveBuff(buffCode);
+		var hasBuff = HasBuff(buffCode);
 
-		if (hasActiveBuff)
+		if(!hasBuff)
 		{
-			currActiveBuffDic.Remove(buffCode);
-		}
-	}
-
-	private bool GetActiveBuff(int buffCode)
-	{
-		return currActiveBuffDic.ContainsKey(buffCode);
-	}
-
-	private void SaveBuff()
-	{
-		if(BuffList is null)
-		{
+			FDebug.Log("[BuffSystem] 해당 버프는 존재하지 않습니다.");
 			return;
 		}
 
-		foreach(var buff in BuffList)
+		activeBuffDic.Remove(buffCode);
+		debugBuffList.Remove(buffCode);
+	}
+
+	private void AddBuffer(BuffBehaviour buff)
+	{
+		var uID = buff.BuffData.BuffCode;
+
+		if(HasBuff(uID))
 		{
-			buffSaveDic.Add(buff.BuffData.BuffCode, buff);
+			var getBuff = GetBuff(uID);
+			getBuff.SetBuffTime();
+
+			return;
 		}
+
+		activeBuffDic.Add(uID, buff);
+		debugBuffList.Add(uID);
+	}
+
+	private BuffBehaviour GetBuff(int buffCode)
+	{
+		return activeBuffDic[buffCode];
+	}
+
+	private bool HasBuff(int buffCode)
+	{
+		return activeBuffDic.ContainsKey(buffCode);
 	}
 }
