@@ -6,11 +6,11 @@ public class BuffProvider : MonoBehaviour
 {
 	[field: SerializeField] public List<BuffBehaviour> BuffList { get; private set; }
 
-	private Dictionary<int, BuffBehaviour> HoldBuffBuffer;
+	private Dictionary<int, BuffBehaviour> HoldBuffDic;
 
 	private void Awake()
 	{
-		HoldBuffBuffer = new Dictionary<int, BuffBehaviour>();
+		HoldBuffDic = new Dictionary<int, BuffBehaviour>();
 	}
 
 	private void OnEnable()
@@ -25,7 +25,7 @@ public class BuffProvider : MonoBehaviour
 
 	public bool HasBuff(int buffCode)
 	{
-		return HoldBuffBuffer.ContainsKey(buffCode);
+		return HoldBuffDic.ContainsKey(buffCode);
 	}
 
 	private void ProceedBuff(UnitBase unit, int buffCode)
@@ -45,7 +45,7 @@ public class BuffProvider : MonoBehaviour
 
 	private BuffBehaviour GetBuff(int buffCode)
 	{
-		return HoldBuffBuffer[buffCode];
+		return HoldBuffDic[buffCode];
 	}
 
 	private void SetBuffer()
@@ -59,7 +59,7 @@ public class BuffProvider : MonoBehaviour
 		{
 			var uID = buff.BuffData.BuffCode;
 
-			HoldBuffBuffer.Add(uID, buff);
+			HoldBuffDic.Add(uID, buff);
 		}
 	}
 
