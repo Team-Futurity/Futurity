@@ -17,8 +17,10 @@ public abstract class BuffBehaviour : MonoBehaviour
 
 	private float buffActiveTime;
 	private float currTime;
+
 	
 	protected UnitBase targetUnit = null;
+	protected BuffSystem targetBuff = null;
 
 	private void Start()
 	{
@@ -60,6 +62,8 @@ public abstract class BuffBehaviour : MonoBehaviour
 		gameObject.SetActive(false);
 
 		targetUnit = unit;
+		unit.TryGetComponent(out targetBuff);
+
 		transform.parent = unit.transform;
 
 		transform.position = Vector3.zero;
@@ -73,12 +77,15 @@ public abstract class BuffBehaviour : MonoBehaviour
 	public virtual void Active()
 	{
 		buffStart?.Invoke();
-		
+		targetBuff.AddBuff(this);
+
 		FDebug.Log($"{BuffData.BuffName}가 실행되었습니다.");
 	}
 
 	public virtual void UnActive()
 	{
+		targetBuff.RemoveBuff(BuffData.BuffCode);
+
 		buffEnd?.Invoke();
 		
 		FDebug.Log($"{BuffData.BuffName}가 종료되었습니다.");
