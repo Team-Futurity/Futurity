@@ -4,80 +4,87 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(BuffSystem))]
-[RequireComponent(typeof(StatusManager))]
 public class TrapPlayer : UnitBase
 {
-	private List<UnitBase> detectList;
-	private bool isActive = true;
-	
-	[Header("∆Æ∑¶")]
-	private TrapBehaviour trapBehaviour;
-	[field: SerializeField] public TrapData TrapData { get; private set; }
-	[SerializeField] private LayerMask searchLayer;
+	private List<UnitBase> objectDetectList = new List<UnitBase>();
+
+	private TrapBehaviour behaviour;
+	private TrapData trapData;
 
 	private WaitForSeconds waitTime;
 
+	private bool isTrapActive = true;
+
+	[Header("∆Æ∑¶ µ•¿Ã≈Õ")]
+	[SerializeField] private LayerMask searchLayer;
+
 	private void Awake()
 	{
-		detectList = new List<UnitBase>();
-		TryGetComponent(out trapBehaviour);
-		waitTime = new WaitForSeconds(TrapData.TrapCooldowns);
-		
-		ResetTrap();
-		
-		trapBehaviour.trapEnd.AddListener(ResetTrap);
-		trapBehaviour.trapEnd.AddListener(SetCooldowns);
+		TryGetComponent(out behaviour);
+		trapData = behaviour.TrapData;
+
+		waitTime = new WaitForSeconds(trapData.TrapCooldowns);
+
+		SetupTrapData();
+	}
+
+	private void Start()
+	{
+		behaviour.trapEnd.AddListener(EndProceed);
 	}
 
 	private void Update()
 	{
+		// Trap TestøÎ ƒ⁄µÂ
 		if (Input.GetKeyDown(KeyCode.M))
 		{
-			ActiveTrap(detectList);
+			ActiveTrap(objectDetectList);
 		}
 	}
 
 	private void FixedUpdate()
 	{
-		if(isActive && TrapData.TrapCondition == TrapCondition.IN)
+		if (isTrapActive && trapData.TrapCondition == TrapCondition.IN)
 		{
 			SearchAround();
 		}
 	}
-	
+
 	public void SearchAround()
 	{
-		var allUnit = Physics.OverlapSphere(transform.position, TrapData.TrapRange, searchLayer);
+		var aroundUnits = Physics.OverlapSphere(transform.position, trapData.TrapRange, searchLayer);
 		
-		if (allUnit.Length > 0)
-		{
-			isActive = false;
-		}
-		else
+		if (aroundUnits.Length <= 0)
 		{
 			return;
 		}
-		
-		foreach (var unit in allUnit)
+
+		isTrapActive = false;
+
+		foreach (var unit in aroundUnits)
 		{
-			detectList.Add(unit.GetComponent<UnitBase>());
+			objectDetectList.Add(unit.GetComponent<UnitBase>());
 		}
-		
-		ActiveTrap(detectList);
+
+		ActiveTrap(objectDetectList);
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
-		if (isActive && TrapData.TrapCondition == TrapCondition.ATTACK)
+		if (isTrapActive && trapData.TrapCondition == TrapCondition.ATTACK)
 		{
-			isActive = false;
+			isTrapActive = false;
 
-			detectList.Add(attacker);
+			objectDetectList.Add(attacker);
+
+			ActiveTrap(objectDetectList);
 		}
-		
-		ActiveTrap(detectList);
+	}
+
+	private void EndProceed()
+	{
+		SetCooldowns();
+		SetupTrapData();
 	}
 
 	private void SetCooldowns()
@@ -88,26 +95,25 @@ public class TrapPlayer : UnitBase
 	private IEnumerator StartCooltime()
 	{
 		yield return waitTime;
-		
-		isActive = true;
+		isTrapActive = true;
 	}
 	
 	private void ActiveTrap(List<UnitBase> units)
 	{
-		trapBehaviour.ActiveTrap(units);
+		behaviour.ActiveTrap(units);
 	}
 
-	private void ResetTrap()
+	private void SetupTrapData()
 	{
-		trapBehaviour.SetData();
-		detectList.Clear();
+		behaviour.SetData();
+		objectDetectList.Clear();
 	}
 	
 	#if UNITY_EDITOR
 	private new void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, TrapData.TrapRange);
+		Gizmos.DrawWireSphere(transform.position, trapData.TrapRange);
 
 		Gizmos.color = Color.green;
 		Gizmos.DrawRay(transform.position, Vector3.forward);
@@ -140,5 +146,4 @@ public class TrapPlayer : UnitBase
 	}
 
 	#endregion
-
 }
