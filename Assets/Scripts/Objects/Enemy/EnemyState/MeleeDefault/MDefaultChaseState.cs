@@ -12,16 +12,13 @@ public class MDefaultChaseState : EnemyChaseBaseState
 
 		base.Begin(unit);
 
-		if (unit.isClustering && unit.individualNum > 0)
-			unit.ChangeState(EnemyController.EnemyState.MDefaultClusterChase);
+		if (unit.individualNum > 0)
+			unit.ChangeState(EnemyController.EnemyState.ClusterChase);
 	}
 	public override void Update(EnemyController unit)
 	{
 		base.Update(unit);
 
-		//unit.transform.rotation = Quaternion.LookRotation(unit.target.transform.position);
-		//unit.transform.LookAt(unit.target.transform.position);
-		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
 		if (distance < unit.attackRange)
 		{
 			unit.rigid.velocity = Vector3.zero;
@@ -30,7 +27,6 @@ public class MDefaultChaseState : EnemyChaseBaseState
 		}
 		else if (distance > unit.attackRange)
 		{
-			//unit.transform.position += unit.transform.forward.normalized * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
 			unit.navMesh.enabled = true;
 			unit.navMesh.SetDestination(unit.target.transform.position);
 		}

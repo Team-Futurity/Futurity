@@ -24,7 +24,7 @@ public class ClusteringManager : Singleton<ClusteringManager>
 				elseEnemy[i].clusterNum = clusters.Count - 1;
 				elseEnemy[i].individualNum = i;
 				if(i > 0)
-					elseEnemy[i].ChangeState(EnemyController.EnemyState.MDefaultClusterChase);
+					elseEnemy[i].ChangeState(EnemyController.EnemyState.ClusterChase);
 			}
 			elseEnemy.RemoveRange(0, 3);
 		}

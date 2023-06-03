@@ -18,7 +18,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MDefaultChase,          //추격
 		MDefaultAttack,         //공격
 		MDefaultAttack2nd,
-		MDefaultClusterChase,
 
 		//Ranged Default
 		RDefaultChase,	
@@ -30,6 +29,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MiniDefaultDelay,
 		MiniDefaultAttack,
 		MiniDefaultKnockback,
+
+		//Cluster
+		ClusterChase,
+		ClusterSlow,
+
 	}
 
 	public enum EnemyType : int
@@ -42,11 +46,16 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public TestHPBar hpBar; //임시
 
 	[Header("Enemy Parameter")]
-	public ClusteringManager clusteringManager;
-	/*[HideInInspector]*/ public bool isClustering = false;
-	/*[HideInInspector]*/ public int clusterNum;
-	/*[HideInInspector]*/ public int individualNum = 0;
 	[SerializeField] private EnemyType enemyType;
+
+	[Space(3)]
+	[Header("Cluster")]
+	public ClusteringManager clusteringManager;
+	[HideInInspector] public bool isClustering = false;
+	[HideInInspector] public int clusterNum;
+	[HideInInspector] public int individualNum = 0;
+	[HideInInspector] public EnemyController clusterTarget;
+	public float clusterDistance = 2.5f;
 
 	[Space(3)]
 	[Header("Spawn")]				
@@ -78,8 +87,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("MoveIdle")]
-	public Transform transformParent;						//Hierarchy MoveIdle Transform 정리용
-	[HideInInspector] public GameObject moveIdleSpot;       //MoveIdle 이동 타겟
+	public float randMoveDistanceMin = 1.5f;
+	public float randMoveDistanceMax = 3.0f;
 
 	[Space(3)]
 	[Header("Chase")]
