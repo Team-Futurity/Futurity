@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BuffTypeList
+public enum BuffType
 {
 	NONE = 0,
 	
@@ -12,7 +12,7 @@ public enum BuffTypeList
 	END
 }
 
-public enum BuffNameList
+public enum BuffName
 {
 	NONE = 0,
 	
