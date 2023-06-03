@@ -210,7 +210,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
 
 		// AfterDelay나 다른 스테이트(Idle, Move)라면
-		if (!IsAttackProcess())
+		if (!IsAttackProcess(true))
 		{
 			StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
 		}
@@ -232,7 +232,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (context.started)
 		{
 			FDebug.Log("Special");
-			if (!IsAttackProcess())
+			if (!IsAttackProcess(true))
 			{
 				StartNextComboAttack(PlayerInput.SpecialAttack, curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack);
 			}
