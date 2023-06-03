@@ -57,14 +57,14 @@ public class UpTrap : TrapBehaviour
 	private void ProceedWithMonster(UnitBase unit)
 	{
 		unit.Hit(trapUnit, 0);
-		buffSystem.OnBuff(BuffNameList.STUN, unit);
+		// buffSystem.OnBuff(BuffNameList.STUN, unit);
 	}
 
 	private IEnumerator ActivePlayerEffect(UnitBase unit)
 	{
 		var unitObj = unit.gameObject;
 
-		buffSystem.OnBuff(BuffNameList.STUN, unit);
+		// buffSystem.OnBuff(BuffNameList.STUN, unit);
 
 		while (timer <= activeTime)
 		{

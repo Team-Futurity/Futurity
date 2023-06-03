@@ -15,7 +15,7 @@ public class StunnedTrap : TrapBehaviour
 	{
 		foreach (var unit in units) 
 		{
-			buffSystem.OnBuff(BuffNameList.SHOCK, unit);
+			// buffSystem.OnBuff(BuffNameList.SHOCK, unit);
 		}
 	}
 }
