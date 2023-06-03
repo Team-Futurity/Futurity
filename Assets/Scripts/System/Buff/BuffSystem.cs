@@ -6,6 +6,8 @@ public class BuffSystem : MonoBehaviour
 {
 	private Dictionary<int, BuffBehaviour> activeBuffDic;
 
+	[SerializeField] private List<int> debugBuffList;
+
     private void Awake()
     {
 		activeBuffDic = new Dictionary<int, BuffBehaviour>();
@@ -33,12 +35,14 @@ public class BuffSystem : MonoBehaviour
 		}
 
 		activeBuffDic.Remove(buffCode);
+		debugBuffList.Remove(buffCode);
 	}
 
 	private void AddBuffer(BuffBehaviour buff)
 	{
 		var uID = buff.BuffData.BuffCode;
-		activeBuffDic.Add(uID, buff);	
+		activeBuffDic.Add(uID, buff);
+		debugBuffList.Add(uID);
 	}
 
 	private bool HasBuff(int buffCode)
