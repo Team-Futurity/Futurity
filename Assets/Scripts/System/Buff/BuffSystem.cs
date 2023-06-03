@@ -41,8 +41,22 @@ public class BuffSystem : MonoBehaviour
 	private void AddBuffer(BuffBehaviour buff)
 	{
 		var uID = buff.BuffData.BuffCode;
+
+		if(HasBuff(uID))
+		{
+			var getBuff = GetBuff(uID);
+			getBuff.SetBuffTime();
+
+			return;
+		}
+
 		activeBuffDic.Add(uID, buff);
 		debugBuffList.Add(uID);
+	}
+
+	private BuffBehaviour GetBuff(int buffCode)
+	{
+		return activeBuffDic[buffCode];
 	}
 
 	private bool HasBuff(int buffCode)
