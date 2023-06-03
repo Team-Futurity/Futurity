@@ -6,9 +6,9 @@ public class BuffStun : BuffBehaviour
 {
 	// 아무런 행동도 할 수 없다.
 	
-	public override void Active(UnitBase unit)
+	public override void Active()
 	{
-		base.Active(unit);
+		base.Active();
 
 		targetUnit.isStun = true;
 
