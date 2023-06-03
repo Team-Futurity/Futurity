@@ -73,11 +73,7 @@ public class TrapPlayer : UnitBase
 	{
 		if (isTrapActive && trapData.TrapCondition == TrapCondition.ATTACK)
 		{
-			isTrapActive = false;
-
-			objectDetectList.Add(attacker);
-
-			ActiveTrap(objectDetectList);
+			SearchAround();
 		}
 	}
 
