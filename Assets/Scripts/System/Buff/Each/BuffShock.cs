@@ -21,5 +21,4 @@ public class BuffShock : BuffBehaviour
 		targetUnit.status.GetStatus(StatusType.SPEED).SetValue(currSpeed);
 		base.UnActive();
 	}
-
 }
