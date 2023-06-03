@@ -11,6 +11,7 @@ public class PlayerDashState : UnitState<PlayerController>
 	// etc
 	private float currentTime;
 	private const float dashTime = 0.2f;
+
 	public override void Begin(PlayerController pc)
 	{
 		//base.Begin(pc);
@@ -43,7 +44,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		//base.End(pc);
 		pc.dashEffect.enabled = false;
 		pc.rigid.velocity = Vector3.zero;
-		pc.coolTimeIsEnd = false;
+		pc.dashCoolTimeIsEnd = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

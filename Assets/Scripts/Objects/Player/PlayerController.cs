@@ -50,6 +50,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("대시. 런타임 변경 불가")]
 	public float dashCoolTime;
 
+	// hit
+	[Space(5)]
+	[Header("피격. 런타임 변경 불가")]
+	public float hitCoolTime;
+
 	[Space(15)]
 	[Header("[디버깅용]─────────────────────────────────────────────────────────────────────────────────────────────")]
 
@@ -61,7 +66,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// dash
 	[Space(5)]
 	[Header("대시 관련")]
-	public bool coolTimeIsEnd = false;
+	public bool dashCoolTimeIsEnd = false;
 	public bool comboIsEnd = false;
 
 	// input
@@ -81,6 +86,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerState currentAttackState;
 	[HideInInspector] public string currentAttackAnimKey;
 
+	// hit
+	[Space(5)]
+	[Header("피격 관련")]
+	public bool hitCoolTimeIsEnd = false;
+
 	[Space(15)]
 	[Header("[최초 1회 할당]──────────────────────────────────────────────────────────────────────────────────────────")]
 
@@ -99,6 +109,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public TrailRenderer dashEffect;
 	private WaitForSeconds dashCoolTimeWFS;
+	private WaitForSeconds hitCoolTimeWFS;
 
 	// event
 	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
@@ -153,6 +164,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// dash
 		dashCoolTimeWFS = new WaitForSeconds(dashCoolTime);
 		StartCoroutine(DashDelayCoroutine());
+
+		// hit
+		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
+		StartCoroutine(HitDelayCoroutine());
 	}
 
 	public void OnMove(InputAction.CallbackContext context)
@@ -179,6 +194,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			return;
 		}
 
+		if(playerData.isStun || !hitCoolTimeIsEnd)
+		{
+			return;
+		}
+
 		// 이동 기능
 		if (!IsCurrentState(PlayerState.Move))
 		{
@@ -188,7 +208,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnDash(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !coolTimeIsEnd) { return; }
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) { return; }
 
 		if (context.performed)
 		{
@@ -201,10 +221,13 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnNormalAttack(InputAction.CallbackContext context)
 	{
-
 		// 입력이 되지 않았으면(Pressed 시점이 아니면) 리턴
 		if (!context.started) { return; }
+
 		FDebug.Log("Normal");
+
+		// 피격 중이거나, 스턴 상태면 리턴
+		if (playerData.isStun || !hitCoolTimeIsEnd) { return; }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
@@ -225,6 +248,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
+		// 피격 중이거나, 스턴 상태면 리턴
+		if(playerData.isStun || !hitCoolTimeIsEnd) { return; }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
@@ -286,10 +311,23 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		while(true)
 		{
-			if(!coolTimeIsEnd)
+			if(!dashCoolTimeIsEnd)
 			{
 				yield return dashCoolTimeWFS;
-				coolTimeIsEnd = true;
+				dashCoolTimeIsEnd = true;
+			}
+			yield return null;
+		}
+	}
+
+	private IEnumerator HitDelayCoroutine()
+	{
+		while (true)
+		{
+			if (!hitCoolTimeIsEnd)
+			{
+				yield return hitCoolTimeWFS;
+				hitCoolTimeIsEnd = true;
 			}
 			yield return null;
 		}

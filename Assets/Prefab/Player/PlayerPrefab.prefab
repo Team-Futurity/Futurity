@@ -6037,8 +6037,10 @@ MonoBehaviour:
         Path: 
     dataCount: 3
   dashCoolTime: 1
+  hitCoolTime: 0.533
   moveDir: {x: 0, y: 0, z: 0}
-  coolTimeIsEnd: 0
+  dashCoolTimeIsEnd: 0
+  comboIsEnd: 0
   specialIsReleased: 0
   moveIsPressed: 0
   curCombo: 0
@@ -6140,8 +6142,42 @@ MonoBehaviour:
         Data3: 0
         Data4: 0
       Path: 
+  firstBehaiviorNode:
+    command: 0
+    childNodes: []
+    attackLength: 0
+    attackAngle: 0
+    attackLengthMark: 0
+    attackDelay: 0
+    attackSpeed: 0
+    attackAfterDelay: 0
+    attackST: 0
+    attackKnockback: 0
+    collider: {fileID: 0}
+    effectPos: {fileID: 0}
+    effectPrefab: {fileID: 0}
+    effectParent: {fileID: 0}
+    animInteger: 0
+    randomShakePower: 0
+    curveShakePower: 0
+    shakeTime: 0
+    attackSound:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    attackSound2:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   currentAttackState: 0
   currentAttackAnimKey: 
+  hitCoolTimeIsEnd: 0
   glove: {fileID: 7164896735125955485}
   playerData: {fileID: 1070719927369175194}
   comboGaugeSystem: {fileID: 6307489441031809494}
@@ -6565,7 +6601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rushEffectData: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
-  rushEffectParent: {fileID: 9199333450892302302}
+  rushEffectParent: {fileID: 0}
 --- !u!1 &9205117049474632282
 GameObject:
   m_ObjectHideFlags: 0
