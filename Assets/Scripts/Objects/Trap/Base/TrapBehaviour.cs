@@ -15,8 +15,6 @@ public abstract class TrapBehaviour : MonoBehaviour
 	protected BuffProvider buffProvider;
 	protected UnitBase trapUnit;
 
-	[SerializeField] protected OriginStatus status;
-
 	protected void Awake()
 	{
 		TryGetComponent(out buffProvider);
