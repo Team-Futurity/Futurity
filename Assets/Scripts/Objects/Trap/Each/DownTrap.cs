@@ -8,7 +8,7 @@ public class DownTrap : TrapBehaviour
 
 	public float fallObjYDistance = .0f;
 	
-	private void Awake()
+	private new void Awake()
 	{
 		if (fall is null)
 		{
