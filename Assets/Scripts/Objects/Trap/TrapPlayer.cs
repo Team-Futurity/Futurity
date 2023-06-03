@@ -104,7 +104,7 @@ public class TrapPlayer : UnitBase
 	}
 	
 	#if UNITY_EDITOR
-	private void OnDrawGizmos()
+	private new void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, TrapData.TrapRange);
@@ -115,7 +115,7 @@ public class TrapPlayer : UnitBase
 	#endif
 
 	#region NotUsed
-	protected override float GetAttakPoint()
+	protected override float GetAttackPoint()
 	{
 		return .0f;
 	}
