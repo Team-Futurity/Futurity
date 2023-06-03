@@ -8,10 +8,13 @@ using FMODUnity;
 [Serializable]
 public class AttackNode
 {
+	[Header("공격 타입")]
 	public PlayerController.PlayerInput command;
+	[Header("다음 공격(콤보)")]
 	public List<AttackNode> childNodes;
-	[field:SerializeField] public AttackNode parent;
+	public AttackNode parent;
 
+	[Header("콤보 데이터")]
 	public float attackLength;
 	public float attackAngle;
 	public float attackLengthMark;
@@ -21,13 +24,22 @@ public class AttackNode
 	public float attackST;
 	public float attackKnockback;
 
+	[Header("공격용 콜라이더")]
 	public Collider collider;
 
+	[Header("공격 이펙트")]
 	public Transform effectPos;
 	[SerializeField] private GameObject effectPrefab;
 	[SerializeField] private GameObject effectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
+	[Header("적 피격 이펙트")]
+	public Vector3 hitEffectOffset;
+	[SerializeField] private GameObject hitEffectPrefab;
+	[SerializeField] private GameObject hitEffectParent;
+	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
+
+	[Header("연출용 데이터")]
 	public int animInteger;
 	//public float moveDistance = 0f;
 
@@ -35,8 +47,8 @@ public class AttackNode
 	public float curveShakePower;
 	public float shakeTime;
 
+	[Header("공격 사운드")]
 	public EventReference attackSound;
-	public EventReference attackSound2;
 
 	public AttackNode(PlayerController.PlayerInput command)
 	{
