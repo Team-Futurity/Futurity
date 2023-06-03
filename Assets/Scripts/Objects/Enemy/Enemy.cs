@@ -15,7 +15,8 @@ public class Enemy : UnitBase
 
 	public override void Attack(UnitBase target)
 	{
-		target.Hit(this, GetDamage(10));
+		target.Hit(this, GetDamage(1));
+		target.hpBar.SetGaugeFillAmount(target.status.GetStatus(StatusType.CURRENT_HP).GetValue() / target.status.GetStatus(StatusType.MAX_HP).GetValue());
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot)
@@ -24,14 +25,15 @@ public class Enemy : UnitBase
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 	}
 
-	protected override float GetAttakPoint()
+	protected override float GetAttackPoint()
 	{
 		throw new System.NotImplementedException();
 	}
 
 	protected override float GetDamage(float attackCount)
 	{
-		return attackCount;
+		float value = status.GetStatus(StatusType.ATTACK_POINT).GetValue() * attackCount * (1 + Random.Range(-0.1f, 0.1f));
+		return value;
 	}
 
 	protected override float GetDefensePoint()

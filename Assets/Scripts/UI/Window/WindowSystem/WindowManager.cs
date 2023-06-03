@@ -96,8 +96,18 @@ public class WindowManager : Singleton<WindowManager>
 		windows.Clear();
 	}
 
+	public GameObject HpBarOpen(GameObject hpBarObject)
+	{
+		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
+
+
+		GameObject newWindow = Instantiate(hpBarObject, topCanvasTransform);
+
+		return newWindow;
+	}
+
 	#region UIWindowOpen&Close
-	public GameObject WindowOpen(GameObject openUiWindowObject, Transform WindowParent, Vector2 windowPosition, Vector2 windowScale)
+	public GameObject WindowOpen(GameObject openUiWindowObject, Transform WindowParent, bool isDeActive, Vector2 windowPosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하고 부모와 위치를 설정하는 함수
 
@@ -115,10 +125,13 @@ public class WindowManager : Singleton<WindowManager>
 		SetButtons(windowController.GetButtons());
 
 
-		int windowNum = windows.Count - 1;
-		for (int i = 0; i < windowNum; i++)
+		if (isDeActive)
 		{
-			windows[i].SetActive(false);
+			int windowNum = windows.Count - 1;
+			for (int i = 0; i < windowNum; i++)
+			{
+				windows[i].SetActive(false);
+			}
 		}
 
 		windowController.EnabledWindow();
@@ -126,12 +139,13 @@ public class WindowManager : Singleton<WindowManager>
 		return newWindow;
 	}
 
-	public GameObject WindowTopOpen(GameObject openWindowObject, Vector2 windowPosition, Vector2 windowScale)
+	public GameObject WindowTopOpen(GameObject openWindowObject, bool isDeActive, Vector2 windowPosition, Vector2 windowScale)
 	{
 		//#설명#	UI 창을 인스턴스화하되, 부모를 가장 상위 Canvas로 설정한다
 
-		
-		GameObject newWindow = WindowOpen(openWindowObject, topCanvasTransform, windowPosition, windowScale);
+		FDebug.Log($"topCanvasTransform {topCanvasTransform.name}");
+
+		GameObject newWindow = WindowOpen(openWindowObject, topCanvasTransform, isDeActive, windowPosition, windowScale);
 
 		return newWindow;
 	}

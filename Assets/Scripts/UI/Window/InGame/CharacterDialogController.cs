@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -11,6 +12,9 @@ public class CharacterDialogController : MonoBehaviour
 	[Space (15)]
 
 	[SerializeField]
+	private WindowController windowController;
+
+	[SerializeField]
 	private UnityEngine.UI.Image charactorImage;
 	[SerializeField]
 	private TextMeshProUGUI charactorText;
@@ -18,53 +22,96 @@ public class CharacterDialogController : MonoBehaviour
 	[SerializeField]
 	private float typingDelay = 0.05f;
 	[SerializeField]
-	private string fullText;
+	private List<string> fullText;
+	[SerializeField]
+	private int textNum = 0;
+
 	private string currentText = "";
 	private bool isTextEnd = false;
 
+	private Coroutine showTextCoroutine;
 
-	public void SetCharactorText(string changeText)
+
+	public void SetTexts(List<string> texts)
 	{
-		fullText = changeText;
-		currentText = "";
-		charactorText.text = "";
-		isTextEnd = false;
-		StartCoroutine(ShowText());
+		fullText = texts;
+	    textNum = 0;
+	}
+
+	public void WriteCharactorText()
+	{
+		if (showTextCoroutine != null)
+		{
+			StopCoroutine(showTextCoroutine);
+			SkipNextText();
+		}
+		else
+		{
+			currentText = "";
+			charactorText.text = "";
+			isTextEnd = false;
+			showTextCoroutine = StartCoroutine(ShowText());
+		}
 	}
 
 	IEnumerator ShowText()
 	{
-		for (int i = 0; i <= fullText.Length; i++)
+		if (fullText.Count > textNum)
 		{
-			currentText = fullText.Substring(0, i);
-			charactorText.text = currentText;
-			yield return new WaitForSeconds(typingDelay);
+			for (int i = 0; i <= fullText[textNum].Length; i++)
+			{
+				currentText = fullText[textNum].Substring(0, i);
+				charactorText.text = currentText;
+				yield return new WaitForSeconds(typingDelay);
+			}
+			TypingTextEnd();
 		}
+		else
+		{
+			windowController.WindowClose();
+
+			//임시 : 추후 삭제 예정, 크리틱 빌드를 위함
+			for(int i = 0; i < InGameUnitManager.Instance.enemys.Count; i++)
+			{
+				InGameUnitManager.Instance.enemys[i].gameObject.SetActive(true);
+			}
+		}
+	}
+
+	public void SkipNextText()
+	{
+		charactorText.text = fullText[textNum];
 		TypingTextEnd();
 	}
 
 	public void TypingTextEnd()
 	{
 		FDebug.Log($"{gameObject}의 \"{fullText}\" Text 타이핑 완료");
+		textNum++;
 		isTextEnd = true;
+		showTextCoroutine = null;
 	}
 
 	public string GetThisText()
 	{
-		return fullText;
+		if (fullText.Count > textNum)
+		{
+			return fullText[textNum];
+		} 
+		else
+		{
+			return fullText[fullText.Count - 1];
+		}
 	}
 	public bool GetTextEnd()
 	{
 		return isTextEnd;
 	}
 
-
-
 	public void SetCharactorSprite(Sprite changeSprite)
 	{
 		charactorImage.sprite = changeSprite;
 	}
-
 	public void SetTypingDelay(float delayTime)
 	{
 		typingDelay = delayTime;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [FSMState((int)EnemyController.EnemyState.RDefaultChase)]
@@ -25,7 +26,8 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		unit.transform.LookAt(unit.target.transform.position);
 		//unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
 
-		if(distance < unit.attackRange * 0.5f)
+
+		if (distance < unit.attackRange * 0.5f)
 		{
 			unit.ChangeState(EnemyController.EnemyState.RDefaultBackMove);
 		}
@@ -33,11 +35,14 @@ public class RDefaultChaseState : UnitState<EnemyController>
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
+			unit.navMesh.enabled = false;
 			unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.RDefaultAttack);
 		}
 		else if (distance > unit.attackRange)
 		{
-			unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+			//unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+			unit.navMesh.enabled = true;
+			unit.navMesh.SetDestination(unit.target.transform.position);
 		}
 	}
 

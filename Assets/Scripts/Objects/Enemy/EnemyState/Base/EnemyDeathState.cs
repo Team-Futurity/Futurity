@@ -9,7 +9,7 @@ public class EnemyDeathState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-
+		unit.hpBar.copySlider.gameObject.SetActive(false);
 	}
 
 	public override void Update(EnemyController unit)

@@ -4,48 +4,69 @@ using UnityEngine;
 
 public class BuffSystem : MonoBehaviour
 {
-	// 버프를 추가하는 List
 	[field: SerializeField] public List<BuffBehaviour> BuffList { get; private set; }
-	// 버프를 관리하는 Dic
-	private Dictionary<BuffNameList, BuffBehaviour> buffDic;
-    
+
+	private Dictionary<int, BuffBehaviour> buffSaveDic;
+	private Dictionary<int, BuffBehaviour> currActiveBuffDic;
+
     private void Awake()
     {
-		buffDic = new Dictionary<BuffNameList, BuffBehaviour>();
+		buffSaveDic = new Dictionary<int, BuffBehaviour>();
+		currActiveBuffDic = new Dictionary<int, BuffBehaviour>();
 
-		if(BuffList is not null)
-		{
-			foreach(var buff in BuffList)
-			{
-				buffDic.Add(buff.BuffData.BuffName, buff);
-			}
-		}
+		SaveBuff();
     }
 
-	private bool HasBuff(BuffNameList buffName)
+	// 해당 버프가 있는지 확인한다.
+	public bool HasSaveBuff(int buffCode)
 	{
-		return buffDic.ContainsKey(buffName);
+		return buffSaveDic.ContainsKey(buffCode);
 	}
 
-	public void OnBuff(BuffNameList buffName, UnitBase unit)
-    {
-		var hasBuff = HasBuff(buffName);
+	public BuffBehaviour GetSaveBuff(int buffCode)
+	{
+		return buffSaveDic[buffCode];
+	}
 
-		if (!hasBuff)
+	// 버프를 적용한다.
+	public void SetActiveBuff(BuffBehaviour buff)
+    {
+		if(buff is null)
 		{
-			FDebug.Log($"{buffName}이(가) 존재하지 않습니다;");
+			FDebug.Log($"{buff}이(가) 존재하지 않습니다.");
 			return;
 		}
 
-		var buff = buffDic[buffName];
+		// Buff Object 생성
+		Instantiate(buff, transform.position, Quaternion.identity, transform);
+		currActiveBuffDic.Add(buff.BuffData.BuffCode, buff);
+	}
 
-		var buffObj = Instantiate(buff);
-		buffObj.gameObject.SetActive(false);
+	public void RemoveActiveBuff(int buffCode)
+	{
+		var hasActiveBuff = GetActiveBuff(buffCode);
 
-		var unitPos = unit.transform.position;
-		buffObj.transform.position = unitPos;
-		buffObj.GetComponent<BuffBehaviour>().Active(unit);
+		if (hasActiveBuff)
+		{
+			currActiveBuffDic.Remove(buffCode);
+		}
+	}
 
-		buffObj.gameObject.SetActive(true);
+	private bool GetActiveBuff(int buffCode)
+	{
+		return currActiveBuffDic.ContainsKey(buffCode);
+	}
+
+	private void SaveBuff()
+	{
+		if(BuffList is null)
+		{
+			return;
+		}
+
+		foreach(var buff in BuffList)
+		{
+			buffSaveDic.Add(buff.BuffData.BuffCode, buff);
+		}
 	}
 }

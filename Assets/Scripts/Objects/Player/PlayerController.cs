@@ -31,7 +31,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		SpecialAttack,
 		Dash
 	}
-
 	// Constants
 	public readonly string EnemyTag = "Enemy";
 	public readonly string ComboAttackAnimaKey = "ComboParam";

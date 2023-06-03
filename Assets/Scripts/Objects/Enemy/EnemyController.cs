@@ -1,14 +1,13 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.AI;
 
 public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
 	public enum EnemyState : int
 	{
+		Spawn,					//스폰
 		Idle,					//대기
 		Default,
 		MoveIdle,				//대기 중 랜덤 이동
@@ -39,40 +38,52 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MinimalDefault,
 	}
 
+	[HideInInspector] public TestHPBar hpBar; //임시
+
+	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
 
-	//spawn
-	private bool isSpawning;								//스폰 중인가 여부
-	private float curSpawningTime;							
-	[SerializeField] private float maxSpawningTime = 2f;	//스폰 최대 시간
-	private BoxCollider enemyCollider;						//피격 Collider
+	[Space(3)]
+	[Header("Spawn")]				
+	public float maxSpawningTime;  //스폰 최대 시간
+	[HideInInspector] public BoxCollider enemyCollider;                      //피격 Collider
+	public GameObject spawnEffect;
 
-	//Reference
+
+	[Space(3)]
+	[Header("Reference")]
 	[HideInInspector] public UnitBase target;				//Attack target 지정
 	public Enemy enemyData;									//Enemy status 캐싱
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
+	[HideInInspector] public NavMeshAgent navMesh;
 
 	public CapsuleCollider chaseRange;						//추적 반경
-	public SphereCollider atkCollider;						//타격 Collider
+	public SphereCollider atkCollider;                      //타격 Collider
 
-	//Idle Properties
+
+	[Space(3)]
+	[Header("Idle")]
 	/*[HideInInspector] public bool isChasing = false;*/
-	public float idleSetTime = 3f;							//Default로 변환 전 대기 시간
+	public float idleSetTime = 3f;                          //Default로 변환 전 대기 시간
 
-	//Default Properties
-	public float movePercentage = 5f;						//MoveIdle/Idle 중 변환 랜덤 수치
+	[Space(3)]
+	[Header("Default")]
+	public float movePercentage = 5f;                       //MoveIdle/Idle 중 변환 랜덤 수치
 
-	//MoveIdle Properties
+	[Space(3)]
+	[Header("MoveIdle")]
 	public Transform transformParent;						//Hierarchy MoveIdle Transform 정리용
-	[HideInInspector] public GameObject moveIdleSpot;		//MoveIdle 이동 타겟
+	[HideInInspector] public GameObject moveIdleSpot;       //MoveIdle 이동 타겟
 
-	//Chase Properties
+	[Space(3)]
+	[Header("Chase")]
 	public float attackRange;								//공격 전환 사거리
 	public float attackChangeDelay;                         //공격 딜레이
-	public float turnSpeed = 15.0f;							//회전 전환 속도
+	public float turnSpeed = 15.0f;                         //회전 전환 속도
 
-	//Attack Properties
+	[Space(3)]
+	[Header("Attack")]
 	public float projectileDistance;						//발사체 사거리
 	public GameObject rangedProjectile;						//발사체 캐싱
 	public float projectileSpeed;                           //발사체 속도
@@ -80,19 +91,29 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float powerReference1;							//돌진 등
 	public float powerReference2;
 
-	public Transform effectPos;								//이펙트 출력 위치
-	public List<GameObject> effectPrefab;							//이펙트 프리팹
-	public GameObject effectParent;                         //이펙트 출력 부모
-	/*	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;*/
-	
-	public Material whiteMaterial;							//쫄 돌진 차징 머테리얼
+	[Serializable]
+	public struct Effects
+	{
+		public GameObject effect;
+		public Transform effectPos;
+		public GameObject effectParent;
+	}
 
-	//Hitted Properties
+	public List<Effects> effects;                           //이펙트 프리팹
+	[HideInInspector] public List<GameObject> initiateEffects;
+	//[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
+
+	public Material whiteMaterial;                          //쫄 돌진 차징 머테리얼
+	[HideInInspector] public Material copyWhiteMat;
+
+	[Space(3)]
+	[Header("Hitted")]
 	public float hitMaxTime = 2f;                           //피격 딜레이
-	public float hitPower;									//피격 AddForce 값
+	//public float hitPower;									//피격 AddForce 값
 	public Color damagedColor;								//피격 변환 컬러값
 
-	public Material eMaterial;								//머테리얼 복제용 캐싱
+	public Material eMaterial;                              //머테리얼 복제용 캐싱
+	[HideInInspector] public Material copyMat;
 	public SkinnedMeshRenderer skinnedMeshRenderer;			//머테리얼 인덱스 캐싱
 
 	//animation name
@@ -101,51 +122,46 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public readonly string hitAnimParam = "Hit";			//피격 애니 파라미터
 
 	//tag name
-	public readonly string playerTag = "Player";			//플레이어 태그 이름
+	public readonly string playerTag = "Player";            //플레이어 태그 이름
+
+	public readonly string matColorProperty = "_BaseColor";
 
 
 
 	private void Start()
 	{
+		//임시 : 추후 삭제 에정, 크리틱 빌드를 위함
+		this.gameObject.SetActive(false); 
+		hpBar = GetComponent<TestHPBar>();
+
 		//Basic Set Up
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
-		if(atkCollider != null)
-			atkCollider.enabled = false;
+		navMesh = GetComponent<NavMeshAgent>();
+		if(whiteMaterial != null)
+			copyWhiteMat = new Material(whiteMaterial);
+		if (eMaterial != null)
+			copyMat = new Material(eMaterial);
+
 		chaseRange.enabled = false;
-		enemyCollider.enabled = false;
-/*		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);*/
 
 		unit = this;
-		SetUp(EnemyState.Idle);
+		SetUp(EnemyState.Spawn);
 
-		//spawning event
-		isSpawning = true;
-		curSpawningTime = 0f;
+		for (int i = 0; i < effects.Count; i++)
+		{
+			initiateEffects.Add(GameObject.Instantiate(effects[i].effect, effects[i].effectParent == null ? null : effects[i].effectPos.transform));
+			initiateEffects[i].SetActive(false);
+		}
+
+		//effectPoolManager = new ObjectPoolManager<Transform>(effects[0].effect, effects[0].effectParent);
 	}
 
 
 	protected override void Update()
 	{
 		base.Update();
-
-		//spawning event
-		if (isSpawning)
-		{
-			if (curSpawningTime <= maxSpawningTime)
-			{
-				curSpawningTime += Time.deltaTime;
-			}
-			else
-			{
-				unit.ChangeState(EnemyState.Default);
-				enemyCollider.enabled = true;
-				chaseRange.enabled = true;
-				curSpawningTime = 0f;
-				isSpawning = false;
-			}
-		}
 	}
 
 	public void DelayChangeState (float curTime, float maxTime, EnemyController unit, System.ValueType nextEnumState)

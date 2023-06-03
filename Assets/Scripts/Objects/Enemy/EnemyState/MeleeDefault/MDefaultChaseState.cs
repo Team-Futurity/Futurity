@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 [FSMState((int)EnemyController.EnemyState.MDefaultChase)]
 public class MDefaultChaseState : UnitState<EnemyController>
@@ -25,15 +24,20 @@ public class MDefaultChaseState : UnitState<EnemyController>
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 
 		//unit.transform.rotation = Quaternion.LookRotation(unit.target.transform.position);
-		unit.transform.LookAt(unit.target.transform.position);
+		//unit.transform.LookAt(unit.target.transform.position);
 		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
-		if(distance < unit.attackRange)
+		if (distance < unit.attackRange)
 		{
 			unit.rigid.velocity = Vector3.zero;
+			unit.navMesh.enabled = false;
 			unit.ChangeState(EnemyController.EnemyState.MDefaultAttack);
 		}
-		else if(distance > unit.attackRange)
-			unit.transform.position += unit.transform.forward.normalized * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+		else if (distance > unit.attackRange)
+		{
+			//unit.transform.position += unit.transform.forward.normalized * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+			unit.navMesh.enabled = true;
+			unit.navMesh.SetDestination(unit.target.transform.position);
+		}
 	}
 
 	public override void FixedUpdate(EnemyController unit)
