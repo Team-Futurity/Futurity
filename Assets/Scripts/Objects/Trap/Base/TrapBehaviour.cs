@@ -9,6 +9,7 @@ public abstract class TrapBehaviour : MonoBehaviour
 	[SerializeField] public UnityEvent trapStart;
 	[SerializeField] public UnityEvent trapEnd;
 	[SerializeField] public UnityEvent trapReset;
+	[field: SerializeField] public TrapData TrapData { get; private set; }
 
 	protected UnitBase trapUnit;
 	protected BuffSystem buffSystem;
