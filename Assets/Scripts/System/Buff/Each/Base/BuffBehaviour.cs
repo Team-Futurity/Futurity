@@ -35,8 +35,8 @@ public abstract class BuffBehaviour : MonoBehaviour
 			FDebug.Log("Buff Data가 존재하지 않습니다.");
 			Debug.Break();
 		}
-		
-		buffActiveTime = BuffData.BuffActiveTime;
+
+		SetBuffTime();
 		currTime = .0f;
 	}
 
@@ -45,13 +45,13 @@ public abstract class BuffBehaviour : MonoBehaviour
 		buffActiveTime -= Time.deltaTime;
 		currTime += Time.deltaTime;
 
-		if (1 < currTime)
+		if (1 <= currTime)
 		{
 			currTime = .0f;
 			buffStay?.Invoke();
 		}
 
-		if(0 > buffActiveTime)
+		if(0 >= buffActiveTime)
 		{
 			UnActive();
 		}
@@ -72,6 +72,11 @@ public abstract class BuffBehaviour : MonoBehaviour
 		gameObject.SetActive(true);
 
 		Active();
+	}
+
+	public void SetBuffTime()
+	{
+		buffActiveTime = BuffData.BuffActiveTime;
 	}
 
 	public virtual void Active()
