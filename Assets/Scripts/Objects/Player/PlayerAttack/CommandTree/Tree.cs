@@ -55,6 +55,7 @@ public class AttackNode
 		this.command = command;
 		childNodes = new List<AttackNode>();
 		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
+		hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
 		//collider.enabled = false;
 	}
 
@@ -81,7 +82,15 @@ public class AttackNode
 
 	public void AddPoolManager()
 	{
-		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
+		if(effectPrefab != null)
+		{
+			effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
+		}
+		
+		if(hitEffectPrefab != null)
+		{
+			hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
+		}
 	}
 }
 
