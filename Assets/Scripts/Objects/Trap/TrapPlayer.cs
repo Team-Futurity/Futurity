@@ -108,17 +108,6 @@ public class TrapPlayer : UnitBase
 		behaviour.SetData();
 		objectDetectList.Clear();
 	}
-	
-	#if UNITY_EDITOR
-	private new void OnDrawGizmos()
-	{
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, trapData.TrapRange);
-
-		Gizmos.color = Color.green;
-		Gizmos.DrawRay(transform.position, Vector3.forward);
-	}
-	#endif
 
 	#region NotUsed
 	protected override float GetAttackPoint()
