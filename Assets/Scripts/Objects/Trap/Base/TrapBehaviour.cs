@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(BuffProvider))]
 public abstract class TrapBehaviour : MonoBehaviour
 {
 	// Event 
@@ -11,15 +12,15 @@ public abstract class TrapBehaviour : MonoBehaviour
 	[SerializeField] public UnityEvent trapReset;
 	[field: SerializeField] public TrapData TrapData { get; private set; }
 
+	protected BuffProvider buffProvider;
 	protected UnitBase trapUnit;
-	protected BuffSystem buffSystem;
-	protected StatusManager statusManager;
+
+	[SerializeField] protected OriginStatus status;
 
 	protected void Awake()
 	{
+		TryGetComponent(out buffProvider);
 		TryGetComponent(out trapUnit);
-		TryGetComponent(out buffSystem);
-		TryGetComponent(out statusManager);
 	}
 
 	public virtual void SetData()
@@ -28,4 +29,15 @@ public abstract class TrapBehaviour : MonoBehaviour
 	}
 
 	public abstract void ActiveTrap(List<UnitBase> units);
+
+#if UNITY_EDITOR
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(transform.position, TrapData.TrapRange);
+
+		Gizmos.color = Color.green;
+		Gizmos.DrawRay(transform.position, Vector3.forward);
+	}
+#endif
 }
