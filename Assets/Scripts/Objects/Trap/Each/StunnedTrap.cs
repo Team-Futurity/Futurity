@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class StunnedTrap : TrapBehaviour
 {
-	private BuffSystem buffSystem;
-
 	private void Awake()
 	{
 		TryGetComponent(out buffSystem);
