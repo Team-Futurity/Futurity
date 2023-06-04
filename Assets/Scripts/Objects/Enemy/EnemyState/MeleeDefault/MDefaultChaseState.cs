@@ -6,13 +6,16 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.MDefaultChase)]
 public class MDefaultChaseState : EnemyChaseBaseState
 {
+	private float attackDistance = .0f;
+	private float clusterDistance = .0f;
+
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Chase begin");
 
 		base.Begin(unit);
 
-		if (unit.individualNum > 0)
+		if (unit.isClustering && unit.individualNum > 0)
 			unit.ChangeState(EnemyController.EnemyState.ClusterChase);
 	}
 	public override void Update(EnemyController unit)
@@ -25,16 +28,9 @@ public class MDefaultChaseState : EnemyChaseBaseState
 			unit.navMesh.enabled = false;
 			unit.ChangeState(EnemyController.EnemyState.MDefaultAttack);
 		}
-		else if (distance > unit.attackRange)
-		{
-			unit.navMesh.enabled = true;
+
+		else
 			unit.navMesh.SetDestination(unit.target.transform.position);
-		}
-	}
-
-	public override void FixedUpdate(EnemyController unit)
-	{
-
 	}
 
 	public override void End(EnemyController unit)
@@ -42,14 +38,5 @@ public class MDefaultChaseState : EnemyChaseBaseState
 		//FDebug.Log("MDefault Chase end");
 
 		base.End(unit);
-	}
-
-	public override void OnTriggerEnter(EnemyController unit, Collider other)
-	{
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-
 	}
 }

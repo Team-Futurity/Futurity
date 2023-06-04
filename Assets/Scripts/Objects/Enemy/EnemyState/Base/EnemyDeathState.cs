@@ -9,6 +9,8 @@ public class EnemyDeathState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
+		if (unit.isClustering)
+			unit.clusteringManager.EnemyDeclutter(unit.clusterNum);
 		unit.hpBar.copySlider.gameObject.SetActive(false);
 		unit.enemyCollider.enabled = false;
 	}

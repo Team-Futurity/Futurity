@@ -41,7 +41,7 @@ public class EnemyIdleState : UnitState<EnemyController>
 			unit.ChangeState(unit.UnitChaseState(unit));
 
 			if (unit.clusteringManager != null)
-				unit.clusteringManager.AddEnemyInManager(unit);
+				unit.clusteringManager.EnemyClustering(unit);
 		}
 	}
 

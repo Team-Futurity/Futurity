@@ -3,51 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [FSMState((int)EnemyController.EnemyState.ClusterSlow)]
-public class ClusterSlowState : UnitState<EnemyController>
+public class ClusterSlowState : EnemyChaseBaseState
 {
-	private float distance = .0f;
+	private float clusterDistance = .0f;
+	private float attackDistance = .0f;
+	private bool isEncircle = false;
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("Cluster slow begin");
 
-		unit.animator.SetBool(unit.moveAnimParam, true);
+		base.Begin(unit);
 		unit.navMesh.speed = unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() / 2;
 	}
 
 	public override void Update(EnemyController unit)
 	{
-		distance = Vector3.Distance(unit.clusterTarget.transform.position, unit.transform.position);
+		base.Update(unit);
 
-		if (distance > unit.clusterDistance)
-			unit.ChangeState(EnemyController.EnemyState.ClusterChase);
+		clusterDistance = Vector3.Distance(unit.clusterTarget.transform.position, unit.transform.position);
+		attackDistance = Vector3.Distance(unit.clusterTarget.transform.position, unit.target.transform.position);
 
+		if (distance < unit.attackRange)
+		{
+			unit.rigid.velocity = Vector3.zero;
+			unit.navMesh.enabled = false;
+			unit.ChangeState(EnemyController.EnemyState.MDefaultAttack);
+		}
+
+		if (attackDistance < unit.attackRange)
+			unit.ChangeState(EnemyController.EnemyState.MDefaultChase);
 		else
 		{
-			unit.navMesh.SetDestination(unit.clusterTarget.transform.position);
+			if (clusterDistance < unit.clusterDistance)
+			{
+				unit.navMesh.SetDestination(unit.clusterTarget.transform.position);
+			}
+			else
+				unit.ChangeState(EnemyController.EnemyState.MDefaultChase);
 		}
-	}
-
-	public override void FixedUpdate(EnemyController unit)
-	{
-
 	}
 
 	public override void End(EnemyController unit)
 	{
 		//FDebug.Log("Cluster slow end");
 
-		unit.animator.SetBool(unit.moveAnimParam, false);
+		base.End(unit);
 		unit.navMesh.speed = unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue();
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-
-	}
-
-	public override void OnTriggerEnter(EnemyController unit, Collider other)
-	{
-
 	}
 }

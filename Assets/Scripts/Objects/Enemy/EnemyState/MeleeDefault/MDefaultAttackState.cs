@@ -11,6 +11,7 @@ public class MDefaultAttackState : UnitState<EnemyController>
 		//FDebug.Log("MDefault Attack begin");
 		unit.animator.SetTrigger(unit.atkAnimParam);
 		unit.atkCollider.enabled = true;
+		unit.navMesh.enabled = true;
 	}
 
 	public override void Update(EnemyController unit)
@@ -28,6 +29,7 @@ public class MDefaultAttackState : UnitState<EnemyController>
 	{
 		//FDebug.Log("MDefault Attack End");
 		unit.atkCollider.enabled = false;
+		
 		curTime = 0f;
 	}
 
