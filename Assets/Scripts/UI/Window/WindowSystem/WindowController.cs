@@ -24,9 +24,6 @@ public class WindowController : MonoBehaviour
 	private GameObject modalBackground;
 
 	[SerializeField]
-	public bool isLock = false;
-
-	[SerializeField]
 	private List<Button> buttons;
 
 	[SerializeField]
@@ -44,12 +41,6 @@ public class WindowController : MonoBehaviour
 		TryGetComponent<RectTransform>(out rectTransform);
 
 		WindowManager.Instance.SetButtons(buttons);
-
-		//#설명#	isLock이 true라면 타 UI를 간섭하지 못하도록 막음
-		if (isLock)
-		{
-			BringToFront();
-		}
 	}
 
 	/// <summary>
@@ -97,13 +88,12 @@ public class WindowController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// 지정된 번호의 이벤트를 시작하고, 윈도우를 닫습니다.
+	/// 지정된 번호의 이벤트를 시작합니다.
 	/// </summary>
 	public void EventStarter(int eventNumber)
 	{
 		//#설명#	이벤트 호출기
 		windowEvents[eventNumber]?.Invoke();
-		WindowClose();
 	}
 
 	/// <summary>

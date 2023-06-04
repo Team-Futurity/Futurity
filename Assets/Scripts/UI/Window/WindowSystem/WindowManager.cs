@@ -15,6 +15,8 @@ public class WindowManager : Singleton<WindowManager>
 	[Space(15)]
 
 	private List<ObjectPoolManager<WindowController>> poolingWindows = new List<ObjectPoolManager<WindowController>>();
+	private Dictionary<string, ObjectPoolManager<WindowController>> windowPools;
+
 	public List<GameObject> windows = new List<GameObject>();
 	public List<Button> buttons;
 
@@ -34,6 +36,7 @@ public class WindowManager : Singleton<WindowManager>
 		base.Awake();
 
 		topCanvasTransform = FindTopCanvas().transform;
+		windowPools = new Dictionary<string, ObjectPoolManager<WindowController>>();
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
 		SelectButton(0);
@@ -91,6 +94,8 @@ public class WindowManager : Singleton<WindowManager>
 
 
 	#region ObjectPooling
+
+
 	private int ObjectPooling(GameObject poolingWindow, GameObject windowParent)
 	{
 		poolingWindows.Add(new ObjectPoolManager<WindowController>(poolingWindow, windowParent));
