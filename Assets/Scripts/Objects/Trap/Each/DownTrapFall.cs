@@ -11,6 +11,9 @@ public class DownTrapFall : MonoBehaviour
 	private List<int> detectObjID = new List<int>();
 	private Rigidbody rig;
 
+	private readonly string monsterTag = "Monster";
+	private readonly string playerTag = "Player";
+
 	private Vector3 startPos;
 
 	[HideInInspector] public UnityEvent endEvent; 
@@ -21,7 +24,7 @@ public class DownTrapFall : MonoBehaviour
 		{
 			EndFall();
 		}
-		else if (other.collider.CompareTag("Monster") || other.collider.CompareTag("Player"))
+		else if (other.collider.CompareTag(monsterTag) || other.collider.CompareTag(playerTag))
 		{
 			var otherObject = other.gameObject;
 
