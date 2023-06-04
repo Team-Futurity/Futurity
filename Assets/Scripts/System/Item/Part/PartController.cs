@@ -10,19 +10,20 @@ public class PartController : MonoBehaviour
 	private const int MaxEquipCount = 4;
 
 	private PlayerController ownerUnit;
-	private StatusManager manager = new StatusManager();
+
+	private StatusManager manager = new();
 	private OriginStatus status;
 
-	// Player Gauge를 캐싱
 	private float playerGauge = .0f;
 
-	[Header("테스트용 파츠")]
 	// Test용 코드 <- Epic Monster가 구현되지 않아서 부품 설정을 위함
+	[Header("테스트용 파츠")]
 	public List<Part> testPart;
 
 	private void Awake()
 	{
 		status = ScriptableObject.CreateInstance<OriginStatus>();
+
 		status.AutoGenerator();
 
 		manager.SetStatus(status.GetStatus());
