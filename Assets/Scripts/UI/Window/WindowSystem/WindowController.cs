@@ -19,10 +19,6 @@ public class WindowController : MonoBehaviour
 	[SerializeField]
 	public UnityEvent[] windowEvents = new UnityEvent[8];
 
-	//#설명#	타 UIWindow보다 앞에 나와 간섭을 막는 UI
-	[SerializeField]
-	private GameObject modalBackground;
-
 	[SerializeField]
 	private List<Button> buttons;
 
