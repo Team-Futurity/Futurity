@@ -42,7 +42,7 @@ public class PassivePart : Part, IPassive
 		var data = new PassiveData();
 
 		data.status = PartStatus.GetStatus();
-		data.buffName = BuffNameList.NONE;
+		data.buffName = BuffName.NONE;
 
 		return data;
 	}

@@ -6,9 +6,9 @@ public class BuffInvincibility : BuffBehaviour
 {
 	// 적에게서 무적 상태가 된다.
 	
-	public override void Active(UnitBase unit)
+	public override void Active()
 	{
-		base.Active(unit);
+		base.Active();
 
 		targetUnit.isGodMode = true;
 	}
