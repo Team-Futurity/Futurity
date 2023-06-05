@@ -12,7 +12,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		Idle,           // 대기
 
-		// 공격
+		// 콤보 공격
 		AttackDelay,        // 공격 전 딜레이
 		NormalAttack,       // 일반공격 
 		ChargedAttack,      // 차지공격
@@ -22,6 +22,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		Move,           // 이동
 		Dash,           // 대시
 		Death,          // 사망
+
+		// 액티브 부품(필살기)
+		BasicPart,		// 기본 부품
 	}
 
 	public enum PlayerInput : int
@@ -37,6 +40,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public readonly string ChargedAttackAnimaKey = "ChargingParam";
 	public readonly string IsAttackingAnimKey = "IsAttacking";
 	public const int NullState = -1;
+	public const float cm2m = 0.01f; // centimeter To meter
+	public const float m2cm = 100f; // meter To centimeter
 
 	[Header("[수치 조절]────────────────────────────────────────────────────────────────────────────────────────────")]
 
@@ -99,6 +104,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("References")]
 	public GameObject glove;
 	public Player playerData;
+	public ActivePartController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
 	public RadiusCapsuleCollider attackCollider;
@@ -168,6 +174,13 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
+	}
+
+	public void OnSpecialMove(InputAction.CallbackContext context)
+	{
+		if(!context.started) { return; }
+
+		activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
 	}
 
 	public void OnMove(InputAction.CallbackContext context)
