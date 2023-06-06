@@ -11,10 +11,6 @@ public class BuffProvider : MonoBehaviour
 	private void Awake()
 	{
 		HoldBuffDic = new Dictionary<int, BuffBehaviour>();
-	}
-
-	private void OnEnable()
-	{
 		SetBuffer();
 	}
 
