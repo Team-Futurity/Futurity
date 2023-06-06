@@ -6497,7 +6497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1177366922
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7405,7 +7405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 280084176244655351, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2261325128641194246, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_Pivot.x
@@ -8833,6 +8833,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1623080406}
     - target: {fileID: 9199781343052382306, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9199781343052382306, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
       propertyPath: enemys.Array.data[0]
       value: 
       objectReference: {fileID: 2069816484}
@@ -10028,37 +10032,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1315557342}
     m_Modifications:
     - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: comboTree.top.childNodes.Array.data[0].attackAfterDelay
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: comboTree.top.childNodes.Array.data[0].childNodes.Array.data[0].attackAfterDelay
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: comboTree.top.childNodes.Array.data[0].childNodes.Array.data[0].childNodes.Array.data[0].attackAfterDelay
-      value: 1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: comboTree.top.childNodes.Array.data[0].childNodes.Array.data[0].childNodes.Array.data[1].attackAfterDelay
-      value: 1.4
-      objectReference: {fileID: 0}
+      propertyPath: buffProvider
+      value: 
+      objectReference: {fileID: 1921549231}
     - target: {fileID: 1070719927369175194, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: hpBar
       value: 
       objectReference: {fileID: 475190047}
-    - target: {fileID: 2014832257151512452, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: m_Color.b
-      value: 0.6392157
-      objectReference: {fileID: 0}
-    - target: {fileID: 2014832257151512452, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: m_Color.g
-      value: 0.7330838
-      objectReference: {fileID: 0}
-    - target: {fileID: 2014832257151512452, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: m_Color.r
-      value: 0.8117647
-      objectReference: {fileID: 0}
+    - target: {fileID: 2214123608498936178, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 11400000, guid: ffdd60b796e5b534cac795df087d5734, type: 2}
     - target: {fileID: 5328251835375101389, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -12243,7 +12227,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5328251835375101389, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
   m_PrefabInstance: {fileID: 1623080405}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1921549218
+--- !u!114 &1921549230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12252,32 +12236,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1187533529}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 823e002bc3bb88f40ba5ef45bdc16986, type: 3}
+  m_Script: {fileID: 11500000, guid: 605e6438eba5c1e468c9bfec645e7e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activePartDatas:
-  - type: 1
-    proccessor:
-      rid: 7965168027137212555
-  - type: 2
-    proccessor:
-      rid: 7965168027137212560
-  references:
-    version: 2
-    RefIds:
-    - rid: 7965168027137212555
-      type: {class: BasicActivePart, ns: , asm: Assembly-CSharp}
-      data:
-        stateToChange: 9
-        minRange: 100
-        maxRange: 500
-        damage: 100
-        duration: 10
-    - rid: 7965168027137212560
-      type: {class: TestActivePart, ns: , asm: Assembly-CSharp}
-      data:
-        stateToChange: 0
-        t1: 4.83
+  <BuffData>k__BackingField: {fileID: 11400000, guid: b058fd9e4f8e91d4a89a30981c529815, type: 2}
+  buffStart:
+    m_PersistentCalls:
+      m_Calls: []
+  buffEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  buffStay:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1921549231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187533529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14834a464a8cdf84dbb1fd709dbd1db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuffList>k__BackingField:
+  - {fileID: 1921549230}
 --- !u!1 &1928631767
 GameObject:
   m_ObjectHideFlags: 0
