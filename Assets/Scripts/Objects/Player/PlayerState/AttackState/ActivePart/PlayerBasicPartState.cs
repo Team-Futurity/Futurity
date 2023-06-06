@@ -27,7 +27,7 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 
 		if (currentTime >= proccessor.duration)
 		{
-			unit.attackCollider.SetCollider(maxAngle, proccessor.maxRange * PlayerController.cm2m);
+			EndExtension(unit);
 			unit.ChangeState(PlayerController.PlayerState.Idle);
 		}
 	}
@@ -48,13 +48,10 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 
 		if(other.CompareTag(unit.EnemyTag))
 		{
-			enemies.Add(other.GetComponent<UnitBase>());
+			var enemy = other.GetComponent<UnitBase>();
+			enemies.Add(enemy);
+			unit.buffProvider.SetBuff(enemy, proccessor.buffCode);
 		}
-	}
-
-	public override void OnTriggerExit(PlayerController unit, Collider other)
-	{
-		base.OnTriggerExit(unit, other);
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
@@ -65,5 +62,15 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 	public override void OnCollisionStay(PlayerController unit, Collision collision)
 	{
 		base.OnCollisionStay(unit, collision);
+	}
+
+	private void EndExtension(PlayerController unit)
+	{
+		unit.attackCollider.SetCollider(maxAngle, proccessor.maxRange * PlayerController.cm2m);
+
+		foreach(var enemy in enemies)
+		{
+			enemy.Hit(unit.playerData, proccessor.damage);
+		}
 	}
 }
