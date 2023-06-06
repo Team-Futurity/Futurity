@@ -35,8 +35,8 @@ public class PlayerMoveState : UnitState<PlayerController>
 
 		if(rotVec == Vector3.zero) { return; }
 
-		//pc.transform.rotation = Quaternion.Lerp(pc.transform.rotation, Quaternion.LookRotation(rotVec), 1.0f * Time.deltaTime);
-		pc.transform.rotation = Quaternion.LookRotation(rotVec);
+		pc.transform.rotation = Quaternion.Lerp(pc.transform.rotation, Quaternion.LookRotation(rotVec), pc.rotatePower * Time.deltaTime);
+		//pc.transform.rotation = Quaternion.LookRotation(rotVec);
 		pc.transform.position += rotVec.normalized * pc.playerData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
 	}
 

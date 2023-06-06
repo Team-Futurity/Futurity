@@ -5727,9 +5727,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5328251835375101389}
   - component: {fileID: 1070719927369175192}
+  - component: {fileID: 2214123608498936178}
+  - component: {fileID: 1921549218}
   - component: {fileID: 6307489441031809494}
   - component: {fileID: 8247117609381097480}
-  - component: {fileID: 2214123608498936178}
   - component: {fileID: 507041425030904175}
   - component: {fileID: 5821464009680269676}
   - component: {fileID: 6599983942192001998}
@@ -5738,7 +5739,6 @@ GameObject:
   - component: {fileID: 1070719927369175189}
   - component: {fileID: 1070719927369175194}
   - component: {fileID: 926590480872082409}
-  - component: {fileID: 1921549218}
   - component: {fileID: 1921549230}
   - component: {fileID: 1921549231}
   m_Layer: 0
@@ -6007,6 +6007,7 @@ MonoBehaviour:
           Data4: 0
         Path: 
     dataCount: 3
+  rotatePower: 18
   dashCoolTime: 1
   hitCoolTime: 0.533
   moveDir: {x: 0, y: 0, z: 0}
@@ -6184,6 +6185,72 @@ MonoBehaviour:
       Data3: 2056250528
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
+--- !u!114 &2214123608498936178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 11400000, guid: bbdf7818a879f6f49b05ea841d9b4d76, type: 2}
+  copyStatus:
+  - type: 1
+    value: 0
+  - type: 2
+    value: 0
+  - type: 3
+    value: 0
+  - type: 4
+    value: 0
+  - type: 5
+    value: 0
+  - type: 6
+    value: 0
+  - type: 7
+    value: 0
+  - type: 8
+    value: 1
+--- !u!114 &1921549218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 823e002bc3bb88f40ba5ef45bdc16986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activePartDatas:
+  - type: 1
+    proccessor:
+      rid: 7965168027137212555
+  - type: 2
+    proccessor:
+      rid: 7965168027137212560
+  references:
+    version: 2
+    RefIds:
+    - rid: 7965168027137212555
+      type: {class: BasicActivePart, ns: , asm: Assembly-CSharp}
+      data:
+        stateToChange: 9
+        minRange: 100
+        maxRange: 500
+        damage: 100
+        duration: 3
+        buffCode: 0
+    - rid: 7965168027137212560
+      type: {class: TestActivePart, ns: , asm: Assembly-CSharp}
+      data:
+        stateToChange: 0
+        t1: 4.83
 --- !u!114 &6307489441031809494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6227,20 +6294,6 @@ MonoBehaviour:
   coolTime: 7
   hitCountUI: {fileID: 0}
   <hitCount>k__BackingField: 0
---- !u!114 &2214123608498936178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: {fileID: 11400000, guid: ffdd60b796e5b534cac795df087d5734, type: 2}
-  copyStatus: []
 --- !u!114 &507041425030904175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6274,7 +6327,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: cf80628b31e3f5a4ca765b29e756872c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -6559,42 +6612,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rushEffectData: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
   rushEffectParent: {fileID: 0}
---- !u!114 &1921549218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 823e002bc3bb88f40ba5ef45bdc16986, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activePartDatas:
-  - type: 1
-    proccessor:
-      rid: 7965168027137212555
-  - type: 2
-    proccessor:
-      rid: 7965168027137212560
-  references:
-    version: 2
-    RefIds:
-    - rid: 7965168027137212555
-      type: {class: BasicActivePart, ns: , asm: Assembly-CSharp}
-      data:
-        stateToChange: 9
-        minRange: 100
-        maxRange: 500
-        damage: 100
-        duration: 3
-        buffCode: 0
-    - rid: 7965168027137212560
-      type: {class: TestActivePart, ns: , asm: Assembly-CSharp}
-      data:
-        stateToChange: 0
-        t1: 4.83
 --- !u!114 &1921549230
 MonoBehaviour:
   m_ObjectHideFlags: 0

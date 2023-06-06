@@ -50,6 +50,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("콤보")]
 	public Tree comboTree;
 
+	// move
+	[Space(5)]
+	[Header("이동")]
+	[Tooltip("회전하는 속도")]
+	public float rotatePower;
+
 	// dash
 	[Space(5)]
 	[Header("대시. 런타임 변경 불가")]
