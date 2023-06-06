@@ -36,6 +36,7 @@ public class BuffProvider : MonoBehaviour
 		if (!hasBuff)
 		{
 			FDebug.Log($"{buffCode}에 해당하는 버프가 존재하지 않습니다.");
+			return;
 		}
 
 		var buffObject = Instantiate(GetBuff(buffCode));
