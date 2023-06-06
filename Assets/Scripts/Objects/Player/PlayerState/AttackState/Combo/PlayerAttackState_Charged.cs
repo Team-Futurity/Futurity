@@ -9,7 +9,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private readonly float LevelStandard = 1;			// 단계를 나눌 기준
 	private readonly int MaxLevel = 4;					// 최대 차지 단계
 	private readonly float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
-	private readonly float FlyPower = 45;				// 공중 체공 힘
+	private readonly float FlyPower = 45;               // 공중 체공 힘
+	private readonly float WallCollisionDamage = 50f;	// 벽 충돌 시 데미지
 
 	// Variables
 	private float playerOriginalSpeed;	// 원래 속도(속도 감쇄용)
@@ -27,8 +28,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private Vector3 originPos;          // 돌진 전 위치
 	private Vector3 targetPos;          // 목표 위치
 	private Rigidbody firstEnemy;       // 첫번째로 충돌한 적
-	private Collider firstEnemyCollider;       // 첫번째로 충돌한 적
-	private float enemyDistance;        // 첫번째로 충돌한 적과의 거리
+	private Collider firstEnemyCollider;		// 첫번째로 충돌한 적의 콜라이더
+	private UnitBase firstEnemyData;			// 첫번째로 충돌한 적의 데이터
+	private float enemyDistance;				// 첫번째로 충돌한 적과의 거리
 	private Vector3 groundPos;          // Enemy의 체공 이전 좌표
 	private float originScale;		// Player의 원래 콜라이더 크기
 	
@@ -120,8 +122,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Ground, null, groundPos, null, 0, currentLevel - 1);
 				firstEnemy.transform.position = groundPos;
-				var unitData = firstEnemy.transform.GetComponent<UnitBase>();
-				unit.playerData.Attack(unitData);
+				unit.playerData.Attack(firstEnemyData, attackST);
 				unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
 			}
 			return;
@@ -204,16 +205,20 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				firstEnemy.constraints = RigidbodyConstraints.FreezeRotation;
 				firstEnemyCollider = collision.collider;
 				firstEnemyCollider.enabled = false;
+				firstEnemyData = collision.transform.GetComponent<UnitBase>();
 				enemyDistance = unit.basicCollider.radius + halfSize * 0.5f;
 				enemyRayLength = (enemyDistance) * 2 - unit.basicCollider.radius;
 
 				// 콜라이더 조정
 				unit.basicCollider.radius = originScale + 2 * halfSize;
+
+				// 충돌 데미지 처리
+				unit.playerData.Attack(firstEnemyData, attackNode.attackST);
 			}
 			else if(collision.body != firstEnemy) // 적과 충돌했고, 그게 처음 부딪친 적이 아니라면
 			{
 				var unitData = collision.transform.GetComponent<UnitBase>();
-				unit.playerData.Attack(unitData);
+				unit.playerData.Attack(unitData, attackNode.attackST);
 
 				Vector3 targetDir = (collision.transform.position - unit.transform.position).normalized;
 				Vector3 knockbackDir = Vector3.Dot(Vector3.Cross(unit.transform.forward, targetDir), Vector3.up) > 0 ? unit.transform.right : -unit.transform.right;
@@ -324,9 +329,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		if (firstEnemy != null)
 		{
-			// 공식 등이 작업 당시 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
-			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
-			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
+			firstEnemyData.Hit(unit.playerData, WallCollisionDamage);
 		}
 
 		// 벽(장애물)과 충돌했으니 바로 돌진 종료

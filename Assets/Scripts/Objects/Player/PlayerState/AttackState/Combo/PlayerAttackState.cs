@@ -68,7 +68,7 @@ public class PlayerAttackState : PlayerComboAttackState
 			{
 				var enemy = other.gameObject.GetComponent<UnitBase>();
 
-				unit.playerData.Attack(enemy);
+				unit.playerData.Attack(enemy, attackNode.attackST);
 				HitEffectPooling(unit, enemy.transform);
 				enemy.Knockback(unit.transform.forward, attackNode.attackKnockback);
 				hittedEnemyCount++;
