@@ -11,13 +11,9 @@ public class BuffProvider : MonoBehaviour
 	private void Awake()
 	{
 		HoldBuffDic = new Dictionary<int, BuffBehaviour>();
-	}
 
-	private void OnEnable()
-	{
 		SetBuffer();
 	}
-
 	public void SetBuff(UnitBase unit, int buffCode)
 	{
 		ProceedBuff(unit, buffCode);
@@ -62,6 +58,5 @@ public class BuffProvider : MonoBehaviour
 			HoldBuffDic.Add(uID, buff);
 		}
 	}
-
 
 }
