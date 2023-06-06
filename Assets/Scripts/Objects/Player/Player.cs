@@ -17,7 +17,7 @@ public class Player : UnitBase
 		target.Hit(this, GetDamage(1));
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot)
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{

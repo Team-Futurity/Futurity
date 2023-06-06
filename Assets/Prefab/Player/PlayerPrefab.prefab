@@ -5739,6 +5739,8 @@ GameObject:
   - component: {fileID: 1070719927369175194}
   - component: {fileID: 926590480872082409}
   - component: {fileID: 1921549218}
+  - component: {fileID: 1921549230}
+  - component: {fileID: 1921549231}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -6133,13 +6135,14 @@ MonoBehaviour:
   hitCoolTimeIsEnd: 0
   glove: {fileID: 7164896735125955485}
   playerData: {fileID: 1070719927369175194}
-  activePartController: {fileID: 0}
+  activePartController: {fileID: 1921549218}
   comboGaugeSystem: {fileID: 6307489441031809494}
   hitCountSystem: {fileID: 8247117609381097480}
   attackCollider: {fileID: 4068547685948332288}
   autoTargetCollider: {fileID: 625353277}
   basicCollider: {fileID: 1070719927369175189}
   rushEffectManager: {fileID: 926590480872082409}
+  buffProvider: {fileID: 1921549231}
   animator: {fileID: 5821464009680269676}
   rigid: {fileID: 0}
   dashEffect: {fileID: 0}
@@ -6236,7 +6239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  status: {fileID: 11400000, guid: 7b132e736a636334383caf67478965ff, type: 2}
+  status: {fileID: 11400000, guid: bbdf7818a879f6f49b05ea841d9b4d76, type: 2}
   copyStatus: []
 --- !u!114 &507041425030904175
 MonoBehaviour:
@@ -6586,11 +6589,48 @@ MonoBehaviour:
         maxRange: 500
         damage: 100
         duration: 3
+        buffCode: 0
     - rid: 7965168027137212560
       type: {class: TestActivePart, ns: , asm: Assembly-CSharp}
       data:
         stateToChange: 0
         t1: 4.83
+--- !u!114 &1921549230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 605e6438eba5c1e468c9bfec645e7e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuffData>k__BackingField: {fileID: 11400000, guid: b058fd9e4f8e91d4a89a30981c529815, type: 2}
+  buffStart:
+    m_PersistentCalls:
+      m_Calls: []
+  buffEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  buffStay:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1921549231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14834a464a8cdf84dbb1fd709dbd1db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuffList>k__BackingField:
+  - {fileID: 1921549230}
 --- !u!1 &9205117049474632282
 GameObject:
   m_ObjectHideFlags: 0

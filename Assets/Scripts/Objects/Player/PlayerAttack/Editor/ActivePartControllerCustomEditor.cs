@@ -12,6 +12,8 @@ public class ActivePartControllerCustomEditor : Editor
 
 	// GUI Contents
 	GUIContent basicActivePartDuration = new GUIContent("공격 지속시간(sec)", "공격 범위가 [최소 반지름]에서 [최대 반지름]이 될 때까지의 시간");
+	GUIContent basicActivePartBuffCode = new GUIContent("버프 코드", "범위 내에 들어온 적에게 부여할 상태 이상의 코드 값\n(BuffData Scriptable Object 참고)");
+
 	public override void OnInspectorGUI()
 	{
 		base.OnInspectorGUI();
@@ -89,6 +91,7 @@ public class ActivePartControllerCustomEditor : Editor
 		part.maxRange = EditorGUILayout.FloatField("최대 반지름(cm)", part.maxRange);
 		part.damage = EditorGUILayout.FloatField("피해량(절댓값)", part.damage);
 		part.duration = EditorGUILayout.FloatField(basicActivePartDuration, part.duration);
+		part.buffCode = EditorGUILayout.IntField(basicActivePartBuffCode, part.buffCode);
 	}
 
 	private void DrawTestInspector(TestActivePart part)

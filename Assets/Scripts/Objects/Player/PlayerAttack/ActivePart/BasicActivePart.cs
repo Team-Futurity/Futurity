@@ -9,6 +9,7 @@ public class BasicActivePart : ActivePartProccessor
 	public float maxRange;	// cm ¥‹¿ß (0.01unit)
 	public float damage;
 	public float duration;
+	public int buffCode;
 
 	public override void GetPartData()
 	{
