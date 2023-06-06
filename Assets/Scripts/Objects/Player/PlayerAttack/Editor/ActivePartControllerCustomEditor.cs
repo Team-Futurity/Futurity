@@ -19,12 +19,15 @@ public class ActivePartControllerCustomEditor : Editor
 		base.OnInspectorGUI();
 
 		ActivePartController controller = (ActivePartController)target;
+		var list = controller.activePartDatas;
+		var listCount = list.Count;
+		var lastIndex = listCount - 1;
 
 		// PartController의 List<Part>를 순회하면서 각 Part에 대한 커스텀 에디터 호출
-		for (int i = 0; i < controller.activePartDatas.Count; i++)
+		for (int i = 0; i < list.Count; i++)
 		{
-			var part = controller.activePartDatas[i].proccessor;
-			var type = GetPartType(controller.activePartDatas[i].type);
+			var part = list[i].proccessor;
+			var type = GetPartType(list[i].type);
 			
 
 			if (part != null)
@@ -40,18 +43,24 @@ public class ActivePartControllerCustomEditor : Editor
 			if(part == null)
 			{
 				part = Activator.CreateInstance(type) as ActivePartProccessor;
-				controller.activePartDatas[i].proccessor = part;
+				list[i].proccessor = part;
 			}
 
 
 			// Draw Inspector
-			EditorGUILayout.LabelField($"{i}_{controller.activePartDatas[i].type} Part");
+			EditorGUILayout.LabelField($"{i}_{list[i].type} Part");
 			EditorGUI.indentLevel++;
-			EditorGUILayout.EnumPopup("전이할 상태", part.stateToChange);
+			part.stateToChange = (PlayerController.PlayerState)EditorGUILayout.EnumPopup("전이할 상태", part.stateToChange);
 
 			DrawInspectorInPart(part);
 
 			EditorGUI.indentLevel--;
+		}
+
+		if(list[lastIndex - 1].proccessor == list[lastIndex].proccessor)
+		{
+			var type = GetPartType(list[lastIndex].type);
+			list[lastIndex].proccessor = Activator.CreateInstance(type) as ActivePartProccessor;
 		}
 	}
 
