@@ -43,7 +43,7 @@ public class TempTestManager : MonoBehaviour
     void Update()
 	{
 		ComboGuageBarValueChanger();
-		NumberImageValueChanger();
+		//NumberImageValueChanger();
 		TextValueChangerReturn();
 		ScrapValueChangerReturn();
 	}
@@ -75,21 +75,24 @@ public class TempTestManager : MonoBehaviour
 	IEnumerator NumberImageValueChanger()
 	{
 		int comboDelayCount = 0;
+		GameObject numberImageLoaderObject = numberImageLoader.gameObject;
 		while (true) // 무한 반복
 		{
-			int randValue = Random.Range(0, 999);
-			numberImageLoader.SetNumber(randValue);
-
-			if (comboDelayCount < 5)
+			if (numberImageLoader != null && numberImageLoaderObject.activeInHierarchy)
 			{
-				yield return new WaitForSeconds(1f);
-				comboDelayCount++;
+				int randValue = Random.Range(0, 999);
+				numberImageLoader.SetNumber(randValue);
 			}
-			else
-			{
-				yield return new WaitForSeconds(8f);
-				comboDelayCount = 0;
-			}
+				if (comboDelayCount < 5)
+				{
+					yield return new WaitForSeconds(1f);
+					comboDelayCount++;
+				}
+				else
+				{
+					yield return new WaitForSeconds(8f);
+					comboDelayCount = 0;
+				}
 		}
 	}
 

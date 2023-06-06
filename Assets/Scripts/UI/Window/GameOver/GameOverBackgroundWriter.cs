@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameOverBackgroundWriter : MonoBehaviour
 {
-	[Header ("게임 오버시 벡그라운드에 출력되는 이미지를 담당하는 스크립트")]
+	[Header ("게임 오버시 벡그라운드에 출력되는 이미지를 담당하는 클래스")]
 	[Space (20)]
 
 

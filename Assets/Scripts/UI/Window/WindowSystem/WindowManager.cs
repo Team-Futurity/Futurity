@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 
 public class WindowManager : Singleton<WindowManager>
 {
-	//#설명#	윈도우 총괄 메니저로 Window를 열고 닫는것은 물론
+	//#설명#	 윈도우의 생성, 관리 및 파괴를 담당하며, UI 윈도우와 버튼을 조작하고 관리하는 클래스입니다.
 	[Header ("윈도우 시스템 총괄 메니저")]
 	[Space(15)]
 

@@ -31,13 +31,20 @@ public class CharacterDialogController : MonoBehaviour
 
 	private Coroutine showTextCoroutine;
 
-
+	/// <summary>
+	/// 출력할 텍스트를 설정합니다.
+	/// </summary>
+	/// <param name="texts">출력할 텍스트 리스트</param>
 	public void SetTexts(List<string> texts)
 	{
 		fullText = texts;
 	    textNum = 0;
 	}
 
+	/// <summary>
+	/// CharacterDialog창의 대화창의 텍스트를 출력하는 스크립트로.
+	/// 저장된 텍스트를 하나씩 출력하거나, 출력 중인 텍스트를 스킵합니다.
+	/// </summary>
 	public void WriteCharactorText()
 	{
 		if (showTextCoroutine != null)
@@ -54,6 +61,9 @@ public class CharacterDialogController : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// 텍스트를 하나씩 출력하는 코루틴입니다.
+	/// </summary>
 	IEnumerator ShowText()
 	{
 		if (fullText.Count > textNum)
@@ -78,12 +88,18 @@ public class CharacterDialogController : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// 다음 텍스트로 넘어갑니다.
+	/// </summary>
 	public void SkipNextText()
 	{
 		charactorText.text = fullText[textNum];
 		TypingTextEnd();
 	}
 
+	/// <summary>
+	/// 텍스트 타이핑을 완료하고 관련 상태를 갱신합니다.
+	/// </summary>
 	public void TypingTextEnd()
 	{
 		FDebug.Log($"{gameObject}의 \"{fullText}\" Text 타이핑 완료");
@@ -92,6 +108,10 @@ public class CharacterDialogController : MonoBehaviour
 		showTextCoroutine = null;
 	}
 
+	/// <summary>
+	/// 현재 출력 중인 텍스트를 반환합니다.
+	/// </summary>
+	/// <returns>현재 출력중인 텍스트</returns>
 	public string GetThisText()
 	{
 		if (fullText.Count > textNum)
@@ -103,15 +123,29 @@ public class CharacterDialogController : MonoBehaviour
 			return fullText[fullText.Count - 1];
 		}
 	}
+
+	/// <summary>
+	/// 텍스트 출력 완료 여부를 반환합니다.
+	/// </summary>
+	/// <returns>텍스트 출력 완료 여부</returns>
 	public bool GetTextEnd()
 	{
 		return isTextEnd;
 	}
 
+	/// <summary>
+	/// 캐릭터 스프라이트를 변경합니다.
+	/// </summary>
+	/// <param name="changeSprite"></param>
 	public void SetCharactorSprite(Sprite changeSprite)
 	{
 		charactorImage.sprite = changeSprite;
 	}
+
+	/// <summary>
+	/// 타이핑 딜레이 시간을 설정합니다.
+	/// </summary>
+	/// <param name="delayTime">타이핑 딜레이 시간</param>
 	public void SetTypingDelay(float delayTime)
 	{
 		typingDelay = delayTime;

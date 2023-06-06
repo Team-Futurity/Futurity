@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class CharacterWindowOpener : MonoBehaviour
 {
+	[Header("게임 시작 시 캐릭터 대화창을 열고, 설정된 텍스트를 출력하는 클래스")]
+	[Space(20)]
+
 	[SerializeField]
 	Canvas canvas;
 
