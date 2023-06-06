@@ -32,12 +32,18 @@ public class CharacterDialogController : MonoBehaviour
 	private Coroutine showTextCoroutine;
 
 
+	/// <summary>
+	/// 출력할 텍스트를 설정합니다.
+	/// </summary>
 	public void SetTexts(List<string> texts)
 	{
 		fullText = texts;
 	    textNum = 0;
 	}
 
+	/// <summary>
+	/// CharacterDialog창의 대화창의 텍스트를 출력하는 스크립트로. fullText에 저장되어있는 텍스트를 차근차근 출력하며, 출력중인 텍스트가 있다면 해당 텍스트를 스킵합니다.
+	/// </summary>
 	public void WriteCharactorText()
 	{
 		if (showTextCoroutine != null)
@@ -54,6 +60,9 @@ public class CharacterDialogController : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// 텍스트를 하나씩 출력하는 코루틴입니다.
+	/// </summary>
 	IEnumerator ShowText()
 	{
 		if (fullText.Count > textNum)
@@ -69,22 +78,22 @@ public class CharacterDialogController : MonoBehaviour
 		else
 		{
 			windowController.WindowClose();
-
-			//임시 : 추후 삭제 예정, 크리틱 빌드를 위함
-			for(int i = 0; i < InGameUnitManager.Instance.enemys.Count; i++)
-			{
-				InGameUnitManager.Instance.enemys[i].gameObject.SetActive(true);
-			}
 		}
 	}
 
+	/// <summary>
+	/// 다음 텍스트로 넘어갑니다.
+	/// </summary>
 	public void SkipNextText()
 	{
 		charactorText.text = fullText[textNum];
 		TypingTextEnd();
 	}
 
-	public void TypingTextEnd()
+	/// <summary>
+	/// 텍스트 타이핑 완료
+	/// </summary>
+	private void TypingTextEnd()
 	{
 		FDebug.Log($"{gameObject}의 \"{fullText}\" Text 타이핑 완료");
 		textNum++;
@@ -92,6 +101,9 @@ public class CharacterDialogController : MonoBehaviour
 		showTextCoroutine = null;
 	}
 
+	/// <summary>
+	/// 현재 출력중인 텍스트를 가져옵니다.
+	/// </summary>
 	public string GetThisText()
 	{
 		if (fullText.Count > textNum)
@@ -103,15 +115,26 @@ public class CharacterDialogController : MonoBehaviour
 			return fullText[fullText.Count - 1];
 		}
 	}
+
+	/// <summary>
+	/// 텍스트 출력 완료 여부를 가져옵니다.
+	/// </summary>
 	public bool GetTextEnd()
 	{
 		return isTextEnd;
 	}
 
+	/// <summary>
+	/// 캐릭터 스프라이트를 변경합니다.
+	/// </summary>
 	public void SetCharactorSprite(Sprite changeSprite)
 	{
 		charactorImage.sprite = changeSprite;
 	}
+
+	/// <summary>
+	/// 타이핑 딜레이 시간을 설정합니다.
+	/// </summary>
 	public void SetTypingDelay(float delayTime)
 	{
 		typingDelay = delayTime;
