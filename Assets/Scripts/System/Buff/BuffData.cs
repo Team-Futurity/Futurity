@@ -6,11 +6,12 @@ using UnityEngine;
 public class BuffData : ScriptableObject
 {
 	[field: SerializeField] public int BuffCode { get; private set; }
+
 	[field: SerializeField] public string BuffDescript { get; private set; }
 
-	[field: SerializeField] public BuffTypeList BuffType { get; private set; }
+	[field: SerializeField] public BuffType BuffType { get; private set; }
 
-	[field: SerializeField] public BuffNameList BuffName { get; private set; }
+	[field: SerializeField] public BuffName BuffName { get; private set; }
 
 	[field: SerializeField] public float BuffActiveTime { get; private set; }
 

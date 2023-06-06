@@ -15,16 +15,16 @@ public abstract class BuffBehaviour : MonoBehaviour
 	public UnityEvent buffEnd;
 	public UnityEvent buffStay;
 
-	[HideInInspector] public BuffSystem executor;
-
 	private float buffActiveTime;
 	private float currTime;
+
 	
 	protected UnitBase targetUnit = null;
+	protected BuffSystem targetBuff = null;
 
 	private void Start()
 	{
-		if (BuffData.BuffName == BuffNameList.NONE)
+		if (BuffData.BuffName == BuffName.NONE)
 		{
 			FDebug.Log("Curr Buf의 Name이 정해지지 않았습니다.");
 			Debug.Break();
@@ -35,8 +35,8 @@ public abstract class BuffBehaviour : MonoBehaviour
 			FDebug.Log("Buff Data가 존재하지 않습니다.");
 			Debug.Break();
 		}
-		
-		buffActiveTime = BuffData.BuffActiveTime;
+
+		SetBuffTime();
 		currTime = .0f;
 	}
 
@@ -45,45 +45,55 @@ public abstract class BuffBehaviour : MonoBehaviour
 		buffActiveTime -= Time.deltaTime;
 		currTime += Time.deltaTime;
 
-		if (1 < currTime)
+		if (1 <= currTime)
 		{
 			currTime = .0f;
 			buffStay?.Invoke();
 		}
 
-		if(0 > buffActiveTime)
+		if(0 >= buffActiveTime)
 		{
 			UnActive();
 		}
 	}
 
-	public void SetExecutor(BuffSystem sendExecutor)
+	public void Create(UnitBase unit)
 	{
-		if(sendExecutor is null)
-		{
-			FDebug.Log("[BuffSystem] 잘못된 전달입니다.");
-			return;
-		}
-
-		executor = sendExecutor;
-	}
-
-	public virtual void Active(UnitBase unit)
-	{
-		buffStart?.Invoke();
+		gameObject.SetActive(false);
 
 		targetUnit = unit;
-		
+		unit.TryGetComponent(out targetBuff);
+
+		transform.parent = unit.transform;
+
+		transform.position = Vector3.zero;
+		transform.rotation = Quaternion.identity;
+
+		gameObject.SetActive(true);
+
+		Active();
+	}
+
+	public void SetBuffTime()
+	{
+		buffActiveTime = BuffData.BuffActiveTime;
+	}
+
+	public virtual void Active()
+	{
+		buffStart?.Invoke();
+		targetBuff.AddBuff(this);
+
 		FDebug.Log($"{BuffData.BuffName}가 실행되었습니다.");
 	}
 
 	public virtual void UnActive()
 	{
+		targetBuff.RemoveBuff(BuffData.BuffCode);
+
 		buffEnd?.Invoke();
 		
 		FDebug.Log($"{BuffData.BuffName}가 종료되었습니다.");
-
-		executor.RemoveActiveBuff(BuffData.BuffCode);
 
 		Destroy(gameObject);
 	}
