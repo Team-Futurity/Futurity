@@ -36,7 +36,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		curTime += Time.deltaTime;
 
-		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState(unit));
+		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -51,6 +51,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
 		unit.copyMat.SetColor(unit.matColorProperty, defaultColor);
+		EnemyEffectManager.Instance.HittedEffectDeActive(unit.hittedEffect.indexNum);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

@@ -15,6 +15,7 @@ public class Enemy : UnitBase
 
 	public override void Attack(UnitBase target)
 	{
+		ec.isAttackSuccess = true;
 		target.Hit(this, GetDamage(1));
 		target.hpBar.SetGaugeFillAmount(target.status.GetStatus(StatusType.CURRENT_HP).GetValue() / target.status.GetStatus(StatusType.MAX_HP).GetValue());
 	}

@@ -19,7 +19,7 @@ public class ClusterChaseState : EnemyChaseBaseState
 	{
 		base.Update(unit);
 
-		attackDistance = Vector3.Distance(unit.clusteringManager.clusters[unit.clusterNum].enemys[0].transform.position, unit.target.transform.position);
+		attackDistance = Vector3.Distance(EnemyManager.Instance.clusters[unit.clusterNum].enemys[0].transform.position, unit.target.transform.position);
 		clusterDistance = Vector3.Distance(unit.clusterTarget.transform.position, unit.transform.position);
 
 		if (distance < unit.attackRange)

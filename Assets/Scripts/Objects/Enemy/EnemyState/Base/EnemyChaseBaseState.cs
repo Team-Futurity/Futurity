@@ -13,9 +13,6 @@ public class EnemyChaseBaseState : UnitState<EnemyController>
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
 
-		if (unit.initiateHitEffect != null)
-			unit.initiateHitEffect.SetActive(false);
-
 		/*unit.isChasing = true;*/
 	}
 	public override void Update(EnemyController unit)

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [FSMState((int)EnemyController.EnemyState.MDefaultAttack)]
-public class MDefaultAttackState : UnitState<EnemyController>
+public class MDefaultAttackState : EnemyAttackBaseState
 {
-	private float curTime = .0f;
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Attack begin");
-		unit.animator.SetTrigger(unit.atkAnimParam);
+		base.Begin(unit);
+
 		unit.atkCollider.enabled = true;
 		unit.navMesh.enabled = true;
 	}
@@ -20,31 +20,17 @@ public class MDefaultAttackState : UnitState<EnemyController>
 		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.MDefaultAttack2nd);
 	}
 
-	public override void FixedUpdate(EnemyController unit)
-	{
-
-	}
-
 	public override void End(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Attack End");
+
+		base.End(unit);
 		unit.atkCollider.enabled = false;
-		
-		curTime = 0f;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		if (other.CompareTag(unit.playerTag))
-		{
-			//FDebug.Log("MDefault Attack Trigger");
-			unit.enemyData.Attack(unit.target);
-			unit.InitiateHitEffect();
-		}
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-
+		//FDebug.Log("MDefault Attack Trigger");
+		base.OnTriggerEnter(unit, other);
 	}
 }

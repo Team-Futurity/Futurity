@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
+
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
 
@@ -31,11 +32,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 		var effect = pc.rushObjectPool.ActiveObject(pc.rushEffects[number].effectPos.position);
 		var particles = effect.GetComponent<ParticleController>();
 		particles.Initialize(pc.rushObjectPool);
-	}
-
-	public void HitEffectPooling()
-	{
-
 	}
 
 	public void CameraShake()

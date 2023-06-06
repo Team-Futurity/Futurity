@@ -38,10 +38,10 @@ public class EnemyIdleState : UnitState<EnemyController>
 		{
 			//FDebug.Log("Idle Trigger");
 			unit.target = other.GetComponent<UnitBase>();
-			unit.ChangeState(unit.UnitChaseState(unit));
+			unit.ChangeState(unit.UnitChaseState());
 
-			if (unit.clusteringManager != null)
-				unit.clusteringManager.EnemyClustering(unit);
+			if (unit.isClusteringObj)
+				EnemyManager.Instance.EnemyClustering(unit);
 		}
 	}
 

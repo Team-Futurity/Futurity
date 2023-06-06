@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static EnemyEffectManager;
 
 public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
@@ -48,14 +49,32 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
 
+	//animation name
+	public readonly string moveAnimParam = "Move";          //이동
+	public readonly string atkAnimParam = "Attack";         //공격
+	public readonly string hitAnimParam = "Hit";            //피격
+	public readonly string playerTag = "Player";            //플레이어 태그 이름
+	public readonly string matColorProperty = "_BaseColor";
+
 	[Space(3)]
-	[Header("Cluster")]
-	public ClusteringManager clusteringManager;
+	[Header("Enemy Management")]
+	
+	//clustering
+	public bool isClusteringObj = false;
 	[HideInInspector] public bool isClustering = false;
 	[HideInInspector] public int clusterNum;
 	[HideInInspector] public int individualNum = 0;
 	[HideInInspector] public EnemyController clusterTarget;
 	public float clusterDistance = 2.5f;
+
+	//effect
+	public List<EnemyEffectManager.Effect> effects;                           //이펙트 프리팹
+	public EnemyEffectManager.Effect hitEffect;
+	public EnemyEffectManager.Effect hittedEffect;
+
+	/*[HideInInspector] public List<GameObject> initiateEffects;
+	[HideInInspector] public GameObject initiateHitEffect;*/
+
 
 	[Space(3)]
 	[Header("Spawn")]				
@@ -98,6 +117,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Attack")]
+	[HideInInspector] public bool isAttackSuccess = false;
 	public float projectileDistance;						//발사체 사거리
 	public GameObject rangedProjectile;						//발사체 캐싱
 	public float projectileSpeed;                           //발사체 속도
@@ -107,18 +127,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public Material whiteMaterial;                          //쫄 돌진 차징 머테리얼
 	[HideInInspector] public Material copyWhiteMat;
-
-	[Serializable]
-	public struct Effects
-	{
-		public GameObject effect;
-		public Transform effectPos;
-	}
-
-	public List<Effects> effects;                           //이펙트 프리팹
-	public Effects hitEffect;
-	[HideInInspector] public List<GameObject> initiateEffects;
-	[HideInInspector] public GameObject initiateHitEffect;
 
 
 	[Space(3)]
@@ -130,16 +138,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Material eMaterial;                              //머테리얼 복제용 캐싱
 	[HideInInspector] public Material copyMat;
 	public SkinnedMeshRenderer skinnedMeshRenderer;			//머테리얼 인덱스 캐싱
-
-	//animation name
-	public readonly string moveAnimParam = "Move";			//이동 애니 파라미터
-	public readonly string atkAnimParam = "Attack";			//공격 애니 파라미터
-	public readonly string hitAnimParam = "Hit";			//피격 애니 파라미터
-
-	//tag name
-	public readonly string playerTag = "Player";            //플레이어 태그 이름
-
-	public readonly string matColorProperty = "_BaseColor";
 
 
 
@@ -157,18 +155,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		if (eMaterial != null)
 			copyMat = new Material(eMaterial);
 
+		EnemyManager.Instance.ActiveManagement(this);
+		EnemyEffectManager.Instance.CopyEffect(this);
 		chaseRange.enabled = false;
 
 		unit = this;
 		SetUp(EnemyState.Spawn);
-
-		for (int i = 0; i < effects.Count; i++)
-		{
-			initiateEffects.Add(GameObject.Instantiate(effects[i].effect, effects[i].effectPos == null ? null : effects[i].effectPos.transform));
-			initiateEffects[i].SetActive(false);
-		}
-
-		//effectPoolManager = new ObjectPoolManager<Transform>(effects[0].effect, effects[0].effectParent);
 	}
 
 
@@ -185,11 +177,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		}
 	}
 
-	public System.ValueType UnitChaseState(EnemyController unit)
+	public System.ValueType UnitChaseState()
 	{
-		int enemyType = (int)unit.enemyType;
-
-		switch (enemyType)
+		switch ((int)enemyType)
 		{
 			case 0:
 				return EnemyController.EnemyState.MDefaultChase;
@@ -204,16 +194,5 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 				FDebug.Log("ERROR_ChangeChaseState()");
 				return null;
 		}
-	}
-
-	public void InitiateHitEffect()
-	{
-		hitEffect.effectPos = target.transform;
-
-		if (initiateHitEffect == null)
-			initiateHitEffect = Instantiate(hitEffect.effect, hitEffect.effectPos == null ? null : hitEffect.effectPos.transform);
-
-		else
-			initiateHitEffect.SetActive(true);
 	}
 }
