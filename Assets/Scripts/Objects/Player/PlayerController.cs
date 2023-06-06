@@ -159,8 +159,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		animator.SetInteger(ChargedAttackAnimaKey, NullState);
 
 		// UnitFSM Init
-		unit = this;
-		SetUp(PlayerState.Idle);
+		SetFSM();
 		UnitState<PlayerController> astate = null;
 		GetState(PlayerState.AttackAfterDelay, ref astate);
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
@@ -181,6 +180,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
+	}
+
+	public void SetFSM()
+	{
+		unit = this;
+		SetUp(PlayerState.Idle);
 	}
 
 	public void OnSpecialMove(InputAction.CallbackContext context)

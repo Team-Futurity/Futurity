@@ -4,13 +4,13 @@ using UnityEngine;
 public class PlayerAttackState_Charged : PlayerAttackState
 {
 	// Constants
-	private readonly float LengthMarkIncreasing = 200;	// 단계당 돌진 거리 증가량
-	private readonly float AttackSTIncreasing = 1;		// 단계당 공격 배율 증가량
-	private readonly float LevelStandard = 1;			// 단계를 나눌 기준
-	private readonly int MaxLevel = 4;					// 최대 차지 단계
-	private readonly float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
-	private readonly float FlyPower = 45;               // 공중 체공 힘
-	private readonly float WallCollisionDamage = 50f;	// 벽 충돌 시 데미지
+	public static float LengthMarkIncreasing = 200; // 단계당 돌진 거리 증가량
+	public static float AttackSTIncreasing = 1;     // 단계당 공격 배율 증가량
+	public static float LevelStandard = 1;         // 단계를 나눌 기준
+	public static int MaxLevel = 4;                 // 최대 차지 단계
+	public static float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
+	public static float FlyPower = 45;               // 공중 체공 힘
+	public static float WallCollisionDamage = 50f;	// 벽 충돌 시 데미지
 
 	// Variables
 	private float playerOriginalSpeed;	// 원래 속도(속도 감쇄용)
