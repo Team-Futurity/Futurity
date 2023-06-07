@@ -35,14 +35,14 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
+
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
 		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun)
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}
-		
-		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 	}
 
 	protected override float GetAttackPoint()
