@@ -58,7 +58,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		float posX, posY, posZ;
 		float theta = 90 - transform.eulerAngles.y;
 
-		posY = transform.position.y;
+		posY = 0;
 
 		// right
 		posX = Mathf.Cos((theta - clampedAngle) * Mathf.Deg2Rad) * radius;

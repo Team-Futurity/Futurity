@@ -438,6 +438,37 @@ Transform:
   m_Father: {fileID: 123153224409693731}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &490048779824429130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7462267257574363121}
+  m_Layer: 0
+  m_Name: Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7462267257574363121
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490048779824429130}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.33205387, y: 1.2583848, z: -0.8667922}
+  m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5328251835375101389}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &544022701369807367
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,6 +659,38 @@ Transform:
   - {fileID: 6408807332051380940}
   m_Father: {fileID: 4716378963947645482}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &988540952077544406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8173432327245710813}
+  m_Layer: 0
+  m_Name: Buffs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8173432327245710813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988540952077544406}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1259207901582199207}
+  m_Father: {fileID: 5328251835375101389}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1100226502927616559
 GameObject:
@@ -1369,7 +1432,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.8254717, b: 0.90770143, a: 1}
+  m_Color: {r: 0.8117647, g: 0.7330838, b: 0.6392157, a: 1}
   m_Intensity: 50
   m_Range: 8
   m_SpotAngle: 27.411428
@@ -6703,9 +6766,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5328251835375101389}
   - component: {fileID: 1070719927369175192}
+  - component: {fileID: 2214123608498936178}
+  - component: {fileID: 1921549218}
   - component: {fileID: 6307489441031809494}
   - component: {fileID: 8247117609381097480}
-  - component: {fileID: 2214123608498936178}
   - component: {fileID: 507041425030904175}
   - component: {fileID: 5821464009680269676}
   - component: {fileID: 6599983942192001998}
@@ -6714,6 +6778,7 @@ GameObject:
   - component: {fileID: 1070719927369175189}
   - component: {fileID: 1070719927369175194}
   - component: {fileID: 926590480872082409}
+  - component: {fileID: 1921549231}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -6738,6 +6803,8 @@ Transform:
   - {fileID: 625353276}
   - {fileID: 3806605646931967196}
   - {fileID: 2014832257151512454}
+  - {fileID: 8173432327245710813}
+  - {fileID: 7462267257574363121}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -6776,6 +6843,9 @@ MonoBehaviour:
             effectPos: {fileID: 292770056}
             effectPrefab: {fileID: 743645502276010547, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
             effectParent: {fileID: 0}
+            hitEffectOffset: {x: 0, y: 0, z: 0}
+            hitEffectPrefab: {fileID: 1796362244684154822, guid: 1a4ec730cc5b23f49bacd462aff9ef06, type: 3}
+            hitEffectParent: {fileID: 0}
             animInteger: 2
             randomShakePower: 0.2
             curveShakePower: 0.2
@@ -6787,13 +6857,6 @@ MonoBehaviour:
                 Data3: 1757666958
                 Data4: -356488086
               Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-j
-            attackSound2:
-              Guid:
-                Data1: 0
-                Data2: 0
-                Data3: 0
-                Data4: 0
-              Path: 
           - command: 2
             childNodes: []
             attackLength: 600
@@ -6808,6 +6871,9 @@ MonoBehaviour:
             effectPos: {fileID: 292770056}
             effectPrefab: {fileID: 7824830144992791228, guid: c0587accfc987084fbdcc4d87255d219, type: 3}
             effectParent: {fileID: 0}
+            hitEffectOffset: {x: 0, y: 0, z: 0}
+            hitEffectPrefab: {fileID: 0}
+            hitEffectParent: {fileID: 0}
             animInteger: 3
             randomShakePower: 0
             curveShakePower: 0
@@ -6819,13 +6885,6 @@ MonoBehaviour:
                 Data3: 1441446575
                 Data4: -410480518
               Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-k
-            attackSound2:
-              Guid:
-                Data1: 0
-                Data2: 0
-                Data3: 0
-                Data4: 0
-              Path: 
           attackLength: 250
           attackAngle: 130
           attackLengthMark: 0
@@ -6838,6 +6897,9 @@ MonoBehaviour:
           effectPos: {fileID: 2014832257133555644}
           effectPrefab: {fileID: 8210732400216373646, guid: ce45194a96c5df94e97e15d0320870f6, type: 3}
           effectParent: {fileID: 0}
+          hitEffectOffset: {x: 0, y: 0, z: 0}
+          hitEffectPrefab: {fileID: 3005952347427146351, guid: a8f2bf971d987de449db6de5470a0714, type: 3}
+          hitEffectParent: {fileID: 0}
           animInteger: 1
           randomShakePower: 0
           curveShakePower: 0
@@ -6849,13 +6911,6 @@ MonoBehaviour:
               Data3: -350210426
               Data4: -188375705
             Path: event:/SE/02basicattack/F_S_01_02_attack_j-j
-          attackSound2:
-            Guid:
-              Data1: 0
-              Data2: 0
-              Data3: 0
-              Data4: 0
-            Path: 
         attackLength: 160
         attackAngle: 90
         attackLengthMark: 0
@@ -6868,6 +6923,9 @@ MonoBehaviour:
         effectPos: {fileID: 1941853247}
         effectPrefab: {fileID: 7485104759053717443, guid: 491302905a445004892ba748307860e5, type: 3}
         effectParent: {fileID: 0}
+        hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectPrefab: {fileID: 1721076630676558347, guid: cd3ecfbbcbb5e6f4c93a4b43f321bdfb, type: 3}
+        hitEffectParent: {fileID: 0}
         animInteger: 0
         randomShakePower: 0
         curveShakePower: 0
@@ -6879,13 +6937,6 @@ MonoBehaviour:
             Data3: -682623315
             Data4: -2132575348
           Path: event:/SE/02basicattack/F_S_01_02_attack_j
-        attackSound2:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
       - command: 2
         childNodes: []
         attackLength: 0
@@ -6900,18 +6951,14 @@ MonoBehaviour:
         effectPos: {fileID: 5328251835375101389}
         effectPrefab: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
         effectParent: {fileID: 0}
+        hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectPrefab: {fileID: 0}
+        hitEffectParent: {fileID: 0}
         animInteger: 0
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
         attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-        attackSound2:
           Guid:
             Data1: 0
             Data2: 0
@@ -6934,18 +6981,14 @@ MonoBehaviour:
           effectPos: {fileID: 0}
           effectPrefab: {fileID: 0}
           effectParent: {fileID: 0}
+          hitEffectOffset: {x: 0, y: 0, z: 0}
+          hitEffectPrefab: {fileID: 0}
+          hitEffectParent: {fileID: 0}
           animInteger: 0
           randomShakePower: 0
           curveShakePower: 0
           shakeTime: 0
           attackSound:
-            Guid:
-              Data1: 0
-              Data2: 0
-              Data3: 0
-              Data4: 0
-            Path: 
-          attackSound2:
             Guid:
               Data1: 0
               Data2: 0
@@ -6964,18 +7007,14 @@ MonoBehaviour:
         effectPos: {fileID: 5328251835375101389}
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
+        hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectPrefab: {fileID: 0}
+        hitEffectParent: {fileID: 0}
         animInteger: 0
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
         attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-        attackSound2:
           Guid:
             Data1: 0
             Data2: 0
@@ -6994,6 +7033,9 @@ MonoBehaviour:
       effectPos: {fileID: 0}
       effectPrefab: {fileID: 0}
       effectParent: {fileID: 0}
+      hitEffectOffset: {x: 0, y: 0, z: 0}
+      hitEffectPrefab: {fileID: 0}
+      hitEffectParent: {fileID: 0}
       animInteger: 0
       randomShakePower: 0
       curveShakePower: 0
@@ -7005,17 +7047,13 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
-      attackSound2:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
     dataCount: 3
+  rotatePower: 18
   dashCoolTime: 1
+  hitCoolTime: 0.533
   moveDir: {x: 0, y: 0, z: 0}
-  coolTimeIsEnd: 0
+  dashCoolTimeIsEnd: 0
+  comboIsEnd: 0
   specialIsReleased: 0
   moveIsPressed: 0
   curCombo: 0
@@ -7039,18 +7077,14 @@ MonoBehaviour:
         effectPos: {fileID: 0}
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
+        hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectPrefab: {fileID: 0}
+        hitEffectParent: {fileID: 0}
         animInteger: 0
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
         attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-        attackSound2:
           Guid:
             Data1: 0
             Data2: 0
@@ -7069,18 +7103,14 @@ MonoBehaviour:
       effectPos: {fileID: 0}
       effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
       effectParent: {fileID: 0}
+      hitEffectOffset: {x: 0, y: 0, z: 0}
+      hitEffectPrefab: {fileID: 0}
+      hitEffectParent: {fileID: 0}
       animInteger: 0
       randomShakePower: 0
       curveShakePower: 0
       shakeTime: 0
       attackSound:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      attackSound2:
         Guid:
           Data1: 0
           Data2: 0
@@ -7099,6 +7129,9 @@ MonoBehaviour:
     effectPos: {fileID: 774150179230461155}
     effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
     effectParent: {fileID: 0}
+    hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectPrefab: {fileID: 0}
+    hitEffectParent: {fileID: 0}
     animInteger: 0
     randomShakePower: 0
     curveShakePower: 0
@@ -7110,7 +7143,29 @@ MonoBehaviour:
         Data3: 0
         Data4: 0
       Path: 
-    attackSound2:
+  firstBehaiviorNode:
+    command: 0
+    childNodes: []
+    attackLength: 0
+    attackAngle: 0
+    attackLengthMark: 0
+    attackDelay: 0
+    attackSpeed: 0
+    attackAfterDelay: 0
+    attackST: 0
+    attackKnockback: 0
+    collider: {fileID: 0}
+    effectPos: {fileID: 0}
+    effectPrefab: {fileID: 0}
+    effectParent: {fileID: 0}
+    hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectPrefab: {fileID: 0}
+    hitEffectParent: {fileID: 0}
+    animInteger: 0
+    randomShakePower: 0
+    curveShakePower: 0
+    shakeTime: 0
+    attackSound:
       Guid:
         Data1: 0
         Data2: 0
@@ -7119,14 +7174,17 @@ MonoBehaviour:
       Path: 
   currentAttackState: 0
   currentAttackAnimKey: 
+  hitCoolTimeIsEnd: 0
   glove: {fileID: 7164896735125955485}
   playerData: {fileID: 1070719927369175194}
+  activePartController: {fileID: 1921549218}
   comboGaugeSystem: {fileID: 6307489441031809494}
   hitCountSystem: {fileID: 8247117609381097480}
   attackCollider: {fileID: 4068547685948332288}
   autoTargetCollider: {fileID: 625353277}
   basicCollider: {fileID: 1070719927369175189}
   rushEffectManager: {fileID: 926590480872082409}
+  buffProvider: {fileID: 1921549231}
   animator: {fileID: 5821464009680269676}
   rigid: {fileID: 0}
   dashEffect: {fileID: 0}
@@ -7168,6 +7226,73 @@ MonoBehaviour:
       Data3: 2056250528
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
+  activePartIsActive: 0
+--- !u!114 &2214123608498936178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 11400000, guid: bbdf7818a879f6f49b05ea841d9b4d76, type: 2}
+  copyStatus:
+  - type: 1
+    value: 27.2
+  - type: 2
+    value: 100
+  - type: 3
+    value: 7.5
+  - type: 4
+    value: 35
+  - type: 5
+    value: 10
+  - type: 6
+    value: 0.1
+  - type: 7
+    value: 2
+  - type: 8
+    value: 35
+--- !u!114 &1921549218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 823e002bc3bb88f40ba5ef45bdc16986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activePartDatas:
+  - type: 1
+    proccessor:
+      rid: 7965168027137212555
+  - type: 2
+    proccessor:
+      rid: 7965168027137212560
+  references:
+    version: 2
+    RefIds:
+    - rid: 7965168027137212555
+      type: {class: BasicActivePart, ns: , asm: Assembly-CSharp}
+      data:
+        stateToChange: 9
+        minRange: 100
+        maxRange: 500
+        damage: 100
+        duration: 3
+        buffCode: 1001
+    - rid: 7965168027137212560
+      type: {class: TestActivePart, ns: , asm: Assembly-CSharp}
+      data:
+        stateToChange: 0
+        t1: 0
 --- !u!114 &6307489441031809494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7211,20 +7336,6 @@ MonoBehaviour:
   coolTime: 7
   hitCountUI: {fileID: 0}
   <hitCount>k__BackingField: 0
---- !u!114 &2214123608498936178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: {fileID: 11400000, guid: 7b132e736a636334383caf67478965ff, type: 2}
-  copyStatus: []
 --- !u!114 &507041425030904175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7258,7 +7369,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: cf80628b31e3f5a4ca765b29e756872c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -7542,7 +7653,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rushEffectData: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
-  rushEffectParent: {fileID: 9199333450892302302}
+  rushEffectParent: {fileID: 490048779824429130}
+--- !u!114 &1921549231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14834a464a8cdf84dbb1fd709dbd1db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <BuffList>k__BackingField:
+  - {fileID: 1259207901582199208}
 --- !u!1 &9205117049474632282
 GameObject:
   m_ObjectHideFlags: 0
@@ -7575,3 +7700,76 @@ Transform:
   m_Father: {fileID: 7333773976827510776}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6389539833306062617
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8173432327245710813}
+    m_Modifications:
+    - target: {fileID: 5320350168502408880, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_Name
+      value: StunBuff
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+--- !u!4 &1259207901582199207 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5320350168502408894, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+  m_PrefabInstance: {fileID: 6389539833306062617}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1259207901582199208 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5320350168502408881, guid: 160950be854311f4ebbffc7a78e70004, type: 3}
+  m_PrefabInstance: {fileID: 6389539833306062617}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 605e6438eba5c1e468c9bfec645e7e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
