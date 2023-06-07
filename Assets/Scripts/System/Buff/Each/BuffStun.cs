@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BuffStun : BuffBehaviour
 {
-	public override void Active()
+	// 아무런 행동도 할 수 없다.
+	
+	public override void Active(UnitBase unit)
 	{
-		base.Active();
+		base.Active(unit);
 
 		targetUnit.isStun = true;
 

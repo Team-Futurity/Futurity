@@ -38,14 +38,19 @@ public class OriginStatus : ScriptableObject
 	{
 		var element = status.Find((x) => x.type == type);
 
-		return status.Contains(element);
+		if (element is null)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public StatusData GetElement(StatusType type)
 	{
-		if (!HasStatus(type))
+		if (HasStatus(type))
 		{
-			FDebug.Log("[Status] 해당 Status가 존재하지 않습니다.");
+			FDebug.Log("Status �����Ͱ� �������� �ʽ��ϴ�.");
 			return null;
 		}
 

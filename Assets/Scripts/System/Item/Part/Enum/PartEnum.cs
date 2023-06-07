@@ -41,15 +41,16 @@ public enum PassiveApplyType
 
 public struct PassiveData
 {
-	public PassiveData(List<StatusData> status, BuffName buffName)
+	public PassiveData(List<StatusData> status, BuffNameList buffName)
 	{
 		this.status = status;
 		this.buffName = buffName;
 	}
 
 	public List<StatusData> status;
-	public BuffName buffName;
+	public BuffNameList buffName;
 }
+
 
 // Active
 

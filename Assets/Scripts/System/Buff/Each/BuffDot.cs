@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class BuffDot : BuffBehaviour
 {
-	public override void Active()
+	// 일정 시간 동안 Dot Damage를 받는다.
+
+	public override void Active(UnitBase unit)
 	{
-		base.Active();
+		base.Active(unit);
 		
+		// Stay Event에 Hit를 넣어준다.
 		buffStay.AddListener(DotHit);
 	}
 
 	public override void UnActive()
 	{
+		// Stay Event에서 Hit를 제거한다.
 		buffStay.RemoveListener(DotHit);
 		
 		base.UnActive();
