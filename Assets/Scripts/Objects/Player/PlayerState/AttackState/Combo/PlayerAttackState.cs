@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using static PlayerController;
 
-public class PlayerAttackState : PlayerAttackBaseState
+public class PlayerAttackState : PlayerComboAttackState
 {
 	// Animation Key
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
@@ -66,7 +67,9 @@ public class PlayerAttackState : PlayerAttackBaseState
 			if (unit.attackCollider.IsInCollider(other.gameObject))
 			{
 				var enemy = other.gameObject.GetComponent<UnitBase>();
-				unit.playerData.Attack(enemy);
+
+				unit.playerData.Attack(enemy, attackNode.attackST);
+				HitEffectPooling(unit, enemy.transform);
 				enemy.Knockback(unit.transform.forward, attackNode.attackKnockback);
 				hittedEnemyCount++;
 			}
@@ -81,5 +84,18 @@ public class PlayerAttackState : PlayerAttackBaseState
 	public override void OnCollisionStay(PlayerController unit, Collision collision)
 	{
 
+	}
+
+	public void HitEffectPooling(PlayerController unit, Transform target)
+	{
+		attackNode = unit.curNode;
+
+		if (attackNode.effectPoolManager == null) { return; }
+
+		Vector3 rot = target.rotation.eulerAngles;
+		rot.y *= -1;
+		effect = attackNode.hitEffectPoolManager.ActiveObject(target.position + attackNode.hitEffectOffset, Quaternion.Euler(rot));
+		var particles = effect.GetComponent<ParticleController>();
+		particles.Initialize(attackNode.effectPoolManager);
 	}
 }

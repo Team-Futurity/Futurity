@@ -1,22 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
-[FSMState((int)PlayerController.PlayerState.ChargedAttack)]
+[FSMState((int)PlayerState.ChargedAttack)]
 public class PlayerAttackState_Charged : PlayerAttackState
 {
 	// Constants
-	private readonly float LengthMarkIncreasing = 200;	// 단계당 돌진 거리 증가량
-	private readonly float AttackSTIncreasing = 1;		// 단계당 공격 배율 증가량
-	private readonly float LevelStandard = 1;			// 단계를 나눌 기준
-	private readonly int MaxLevel = 4;					// 최대 차지 단계
-	private readonly int Meter = 100;                   // centimeter 단위
-	private readonly float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
-	private readonly float FlyPower = 45;				// 공중 체공 힘
+	public static float LengthMarkIncreasing = 200; // 단계당 돌진 거리 증가량
+	public static float AttackSTIncreasing = 1;     // 단계당 공격 배율 증가량
+	public static float LevelStandard = 1;         // 단계를 나눌 기준
+	public static int MaxLevel = 4;                 // 최대 차지 단계
+	public static float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
+	public static float FlyPower = 45;               // 공중 체공 힘
+	public static float WallCollisionDamage = 50f;	// 벽 충돌 시 데미지
 
 	// Variables
 	private float playerOriginalSpeed;	// 원래 속도(속도 감쇄용)
@@ -34,8 +28,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private Vector3 originPos;          // 돌진 전 위치
 	private Vector3 targetPos;          // 목표 위치
 	private Rigidbody firstEnemy;       // 첫번째로 충돌한 적
-	private Collider firstEnemyCollider;       // 첫번째로 충돌한 적
-	private float enemyDistance;        // 첫번째로 충돌한 적과의 거리
+	private Collider firstEnemyCollider;		// 첫번째로 충돌한 적의 콜라이더
+	private UnitBase firstEnemyData;			// 첫번째로 충돌한 적의 데이터
+	private float enemyDistance;				// 첫번째로 충돌한 적과의 거리
 	private Vector3 groundPos;          // Enemy의 체공 이전 좌표
 	private float originScale;		// Player의 원래 콜라이더 크기
 	
@@ -109,7 +104,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		base.FixedUpdate(unit);
 
 		// 디버깅용 Ray
-		FDebug.DrawRay(unit.transform.position, unit.transform.forward * ((unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing) / (Meter * unit.curNode.attackDelay) * Time.fixedDeltaTime + unit.basicCollider.radius), UnityEngine.Color.red);
+		FDebug.DrawRay(unit.transform.position, unit.transform.forward * ((unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing) / (PlayerController.cm2m * unit.curNode.attackDelay) * Time.fixedDeltaTime + unit.basicCollider.radius), UnityEngine.Color.red);
 		FDebug.DrawRay(unit.transform.position, unit.transform.forward * rayLength, UnityEngine.Color.blue);
 
 		if (!isReleased) { return; }
@@ -127,9 +122,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Ground, null, groundPos, null, 0, currentLevel - 1);
 				firstEnemy.transform.position = groundPos;
-				var unitData = firstEnemy.transform.GetComponent<UnitBase>();
-				unit.playerData.Attack(unitData);
-				unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
+				unit.playerData.Attack(firstEnemyData, attackST);
+				unit.ChangeState(PlayerState.AttackAfterDelay);
 			}
 			return;
 		}
@@ -184,7 +178,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				return;
 			}
 
-			unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
+			unit.ChangeState(PlayerState.AttackAfterDelay);
 		}
 	}
 
@@ -211,18 +205,24 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				firstEnemy.constraints = RigidbodyConstraints.FreezeRotation;
 				firstEnemyCollider = collision.collider;
 				firstEnemyCollider.enabled = false;
+				firstEnemyData = collision.transform.GetComponent<UnitBase>();
 				enemyDistance = unit.basicCollider.radius + halfSize * 0.5f;
 				enemyRayLength = (enemyDistance) * 2 - unit.basicCollider.radius;
 
-
 				// 콜라이더 조정
 				unit.basicCollider.radius = originScale + 2 * halfSize;
+
+				// 충돌 데미지 처리
+				unit.playerData.Attack(firstEnemyData, attackNode.attackST);
 			}
 			else if(collision.body != firstEnemy) // 적과 충돌했고, 그게 처음 부딪친 적이 아니라면
 			{
 				var unitData = collision.transform.GetComponent<UnitBase>();
-				unit.playerData.Attack(unitData);
-				unitData.Knockback((collision.transform.position - unit.transform.position).normalized, LengthMarkIncreasing * 2);
+				unit.playerData.Attack(unitData, attackNode.attackST);
+
+				Vector3 targetDir = (collision.transform.position - unit.transform.position).normalized;
+				Vector3 knockbackDir = Vector3.Dot(Vector3.Cross(unit.transform.forward, targetDir), Vector3.up) > 0 ? unit.transform.right : -unit.transform.right;
+				unitData.Knockback(knockbackDir, LengthMarkIncreasing * 2);
 			}
 			return;
 		}
@@ -261,14 +261,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 					{
 						chargeEffectKey = unit.rushEffectManager.ActiveLevelEffect(EffectType.Ready, EffectTarget.Caster, null, unit.rushEffects[0].effectPos.position);
 						rangeEffect = unit.rushEffectManager.ActiveEffect(EffectType.Ready, EffectTarget.Ground, null, unit.transform.position, unit.transform.rotation);
-						maxRangeEffectScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + (MaxLevel - 1) * LengthMarkIncreasing) / Meter);
+						maxRangeEffectScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + (MaxLevel - 1) * LengthMarkIncreasing) * PlayerController.cm2m);
 					}
 					else
 					{
 						unit.rushEffectManager.SetEffectLevel(chargeEffectKey, currentLevel - 1);
 					}
 
-					rangeEffect.transform.localScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * attackLengthMark/Meter);
+					rangeEffect.transform.localScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * PlayerController.cm2m);
 					/*if (curEffect != null)
 					{
 						unit.rushObjectPool.DeactiveObject(curEffect);
@@ -329,13 +329,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		if (firstEnemy != null)
 		{
-			// 공식 등이 작업 당시 적용되지 않아, 추가 피해는 임시로 Attack을 두 번 호출 하는 것으로 대체
-			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
-			unit.playerData.Attack(firstEnemy.transform.GetComponent<UnitBase>());
+			firstEnemyData.Hit(unit.playerData, WallCollisionDamage);
 		}
 
 		// 벽(장애물)과 충돌했으니 바로 돌진 종료
-		unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
+		unit.ChangeState(PlayerState.AttackAfterDelay);
 	}
 
 	private void CalculateRushData(PlayerController unit)
@@ -344,12 +342,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		attackST = unit.curNode.attackST + currentLevel * AttackSTIncreasing;
 
 		// 초당 이동 속도 계산(m/sec)
-		moveSpeed = (attackLengthMark) / (Meter * unit.curNode.attackDelay);
+		moveSpeed = (attackLengthMark * PlayerController.cm2m) / (unit.curNode.attackDelay);
 
 		// 필요 변수 세팅
 		forward = unit.transform.forward;
 		originPos = unit.transform.position;
-		targetPos = originPos + forward * (attackLengthMark / Meter);
+		targetPos = originPos + forward * (attackLengthMark * PlayerController.cm2m);
 		targetMagnitude = (targetPos - originPos).magnitude;
 		basicRayLength = moveSpeed * Time.fixedDeltaTime + unit.basicCollider.radius;
 	}

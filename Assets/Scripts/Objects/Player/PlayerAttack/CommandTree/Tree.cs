@@ -8,10 +8,13 @@ using FMODUnity;
 [Serializable]
 public class AttackNode
 {
-	public PlayerController.PlayerInput command;
+	[Header("공격 타입")]
+	public PlayerInput command;
+	[Header("다음 공격(콤보)")]
 	public List<AttackNode> childNodes;
 	public AttackNode parent;
 
+	[Header("콤보 데이터")]
 	public float attackLength;
 	public float attackAngle;
 	public float attackLengthMark;
@@ -21,13 +24,22 @@ public class AttackNode
 	public float attackST;
 	public float attackKnockback;
 
+	[Header("공격용 콜라이더")]
 	public Collider collider;
 
+	[Header("공격 이펙트")]
 	public Transform effectPos;
 	[SerializeField] private GameObject effectPrefab;
 	[SerializeField] private GameObject effectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
+	[Header("적 피격 이펙트")]
+	public Vector3 hitEffectOffset;
+	[SerializeField] private GameObject hitEffectPrefab;
+	[SerializeField] private GameObject hitEffectParent;
+	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
+
+	[Header("연출용 데이터")]
 	public int animInteger;
 	//public float moveDistance = 0f;
 
@@ -35,23 +47,24 @@ public class AttackNode
 	public float curveShakePower;
 	public float shakeTime;
 
+	[Header("공격 사운드")]
 	public EventReference attackSound;
-	public EventReference attackSound2;
 
-	public AttackNode(PlayerController.PlayerInput command)
+	public AttackNode(PlayerInput command)
 	{
 		this.command = command;
 		childNodes = new List<AttackNode>();
 		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
+		hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
 		//collider.enabled = false;
 	}
 
-	public AttackNode(AttackNode node)
+/*	public AttackNode(AttackNode node)
 	{
 		Copy(node);
-	}
+	}*/
 
-	public void Copy(AttackNode node)
+/*	public void Copy(AttackNode node)
 	{
 		command = node.command;
 		childNodes = node.childNodes;
@@ -63,8 +76,21 @@ public class AttackNode
 		effectPrefab = node.effectPrefab;
 		effectParent = node.effectParent;
 		effectPoolManager = new  ObjectPoolManager<Transform>(effectPrefab, effectParent);
-		/*ObjectPoolManager<Transform> manager = effectParent.AddComponent<ObjectPoolManager<Transform>>();
-		manager.SetManager(effectPrefab, effectParent);*/
+		*//*ObjectPoolManager<Transform> manager = effectParent.AddComponent<ObjectPoolManager<Transform>>();
+		manager.SetManager(effectPrefab, effectParent);*//*
+	}*/
+
+	public void AddPoolManager()
+	{
+		if(effectPrefab != null)
+		{
+			effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
+		}
+		
+		if(hitEffectPrefab != null)
+		{
+			hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
+		}
 	}
 }
 
@@ -76,10 +102,22 @@ public class Tree
 
 	public Tree()
 	{
-		top = new AttackNode(PlayerController.PlayerInput.None);
+		top = new AttackNode(PlayerInput.None);
 	}
 
-	#region Insert
+	public void SetTree(AttackNode curNode, AttackNode parent)
+	{
+		int childCount = 0;
+		curNode.parent = parent;
+		curNode.AddPoolManager();
+
+		while (curNode.childNodes.Count > childCount)
+		{
+			SetTree(curNode.childNodes[childCount++], curNode);
+		}
+	}
+
+/*	#region Insert
 	public void InsertNewNode(AttackNode newNode, AttackNode curNode = null, int nodePos = 0)
 	{
 		if (top != null) // top이 null이 아닌 경우
@@ -101,10 +139,10 @@ public class Tree
 		targetNode.childNodes.Insert(nodePos, new AttackNode(newNode));
 		newNode.parent = targetNode;
 	}
-	#endregion
+	#endregion*/
 
 	#region Find
-	private AttackNode FindProc(PlayerController.PlayerInput targetInput, AttackNode curNode)
+	private AttackNode FindProc(PlayerInput targetInput, AttackNode curNode)
 	{
 		AttackNode returnNode = null;
 
@@ -120,7 +158,7 @@ public class Tree
 		return returnNode;
 	}
 
-	public AttackNode FindNode(PlayerController.PlayerInput targetInput, AttackNode curNode = null)
+	public AttackNode FindNode(PlayerInput targetInput, AttackNode curNode = null)
 	{
 		AttackNode resultNode = null;
 		if (top != null) // top이 존재하고
