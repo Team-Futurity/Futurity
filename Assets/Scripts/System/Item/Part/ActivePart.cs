@@ -5,6 +5,7 @@ using UnityEngine;
 public class ActivePart : Part, IActive
 {
 	// Active Behaviour
+	private PlayerController playerController;
 
 	private void Awake()
 	{
@@ -17,11 +18,15 @@ public class ActivePart : Part, IActive
 
 	public void RunActive(PlayerController pc)
 	{
+		playerController = pc;
+
+		playerController.activePartIsActive = true;
 		// PC Get Variable true
 	}
 
 	public void StopActive()
 	{
 		// PC Get Variable false
+		playerController.activePartIsActive = false;
 	}
 }
