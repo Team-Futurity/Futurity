@@ -36,7 +36,6 @@ public abstract class BuffBehaviour : MonoBehaviour
 			Debug.Break();
 		}
 
-		SetBuffTime();
 		currTime = .0f;
 	}
 
@@ -57,7 +56,7 @@ public abstract class BuffBehaviour : MonoBehaviour
 		}
 	}
 
-	public void Create(UnitBase unit)
+	public void Create(UnitBase unit, float activityTime = -1f)
 	{
 		gameObject.SetActive(false);
 
@@ -71,12 +70,20 @@ public abstract class BuffBehaviour : MonoBehaviour
 
 		gameObject.SetActive(true);
 
+		SetBuffTime(activityTime);
+
 		Active();
 	}
 
-	public void SetBuffTime()
+	public void SetBuffTime(float activityTime = -1f)
 	{
-		buffActiveTime = BuffData.BuffActiveTime;
+		if (activityTime is -1f)
+		{
+			buffActiveTime = BuffData.BuffActiveTime;
+			return;
+		}
+
+		buffActiveTime = activityTime;
 	}
 
 	public virtual void Active()

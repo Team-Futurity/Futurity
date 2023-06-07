@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.Dash)]
+[FSMState((int)PlayerState.Dash)]
 public class PlayerDashState : UnitState<PlayerController>
 {
 	// anim keys
@@ -11,6 +11,7 @@ public class PlayerDashState : UnitState<PlayerController>
 	// etc
 	private float currentTime;
 	private const float dashTime = 0.2f;
+
 	public override void Begin(PlayerController pc)
 	{
 		//base.Begin(pc);
@@ -29,7 +30,7 @@ public class PlayerDashState : UnitState<PlayerController>
 	{
 		if (currentTime > dashTime)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Idle);
+			pc.ChangeState(PlayerState.Idle);
 		}
 		currentTime += Time.deltaTime;
 	}
@@ -43,7 +44,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		//base.End(pc);
 		pc.dashEffect.enabled = false;
 		pc.rigid.velocity = Vector3.zero;
-		pc.coolTimeIsEnd = false;
+		pc.dashCoolTimeIsEnd = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

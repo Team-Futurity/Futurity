@@ -11,47 +11,30 @@ public class SocketController : MonoBehaviour
 	[SerializeField]
 	private Image itemImage;
 
-
+	[SerializeField]
 	private ItemUIData itemUIData;
 
-	// Start is called before the first frame update
+
 	void Start()
 	{
-		PartsRepositoryManager partsRepository = GameObject.Find("Player").GetComponent<PartsRepositoryManager>();
-
-		if (partsRepository is not null)
-		{
-			if (partsRepository.GetRepositoryPartsData(itemNum) is not null)
-			{
-				itemUIData = partsRepository.GetRepositoryPartsData(itemNum);
-
-				if (itemUIData is not null)
-				{
-					itemImage.sprite = itemUIData.ItemSprite;
-
-					if (itemImage.sprite is not null)
-					{
-						itemImage.color = new Color(255, 255, 255, 255);
-					}
-					else
-					{
-						itemImage.color = new Color(255, 255, 255, 0);
-					}
-				}
-				else
-				{
-					itemImage.sprite = null;
-				}
-			}
-			{
-				itemUIData = null;
-			}
-		}
+		ResetItemUIData();
 	}
 
-	public void ResetItemUIDatas()
+	/// <summary>
+	/// ItemUIData를 새롭게 할당합니다.
+	/// </summary>
+	public void SetItemUIData(ItemUIData newItemData)
 	{
-		itemUIData = GameObject.Find("Player").GetComponent<PartsRepositoryManager>().GetRepositoryPartsData(itemNum);
+		itemUIData = newItemData;
+
+		ResetItemUIData();
+	}
+
+	/// <summary>
+	/// ItemUIData에 맞추어서 Image.Sprite를 변경합니다.
+	/// </summary>
+	private void ResetItemUIData()
+	{
 		if (itemUIData is not null)
 		{
 			itemImage.sprite = itemUIData.ItemSprite;

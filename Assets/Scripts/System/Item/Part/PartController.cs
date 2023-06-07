@@ -10,19 +10,20 @@ public class PartController : MonoBehaviour
 	private const int MaxEquipCount = 4;
 
 	private PlayerController ownerUnit;
-	private StatusManager manager = new StatusManager();
+
+	private StatusManager manager = new();
 	private OriginStatus status;
 
-	// Player Gauge를 캐싱
 	private float playerGauge = .0f;
 
-	[Header("테스트용 파츠")]
 	// Test용 코드 <- Epic Monster가 구현되지 않아서 부품 설정을 위함
+	[Header("테스트용 파츠")]
 	public List<Part> testPart;
 
 	private void Awake()
 	{
 		status = ScriptableObject.CreateInstance<OriginStatus>();
+
 		status.AutoGenerator();
 
 		manager.SetStatus(status.GetStatus());
@@ -88,6 +89,19 @@ public class PartController : MonoBehaviour
 		{
 			var partActivation = part.PartItemData.PartActivation;
 
+			if(gauge >= 100 && !part.GetActive() && part.PartItemData.PartType == PartTriggerType.ACTIVE)
+			{
+				part.SetActive(true);
+				RunActive(part);
+				return;
+			}
+			else if(gauge < 100 && part.GetActive() && part.PartItemData.PartType == PartTriggerType.ACTIVE)
+			{
+				part.SetActive(false);
+				StopActive(part);
+				return;
+			}
+
 			if(partActivation <= gauge && !part.GetActive())
 			{
 				part.SetActive(true);
@@ -141,11 +155,27 @@ public class PartController : MonoBehaviour
 
 	private void RunActive(Part part)
 	{
+		part.TryGetComponent(out IActive activePart);
 
+		if(activePart is null)
+		{
+			FDebug.Log($"{part.GetType()}이(가) 존재하지 않습니다.");
+			return;
+		}
+
+		activePart.RunActive(ownerUnit);
 	}
 
 	private void StopActive(Part part)
 	{
+		part.TryGetComponent(out IActive activePart);
 
+		if (activePart is null)
+		{
+			FDebug.Log($"{part.GetType()}이(가) 존재하지 않습니다.");
+			return;
+		}
+
+		activePart.StopActive();
 	}
 }
