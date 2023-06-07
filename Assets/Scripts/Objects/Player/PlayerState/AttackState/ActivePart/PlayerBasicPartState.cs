@@ -49,7 +49,7 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		{
 			var enemy = other.GetComponent<UnitBase>();
 			enemies.Add(enemy);
-			unit.buffProvider.SetBuff(enemy, proccessor.buffCode);
+			unit.buffProvider.SetBuff(enemy, proccessor.buffCode, proccessor.duration - currentTime);
 		}
 	}
 
