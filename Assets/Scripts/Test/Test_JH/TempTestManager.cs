@@ -63,10 +63,13 @@ public class TempTestManager : MonoBehaviour
 
 			for (int i = 0; i < guageBarControllers.Count; i++)
 			{
-				guageBarControllers[i].SetGaugeFillAmount(targetGaugeValue);
-				isValueReached = false;
+				if (guageBarControllers[i] is not null)
+				{
+					guageBarControllers[i].SetGaugeFillAmount(targetGaugeValue);
+					isValueReached = false;
 
-				Debug.Log($"{guageBarControllers[i].name} : {guageBarControllers[0].GetGaugeIntegerPercent()}");
+					Debug.Log($"{guageBarControllers[i].name} : {guageBarControllers[0].GetGaugeIntegerPercent()}");
+				}
 			}
 		}
 	}

@@ -15,8 +15,6 @@ public class CharacterDialogController : MonoBehaviour
 	private WindowController windowController;
 
 	[SerializeField]
-	private UnityEngine.UI.Image charactorImage;
-	[SerializeField]
 	private TextMeshProUGUI charactorText;
 
 	[SerializeField]
@@ -124,13 +122,6 @@ public class CharacterDialogController : MonoBehaviour
 		return isTextEnd;
 	}
 
-	/// <summary>
-	/// 캐릭터 스프라이트를 변경합니다.
-	/// </summary>
-	public void SetCharactorSprite(Sprite changeSprite)
-	{
-		charactorImage.sprite = changeSprite;
-	}
 
 	/// <summary>
 	/// 타이핑 딜레이 시간을 설정합니다.
