@@ -89,6 +89,19 @@ public class PartController : MonoBehaviour
 		{
 			var partActivation = part.PartItemData.PartActivation;
 
+			if(gauge >= 100 && !part.GetActive() && part.PartItemData.PartType == PartTriggerType.ACTIVE)
+			{
+				part.SetActive(true);
+				RunActive(part);
+				return;
+			}
+			else if(gauge < 100 && part.GetActive() && part.PartItemData.PartType == PartTriggerType.ACTIVE)
+			{
+				part.SetActive(false);
+				StopActive(part);
+				return;
+			}
+
 			if(partActivation <= gauge && !part.GetActive())
 			{
 				part.SetActive(true);
@@ -142,11 +155,27 @@ public class PartController : MonoBehaviour
 
 	private void RunActive(Part part)
 	{
+		part.TryGetComponent(out IActive activePart);
 
+		if(activePart is null)
+		{
+			FDebug.Log($"{part.GetType()}이(가) 존재하지 않습니다.");
+			return;
+		}
+
+		activePart.RunActive(ownerUnit);
 	}
 
 	private void StopActive(Part part)
 	{
+		part.TryGetComponent(out IActive activePart);
 
+		if (activePart is null)
+		{
+			FDebug.Log($"{part.GetType()}이(가) 존재하지 않습니다.");
+			return;
+		}
+
+		activePart.StopActive();
 	}
 }
