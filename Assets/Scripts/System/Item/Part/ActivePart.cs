@@ -15,8 +15,13 @@ public class ActivePart : Part, IActive
 		}
 	}
 
-	public void RunActive()
+	public void RunActive(PlayerController pc)
 	{
-		
+		// PC Get Variable true
+	}
+
+	public void StopActive()
+	{
+		// PC Get Variable false
 	}
 }
