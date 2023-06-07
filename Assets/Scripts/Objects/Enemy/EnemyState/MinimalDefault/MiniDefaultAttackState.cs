@@ -10,6 +10,7 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 	{
 		//FDebug.Log("MiniDefault Attack begin");
 		base.Begin(unit);
+		unit.animator.SetTrigger(unit.dashAnimParam);
 		unit.atkCollider.enabled = true;
 		unit.rigid.AddForce(unit.transform.forward * unit.powerReference1, ForceMode.Impulse);
 	}

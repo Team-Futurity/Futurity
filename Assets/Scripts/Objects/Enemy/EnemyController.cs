@@ -44,7 +44,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MinimalDefault,
 	}
 
-	[HideInInspector] public TestHPBar hpBar; //임시
+	//[HideInInspector] public TestHPBar hpBar; //임시
 
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
@@ -52,13 +52,16 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	//animation name
 	public readonly string moveAnimParam = "Move";          //이동
 	public readonly string atkAnimParam = "Attack";         //공격
+	public readonly string dashAnimParam = "Dash";			//쫄 대쉬
 	public readonly string hitAnimParam = "Hit";            //피격
+	public readonly string deadAnimParam = "Dead";			//사망
 	public readonly string playerTag = "Player";            //플레이어 태그 이름
 	public readonly string matColorProperty = "_BaseColor";
 
 	[Space(3)]
 	[Header("Enemy Management")]
-	
+	public EnemyManager manager;
+
 	//clustering
 	public bool isClusteringObj = false;
 	[HideInInspector] public bool isClustering = false;
@@ -137,13 +140,21 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public Material eMaterial;                              //머테리얼 복제용 캐싱
 	[HideInInspector] public Material copyMat;
-	public SkinnedMeshRenderer skinnedMeshRenderer;			//머테리얼 인덱스 캐싱
+	public SkinnedMeshRenderer skinnedMeshRenderer;         //머테리얼 인덱스 캐싱
+
+	[Space(3)]
+	[Header("Death")]
+	public float deathDelay = 2.0f;
 
 
+	private void Awake()
+	{
+		manager = EnemyManager.Instance;
+	}
 
 	private void Start()
 	{
-		hpBar = GetComponent<TestHPBar>(); //임시
+		//hpBar = GetComponent<TestHPBar>(); //임시
 
 		//Basic Set Up
 		animator = GetComponent<Animator>();

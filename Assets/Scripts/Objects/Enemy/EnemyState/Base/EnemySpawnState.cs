@@ -14,7 +14,7 @@ public class EnemySpawnState : UnitState<EnemyController>
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
 		unit.enemyCollider.enabled = false;
-
+		unit.copyMat.color = Color.black;
 		unit.skinnedMeshRenderer.enabled = false;
 		unit.spawnEffect.SetActive(true);
 	}

@@ -17,7 +17,8 @@ public class Enemy : UnitBase
 	{
 		ec.isAttackSuccess = true;
 		target.Hit(this, GetDamage(1));
-		target.hpBar.SetGaugeFillAmount(target.status.GetStatus(StatusType.CURRENT_HP).GetValue() / target.status.GetStatus(StatusType.MAX_HP).GetValue());
+		if(target.hpBar != null)
+			target.hpBar.SetGaugeFillAmount(target.status.GetStatus(StatusType.CURRENT_HP).GetValue() / target.status.GetStatus(StatusType.MAX_HP).GetValue());
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot)

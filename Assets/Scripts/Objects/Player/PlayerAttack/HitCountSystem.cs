@@ -27,7 +27,7 @@ public class HitCountSystem : MonoBehaviour
 	{
 		hitCount = Mathf.Clamp(number, 0, maxHitCount);
 
-		if (hitCount != 0)
+		if (hitCount != 0 && hitCountUI != null)
 		{
 			hitCountUI.SetNumber(hitCount);
 		}

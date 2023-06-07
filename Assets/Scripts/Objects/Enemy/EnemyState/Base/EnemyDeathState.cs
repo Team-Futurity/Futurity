@@ -11,8 +11,12 @@ public class EnemyDeathState : UnitState<EnemyController>
 	{
 		if (unit.isClustering)
 			EnemyManager.Instance.EnemyDeclutter(unit.clusterNum);
-		EnemyManager.Instance.DeActiveManagement(unit);
-		unit.hpBar.copySlider.gameObject.SetActive(false);
+		//EnemyManager.Instance.DeActiveManagement(unit);
+		//unit.hpBar.copySlider.gameObject.SetActive(false);
+
+		unit.manager.DeActiveManagement(unit);
+		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
+		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
 	}
 
@@ -20,7 +24,7 @@ public class EnemyDeathState : UnitState<EnemyController>
 	{
 		curTime += Time.deltaTime;
 
-		if(curTime > 1.0f)
+		if(curTime > unit.deathDelay)
 		{
 			unit.gameObject.SetActive(false);
 		}
