@@ -18,11 +18,6 @@ public class StatusManager : MonoBehaviour
 	#endregion
 	public void CopyOrigin()
 	{
-		/*if (status is not null)
-		{
-			return;
-		}*/ 
-
 		if (copyStatus is not null && status is not null)
 		{
 			copyStatus.Clear();
