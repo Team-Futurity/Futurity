@@ -27,6 +27,10 @@ public class PlayerAttackState : PlayerComboAttackState
 		base.Begin(pc);
 
 		hittedEnemyCount = 0;
+		if(attackNode.slowTime > 0)
+		{
+			TimeScaleController.Instance.SetTimeScale(attackNode.slowScale, attackNode.slowTime, pc.transform.forward);
+		}
 
 		pc.SetCollider(true);
 	}
