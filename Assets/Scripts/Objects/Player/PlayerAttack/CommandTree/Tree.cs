@@ -46,6 +46,8 @@ public class AttackNode
 	public float randomShakePower;
 	public float curveShakePower;
 	public float shakeTime;
+	public float slowTime;
+	public float slowScale;
 
 	[Header("공격 사운드")]
 	public EventReference attackSound;
