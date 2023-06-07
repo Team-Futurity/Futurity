@@ -220,7 +220,6 @@ MonoBehaviour:
   guageBarControllers:
   - {fileID: 1578409721}
   - {fileID: 1578409720}
-  - {fileID: 861071124}
   - {fileID: 1533065662}
   numberImageLoader: {fileID: 395370976}
   openController: {fileID: 274231174}
@@ -613,17 +612,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &861071124 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 861071124, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
-  m_PrefabInstance: {fileID: 1578409718}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a2f04ae38c3da4ab5bbc51636252d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &945915334
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,7 +919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7370879006473176585, guid: 5d6c750d7e40bc64db4dc0455ae1c401, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7370879006473176585, guid: 5d6c750d7e40bc64db4dc0455ae1c401, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1039,6 +1027,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 945915338}
     m_Modifications:
+    - target: {fileID: 654688327, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: WindowDeactiveOpen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053615265, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: WindowDeactiveOpen
+      objectReference: {fileID: 0}
     - target: {fileID: 1249189968, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1117,7 +1113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2261325128641194246, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2261325128641194246, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1476,7 +1472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7370879006473176585, guid: 7221245dab407784082de2b5f7d39347, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7370879006473176585, guid: 7221245dab407784082de2b5f7d39347, type: 3}
       propertyPath: m_AnchorMax.x

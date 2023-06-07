@@ -65,7 +65,17 @@ public class PartsSelectButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 	{
 		itemUiData = newItemUIData;
 
-		partsImage.sprite = itemUiData.ItemSprite;
+		partsImage.sprite = itemUiData.ItemSprite; 
+	}
+
+
+	/// <summary>
+	/// 세로운 아이템 데이터를 전달한다.
+	/// </summary>
+	/// <returns>해당 버튼의 아이템 데이터</returns>
+	public ItemUIData GetItemUIData()
+	{
+		return itemUiData;
 	}
 
 	#region ButtonSelect
