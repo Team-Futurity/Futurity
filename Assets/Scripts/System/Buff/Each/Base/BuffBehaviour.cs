@@ -56,7 +56,7 @@ public abstract class BuffBehaviour : MonoBehaviour
 		}
 	}
 
-	public void Create(UnitBase unit, int activityTime = -1)
+	public void Create(UnitBase unit, float activityTime = -1f)
 	{
 		gameObject.SetActive(false);
 
@@ -75,9 +75,9 @@ public abstract class BuffBehaviour : MonoBehaviour
 		Active();
 	}
 
-	public void SetBuffTime(int activityTime = -1)
+	public void SetBuffTime(float activityTime = -1f)
 	{
-		if (activityTime is -1)
+		if (activityTime is -1f)
 		{
 			buffActiveTime = BuffData.BuffActiveTime;
 			return;

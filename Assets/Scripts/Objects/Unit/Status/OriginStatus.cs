@@ -11,20 +11,15 @@ public class OriginStatus : ScriptableObject
 
 	public void AutoGenerator()
 	{
-		if (status is not null)
-		{
-			status.Clear();
-		}
-
 		var statusTypeList = Enum.GetValues(typeof(StatusType)).Cast<StatusType>();
 
 		foreach (var statusType in statusTypeList)
 		{
-			if (statusType is StatusType.NONE or StatusType.MAX)
+			if (statusType is StatusType.NONE or StatusType.MAX ||
+				HasStatus(statusType))
 			{
 				continue;
 			}
-
 			status.Add(new StatusData(statusType));
 		}
 	}

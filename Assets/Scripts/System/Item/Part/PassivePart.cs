@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PassivePart : Part, IPassive
 {
+	private BuffProvider buffProvider;
 	private BuffSystem buffSystem;
 
 	[field: Space(10)]

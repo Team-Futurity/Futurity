@@ -11,14 +11,10 @@ public class BuffProvider : MonoBehaviour
 	private void Awake()
 	{
 		HoldBuffDic = new Dictionary<int, BuffBehaviour>();
-	}
-
-	private void OnEnable()
-	{
 		SetBuffer();
 	}
 
-	public void SetBuff(UnitBase unit, int buffCode, int buffActivityTime = -1)
+	public void SetBuff(UnitBase unit, int buffCode, float buffActivityTime = -1f)
 	{
 		ProceedBuff(unit, buffCode, buffActivityTime);
 	}
@@ -28,7 +24,7 @@ public class BuffProvider : MonoBehaviour
 		return HoldBuffDic.ContainsKey(buffCode);
 	}
 
-	private void ProceedBuff(UnitBase unit, int buffCode, int buffActivityTime = -1)
+	private void ProceedBuff(UnitBase unit, int buffCode, float buffActivityTime = -1f)
 	{
 		// Object Pooling은 안정화가 된 이후, 수정할 예정
 		var hasBuff = HasBuff(buffCode);
@@ -36,6 +32,7 @@ public class BuffProvider : MonoBehaviour
 		if (!hasBuff)
 		{
 			FDebug.Log($"{buffCode}에 해당하는 버프가 존재하지 않습니다.");
+			return;
 		}
 
 		var buffObject = Instantiate(GetBuff(buffCode));
