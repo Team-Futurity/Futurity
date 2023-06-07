@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.NormalAttack)]
+[FSMState((int)PlayerState.NormalAttack)]
 public class PlayerAttackState_Normal : PlayerAttackState
 {
 	public PlayerAttackState_Normal() : base("ComboTrigger", "Combo") { }

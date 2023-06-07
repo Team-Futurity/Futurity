@@ -8,32 +8,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : UnitFSM<PlayerController>, IFSM
 {
-	public enum PlayerState : int
-	{
-		Idle,           // 대기
-
-		// 콤보 공격
-		AttackDelay,        // 공격 전 딜레이
-		NormalAttack,       // 일반공격 
-		ChargedAttack,      // 차지공격
-		AttackAfterDelay,   // 공격 후 딜레이
-
-		Hit,            // 피격
-		Move,           // 이동
-		Dash,           // 대시
-		Death,          // 사망
-
-		// 액티브 부품(필살기)
-		BasicPart,		// 기본 부품
-	}
-
-	public enum PlayerInput : int
-	{
-		None,
-		NormalAttack,
-		SpecialAttack,
-		Dash
-	}
 	// Constants
 	public readonly string EnemyTag = "Enemy";
 	public readonly string ComboAttackAnimaKey = "ComboParam";
@@ -148,6 +122,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
 
+	// etc
+	[HideInInspector] public bool activePartIsActive; // 액티브 부품이 사용가능한지
+
 	private void Start()
 	{
 		animator = GetComponent<Animator>();
@@ -190,7 +167,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnSpecialMove(InputAction.CallbackContext context)
 	{
-		if(!context.started) { return; }
+		if(!context.started || !activePartIsActive) { return; }
 
 		activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
 	}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.Hit)]
+[FSMState((int)PlayerState.Hit)]
 public class PlayerHitState : UnitState<PlayerController>
 {
 	private readonly string HitTriggerAnim = "HitTrigger";
@@ -18,7 +18,7 @@ public class PlayerHitState : UnitState<PlayerController>
 
 		pc.glove.SetActive(false);
 
-		pc.ChangeState(PlayerController.PlayerState.Idle);
+		pc.ChangeState(PlayerState.Idle);
 	}
 
 	public override void Update(PlayerController pc)

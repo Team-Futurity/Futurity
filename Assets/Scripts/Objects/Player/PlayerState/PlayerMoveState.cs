@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.Move)]
+[FSMState((int)PlayerState.Move)]
 public class PlayerMoveState : UnitState<PlayerController>
 {
 	private readonly string MoveAnimKey = "Move";
@@ -18,9 +18,9 @@ public class PlayerMoveState : UnitState<PlayerController>
 	{
 		if(pc.moveDir == Vector3.zero)
 		{
-			if(pc.IsCurrentState(PlayerController.PlayerState.Move))
+			if(pc.IsCurrentState(PlayerState.Move))
 			{
-				pc.ChangeState(PlayerController.PlayerState.Idle);
+				pc.ChangeState(PlayerState.Idle);
 			}
 			else
 			{

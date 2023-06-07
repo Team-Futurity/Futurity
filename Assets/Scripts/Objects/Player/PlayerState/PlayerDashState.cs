@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.Dash)]
+[FSMState((int)PlayerState.Dash)]
 public class PlayerDashState : UnitState<PlayerController>
 {
 	// anim keys
@@ -30,7 +30,7 @@ public class PlayerDashState : UnitState<PlayerController>
 	{
 		if (currentTime > dashTime)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Idle);
+			pc.ChangeState(PlayerState.Idle);
 		}
 		currentTime += Time.deltaTime;
 	}

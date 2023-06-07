@@ -9,7 +9,7 @@ using FMODUnity;
 public class AttackNode
 {
 	[Header("공격 타입")]
-	public PlayerController.PlayerInput command;
+	public PlayerInput command;
 	[Header("다음 공격(콤보)")]
 	public List<AttackNode> childNodes;
 	public AttackNode parent;
@@ -50,7 +50,7 @@ public class AttackNode
 	[Header("공격 사운드")]
 	public EventReference attackSound;
 
-	public AttackNode(PlayerController.PlayerInput command)
+	public AttackNode(PlayerInput command)
 	{
 		this.command = command;
 		childNodes = new List<AttackNode>();
@@ -102,7 +102,7 @@ public class Tree
 
 	public Tree()
 	{
-		top = new AttackNode(PlayerController.PlayerInput.None);
+		top = new AttackNode(PlayerInput.None);
 	}
 
 	public void SetTree(AttackNode curNode, AttackNode parent)
@@ -142,7 +142,7 @@ public class Tree
 	#endregion*/
 
 	#region Find
-	private AttackNode FindProc(PlayerController.PlayerInput targetInput, AttackNode curNode)
+	private AttackNode FindProc(PlayerInput targetInput, AttackNode curNode)
 	{
 		AttackNode returnNode = null;
 
@@ -158,7 +158,7 @@ public class Tree
 		return returnNode;
 	}
 
-	public AttackNode FindNode(PlayerController.PlayerInput targetInput, AttackNode curNode = null)
+	public AttackNode FindNode(PlayerInput targetInput, AttackNode curNode = null)
 	{
 		AttackNode resultNode = null;
 		if (top != null) // top이 존재하고

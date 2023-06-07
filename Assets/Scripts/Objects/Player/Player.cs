@@ -37,9 +37,9 @@ public class Player : UnitBase
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
-		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerController.PlayerState.Dash) && !pc.playerData.isStun)
+		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Hit);
+			pc.ChangeState(PlayerState.Hit);
 		}
 		
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);

@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.BasicPart)]
+[FSMState((int)PlayerState.BasicPart)]
 public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 {
 	private const float maxAngle = 360;
@@ -28,7 +27,7 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		if (currentTime >= proccessor.duration)
 		{
 			EndExtension(unit);
-			unit.ChangeState(PlayerController.PlayerState.Idle);
+			unit.ChangeState(PlayerState.Idle);
 		}
 	}
 

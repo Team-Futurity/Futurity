@@ -50,7 +50,7 @@ public class ActivePartControllerCustomEditor : Editor
 			// Draw Inspector
 			EditorGUILayout.LabelField($"{i}_{list[i].type} Part");
 			EditorGUI.indentLevel++;
-			part.stateToChange = (PlayerController.PlayerState)EditorGUILayout.EnumPopup("전이할 상태", part.stateToChange);
+			part.stateToChange = (PlayerState)EditorGUILayout.EnumPopup("전이할 상태", part.stateToChange);
 
 			DrawInspectorInPart(part);
 

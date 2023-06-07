@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.ChargedAttack)]
+[FSMState((int)PlayerState.ChargedAttack)]
 public class PlayerAttackState_Charged : PlayerAttackState
 {
 	// Constants
@@ -123,7 +123,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Ground, null, groundPos, null, 0, currentLevel - 1);
 				firstEnemy.transform.position = groundPos;
 				unit.playerData.Attack(firstEnemyData, attackST);
-				unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
+				unit.ChangeState(PlayerState.AttackAfterDelay);
 			}
 			return;
 		}
@@ -178,7 +178,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				return;
 			}
 
-			unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
+			unit.ChangeState(PlayerState.AttackAfterDelay);
 		}
 	}
 
@@ -333,7 +333,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		}
 
 		// 벽(장애물)과 충돌했으니 바로 돌진 종료
-		unit.ChangeState(PlayerController.PlayerState.AttackAfterDelay);
+		unit.ChangeState(PlayerState.AttackAfterDelay);
 	}
 
 	private void CalculateRushData(PlayerController unit)

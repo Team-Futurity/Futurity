@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public abstract class ActivePartProccessor
 {
-	public PlayerController.PlayerState stateToChange;
+	public PlayerState stateToChange;
 	public abstract void GetPartData();
 	public virtual void RunActivePart<Proccessor>(PlayerController pc, Proccessor proccessor) where Proccessor : ActivePartProccessor
 	{
@@ -17,6 +17,6 @@ public abstract class ActivePartProccessor
 
 		GetPartData();
 		((PlayerActivePartAttackState<Proccessor>)nextState).SetActivePartData(proccessor);
-		pc.ChangeState(PlayerController.PlayerState.BasicPart);
+		pc.ChangeState(PlayerState.BasicPart);
 	}
 }
