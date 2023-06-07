@@ -14,9 +14,6 @@ public class LoadingSceneController : MonoBehaviour
 	private GameObject menualObject;
 	[SerializeField]
 	private GameObject stageNameObject;
-	[SerializeField]
-	private TextMeshProUGUI ddd;
-
 
 	[Space(10)]
 	[Header("LoadingScene 하단 텍스트 목록")]
@@ -26,9 +23,13 @@ public class LoadingSceneController : MonoBehaviour
 
 	void Start()
     {
-		ddd = menualObject.GetComponent<TextMeshProUGUI>();
+		if (menualObject != null)
+		{
+			TextMeshProUGUI ddd;
+			ddd = menualObject.GetComponent<TextMeshProUGUI>();
 
-		menualObject.GetComponent<TextMeshProUGUI>().text = menualText[UnityEngine.Random.Range(0, menualText.Count - 1)];
+			menualObject.GetComponent<TextMeshProUGUI>().text = menualText[UnityEngine.Random.Range(0, menualText.Count - 1)];
+		}
     }
 
 	public void SetStageNameObject(string chapterNum, string sceneName, string incidentName)
@@ -66,6 +67,9 @@ public class LoadingSceneController : MonoBehaviour
 		}
 
 
-		stageNameObject.GetComponent<TextMeshProUGUI>().text = $"{chapterNumTemp}    {sceneNameTemp}    {incidentNameTemp}";
+		if (stageNameObject != null)
+		{
+			stageNameObject.GetComponent<TextMeshProUGUI>().text = $"{chapterNumTemp}    {sceneNameTemp}    {incidentNameTemp}";
+		}
 	}
 }
