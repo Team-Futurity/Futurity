@@ -78,9 +78,13 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 				//Scene의 로딩이 끝날경우 Scene활성화(번경)
 				if (loadingBarImage.fillAmount >= 1f)
 				{
+					yield return FadeManager.Instance.FadeCoroutineStart(false, 1, Color.black);
+
 					asyncOperation.allowSceneActivation = true;
 
 					WindowManager.Instance.WindowsClearner();
+
+					FadeManager.Instance.FadeStart(true, 1, Color.black);
 					yield break;
 				}
 			}

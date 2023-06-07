@@ -34,7 +34,7 @@ public class FadeManager : Singleton<FadeManager>
 
 			Canvas canvas = fadeCanvas.AddComponent<Canvas>();
 			canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-			canvas.sortingOrder = int.MaxValue;
+			canvas.sortingOrder = int.MaxValue * -1;
 
 			_canvasGroup = fadeCanvas.AddComponent<CanvasGroup>();
 			_canvasGroup.blocksRaycasts = false;
@@ -86,6 +86,40 @@ public class FadeManager : Singleton<FadeManager>
 
 
 		_currentFadeCoroutine = StartCoroutine(FadeCoroutine(startAlpha, endAlpha));
+	}
+
+
+	/// <summary>
+	/// 페이드를 시작하는 함수입니다. 인자로 페이드인, 페이드아웃 여부, 페이드 시간, 페이드 색상을 받습니다.
+	/// </summary>
+	/// <param name="isFadeInOut">페이드인 여부를 설정합니다. true면 페이드인, false면 페이드아웃을 수행합니다.</param>
+	/// <param name="fadeTime">페이드가 이루어지는 동안의 시간을 설정합니다.</param>
+	/// <param name="fadeColor">페이드의 색상을 설정합니다.</param>
+	public IEnumerator FadeCoroutineStart(bool isFadeInOut, float fadeTime, Color fadeColor)
+	{
+		_fadeTime = fadeTime;
+		_fadeColor = fadeColor;
+		_fadeImage.color = _fadeColor;
+
+		float startAlpha = 0;
+		float endAlpha = 0;
+		if (isFadeInOut)
+		{
+			startAlpha = 1;
+		}
+		else
+		{
+			endAlpha = 1;
+		}
+
+
+		if (_currentFadeCoroutine != null)
+		{
+			StopCoroutine(_currentFadeCoroutine);
+		}
+
+
+		return FadeCoroutine(startAlpha, endAlpha);
 	}
 
 
