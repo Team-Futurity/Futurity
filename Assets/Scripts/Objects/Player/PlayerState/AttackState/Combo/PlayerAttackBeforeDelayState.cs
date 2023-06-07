@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static PlayerController;
 
-[FSMState((int)PlayerController.PlayerState.AttackDelay)]
-public class PlayerAttackBeforeDelayState : PlayerAttackBaseState
+[FSMState((int)PlayerState.AttackDelay)]
+public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 {
 	// Animation Key
 	protected readonly string AttackTriggerAnimKey = "AttackTrigger";
@@ -43,7 +42,7 @@ public class PlayerAttackBeforeDelayState : PlayerAttackBaseState
 
 		// autoTargetting
 		pc.autoTargetCollider.radiusCollider.enabled = true;
-		pc.autoTargetCollider.SetCollider(360, attackNode.attackLength / 100);
+		pc.autoTargetCollider.SetCollider(360, attackNode.attackLength * PlayerController.cm2m);
 		targets.Clear();
 
 		// ohter Setting

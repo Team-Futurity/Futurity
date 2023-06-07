@@ -1,72 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static PlayerController;
 
-public class PlayerAttackBaseState : UnitState<PlayerController>
+public class PlayerComboAttackState : PlayerAttackBaseState
 {
 	protected bool isNextAttackState;
 	protected AttackNode attackNode;
-	protected float currentTime;
 
 	public override void Begin(PlayerController unit)
 	{
+		base.Begin(unit);
+
 		isNextAttackState = false;
-
-		// node
-		if(unit.IsCurrentState(PlayerState.AttackDelay))
-		{
-			unit.curNode.Copy(unit.curNode);
-		}
-		
 		attackNode = unit.curNode;
-
-		currentTime = 0;
 	}
 
 	public override void Update(PlayerController unit)
 	{
-		currentTime += Time.deltaTime;
+		base.Update(unit);
 	}
 
 	public override void FixedUpdate(PlayerController unit)
 	{
+		base.FixedUpdate(unit);
 	}
 
 	public override void End(PlayerController unit)
 	{
-		if(!isNextAttackState)
+		if (!isNextAttackState)
 		{
-			unit.curNode = unit.comboTree.top;
-			unit.curCombo = PlayerInput.None;
-			unit.currentAttackState = PlayerState.Idle;
+			unit.ResetCombo();
 
-			unit.autoTargetCollider.radiusCollider.enabled = false;
-			unit.attackCollider.radiusCollider.enabled = false;
-
-			unit.animator.SetBool(unit.IsAttackingAnimKey, false);
-			unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);
-
-			unit.comboGaugeSystem.ResetComboCount();
+			base.End(unit);
 		}
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		
+		base.OnTriggerEnter(unit, other);
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-
+		base.OnCollisionEnter(unit, collision);
 	}
 
 	public override void OnCollisionStay(PlayerController unit, Collision collision)
 	{
-
+		base.OnCollisionStay(unit, collision);
 	}
 
 	public virtual void NextAttackState(PlayerController unit, PlayerState nextState)
 	{
 		isNextAttackState = true;
-		unit.ChangeState(nextState);	
+		unit.ChangeState(nextState);
 	}
 }

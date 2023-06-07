@@ -12,12 +12,19 @@ public class Player : UnitBase
 		pc = GetComponent<PlayerController>();
 	}
 
-	public override void Attack(UnitBase target)
+	public void Attack(UnitBase target, float AttackST)
 	{
-		target.Hit(this, GetDamage(1));
+		float criticalConf = GetCritical();
+		target.Hit(this, GetDamage(AttackST) * criticalConf);
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot)
+	public override void Attack(UnitBase target)
+	{
+		float criticalConf = GetCritical();
+		target.Hit(this, GetDamage(1) * criticalConf);
+	}
+
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{
@@ -28,9 +35,11 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
-		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerController.PlayerState.Dash) && !pc.playerData.isStun)
+		if(!pc.hitCoolTimeIsEnd) { return; }
+
+		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Hit);
+			pc.ChangeState(PlayerState.Hit);
 		}
 		
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
@@ -43,7 +52,8 @@ public class Player : UnitBase
 
 	protected override float GetDamage(float attackST)
 	{
-		return GetAttackPoint() * 1;
+		float atk = GetAttackPoint();
+		return atk * attackST;
 	}
 
 	protected override float GetDefensePoint()

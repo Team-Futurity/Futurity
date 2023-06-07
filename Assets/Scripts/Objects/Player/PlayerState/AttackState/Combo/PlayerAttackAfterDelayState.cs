@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Windows;
 using static PlayerController;
 
 [FSMState((int)PlayerState.AttackAfterDelay)]
-public class PlayerAttackAfterDelayState : PlayerAttackBaseState
+public class PlayerAttackAfterDelayState : PlayerComboAttackState
 {
 	public override void Begin(PlayerController unit)
 	{
@@ -12,13 +13,11 @@ public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 	public override void End(PlayerController unit)
 	{
 		base.End(unit);
-
-		unit.nextCombo = PlayerInput.None;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
 	{
-
+		
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
@@ -31,14 +30,13 @@ public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 		base.Update(unit);
 		if(unit.nextCombo != PlayerInput.None)
 		{
-			AttackNode node = unit.FindInput(unit.nextCombo);
+			//unit.StartNextComboAttack(unit.nextCombo, PlayerState.NormalAttack);
+			if (!unit.NodeTransitionProc(unit.nextCombo, PlayerState.NormalAttack)) { /*unit.ChangeState(PlayerState.Idle);*/ return; }
 
-			if (node == null) { unit.nextCombo = PlayerInput.None; return; }
-				
-			unit.curNode = node;
-			unit.curCombo = node.command;
-			unit.currentAttackState = PlayerState.NormalAttack;
+			FDebug.Log("NEXT");
 
+			unit.nextCombo = PlayerInput.None;
+			unit.LockNextCombo(false);
 			NextAttackState(unit, PlayerState.AttackDelay);
 			return;
 		}
@@ -53,6 +51,6 @@ public class PlayerAttackAfterDelayState : PlayerAttackBaseState
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-
+		
 	}
 }
