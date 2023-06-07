@@ -35,7 +35,10 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
-		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
+		float remainingDamageRatio = Mathf.Clamp(1 - GetDefensePoint() * 0.01f, 0, 100);
+		float finalDamage = damage * remainingDamageRatio;
+
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
@@ -58,6 +61,6 @@ public class Player : UnitBase
 
 	protected override float GetDefensePoint()
 	{
-		throw new System.NotImplementedException();
+		return status.GetStatus(StatusType.DEFENCE_POINT).GetValue();
 	}
 }
