@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.Hit)]
+[FSMState((int)PlayerState.Hit)]
 public class PlayerHitState : UnitState<PlayerController>
 {
+	private readonly string HitTriggerAnim = "HitTrigger";
+
 	public override void Begin(PlayerController pc)
 	{
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
+		pc.animator.SetTrigger(HitTriggerAnim);
 		pc.specialIsReleased = false;
 		pc.curNode = pc.comboTree.top;
 
@@ -15,7 +18,7 @@ public class PlayerHitState : UnitState<PlayerController>
 
 		pc.glove.SetActive(false);
 
-		pc.ChangeState(PlayerController.PlayerState.Idle);
+		pc.ChangeState(PlayerState.Idle);
 	}
 
 	public override void Update(PlayerController pc)
@@ -31,6 +34,7 @@ public class PlayerHitState : UnitState<PlayerController>
 	{
 		//base.End(pc);
 		pc.rigid.velocity = Vector3.zero;
+		pc.hitCoolTimeIsEnd = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

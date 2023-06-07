@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-[FSMState((int)PlayerController.PlayerState.Idle)]
+[FSMState((int)PlayerState.Idle)]
 public class PlayerIdleState : UnitState<PlayerController>
 {
 	public override void Begin(PlayerController pc)
@@ -11,14 +10,9 @@ public class PlayerIdleState : UnitState<PlayerController>
 		pc.rigid.velocity = Vector3.zero;
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
 
-		/*if (pc.moveAction.)
-		{
-			pc.ChangeState(PlayerController.PlayerState.Move);
-		}*/
-
 		if(pc.moveIsPressed)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Move);
+			pc.ChangeState(PlayerState.Move);
 		}
 	}
 

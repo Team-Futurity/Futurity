@@ -14,9 +14,9 @@ public class BuffProvider : MonoBehaviour
 		SetBuffer();
 	}
 
-	public void SetBuff(UnitBase unit, int buffCode)
+	public void SetBuff(UnitBase unit, int buffCode, int buffActivityTime = -1)
 	{
-		ProceedBuff(unit, buffCode);
+		ProceedBuff(unit, buffCode, buffActivityTime);
 	}
 
 	public bool HasBuff(int buffCode)
@@ -24,7 +24,7 @@ public class BuffProvider : MonoBehaviour
 		return HoldBuffDic.ContainsKey(buffCode);
 	}
 
-	private void ProceedBuff(UnitBase unit, int buffCode)
+	private void ProceedBuff(UnitBase unit, int buffCode, int buffActivityTime = -1)
 	{
 		// Object Pooling은 안정화가 된 이후, 수정할 예정
 		var hasBuff = HasBuff(buffCode);
@@ -37,7 +37,7 @@ public class BuffProvider : MonoBehaviour
 
 		var buffObject = Instantiate(GetBuff(buffCode));
 
-		buffObject.Create(unit);
+		buffObject.Create(unit, buffActivityTime);
 	}
 
 	private BuffBehaviour GetBuff(int buffCode)
