@@ -21,7 +21,7 @@ public class StatusManager : MonoBehaviour
 		/*if (status is not null)
 		{
 			return;
-		}*/
+		}*/ 
 
 		if (copyStatus is not null && status is not null)
 		{
