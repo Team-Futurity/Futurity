@@ -84,13 +84,17 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 				if (loadingBarImage.fillAmount >= 1f)
 				{
 					yield return FadeManager.Instance.FadeCoroutineStart(false, 1, Color.black);
+					FadeManager.Instance.FadeStart(false, 0, Color.black);
 
 					asyncOperation.allowSceneActivation = true;
 
 					WindowManager.Instance.WindowsClearner();
 
-					FadeManager.Instance.FadeStart(true, 1, Color.black);
-					yield break;
+					while (SceneManager.GetActiveScene().name != loadSceneName)
+					{
+						FadeManager.Instance.FadeStart(true, 1, Color.black);
+						yield break;
+					}
 				}
 			}
 
