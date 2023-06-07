@@ -31,6 +31,9 @@ public class CameraController : MonoBehaviour
 	private Color[] penetratedColor;
 	private Vector3 prevPosition;
 
+	[Header("Correction")]
+	[SerializeField] private int decimalCount;
+
 
 	private void Start()
 	{
@@ -38,10 +41,22 @@ public class CameraController : MonoBehaviour
 		isVibrate = false;
 	}
 
+	private Vector3 GetTruncatedVector(Vector3 originVector)
+	{
+		float x, y, z;
+		float trucncatingValue = Mathf.Pow(10, decimalCount);
+
+		x = Mathf.Floor(originVector.x * trucncatingValue) / trucncatingValue;
+		y = Mathf.Floor(originVector.y * trucncatingValue) / trucncatingValue;
+		z = Mathf.Floor(originVector.z * trucncatingValue) / trucncatingValue;
+
+		return new Vector3(x, y, z);
+	}
+
 	private void FixedUpdate()
     {
 		// 카메라 위치 조정
-        transform.position = target.position + offset;
+        transform.position = GetTruncatedVector(target.position) + offset;
 
 		// 투시 스크립트
 
@@ -52,6 +67,8 @@ public class CameraController : MonoBehaviour
 		{
 			for (int length = 0; length < penetratedMaterial.Length; length++)
 			{
+				if(penetratedMaterial[length] == null) { continue; }
+
 				penetratedColor[length].a = 1f;
 				penetratedMaterial[length].SetColor(colorFieldName, penetratedColor[length]);
 			}
@@ -66,11 +83,16 @@ public class CameraController : MonoBehaviour
 		penetrateRaycastHit = Physics.RaycastAll(ray, targetVec.magnitude, visibleLayer);
 		if (penetrateRaycastHit.Length > 0)
 		{
+			
 			penetratedMaterial = new Material[penetrateRaycastHit.Length];
 			penetratedColor = new Color[penetrateRaycastHit.Length];
 			for (int length = 0; length < penetrateRaycastHit.Length; length++)
 			{
-				penetratedMaterial[length] = penetrateRaycastHit[length].transform.GetComponent<Renderer>().material;
+				if (penetrateRaycastHit[length].transform.gameObject == target) { continue; }
+
+				var renderer = penetrateRaycastHit[length].transform.GetComponent<Renderer>();
+				if(renderer == null) { continue; }
+				penetratedMaterial[length] = renderer.material;
 
 				if (!penetratedMaterial[length].HasColor(colorFieldName)) { continue; }
 				penetratedColor[length] = penetratedMaterial[length].GetColor(colorFieldName);
