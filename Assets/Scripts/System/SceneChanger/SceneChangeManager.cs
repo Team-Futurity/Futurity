@@ -56,19 +56,24 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 		loadingBar = GameObject.Find("LoadingBar");
 		LoadingSceneController loadingController = loadingBar.GetComponent<LoadingSceneController>();
 		loadingBarImage = loadingController.loadingBar;
+		loadingBarImage.fillAmount = 0f;
 
 
 		loadingController.SetStageNameObject(loadSceneKey.chapterName, loadSceneKey.sceneName, loadSceneKey.incidentName);
 
 
-		float timer = 0f;
+		float timer = 0f; 
+		float duration = 1f; // SmoothStep 적용 시간, 이 값을 조정하여 부드러운 이동이 얼마나 빠르게 이루어질지 결정
+
 		while (!asyncOperation.isDone)
 		{
 			yield return null;
 
 			if (asyncOperation.progress < 0.9f)
 			{
-				loadingBarImage.fillAmount = asyncOperation.progress;
+				timer += Time.unscaledDeltaTime / duration;
+				// SmoothStep을 이용하여 로딩 진행도를 시각적으로 부드럽게 표현
+				loadingBarImage.fillAmount = Mathf.SmoothStep(loadingBarImage.fillAmount, asyncOperation.progress, timer);
 			}
 			else
 			{
