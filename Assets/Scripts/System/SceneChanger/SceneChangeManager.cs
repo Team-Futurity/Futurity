@@ -41,6 +41,8 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 
 	IEnumerator LoadSceneProcess()
 	{
+		yield return FadeManager.Instance.FadeCoroutineStart(true, 1, Color.black);
+
 		//Scene이 불러와졌는지 확인
 		while (SceneManager.GetActiveScene().name != "LoadingScene")
 		{
