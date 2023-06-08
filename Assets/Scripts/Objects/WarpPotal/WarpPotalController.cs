@@ -8,7 +8,8 @@ public class WarpPotalController : MonoBehaviour
 	[SerializeField] private Transform targetPosition;
 	[SerializeField] private bool isSceneChanger = false;
 	[SerializeField] private SceneKeyData chageSceneKeyData;
-	[SerializeField] private UnityEvent warpEvent;
+	[SerializeField] private UnityEvent warpStartEvent;
+	[SerializeField] private UnityEvent warpEndEvent;
 	public float delay = 0f;
 
 
@@ -18,7 +19,7 @@ public class WarpPotalController : MonoBehaviour
 		{
 			if (!isSceneChanger)
 			{
-				AreaWarpManager.Instance.WarpStart(collision.gameObject, targetPosition, delay);
+				AreaWarpManager.Instance.WarpStart(collision.gameObject, targetPosition, delay, warpEndEvent);
 			} else
 			{
 				if (chageSceneKeyData)
@@ -30,8 +31,6 @@ public class WarpPotalController : MonoBehaviour
 					FDebug.LogWarning($"{gameObject.name}에 chageSceneKeyData가 없습니다.");
 				}
 			}
-
-			warpEvent?.Invoke();
 		}
 	}
 }

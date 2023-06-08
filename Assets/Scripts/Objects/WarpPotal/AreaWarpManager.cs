@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AreaWarpManager : Singleton<AreaWarpManager>
 {
@@ -30,23 +31,24 @@ public class AreaWarpManager : Singleton<AreaWarpManager>
 	/// <param name="useObject">워프를 사용하는 객체입니다.</param>
 	/// <param name="targetPosition">워프의 대상 위치입니다.</param>
 	/// <param name="delay">페이드 지연 시간입니다.</param>
-	public void WarpStart(GameObject useObject, Transform targetPosition, float delay)
+	public void WarpStart(GameObject useObject, Transform targetPosition, float delay, UnityEvent warpEndEvent)
 	{
 		this.useObject = useObject;
 		this.targetPosition = targetPosition;
 		fadeDelay = delay;
 
-		StartCoroutine(FadeAndWarpCoroutine());
+		StartCoroutine(FadeAndWarpCoroutine(warpEndEvent));
 	}
 
 	/// <summary>
 	/// 페이드와 워프를 동시에 수행하는 코루틴입니다.
 	/// </summary>
-	private IEnumerator FadeAndWarpCoroutine()
+	private IEnumerator FadeAndWarpCoroutine(UnityEvent warpEndEvent)
 	{
 		FadeManager.Instance.FadeStart(false, fadeDelay, Color.black);
 		yield return waitForFadeDuration;
 		useObject.transform.position = targetPosition.position;
-		FadeManager.Instance.FadeStart(true, fadeDelay, Color.black);
+		yield return FadeManager.Instance.FadeCoroutineStart(true, fadeDelay, Color.black);
+		warpEndEvent?.Invoke();
 	}
 }
