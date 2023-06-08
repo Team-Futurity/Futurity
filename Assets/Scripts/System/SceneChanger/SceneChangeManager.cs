@@ -35,6 +35,8 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 		SceneKeyData sceneKeyData = new SceneKeyData();
 
 		sceneKeyData.sceneName = SceneManager.GetActiveScene().name;
+		sceneKeyData.chapterName = "";
+		sceneKeyData.incidentName = "";
 
 		SceneChangeManager.Instance.SceneLoad(sceneKeyData);
 	}
