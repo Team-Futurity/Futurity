@@ -22,7 +22,9 @@ public class HealthWarningController : MonoBehaviour
 	private float maxAlpha = 0.25f;
 
 	private float effectIntensity = 0f;
-	private float pulseSpeed = 0.5f;  // 효과의 박동 속도
+
+	[SerializeField]
+	private float pulseSpeed = 2f;  // 효과의 박동 속도
 
 	/// <summary>
 	/// 프레임마다 효과를 체력에 따라 조정하고, 테스트용으로 체력을 감소시킵니다.

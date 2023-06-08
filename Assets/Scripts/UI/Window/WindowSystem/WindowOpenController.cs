@@ -24,7 +24,6 @@ public class WindowOpenController : MonoBehaviour
 	private Dictionary<string, object> variables = new Dictionary<string, object>();
 
 
-
 	/// <summary>
 	/// 타 Window를 닫는 Window를 생성
 	/// </summary>

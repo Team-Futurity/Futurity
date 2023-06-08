@@ -17,6 +17,7 @@ public class WarpPotalController : MonoBehaviour
 	{
 		if (collision.CompareTag("Player"))
 		{
+			warpStartEvent?.Invoke();
 			if (!isSceneChanger)
 			{
 				AreaWarpManager.Instance.WarpStart(collision.gameObject, targetPosition, delay, warpEndEvent);
@@ -25,6 +26,7 @@ public class WarpPotalController : MonoBehaviour
 				if (chageSceneKeyData)
 				{
 					SceneChangeManager.Instance.SceneLoad(chageSceneKeyData);
+					warpEndEvent?.Invoke();
 				}
 				else
 				{
