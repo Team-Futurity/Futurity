@@ -24,6 +24,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		RDefaultChase,	
 		RDefaultBackMove,
 		RDefaultAttack,
+		RDefaultDelay,
 
 		//MinimalDefault
 		MiniDefaultChase,
@@ -79,12 +80,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public GameObject initiateHitEffect;*/
 
 
-	[Space(3)]
-	[Header("Spawn")]				
-	public float maxSpawningTime;							//스폰 최대 시간
-	[HideInInspector] public BoxCollider enemyCollider;     //피격 Collider
-	public GameObject spawnEffect;
-
 
 	[Space(3)]
 	[Header("Reference")]
@@ -96,6 +91,20 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public CapsuleCollider chaseRange;						//추적 반경
 	public SphereCollider atkCollider;                      //타격 Collider
+
+	public SkinnedMeshRenderer skinnedMeshRenderer;
+	/*public Material material;
+	[HideInInspector] public Material copyMat;*/
+	public Material transparentMaterial;
+	[HideInInspector] public Material copyTMat;
+
+
+	[Space(3)]
+	[Header("Spawn")]
+	public float maxSpawningTime;                           //스폰 최대 시간
+	[HideInInspector] public BoxCollider enemyCollider;     //피격 Collider
+	public GameObject spawnEffect;
+	public float walkDistance = 3.0f;
 
 
 	[Space(3)]
@@ -128,19 +137,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float powerReference1;							//돌진 등
 	public float powerReference2;
 
-	public Material whiteMaterial;                          //쫄 돌진 차징 머테리얼
-	[HideInInspector] public Material copyWhiteMat;
-
 
 	[Space(3)]
 	[Header("Hitted")]
 	public float hitMaxTime = 2f;                           //피격 딜레이
 	//public float hitPower;									//피격 AddForce 값
 	public Color damagedColor;								//피격 변환 컬러값
-
-	public Material eMaterial;                              //머테리얼 복제용 캐싱
-	[HideInInspector] public Material copyMat;
-	public SkinnedMeshRenderer skinnedMeshRenderer;         //머테리얼 인덱스 캐싱
 
 	[Space(3)]
 	[Header("Death")]
@@ -161,17 +163,26 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 		navMesh = GetComponent<NavMeshAgent>();
-		if(whiteMaterial != null)
-			copyWhiteMat = new Material(whiteMaterial);
-		if (eMaterial != null)
+		if (transparentMaterial != null)
 		{
-			copyMat = new Material(eMaterial);
-			unit.skinnedMeshRenderer.material = unit.copyMat;
+			copyTMat = new Material(transparentMaterial);
+			copyTMat.SetColor(matColorProperty, new Color(1, 1, 1, 0f));
+			skinnedMeshRenderer.material = copyTMat;
 		}
+		if(spawnEffect != null)
+		spawnEffect.transform.parent = null;
+
+/*		if (material != null)
+		{
+			copyMat = new Material(material);
+			unit.skinnedMeshRenderer.material = unit.copyMat;
+		}*/
 
 		manager.ActiveManagement(this);
 		EnemyEffectManager.Instance.CopyEffect(this);
 		chaseRange.enabled = false;
+
+		//FDebug.Log(hittedEffect.indexNum);
 
 		unit = this;
 		SetUp(EnemyState.Spawn);

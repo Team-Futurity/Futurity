@@ -8,7 +8,7 @@ using static EnemyController;
 public class EnemyHittedState : UnitState<EnemyController>
 {
 	private float curTime;
-	private Color defaultColor = Color.white;
+	private Color defaultColor = new Color(1, 1, 1, 0f);
 
 	public override void Begin(EnemyController unit)
 	{
@@ -19,7 +19,8 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		unit.animator.SetTrigger(unit.hitAnimParam);
 
-		unit.copyMat.SetColor(unit.matColorProperty, unit.damagedColor);
+
+		unit.copyTMat.SetColor(unit.matColorProperty, unit.damagedColor);
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -48,7 +49,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
-		unit.copyMat.SetColor(unit.matColorProperty, defaultColor);
+		unit.copyTMat.SetColor(unit.matColorProperty, defaultColor);
 		EnemyEffectManager.Instance.HittedEffectDeActive(unit.hittedEffect.indexNum);
 	}
 
