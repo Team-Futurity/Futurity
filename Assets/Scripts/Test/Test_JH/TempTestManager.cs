@@ -32,7 +32,7 @@ public class TempTestManager : MonoBehaviour
 
 	void Start()
 	{
-		characterDialogController = openController.WindowActiveOpen().GetComponent<CharacterDialogController>();
+		characterDialogController = openController.WindowActiveReturnOpen().GetComponent<CharacterDialogController>();
 
 		TextValueSetter();
 		scrapUIController.SetScrapValue(scrapValue);

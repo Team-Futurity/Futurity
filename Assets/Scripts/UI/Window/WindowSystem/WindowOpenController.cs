@@ -56,7 +56,36 @@ public class WindowOpenController : MonoBehaviour
 	/// <summary>
 	/// 타 Window를 닫지 않는 Window를 생성
 	/// </summary>
-	public GameObject WindowActiveOpen()
+	public void WindowActiveOpen()
+	{
+		GameObject instanceUi = null;
+		if (openWindow)
+		{
+			if (openWindowParent)
+			{
+				instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale);
+			}
+			else
+			{
+				instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
+			}
+
+
+			SetWindowEvents(instanceUi);
+		}
+		else
+		{
+			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
+		}
+
+		SetWindowEvents(instanceUi);
+		SetVariablesToWindow(instanceUi);
+	}
+
+	/// <summary>
+	/// 타 Window를 닫지 않는 Window를 생성
+	/// </summary>
+	public GameObject WindowActiveReturnOpen()
 	{
 		GameObject instanceUi = null;
 		if (openWindow)

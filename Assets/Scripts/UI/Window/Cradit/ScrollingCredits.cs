@@ -8,8 +8,10 @@ public class ScrollingCredits : MonoBehaviour
 {
 	public float speed = 50f;
 	public GameObject textPrefab;
+	public GameObject endObject;
 	public List<string> credits = new List<string>();
 	public Transform startPoint;
+	public Transform endPoint;
 	public UnityEvent OnCreditsEnd;
 	public float cutOffPoint = 600f;
 	public float minimumSpacing = 100f;
@@ -19,6 +21,7 @@ public class ScrollingCredits : MonoBehaviour
 
 	void Start()
 	{
+		endObject.SetActive(false);
 		allTextsProcessed = false;
 		CreateCredits();
 	}
@@ -49,7 +52,7 @@ public class ScrollingCredits : MonoBehaviour
 				}
 			}
 			currentText.transform.Translate(Vector3.up * speed * Time.deltaTime);
-			if (currentText.transform.localPosition.y > cutOffPoint)
+			if (currentText.transform.localPosition.y > endPoint.localPosition.y * 2)
 			{
 				Destroy(currentText);
 				textObjects.RemoveAt(i);
@@ -60,6 +63,7 @@ public class ScrollingCredits : MonoBehaviour
 		{
 			FDebug.Log("CraditEnd");
 			allTextsProcessed = true;
+			endObject.SetActive(true);
 			OnCreditsEnd.Invoke();
 		}
 	}
