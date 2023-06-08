@@ -10,14 +10,21 @@ public class StageEndController : MonoBehaviour
 	[SerializeField]
 	private GameObject barrierObject;
 	[SerializeField]
-	private float speed;
+	private GameObject cameraObject;
 	[SerializeField]
-	private float barrierEnd;
+	private float playerSpeed = 1;
+	[SerializeField]
+	private float barrierSpeed = 3;
+	[SerializeField]
+	private float barrierEnd = 1;
 	[SerializeField]
 	private UnityEvent onBarrierReachedEnd;
 
 	private Vector3 initialBarrierPosition;
-	private bool moving = false;
+
+	private Vector3 playerMoveDir;
+
+	bool isMove = true;
 
 	private void Start()
 	{
@@ -28,25 +35,47 @@ public class StageEndController : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-			moving = true;
-			StartCoroutine(MoveBarrierAndPlayer());
+			cameraObject.GetComponent<CameraController>().enabled = false;
+			playerMoveDir = barrierObject.transform.position - player.transform.position;
+			playerMoveDir.y = 0;
+			StartCoroutine(MoveBarrier());
 		}
 	}
 
-	IEnumerator MoveBarrierAndPlayer()
+	IEnumerator MoveBarrier()
 	{
-		while (moving)
+		player.GetComponent<PlayerController>().enabled = false;
+		bool isBarrierMove = true;
+		while (isBarrierMove)
 		{
-			barrierObject.transform.position += Vector3.up * speed * Time.deltaTime;
-			player.transform.position += Vector3.down * speed * Time.deltaTime;
+			barrierObject.transform.position += Vector3.up * barrierSpeed * Time.deltaTime;
 
 			if (Vector3.Distance(initialBarrierPosition, barrierObject.transform.position) >= barrierEnd)
 			{
-				moving = false;
-				onBarrierReachedEnd.Invoke();
+				isBarrierMove = false;
+				StartCoroutine(MovePlayer());
 			}
 
 			yield return null;
 		}
+	}
+	IEnumerator MovePlayer()
+	{
+		StartCoroutine(BarrierEnd());
+
+		while (isMove)
+		{
+			player.transform.position += playerMoveDir * barrierSpeed * Time.deltaTime;
+
+			yield return null;
+		}
+	}
+
+	IEnumerator BarrierEnd()
+	{
+		yield return FadeManager.Instance.FadeCoroutineStart(false, 2, Color.black);
+		isMove = false;
+		cameraObject.GetComponent<CameraController>().enabled = true;
+		onBarrierReachedEnd.Invoke();
 	}
 }
