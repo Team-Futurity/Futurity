@@ -13,7 +13,7 @@ public class CraditEndTextController : MonoBehaviour
 	private UnityEvent EndTextEvent = null;
 
 	private float elapsedTime = 0;
-	private float _fadeTime = 1.0f;
+	private float _fadeTime = 3.0f;
 
 	[SerializeField]
 	Color textColor = Color.white;
