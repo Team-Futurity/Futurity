@@ -758,7 +758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1990056901}
-  - component: {fileID: 1990056900}
+  - component: {fileID: 1990056903}
   - component: {fileID: 1990056902}
   m_Layer: 0
   m_Name: GameObject
@@ -767,49 +767,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1990056900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990056899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efecd7c47eae9f940a21b6b5bec8c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 600
-  textPrefab: {fileID: 16466975}
-  credits:
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
-  startPoint: {fileID: 1705392117}
-  delay: 0.15
-  OnCreditsEnd:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1990056902}
-        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
-        m_MethodName: WindowDeactiveOpen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  cutOffPoint: 1400
 --- !u!4 &1990056901
 Transform:
   m_ObjectHideFlags: 0
@@ -838,7 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openWindow: {fileID: 280084176244655351, guid: 2ba0df29770e8bb4ea0bf5198140c055, type: 3}
-  openWindowParent: {fileID: 0}
+  openWindowParent: {fileID: 692776990}
   windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
   windowEvents:
@@ -858,3 +815,45 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1990056903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990056899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef5f29e5e984044cb2f361dfc588be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 500
+  textPrefab: {fileID: 16466975}
+  credits:
+  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
+  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
+  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
+  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
+  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
+  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
+  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
+  - "\uC81C\uC791 : \uD64D\uAE38\uB3D9"
+  startPoint: {fileID: 1705392117}
+  OnCreditsEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1990056902}
+        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
+        m_MethodName: WindowDeactiveOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  cutOffPoint: 1400
+  minimumSpacing: 100
+  allTextsProcessed: 0
