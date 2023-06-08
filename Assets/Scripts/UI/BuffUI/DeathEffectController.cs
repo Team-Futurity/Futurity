@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class DeathEffectController : MonoBehaviour
 {
@@ -13,12 +14,18 @@ public class DeathEffectController : MonoBehaviour
 	private CameraController cameraController; // 카메라 컴포넌트
 	private float initialSize; // 초기 Size 값
 
+	public PostProcessVolume volume; // PostProcessVolume 컴포넌트를 연결
+	private ColorGrading colorGrading; // ColorGrading 이펙트
+
 	void Start()
 	{
 		// 카메라 컴포넌트와 초기 Size 값 설정
 		cameraComponent = cameraTransform.GetComponent<Camera>();
 		cameraController = cameraTransform.GetComponent<CameraController>();
 		initialSize = cameraComponent.orthographicSize;
+
+		// colorGrading 값을 초기화
+		volume.profile.TryGetSettings(out colorGrading);
 	}
 
 	public void PlayerDeath()
@@ -33,6 +40,7 @@ public class DeathEffectController : MonoBehaviour
 	{
 		Debug.Log("PlayerDeath");
 
+		colorGrading.saturation.value = 0f;
 		Vector3 initialCameraPos = cameraTransform.position;
 		Vector3 targetCameraPos = playerTransform.position;
 
@@ -49,5 +57,12 @@ public class DeathEffectController : MonoBehaviour
 
 			yield return null;
 		}
+	}
+
+
+	void OnDisable()
+	{
+		// 스크립트가 비활성화될 때 색상을 원상태로 돌립니다.
+		colorGrading.saturation.value = 100f;
 	}
 }
