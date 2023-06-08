@@ -164,9 +164,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		if(whiteMaterial != null)
 			copyWhiteMat = new Material(whiteMaterial);
 		if (eMaterial != null)
+		{
 			copyMat = new Material(eMaterial);
+			unit.skinnedMeshRenderer.material = unit.copyMat;
+		}
 
-		EnemyManager.Instance.ActiveManagement(this);
+		manager.ActiveManagement(this);
 		EnemyEffectManager.Instance.CopyEffect(this);
 		chaseRange.enabled = false;
 

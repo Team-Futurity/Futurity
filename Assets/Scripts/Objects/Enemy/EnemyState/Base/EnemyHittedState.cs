@@ -19,8 +19,6 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		unit.animator.SetTrigger(unit.hitAnimParam);
 
-		unit.skinnedMeshRenderer.material = unit.copyMat;
-
 		unit.copyMat.SetColor(unit.matColorProperty, unit.damagedColor);
 	}
 	public override void Update(EnemyController unit)
