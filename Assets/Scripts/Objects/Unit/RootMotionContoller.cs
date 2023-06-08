@@ -5,12 +5,28 @@ using UnityEngine;
 public class RootMotionContoller : MonoBehaviour
 {
 	[SerializeField] private Animator animator;
-	[SerializeField] private AnimationClip clip;
+	[SerializeField] private List<AnimationType> animations;
+	private Dictionary<string, AnimationType> animationDic;
 
-	private void Update()
+	private void Start()
 	{
-		//FDebug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "_" + animator.GetCurrentAnimatorStateInfo(0).);
-		//FDebug.Log($"_____{clip.name}_{animator.}");
+		animationDic = new Dictionary<string, AnimationType>();
+		foreach(var anim in animations)
+		{
+			animationDic.Add(anim.animationName, anim);
+		}
+	}
+
+	// 애니메이션 전환 시 실행
+	public bool SetRootMotion(string animName, int layer = 0)
+	{
+		if(animName == null) { return false; }
+
+		AnimationType type = null;
+		if(!animationDic.TryGetValue(animName, out type)) { return false; }
+
+		animator.applyRootMotion = type.isRootMotion;
 		
+		return true;
 	}
 }

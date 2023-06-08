@@ -6779,6 +6779,7 @@ GameObject:
   - component: {fileID: 926590480872082409}
   - component: {fileID: 1921549231}
   - component: {fileID: 4272038019141093718}
+  - component: {fileID: 484117206}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -6849,6 +6850,8 @@ MonoBehaviour:
             randomShakePower: 0.2
             curveShakePower: 0.2
             shakeTime: 0.25
+            slowTime: 0.2
+            slowScale: 0.1
             attackSound:
               Guid:
                 Data1: 1134026463
@@ -6877,6 +6880,8 @@ MonoBehaviour:
             randomShakePower: 0
             curveShakePower: 0
             shakeTime: 0
+            slowTime: 0
+            slowScale: 0
             attackSound:
               Guid:
                 Data1: 1260165558
@@ -6903,6 +6908,8 @@ MonoBehaviour:
           randomShakePower: 0
           curveShakePower: 0
           shakeTime: 0
+          slowTime: 0.01
+          slowScale: 0.001
           attackSound:
             Guid:
               Data1: -1140022161
@@ -6929,6 +6936,8 @@ MonoBehaviour:
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
+        slowTime: 0.006
+        slowScale: 0
         attackSound:
           Guid:
             Data1: 457418093
@@ -6957,6 +6966,8 @@ MonoBehaviour:
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
+        slowTime: 0
+        slowScale: 0
         attackSound:
           Guid:
             Data1: 0
@@ -6987,6 +6998,8 @@ MonoBehaviour:
           randomShakePower: 0
           curveShakePower: 0
           shakeTime: 0
+          slowTime: 0
+          slowScale: 0
           attackSound:
             Guid:
               Data1: 0
@@ -7013,6 +7026,8 @@ MonoBehaviour:
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
+        slowTime: 0
+        slowScale: 0
         attackSound:
           Guid:
             Data1: 0
@@ -7039,6 +7054,8 @@ MonoBehaviour:
       randomShakePower: 0
       curveShakePower: 0
       shakeTime: 0
+      slowTime: 0
+      slowScale: 0
       attackSound:
         Guid:
           Data1: 0
@@ -7083,6 +7100,8 @@ MonoBehaviour:
         randomShakePower: 0
         curveShakePower: 0
         shakeTime: 0
+        slowTime: 0
+        slowScale: 0
         attackSound:
           Guid:
             Data1: 0
@@ -7109,6 +7128,8 @@ MonoBehaviour:
       randomShakePower: 0
       curveShakePower: 0
       shakeTime: 0
+      slowTime: 0
+      slowScale: 0
       attackSound:
         Guid:
           Data1: 0
@@ -7135,6 +7156,8 @@ MonoBehaviour:
     randomShakePower: 0
     curveShakePower: 0
     shakeTime: 0
+    slowTime: 0
+    slowScale: 0
     attackSound:
       Guid:
         Data1: 0
@@ -7164,6 +7187,8 @@ MonoBehaviour:
     randomShakePower: 0
     curveShakePower: 0
     shakeTime: 0
+    slowTime: 0
+    slowScale: 0
     attackSound:
       Guid:
         Data1: 0
@@ -7184,6 +7209,7 @@ MonoBehaviour:
   basicCollider: {fileID: 1070719927369175189}
   rushEffectManager: {fileID: 926590480872082409}
   buffProvider: {fileID: 1921549231}
+  rmController: {fileID: 484117206}
   animator: {fileID: 5821464009680269676}
   rigid: {fileID: 0}
   dashEffect: {fileID: 0}
@@ -7680,6 +7706,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugBuffList: 
+--- !u!114 &484117206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ff56e7c54b93c459bdb6ede869d50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5821464009680269676}
+  animations:
+  - animationName: Dash
+    isRootMotion: 0
+  - animationName: Idle
+    isRootMotion: 1
+  - animationName: Move
+    isRootMotion: 0
+  - animationName: Hit
+    isRootMotion: 1
+  - animationName: Attack
+    isRootMotion: 1
 --- !u!1 &9205117049474632282
 GameObject:
   m_ObjectHideFlags: 0
