@@ -70,7 +70,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &732466587148635621
 Transform:
   m_ObjectHideFlags: 0
@@ -169,9 +169,6 @@ MonoBehaviour:
     effectPrefab: {fileID: 1908104371959478918, guid: 60b9a9ef4c83cdd408bfab04b384a405, type: 3}
     effectTransform: {fileID: 1150204260228288229}
     effectExtraTransform: {x: 0, y: 0, z: 0}
-  maxSpawningTime: 3.8
-  enemyCollider: {fileID: 0}
-  spawnEffect: {fileID: 824446773671815016}
   target: {fileID: 0}
   enemyData: {fileID: 732466587148635420}
   animator: {fileID: 0}
@@ -179,6 +176,12 @@ MonoBehaviour:
   navMesh: {fileID: 0}
   chaseRange: {fileID: 732466586947889354}
   atkCollider: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 809756756096647150}
+  transparentMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
+  copyTMat: {fileID: 0}
+  maxSpawningTime: 3.8
+  enemyCollider: {fileID: 0}
+  spawnEffect: {fileID: 824446773671815016}
   idleSetTime: 2
   movePercentage: 5
   randMoveDistanceMin: 1.5
@@ -192,13 +195,8 @@ MonoBehaviour:
   projectileSpeed: 10
   powerReference1: 400
   powerReference2: 450
-  whiteMaterial: {fileID: 0}
-  copyWhiteMat: {fileID: 0}
   hitMaxTime: 1
-  damagedColor: {r: 1, g: 0.7122642, b: 0.7122642, a: 0}
-  eMaterial: {fileID: 2100000, guid: ca9d131dae1eff14185949f6f5460efa, type: 2}
-  copyMat: {fileID: 0}
-  skinnedMeshRenderer: {fileID: 809756756096647150}
+  damagedColor: {r: 0.7075472, g: 0, b: 0, a: 1}
   deathDelay: 2
 --- !u!114 &732466587148635422
 MonoBehaviour:
@@ -514,7 +512,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 78508428881422637, guid: 6215f0f4125c24f4f83e441a1dda2ce4, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 78508428881422637, guid: 6215f0f4125c24f4f83e441a1dda2ce4, type: 3}
       propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ca9d131dae1eff14185949f6f5460efa, type: 2}
+    - target: {fileID: 78508428881422637, guid: 6215f0f4125c24f4f83e441a1dda2ce4, type: 3}
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: ca9d131dae1eff14185949f6f5460efa, type: 2}
     - target: {fileID: 919132149155446097, guid: 6215f0f4125c24f4f83e441a1dda2ce4, type: 3}
