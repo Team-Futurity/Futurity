@@ -1,43 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [FSMState((int)EnemyController.EnemyState.RDefaultChase)]
 public class RDefaultChaseState : UnitState<EnemyController>
 {
 	private float curTime = .0f;
-	private float distance;
+	private float distance = .0f;
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("RDefault chase Begin");
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
-		unit.isChasing = true;
+		/*unit.isChasing = true;*/
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		if (unit.target == null)
 			return;
-		unit.transform.LookAt(unit.target.transform.position);
-		//unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 15.0f * Time.deltaTime);
 
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
+		unit.transform.LookAt(unit.target.transform.position);
+		//unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
 
-		if(distance < unit.chaseDistance * 0.5f)
+
+		if (distance < unit.attackRange * 0.5f)
 		{
 			unit.ChangeState(EnemyController.EnemyState.RDefaultBackMove);
 		}
-		else if (distance < unit.chaseDistance)
+		else if (distance < unit.attackRange)
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
-			unit.DelayChangeState(curTime, unit.chaseDelayTime, unit, EnemyController.EnemyState.RDefaultAttack);
+			unit.navMesh.enabled = false;
+			unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.RDefaultAttack);
 		}
-		else if (distance > unit.chaseDistance)
+		else if (distance > unit.attackRange)
 		{
-			unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+			//unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
+			unit.navMesh.enabled = true;
+			unit.navMesh.SetDestination(unit.target.transform.position);
 		}
 	}
 
@@ -50,7 +55,7 @@ public class RDefaultChaseState : UnitState<EnemyController>
 	{
 		//FDebug.Log("RDefault chase End");
 		unit.animator.SetBool(unit.moveAnimParam, false);
-		unit.isChasing = false;
+		/*unit.isChasing = false;*/
 		curTime = 0f;
 	}
 

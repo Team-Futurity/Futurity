@@ -20,6 +20,8 @@ public class FadeManager : Singleton<FadeManager>
 
 	private void Awake()
 	{
+		base.Awake();
+
 		if (_canvasGroup == null)
 		{
 			GameObject fadeCanvas = new GameObject("FadeCanvas");

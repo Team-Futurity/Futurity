@@ -12,12 +12,19 @@ public class Player : UnitBase
 		pc = GetComponent<PlayerController>();
 	}
 
-	public override void Attack(UnitBase target)
+	public void Attack(UnitBase target, float AttackST)
 	{
-		target.Hit(this, GetDamage(1));
+		float criticalConf = GetCritical();
+		target.Hit(this, GetDamage(AttackST) * criticalConf);
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot)
+	public override void Attack(UnitBase target)
+	{
+		float criticalConf = GetCritical();
+		target.Hit(this, GetDamage(1) * criticalConf);
+	}
+
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{
@@ -28,26 +35,32 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
-		if(!pc.IsCurrentState(PlayerController.PlayerState.ChargedAttack))
+		float remainingDamageRatio = Mathf.Clamp(1 - GetDefensePoint() * 0.01f, 0, 100);
+		float finalDamage = damage * remainingDamageRatio;
+
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
+
+		if(!pc.hitCoolTimeIsEnd) { return; }
+
+		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun)
 		{
-			pc.ChangeState(PlayerController.PlayerState.Hit);
+			pc.ChangeState(PlayerState.Hit);
 		}
-		
-		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 	}
 
-	protected override float GetAttakPoint()
+	protected override float GetAttackPoint()
 	{
 		return status.GetStatus(StatusType.ATTACK_POINT).GetValue();
 	}
 
 	protected override float GetDamage(float attackST)
 	{
-		return GetAttakPoint() * 1;
+		float atk = GetAttackPoint();
+		return atk * attackST;
 	}
 
 	protected override float GetDefensePoint()
 	{
-		throw new System.NotImplementedException();
+		return status.GetStatus(StatusType.DEFENCE_POINT).GetValue();
 	}
 }

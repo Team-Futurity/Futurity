@@ -4,48 +4,63 @@ using UnityEngine;
 
 public class BuffSystem : MonoBehaviour
 {
-	// 버프를 추가하는 List
-	[field: SerializeField] public List<BuffBehaviour> BuffList { get; private set; }
-	// 버프를 관리하는 Dic
-	private Dictionary<BuffNameList, BuffBehaviour> buffDic;
-    
+	private Dictionary<int, BuffBehaviour> activeBuffDic;
+
+	[SerializeField] private List<int> debugBuffList;
+
     private void Awake()
     {
-		buffDic = new Dictionary<BuffNameList, BuffBehaviour>();
-
-		if(BuffList is not null)
-		{
-			foreach(var buff in BuffList)
-			{
-				buffDic.Add(buff.BuffData.BuffName, buff);
-			}
-		}
+		activeBuffDic = new Dictionary<int, BuffBehaviour>();
     }
 
-	private bool HasBuff(BuffNameList buffName)
+	public void AddBuff(BuffBehaviour buff)
 	{
-		return buffDic.ContainsKey(buffName);
-	}
-
-	public void OnBuff(BuffNameList buffName, UnitBase unit)
-    {
-		var hasBuff = HasBuff(buffName);
-
-		if (!hasBuff)
+		if(buff is null)
 		{
-			FDebug.Log($"{buffName}이(가) 존재하지 않습니다;");
+			FDebug.Log("[BuffSystem] 해당 버프는 존재하지 않습니다.");
 			return;
 		}
 
-		var buff = buffDic[buffName];
+		AddBuffer(buff);
+	}
 
-		var buffObj = Instantiate(buff);
-		buffObj.gameObject.SetActive(false);
+	public void RemoveBuff(int buffCode)
+	{
+		var hasBuff = HasBuff(buffCode);
 
-		var unitPos = unit.transform.position;
-		buffObj.transform.position = unitPos;
-		buffObj.GetComponent<BuffBehaviour>().Active(unit);
+		if(!hasBuff)
+		{
+			FDebug.Log("[BuffSystem] 해당 버프는 존재하지 않습니다.");
+			return;
+		}
 
-		buffObj.gameObject.SetActive(true);
+		activeBuffDic.Remove(buffCode);
+		debugBuffList.Remove(buffCode);
+	}
+
+	private void AddBuffer(BuffBehaviour buff)
+	{
+		var uID = buff.BuffData.BuffCode;
+
+		if(HasBuff(uID))
+		{
+			var getBuff = GetBuff(uID);
+			getBuff.SetBuffTime();
+
+			return;
+		}
+
+		activeBuffDic.Add(uID, buff);
+		debugBuffList.Add(uID);
+	}
+
+	private BuffBehaviour GetBuff(int buffCode)
+	{
+		return activeBuffDic[buffCode];
+	}
+
+	private bool HasBuff(int buffCode)
+	{
+		return activeBuffDic.ContainsKey(buffCode);
 	}
 }

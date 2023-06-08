@@ -6,9 +6,6 @@ public class Projectile : MonoBehaviour
 {
 	[SerializeField] private EnemyController ec;
 
-	private void Start()
-	{
-	}
 
 	private void Update()
     {

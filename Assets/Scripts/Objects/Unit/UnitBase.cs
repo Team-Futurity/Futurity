@@ -8,6 +8,7 @@ public abstract class UnitBase : MonoBehaviour
 {
 	public StatusManager status;
 	[SerializeField] protected Rigidbody rigid;
+	public GaugeBarController hpBar;
 
 	public bool isGodMode = false;
 	public bool isStun = false;
@@ -16,10 +17,10 @@ public abstract class UnitBase : MonoBehaviour
 
 	protected virtual float GetCritical()
 	{
-		return UnityEngine.Random.Range(0, 1) < status.GetStatus(StatusType.CRITICAL_CHANCE).GetValue() ? status.GetStatus(StatusType.CRITICAL_DAMAGE_MULTIPLIER).GetValue() : 1;
+		return UnityEngine.Random.Range(0f, 1f) < status.GetStatus(StatusType.CRITICAL_CHANCE).GetValue() ? status.GetStatus(StatusType.CRITICAL_DAMAGE_MULTIPLIER).GetValue() : 1;
 	}
 
-	protected abstract float GetAttakPoint(); // 최종 공격력을 반환
+	protected abstract float GetAttackPoint(); // 최종 공격력을 반환
 	protected abstract float GetDefensePoint(); // 최종 방어력 반환
 	protected abstract float GetDamage(float damageValue); // 최종 데미지 반환
 

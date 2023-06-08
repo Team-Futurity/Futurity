@@ -25,20 +25,21 @@ public class WindowOpenController : MonoBehaviour
 
 
 
-
-	public void WindowOpen()
+	/// <summary>
+	/// 타 Window를 닫는 Window를 생성
+	/// </summary>
+	public void WindowDeactiveOpen()
 	{
-		//#설명#	세로운 UI를 인스턴스화.
 		GameObject instanceUi = null;
 		if (openWindow)
 		{
 				if (openWindowParent)
 				{
-					instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, windowPosition, windowScale);
+					instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, true, windowPosition, windowScale);
 				}
 				else
 				{
-					instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, windowPosition, windowScale);
+					instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, true, windowPosition, windowScale);
 				}
 			
 
@@ -53,10 +54,43 @@ public class WindowOpenController : MonoBehaviour
 		SetVariablesToWindow(instanceUi);
 	}
 
+	/// <summary>
+	/// 타 Window를 닫지 않는 Window를 생성
+	/// </summary>
+	public GameObject WindowActiveOpen()
+	{
+		GameObject instanceUi = null;
+		if (openWindow)
+		{
+				if (openWindowParent)
+				{
+					instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale);
+				}
+				else
+				{
+					instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
+				}
+			
 
+			SetWindowEvents(instanceUi);
+		}
+		else
+		{
+			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
+		}
+
+		SetWindowEvents(instanceUi);
+		SetVariablesToWindow(instanceUi);
+
+		return instanceUi;
+	}
+
+	/// <summary>
+	/// 생성한 Window에 이벤트 전달.
+	/// </summary>
+	/// <param name="instanceUi">Window에 필요한 함수를 호출</param>
 	private void SetWindowEvents(GameObject instanceUi)
 	{
-		//#설명#	생성한 Window에 이벤트 전달.
 		WindowController windowController = instanceUi.GetComponent<WindowController>();
 
 		for (int i = 0; i < windowEvents.Length; i++)
@@ -69,11 +103,12 @@ public class WindowOpenController : MonoBehaviour
 		}
 	}
 
-
+	#region Variable 관련
 	public void AddVariable(string name, object value)
 	{
 		variables[name] = value;
 	}
+
 	private void SetVariablesToWindow(GameObject instanceUi)
 	{
 		WindowController windowController = instanceUi.GetComponent<WindowController>();
@@ -83,4 +118,5 @@ public class WindowOpenController : MonoBehaviour
 			windowController.SetVariable(pair.Key, pair.Value);
 		}
 	}
+	#endregion
 }
