@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.PostProcessing;
@@ -6,6 +7,9 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class LastKillController : MonoBehaviour
 {
+	[SerializeField]
+	private List<GameObject> DeActivePotals;
+
 	[SerializeField]
 	private Transform playerTransform;
 	[SerializeField]
@@ -71,5 +75,10 @@ public class LastKillController : MonoBehaviour
 	{
 		cameraComponent.orthographicSize = normalCameraSize;
 		Time.timeScale = 1f;
+	}
+
+	public void PotalActive(int number)
+	{
+		DeActivePotals[number].GetComponent<WarpPotalController>().isActivePotal = true;
 	}
 }
