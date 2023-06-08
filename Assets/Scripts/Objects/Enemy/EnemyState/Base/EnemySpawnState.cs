@@ -6,6 +6,10 @@ using UnityEngine;
 public class EnemySpawnState : UnitState<EnemyController>
 {
 	private float curTime = .0f;
+	private Color BeginColor = Color.black;
+	private Color refColor = Color.black;
+	private Color EndColor = Color.white;
+	private Vector3 targetPos;
 
 	public override void Begin(EnemyController unit)
 	{
@@ -14,15 +18,22 @@ public class EnemySpawnState : UnitState<EnemyController>
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
 		unit.enemyCollider.enabled = false;
-		unit.copyMat.color = Color.black;
-		unit.skinnedMeshRenderer.enabled = false;
+		unit.copyTMat.color = BeginColor;
+		unit.animator.SetBool(unit.moveAnimParam, true);
+		//unit.skinnedMeshRenderer.enabled = false;
 		unit.spawnEffect.SetActive(true);
+
+		targetPos = Vector3.forward * unit.walkDistance;
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
 
+		if (refColor.a > 0f)
+			refColor.a -= curTime * 0.01f;
+		unit.copyTMat.SetColor(unit.matColorProperty, refColor);
+		unit.navMesh.SetDestination(targetPos);
 		unit.DelayChangeState(curTime, unit.maxSpawningTime, unit, EnemyController.EnemyState.Idle);
 	}
 
@@ -35,8 +46,10 @@ public class EnemySpawnState : UnitState<EnemyController>
 	{
 		unit.enemyCollider.enabled = true;
 		unit.chaseRange.enabled = true;
-		unit.skinnedMeshRenderer.enabled = true;
+		unit.animator.SetBool(unit.moveAnimParam, false);
+		//unit.skinnedMeshRenderer.enabled = true;
 		unit.spawnEffect.SetActive(false);
+		unit.rigid.velocity = Vector3.zero;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

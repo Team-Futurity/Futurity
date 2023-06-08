@@ -69,8 +69,13 @@ public class EnemyEffectManager : Singleton<EnemyEffectManager>
 
 	private void InstantiateEffect(List<GameObject> list, Effect effect)
 	{
-		effect.indexNum = list.Count;
+		//int indexNum = list.Count;
 		list.Add(GameObject.Instantiate(effect.effectPrefab, effect.effectTransform == null ? null : effect.effectTransform));
 		list[list.Count - 1].SetActive(false);
+	}
+
+	private void SetIndexNum()
+	{
+
 	}
 }

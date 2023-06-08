@@ -176,7 +176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2955528926438800398
 Transform:
   m_ObjectHideFlags: 0
@@ -275,9 +275,6 @@ MonoBehaviour:
     effectPrefab: {fileID: 1908104371959478918, guid: 60b9a9ef4c83cdd408bfab04b384a405, type: 3}
     effectTransform: {fileID: 622546862248131483}
     effectExtraTransform: {x: 0, y: 0, z: 0}
-  maxSpawningTime: 3.8
-  enemyCollider: {fileID: 0}
-  spawnEffect: {fileID: 2980851454784208291}
   target: {fileID: 0}
   enemyData: {fileID: 2955528926438800407}
   animator: {fileID: 0}
@@ -285,6 +282,12 @@ MonoBehaviour:
   navMesh: {fileID: 0}
   chaseRange: {fileID: 2955528925707399194}
   atkCollider: {fileID: 2955528925679242178}
+  skinnedMeshRenderer: {fileID: 8408782429421553157}
+  transparentMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
+  copyTMat: {fileID: 0}
+  maxSpawningTime: 3.8
+  enemyCollider: {fileID: 0}
+  spawnEffect: {fileID: 2980851454784208291}
   idleSetTime: 3
   movePercentage: 5
   randMoveDistanceMin: 1.5
@@ -298,13 +301,8 @@ MonoBehaviour:
   projectileSpeed: 0
   powerReference1: 500
   powerReference2: 340
-  whiteMaterial: {fileID: 2100000, guid: e6b0a41e26417274dad6308701ad3386, type: 2}
-  copyWhiteMat: {fileID: 0}
   hitMaxTime: 2
-  damagedColor: {r: 1, g: 0.6666667, b: 0.6666667, a: 1}
-  eMaterial: {fileID: 2100000, guid: 2c241b6492dc55f4c8c481389ca99a7e, type: 2}
-  copyMat: {fileID: 0}
-  skinnedMeshRenderer: {fileID: 8408782429421553157}
+  damagedColor: {r: 0.7264151, g: 0, b: 0, a: 1}
   deathDelay: 2
 --- !u!114 &2955528926438800393
 MonoBehaviour:
