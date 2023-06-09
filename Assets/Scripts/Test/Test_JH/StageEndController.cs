@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,21 +16,30 @@ public class StageEndController : MonoBehaviour
 	[SerializeField]
 	private GameObject cameraObject;
 	[SerializeField]
+	private WindowOpenController windowOpenController;
+
+	[SerializeField]
 	private float playerMoveLimit = 10f;
 	private Vector3 playerStartPos;
 	[SerializeField]
 	private float playerSpeed = 1;
+
+
 	[SerializeField]
 	private float barrierSpeed = 3;
 	[SerializeField]
 	private float barrierEnd = 1;
 	[SerializeField]
-	private UnityEvent onBarrierReachedEnd;
+	private UnityEvent potalUIEvent;
+	[SerializeField]
+	private UnityEvent onBarrierReachedEndEvent;
 
 	UnityEngine.InputSystem.PlayerInput playerInput;
 	CameraController cameraController;
 	PlayerController playerController;
 	Animator animator;
+	WindowManager windowManager;
+	GameObject currentPotalWindow;
 
 	private Vector3 initialBarrierPosition;
 
@@ -39,11 +49,13 @@ public class StageEndController : MonoBehaviour
 
 	private void Start()
 	{
-		isActiveStageEndPortal = false;
 		playerInput = player.gameObject.GetComponent<UnityEngine.InputSystem.PlayerInput>();
 		cameraController = cameraObject.GetComponent<CameraController>();
 		playerController = player.GetComponent<PlayerController>();
 		animator = player.GetComponent<Animator>();
+
+		isActiveStageEndPortal = false;
+		windowManager = WindowManager.Instance;
 		initialBarrierPosition = barrierObject.transform.position;
 	}
 
@@ -51,12 +63,30 @@ public class StageEndController : MonoBehaviour
 	{
 		if (other.CompareTag("Player") && isActiveStageEndPortal)
 		{
-			cameraController.enabled = false;
-			playerInput.enabled = false;
-			playerMoveDir = barrierObject.transform.position - player.transform.position;
-			playerMoveDir.y = 0;
-			StartCoroutine(MoveBarrier());
+			currentPotalWindow = windowOpenController.WindowActiveReturnOpen();
 		}
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.CompareTag("Player") && isActiveStageEndPortal)
+		{
+			windowManager.WindowClose(currentPotalWindow);
+		}
+	}
+
+	public void DialogStart()
+	{
+		potalUIEvent?.Invoke();
+	}
+
+	public void PotalStart()
+	{
+		cameraController.enabled = false;
+		playerInput.enabled = false;
+		playerMoveDir = barrierObject.transform.position - player.transform.position;
+		playerMoveDir.y = 0;
+		StartCoroutine(MoveBarrier());
 	}
 
 	IEnumerator MoveBarrier()
@@ -77,15 +107,23 @@ public class StageEndController : MonoBehaviour
 			yield return null;
 		}
 	}
+
 	IEnumerator MovePlayer()
 	{
 		animator.SetBool("Move", true);
+		Vector3 playerLookDir = player.transform.position - barrierObject.transform.position;
 		playerStartPos = player.transform.position;
 		StartCoroutine(BarrierEnd());
 
 		while (isMove)
 		{
 			player.transform.position += playerMoveDir * playerSpeed * Time.deltaTime;
+
+			Quaternion lookRotation = Quaternion.LookRotation(-playerLookDir);
+			lookRotation.x = 0;
+			lookRotation.z = 0;
+			player.transform.rotation = lookRotation;
+
 			if (Vector3.Distance(playerStartPos, player.transform.position) >= playerMoveLimit)
 			{
 				isMove = false;
@@ -103,6 +141,6 @@ public class StageEndController : MonoBehaviour
 		isMove = false;
 		cameraObject.GetComponent<CameraController>().enabled = true;
 		player.gameObject.GetComponent<UnityEngine.InputSystem.PlayerInput>().enabled = true;
-		onBarrierReachedEnd.Invoke();
+		onBarrierReachedEndEvent.Invoke();
 	}
 }

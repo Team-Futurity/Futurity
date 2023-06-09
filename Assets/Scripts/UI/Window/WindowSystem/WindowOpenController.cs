@@ -19,7 +19,7 @@ public class WindowOpenController : MonoBehaviour
 	[SerializeField]
 	private Vector2 windowScale = Vector2.one;
 	[SerializeField]
-	private UnityEvent[] windowEvents = new UnityEvent[8];
+	public UnityEvent[] windowEvents = new UnityEvent[8];
 	[SerializeField]
 	private Dictionary<string, object> variables = new Dictionary<string, object>();
 
