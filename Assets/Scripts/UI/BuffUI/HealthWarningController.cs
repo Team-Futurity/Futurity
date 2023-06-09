@@ -16,7 +16,8 @@ public class HealthWarningController : MonoBehaviour
 	/// <summary>
 	/// 적용할 효과 이미지
 	/// </summary>
-	private Image redEffect;
+	private GameObject redEffectObject;
+	private Image redEffectImage;
 
 	[SerializeField]
 	/// <summary>
@@ -29,6 +30,34 @@ public class HealthWarningController : MonoBehaviour
 	[SerializeField]
 	private float pulseSpeed = 2f;  // 효과의 박동 속도
 
+	private void Start()
+	{
+		// backgroundPanel이 할당되지 않았다면 새로운 GameObject를 생성합니다
+		if (redEffectObject == null)
+		{
+			redEffectObject = new GameObject("HealthWarringEffectObject");
+			redEffectImage = redEffectObject.AddComponent<Image>();
+			redEffectImage.color = Color.clear;
+
+			// 최상위 캔버스를 찾아 backgroundPanel을 그 캔버스의 자식으로 설정합니다
+			Canvas topCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+			redEffectObject.transform.SetParent(topCanvas.transform, false);
+
+			// backgroundPanel의 앵커를 화면 전체로 설정합니다
+			RectTransform rectTransform = redEffectObject.GetComponent<RectTransform>();
+			rectTransform.anchorMin = Vector2.zero;
+			rectTransform.anchorMax = Vector2.one;
+			rectTransform.offsetMin = Vector2.zero;
+			rectTransform.offsetMax = Vector2.zero;
+			redEffectObject.SetActive(false);
+		}
+		else
+		{
+			redEffectImage = redEffectObject.GetComponent<Image>();
+			redEffectObject.SetActive(false);
+		}
+	}
+
 	/// <summary>
 	/// 프레임마다 효과를 체력에 따라 조정하고, 테스트용으로 체력을 감소시킵니다.
 	/// </summary>
@@ -39,12 +68,12 @@ public class HealthWarningController : MonoBehaviour
 		// 체력이 60 이하이면 효과 적용
 		if (health <= 60)
 		{
-			redEffect.gameObject.SetActive(true);
+			redEffectImage.gameObject.SetActive(true);
 			PulseEffect();
 		}
 		else
 		{
-			redEffect.gameObject.SetActive(false);
+			redEffectImage.gameObject.SetActive(false);
 		}
 
 		// 테스트를 위한 체력 감소 코드
@@ -61,6 +90,6 @@ public class HealthWarningController : MonoBehaviour
 	private void PulseEffect()
 	{
 		effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
-		redEffect.color = new Color(1, 0, 0, effectIntensity);
+		redEffectImage.color = new Color(1, 0, 0, effectIntensity);
 	}
 }

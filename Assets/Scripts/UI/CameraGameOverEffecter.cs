@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CameraGameOverEffect : MonoBehaviour
+public class CameraGameOverEffecter : MonoBehaviour
 {
 	[SerializeField]
 	Material cameraMaterial; // 적용할 쉐이더 메터리얼
