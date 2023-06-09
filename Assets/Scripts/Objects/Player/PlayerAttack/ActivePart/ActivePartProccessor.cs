@@ -16,7 +16,8 @@ public abstract class ActivePartProccessor
 		if(!pc.GetState(stateToChange, ref nextState)) { FDebug.LogError("[ActivePartProccessor] An Error occurred in GetState"); return; }
 
 		GetPartData();
-		((PlayerActivePartAttackState<Proccessor>)nextState).SetActivePartData(proccessor);
+		var state = nextState as PlayerActivePartAttackState<BasicActivePart>;
+		state.SetActivePartData(proccessor as BasicActivePart);
 		pc.ChangeState(PlayerState.BasicPart);
 	}
 }

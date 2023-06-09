@@ -48,6 +48,9 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		if(other.CompareTag(unit.EnemyTag))
 		{
 			var enemy = other.GetComponent<UnitBase>();
+
+			if(enemy == null) { return; }
+
 			enemies.Add(enemy);
 			unit.buffProvider.SetBuff(enemy, proccessor.buffCode, proccessor.duration - currentTime);
 		}
