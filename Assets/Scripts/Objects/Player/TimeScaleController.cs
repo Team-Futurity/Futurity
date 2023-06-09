@@ -5,9 +5,9 @@ using UnityEngine;
 public class TimeScaleController : Singleton<TimeScaleController>
 {
 	public GameObject rayPos;
-	public Vector3 forward;
+	[HideInInspector] public Vector3 forward;
 	public float distanceThreshold;
-	public float originTimeScale;
+	public float originTimeScale = 1;
 	private bool isAdjusting;
 	private bool isReady;
 	private float curTimeScale;
