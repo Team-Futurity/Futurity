@@ -10,7 +10,7 @@ public class MDefaultAttackState : EnemyAttackBaseState
 		//FDebug.Log("MDefault Attack begin");
 		base.Begin(unit);
 
-		unit.atkCollider.enabled = true;
+		//unit.atkCollider.enabled = true;
 		unit.navMesh.enabled = true;
 	}
 

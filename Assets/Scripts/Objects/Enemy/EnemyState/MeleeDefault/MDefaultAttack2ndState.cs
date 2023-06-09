@@ -8,7 +8,7 @@ public class MDefaultAttack2ndState : EnemyAttackBaseState
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Attack2nd begin");
-		unit.atkCollider.enabled = true;
+		//unit.atkCollider.enabled = true;
 	}
 
 	public override void Update(EnemyController unit)

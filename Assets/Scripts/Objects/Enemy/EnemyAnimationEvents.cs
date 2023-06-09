@@ -35,4 +35,9 @@ public class EnemyAnimationEvents : MonoBehaviour
 			EnemyEffectManager.Instance.HittedEffectActive(ec.hittedEffect.indexNum);
 		}
 	}
+
+	public void MeleeAttack()
+	{
+		ec.atkCollider.enabled = true;
+	}
 }
