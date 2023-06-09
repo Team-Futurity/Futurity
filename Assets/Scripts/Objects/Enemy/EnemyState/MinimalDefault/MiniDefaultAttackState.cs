@@ -3,34 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [FSMState((int)EnemyController.EnemyState.MiniDefaultAttack)]
-public class MiniDefaultAttackState : UnitState<EnemyController>
+public class MiniDefaultAttackState : EnemyAttackBaseState
 {
-	private float curTime = .0f;
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MiniDefault Attack begin");
-		unit.animator.SetTrigger(unit.atkAnimParam);
+		base.Begin(unit);
+		unit.animator.SetTrigger(unit.dashAnimParam);
 		unit.atkCollider.enabled = true;
 		unit.rigid.AddForce(unit.transform.forward * unit.powerReference1, ForceMode.Impulse);
 	}
 
 	public override void Update(EnemyController unit)
 	{
-		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.MiniDefaultChase);
-	}
-
-	public override void FixedUpdate(EnemyController unit)
-	{
-
+		base.Update(unit);
 	}
 
 	public override void End(EnemyController unit)
 	{
 		//FDebug.Log("MiniDefault Attack End");
 		unit.atkCollider.enabled = false;
-		curTime = 0f;
+		base.End(unit);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
@@ -41,10 +35,5 @@ public class MiniDefaultAttackState : UnitState<EnemyController>
 			unit.enemyData.Attack(unit.target);
 			unit.ChangeState(EnemyController.EnemyState.MiniDefaultKnockback);
 		}
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-
 	}
 }

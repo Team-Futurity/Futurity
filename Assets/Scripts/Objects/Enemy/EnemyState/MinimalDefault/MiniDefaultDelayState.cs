@@ -14,9 +14,9 @@ public class MiniDefaultDelayState : UnitState<EnemyController>
 	{
 		//FDebug.Log("Mini delay begin");
 
-		unit.skinnedMeshRenderer.material = unit.copyWhiteMat;
+		unit.skinnedMeshRenderer.material = unit.copyTMat;
 
-		unit.copyWhiteMat.SetColor(unit.matColorProperty, setColor);
+		unit.copyTMat.SetColor(unit.matColorProperty, setColor);
 	}
 
 	public override void Update(EnemyController unit)
@@ -24,7 +24,7 @@ public class MiniDefaultDelayState : UnitState<EnemyController>
 		curTime += Time.deltaTime;
 		if (refColor.a < 1.0f)
 			refColor.a += curTime * 0.01f;
-		unit.copyWhiteMat.SetColor(unit.matColorProperty, refColor);
+		unit.copyTMat.SetColor(unit.matColorProperty, refColor);
 		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.MiniDefaultAttack);
 	}
 
@@ -38,7 +38,7 @@ public class MiniDefaultDelayState : UnitState<EnemyController>
 		//FDebug.Log("Mini delay end");
 		curTime = 0f;
 		refColor = setColor;
-		unit.copyWhiteMat.SetColor(unit.matColorProperty, defaultColor);
+		unit.copyTMat.SetColor(unit.matColorProperty, defaultColor);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
