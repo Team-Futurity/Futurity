@@ -16,9 +16,19 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 	private Image loadingBarImage;
 	[SerializeField]
 	private GameObject loadingBar;
+	[SerializeField]
+	private float loadingBarSpeed = 1;
+	[SerializeField]
+	private float loadingDelayTime = 0.25f;
+	WaitForSeconds loadingWaitForSeconds;
 
 	[SerializeField]
 	private SceneKeyData loadSceneKey;
+
+	public void Start()
+	{
+		loadingWaitForSeconds = new WaitForSeconds(loadingDelayTime);
+	}
 
 	public void SceneLoad(SceneKeyData loadSceneKey, int loadingSceneNumber)
 	{
@@ -69,20 +79,24 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 		float timer = 0f; 
 		float duration = 1f; // SmoothStep 적용 시간, 이 값을 조정하여 부드러운 이동이 얼마나 빠르게 이루어질지 결정
 
+
+		yield return loadingWaitForSeconds;
+
 		while (!asyncOperation.isDone)
 		{
 			yield return null;
 
-			if (asyncOperation.progress < 0.9f)
+			if (loadingBarImage.fillAmount < 0.89f)
 			{
 				timer += Time.unscaledDeltaTime / duration;
 				// SmoothStep을 이용하여 로딩 진행도를 시각적으로 부드럽게 표현
-				loadingBarImage.fillAmount = Mathf.SmoothStep(loadingBarImage.fillAmount, asyncOperation.progress, timer);
+				loadingBarImage.fillAmount = Mathf.SmoothStep(loadingBarImage.fillAmount, asyncOperation.progress, timer / loadingBarSpeed);
 			}
 			else
 			{
 				timer += Time.unscaledDeltaTime;
-				loadingBarImage.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
+				loadingBarImage.fillAmount = Mathf.Lerp(0.9f, 1f, timer / loadingBarSpeed);
+
 
 				//Scene의 로딩이 끝날경우 Scene활성화(번경)
 				if (loadingBarImage.fillAmount >= 1f)
