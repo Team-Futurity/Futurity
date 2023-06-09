@@ -10,6 +10,9 @@ public class HealthWarningController : MonoBehaviour
 	private float health = 100.0f;  // 플레이어 체력
 
 	[SerializeField]
+	private StatusManager statusManager;  // 플레이어 체력
+
+	[SerializeField]
 	/// <summary>
 	/// 적용할 효과 이미지
 	/// </summary>
@@ -31,6 +34,8 @@ public class HealthWarningController : MonoBehaviour
 	/// </summary>
 	private void Update()
 	{
+		health = statusManager.GetStatus(StatusType.CURRENT_HP).GetValue();
+
 		// 체력이 60 이하이면 효과 적용
 		if (health <= 60)
 		{
