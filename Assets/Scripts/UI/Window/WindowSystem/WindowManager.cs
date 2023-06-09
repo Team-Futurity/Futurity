@@ -187,7 +187,6 @@ public class WindowManager : Singleton<WindowManager>
 	///</summary>
 	public void WindowClose(GameObject closeUiWindowObject)
 	{
-
 		windows.Remove(closeUiWindowObject);
 		int windowNum = windows.Count - 1;
 
@@ -299,6 +298,9 @@ public class WindowManager : Singleton<WindowManager>
 		if (currentButtonIndex > 0)
 		{
 			SelectButton(currentButtonIndex - 1);
+		} else
+		{
+			SelectButton(buttons.Count - 1);
 		}
 	}
 
@@ -310,6 +312,9 @@ public class WindowManager : Singleton<WindowManager>
 		if (currentButtonIndex < buttons.Count - 1)
 		{
 			SelectButton(currentButtonIndex + 1);
+		} else
+		{
+			SelectButton(0);
 		}
 	}
 
