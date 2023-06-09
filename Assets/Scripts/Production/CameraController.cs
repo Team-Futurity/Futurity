@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
 	
     [Tooltip("추적 대상에게서 얼마나 떨어진 위치에 카메라가 있는지를 나타냅니다.")]
     public Vector3 offset;
+	[Tooltip("카메라가 이동하는 동안 보정해줄 값입니다.")]
+	public Vector3 moveOffset;
 
 	private Vector3 prevTargetVector;
 	private PlayerController playerController;
@@ -40,6 +42,11 @@ public class CameraController : MonoBehaviour
 	[SerializeField] private int decimalCount;
 
 
+	[SerializeField] private float camSpeed;
+
+	private Vector3 cameraVelocity;
+
+
 	private void Start()
 	{
 		initialPos = target.position + offset;
@@ -63,19 +70,13 @@ public class CameraController : MonoBehaviour
 
 	private void FixedUpdate()
     {
-		// 카메라 위치 조정
-		SetCameraPosition();
-
 		// 투시
 		SetPenetrate();
-
-		prevPosition = GetTruncatedVector(transform.position);
-		prevTargetVector = GetTruncatedVector(target.position);
 	}
 
 	private void Update()
 	{
-		//if(playerController.moveDir != Vector3.zero) { moveDir = playerController.moveDir; }
+		//if(playerController != null) { moveDir = playerController.moveDir; }
 
 		if (isVibrate)
 		{
@@ -94,6 +95,15 @@ public class CameraController : MonoBehaviour
 		}
 	}
 
+	private void LateUpdate()
+	{
+		// 카메라 위치 조정
+		SetCameraPosition();
+
+		prevPosition = GetTruncatedVector(transform.position);
+		prevTargetVector = GetTruncatedVector(target.position);
+	}
+
 	public void SetVibration(float time, float curvePower = 0.1f, float randomPower = 0.1f)
 	{
 		vibrationPower = randomPower;
@@ -108,17 +118,19 @@ public class CameraController : MonoBehaviour
 		var targetVector = GetTruncatedVector(target.position);
 		var currentVector = targetVector + offset;
 
-		if (prevTargetVector == targetVector) { return; }
-		if (!playerController){ transform.position = currentVector; return; }
+		//if (prevTargetVector == targetVector) { return; }
+		//if (!playerController){ transform.position = currentVector; return; }
 			
-		// 카메라 위치 조정
+		/*var dir = moveDir == Vector3.zero ? target.forward : moveDir;
 		var subtrackVector = currentVector - prevPosition;
-		var alterX = Mathf.Abs(subtrackVector.x) * moveDir.x;
-		var alterY = Mathf.Abs(subtrackVector.y) * moveDir.y;
-		var alterZ = Mathf.Abs(subtrackVector.z) * moveDir.z;
+		var alterX = Mathf.Abs(subtrackVector.x) * dir.x;
+		var alterY = Mathf.Abs(subtrackVector.y) * dir.y;
+		var alterZ = Mathf.Abs(subtrackVector.z) * dir.z;
 
-		transform.position += new Vector3(alterX, alterY, alterZ);
-		transform.position = currentVector; // 코드 오동작으로 임시로 덮어씌움
+		transform.position += new Vector3(alterX, alterY, alterZ);*/
+		//transform.position = currentVector; // 코드 오동작으로 임시로 덮어씌움
+
+		transform.position = Vector3.SmoothDamp(transform.position, currentVector, ref cameraVelocity, camSpeed * Time.deltaTime);
 	}
 
 	public void SetPenetrate()
