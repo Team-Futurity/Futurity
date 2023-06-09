@@ -31,7 +31,7 @@ public class EnemySpawnState : UnitState<EnemyController>
 		curTime += Time.deltaTime;
 
 		if (refColor.a > 0f)
-			refColor.a -= curTime * 0.01f;
+			refColor.a -= curTime * 0.005f;
 		unit.copyTMat.SetColor(unit.matColorProperty, refColor);
 		unit.navMesh.SetDestination(targetPos);
 		unit.DelayChangeState(curTime, unit.maxSpawningTime, unit, EnemyController.EnemyState.Idle);
