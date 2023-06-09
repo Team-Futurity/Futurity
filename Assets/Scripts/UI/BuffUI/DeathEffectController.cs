@@ -1,11 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
-/// <summary>
-/// 플레이어의 사망 시, 카메라 줌 인 및 슬로우 모션 효과를 관리하는 클래스입니다.
-/// </summary>
 public class DeathEffectController : MonoBehaviour
 {
 	[SerializeField]
@@ -13,7 +10,13 @@ public class DeathEffectController : MonoBehaviour
 	[SerializeField]
 	private Transform cameraTransform;
 	[SerializeField]
+	private GameObject backgroundPanel;
+	[SerializeField]
 	private float zoomInSpeed = 2f;
+	[SerializeField]
+	private float fadeInSpeed = 2f;
+	[SerializeField]
+	private float fadeInAlphaMax = 1f;
 	[SerializeField]
 	private float slowMotionFactor = 0.2f;
 	[SerializeField]
@@ -24,39 +27,74 @@ public class DeathEffectController : MonoBehaviour
 	private UnityEvent DeathEndEvent;
 
 	private Camera cameraComponent;
+	private Image backgroundImage;
 
 	void Start()
 	{
-		// 카메라 컴포넌트를 가져옵니다
 		cameraComponent = cameraTransform.GetComponent<Camera>();
+
+		// backgroundPanel이 할당되지 않았다면 새로운 GameObject를 생성합니다
+		if (backgroundPanel == null)
+		{
+			backgroundPanel = new GameObject("BackgroundPanel");
+			backgroundImage = backgroundPanel.AddComponent<Image>();
+			backgroundImage.color = Color.clear;
+
+			// 최상위 캔버스를 찾아 backgroundPanel을 그 캔버스의 자식으로 설정합니다
+			Canvas topCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+			backgroundPanel.transform.SetParent(topCanvas.transform, false);
+
+			// backgroundPanel의 앵커를 화면 전체로 설정합니다
+			RectTransform rectTransform = backgroundPanel.GetComponent<RectTransform>();
+			rectTransform.anchorMin = Vector2.zero;
+			rectTransform.anchorMax = Vector2.one;
+			rectTransform.offsetMin = Vector2.zero;
+			rectTransform.offsetMax = Vector2.zero;
+			backgroundPanel.SetActive(false);
+		}
+		else
+		{
+			backgroundImage = backgroundPanel.GetComponent<Image>();
+			backgroundPanel.SetActive(false);
+		}
 	}
 
-	// 이 메서드는 플레이어가 몬스터에게 마지막 타격을 입었을 때 호출되어야 합니다
 	public void PlayerDeath()
 	{
+		backgroundPanel.SetActive(true);
+		backgroundImage.color = Color.clear;
 		StartCoroutine(ZoomInAndSlowMotion());
 	}
 
 	IEnumerator ZoomInAndSlowMotion()
 	{
-		// 슬로우 모션을 시작합니다
 		Time.timeScale = slowMotionFactor;
 
-		// 카메라가 플레이어를 줌인하는 동안 대기합니다
-		while (cameraComponent.orthographicSize > zoomInCameraSize)
+		while (cameraComponent.orthographicSize > zoomInCameraSize || backgroundImage.color.a < 0.5f)
 		{
-			cameraComponent.orthographicSize -= zoomInSpeed * Time.deltaTime;
+			// 카메라 줌 인
+			if (cameraComponent.orthographicSize > zoomInCameraSize)
+			{
+				cameraComponent.orthographicSize -= zoomInSpeed * Time.deltaTime;
+			}
+
+			// 알파값 증가
+			if (backgroundImage.color.a < 1f)
+			{
+				Color newColor = backgroundImage.color;
+				newColor = new Color(newColor.r, newColor.g, newColor.b, newColor.a + (Time.deltaTime * fadeInSpeed));
+				backgroundImage.color = newColor;
+			}
+
 			yield return null;
 		}
 
 		DeathEndEvent?.Invoke();
 	}
 
-	/// <summary>
-	/// 스크립트가 비활성화될 때 색상을 원상태로 돌립니다.
-	/// </summary>
 	void OnDisable()
 	{
+		backgroundPanel.SetActive(false);
 		cameraComponent.orthographicSize = normalCameraSize;
 		Time.timeScale = 1f;
 	}
