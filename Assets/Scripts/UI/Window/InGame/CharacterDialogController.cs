@@ -73,7 +73,10 @@ public class CharacterDialogController : MonoBehaviour
 		else
 		{
 			currentText = "";
-			charactorText.text = "";
+			if (charactorText)
+			{
+				charactorText.text = "";
+			}
 			isTextEnd = false;
 			showTextCoroutine = StartCoroutine(ShowText());
 		}
