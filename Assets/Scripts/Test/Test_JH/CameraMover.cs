@@ -22,13 +22,20 @@ public class CameraMover : MonoBehaviour
 	private CameraController moveCameraController;
 
 	[SerializeField]
+	private float moveDelayTime = 1f;
+	WaitForSeconds moveDelayWaitForSeconds;
+
+	[SerializeField]
 	private float speed = 1.0f; // 카메라 이동 속도
 
 	[SerializeField]
-	private AnimationCurve easeGraph; // 이동에 적용할 이징 그래프
+	private AnimationCurve easeGraph; // 이동에 적용할 easeGraph
 
 	[SerializeField]
 	private GameObject uiCanvas;
+
+	[SerializeField]
+	private GameObject player;
 
 	/// <summary>
 	/// 시작 시 카메라를 이동시키는 코루틴을 시작합니다.
@@ -37,6 +44,13 @@ public class CameraMover : MonoBehaviour
 	{
 		uiCanvas.SetActive(false);
 
+		if(player == null)
+		{
+			player = GameObject.FindWithTag("Player");
+		}
+		player.GetComponent<UnityEngine.InputSystem.PlayerInput>().enabled = false;
+
+		moveDelayWaitForSeconds = new WaitForSeconds(moveDelayTime);
 		moveCameraController = moveCamera.GetComponent<CameraController>();
 		moveCameraController.enabled = false;
 
@@ -51,6 +65,8 @@ public class CameraMover : MonoBehaviour
 	/// </summary>
 	private IEnumerator MoveCamera()
 	{
+		yield return moveDelayWaitForSeconds;
+
 		float startTime = Time.time;
 		float journeyLength = Vector3.Distance(startPostion, endPosiotion);
 
