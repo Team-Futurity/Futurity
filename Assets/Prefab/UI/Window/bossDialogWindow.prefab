@@ -198,13 +198,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3434194546828868612}
-        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: WindowClose
-        m_Mode: 1
+      - m_Target: {fileID: 3833450974020967963}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: SceneChange
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 0630cd3fc58addb4d91816b1da472da2, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -432,6 +432,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2217942252267708375}
   - component: {fileID: 3434194546828868612}
+  - component: {fileID: 3833450974020967963}
   m_Layer: 5
   m_Name: bossDialogWindow
   m_TagString: Untagged
@@ -503,6 +504,18 @@ MonoBehaviour:
   closeEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3833450974020967963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217942252267708374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05f0351dd142b446adab1a56a628ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2217942252547662663
 GameObject:
   m_ObjectHideFlags: 0
