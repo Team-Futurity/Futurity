@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// 이 클래스는 카메라를 지정된 위치로 이동시키는 역할을 합니다.
@@ -25,11 +27,16 @@ public class CameraMover : MonoBehaviour
 	[SerializeField]
 	private AnimationCurve easeGraph; // 이동에 적용할 이징 그래프
 
+	[SerializeField]
+	private GameObject uiCanvas;
+
 	/// <summary>
 	/// 시작 시 카메라를 이동시키는 코루틴을 시작합니다.
 	/// </summary>
 	private void Start()
 	{
+		uiCanvas.SetActive(false);
+
 		moveCameraController = moveCamera.GetComponent<CameraController>();
 		moveCameraController.enabled = false;
 
@@ -58,7 +65,9 @@ public class CameraMover : MonoBehaviour
 			yield return null;  // 다음 프레임을 기다립니다
 		}
 
-		moveCameraController.enabled = true;  // 카메라 이동이 끝나면 CameraController를 활성화합니다
+
+		uiCanvas.SetActive(true);
+		moveCameraController.enabled = true;  // 카메라 이동이 끝나면 CameraController를 활성화합니다.
 		this.enabled = false;  // 이 스크립트는 비활성화합니다
 	}
 }
