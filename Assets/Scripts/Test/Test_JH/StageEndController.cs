@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class StageEndController : MonoBehaviour
 {
 	[SerializeField]
+	public bool isActiveStageEndPortal = false;
+	[SerializeField]
 	private GameObject player;
 	[SerializeField]
 	private GameObject barrierObject;
@@ -37,6 +39,7 @@ public class StageEndController : MonoBehaviour
 
 	private void Start()
 	{
+		isActiveStageEndPortal = false;
 		playerInput = player.gameObject.GetComponent<UnityEngine.InputSystem.PlayerInput>();
 		cameraController = cameraObject.GetComponent<CameraController>();
 		playerController = player.GetComponent<PlayerController>();
@@ -46,7 +49,7 @@ public class StageEndController : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Player"))
+		if (other.CompareTag("Player") && isActiveStageEndPortal)
 		{
 			cameraController.enabled = false;
 			playerInput.enabled = false;
