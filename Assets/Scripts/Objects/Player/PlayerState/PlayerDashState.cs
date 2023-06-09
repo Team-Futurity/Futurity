@@ -11,6 +11,7 @@ public class PlayerDashState : UnitState<PlayerController>
 	// etc
 	private float currentTime;
 	private const float dashTime = 0.2f;
+	private Transform dashEffect;
 
 	public override void Begin(PlayerController pc)
 	{
@@ -18,7 +19,8 @@ public class PlayerDashState : UnitState<PlayerController>
 		pc.animator.SetTrigger(DashTriggerAnimKey);
 		pc.rmController.SetRootMotion("Dash");
 		currentTime = 0;
-		pc.dashEffect.enabled = true;
+		//pc.dashEffect.enabled = true;
+		dashEffect = pc.dashPoolManager.ActiveObject(pc.transform.position, pc.transform.rotation);
 		Vector3 rotVec = pc.moveDir == Vector3.zero ? pc.transform.forward : Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
 		pc.transform.rotation = Quaternion.LookRotation(rotVec);
 		pc.rigid.velocity = rotVec.normalized * pc.playerData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
@@ -43,9 +45,10 @@ public class PlayerDashState : UnitState<PlayerController>
 	public override void End(PlayerController pc)
 	{
 		//base.End(pc);
-		pc.dashEffect.enabled = false;
+		//pc.dashEffect.enabled = false;
 		pc.rigid.velocity = Vector3.zero;
 		pc.dashCoolTimeIsEnd = false;
+		pc.dashPoolManager.DeactiveObject(dashEffect);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

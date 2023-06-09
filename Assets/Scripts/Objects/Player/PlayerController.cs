@@ -34,6 +34,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(5)]
 	[Header("대시. 런타임 변경 불가")]
 	public float dashCoolTime;
+	public GameObject dashEffect;
+	public ObjectPoolManager<Transform> dashPoolManager;
 
 	// hit
 	[Space(5)]
@@ -96,7 +98,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerAnimationEvents playerAnimationEvents;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
-	[HideInInspector] public TrailRenderer dashEffect;
+	//[HideInInspector] public TrailRenderer dashEffect;
 	private WaitForSeconds dashCoolTimeWFS;
 	private WaitForSeconds hitCoolTimeWFS;
 
@@ -131,7 +133,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
-		dashEffect = GetComponent<TrailRenderer>();
+		//dashEffect = GetComponent<TrailRenderer>();
 
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
@@ -153,6 +155,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		glove.SetActive(false);
 
 		// dash
+		dashPoolManager = new ObjectPoolManager<Transform>(dashEffect, gameObject);
 		dashCoolTimeWFS = new WaitForSeconds(dashCoolTime);
 		StartCoroutine(DashDelayCoroutine());
 
