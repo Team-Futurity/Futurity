@@ -57,6 +57,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
 		isColorChanged = false;
+		unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
 		EnemyEffectManager.Instance.HittedEffectDeActive(unit.hittedEffect.indexNum);
 	}
 

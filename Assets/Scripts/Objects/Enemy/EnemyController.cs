@@ -170,8 +170,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		navMesh = GetComponent<NavMeshAgent>();
 		if (spawnEffect != null)
 			spawnEffect.transform.parent = null;
-		
 
+		SetMaterial();
 
 		manager.ActiveManagement(this);
 		EnemyEffectManager.Instance.CopyEffect(this);
@@ -195,7 +195,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		{
 			copyUMat = new Material(unlitMaterial);
 			copyUMat.SetColor(matColorProperty, new Color(1.0f, 1.0f, 1.0f, 0f));
-			//skinnedMeshRenderer.material = copyUMat;
+			skinnedMeshRenderer.material = copyUMat;
 			
 		}
 		if(transparentMaterial != null)
