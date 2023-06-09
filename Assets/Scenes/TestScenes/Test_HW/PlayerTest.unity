@@ -2751,11 +2751,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 17.25, y: 3.1814616, z: 0.6}
   m_Center: {x: 0.0000038146973, y: -0.00000059604645, z: 0.0000011473894}
---- !u!1 &551938038 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2867740291260398543, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-  m_PrefabInstance: {fileID: 1528515532}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &587845044
 GameObject:
   m_ObjectHideFlags: 0
@@ -2793,11 +2788,6 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &590090542 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3847756433271900021, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
-  m_PrefabInstance: {fileID: 1481027957}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &591576146
 GameObject:
   m_ObjectHideFlags: 0
@@ -6859,54 +6849,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b059b14a0cd06844ba042adda41bd56, type: 3}
---- !u!1 &1410116419
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1410116420}
-  - component: {fileID: 1410116421}
-  m_Layer: 0
-  m_Name: TimeScaleManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1410116420
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410116419}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 590090542}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1410116421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410116419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b3b06f763c81f4ba4c67da7dc7d7a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rayPos: {fileID: 1854424476}
-  forward: {x: 0, y: 0, z: 0}
-  distanceThreshold: 5
-  originTimeScale: 1
 --- !u!1 &1411760136
 GameObject:
   m_ObjectHideFlags: 0
@@ -7089,10 +7031,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1684290697, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
+    - target: {fileID: 1410116421, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
       propertyPath: rayPos
       value: 
-      objectReference: {fileID: 551938038}
+      objectReference: {fileID: 1854424476}
     - target: {fileID: 3847756433271900020, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -7435,6 +7377,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1315557342}
     m_Modifications:
+    - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: comboTree.top.childNodes.Array.data[0].childNodes.Array.data[0].childNodes.Array.data[0].shakeTime
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: comboTree.top.childNodes.Array.data[0].childNodes.Array.data[0].childNodes.Array.data[0].effectParent
       value: 
