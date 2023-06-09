@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using static EnemyEffectManager;
+using FMODUnity;
 
 public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
@@ -142,7 +143,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Header("Hitted")]
 	public float hitMaxTime = 2f;                           //피격 딜레이
 	//public float hitPower;									//피격 AddForce 값
-	public Color damagedColor;								//피격 변환 컬러값
+	public Color damagedColor;                              //피격 변환 컬러값
+	public EventReference hitSound;
 
 	[Space(3)]
 	[Header("Death")]

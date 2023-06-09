@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using static EnemyController;
 
@@ -21,6 +18,8 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 
 		unit.copyTMat.SetColor(unit.matColorProperty, unit.damagedColor);
+
+		AudioManager.instance.PlayOneShot(unit.hitSound, unit.transform.position);
 	}
 	public override void Update(EnemyController unit)
 	{
