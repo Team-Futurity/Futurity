@@ -9,8 +9,11 @@ public class CameraController : MonoBehaviour
 {
     [Tooltip("카메라가 추적할 대상입니다.")]
     public Transform target;
+	
     [Tooltip("추적 대상에게서 얼마나 떨어진 위치에 카메라가 있는지를 나타냅니다.")]
     public Vector3 offset;
+
+	private Vector3 prevTargetVector;
 
 	[Header("Caemra Shake")]
     [SerializeField] private bool isVibrate;
@@ -39,6 +42,7 @@ public class CameraController : MonoBehaviour
 	{
 		initialPos = target.position + offset;
 		isVibrate = false;
+		prevTargetVector = target.transform.position;
 	}
 
 	private Vector3 GetTruncatedVector(Vector3 originVector)
@@ -56,11 +60,25 @@ public class CameraController : MonoBehaviour
 	private void FixedUpdate()
     {
 		// 카메라 위치 조정
-        transform.position = GetTruncatedVector(target.position) + offset;
+		var targetVector = GetTruncatedVector(target.position);
+		var currentVector = targetVector + offset;
+		var subtrackVector = currentVector - prevPosition;
+		FDebug.Log(subtrackVector);
+		var moveDir = targetVector - prevTargetVector;
+		moveDir.Normalize();
+		var alterX = subtrackVector.x * moveDir.x;
+		var alterY = subtrackVector.y * moveDir.y;
+		var alterZ = subtrackVector.z * moveDir.z;
+
+		transform.position += new Vector3(alterX, alterY, alterZ);
+		//transform.position = currentVector;
+
+
+
 
 		// 투시 스크립트
 
-		if((prevPosition - transform.position).magnitude <= calcThreshold) { return; }
+		if ((prevPosition - transform.position).magnitude <= calcThreshold) { return; }
 
 		// 초기화
 		if (penetratedMaterial != null)
@@ -102,6 +120,7 @@ public class CameraController : MonoBehaviour
 		}
 
 		prevPosition = transform.position;
+		prevTargetVector = target.transform.position;
 	}
 
 	private void Update()

@@ -30,7 +30,8 @@ public class TimeScaleController : Singleton<TimeScaleController>
 	private void Update()
 	{
 		if(!isReady || isAdjusting) { return; }
-
+		if(rayPos == null) { return; }
+		
 		RaycastHit[] hits = Physics.RaycastAll(rayPos.transform.position, forward, distanceThreshold);
 		foreach(var hit in hits)
 		{

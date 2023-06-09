@@ -11,6 +11,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public static float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
 	public static float FlyPower = 45;               // 공중 체공 힘
 	public static float WallCollisionDamage = 50f;	// 벽 충돌 시 데미지
+	private readonly string KReleaseAnimKey = "KIsReleased";
+	private readonly string DashEndAnimKey = "KDashEnded";
 
 	// Variables
 	private float playerOriginalSpeed;	// 원래 속도(속도 감쇄용)
@@ -50,7 +52,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		private RushEffectData chargeEffectKey;
 
 		// effects
-		private GameObject normalAttackEffect;
 		private GameObject rangeEffect;
 		private GameObject rushBodyEffect;
 		private GameObject rushGroundEffect;
@@ -161,6 +162,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			// 위치 보정
 			unit.transform.position = targetPos;
 
+			if (currentLevel > 0)
+			{
+				unit.animator.SetTrigger(DashEndAnimKey);
+			}
+
 			if (firstEnemy != null)
 			{
 				firstEnemy.transform.position = targetPos + forward * (enemyDistance + moveSpeed * Time.fixedDeltaTime);
@@ -268,6 +274,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 						unit.rushEffectManager.SetEffectLevel(chargeEffectKey, currentLevel - 1);
 					}
 
+					unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
 					rangeEffect.transform.localScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * PlayerController.cm2m);
 					/*if (curEffect != null)
 					{
@@ -285,6 +292,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			FDebug.Log($"Rush Level : {currentLevel}");
 			unit.specialIsReleased = false;
 			isReleased = true;
+			unit.animator.SetTrigger(KReleaseAnimKey);
 
 			CalculateRushData(unit);
 
@@ -295,6 +303,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 				// Remove Charge Effect
 				unit.rushEffectManager.RemoveEffectByKey(chargeEffectKey);
+				unit.rushEffectManager.RemoveEffect(rangeEffect);
 
 				// Active Move Effects
 				rushBodyEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Caster, unit.transform);
@@ -305,7 +314,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			}
 			else
 			{
-				normalAttackEffect = unit.rushEffectManager.ActiveEffect(EffectType.InstanceAttack, EffectTarget.Caster, unit.rushEffects[1].effectPos);
+				unit.playerAnimationEvents.AllocateEffect(EffectType.InstanceAttack, EffectTarget.Caster, unit.rushEffects[1].effectPos);
 			}
 			
 

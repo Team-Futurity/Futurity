@@ -19,6 +19,7 @@ public class TestHPBar : MonoBehaviour
 		curTime = 0f;
 		copySlider = Instantiate(slider, enemy.transform.position + sliderPos, Quaternion.identity, canvas.transform);
 		copySlider.value = 1;
+		enemy.enemyData.hpBar = copySlider.GetComponent<GaugeBarController>();
 		copySlider.gameObject.SetActive(false);
 		isSpawning = true;
 	}

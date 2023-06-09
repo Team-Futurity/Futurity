@@ -100,6 +100,10 @@ public class PlayerAttackState : PlayerComboAttackState
 		rot.y *= -1;
 		effect = attackNode.hitEffectPoolManager.ActiveObject(target.position + attackNode.hitEffectOffset, Quaternion.Euler(rot));
 		var particles = effect.GetComponent<ParticleController>();
-		particles.Initialize(attackNode.effectPoolManager);
+
+		if(particles != null) 
+		{
+			particles.Initialize(attackNode.effectPoolManager);
+		}
 	}
 }

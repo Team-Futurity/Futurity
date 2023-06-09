@@ -7053,6 +7053,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1684290697, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
+      propertyPath: rayPos
+      value: 
+      objectReference: {fileID: 551938038}
     - target: {fileID: 3847756433271900020, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -7661,11 +7665,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568875867}
   m_CullTransparentMesh: 1
---- !u!4 &1577024441 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3847756433271900021, guid: 6994aa4d4d78aa44d82fa9f048f5dfde, type: 3}
-  m_PrefabInstance: {fileID: 1481027957}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1599575201
 GameObject:
   m_ObjectHideFlags: 0
@@ -8283,54 +8282,6 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4439521067689912938, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
   m_PrefabInstance: {fileID: 801194984}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1684290695
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1684290696}
-  - component: {fileID: 1684290697}
-  m_Layer: 0
-  m_Name: TimeScaleController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1684290696
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684290695}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1577024441}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1684290697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684290695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b3b06f763c81f4ba4c67da7dc7d7a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rayPos: {fileID: 551938038}
-  forward: {x: 0, y: 0, z: 0}
-  distanceThreshold: 3
-  originTimeScale: 1
 --- !u!1 &1698493209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7b059b14a0cd06844ba042adda41bd56, type: 3}
