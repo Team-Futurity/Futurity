@@ -89,13 +89,14 @@ public class DeathEffectController : MonoBehaviour
 			yield return null;
 		}
 
+		yield return new WaitForSeconds(1f);
 		DeathEndEvent?.Invoke();
 	}
 
 	void OnDisable()
 	{
+		Time.timeScale = 1f;
 		backgroundPanel.SetActive(false);
 		cameraComponent.orthographicSize = normalCameraSize;
-		Time.timeScale = 1f;
 	}
 }
