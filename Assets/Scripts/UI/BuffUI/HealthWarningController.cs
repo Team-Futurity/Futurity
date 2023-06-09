@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// PlayerHealthUI 클래스는 플레이어 체력에 따라 화면 효과를 제어합니다.
@@ -10,7 +12,11 @@ public class HealthWarningController : MonoBehaviour
 	private float health = 100.0f;  // 플레이어 체력
 
 	[SerializeField]
-	private StatusManager statusManager;  // 플레이어 체력
+	private StatusManager statusManager;  // 플레이어 스텟
+
+	[SerializeField]
+	private Volume volume;
+	private Vignette vignette;
 
 	[SerializeField]
 	/// <summary>
@@ -32,6 +38,13 @@ public class HealthWarningController : MonoBehaviour
 
 	private void Start()
 	{
+			Camera.main.gameObject.TryGetComponent<Volume>(out volume);
+
+		if (volume.profile.TryGet<Vignette>(out vignette))
+		{
+		}
+
+
 		// backgroundPanel이 할당되지 않았다면 새로운 GameObject를 생성합니다
 		if (redEffectObject == null)
 		{
@@ -89,7 +102,8 @@ public class HealthWarningController : MonoBehaviour
 	/// </summary>
 	private void PulseEffect()
 	{
-		effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
-		redEffectImage.color = new Color(1, 0, 0, effectIntensity);
+			effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
+			vignette.intensity.value = effectIntensity;
+		
 	}
 }
