@@ -9,8 +9,11 @@ public class CameraController : MonoBehaviour
 {
     [Tooltip("카메라가 추적할 대상입니다.")]
     public Transform target;
+	
     [Tooltip("추적 대상에게서 얼마나 떨어진 위치에 카메라가 있는지를 나타냅니다.")]
     public Vector3 offset;
+
+	private Vector3 prevTargetVector;
 
 	[Header("Caemra Shake")]
     [SerializeField] private bool isVibrate;
@@ -31,27 +34,59 @@ public class CameraController : MonoBehaviour
 	private Color[] penetratedColor;
 	private Vector3 prevPosition;
 
+	[Header("Correction")]
+	[SerializeField] private int decimalCount;
+
 
 	private void Start()
 	{
 		initialPos = target.position + offset;
 		isVibrate = false;
+		prevTargetVector = target.transform.position;
+	}
+
+	private Vector3 GetTruncatedVector(Vector3 originVector)
+	{
+		float x, y, z;
+		float trucncatingValue = Mathf.Pow(10, decimalCount);
+
+		x = Mathf.Floor(originVector.x * trucncatingValue) / trucncatingValue;
+		y = Mathf.Floor(originVector.y * trucncatingValue) / trucncatingValue;
+		z = Mathf.Floor(originVector.z * trucncatingValue) / trucncatingValue;
+
+		return new Vector3(x, y, z);
 	}
 
 	private void FixedUpdate()
     {
 		// 카메라 위치 조정
-        transform.position = target.position + offset;
+		var targetVector = GetTruncatedVector(target.position);
+		var currentVector = targetVector + offset;
+		var subtrackVector = currentVector - prevPosition;
+		FDebug.Log(subtrackVector);
+		var moveDir = targetVector - prevTargetVector;
+		moveDir.Normalize();
+		var alterX = subtrackVector.x * moveDir.x;
+		var alterY = subtrackVector.y * moveDir.y;
+		var alterZ = subtrackVector.z * moveDir.z;
+
+		transform.position += new Vector3(alterX, alterY, alterZ);
+		//transform.position = currentVector;
+
+
+
 
 		// 투시 스크립트
 
-		if((prevPosition - transform.position).magnitude <= calcThreshold) { return; }
+		if ((prevPosition - transform.position).magnitude <= calcThreshold) { return; }
 
 		// 초기화
 		if (penetratedMaterial != null)
 		{
 			for (int length = 0; length < penetratedMaterial.Length; length++)
 			{
+				if(penetratedMaterial[length] == null) { continue; }
+
 				penetratedColor[length].a = 1f;
 				penetratedMaterial[length].SetColor(colorFieldName, penetratedColor[length]);
 			}
@@ -66,11 +101,16 @@ public class CameraController : MonoBehaviour
 		penetrateRaycastHit = Physics.RaycastAll(ray, targetVec.magnitude, visibleLayer);
 		if (penetrateRaycastHit.Length > 0)
 		{
+			
 			penetratedMaterial = new Material[penetrateRaycastHit.Length];
 			penetratedColor = new Color[penetrateRaycastHit.Length];
 			for (int length = 0; length < penetrateRaycastHit.Length; length++)
 			{
-				penetratedMaterial[length] = penetrateRaycastHit[length].transform.GetComponent<Renderer>().material;
+				if (penetrateRaycastHit[length].transform.gameObject == target) { continue; }
+
+				var renderer = penetrateRaycastHit[length].transform.GetComponent<Renderer>();
+				if(renderer == null) { continue; }
+				penetratedMaterial[length] = renderer.material;
 
 				if (!penetratedMaterial[length].HasColor(colorFieldName)) { continue; }
 				penetratedColor[length] = penetratedMaterial[length].GetColor(colorFieldName);
@@ -80,6 +120,7 @@ public class CameraController : MonoBehaviour
 		}
 
 		prevPosition = transform.position;
+		prevTargetVector = target.transform.position;
 	}
 
 	private void Update()

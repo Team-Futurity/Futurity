@@ -11,6 +11,7 @@ public class PlayerHitState : UnitState<PlayerController>
 	{
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
 		pc.animator.SetTrigger(HitTriggerAnim);
+		pc.rmController.SetRootMotion("Hit");
 		pc.specialIsReleased = false;
 		pc.curNode = pc.comboTree.top;
 

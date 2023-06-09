@@ -16,6 +16,7 @@ public class PlayerDashState : UnitState<PlayerController>
 	{
 		//base.Begin(pc);
 		pc.animator.SetTrigger(DashTriggerAnimKey);
+		pc.rmController.SetRootMotion("Dash");
 		currentTime = 0;
 		pc.dashEffect.enabled = true;
 		Vector3 rotVec = pc.moveDir == Vector3.zero ? pc.transform.forward : Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;

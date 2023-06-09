@@ -27,6 +27,10 @@ public class PlayerAttackState : PlayerComboAttackState
 		base.Begin(pc);
 
 		hittedEnemyCount = 0;
+		if(attackNode.slowTime > 0)
+		{
+			TimeScaleController.Instance.SetTimeScale(attackNode.slowScale, attackNode.slowTime, pc.transform.forward);
+		}
 
 		pc.SetCollider(true);
 	}
@@ -96,6 +100,10 @@ public class PlayerAttackState : PlayerComboAttackState
 		rot.y *= -1;
 		effect = attackNode.hitEffectPoolManager.ActiveObject(target.position + attackNode.hitEffectOffset, Quaternion.Euler(rot));
 		var particles = effect.GetComponent<ParticleController>();
-		particles.Initialize(attackNode.effectPoolManager);
+
+		if(particles != null) 
+		{
+			particles.Initialize(attackNode.effectPoolManager);
+		}
 	}
 }
