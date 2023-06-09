@@ -6373,7 +6373,7 @@ MonoBehaviour:
         maxRange: 500
         damage: 100
         duration: 3
-        buffCode: 1001
+        buffCode: 1003
     - rid: 7965168027137212560
       type: {class: TestActivePart, ns: , asm: Assembly-CSharp}
       data:
@@ -6660,7 +6660,19 @@ MonoBehaviour:
     m_ActionId: 41a8819d-167f-447a-a7a9-503d1c5e59dd
     m_ActionName: Player/SpecialAttack[/Keyboard/k]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1070719927369175192}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSpecialMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: cb3cd42d-0a3a-4cac-8a10-86134262524e
     m_ActionName: Player/ActiveSkill[/Keyboard/r]
   - m_PersistentCalls:
