@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -29,6 +30,23 @@ public class CharacterDialogController : MonoBehaviour
 
 	private Coroutine showTextCoroutine;
 
+	[SerializeField]
+	private UnityEngine.InputSystem.PlayerInput playerInput;
+
+	private void Start()
+	{
+		if (playerInput == null)
+		{
+			playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<UnityEngine.InputSystem.PlayerInput>();
+			FDebug.LogWarning($"{gameObject.name}의 CharacterDialogController에 playerInput를 할당해주세요");
+		}
+		playerInput.enabled = false;
+
+		if (currentText == "")
+		{
+			WriteCharactorText();
+		}
+	}
 
 	/// <summary>
 	/// 출력할 텍스트를 설정합니다.
@@ -75,6 +93,7 @@ public class CharacterDialogController : MonoBehaviour
 		}
 		else
 		{
+			playerInput.enabled = true;
 			windowController.WindowClose();
 		}
 	}

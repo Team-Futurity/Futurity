@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,6 +11,8 @@ public class TutorialCharacterDialogTextWriter : MonoBehaviour
 {
 	[SerializeField]
 	private CharacterDialogController characterDialogController;
+	[SerializeField]
+	private CharacterDialogWindowOpener characterDialogWindowOpener;
 
 	[SerializeField]
 	private int textNum;
@@ -21,21 +24,29 @@ public class TutorialCharacterDialogTextWriter : MonoBehaviour
 	[SerializeField]
 	private List<string> test3;
 
+	private void Start()
+	{
+		FindCharacterDialogWindow();
+	}
+
 	public void TextWriteButton()
 	{
 		switch (textNum)
 		{
 			case 0:
+				FindCharacterDialogWindow();
 				characterDialogController.SetTexts(test1);
 				textNum++;
 				break;
 
 			case 1:
+				FindCharacterDialogWindow();
 				characterDialogController.SetTexts(test2);
 				textNum++;
 				break;
 
 			case 2:
+				FindCharacterDialogWindow();
 				characterDialogController.SetTexts(test3);
 				textNum++;
 				break;
@@ -44,7 +55,16 @@ public class TutorialCharacterDialogTextWriter : MonoBehaviour
 				break;
 		}
 	}
+	public void FindCharacterDialogWindow()
+	{
+		characterDialogController = WindowManager.Instance.FindWindow($"CharacterDialogWindow(Clone)").GetComponent<CharacterDialogController>();
 
+		if (characterDialogController == null)
+		{
+			characterDialogWindowOpener.CharacterDialogWindowOpen();
+			characterDialogController = WindowManager.Instance.FindWindow($"CharacterDialogWindow(Clone)").GetComponent<CharacterDialogController>();
+		}
+	}
 
 
 
