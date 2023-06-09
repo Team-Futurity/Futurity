@@ -16,7 +16,7 @@ public class RDefaultBackMoveState : UnitState<EnemyController>
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, 0.4f, unit, EnemyController.EnemyState.RDefaultChase);
+		unit.DelayChangeState(curTime, 0.4f, unit, EnemyController.EnemyState.RDefaultDelay);
 	}
 
 	public override void FixedUpdate(EnemyController unit)

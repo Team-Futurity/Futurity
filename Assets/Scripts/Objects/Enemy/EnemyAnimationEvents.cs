@@ -6,38 +6,33 @@ public class EnemyAnimationEvents : MonoBehaviour
 {
 	private EnemyController ec;
 
-	private int curIndex;
-	private bool effectActive = false;
-	private float curTime = 0f;
-	private float endTime = 0.8f;
-
 	private void Start()
 	{
 		ec = GetComponent<EnemyController>();
 	}
 
-	private void Update()
+	public void SpecificEffectActive(int index)
 	{
-		if (effectActive && ec.initiateEffects != null)
-		{
-			curTime += Time.deltaTime;
-			ec.initiateEffects[curIndex].SetActive(true);
+		if (EnemyEffectManager.Instance.copySpecific[ec.effects[index].indexNum] != null)
+			EnemyEffectManager.Instance.SpecificEffectActive(ec.effects[index].indexNum);
+	}
 
-			if (curTime > endTime)
-			{
-				ec.initiateEffects[curIndex].SetActive(false);
-				effectActive = false;
-			}
+	public void HitEffectActive()
+	{
+		if (ec.isAttackSuccess && EnemyEffectManager.Instance.copyHit[ec.hitEffect.indexNum] != null)
+		{
+			ec.hitEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
+			EnemyEffectManager.Instance.HitEffectActive(ec.hitEffect.indexNum);
+			ec.isAttackSuccess = false;
 		}
 	}
 
-	public void EffectActive(int index)
+	public void HittedEffectActive()
 	{
-		/*		effect = ec.effectPoolManager.ActiveObject(ec.effectPos.position, ec.transform.rotation);
-				effectPrefab.transform.rotation = ec.effectParent.transform.rotation;*/
-
-		curIndex = index;
-		effectActive = true;
-		curTime = 0f;
+		if (EnemyEffectManager.Instance.copyHitted[ec.hittedEffect.indexNum] != null)
+		{
+			ec.hittedEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
+			EnemyEffectManager.Instance.HittedEffectActive(ec.hittedEffect.indexNum);
+		}
 	}
 }

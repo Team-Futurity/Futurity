@@ -17,11 +17,13 @@ public class TestHPBar : MonoBehaviour
 	private void Start()
 	{
 		curTime = 0f;
-		copySlider = Instantiate(slider, enemy.transform.position + sliderPos, Quaternion.identity, canvas.transform);
-		copySlider.value = 1;
-		enemy.enemyData.hpBar = copySlider.GetComponent<GaugeBarController>();
-		copySlider.gameObject.SetActive(false);
-		isSpawning = true;
+		if(slider != null)
+		{
+			copySlider = Instantiate(slider, enemy.transform.position + sliderPos, Quaternion.identity, canvas.transform);
+			copySlider.value = 1;
+			copySlider.gameObject.SetActive(false);
+			isSpawning = true;
+		}
 	}
 
 	void Update()
@@ -35,7 +37,10 @@ public class TestHPBar : MonoBehaviour
 				isSpawning = false;
 			}
 		}
-		copySlider.value = enemy.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() / enemy.enemyData.status.GetStatus(StatusType.MAX_HP).GetValue();
-		copySlider.transform.position = Camera.main.WorldToScreenPoint(enemy.transform.position + sliderPos);
+		if(slider != null)
+		{
+			copySlider.value = enemy.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() / enemy.enemyData.status.GetStatus(StatusType.MAX_HP).GetValue();
+			copySlider.transform.position = Camera.main.WorldToScreenPoint(enemy.transform.position + sliderPos);
+		}
 	}
 }

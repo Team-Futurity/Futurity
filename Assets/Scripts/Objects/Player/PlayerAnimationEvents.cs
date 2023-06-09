@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
+
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
 

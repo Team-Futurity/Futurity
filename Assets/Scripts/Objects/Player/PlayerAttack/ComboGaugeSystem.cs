@@ -80,8 +80,11 @@ public class ComboGaugeSystem : MonoBehaviour
 		FDebug.Log("Combo : " + addedComboGauge);
 		currentGauge = Mathf.Clamp(currentGauge + addedComboGauge, minComboGauge, maxComboGauge);
 
-		gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge);
-		OnGaugeChanged.Invoke(currentGauge);
+		if (gaugeBar != null)
+		{
+			gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge);
+			OnGaugeChanged.Invoke(currentGauge);
+		}
 	}
 
 	public void ResetComboCount()
