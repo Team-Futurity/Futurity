@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -32,6 +33,8 @@ public class CharacterDialogController : MonoBehaviour
 
 	[SerializeField]
 	private UnityEngine.InputSystem.PlayerInput playerInput;
+
+	public UnityEvent characterDialogEndEvent;
 
 	private void Start()
 	{
@@ -83,6 +86,7 @@ public class CharacterDialogController : MonoBehaviour
 	{
 		if (fullText.Count > textNum)
 		{
+			fullText[textNum] = fullText[textNum].Replace("\\n", "\n");
 			for (int i = 0; i <= fullText[textNum].Length; i++)
 			{
 				currentText = fullText[textNum].Substring(0, i);
@@ -93,6 +97,7 @@ public class CharacterDialogController : MonoBehaviour
 		}
 		else
 		{
+			characterDialogEndEvent?.Invoke();
 			playerInput.enabled = true;
 			windowController.WindowClose();
 		}

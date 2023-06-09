@@ -31,22 +31,21 @@ public class TutorialCharacterDialogTextWriter : MonoBehaviour
 
 	public void TextWriteButton()
 	{
+		FindCharacterDialogWindow();
+
 		switch (textNum)
 		{
 			case 0:
-				FindCharacterDialogWindow();
 				characterDialogController.SetTexts(test1);
 				textNum++;
 				break;
 
 			case 1:
-				FindCharacterDialogWindow();
 				characterDialogController.SetTexts(test2);
 				textNum++;
 				break;
 
 			case 2:
-				FindCharacterDialogWindow();
 				characterDialogController.SetTexts(test3);
 				textNum++;
 				break;

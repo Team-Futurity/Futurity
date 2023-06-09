@@ -19,6 +19,9 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 	[SerializeField]
 	private List<string> texts;
 
+	[SerializeField]
+	private UnityEvent characterDialogEndEvent;
+
 	private GameObject currentCharacterWindow;
 	private CharacterDialogController characterDialogController;
 	private WindowManager windowManager;
@@ -60,6 +63,7 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 			characterDialogController = currentCharacterWindow.GetComponent<CharacterDialogController>();
 
 			characterDialogController.SetTexts(texts);
+			characterDialogController.characterDialogEndEvent = characterDialogEndEvent;
 			characterDialogController.WriteCharactorText();
 		}
 	}
