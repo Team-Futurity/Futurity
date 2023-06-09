@@ -25,9 +25,6 @@ public class LoadingSceneController : MonoBehaviour
     {
 		if (menualObject != null)
 		{
-			TextMeshProUGUI ddd;
-			ddd = menualObject.GetComponent<TextMeshProUGUI>();
-
 			menualObject.GetComponent<TextMeshProUGUI>().text = menualText[UnityEngine.Random.Range(0, menualText.Count - 1)];
 		}
     }

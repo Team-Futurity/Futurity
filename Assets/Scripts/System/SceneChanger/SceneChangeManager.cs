@@ -20,12 +20,12 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 	[SerializeField]
 	private SceneKeyData loadSceneKey;
 
-	public void SceneLoad(SceneKeyData loadSceneKey)
+	public void SceneLoad(SceneKeyData loadSceneKey, int loadingSceneNumber)
 	{
 		this.loadSceneKey = loadSceneKey;
 		loadSceneName = loadSceneKey.sceneName;
-		SceneManager.LoadScene("LoadingScene");
-		StartCoroutine(LoadSceneProcess());
+		SceneManager.LoadScene($"LoadingScene {loadingSceneNumber}");
+		StartCoroutine(LoadSceneProcess(loadingSceneNumber));
 	}
 
 	public void SelfSceneLoad()
@@ -38,15 +38,15 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 		sceneKeyData.chapterName = "";
 		sceneKeyData.incidentName = "";
 
-		SceneChangeManager.Instance.SceneLoad(sceneKeyData);
+		SceneChangeManager.Instance.SceneLoad(sceneKeyData, 1);
 	}
 
-	IEnumerator LoadSceneProcess()
+	IEnumerator LoadSceneProcess(int loadingSceneNumber)
 	{
 		yield return FadeManager.Instance.FadeCoroutineStart(true, 1, Color.black);
 
 		//Scene이 불러와졌는지 확인
-		while (SceneManager.GetActiveScene().name != "LoadingScene")
+		while (SceneManager.GetActiveScene().name != $"LoadingScene {loadingSceneNumber}")
 		{
 			yield return null;
 		}

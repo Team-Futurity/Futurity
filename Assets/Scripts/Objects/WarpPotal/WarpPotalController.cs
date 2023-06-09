@@ -19,6 +19,12 @@ public class WarpPotalController : MonoBehaviour
 
 	public float delay = 0f;
 
+	AreaWarpManager areaWarpManager = null;
+
+	private void Start()
+	{
+		areaWarpManager = AreaWarpManager.Instance;
+	}
 
 	private void OnTriggerEnter(Collider collision)
 	{
@@ -32,7 +38,7 @@ public class WarpPotalController : MonoBehaviour
 			{
 				if (chageSceneKeyData)
 				{
-					SceneChangeManager.Instance.SceneLoad(chageSceneKeyData);
+					SceneChangeManager.Instance.SceneLoad(chageSceneKeyData, 1);
 					warpEndEvent?.Invoke();
 				}
 				else
