@@ -104,6 +104,24 @@ public class WindowManager : Singleton<WindowManager>
 		windows.Clear();
 	}
 
+	/// <summary>
+	/// 주어진 이름의 window를 찾습니다.
+	/// </summary>
+	/// <param name="windowName">찾고자 하는 window의 이름</param>
+	/// <returns>찾은 window. 만약 찾지 못하면 null을 반환합니다.</returns>
+	public GameObject FindWindow(string windowName)
+	{
+		foreach (GameObject window in windows)
+		{
+			if (window.name == windowName)
+			{
+				return window;
+			}
+		}
+
+		return null;
+	}
+
 	///<summary>
 	/// 플레이어가 사용하지 않는 즉, 보여지기만 하는 창을 생성하고 위치를 설정합니다.
 	///</summary>
@@ -113,6 +131,8 @@ public class WindowManager : Singleton<WindowManager>
 
 		return newWindow;
 	}
+
+	
 
 	///<summary>
 	/// 새로운 UI 창을 생성하고 부모와 위치를 설정합니다.
