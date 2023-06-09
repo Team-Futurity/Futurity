@@ -13,6 +13,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public static float WallCollisionDamage = 50f;	// 벽 충돌 시 데미지
 	private readonly string KReleaseAnimKey = "KIsReleased";
 	private readonly string DashEndAnimKey = "KDashEnded";
+	private readonly float Sqrt2;
 
 	// Variables
 	private float playerOriginalSpeed;	// 원래 속도(속도 감쇄용)
@@ -45,7 +46,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	// Layer
 	public LayerMask wallLayer = 1 << 6; // wall Layer
 
-	public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { }
+	public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { Sqrt2 = Mathf.Sqrt(2); }
 
 	// effects
 		// keys
@@ -341,6 +342,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			firstEnemyData.Hit(unit.playerData, WallCollisionDamage);
 		}
 
+		if (currentLevel > 0)
+		{
+			unit.animator.SetTrigger(DashEndAnimKey);
+		}
+
 		// 벽(장애물)과 충돌했으니 바로 돌진 종료
 		unit.ChangeState(PlayerState.AttackAfterDelay);
 	}
@@ -358,7 +364,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		originPos = unit.transform.position;
 		targetPos = originPos + forward * (attackLengthMark * PlayerController.cm2m);
 		targetMagnitude = (targetPos - originPos).magnitude;
-		basicRayLength = moveSpeed * Time.fixedDeltaTime + unit.basicCollider.radius;
+		basicRayLength = moveSpeed * Time.fixedDeltaTime + Sqrt2 * unit.basicCollider.radius;
 	}
 
 	private void RemoveEffect(PlayerController unit, GameObject effect)
