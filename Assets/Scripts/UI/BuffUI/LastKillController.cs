@@ -15,6 +15,8 @@ public class LastKillController : MonoBehaviour
 	[SerializeField]
 	private Transform cameraTransform;
 	[SerializeField]
+	private float zoomInDelayTime = 0.5f;
+	[SerializeField]
 	private float zoomInSpeed = 2f;
 	[SerializeField]
 	private float slowMotionFactor = 0.2f;
@@ -37,7 +39,7 @@ public class LastKillController : MonoBehaviour
 		cameraComponent = cameraTransform.GetComponent<Camera>();
 	}
 
-	// 이 메서드는 플레이어가 몬스터에게 마지막 타격을 입었을 때 호출되어야 합니다
+	// 이 메서드는 플레이어가 몬스터에게 마지막 타격을 입혔을 때 호출되어야 합니다
 	public void LastKill()
 	{
 		StartCoroutine(ReleaseTimer());
@@ -46,22 +48,29 @@ public class LastKillController : MonoBehaviour
 
 	private IEnumerator SlowAndZoomInMotion()
 	{
+		cameraComponent.orthographicSize = zoomInCameraSize;
+
 		// 슬로우 모션을 시작합니다
 		Time.timeScale = slowMotionFactor;
 
+		yield return new WaitForSeconds(zoomInDelayTime * slowMotionFactor);
+
+		Time.timeScale = 1f;
+
 		// 카메라가 플레이어를 줌인하는 동안 대기합니다
-		while (cameraComponent.orthographicSize > zoomInCameraSize)
+		while (cameraComponent.orthographicSize < normalCameraSize)
 		{
-			cameraComponent.orthographicSize -= zoomInSpeed * Time.deltaTime;
+			cameraComponent.orthographicSize += zoomInSpeed * Time.deltaTime;
 			yield return null;
 		}
+
 
 		laskKillEvent?.Invoke();
 	}
 
 	private IEnumerator ReleaseTimer()
 	{
-		yield return new WaitForSeconds(slowMotionTime * slowMotionFactor);
+		yield return new WaitForSeconds(slowMotionTime);
 
 		PotalActive();
 		StopCoroutine(motionCoroutine);
