@@ -307,7 +307,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				unit.rushEffectManager.RemoveEffect(rangeEffect);
 
 				// Active Move Effects
-				rushBodyEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Caster, unit.transform);
+				rushBodyEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Caster, unit.rushEffects[2].effectPos);
 				rushGroundEffect = unit.rushEffectManager.ActiveEffect(EffectType.Move, EffectTarget.Ground, unit.transform);
 
 				// 별도 처리
