@@ -1728,12 +1728,6 @@ MonoBehaviour:
   - {fileID: 543071441}
   - {fileID: 169256179}
   - {fileID: 483734788}
-  questListText:
-  - 
-  - 
-  - 
-  - 
-  - 
 --- !u!1001 &463238702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2241,19 +2235,32 @@ MonoBehaviour:
   - {fileID: 1459904245}
   - {fileID: 148992633}
   - {fileID: 973467237}
-  tutorialQuestList1:
-  - "\uC704\uB85C \uC774\uB3D9 : W"
-  - "\uC704\uB85C \uC774\uB3D9 : A"
-  - "\uC704\uB85C \uC774\uB3D9 : S"
-  - "\uC704\uB85C \uC774\uB3D9 : D"
-  - "\uB300\uC26C : Space"
-  tutorialQuestList2:
-  - j
-  - k
-  - 
-  - 
-  - 
-  tutorialQuestList3: []
+  tutorialQuests:
+  - questName: "W : \uC704\uB85C \uC774\uB3D9"
+    requiredKey: w
+    OnQuestComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  - questName: "A :\uC67C\uCABD\uC73C\uB85C \uC774\uB3D9"
+    requiredKey: a
+    OnQuestComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  - questName: "S : \uC544\uB798\uB85C \uC774\uB3D9"
+    requiredKey: s
+    OnQuestComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  - questName: "D : \uC624\uB978\uCABD\uB85C \uC774\uB3D9"
+    requiredKey: d
+    OnQuestComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  - questName: "Space : \uB300\uC26C"
+    requiredKey: space
+    OnQuestComplete:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1001 &532642414
 PrefabInstance:
   m_ObjectHideFlags: 0
