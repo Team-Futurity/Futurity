@@ -46,18 +46,21 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 
 	public void CharacterDialogWindowOpen()
 	{
-		if (canvas != null)
+		if (windowManager.FindWindow($"{characterWindow.name}(Clone)") == null)
 		{
-			currentCharacterWindow = windowManager.WindowOpen(characterWindow, canvas.transform, false, Vector2.zero, Vector2.one);
-		}
-		else
-		{
-			currentCharacterWindow = windowManager.WindowTopOpen(characterWindow, false, Vector2.zero, Vector2.one);
-		}
+			if (canvas != null)
+			{
+				currentCharacterWindow = windowManager.WindowOpen(characterWindow, canvas.transform, false, Vector2.zero, Vector2.one);
+			}
+			else
+			{
+				currentCharacterWindow = windowManager.WindowTopOpen(characterWindow, false, Vector2.zero, Vector2.one);
+			}
 
-		characterDialogController = currentCharacterWindow.GetComponent<CharacterDialogController>();
+			characterDialogController = currentCharacterWindow.GetComponent<CharacterDialogController>();
 
-		characterDialogController.SetTexts(texts);
-		characterDialogController.WriteCharactorText();
+			characterDialogController.SetTexts(texts);
+			characterDialogController.WriteCharactorText();
+		}
 	}
 }
