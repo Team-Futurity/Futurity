@@ -33,6 +33,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		pc.animator.SetBool(pc.IsAttackingAnimKey, true);
 		pc.animator.SetInteger(pc.currentAttackAnimKey, pc.curNode.animInteger);
+		pc.rmController.SetRootMotion("Attack");
 
 		// sound
 		if (isCombo)

@@ -92,6 +92,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public CapsuleCollider basicCollider;
 	public RushEffectManager rushEffectManager;
 	public BuffProvider buffProvider;
+	public RootMotionContoller rmController;
+	public PlayerAnimationEvents playerAnimationEvents;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public TrailRenderer dashEffect;
