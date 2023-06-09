@@ -18,7 +18,7 @@ public class EnemySpawnState : UnitState<EnemyController>
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
 		unit.enemyCollider.enabled = false;
-		unit.copyTMat.color = BeginColor;
+		unit.copyUMat.color = BeginColor;
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		//unit.skinnedMeshRenderer.enabled = false;
 		unit.spawnEffect.SetActive(true);
@@ -32,7 +32,7 @@ public class EnemySpawnState : UnitState<EnemyController>
 
 		if (refColor.a > 0f)
 			refColor.a -= curTime * 0.005f;
-		unit.copyTMat.SetColor(unit.matColorProperty, refColor);
+		unit.copyUMat.SetColor(unit.matColorProperty, refColor);
 		unit.navMesh.SetDestination(targetPos);
 		unit.DelayChangeState(curTime, unit.maxSpawningTime, unit, EnemyController.EnemyState.Idle);
 	}

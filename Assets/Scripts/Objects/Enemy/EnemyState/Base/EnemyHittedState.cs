@@ -4,6 +4,7 @@ using static EnemyController;
 [FSMState((int)EnemyController.EnemyState.Hitted)]
 public class EnemyHittedState : UnitState<EnemyController>
 {
+	private bool isColorChanged = false;
 	private float curTime;
 	private Color defaultColor = new Color(1, 1, 1, 0f);
 
@@ -15,14 +16,25 @@ public class EnemyHittedState : UnitState<EnemyController>
 		//unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
 		unit.animator.SetTrigger(unit.hitAnimParam);
-
-
-		unit.copyTMat.SetColor(unit.matColorProperty, unit.damagedColor);
+		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
 
 		AudioManager.instance.PlayOneShot(unit.hitSound, unit.transform.position);
+
+		unit.rigid.AddForce(-unit.transform.forward * unit.hitPower, ForceMode.Impulse);
 	}
 	public override void Update(EnemyController unit)
 	{
+		curTime += Time.deltaTime;
+
+		if(!isColorChanged)
+			if(curTime > unit.hitColorChangeTime)
+			{
+				unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
+				isColorChanged = true;
+			}
+
+		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
+
 		//Death event
 		if (unit.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
 		{
@@ -31,10 +43,6 @@ public class EnemyHittedState : UnitState<EnemyController>
 				unit.ChangeState(EnemyState.Death);
 			}
 		}
-
-		curTime += Time.deltaTime;
-
-		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -48,7 +56,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.rigid.velocity = Vector3.zero;
-		unit.copyTMat.SetColor(unit.matColorProperty, defaultColor);
+		isColorChanged = false;
 		EnemyEffectManager.Instance.HittedEffectDeActive(unit.hittedEffect.indexNum);
 	}
 
