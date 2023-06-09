@@ -63,6 +63,7 @@ public class LastKillController : MonoBehaviour
 	{
 		yield return new WaitForSeconds(slowMotionTime * slowMotionFactor);
 
+		PotalActive();
 		StopCoroutine(motionCoroutine);
 		cameraComponent.orthographicSize = normalCameraSize;
 		Time.timeScale = 1f;
@@ -77,8 +78,14 @@ public class LastKillController : MonoBehaviour
 		Time.timeScale = 1f;
 	}
 
-	public void PotalActive(int number)
+	public void PotalActive()
 	{
-		DeActivePotals[number].GetComponent<WarpPotalController>().isActivePotal = true;
+		DeActivePotals[0].GetComponent<StageEndController>().isActiveStageEndPortal = true;
+
+
+		/*for (int i = 0; i < DeActivePotals.Count; i++)
+		{
+			DeActivePotals[i].GetComponent<StageEndController>().isActiveStageEndPortal = true;
+		}*/
 	}
 }
