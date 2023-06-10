@@ -20,7 +20,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		pc.rmController.SetRootMotion("Dash");
 		currentTime = 0;
 		//pc.dashEffect.enabled = true;
-		dashEffect = pc.dashPoolManager.ActiveObject(pc.transform.position, pc.transform.rotation);
+		dashEffect = pc.dashPoolManager.ActiveObject(pc.dashPos.position, pc.dashPos.rotation);
 		Vector3 rotVec = pc.moveDir == Vector3.zero ? pc.transform.forward : Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
 		pc.transform.rotation = Quaternion.LookRotation(rotVec);
 		pc.rigid.velocity = rotVec.normalized * pc.playerData.status.GetStatus(StatusType.DASH_SPEED).GetValue();

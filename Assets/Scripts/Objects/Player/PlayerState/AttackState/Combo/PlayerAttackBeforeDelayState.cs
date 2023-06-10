@@ -42,7 +42,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		}
 
 		// autoTargetting
-		float range = isCombo ? attackNode.attackLength * PlayerController.cm2m : attackNode.attackLengthMark + (PlayerAttackState_Charged.MaxLevel - 1) * PlayerAttackState_Charged.LengthMarkIncreasing;
+		float range = isCombo ? attackNode.attackLength * PlayerController.cm2m : (attackNode.attackLengthMark + (PlayerAttackState_Charged.MaxLevel - 1) * PlayerAttackState_Charged.LengthMarkIncreasing) * PlayerController.cm2m;
 		pc.autoTargetCollider.radiusCollider.enabled = true;
 		pc.autoTargetCollider.SetCollider(360, range);
 		targets.Clear();

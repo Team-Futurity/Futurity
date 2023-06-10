@@ -35,6 +35,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("대시. 런타임 변경 불가")]
 	public float dashCoolTime;
 	public GameObject dashEffect;
+	public Transform dashPos;
 	public ObjectPoolManager<Transform> dashPoolManager;
 
 	// hit
