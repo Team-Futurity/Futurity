@@ -399,8 +399,5 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		nextCombo = PlayerInput.None;
 		LockNextCombo(false);
 		ChangeState(PlayerState.AttackDelay);
-
-
-		Debug.Log($"indInput(input).attackST : {FindInput(input).attackST}");
 	}
 }
