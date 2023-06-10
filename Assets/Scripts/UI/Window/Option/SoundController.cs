@@ -93,7 +93,7 @@ public class SoundController : MonoBehaviour
 	//#설명#	볼륨을 조정하는 함수입니다. AudioMixer의 볼륨을 조절하는 코드는 여기에 추가해야 합니다.
 	private void AdjustVolume(float volume)
 	{
-		Debug.Log("Volume set to " + volume);
+		FDebug.Log("Volume set to " + volume);
 	}
 
 }

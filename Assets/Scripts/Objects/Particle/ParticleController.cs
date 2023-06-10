@@ -6,6 +6,7 @@ public class ParticleController : MonoBehaviour
 {
 	public ObjectPoolManager<Transform> poolManager;
 	private ParticleSystem ps;
+	public bool removeMode;
 
 	private void Start()
 	{
@@ -19,6 +20,15 @@ public class ParticleController : MonoBehaviour
 
 	private void Update()
 	{
+		if(removeMode)
+		{
+			if(!ps.IsAlive(true))
+			{
+				Destroy(gameObject);
+			}
+			return;
+		}
+
 		if (poolManager != null) 
 		{
 			if(!ps.IsAlive(true))

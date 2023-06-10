@@ -9,7 +9,8 @@ public class MiniDefaultKnockbackState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		unit.rigid.AddForce(-unit.transform.forward * 170.0f, ForceMode.Impulse);
+		unit.animator.SetTrigger(unit.atkAnimParam);
+		unit.rigid.AddForce(-unit.transform.forward * unit.powerReference2, ForceMode.Impulse);
 	}
 
 	public override void Update(EnemyController unit)

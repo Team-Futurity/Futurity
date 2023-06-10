@@ -18,6 +18,8 @@ public class PauseMenuWindowManager : MonoBehaviour
 	{
 		RectTransform uiRectTransform = upWidthUI.GetComponent<RectTransform>();
 
+
+
 		uiRectTransform.sizeDelta = new Vector2(uiRectTransform.sizeDelta.x + upWidthValue, uiRectTransform.sizeDelta.y);
 	}
 	public void PauseUIButtonDownWidth(GameObject upWidthUI)

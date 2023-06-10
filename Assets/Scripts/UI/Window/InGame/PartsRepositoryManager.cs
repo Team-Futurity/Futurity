@@ -2,76 +2,135 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartsRepositoryManager : Singleton<PartsRepositoryManager>
+public class PartsRepositoryManager : MonoBehaviour
 {
 	[Header("Parts를 저장하고 관리하는 스크립트입니다.")]
 	[Space(15)]
 
 
 	[SerializeField]
-	private PartsData currentPartsData;
+	private ItemUIData currentItemUiData;
 	[SerializeField]
-	private List<PartsData> enemyPartsDatas = new List<PartsData> { null, null, null };
+	[Tooltip ("해당 변수는 enemy가 사망 이후 player가 선택할 수 있는 PartsData의 리스트입니다.")]
+	private List<ItemUIData> enemyItemUiDatas = new List<ItemUIData> { null, null, null };
 	[SerializeField]
-	private List<PartsData> repositoryPartsDatas = new List<PartsData> { null,null,null };
+	[Tooltip("해당 변수는 player가 변경 가능한 PartsData의 리스트입니다.")]
+	private List<ItemUIData> repositoryItemUiDatas = new List<ItemUIData> { null,null,null };
 
 
 	/// <summary>
-	/// 해당 함수는 currentPartsData를 할당합니다.
+	/// 입력받은 ItemUIData를 currentItemUiData에 할당하는 함수입니다.
 	/// </summary>
-	/// <param name="settingNum">할당할 currnetPartsData</param>
-	public void SetCurrentPartsData(PartsData partsData)
+	/// <param name="itemUiData">할당할 ItemUIData</param>
+	public void SetCurrentPartsData(ItemUIData itemUiData)
 	{
-		currentPartsData = partsData;
-	}
-
-	/// <summary>
-	/// 해당 함수는 currnetPartsData에 있는 PartsData를 settingNum에 할당합니다.
-	/// </summary>
-	/// <param name="settingNum">설정할 데이터 저장소 넘버</param>
-	public void SetPartsData(int settingNum)
-	{ 
-		if (settingNum < 3)
-			repositoryPartsDatas[settingNum] = currentPartsData;
-	}
-
-	/// <summary>
-	/// 해당 함수는 PartsData를 가져옵니다.
-	/// </summary>
-	/// <param name="settingNum">가져올 데이터 저장소 넘버</param>
-	/// <returns>repositoryPartsDatas[settingNum]를 반환합니다.</returns>
-	public PartsData GetRepositoryPartsData(int settingNum)
-	{
-		if (repositoryPartsDatas.Count > settingNum)
+		if (itemUiData != null)
 		{
-			return repositoryPartsDatas[settingNum];
+			currentItemUiData = itemUiData;
 		}
 		else
 		{
+			FDebug.LogError("Input ItemUIData is null");
+		}
+	}
+
+
+	/// <summary>
+	/// currentItemUiData를 repositoryItemUiDatas의 특정 위치에 할당하는 함수입니다.
+	/// </summary>
+	/// <param name="settingNum">ItemUIData를 할당할 위치</param>
+	public void SetPartsData(int settingNum)
+	{
+		if (settingNum >= 0 && settingNum < repositoryItemUiDatas.Count)
+		{ 
+			repositoryItemUiDatas[settingNum] = currentItemUiData;
+		}
+		else
+		{
+			FDebug.LogError("Invalid setting number");
+		}
+	}
+	/// <summary>
+	/// 입력받은 ItemUIData를 repositoryItemUiDatas의 특정 위치에 할당하는 함수입니다.
+	/// </summary>
+	/// <param name="newItemUiData">할당할 ItemUIData</param>
+	/// <param name="settingNum">ItemUIData를 할당할 위치</param>
+	public void SetPartsData(ItemUIData newItemUiData, int settingNum)
+	{
+		if (newItemUiData != null && settingNum >= 0 && settingNum < repositoryItemUiDatas.Count)
+		{
+			repositoryItemUiDatas[settingNum] = newItemUiData;
+		}
+		else
+		{
+			FDebug.LogError("Input ItemUIData is null or invalid setting number");
+		}
+	}
+
+
+	/// <summary>
+	/// repositoryItemUiDatas의 특정 위치에서 ItemUIData를 가져오는 함수입니다.
+	/// </summary>
+	/// <param name="settingNum">ItemUIData를 가져올 위치</param>
+	/// <returns>가져온 ItemUIData</returns>
+	public ItemUIData GetRepositoryPartsData(int settingNum)
+	{
+		if (settingNum >= 0 && repositoryItemUiDatas.Count > settingNum)
+		{ 
+			return repositoryItemUiDatas[settingNum];
+		}
+		else
+		{
+			FDebug.LogError("Invalid setting number");
 			return null;
 		}
 	}
 
 
 	/// <summary>
-	/// 해당 함수는 enemyPartsDatas값을 할당합니다.
+	/// 입력받은 List<ItemUIData>를 enemyItemUiDatas에 할당하는 함수입니다. 리스트가 null이거나 3개 이상의 항목을 가지고 있으면 에러 메시지를 출력합니다.
 	/// </summary>
-	/// <param name="enemyPartsDatas">설정할 PartsData의 List</param>
-	public void SetEnemyDatas(List<PartsData> enemyPartsDatas)
+	/// <param name="enemyItemUiDatas">할당할 List<ItemUIData></param>
+	public void SetEnemyItemUiDatas(List<ItemUIData> enemyItemUiDatas)
 	{
-		this.enemyPartsDatas = enemyPartsDatas;
+		if (enemyItemUiDatas != null && enemyItemUiDatas.Count <= 3)
+		{
+			this.enemyItemUiDatas = new List<ItemUIData>(enemyItemUiDatas);
+		}
+		else
+		{
+			FDebug.LogError("Input list is null or has too many items");
+		}
 	}
 
 	/// <summary>
-	/// 해당 함수는 SetEnemyDatas를 가져옵니다.
+	/// 입력받은 ItemUIData를 enemyItemUiDatas의 특정 위치에 할당하는 함수입니다. ItemUIData나 인덱스가 유효하지 않은 경우 에러 메시지를 출력합니다.
 	/// </summary>
-	/// <param name="settingNum">가져올 데이터 저장소 넘버</param>
-	/// <returns>repositoryPartsDatas[settingNum]를 반환합니다.</returns>
-	public PartsData GetEnemyData(int settingNum)
+	/// <param name="newEnemyItemUiData">할당할 ItemUIData</param>
+	/// <param name="settingNum">ItemUIData를 할당할 위치</param>
+	public void SetEnemyData(ItemUIData newEnemyItemUiData, int settingNum)
 	{
-		if (enemyPartsDatas.Count > settingNum)
+		if (newEnemyItemUiData != null && settingNum >= 0 && settingNum < enemyItemUiDatas.Count)
 		{
-			return enemyPartsDatas[settingNum];
+			enemyItemUiDatas[settingNum] = newEnemyItemUiData;
+		}
+		else
+		{
+			FDebug.LogError("Input ItemUIData is null or invalid setting number");
+		}
+	}
+
+
+	/// <summary>
+	/// enemyItemUiDatas의 특정 위치에서 ItemUIData를 가져오는 함수입니다. 인덱스가 유효하지 않은 경우 에러 메시지를 출력하고 null을 반환합니다.
+	/// </summary>
+	/// <param name="settingNum">ItemUIData를 가져올 위치</param>
+	/// <returns>가져온 ItemUIData</returns>
+	public ItemUIData GetEnemyData(int settingNum)
+	{
+		if (enemyItemUiDatas.Count > settingNum)
+		{
+			return enemyItemUiDatas[settingNum];
 		}
 		else
 		{

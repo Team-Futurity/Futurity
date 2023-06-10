@@ -40,7 +40,7 @@ public class PauseMenuManager : MonoBehaviour
 	void Pause()
 	{
 		Time.timeScale = 0f;
-		currentPauseMenuWindow = WindowManager.Instance.WindowTopOpen(pauseMenuWindow, Vector2.zero, Vector2.one);
+		currentPauseMenuWindow = WindowManager.Instance.WindowTopOpen(pauseMenuWindow, true, Vector2.zero, Vector2.one);
 	}
 
 	void Resume()

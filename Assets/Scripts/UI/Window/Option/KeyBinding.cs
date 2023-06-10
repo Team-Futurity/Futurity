@@ -62,7 +62,7 @@ public class KeyBinding : MonoBehaviour
 				}
 				else
 				{
-					Debug.Log($"moveActionName이 정상적으로 입력되어있는지 확인하세요. \n bindingIndex : {subBindingIndex}");
+					FDebug.Log($"moveActionName이 정상적으로 입력되어있는지 확인하세요. \n bindingIndex : {subBindingIndex}");
 				}
 			}
 		}

@@ -8,24 +8,19 @@ using static EnemyController;
 public class EnemyHittedState : UnitState<EnemyController>
 {
 	private float curTime;
-	private Material copyMat;
+	private Color defaultColor = new Color(1, 1, 1, 0f);
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("Hit Begin");
 		curTime = 0;
 
-		unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+		//unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
 		unit.animator.SetTrigger(unit.hitAnimParam);
-		if(copyMat == null )
-			copyMat = new Material(unit.eMaterial);
-		
-		copyMat.SetColor("_MainColor", unit.damagedColor);
 
-		unit.skinnedMeshRenderer.material = copyMat;
 
-		unit.rigid.AddForce(-unit.transform.forward * 450.0f, ForceMode.Impulse);
+		unit.copyTMat.SetColor(unit.matColorProperty, unit.damagedColor);
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -40,7 +35,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 		curTime += Time.deltaTime;
 
-		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, EnemyController.EnemyState.MDefaultChase);
+		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
 	}
 
 	public override void FixedUpdate(EnemyController unit)
@@ -50,10 +45,12 @@ public class EnemyHittedState : UnitState<EnemyController>
 
 	public override void End(EnemyController unit)
 	{
-		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
-		unit.rigid.velocity = Vector3.zero;
 		//FDebug.Log("Hit End");
-		copyMat.SetColor("_MainColor", unit.defaultColor);
+
+		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
+		unit.rigid.velocity = Vector3.zero;
+		unit.copyTMat.SetColor(unit.matColorProperty, defaultColor);
+		EnemyEffectManager.Instance.HittedEffectDeActive(unit.hittedEffect.indexNum);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

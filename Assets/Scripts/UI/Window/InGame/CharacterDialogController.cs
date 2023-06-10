@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -11,57 +14,163 @@ public class CharacterDialogController : MonoBehaviour
 	[Space (15)]
 
 	[SerializeField]
-	private UnityEngine.UI.Image charactorImage;
+	private WindowController windowController;
+
 	[SerializeField]
 	private TextMeshProUGUI charactorText;
 
 	[SerializeField]
-	private float typingTelay = 0.05f;
+	private float typingDelay = 0.05f;
 	[SerializeField]
-	private string fullText;
+	private List<string> fullText;
+	[SerializeField]
+	private int textNum = 0;
+	[SerializeField]
+	private float skipDelay = 0.05f;
+
 	private string currentText = "";
 	private bool isTextEnd = false;
 
+	private Coroutine showTextCoroutine;
 
-	public void SetCharactorText(string changeText)
+	[SerializeField]
+	private UnityEngine.InputSystem.PlayerInput playerInput;
+
+	public UnityEvent characterDialogEndEvent;
+
+	private void Start()
 	{
-		fullText = changeText;
-		currentText = "";
-		charactorText.text = "";
-		isTextEnd = false;
-		StartCoroutine(ShowText());
+		if (playerInput == null)
+		{
+			playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<UnityEngine.InputSystem.PlayerInput>();
+			FDebug.LogWarning($"{gameObject.name}의 CharacterDialogController에 playerInput를 할당해주세요");
+		}
+		playerInput.enabled = false;
+
+		if (currentText == "")
+		{
+			WriteCharactorText();
+		}
 	}
 
+	/// <summary>
+	/// 출력할 텍스트를 설정합니다.
+	/// </summary>
+	public void SetTexts(List<string> texts)
+	{
+		fullText = texts;
+	    textNum = 0;
+	}
+
+	/// <summary>
+	/// CharacterDialog창의 대화창의 텍스트를 출력하는 스크립트로. fullText에 저장되어있는 텍스트를 차근차근 출력하며, 출력중인 텍스트가 있다면 해당 텍스트를 스킵합니다.
+	/// </summary>
+	public void WriteCharactorText()
+	{
+		if (showTextCoroutine != null)
+		{
+			StopCoroutine(showTextCoroutine);
+			SkipNextText();
+		}
+		else
+		{
+			currentText = "";
+			if (charactorText)
+			{
+				charactorText.text = "";
+			}
+			isTextEnd = false;
+			showTextCoroutine = StartCoroutine(ShowText());
+		}
+	}
+
+	public void SkipCharacterText()
+	{
+		StartCoroutine(SkipCharactorTextWriter());
+	}
+
+	IEnumerator SkipCharactorTextWriter()
+	{
+		for(int i = 0; i < fullText.Count + 1; i++)
+		{
+			yield return new WaitForSeconds(skipDelay);
+			WriteCharactorText();
+		}
+	}
+
+	/// <summary>
+	/// 텍스트를 하나씩 출력하는 코루틴입니다.
+	/// </summary>
 	IEnumerator ShowText()
 	{
-		for (int i = 0; i <= fullText.Length; i++)
+		if (fullText.Count > textNum)
 		{
-			currentText = fullText.Substring(0, i);
-			charactorText.text = currentText;
-			yield return new WaitForSeconds(typingTelay);
+			fullText[textNum] = fullText[textNum].Replace("\\n", "\n");
+			for (int i = 0; i <= fullText[textNum].Length; i++)
+			{
+				currentText = fullText[textNum].Substring(0, i);
+				charactorText.text = currentText;
+				yield return new WaitForSeconds(typingDelay);
+			}
+			TypingTextEnd();
 		}
+		else
+		{
+			characterDialogEndEvent?.Invoke();
+			playerInput.enabled = true;
+			windowController.WindowClose();
+		}
+	}
+
+	/// <summary>
+	/// 다음 텍스트로 넘어갑니다.
+	/// </summary>
+	public void SkipNextText()
+	{
+		charactorText.text = fullText[textNum];
 		TypingTextEnd();
 	}
 
-	public void TypingTextEnd()
+	/// <summary>
+	/// 텍스트 타이핑 완료
+	/// </summary>
+	private void TypingTextEnd()
 	{
-		Debug.Log($"{gameObject}의 \"{fullText}\" Text 타이핑 완료");
+		FDebug.Log($"{gameObject}의 \"{fullText}\" Text 타이핑 완료");
+		textNum++;
 		isTextEnd = true;
+		showTextCoroutine = null;
 	}
 
+	/// <summary>
+	/// 현재 출력중인 텍스트를 가져옵니다.
+	/// </summary>
 	public string GetThisText()
 	{
-		return fullText;
+		if (fullText.Count > textNum)
+		{
+			return fullText[textNum];
+		} 
+		else
+		{
+			return fullText[fullText.Count - 1];
+		}
 	}
+
+	/// <summary>
+	/// 텍스트 출력 완료 여부를 가져옵니다.
+	/// </summary>
 	public bool GetTextEnd()
 	{
 		return isTextEnd;
 	}
 
 
-
-	public void SetCharactorSprite(Sprite changeSprite)
+	/// <summary>
+	/// 타이핑 딜레이 시간을 설정합니다.
+	/// </summary>
+	public void SetTypingDelay(float delayTime)
 	{
-		charactorImage.sprite = changeSprite;
+		typingDelay = delayTime;
 	}
 }

@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class UIWindowButtonController : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
-	[Header("윈도우의 버튼이 선텍되었을 경우 호출할 함수가 있을때 사용하는 스크립트")]
+	[Header("윈도우의 버튼 Evnet에 Click 이외에 추가 효과가 필요할 경우 사용하는 스크립트")]
 	[Space (15)]
 
 
@@ -15,6 +15,8 @@ public class UIWindowButtonController : MonoBehaviour, ISelectHandler, IDeselect
 	private UnityEvent onButtonClickedEvents;
 	[SerializeField]
 	private UnityEvent offButtonClickedEvents;
+	[SerializeField]
+	private UnityEvent holdButtonEvents;
 
 	public void OnSelect(BaseEventData eventData)
 	{
@@ -25,4 +27,8 @@ public class UIWindowButtonController : MonoBehaviour, ISelectHandler, IDeselect
 		offButtonClickedEvents?.Invoke();
 	}
 
+	public void OnHold()
+	{
+		holdButtonEvents?.Invoke();
+	}
 }

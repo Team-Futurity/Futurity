@@ -5,44 +5,34 @@ using UnityEngine;
 public class EnemyAnimationEvents : MonoBehaviour
 {
 	private EnemyController ec;
-	[HideInInspector] public Transform effect;
-
-	private GameObject effectPrefab;
-
-	private bool effectActive = false;
-	private float curTime = 0f;
-	private float endTime = 0.8f;
 
 	private void Start()
 	{
 		ec = GetComponent<EnemyController>();
-		if(effectPrefab == null)
+	}
+
+	public void SpecificEffectActive(int index)
+	{
+		if (EnemyEffectManager.Instance.copySpecific[ec.effects[index].indexNum] != null)
+			EnemyEffectManager.Instance.SpecificEffectActive(ec.effects[index].indexNum);
+	}
+
+	public void HitEffectActive()
+	{
+		if (ec.isAttackSuccess && EnemyEffectManager.Instance.copyHit[ec.hitEffect.indexNum] != null)
 		{
-			effectPrefab = GameObject.Instantiate(ec.effectPrefab, ec.effectParent == null ? null : ec.effectPos.transform);
-			effectPrefab.SetActive(false);
+			ec.hitEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
+			EnemyEffectManager.Instance.HitEffectActive(ec.hitEffect.indexNum);
+			ec.isAttackSuccess = false;
 		}
 	}
 
-	private void Update()
+	public void HittedEffectActive()
 	{
-		if(effectActive && effectPrefab != null)
+		if (EnemyEffectManager.Instance.copyHitted[ec.hittedEffect.indexNum] != null)
 		{
-			curTime += Time.deltaTime;
-			effectPrefab.SetActive(true);
-
-			if(curTime > endTime)
-			{
-				effectPrefab.SetActive(false);
-				effectActive = false;
-			}
+			ec.hittedEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
+			EnemyEffectManager.Instance.HittedEffectActive(ec.hittedEffect.indexNum);
 		}
-	}
-
-	public void PrintEffect()
-	{
-		//effect = ec.effectPoolManager.ActiveObject(ec.effectPos.position, ec.transform.rotation);
-		//effectPrefab.transform.rotation = ec.effectParent.transform.rotation;
-		effectActive = true;
-		curTime = 0f;
 	}
 }

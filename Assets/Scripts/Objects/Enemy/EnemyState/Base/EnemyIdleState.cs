@@ -7,12 +7,11 @@ using static EnemyController;
 [FSMState((int)EnemyController.EnemyState.Idle)]
 public class EnemyIdleState : UnitState<EnemyController>
 {
-	float curTime;
+	float curTime = .0f;
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("IdleBegin");
-		curTime = 0;
 	}
 
 	public override void Update(EnemyController unit)
@@ -30,15 +29,19 @@ public class EnemyIdleState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		//FDebug.Log("IdleEnd");
+		curTime = 0;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		if (other.CompareTag(unit.playerTag) && !unit.isChasing)
+		if (other.CompareTag(unit.playerTag) /*&& !unit.isChasing*/)
 		{
 			//FDebug.Log("Idle Trigger");
 			unit.target = other.GetComponent<UnitBase>();
-			unit.ChangeState(unit.UnitChaseState(unit));
+			unit.ChangeState(unit.UnitChaseState());
+
+			if (unit.isClusteringObj)
+				EnemyManager.Instance.EnemyClustering(unit);
 		}
 	}
 

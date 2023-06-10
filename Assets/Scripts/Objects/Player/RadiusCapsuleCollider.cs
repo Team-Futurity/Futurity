@@ -58,7 +58,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		float posX, posY, posZ;
 		float theta = 90 - transform.eulerAngles.y;
 
-		posY = transform.position.y;
+		posY = 0;
 
 		// right
 		posX = Mathf.Cos((theta - clampedAngle) * Mathf.Deg2Rad) * radius;
@@ -73,6 +73,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		return vecs;
 	}
 
+#if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
@@ -89,4 +90,5 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		Gizmos.DrawLine(transform.position, rightPos);
 		Gizmos.DrawLine(transform.position, leftPos);
 	}
+#endif
 }

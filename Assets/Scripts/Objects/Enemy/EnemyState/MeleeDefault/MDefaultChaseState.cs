@@ -1,52 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 [FSMState((int)EnemyController.EnemyState.MDefaultChase)]
-public class MDefaultChaseState : UnitState<EnemyController>
+public class MDefaultChaseState : EnemyChaseBaseState
 {
+	private float attackDistance = .0f;
+	private float clusterDistance = .0f;
+
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Chase begin");
-		unit.animator.SetBool(unit.moveAnimParam, true);
-		unit.chaseRange.enabled = false;
-		unit.atkRange.enabled = true;
-		unit.isChasing = true;
+
+		base.Begin(unit);
+
+		if (unit.isClustering && unit.individualNum > 0)
+			unit.ChangeState(EnemyController.EnemyState.ClusterChase);
 	}
 	public override void Update(EnemyController unit)
 	{
-		if (unit.target == null)
-			return;
-		unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), 15.0f * Time.deltaTime);
-		//unit.transform.LookAt(unit.target.transform.position);
-		unit.transform.position += unit.transform.forward.normalized * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
-	}
+		base.Update(unit);
 
-	public override void FixedUpdate(EnemyController unit)
-	{
+		if (distance < unit.attackRange)
+		{
+			unit.rigid.velocity = Vector3.zero;
+			unit.navMesh.enabled = false;
+			unit.ChangeState(EnemyController.EnemyState.MDefaultAttack);
+		}
 
+		else
+			unit.navMesh.SetDestination(unit.target.transform.position);
 	}
 
 	public override void End(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Chase end");
-		unit.animator.SetBool(unit.moveAnimParam, false);
-		unit.atkRange.enabled = false;
-	}
 
-	public override void OnTriggerEnter(EnemyController unit, Collider other)
-	{
-		if (other.CompareTag(unit.playerTag))
-		{
-			//FDebug.Log("MDefault Chase Trigger");
-			unit.rigid.velocity = Vector3.zero;
-			unit.ChangeState(EnemyController.EnemyState.MDefaultAttack);
-		}
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-
+		base.End(unit);
 	}
 }

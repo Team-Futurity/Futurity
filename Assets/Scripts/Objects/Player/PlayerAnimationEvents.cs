@@ -6,8 +6,13 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
+
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
+
+	private EffectType effectType;
+	private EffectTarget EffectTarget;
+	private Transform effectPos;
 
 	public FMODUnity.EventReference walk;
 
@@ -20,17 +25,21 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public void EffectPooling()
 	{
 		attackNode = pc.curNode;
-		effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, pc.transform.rotation);
+		effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, attackNode.effectPos.rotation);
 		var particles = effect.GetComponent<ParticleController>();
 		particles.Initialize(attackNode.effectPoolManager);
 	}
 
-	public void ChargedEffectPooling(int number)
+	public void PreAllocatedEffectPooling()
 	{
-		pc.rushObjectPool = new ObjectPoolManager<Transform>(pc.rushEffects[number].effect);
-		var effect = pc.rushObjectPool.ActiveObject(pc.rushEffects[number].effectPos.position);
-		var particles = effect.GetComponent<ParticleController>();
-		particles.Initialize(pc.rushObjectPool);
+		pc.rushEffectManager.ActiveEffect(effectType, EffectTarget, effectPos);
+	}
+
+	public void AllocateEffect(EffectType type, EffectTarget target, Transform effectPos)
+	{
+		this.effectPos = effectPos;
+		effectType = type;
+		EffectTarget = target;
 	}
 
 	public void CameraShake()

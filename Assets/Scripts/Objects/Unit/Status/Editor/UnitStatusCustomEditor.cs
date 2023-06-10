@@ -18,3 +18,20 @@ public class OriginStatusCustomEditor : Editor
 		}
 	}
 }
+
+[CustomEditor(typeof(StatusManager))]
+public class StatusManagerCustomEditor : Editor
+{
+	public override void OnInspectorGUI()
+	{
+		base.OnInspectorGUI();
+		StatusManager manager = (StatusManager)target;
+
+		if (GUILayout.Button("Refresh"))
+		{
+			manager.CopyOrigin();
+			EditorApplication.RepaintProjectWindow();
+		}
+
+	}
+}

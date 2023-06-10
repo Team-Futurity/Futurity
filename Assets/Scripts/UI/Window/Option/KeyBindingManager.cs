@@ -48,24 +48,24 @@ public class KeyBindingManager : MonoBehaviour
 				if (bindingIndex != -1)
 				{
 
-					Debug.Log($"bindingIndex.path : {bindingObject.Value[i][0]} \nbindingIndex.name : {bindingObject.Value[i][1]}");
+					FDebug.Log($"bindingIndex.path : {bindingObject.Value[i][0]} \nbindingIndex.name : {bindingObject.Value[i][1]}");
 					string overridePathText = bindingObject.Value[i][0];
-					Debug.Log($"overridePathText : {overridePathText}");
+					FDebug.Log($"overridePathText : {overridePathText}");
 
-					Debug.Log($"Before apply override: {action.bindings[bindingIndex].path}");
+					FDebug.Log($"Before apply override: {action.bindings[bindingIndex].path}");
 					var bindingOverride = new InputBinding { overridePath = bindingObject.Value[i][0], name = bindingObject.Value[i][1]};
 
 
-					Debug.Log($"bindingIndex : {bindingIndex} \nbindingOverride : {bindingOverride.name}, {bindingOverride.path}");
+					FDebug.Log($"bindingIndex : {bindingIndex} \nbindingOverride : {bindingOverride.name}, {bindingOverride.path}");
 
 					action.Disable();
 					action.Enable();
 					action.ApplyBindingOverride(bindingIndex, bindingOverride);
-					Debug.Log($"After  apply override: {action.bindings[bindingIndex].path}");
+					FDebug.Log($"After  apply override: {action.bindings[bindingIndex].path}");
 				}
 				else
 				{
-					Debug.LogWarning($"bindingIndext값에 문제가 발생했습니다. \nactionName : {bindingObject.Value[i][1]}, key : {bindingObject.Value[i][0]}");
+					FDebug.LogWarning($"bindingIndext값에 문제가 발생했습니다. \nactionName : {bindingObject.Value[i][1]}, key : {bindingObject.Value[i][0]}");
 				}
 			}
 		}

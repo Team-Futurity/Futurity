@@ -14,6 +14,7 @@ public class SetStartWindowDatas : MonoBehaviour
 	void Start()
 	{
 		WindowManager.Instance.SetInputActionReference(leftAction, rightAction, selectAction);
+		WindowManager.Instance.ClearWindow();
 		WindowManager.Instance.SetWindow(this.gameObject);
 	}
 }

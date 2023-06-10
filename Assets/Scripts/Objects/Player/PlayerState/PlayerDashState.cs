@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)PlayerController.PlayerState.Dash)]
+[FSMState((int)PlayerState.Dash)]
 public class PlayerDashState : UnitState<PlayerController>
 {
 	// anim keys
@@ -11,13 +11,17 @@ public class PlayerDashState : UnitState<PlayerController>
 	// etc
 	private float currentTime;
 	private const float dashTime = 0.2f;
+
 	public override void Begin(PlayerController pc)
 	{
 		//base.Begin(pc);
 		pc.animator.SetTrigger(DashTriggerAnimKey);
+		pc.rmController.SetRootMotion("Dash");
 		currentTime = 0;
 		pc.dashEffect.enabled = true;
-		pc.rigid.velocity = pc.transform.forward * pc.playerData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
+		Vector3 rotVec = pc.moveDir == Vector3.zero ? pc.transform.forward : Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
+		pc.transform.rotation = Quaternion.LookRotation(rotVec);
+		pc.rigid.velocity = rotVec.normalized * pc.playerData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
 		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);
 
 		pc.glove.SetActive(false);
@@ -27,7 +31,7 @@ public class PlayerDashState : UnitState<PlayerController>
 	{
 		if (currentTime > dashTime)
 		{
-			pc.BackToPreviousState();
+			pc.ChangeState(PlayerState.Idle);
 		}
 		currentTime += Time.deltaTime;
 	}
@@ -41,15 +45,16 @@ public class PlayerDashState : UnitState<PlayerController>
 		//base.End(pc);
 		pc.dashEffect.enabled = false;
 		pc.rigid.velocity = Vector3.zero;
+		pc.dashCoolTimeIsEnd = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		throw new System.NotImplementedException();
+		
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-		throw new System.NotImplementedException();
+		
 	}
 }
