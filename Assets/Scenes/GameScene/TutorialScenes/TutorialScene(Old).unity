@@ -6956,12 +6956,7 @@ MonoBehaviour:
   - {fileID: 543071441}
   - {fileID: 169256179}
   - {fileID: 483734788}
-  questListText:
-  - "WASD : \uC774\uB3D9"
-  - "SPACE : \uB300\uC26C"
-  - 
-  - 
-  - 
+  questImages: []
 --- !u!1 &449296851
 GameObject:
   m_ObjectHideFlags: 0
@@ -8129,6 +8124,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bbf7daee8748584b9fb5ad6f6bfbd6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageNum: 1
+  questUIController: {fileID: 0}
+  playerInput: {fileID: 0}
+  playerController: {fileID: 0}
+  dialogWindowOpeners: []
+  warpPotalController: {fileID: 0}
+  activeQuests: []
+  tutorialQuests1: []
+  tutorialQuestSprites1: []
+  tutorialQuests2: []
+  tutorialQuestSprites2: []
 --- !u!1 &516554042
 GameObject:
   m_ObjectHideFlags: 0
@@ -9643,6 +9649,7 @@ MonoBehaviour:
   DeActivePotals: []
   playerTransform: {fileID: 1921549217}
   cameraTransform: {fileID: 1703148523}
+  zoomInDelayTime: 0.5
   zoomInSpeed: 2
   slowMotionFactor: 0.2
   slowMotionTime: 3
@@ -14322,17 +14329,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51f7c56c728dc743b2d3223833f9e22, type: 3}
---- !u!114 &882675857 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2256431204865999041, guid: e51f7c56c728dc743b2d3223833f9e22, type: 3}
-  m_PrefabInstance: {fileID: 882675856}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &882675858 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7686853111009963861, guid: e51f7c56c728dc743b2d3223833f9e22, type: 3}
@@ -14698,6 +14694,9 @@ MonoBehaviour:
     \uBAA8\uC744 \uC218\uB85D  \uB354 \uAC15\uD55C \uD798\uC73C\uB85C \uB3CC\uC9C4\uD560
     \uC218 \uC788\uC73C\uB2C8 \uCC38\uACE0\uD558\uC138\uC694!\""
   - "\uADF8\uB7FC \uC55E\uC5D0 \uC11C\uC788\uB294 \uBAAC\uC2A4\uD130\uB97C \uACF5\uACA9\uD574\uBCFC\uAE4C\uC694?"
+  characterDialogEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &900307172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15888,6 +15887,9 @@ MonoBehaviour:
     \uCD94\uAC00 \uBD80\uD488\uC744  \uD65C\uC131\uD654\uD560 \uC218\uB3C4 \uC788\uACE0...\""
   - "\"\uC0C1\uC0C1\uB3C4 \uBABB \uD560 \uC815\uB3C4\uB85C \uAC70\uB300\uD55C \uACF5\uACA9\uC744
     \uC0AC\uC6A9\uD560 \uC218\uB3C4 \uC788\uC744 \uAC70\uC608\uC694...!\""
+  characterDialogEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &944087909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19097,6 +19099,9 @@ MonoBehaviour:
   - "\"\uADF8 \uC2E0\uBC1C\uC740 \uD2B9\uC218 \uC18C\uC7AC\uB85C \uB9CC\uB4E4\uC5B4\uC838\uC11C
     \uAC15\uD55C  \uB3C4\uC57D\uC5D0 \uB3C4\uC6C0\uC774 \uB420 \uAC70\uC608\uC694.\""
   - "\uADF8\uB7FC, \uC77C\uB2E8 \uC6C0\uC9C1\uC5EC\uBCFC\uB798\uC694?"
+  characterDialogEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1183266047
 GameObject:
   m_ObjectHideFlags: 0
@@ -22997,13 +23002,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1315557342}
   cameraTransform: {fileID: 1703148523}
-  backgroundPanel: {fileID: 0}
+  panelCanvas: {fileID: 0}
   zoomInSpeed: 2
   fadeInSpeed: 1
   fadeInAlphaMax: 2
   slowMotionFactor: 0.5
   normalCameraSize: 5
   zoomInCameraSize: 2
+  backgroundPanel: {fileID: 0}
   DeathEndEvent:
     m_PersistentCalls:
       m_Calls:
@@ -25826,27 +25832,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f020a7d3cc7fd1340bb07559073f7292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActiveStageEndPortal: 0
   player: {fileID: 237533217}
   barrierObject: {fileID: 936134236}
   cameraObject: {fileID: 1703148520}
+  windowOpenController: {fileID: 0}
+  playerMoveLimit: 10
   playerSpeed: 1
   barrierSpeed: 5
   barrierEnd: 5
-  onBarrierReachedEnd:
+  potalUIEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1558528043}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: SceneChange
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: f75e9bce20c47b446a236c18ce3fee4f, type: 2}
-          m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  onBarrierReachedEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1562304826
 GameObject:
   m_ObjectHideFlags: 0
@@ -27308,7 +27308,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPrefab
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 484117206, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
 --- !u!114 &1623080406 stripped
 MonoBehaviour:
@@ -31924,8 +31925,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  panelCanvas: {fileID: 0}
   statusManager: {fileID: 1921549231}
-  redEffect: {fileID: 882675857}
+  deathOpenWindow: {fileID: 280084176244655351, guid: e6f2cc4be31e9164a8428eb2c82d132e, type: 3}
+  cameraTransform: {fileID: 0}
+  playerTransform: {fileID: 0}
+  volume: {fileID: 0}
+  zoomInSpeed: 2
+  fadeInSpeed: 2
+  fadeInAlphaMax: 1
+  slowMotionFactor: 0.2
+  normalCameraSize: 5
+  zoomInCameraSize: 2
+  isDeath: 0
+  backgroundPanel: {fileID: 0}
+  DeathEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
   maxAlpha: 0.25
   pulseSpeed: 2
 --- !u!1 &1928631767

@@ -25,6 +25,8 @@ public class CharacterDialogController : MonoBehaviour
 	private List<string> fullText;
 	[SerializeField]
 	private int textNum = 0;
+	[SerializeField]
+	private float skipDelay = 0.05f;
 
 	private string currentText = "";
 	private bool isTextEnd = false;
@@ -79,6 +81,20 @@ public class CharacterDialogController : MonoBehaviour
 			}
 			isTextEnd = false;
 			showTextCoroutine = StartCoroutine(ShowText());
+		}
+	}
+
+	public void SkipCharacterText()
+	{
+		StartCoroutine(SkipCharactorTextWriter());
+	}
+
+	IEnumerator SkipCharactorTextWriter()
+	{
+		for(int i = 0; i < fullText.Count + 1; i++)
+		{
+			yield return new WaitForSeconds(skipDelay);
+			WriteCharactorText();
 		}
 	}
 

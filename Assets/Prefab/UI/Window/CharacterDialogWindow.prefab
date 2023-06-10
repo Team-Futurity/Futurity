@@ -586,6 +586,7 @@ GameObject:
   - component: {fileID: 4893368055066697535}
   - component: {fileID: 7546357599232615061}
   - component: {fileID: 1466025831763459177}
+  - component: {fileID: 1397887463974084872}
   m_Layer: 5
   m_Name: script_button_F
   m_TagString: Untagged
@@ -699,6 +700,39 @@ MonoBehaviour:
       - m_Target: {fileID: 1107517668370494704}
         m_TargetAssemblyTypeName: CharacterDialogController, Assembly-CSharp
         m_MethodName: WriteCharactorText
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1397887463974084872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317929374634236680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3e8bad665be194da34314392b6ff95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onButtonClickedEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  offButtonClickedEvents:
+    m_PersistentCalls:
+      m_Calls: []
+  holdButtonEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1107517668370494704}
+        m_TargetAssemblyTypeName: CharacterDialogController, Assembly-CSharp
+        m_MethodName: SkipCharacterText
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1426,6 +1460,9 @@ MonoBehaviour:
   isLock: 0
   buttons:
   - {fileID: 1466025831763459177}
+  holdEvent:
+    m_PersistentCalls:
+      m_Calls: []
   enabledEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1449,6 +1486,11 @@ MonoBehaviour:
   typingDelay: 0.05
   fullText: []
   textNum: 0
+  skipDelay: 0.05
+  playerInput: {fileID: 0}
+  characterDialogEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7158120594137517289
 GameObject:
   m_ObjectHideFlags: 0

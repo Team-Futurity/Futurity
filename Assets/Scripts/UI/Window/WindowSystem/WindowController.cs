@@ -29,6 +29,9 @@ public class WindowController : MonoBehaviour
 	private List<Button> buttons;
 
 	[SerializeField]
+	public UnityEvent holdEvent;
+
+	[SerializeField]
 	private UnityEvent enabledEvent;
 
 	[SerializeField]
