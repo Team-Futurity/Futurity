@@ -2246,6 +2246,9 @@ MonoBehaviour:
   - {fileID: 148992633}
   - {fileID: 973467237}
   warpPotalController: {fileID: 15500233}
+  tutorialEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
   activeQuests: []
   tutorialQuests1: []
   tutorialQuestSprites1: []
@@ -4037,6 +4040,7 @@ GameObject:
   - component: {fileID: 973467239}
   - component: {fileID: 973467238}
   - component: {fileID: 973467237}
+  - component: {fileID: 973467241}
   m_Layer: 5
   m_Name: Tutorial3
   m_TagString: Untagged
@@ -4097,7 +4101,19 @@ MonoBehaviour:
     \uAC70\uC608\uC694...!"
   characterDialogEndEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 973467241}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: SceneChange
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: f75e9bce20c47b446a236c18ce3fee4f, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &973467238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4192,6 +4208,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 973467235}
   m_CullTransparentMesh: 1
+--- !u!114 &973467241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973467235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05f0351dd142b446adab1a56a628ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &973582792
 GameObject:
   m_ObjectHideFlags: 0
