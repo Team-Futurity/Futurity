@@ -8,7 +8,13 @@ public class ParticleController : MonoBehaviour
 	private ParticleSystem ps;
 	public bool removeMode;
 
-	private void Start()
+
+	private void OnEnable()
+	{
+		ps.Play(true);
+
+	}
+	private void Awake()
 	{
 		ps = GetComponent<ParticleSystem>();
 	}
@@ -33,6 +39,7 @@ public class ParticleController : MonoBehaviour
 		{
 			if(!ps.IsAlive(true))
 			{
+				ps.Stop(true);
 				poolManager.DeactiveObject(transform);
 			}
 		}

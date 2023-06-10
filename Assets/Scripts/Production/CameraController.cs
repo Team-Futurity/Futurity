@@ -7,6 +7,8 @@ public class CameraController : MonoBehaviour
 	
     [Tooltip("추적 대상에게서 얼마나 떨어진 위치에 카메라가 있는지를 나타냅니다.")]
     public Vector3 offset;
+	[Tooltip("카메라가 이동하는 동안 보정해줄 값입니다.")]
+	public float moveOffset;
 
 	private Vector3 prevTargetVector;
 	private PlayerController playerController;
@@ -35,13 +37,18 @@ public class CameraController : MonoBehaviour
 	[SerializeField] private int decimalCount;
 
 
+	[SerializeField] private float camSpeed;
+
+	private Vector3 cameraVelocity;
+
+
 	private void Start()
 	{
 		initialPos = target.position + offset;
 		isVibrate = false;
 		prevTargetVector = GetTruncatedVector(target.transform.position);
 		transform.position = GetTruncatedVector(target.position) + offset;
-		//playerController = target.GetComponent<PlayerController>();
+		playerController = target.GetComponent<PlayerController>();
 	}
 
 	private Vector3 GetTruncatedVector(Vector3 originVector)
@@ -63,14 +70,14 @@ public class CameraController : MonoBehaviour
 
 		// 투시
 		SetPenetrate();
-
 		prevPosition = GetTruncatedVector(transform.position);
 		prevTargetVector = GetTruncatedVector(target.position);
+
 	}
 
 	private void Update()
 	{
-		//if(playerController.moveDir != Vector3.zero) { moveDir = playerController.moveDir; }
+		if(playerController != null) { moveDir = playerController.moveDir; }
 
 		if (isVibrate)
 		{
@@ -89,6 +96,15 @@ public class CameraController : MonoBehaviour
 		}
 	}
 
+	private void LateUpdate()
+	{
+		// 카메라 위치 조정
+		/*SetCameraPosition();
+
+		prevPosition = GetTruncatedVector(transform.position);
+		prevTargetVector = GetTruncatedVector(target.position);*/
+	}
+
 	public void SetVibration(float time, float curvePower = 0.1f, float randomPower = 0.1f)
 	{
 		vibrationPower = randomPower;
@@ -103,17 +119,21 @@ public class CameraController : MonoBehaviour
 		var targetVector = GetTruncatedVector(target.position);
 		var currentVector = targetVector + offset;
 
-		if (prevTargetVector == targetVector) { return; }
-		if (!playerController){ transform.position = currentVector; return; }
+		//if (prevTargetVector == targetVector) {  }
+		//if (!playerController){ transform.position = currentVector; return; }
 			
-		// 카메라 위치 조정
-		var subtrackVector = currentVector - prevPosition;
-		var alterX = Mathf.Abs(subtrackVector.x) * moveDir.x;
-		var alterY = Mathf.Abs(subtrackVector.y) * moveDir.y;
-		var alterZ = Mathf.Abs(subtrackVector.z) * moveDir.z;
+		//var targetPosition = moveDir == Vector3.zero ? currentVector : (currentVector + moveOffset * moveDir);
+		//var targetPosition = moveDir == Vector3.zero ? currentVector : Vector3.zero;
+		
+		/*var alterX = Mathf.Abs(targetPosition.x) * moveDir.x;
+		var alterY = Mathf.Abs(targetPosition.y) * moveDir.y;
+		var alterZ = Mathf.Abs(targetPosition.z) * moveDir.z;
 
-		transform.position += new Vector3(alterX, alterY, alterZ);
-		transform.position = currentVector; // 코드 오동작으로 임시로 덮어씌움
+		//.position += new Vector3(alterX, alterY, alterZ);
+		//transform.position = currentVector; // 코드 오동작으로 임시로 덮어씌움
+		targetPosition = moveDir == Vector3.zero ? targetPosition : new Vector3(alterX, alterY, alterZ);*/
+
+		transform.position = Vector3.SmoothDamp(transform.position, currentVector, ref cameraVelocity, camSpeed * Time.deltaTime);
 	}
 
 	public void SetPenetrate()

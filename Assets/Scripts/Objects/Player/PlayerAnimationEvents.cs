@@ -42,6 +42,31 @@ public class PlayerAnimationEvents : MonoBehaviour
 		EffectTarget = target;
 	}
 
+	// 0 : UpAttack
+	// 1 : DownAttack
+	// 2 : Landing
+	public void RushAttackProc(int attackProccessOrder)
+	{
+		UnitState<PlayerController> GettedState = null;
+		PlayerAttackState_Charged chargeState;
+		if(!pc.GetState(PlayerState.ChargedAttack, ref GettedState)) { return; }
+
+		chargeState = GettedState as PlayerAttackState_Charged;
+
+		switch (attackProccessOrder)
+		{
+			case 0:
+				chargeState.UpAttack();
+				break;
+			case 1:
+				chargeState.DownAttack();
+				break;
+			case 2:
+				chargeState.EnemyLanding();
+				break;
+		}
+	}
+
 	public void CameraShake()
 	{
 		CameraController cam;
