@@ -276,7 +276,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 					}
 
 					unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
-					rangeEffect.transform.localScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * PlayerController.cm2m);
+					//rangeEffect.transform.localScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * PlayerController.cm2m);
 					/*if (curEffect != null)
 					{
 						unit.rushObjectPool.DeactiveObject(curEffect);
