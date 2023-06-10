@@ -12,6 +12,7 @@ public class PlayerMoveState : UnitState<PlayerController>
 		//base.Begin(pc);
 		pc.animator.SetBool(MoveAnimKey, true);
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
+		pc.rmController.SetRootMotion("Move");
 	}
 
 	public override void Update(PlayerController pc)

@@ -55,20 +55,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: -0.11
   contrast:
     m_OverrideState: 0
     m_Value: -18
   colorFilter:
     m_OverrideState: 1
-    m_Value: {r: 0.88554645, g: 0.89575523, b: 0.9433962, a: 1}
+    m_Value: {r: 0.98619187, g: 0.9764706, b: 1, a: 1}
   hueShift:
     m_OverrideState: 1
     m_Value: -10
   saturation:
     m_OverrideState: 1
-    m_Value: -10
+    m_Value: -12
 --- !u!114 &-6072461725292091040
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfbdbb87d3286943a057f7791b43141, type: 3}
   m_Name: ChannelMixer
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   redOutRedIn:
     m_OverrideState: 0
     m_Value: 23
@@ -89,7 +89,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 92
   redOutBlueIn:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 15
   greenOutRedIn:
     m_OverrideState: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
 --- !u!114 &-4704276796494129211
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -140,13 +140,13 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.38431373, g: 0.40178224, b: 0.4627451, a: 1}
+    m_Value: {r: 0.11414205, g: 0.13422613, b: 0.1792453, a: 1}
   highlights:
     m_OverrideState: 1
-    m_Value: {r: 0.5471698, g: 0.49174, b: 0.44134924, a: 1}
+    m_Value: {r: 0.6477609, g: 0.6314525, b: 0.8113208, a: 1}
   balance:
     m_OverrideState: 1
-    m_Value: -16
+    m_Value: -42
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,8 +188,8 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: {x: 0.97800237, y: 0.99026066, z: 1, w: 0}
   gamma:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 0.9555029, z: 0.91637963, w: 0}
+    m_OverrideState: 1
+    m_Value: {x: 0.9808349, y: 1, z: 0.8849026, w: 0}
   gain:
     m_OverrideState: 1
     m_Value: {x: 1, y: 0.8194474, z: 0.8384732, w: 0.18711017}
@@ -288,7 +288,7 @@ MonoBehaviour:
   red:
     m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 4
+      <length>k__BackingField: 5
       m_Loop: 0
       m_ZeroValue: 0
       m_Range: 1
@@ -305,8 +305,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.25146198
-          value: 0.22360247
+          time: 0.3691275
+          value: 0.45070422
           inSlope: 1.2452343
           outSlope: 1.2452343
           tangentMode: 0
@@ -314,8 +314,17 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.4766082
-          value: 0.4766082
+          time: 0.42729306
+          value: 0.5680751
+          inSlope: -0.14826846
+          outSlope: -0.14826846
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.58389264
+          value: 0.7464789
           inSlope: 1
           outSlope: 1
           tangentMode: 0
@@ -354,10 +363,10 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.5
-          value: 0.60248446
-          inSlope: 1
-          outSlope: 1
+          time: 0.4854586
+          value: 0.6619718
+          inSlope: 0.6995317
+          outSlope: 0.6995317
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -394,8 +403,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.5116959
-          value: 0.5116959
+          time: 0.44295302
+          value: 0.6619718
           inSlope: 1
           outSlope: 1
           tangentMode: 0
@@ -505,7 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   shadows:
     m_OverrideState: 0
     m_Value: {x: 0.8682744, y: 0.9361048, z: 1, w: 0.35343027}
@@ -541,8 +550,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 0
   temperature:
-    m_OverrideState: 0
-    m_Value: -11
+    m_OverrideState: 1
+    m_Value: 27
   tint:
-    m_OverrideState: 0
-    m_Value: -6
+    m_OverrideState: 1
+    m_Value: 39

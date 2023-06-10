@@ -9,14 +9,22 @@ public class EnemyDeathState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		unit.hpBar.copySlider.gameObject.SetActive(false);
+		if (unit.isClustering)
+			EnemyManager.Instance.EnemyDeclutter(unit.clusterNum);
+		//EnemyManager.Instance.DeActiveManagement(unit);
+		//unit.hpBar.copySlider.gameObject.SetActive(false);
+
+		unit.manager.DeActiveManagement(unit);
+		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
+		unit.animator.SetTrigger(unit.deadAnimParam);
+		unit.enemyCollider.enabled = false;
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
 
-		if(curTime > 1.0f)
+		if(curTime > unit.deathDelay)
 		{
 			unit.gameObject.SetActive(false);
 		}

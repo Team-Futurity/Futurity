@@ -42,7 +42,10 @@ public class EnemyDefaultState : UnitState<EnemyController>
 		{
 			//FDebug.Log("Default Trigger");
 			unit.target = other.GetComponent<UnitBase>();
-			unit.ChangeState(unit.UnitChaseState(unit));
+			unit.ChangeState(unit.UnitChaseState());
+
+			if (unit.isClusteringObj)
+				EnemyManager.Instance.EnemyClustering(unit);
 		}
 	}
 
