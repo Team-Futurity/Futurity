@@ -259,8 +259,10 @@ public class WindowManager : Singleton<WindowManager>
 		leftAction.action.performed += _ => SelectPreviousButton();
 		rightAction.action.performed += _ => SelectNextButton();
 		selectAction.action.performed += _ => ClickCurrentButton();
+		/*
 		selectAction.action.started += _ => StartHold();
 		selectAction.action.performed += _ => CheckHoldDuration();
+		*/
 
 		this.leftAction = leftAction;
 		this.rightAction = rightAction;
