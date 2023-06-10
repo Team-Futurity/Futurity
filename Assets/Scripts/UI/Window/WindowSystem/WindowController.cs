@@ -13,7 +13,6 @@ public class WindowController : MonoBehaviour
 	[Header ("Window라면 무조건 가지고 있어야할 필수 관리자")]
 	[Space (15)]
 
-
 	[SerializeField] 
 	private RectTransform rectTransform;
 	[SerializeField]
@@ -28,6 +27,9 @@ public class WindowController : MonoBehaviour
 
 	[SerializeField]
 	private List<Button> buttons;
+
+	[SerializeField]
+	public UnityEvent holdEvent;
 
 	[SerializeField]
 	private UnityEvent enabledEvent;

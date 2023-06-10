@@ -13,6 +13,6 @@ public class ResetButton : MonoBehaviour
 
 		sceneKeyData.sceneName = SceneManager.GetActiveScene().name;
 
-		SceneChangeManager.Instance.SceneLoad(sceneKeyData);
+		SceneChangeManager.Instance.SceneLoad(sceneKeyData, 1);
     }
 }

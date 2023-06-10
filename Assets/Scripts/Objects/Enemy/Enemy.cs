@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static EnemyController;
+using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : UnitBase
 { 
@@ -10,7 +12,7 @@ public class Enemy : UnitBase
 
 	private void Start()
 	{
-
+		hpBar = GetComponent<EnemyHpBarController>().currentHpBar.GetComponent<GaugeBarController>();
 	}
 
 	public override void Attack(UnitBase target)
