@@ -155,14 +155,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float deathDelay = 2.0f;
 
 
-	private void Awake()
+	private void Start()
 	{
 		manager = EnemyManager.Instance;
 		effectManager = EnemyEffectManager.Instance;
-	}
 
-	private void Start()
-	{
 		//hpBar = GetComponent<TestHPBar>(); //юс╫ц
 
 		//Basic Set Up

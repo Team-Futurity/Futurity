@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 2955528926438800395}
   - component: {fileID: 2955528926438800396}
   - component: {fileID: 1731697029185738527}
+  - component: {fileID: 1432755026}
   m_Layer: 0
   m_Name: MinimalDefault
   m_TagString: Enemy
@@ -297,7 +298,7 @@ MonoBehaviour:
   maxSpawningTime: 3.8
   enemyCollider: {fileID: 0}
   spawnEffect: {fileID: 2980851454784208291}
-  walkDistance: 3
+  walkDistance: 1
   idleSetTime: 3
   movePercentage: 5
   randMoveDistanceMin: 1.5
@@ -314,7 +315,7 @@ MonoBehaviour:
   hitMaxTime: 2
   hitColorChangeTime: 0.2
   hitPower: 150
-  damagedColor: {r: 1, g: 0.36862746, b: 0, a: 1}
+  damagedColor: {r: 0.8679245, g: 0, b: 0.0152767645, a: 1}
   hitSound:
     Guid:
       Data1: -1285685066
@@ -400,6 +401,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1432755026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2955528926438800399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78781a76e84d4945955079a3e46cbbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  canvas: {fileID: 0}
+  slider: {fileID: 0}
+  sliderPos: {x: 0, y: 1.2, z: 0}
+  copySlider: {fileID: 0}
 --- !u!1 &6576706953701623524
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +511,7 @@ MeshCollider:
   m_GameObject: {fileID: 6576706953701623524}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -98,6 +97,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
+	public GaugeBarController hpUIController;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	//[HideInInspector] public TrailRenderer dashEffect;

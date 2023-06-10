@@ -155,7 +155,7 @@ MeshCollider:
   m_GameObject: {fileID: 2325570579126117825}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 3867396437893702998}
   - component: {fileID: 7664875056306253619}
   - component: {fileID: 1705710427}
+  - component: {fileID: 1219776109}
   m_Layer: 0
   m_Name: MeleeDefault
   m_TagString: Enemy
@@ -305,7 +306,7 @@ MonoBehaviour:
   maxSpawningTime: 3.8
   enemyCollider: {fileID: 0}
   spawnEffect: {fileID: 1700045667776770408}
-  walkDistance: 3
+  walkDistance: 2
   idleSetTime: 2
   movePercentage: 5
   randMoveDistanceMin: 1.5
@@ -322,7 +323,7 @@ MonoBehaviour:
   hitMaxTime: 0.8
   hitColorChangeTime: 0.2
   hitPower: 500
-  damagedColor: {r: 1, g: 0.36862746, b: 0, a: 1}
+  damagedColor: {r: 0.8773585, g: 0.03205486, b: 0, a: 1}
   hitSound:
     Guid:
       Data1: 1726011858
@@ -423,6 +424,23 @@ MonoBehaviour:
   enemyHpBar: {fileID: 7370879006473176586, guid: 7221245dab407784082de2b5f7d39347, type: 3}
   currentHpBar: {fileID: 0}
   hpBarPosition: {x: 0, y: 0}
+--- !u!114 &1219776109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4439521067689912937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78781a76e84d4945955079a3e46cbbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  canvas: {fileID: 0}
+  slider: {fileID: 0}
+  sliderPos: {x: 0, y: 2.15, z: 0}
+  copySlider: {fileID: 0}
 --- !u!1 &4439521067800669054
 GameObject:
   m_ObjectHideFlags: 0
