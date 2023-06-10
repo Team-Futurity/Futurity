@@ -196,7 +196,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			{
 				if (IsCurrentState(PlayerState.ChargedAttack))
 				{
-					//AddSubState(PlayerState.Move);
+					animator.SetTrigger("MoveDuringRushPreparing");
+					AddSubState(PlayerState.Move);
 				}
 			}
 			return;
