@@ -172,8 +172,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		SetMaterial();
 
-		manager.ActiveManagement(this);
-		effectManager.CopyEffect(this);
+		/*manager.ActiveManagement(this);
+		effectManager.CopyEffect(this);*/
 		chaseRange.enabled = false;
 
 		//FDebug.Log(hittedEffect.indexNum);

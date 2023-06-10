@@ -12,6 +12,8 @@ public class EnemySpawnState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
+		
+
 		unit.navMesh.speed = unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue();
 
 		if (unit.atkCollider != null)
@@ -49,6 +51,12 @@ public class EnemySpawnState : UnitState<EnemyController>
 		//unit.skinnedMeshRenderer.enabled = true;
 		unit.spawnEffect.SetActive(false);
 		unit.rigid.velocity = Vector3.zero;
+
+		unit.manager = EnemyManager.Instance;
+		unit.effectManager = EnemyEffectManager.Instance;
+
+		unit.manager.ActiveManagement(unit);
+		unit.effectManager.CopyEffect(unit);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
