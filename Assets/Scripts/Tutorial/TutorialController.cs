@@ -30,6 +30,9 @@ public class TutorialController : MonoBehaviour
 	private StageEndController warpPotalController;
 
 	[SerializeField]
+	private UnityEvent tutorialEndEvent; // 튜토리얼 마지막 단계를 지난 이후 출력하는 이벤트입니다.
+
+	[SerializeField]
 	private List<Quest> activeQuests; // 현재 활성화된 퀘스트 리스트입니다.
 
 	[SerializeField]
