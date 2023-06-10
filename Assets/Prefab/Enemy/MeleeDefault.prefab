@@ -62,6 +62,104 @@ Transform:
   m_Father: {fileID: 4439521067689912936}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2325570579126117825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 447559885878394766}
+  - component: {fileID: 6708365466166384598}
+  - component: {fileID: 7832548137646087583}
+  - component: {fileID: 5530094585595879199}
+  m_Layer: 0
+  m_Name: Shadow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &447559885878394766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2325570579126117825}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.21, y: 1, z: 0.13}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4439521067689912936}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &6708365466166384598
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2325570579126117825}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7832548137646087583
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2325570579126117825}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f48be4a1beb2cfe42a8307f47b672bef, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5530094585595879199
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2325570579126117825}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4439521067689912937
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,6 +204,7 @@ Transform:
   - {fileID: 1952421381579335746}
   - {fileID: 4475913028868806495}
   - {fileID: 7221105332544056350}
+  - {fileID: 447559885878394766}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -164,6 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   manager: {fileID: 0}
+  effectManager: {fileID: 0}
   isClusteringObj: 0
   isClustering: 0
   clusterNum: 0
@@ -176,14 +276,14 @@ MonoBehaviour:
     effectTransform: {fileID: 8403025469566084697}
     effectExtraTransform: {x: 0, y: 0, z: 0}
   - indexNum: 0
-    effectPrefab: {fileID: 4031016503150977069, guid: ab17821d1f5cef74e97c6954f18f1123, type: 3}
+    effectPrefab: {fileID: 4031016503150977069, guid: d1e7456d5fe6ed1489cf5c92a9342a54, type: 3}
     effectTransform: {fileID: 8403025469566084697}
     effectExtraTransform: {x: 0, y: 0, z: 0}
   hitEffect:
     indexNum: 0
     effectPrefab: {fileID: 6164759016897505693, guid: da160e10d169b454497cc93be1d5ee6c, type: 3}
     effectTransform: {fileID: 1952421381579335746}
-    effectExtraTransform: {x: 0, y: 0, z: 0}
+    effectExtraTransform: {x: 0, y: 1, z: 0}
   hittedEffect:
     indexNum: 0
     effectPrefab: {fileID: 1908104371959478918, guid: 60b9a9ef4c83cdd408bfab04b384a405, type: 3}
@@ -197,8 +297,11 @@ MonoBehaviour:
   chaseRange: {fileID: 4439521068934908808}
   atkCollider: {fileID: 4439521067800669048}
   skinnedMeshRenderer: {fileID: 2997406798983315672}
-  transparentMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
+  material: {fileID: 0}
+  transparentMaterial: {fileID: 0}
+  unlitMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
   copyTMat: {fileID: 0}
+  copyUMat: {fileID: 0}
   maxSpawningTime: 3.8
   enemyCollider: {fileID: 0}
   spawnEffect: {fileID: 1700045667776770408}
@@ -217,7 +320,16 @@ MonoBehaviour:
   powerReference1: 0
   powerReference2: 0
   hitMaxTime: 0.8
-  damagedColor: {r: 0.745283, g: 0, b: 0.1296144, a: 1}
+  hitColorChangeTime: 0.2
+  hitPower: 500
+  damagedColor: {r: 1, g: 0.36862746, b: 0, a: 1}
+  hitSound:
+    Guid:
+      Data1: 1726011858
+      Data2: 1229391428
+      Data3: -951626351
+      Data4: -192804069
+    Path: event:/SE/06monster/Melee/F_S_01_06_hit_melee
   deathDelay: 2
 --- !u!54 &4439521067689912938
 Rigidbody:
@@ -336,7 +448,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4439521067800669054}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1.5}
+  m_LocalPosition: {x: 0, y: 1, z: 1.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -354,7 +466,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4439521068934908814
 GameObject:
@@ -594,7 +706,7 @@ PrefabInstance:
     - target: {fileID: 1442477315262443259, guid: 89d7b7848b4af584784ca46213014782, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: fef7e7b18c1fbaf458568667beb05055, type: 2}
+      objectReference: {fileID: 2100000, guid: b2c0e09cda920414c9ab0f3a7cb57077, type: 2}
     - target: {fileID: 1442477315262443259, guid: 89d7b7848b4af584784ca46213014782, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
