@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f020a7d3cc7fd1340bb07559073f7292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActiveStageEndPortal: 1
+  isActiveStageEndPortal: 0
   player: {fileID: 237533217}
   barrierObject: {fileID: 799940640}
   cameraObject: {fileID: 1703148520}
@@ -2231,36 +2231,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageNum: 0
   questUIController: {fileID: 449237874}
+  playerInput: {fileID: 1921549239}
+  playerController: {fileID: 1623080406}
   dialogWindowOpeners:
   - {fileID: 1459904245}
   - {fileID: 148992633}
   - {fileID: 973467237}
-  tutorialQuests:
-  - questName: "W : \uC704\uB85C \uC774\uB3D9"
-    requiredKey: w
-    OnQuestComplete:
-      m_PersistentCalls:
-        m_Calls: []
-  - questName: "A :\uC67C\uCABD\uC73C\uB85C \uC774\uB3D9"
-    requiredKey: a
-    OnQuestComplete:
-      m_PersistentCalls:
-        m_Calls: []
-  - questName: "S : \uC544\uB798\uB85C \uC774\uB3D9"
-    requiredKey: s
-    OnQuestComplete:
-      m_PersistentCalls:
-        m_Calls: []
-  - questName: "D : \uC624\uB978\uCABD\uB85C \uC774\uB3D9"
-    requiredKey: d
-    OnQuestComplete:
-      m_PersistentCalls:
-        m_Calls: []
-  - questName: "Space : \uB300\uC26C"
-    requiredKey: space
-    OnQuestComplete:
-      m_PersistentCalls:
-        m_Calls: []
+  warpPotalController: {fileID: 15500233}
+  activeQuests: []
+  tutorialQuests1: []
+  tutorialQuests2: []
 --- !u!1001 &532642414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8678,6 +8658,17 @@ MonoBehaviour:
   redEffectObject: {fileID: 0}
   maxAlpha: 0.75
   pulseSpeed: 2
+--- !u!114 &1921549239 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7039203949321405940, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+  m_PrefabInstance: {fileID: 1623080405}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237533217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1935035867
 PrefabInstance:
   m_ObjectHideFlags: 0

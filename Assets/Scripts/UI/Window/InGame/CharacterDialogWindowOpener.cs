@@ -26,7 +26,7 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 	private CharacterDialogController characterDialogController;
 	private WindowManager windowManager;
 
-	private void Start()
+	private void Awake()
 	{
 		windowManager = WindowManager.Instance;
 		if (isStartOpen)

@@ -15,6 +15,7 @@ public class SceneChanger : MonoBehaviour
 	{
 		sceneChangeManager.SceneLoad(sceneKeyData, 1);
 	}
+
 	public void TitleSceneChange(SceneKeyData sceneKeyData)
 	{
 		sceneChangeManager.SceneLoad(sceneKeyData, 2);
