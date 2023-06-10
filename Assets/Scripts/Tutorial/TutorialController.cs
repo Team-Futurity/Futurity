@@ -35,7 +35,11 @@ public class TutorialController : MonoBehaviour
 	[SerializeField]
 	private List<Quest> tutorialQuests1; // tutorialQuest 리스트입니다.
 	[SerializeField]
+	private List<Sprite> tutorialQuestSprites1; // tutorialQuest 리스트입니다.
+	[SerializeField]
 	private List<Quest> tutorialQuests2; // tutorialQuest 리스트입니다.
+	[SerializeField]
+	private List<Sprite> tutorialQuestSprites2; // tutorialQuest 리스트입니다.
 
 
 	/// <summary>
@@ -86,8 +90,7 @@ public class TutorialController : MonoBehaviour
 					dialogWindowOpeners[1].CharacterDialogWindowOpen();
 					break;
 				case 3:
-					warpPotalController.isActiveStageEndPortal = true;
-					dialogWindowOpeners[2].CharacterDialogWindowOpen();
+					StartCoroutine(DelayQuestClear(0.5f));
 					break;
 				default:
 					return;
@@ -107,6 +110,16 @@ public class TutorialController : MonoBehaviour
 	}
 
 
+	IEnumerator DelayQuestClear(float delayTime)
+	{
+		yield return new WaitForSeconds(delayTime);
+		warpPotalController.isActiveStageEndPortal = true;
+		dialogWindowOpeners[2].CharacterDialogWindowOpen();
+	}
+
+	/// <summary>
+	/// 각 퀘스트들의 조건들을 할당합니다. 퀘스트의 조건들이 구현되어 있습니다.
+	/// </summary>
 	private void QuestWriter()
 	{
 		Quest upQuest = new Quest();
@@ -229,7 +242,7 @@ public class TutorialController : MonoBehaviour
 		Vector3 moveInput = playerInput.actions["Move"].ReadValue<Vector3>();
 
 
-		if (moveInput.x > 0) // W 키는 벡터의 y값이 양수로 매핑됩니다.
+		if (moveInput.x < 0) // W 키는 벡터의 y값이 양수로 매핑됩니다.
 		{
 			return true;
 		}
@@ -243,7 +256,7 @@ public class TutorialController : MonoBehaviour
 		Vector3 moveInput = playerInput.actions["Move"].ReadValue<Vector3>();
 
 
-		if (moveInput.x < 0) // W 키는 벡터의 y값이 양수로 매핑됩니다.
+		if (moveInput.x > 0) // W 키는 벡터의 y값이 양수로 매핑됩니다.
 		{
 			return true;
 		}
