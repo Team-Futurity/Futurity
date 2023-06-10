@@ -34,6 +34,22 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		float dot = Vector3.Dot(targetVec.normalized, transform.forward);
 		float theta = Mathf.Acos(dot);
 
+		var vecs = GetRadiusVector();
+
+		Vector3 leftPos = transform.position + vecs[1];
+		Vector3 rightPos = transform.position + vecs[0];
+
+		Ray leftRay = new Ray(transform.position, (leftPos - transform.position).normalized);
+		Ray rightRay = new Ray(transform.position, (rightPos - transform.position).normalized);
+
+		var leftRayCaster = Physics.Raycast(leftRay, radius);
+		var rightRayCaster = Physics.Raycast(rightRay, radius);
+
+		if(leftRayCaster || rightRayCaster)
+		{
+			return true;
+		}
+
 		return theta * 2 <= (clampedAngle == 0 && angle > 0 ? 360 : clampedAngle) * Mathf.Deg2Rad;
 	}
 
