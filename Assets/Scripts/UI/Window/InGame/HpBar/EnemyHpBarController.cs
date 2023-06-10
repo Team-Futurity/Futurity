@@ -10,7 +10,7 @@ public class EnemyHpBarController : MonoBehaviour
 	[Space(10)]
 	[SerializeField]
 	[Header("만약 인게임에 HpBar가 존재한다면 currentHpBar에 값을 넣어주세요")]
-	private GameObject currentHpBar;
+	public GameObject currentHpBar;
 
 	[Space(30)]
 	[SerializeField]
@@ -21,7 +21,7 @@ public class EnemyHpBarController : MonoBehaviour
 	void Start()
     {
 		if(currentHpBar == null)
-		currentHpBar = WindowManager.Instance.WindowTopOpen(enemyHpBar, true, hpBarPosition, Vector3.zero);
+		currentHpBar = WindowManager.Instance.DontUsedWindowOpen(enemyHpBar);
     }
 
     void Update()

@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 public class WindowManager : Singleton<WindowManager>
 {
@@ -20,7 +21,10 @@ public class WindowManager : Singleton<WindowManager>
 	[SerializeField]
 	private int currentButtonIndex;
 	[SerializeField]
-	private GameObject currentButton;
+	private GameObject currentButton; 
+	
+	private float holdStartTime;
+	private float holdThreshold = 2f; // 버튼을 길게 누르는 시간 임계값 설정.
 
 	private Transform topCanvasTransform;
 
@@ -104,6 +108,24 @@ public class WindowManager : Singleton<WindowManager>
 		windows.Clear();
 	}
 
+	/// <summary>
+	/// 주어진 이름의 window를 찾습니다.
+	/// </summary>
+	/// <param name="windowName">찾고자 하는 window의 이름</param>
+	/// <returns>찾은 window. 만약 찾지 못하면 null을 반환합니다.</returns>
+	public GameObject FindWindow(string windowName)
+	{
+		foreach (GameObject window in windows)
+		{
+			if (window.name == windowName)
+			{
+				return window;
+			}
+		}
+
+		return null;
+	}
+
 	///<summary>
 	/// 플레이어가 사용하지 않는 즉, 보여지기만 하는 창을 생성하고 위치를 설정합니다.
 	///</summary>
@@ -113,6 +135,8 @@ public class WindowManager : Singleton<WindowManager>
 
 		return newWindow;
 	}
+
+	
 
 	///<summary>
 	/// 새로운 UI 창을 생성하고 부모와 위치를 설정합니다.
@@ -167,7 +191,6 @@ public class WindowManager : Singleton<WindowManager>
 	///</summary>
 	public void WindowClose(GameObject closeUiWindowObject)
 	{
-
 		windows.Remove(closeUiWindowObject);
 		int windowNum = windows.Count - 1;
 
@@ -236,6 +259,10 @@ public class WindowManager : Singleton<WindowManager>
 		leftAction.action.performed += _ => SelectPreviousButton();
 		rightAction.action.performed += _ => SelectNextButton();
 		selectAction.action.performed += _ => ClickCurrentButton();
+		/*
+		selectAction.action.started += _ => StartHold();
+		selectAction.action.performed += _ => CheckHoldDuration();
+		*/
 
 		this.leftAction = leftAction;
 		this.rightAction = rightAction;
@@ -279,6 +306,9 @@ public class WindowManager : Singleton<WindowManager>
 		if (currentButtonIndex > 0)
 		{
 			SelectButton(currentButtonIndex - 1);
+		} else
+		{
+			SelectButton(buttons.Count - 1);
 		}
 	}
 
@@ -290,6 +320,9 @@ public class WindowManager : Singleton<WindowManager>
 		if (currentButtonIndex < buttons.Count - 1)
 		{
 			SelectButton(currentButtonIndex + 1);
+		} else
+		{
+			SelectButton(0);
 		}
 	}
 
@@ -307,6 +340,58 @@ public class WindowManager : Singleton<WindowManager>
 			FDebug.Log($"할당된 버튼이 없습니다. buttons.Count : {buttons.Count}");
 		}
 	}
+
+	/*/// <summary>
+	/// 버튼을 누른 시점의 시간을 기록합니다.
+	/// </summary>
+	private void StartHold()
+	{
+		holdStartTime = 0;
+
+		if (buttons != null && buttons.Count > 0)
+		{
+			if (buttons[currentButtonIndex] != null)
+			{
+				Debug.Log($"{buttons[currentButtonIndex].gameObject.name}의 hold 시작`");
+			}
+		}
+	}
+
+	/// <summary>
+	/// 버튼을 누른 시점의 시간을 기록합니다.
+	/// </summary>
+	private void EndHold()
+	{
+
+	}
+
+	/// <summary>
+	/// 홀드 시간을 계산합니다. 홀드 시간이 임계값을 넘어갔다면, 홀드 이벤트를 호출합니다.
+	/// </summary>
+	IEnumerator CheckHoldDuration()
+	{
+		while (true) {
+			yield return true;
+
+			holdStartTime += Time.time; // 버튼을 누르고 있던 시간을 계산합니다.
+
+			if (holdStartTime >= holdThreshold) // 임계값을 넘어갔다면,
+			{
+				if (buttons != null && buttons.Count > 0)
+				{
+					if (buttons[currentButtonIndex] != null)
+					{
+						currentButton = buttons[currentButtonIndex].gameObject;
+
+						currentButton.GetComponent<UIWindowButtonController>()?.OnHold();
+						Debug.Log($"{currentButton.name}가 {holdStartTime}동안 hold 되었습니다.");
+
+						break;
+					}
+				}
+			}
+		}
+	}*/
 
 	///<summary>
 	/// 주어진 인덱스의 버튼을 선택합니다.

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -23,12 +25,33 @@ public class CharacterDialogController : MonoBehaviour
 	private List<string> fullText;
 	[SerializeField]
 	private int textNum = 0;
+	[SerializeField]
+	private float skipDelay = 0.05f;
 
 	private string currentText = "";
 	private bool isTextEnd = false;
 
 	private Coroutine showTextCoroutine;
 
+	[SerializeField]
+	private UnityEngine.InputSystem.PlayerInput playerInput;
+
+	public UnityEvent characterDialogEndEvent;
+
+	private void Start()
+	{
+		if (playerInput == null)
+		{
+			playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<UnityEngine.InputSystem.PlayerInput>();
+			FDebug.LogWarning($"{gameObject.name}의 CharacterDialogController에 playerInput를 할당해주세요");
+		}
+		playerInput.enabled = false;
+
+		if (currentText == "")
+		{
+			WriteCharactorText();
+		}
+	}
 
 	/// <summary>
 	/// 출력할 텍스트를 설정합니다.
@@ -52,9 +75,26 @@ public class CharacterDialogController : MonoBehaviour
 		else
 		{
 			currentText = "";
-			charactorText.text = "";
+			if (charactorText)
+			{
+				charactorText.text = "";
+			}
 			isTextEnd = false;
 			showTextCoroutine = StartCoroutine(ShowText());
+		}
+	}
+
+	public void SkipCharacterText()
+	{
+		StartCoroutine(SkipCharactorTextWriter());
+	}
+
+	IEnumerator SkipCharactorTextWriter()
+	{
+		for(int i = 0; i < fullText.Count + 1; i++)
+		{
+			yield return new WaitForSeconds(skipDelay);
+			WriteCharactorText();
 		}
 	}
 
@@ -65,6 +105,7 @@ public class CharacterDialogController : MonoBehaviour
 	{
 		if (fullText.Count > textNum)
 		{
+			fullText[textNum] = fullText[textNum].Replace("\\n", "\n");
 			for (int i = 0; i <= fullText[textNum].Length; i++)
 			{
 				currentText = fullText[textNum].Substring(0, i);
@@ -75,6 +116,8 @@ public class CharacterDialogController : MonoBehaviour
 		}
 		else
 		{
+			characterDialogEndEvent?.Invoke();
+			playerInput.enabled = true;
 			windowController.WindowClose();
 		}
 	}

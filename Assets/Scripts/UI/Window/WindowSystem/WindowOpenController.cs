@@ -19,10 +19,9 @@ public class WindowOpenController : MonoBehaviour
 	[SerializeField]
 	private Vector2 windowScale = Vector2.one;
 	[SerializeField]
-	private UnityEvent[] windowEvents = new UnityEvent[8];
+	public UnityEvent[] windowEvents = new UnityEvent[8];
 	[SerializeField]
 	private Dictionary<string, object> variables = new Dictionary<string, object>();
-
 
 
 	/// <summary>
@@ -53,11 +52,94 @@ public class WindowOpenController : MonoBehaviour
 		SetWindowEvents(instanceUi);
 		SetVariablesToWindow(instanceUi);
 	}
+	public void WindowDeactiveOpen(GameObject openWindowPrefab)
+	{
+		openWindow = openWindowPrefab;
+
+		GameObject instanceUi = null;
+		if (openWindow)
+		{
+			if (openWindowParent)
+			{
+				instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, true, windowPosition, windowScale);
+			}
+			else
+			{
+				instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, true, windowPosition, windowScale);
+			}
+
+
+			SetWindowEvents(instanceUi);
+		}
+		else
+		{
+			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
+		}
+
+		SetWindowEvents(instanceUi);
+		SetVariablesToWindow(instanceUi);
+	}
 
 	/// <summary>
 	/// 타 Window를 닫지 않는 Window를 생성
 	/// </summary>
-	public GameObject WindowActiveOpen()
+	public void WindowActiveOpen()
+	{
+		GameObject instanceUi = null;
+		if (openWindow)
+		{
+			if (openWindowParent)
+			{
+				instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale);
+			}
+			else
+			{
+				instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
+			}
+
+
+			SetWindowEvents(instanceUi);
+		}
+		else
+		{
+			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
+		}
+
+		SetWindowEvents(instanceUi);
+		SetVariablesToWindow(instanceUi);
+	}
+	public void WindowActiveOpen(GameObject openWindowPrefab)
+	{
+		openWindow = openWindowPrefab;
+
+		GameObject instanceUi = null;
+		if (openWindow)
+		{
+			if (openWindowParent)
+			{
+				instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale);
+			}
+			else
+			{
+				instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
+			}
+
+
+			SetWindowEvents(instanceUi);
+		}
+		else
+		{
+			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
+		}
+
+		SetWindowEvents(instanceUi);
+		SetVariablesToWindow(instanceUi);
+	}
+
+	/// <summary>
+	/// 타 Window를 닫지 않는 Window를 생성
+	/// </summary>
+	public GameObject WindowActiveReturnOpen()
 	{
 		GameObject instanceUi = null;
 		if (openWindow)

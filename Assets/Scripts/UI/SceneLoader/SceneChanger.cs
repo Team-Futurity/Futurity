@@ -5,13 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+	private SceneChangeManager sceneChangeManager;
+	private void Start()
+	{
+		sceneChangeManager = SceneChangeManager.Instance;
+	}
+
 	public void SceneChange(SceneKeyData sceneKeyData)
 	{
-		SceneChangeManager.Instance.SceneLoad(sceneKeyData);
-    }
+		sceneChangeManager.SceneLoad(sceneKeyData, 1);
+	}
+
+	public void TitleSceneChange(SceneKeyData sceneKeyData)
+	{
+		sceneChangeManager.SceneLoad(sceneKeyData, 2);
+	}
 
 	public void ResetScene()
 	{
-		SceneChangeManager.Instance.SelfSceneLoad();
+		sceneChangeManager.SelfSceneLoad();
 	}
 }
