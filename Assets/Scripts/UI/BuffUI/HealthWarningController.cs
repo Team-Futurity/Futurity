@@ -68,7 +68,7 @@ public class HealthWarningController : MonoBehaviour
 	/// <summary>
 	/// 효과의 최대 투명도
 	/// </summary>
-	private float maxAlpha = 0.25f;
+	private float maxAlpha = 0.75f;
 
 	private float effectIntensity = 0f;
 
@@ -190,9 +190,9 @@ public class HealthWarningController : MonoBehaviour
 		}
 
 		Time.timeScale = 1f;
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(0.5f);
 
-		windowManager.WindowTopOpen(deathOpenWindow, false, Vector2.zero, Vector2.one);
+		windowManager.WindowOpen(deathOpenWindow, panelCanvas.transform, false, Vector2.zero, Vector2.one);
 		DeathEndEvent?.Invoke();
 	}
 

@@ -9499,6 +9499,7 @@ MonoBehaviour:
   health: 100
   panelCanvas: {fileID: 0}
   statusManager: {fileID: 0}
+  deathOpenWindow: {fileID: 0}
   cameraTransform: {fileID: 0}
   playerTransform: {fileID: 0}
   volume: {fileID: 0}
@@ -9508,6 +9509,7 @@ MonoBehaviour:
   slowMotionFactor: 0.2
   normalCameraSize: 5
   zoomInCameraSize: 2
+  isDeath: 0
   backgroundPanel: {fileID: 0}
   DeathEndEvent:
     m_PersistentCalls:
@@ -12935,6 +12937,7 @@ MonoBehaviour:
   health: 100
   panelCanvas: {fileID: 1124304065}
   statusManager: {fileID: 1921549231}
+  deathOpenWindow: {fileID: 280084176244655351, guid: e6f2cc4be31e9164a8428eb2c82d132e, type: 3}
   cameraTransform: {fileID: 0}
   playerTransform: {fileID: 0}
   volume: {fileID: 0}
@@ -12944,37 +12947,13 @@ MonoBehaviour:
   slowMotionFactor: 0.2
   normalCameraSize: 5
   zoomInCameraSize: 2
+  isDeath: 0
   backgroundPanel: {fileID: 0}
   DeathEndEvent:
     m_PersistentCalls:
       m_Calls: []
-  maxAlpha: 0.25
+  maxAlpha: 0.75
   pulseSpeed: 2
---- !u!114 &1921549233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 630921985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c13b7996ffcec054881bc4387cb66f47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 1921549217}
-  cameraTransform: {fileID: 1703148523}
-  panelCanvas: {fileID: 0}
-  zoomInSpeed: 2
-  fadeInSpeed: 2
-  fadeInAlphaMax: 1
-  slowMotionFactor: 0.2
-  normalCameraSize: 5
-  zoomInCameraSize: 2
-  backgroundPanel: {fileID: 0}
-  DeathEndEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1928631767
 GameObject:
   m_ObjectHideFlags: 0
