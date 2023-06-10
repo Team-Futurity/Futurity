@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -92,6 +93,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public CapsuleCollider basicCollider;
 	public RushEffectManager rushEffectManager;
 	public BuffProvider buffProvider;
+	public RootMotionContoller rmController;
+	public PlayerAnimationEvents playerAnimationEvents;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public TrailRenderer dashEffect;
@@ -292,6 +295,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 
 		AttackNode node = comboTree.FindNode(nextNodeInput, compareNode);
+
 
 		return node;
 	}
