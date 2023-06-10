@@ -64,6 +64,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Enemy Management")]
 	[HideInInspector] public EnemyManager manager;
+	[HideInInspector] public EnemyEffectManager effectManager;
 
 	//clustering
 	public bool isClusteringObj = false;
@@ -157,6 +158,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	private void Awake()
 	{
 		manager = EnemyManager.Instance;
+		effectManager = EnemyEffectManager.Instance;
 	}
 
 	private void Start()
@@ -174,7 +176,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		SetMaterial();
 
 		manager.ActiveManagement(this);
-		EnemyEffectManager.Instance.CopyEffect(this);
+		effectManager.CopyEffect(this);
 		chaseRange.enabled = false;
 
 		//FDebug.Log(hittedEffect.indexNum);

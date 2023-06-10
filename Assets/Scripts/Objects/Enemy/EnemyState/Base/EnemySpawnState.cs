@@ -8,7 +8,6 @@ public class EnemySpawnState : UnitState<EnemyController>
 	private float curTime = .0f;
 	private Color BeginColor = Color.black;
 	private Color refColor = Color.black;
-	private Color EndColor = Color.white;
 	private Vector3 targetPos;
 
 	public override void Begin(EnemyController unit)
