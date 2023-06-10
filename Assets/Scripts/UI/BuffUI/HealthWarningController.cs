@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Events;
+using System.Collections;
 
 /// <summary>
 /// PlayerHealthUI 클래스는 플레이어 체력에 따라 화면 효과를 제어합니다.
@@ -11,19 +13,56 @@ public class HealthWarningController : MonoBehaviour
 	[SerializeField]
 	private float health = 100.0f;  // 플레이어 체력
 
-	[SerializeField]
-	private StatusManager statusManager;  // 플레이어 스텟
 
+	[Header("필수 변수")]
+	[SerializeField]
+	[Tooltip("panel을 생성할 canvas")]
+	private Canvas panelCanvas;
+	[SerializeField]
+	[Tooltip("플레이어 스텟")]
+	private StatusManager statusManager;
+	[SerializeField]
+	[Tooltip("플레이어 사망시 호출할 Window")]
+	private GameObject deathOpenWindow;
+
+	[Space(15)]
+	[Header("테스트시 할당해주세요")]
+	[SerializeField]
+	private Transform cameraTransform;
+	[SerializeField]
+	private Transform playerTransform;
 	[SerializeField]
 	private Volume volume;
-	private Vignette vignette;
-
+	private Vignette vignette; 
+	
+	[Header("Death 연출 관련 변수")]
 	[SerializeField]
-	/// <summary>
-	/// 적용할 효과 이미지
-	/// </summary>
-	private GameObject redEffectObject;
-	private Image redEffectImage;
+	private float zoomInSpeed = 2f;
+	[SerializeField]
+	private float fadeInSpeed = 2f;
+	[SerializeField]
+	private float fadeInAlphaMax = 1f;
+	[SerializeField]
+	private float slowMotionFactor = 0.2f;
+	[SerializeField]
+	private float normalCameraSize = 5f;
+	[SerializeField]
+	private float zoomInCameraSize = 2f;
+	[SerializeField]
+	private bool isDeath = false;
+	[Space(15)]
+
+	[Header("Debug용")]
+	[SerializeField]
+	private GameObject backgroundPanel;
+
+	[Space(15)]
+	[SerializeField]
+	private UnityEvent DeathEndEvent;
+
+	private Camera cameraComponent;
+	private Image backgroundImage;
+	private WindowManager windowManager;
 
 	[SerializeField]
 	/// <summary>
@@ -38,36 +77,44 @@ public class HealthWarningController : MonoBehaviour
 
 	private void Start()
 	{
-			Camera.main.gameObject.TryGetComponent<Volume>(out volume);
+		Camera.main.gameObject.TryGetComponent<Volume>(out volume);
+		cameraTransform = Camera.main.gameObject.transform;
+		cameraComponent = cameraTransform.GetComponent<Camera>();
+		windowManager = WindowManager.Instance;
 
-		if (volume.profile.TryGet<Vignette>(out vignette))
-		{
-		}
+		if (volume.profile.TryGet<Vignette>(out vignette)) { }
+		isDeath = false;
+		if (playerTransform == null)
+			playerTransform = transform;
 
 
 		// backgroundPanel이 할당되지 않았다면 새로운 GameObject를 생성합니다
-		if (redEffectObject == null)
+		if (backgroundPanel == null)
 		{
-			redEffectObject = new GameObject("HealthWarringEffectObject");
-			redEffectImage = redEffectObject.AddComponent<Image>();
-			redEffectImage.color = Color.clear;
+			backgroundPanel = new GameObject("BackgroundPanel");
+			backgroundImage = backgroundPanel.AddComponent<Image>();
+			backgroundImage.color = Color.clear;
 
 			// 최상위 캔버스를 찾아 backgroundPanel을 그 캔버스의 자식으로 설정합니다
-			Canvas topCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-			redEffectObject.transform.SetParent(topCanvas.transform, false);
+
+			if (panelCanvas == null)
+			{
+				panelCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+			}
+			backgroundPanel.transform.SetParent(panelCanvas.transform, false);
 
 			// backgroundPanel의 앵커를 화면 전체로 설정합니다
-			RectTransform rectTransform = redEffectObject.GetComponent<RectTransform>();
+			RectTransform rectTransform = backgroundPanel.GetComponent<RectTransform>();
 			rectTransform.anchorMin = Vector2.zero;
 			rectTransform.anchorMax = Vector2.one;
 			rectTransform.offsetMin = Vector2.zero;
 			rectTransform.offsetMax = Vector2.zero;
-			redEffectObject.SetActive(false);
+			backgroundPanel.SetActive(false);
 		}
 		else
 		{
-			redEffectImage = redEffectObject.GetComponent<Image>();
-			redEffectObject.SetActive(false);
+			backgroundImage = backgroundPanel.GetComponent<Image>();
+			backgroundPanel.SetActive(false);
 		}
 	}
 
@@ -78,32 +125,81 @@ public class HealthWarningController : MonoBehaviour
 	{
 		health = statusManager.GetStatus(StatusType.CURRENT_HP).GetValue();
 
-		// 체력이 60 이하이면 효과 적용
+		if(!isDeath && health <= 0)
+		{
+			PlayerDeath();
+		}
+
+		// 체력이 60 이하이면 경고 연출 적용
 		if (health <= 60)
 		{
-			redEffectImage.gameObject.SetActive(true);
-			PulseEffect();
+			PulseEffect(true);
 		}
 		else
 		{
-			redEffectImage.gameObject.SetActive(false);
-		}
-
-		// 테스트를 위한 체력 감소 코드
-		// 실제 게임에서는 플레이어가 데미지를 받을 때 체력을 감소시키는 코드를 사용합니다.
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			health -= 10f;
+			PulseEffect(false);
 		}
 	}
-
+	
 	/// <summary>
 	/// 효과를 심장 박동처럼 조절하는 메서드입니다.
 	/// </summary>
-	private void PulseEffect()
+	private void PulseEffect(bool isActive)
 	{
+		if (isActive)
+		{
 			effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
 			vignette.intensity.value = effectIntensity;
-		
+		}
+		else
+		{
+			vignette.intensity.value = 0f;
+		}
+	}
+
+
+	public void PlayerDeath()
+	{
+		isDeath = true;
+		backgroundPanel.SetActive(true);
+		backgroundImage.color = Color.clear;
+		StartCoroutine(ZoomInAndSlowMotion());
+	}
+
+	IEnumerator ZoomInAndSlowMotion()
+	{
+		Time.timeScale = slowMotionFactor;
+
+		while (cameraComponent.orthographicSize > zoomInCameraSize || backgroundImage.color.a < 0.5f)
+		{
+			// 카메라 줌 인
+			if (cameraComponent.orthographicSize > zoomInCameraSize)
+			{
+				cameraComponent.orthographicSize -= zoomInSpeed * Time.deltaTime;
+			}
+
+			// 알파값 증가
+			if (backgroundImage.color.a < 1f)
+			{
+				Color newColor = backgroundImage.color;
+				newColor = new Color(newColor.r, newColor.g, newColor.b, newColor.a + (Time.deltaTime * fadeInSpeed));
+				backgroundImage.color = newColor;
+			}
+
+			yield return null;
+		}
+
+		Time.timeScale = 1f;
+		yield return new WaitForSeconds(1f);
+
+		windowManager.WindowTopOpen(deathOpenWindow, false, Vector2.zero, Vector2.one);
+		DeathEndEvent?.Invoke();
+	}
+
+	void OnDisable()
+	{
+		Time.timeScale = 1f;
+		backgroundPanel.SetActive(false);
+		cameraComponent.orthographicSize = normalCameraSize;
 	}
 }

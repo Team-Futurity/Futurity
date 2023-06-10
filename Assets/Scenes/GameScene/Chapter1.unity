@@ -9497,8 +9497,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  panelCanvas: {fileID: 0}
   statusManager: {fileID: 0}
-  redEffectObject: {fileID: 0}
+  cameraTransform: {fileID: 0}
+  playerTransform: {fileID: 0}
+  volume: {fileID: 0}
+  zoomInSpeed: 2
+  fadeInSpeed: 2
+  fadeInAlphaMax: 1
+  slowMotionFactor: 0.2
+  normalCameraSize: 5
+  zoomInCameraSize: 2
+  backgroundPanel: {fileID: 0}
+  DeathEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
   maxAlpha: 0.1
   pulseSpeed: 2
 --- !u!114 &1509287576
@@ -9515,13 +9528,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1921549217}
   cameraTransform: {fileID: 1703148523}
-  backgroundPanel: {fileID: 0}
+  panelCanvas: {fileID: 0}
   zoomInSpeed: 1
   fadeInSpeed: 2
   fadeInAlphaMax: 1
   slowMotionFactor: 0.5
   normalCameraSize: 5
   zoomInCameraSize: 2
+  backgroundPanel: {fileID: 0}
   DeathEndEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -12919,10 +12933,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  panelCanvas: {fileID: 1124304065}
   statusManager: {fileID: 1921549231}
-  redEffectObject: {fileID: 0}
+  cameraTransform: {fileID: 0}
+  playerTransform: {fileID: 0}
+  volume: {fileID: 0}
+  zoomInSpeed: 2
+  fadeInSpeed: 2
+  fadeInAlphaMax: 1
+  slowMotionFactor: 0.2
+  normalCameraSize: 5
+  zoomInCameraSize: 2
+  backgroundPanel: {fileID: 0}
+  DeathEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
   maxAlpha: 0.25
   pulseSpeed: 2
+--- !u!114 &1921549233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630921985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13b7996ffcec054881bc4387cb66f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1921549217}
+  cameraTransform: {fileID: 1703148523}
+  panelCanvas: {fileID: 0}
+  zoomInSpeed: 2
+  fadeInSpeed: 2
+  fadeInAlphaMax: 1
+  slowMotionFactor: 0.2
+  normalCameraSize: 5
+  zoomInCameraSize: 2
+  backgroundPanel: {fileID: 0}
+  DeathEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1928631767
 GameObject:
   m_ObjectHideFlags: 0

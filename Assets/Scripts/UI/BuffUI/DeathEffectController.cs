@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class DeathEffectController : MonoBehaviour
 {
+	[Header("필수 변수")]
 	[SerializeField]
 	private Transform playerTransform;
 	[SerializeField]
 	private Transform cameraTransform;
 	[SerializeField]
-	private GameObject backgroundPanel;
+	private Canvas panelCanvas;
+	[Space(15)]
+
+	[Header("Death 연출 관련 변수")]
 	[SerializeField]
 	private float zoomInSpeed = 2f;
 	[SerializeField]
@@ -23,6 +27,13 @@ public class DeathEffectController : MonoBehaviour
 	private float normalCameraSize = 5f;
 	[SerializeField]
 	private float zoomInCameraSize = 2f;
+	[Space(15)]
+
+	[Header("Debug용")]
+	[SerializeField]
+	private GameObject backgroundPanel;
+
+
 	[SerializeField]
 	private UnityEvent DeathEndEvent;
 
@@ -41,8 +52,12 @@ public class DeathEffectController : MonoBehaviour
 			backgroundImage.color = Color.clear;
 
 			// 최상위 캔버스를 찾아 backgroundPanel을 그 캔버스의 자식으로 설정합니다
-			Canvas topCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-			backgroundPanel.transform.SetParent(topCanvas.transform, false);
+
+			if (panelCanvas == null)
+			{
+				panelCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+			}
+			backgroundPanel.transform.SetParent(panelCanvas.transform, false);
 
 			// backgroundPanel의 앵커를 화면 전체로 설정합니다
 			RectTransform rectTransform = backgroundPanel.GetComponent<RectTransform>();
