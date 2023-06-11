@@ -36,7 +36,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private float enemyDistance;				// 첫번째로 충돌한 적과의 거리
 	private Vector3 groundPos;          // Enemy의 체공 이전 좌표
 	private float originScale;		// Player의 원래 콜라이더 크기
-	
 
 	// Trigger
 	public bool isReleased; // 돌진 버튼이 Release되면 true
@@ -45,6 +44,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 	// Layer
 	public LayerMask wallLayer = 1 << 6; // wall Layer
+
+	// Unit
+	private PlayerController pc;
 
 	public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { Sqrt2 = Mathf.Sqrt(2); }
 
@@ -67,9 +69,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		unit.attackCollider.radiusCollider.enabled = false;
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
 		attackLengthMark = unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing; // 0 Level Length Mark
-		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
+		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.25f);
 		currentTime = 0;
 		currentLevel = 0;
+
+		pc = unit;
 	}
 
 	public override void End(PlayerController unit)
@@ -110,22 +114,21 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		FDebug.DrawRay(unit.transform.position, unit.transform.forward * rayLength, UnityEngine.Color.blue);
 
 		if (!isReleased) { return; }
-		if (isEnd)
+		if (isEnd) // 돌진이 끝났고, FirstEnemy가 있었으면
 		{
-			firstEnemy.AddForce(Physics.gravity, ForceMode.Force); // 중력 적용
+			// 중력 적용
+			firstEnemy.AddForce(Physics.gravity, ForceMode.Force); 
+
+			// 공중에서 정지 했는지 판별 
 			if (firstEnemy.velocity.magnitude < 0.1f && !isLanding)
 			{
-				firstEnemy.velocity = Vector3.zero;
-				firstEnemy.AddForce(Vector3.down * FlyPower, ForceMode.VelocityChange);
-				isLanding = true;
+				//DownAttack();
 			}
 
+			// 거의 다 추락했으면
 			if (firstEnemy.velocity.magnitude < 0.3f && isLanding)
 			{
-				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Ground, null, groundPos, null, 0, currentLevel - 1);
-				firstEnemy.transform.position = groundPos;
-				unit.playerData.Attack(firstEnemyData, attackST);
-				unit.ChangeState(PlayerState.AttackAfterDelay);
+				EnemyLanding();
 			}
 			return;
 		}
@@ -170,17 +173,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			if (firstEnemy != null)
 			{
+				// Enemy 위치 보정
 				firstEnemy.transform.position = targetPos + forward * (enemyDistance + moveSpeed * Time.fixedDeltaTime);
-				groundPos = firstEnemy.transform.position;
-				firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
-				firstEnemyCollider.enabled = true;
-				firstEnemy.AddForce(Vector3.up * FlyPower, ForceMode.VelocityChange);
-				unit.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Target, null, firstEnemy.transform.position);
 
-				isEnd = true;
+				pc = unit;
 
-				unit.basicCollider.radius = originScale;
-				unit.rigid.velocity = Vector3.zero;
+				//UpAttack();
 
 				return;
 			}
@@ -276,7 +274,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 					}
 
 					unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
-					rangeEffect.transform.localScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * PlayerController.cm2m);
+					//rangeEffect.transform.localScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * PlayerController.cm2m);
 					/*if (curEffect != null)
 					{
 						unit.rushObjectPool.DeactiveObject(curEffect);
@@ -385,5 +383,50 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		{
 			unit.rushEffectManager.RemoveEffectByKey(chargeEffectKey);
 		}
+	}
+
+	public void UpAttack()
+	{
+		// Enemy 초기 위치를 Ground로 지정
+		groundPos = firstEnemy.transform.position;
+
+		// Enemy 행동 제약 해제(XZ)
+		firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
+		firstEnemyCollider.enabled = true;
+
+		// Enemy 날리기 
+		firstEnemy.AddForce(Vector3.up * FlyPower, ForceMode.VelocityChange);
+		pc.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Target, null, firstEnemy.transform.position);
+
+		// 돌진이 끝났음을 알림
+		isEnd = true;
+
+		pc.basicCollider.radius = originScale;
+		pc.rigid.velocity = Vector3.zero;
+	}
+
+	public void DownAttack()
+	{
+		// 속도 초기화 후 아래로 힘을 가함
+		firstEnemy.velocity = Vector3.zero;
+		firstEnemy.AddForce(Vector3.down * FlyPower, ForceMode.VelocityChange);
+
+		// Landing 상태가 됨을 알림
+		isLanding = true;
+	}
+
+	public void EnemyLanding()
+	{
+		// 이팩트 출력
+		pc.rushEffectManager.ActiveEffect(EffectType.AfterDoingAttack, EffectTarget.Ground, null, groundPos, null, 0, currentLevel - 1);
+
+		// 포지션 정상화
+		firstEnemy.transform.position = groundPos;
+
+		// 데미지 처리
+		pc.playerData.Attack(firstEnemyData, attackST);
+
+		// State Change
+		pc.ChangeState(PlayerState.AttackAfterDelay);
 	}
 }

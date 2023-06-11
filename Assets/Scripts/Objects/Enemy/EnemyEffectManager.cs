@@ -10,7 +10,6 @@ public class EnemyEffectManager : Singleton<EnemyEffectManager>
 	[HideInInspector] public List<GameObject> copyHit;
 	[HideInInspector] public List<GameObject> copyHitted;
 
-
 	[Serializable]
 	public struct Effect
 	{
@@ -60,22 +59,19 @@ public class EnemyEffectManager : Singleton<EnemyEffectManager>
 
 		for (int i = 0; i < unit.effects.Count; i++)
 		{
-			InstantiateEffect(copySpecific, unit.effects[i]);
+			Effect e = unit.effects[i];
+			e.indexNum = InstantiateEffect(copySpecific, unit.effects[i]);
+			unit.effects[i] = e;
 		}
 
-		InstantiateEffect(copyHit, unit.hitEffect);
-		InstantiateEffect(copyHitted, unit.hittedEffect);
+		unit.hitEffect.indexNum = InstantiateEffect(copyHit, unit.hitEffect);
+		unit.hittedEffect.indexNum = InstantiateEffect(copyHitted, unit.hittedEffect);
 	}
 
-	private void InstantiateEffect(List<GameObject> list, Effect effect)
+	private int InstantiateEffect(List<GameObject> list, Effect effect)
 	{
-		//int indexNum = list.Count;
 		list.Add(GameObject.Instantiate(effect.effectPrefab, effect.effectTransform == null ? null : effect.effectTransform));
 		list[list.Count - 1].SetActive(false);
-	}
-
-	private void SetIndexNum()
-	{
-
+		return list.Count - 1;
 	}
 }

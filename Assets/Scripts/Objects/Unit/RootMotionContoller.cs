@@ -8,7 +8,7 @@ public class RootMotionContoller : MonoBehaviour
 	[SerializeField] private List<AnimationType> animations;
 	private Dictionary<string, AnimationType> animationDic;
 
-	private void Start()
+	private void Awake()
 	{
 		animationDic = new Dictionary<string, AnimationType>();
 		foreach(var anim in animations)

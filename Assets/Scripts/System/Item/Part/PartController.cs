@@ -30,14 +30,14 @@ public class PartController : MonoBehaviour
 
 		TryGetComponent(out ownerUnit);
 		
-		ownerUnit.comboGaugeSystem.OnGaugeChanged.AddListener((gauge)=> { OnGaugeChanged(gauge); });
+		ownerUnit.comboGaugeSystem.OnGaugeChanged.AddListener(OnGaugeChanged);
 	}
 
-	private void Start()
+	private void OnDisable()
 	{
-		foreach (var VARIABLE in testPart)
+		foreach(var part in equipPart)
 		{
-			EquipPart(VARIABLE);
+			part.SetActive(false);
 		}
 	}
 

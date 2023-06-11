@@ -25,12 +25,11 @@ public class EnemyAttackBaseState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		curTime = 0f;
-		if (EnemyEffectManager.Instance.copyHit[unit.hitEffect.indexNum] != null)
-			EnemyEffectManager.Instance.HitEffectDeActive(unit.hitEffect.indexNum);
+		unit.effectManager.HitEffectDeActive(unit.hitEffect.indexNum);
 		foreach(var i in unit.effects)
 		{
-			if (EnemyEffectManager.Instance.copySpecific[i.indexNum] != null)
-				EnemyEffectManager.Instance.SpecificEffectDeActive(i.indexNum);
+			if (unit.effectManager.copySpecific[i.indexNum] != null)
+				unit.effectManager.SpecificEffectDeActive(i.indexNum);
 		}
 	}
 

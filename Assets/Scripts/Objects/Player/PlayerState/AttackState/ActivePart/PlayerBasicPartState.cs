@@ -6,12 +6,14 @@ using UnityEngine;
 public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 {
 	private const float maxAngle = 360;
+	private readonly string IsActivePartAnimKey = "IsActivePart";
 	private List<UnitBase> enemies = new List<UnitBase>();
 
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
 		enemies.Clear();
+		unit.animator.SetBool(IsActivePartAnimKey, true);
 		unit.attackCollider.radiusCollider.enabled = true;
 		unit.attackCollider.SetCollider(maxAngle, proccessor.minRange * PlayerController.cm2m);
 	}
@@ -39,6 +41,7 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 	public override void End(PlayerController unit)
 	{
 		base.End(unit);
+		unit.animator.SetBool(IsActivePartAnimKey, false);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
@@ -48,6 +51,9 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		if(other.CompareTag(unit.EnemyTag))
 		{
 			var enemy = other.GetComponent<UnitBase>();
+
+			if(enemy == null) { return; }
+
 			enemies.Add(enemy);
 			unit.buffProvider.SetBuff(enemy, proccessor.buffCode, proccessor.duration - currentTime);
 		}

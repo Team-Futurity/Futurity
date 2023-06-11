@@ -8,17 +8,18 @@ public class EnemySpawnState : UnitState<EnemyController>
 	private float curTime = .0f;
 	private Color BeginColor = Color.black;
 	private Color refColor = Color.black;
-	private Color EndColor = Color.white;
 	private Vector3 targetPos;
 
 	public override void Begin(EnemyController unit)
 	{
+		
+
 		unit.navMesh.speed = unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue();
 
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
 		unit.enemyCollider.enabled = false;
-		unit.copyTMat.color = BeginColor;
+		unit.copyUMat.color = BeginColor;
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		//unit.skinnedMeshRenderer.enabled = false;
 		unit.spawnEffect.SetActive(true);
@@ -31,8 +32,8 @@ public class EnemySpawnState : UnitState<EnemyController>
 		curTime += Time.deltaTime;
 
 		if (refColor.a > 0f)
-			refColor.a -= curTime * 0.01f;
-		unit.copyTMat.SetColor(unit.matColorProperty, refColor);
+			refColor.a -= curTime * 0.005f;
+		unit.copyUMat.SetColor(unit.matColorProperty, refColor);
 		unit.navMesh.SetDestination(targetPos);
 		unit.DelayChangeState(curTime, unit.maxSpawningTime, unit, EnemyController.EnemyState.Idle);
 	}
@@ -50,6 +51,12 @@ public class EnemySpawnState : UnitState<EnemyController>
 		//unit.skinnedMeshRenderer.enabled = true;
 		unit.spawnEffect.SetActive(false);
 		unit.rigid.velocity = Vector3.zero;
+
+		unit.manager = EnemyManager.Instance;
+		unit.effectManager = EnemyEffectManager.Instance;
+
+		unit.manager.ActiveManagement(unit);
+		unit.effectManager.CopyEffect(unit);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

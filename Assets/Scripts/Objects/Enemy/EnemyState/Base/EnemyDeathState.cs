@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyDeathState : UnitState<EnemyController>
 {
 	private float curTime = 0f;
+	private Color refColor = new Color(0f, 0f, 0f, 0f);
 
 	public override void Begin(EnemyController unit)
 	{
@@ -24,7 +25,11 @@ public class EnemyDeathState : UnitState<EnemyController>
 	{
 		curTime += Time.deltaTime;
 
-		if(curTime > unit.deathDelay)
+		if (refColor.a < 1f)
+			refColor.a += curTime * 0.005f;
+		unit.copyUMat.SetColor(unit.matColorProperty, refColor);
+
+		if (curTime > unit.deathDelay)
 		{
 			unit.gameObject.SetActive(false);
 		}

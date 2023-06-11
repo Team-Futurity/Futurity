@@ -13,26 +13,31 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void SpecificEffectActive(int index)
 	{
-		if (EnemyEffectManager.Instance.copySpecific[ec.effects[index].indexNum] != null)
-			EnemyEffectManager.Instance.SpecificEffectActive(ec.effects[index].indexNum);
+		if (ec.effectManager.copySpecific[ec.effects[index].indexNum] != null)
+			ec.effectManager.SpecificEffectActive(ec.effects[index].indexNum);
 	}
 
 	public void HitEffectActive()
 	{
-		if (ec.isAttackSuccess && EnemyEffectManager.Instance.copyHit[ec.hitEffect.indexNum] != null)
+		if (ec.isAttackSuccess && ec.effectManager.copyHit[ec.hitEffect.indexNum] != null)
 		{
 			ec.hitEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
-			EnemyEffectManager.Instance.HitEffectActive(ec.hitEffect.indexNum);
+			ec.effectManager.HitEffectActive(ec.hitEffect.indexNum);
 			ec.isAttackSuccess = false;
 		}
 	}
 
 	public void HittedEffectActive()
 	{
-		if (EnemyEffectManager.Instance.copyHitted[ec.hittedEffect.indexNum] != null)
+		if (ec.effectManager.copyHitted[ec.hittedEffect.indexNum] != null)
 		{
 			ec.hittedEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
-			EnemyEffectManager.Instance.HittedEffectActive(ec.hittedEffect.indexNum);
+			ec.effectManager.HittedEffectActive(ec.hittedEffect.indexNum);
 		}
+	}
+
+	public void MeleeAttack()
+	{
+		ec.atkCollider.enabled = true;
 	}
 }

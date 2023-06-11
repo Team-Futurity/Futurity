@@ -24,6 +24,8 @@ public class PlayerActivePartAttackState<T> : PlayerAttackBaseState where T : Ac
 	public override void End(PlayerController unit)
 	{
 		base.End(unit);
+
+		unit.comboGaugeSystem.ResetComboGauge();
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

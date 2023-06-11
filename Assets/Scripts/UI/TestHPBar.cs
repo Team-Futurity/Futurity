@@ -16,6 +16,7 @@ public class TestHPBar : MonoBehaviour
 
 	private void Start()
 	{
+		enemy = GetComponent<EnemyController>();
 		curTime = 0f;
 		if(slider != null)
 		{
@@ -41,6 +42,8 @@ public class TestHPBar : MonoBehaviour
 		{
 			copySlider.value = enemy.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() / enemy.enemyData.status.GetStatus(StatusType.MAX_HP).GetValue();
 			copySlider.transform.position = Camera.main.WorldToScreenPoint(enemy.transform.position + sliderPos);
+			if (enemy.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
+				copySlider.gameObject.SetActive(false);
 		}
 	}
 }

@@ -78,13 +78,24 @@ public class ComboGaugeSystem : MonoBehaviour
 
 		int addedComboGauge = CalculateCurrentGauge(hittedEnemyCount);
 		FDebug.Log("Combo : " + addedComboGauge);
-		currentGauge = Mathf.Clamp(currentGauge + addedComboGauge, minComboGauge, maxComboGauge);
+
+		SetComboGauge(currentGauge + addedComboGauge);
+	}
+
+	private void SetComboGauge(int gauge)
+	{
+		currentGauge = Mathf.Clamp(gauge, minComboGauge, maxComboGauge);
 
 		if (gaugeBar != null)
 		{
 			gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge);
 			OnGaugeChanged.Invoke(currentGauge);
 		}
+	}
+
+	public void ResetComboGauge()
+	{
+		SetComboGauge(minComboGauge);
 	}
 
 	public void ResetComboCount()
