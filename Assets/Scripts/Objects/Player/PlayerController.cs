@@ -97,6 +97,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
+	public GaugeBarController hpUIController;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	//[HideInInspector] public TrailRenderer dashEffect;
@@ -299,6 +300,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 
 		AttackNode node = comboTree.FindNode(nextNodeInput, compareNode);
+
 
 		return node;
 	}

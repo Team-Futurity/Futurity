@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using static EnemyEffectManager;
+using FMODUnity;
+using System.Linq;
 
 public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
@@ -61,7 +63,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Enemy Management")]
-	public EnemyManager manager;
+	[HideInInspector] public EnemyManager manager;
+	[HideInInspector] public EnemyEffectManager effectManager;
 
 	//clustering
 	public bool isClusteringObj = false;
@@ -93,10 +96,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public SphereCollider atkCollider;                      //타격 Collider
 
 	public SkinnedMeshRenderer skinnedMeshRenderer;
-	/*public Material material;
-	[HideInInspector] public Material copyMat;*/
+	public Material material;
 	public Material transparentMaterial;
+	public Material unlitMaterial;
 	[HideInInspector] public Material copyTMat;
+	[HideInInspector] public Material copyUMat;
 
 
 	[Space(3)]
@@ -141,21 +145,21 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Hitted")]
 	public float hitMaxTime = 2f;                           //피격 딜레이
-	//public float hitPower;									//피격 AddForce 값
-	public Color damagedColor;								//피격 변환 컬러값
+	public float hitColorChangeTime = 0.2f;
+	public float hitPower = 450f;							//피격 AddForce 값
+	public Color damagedColor;                              //피격 변환 컬러값
+	public EventReference hitSound;
 
 	[Space(3)]
 	[Header("Death")]
 	public float deathDelay = 2.0f;
 
 
-	private void Awake()
-	{
-		manager = EnemyManager.Instance;
-	}
-
 	private void Start()
 	{
+		manager = EnemyManager.Instance;
+		effectManager = EnemyEffectManager.Instance;
+
 		//hpBar = GetComponent<TestHPBar>(); //임시
 
 		//Basic Set Up
@@ -163,23 +167,13 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 		navMesh = GetComponent<NavMeshAgent>();
-		if (transparentMaterial != null)
-		{
-			copyTMat = new Material(transparentMaterial);
-			copyTMat.SetColor(matColorProperty, new Color(1, 1, 1, 0f));
-			skinnedMeshRenderer.material = copyTMat;
-		}
-		if(spawnEffect != null)
-		spawnEffect.transform.parent = null;
+		if (spawnEffect != null)
+			spawnEffect.transform.parent = null;
 
-/*		if (material != null)
-		{
-			copyMat = new Material(material);
-			unit.skinnedMeshRenderer.material = unit.copyMat;
-		}*/
+		SetMaterial();
 
-		manager.ActiveManagement(this);
-		EnemyEffectManager.Instance.CopyEffect(this);
+		/*manager.ActiveManagement(this);
+		effectManager.CopyEffect(this);*/
 		chaseRange.enabled = false;
 
 		//FDebug.Log(hittedEffect.indexNum);
@@ -192,6 +186,22 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	protected override void Update()
 	{
 		base.Update();
+	}
+
+	public void SetMaterial()
+	{
+		if (unlitMaterial != null)
+		{
+			copyUMat = new Material(unlitMaterial);
+			copyUMat.SetColor(matColorProperty, new Color(1.0f, 1.0f, 1.0f, 0f));
+			skinnedMeshRenderer.material = copyUMat;
+			
+		}
+		if(transparentMaterial != null)
+		{
+			copyTMat = new Material(transparentMaterial);
+			copyTMat.SetColor(matColorProperty, new Color(0f, 0f, 0f, 0f));
+		}
 	}
 
 	public void DelayChangeState (float curTime, float maxTime, EnemyController unit, System.ValueType nextEnumState)
