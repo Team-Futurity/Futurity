@@ -21,4 +21,9 @@ public class FMODEvents: MonoBehaviour
 		ambInstance = AudioManager.instance.CreateInstance(amb);
 		ambInstance.start();
 	}
+
+	private void OnDestroy()
+	{
+		ambInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+	}
 }
