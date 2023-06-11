@@ -10,14 +10,12 @@ public class EnemyDeathState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		EnemyManager enemyManager = EnemyManager.Instance;
-
 		if (unit.isClustering)
-			enemyManager.EnemyDeclutter(unit.clusterNum);
-		//EnemyManager.Instance.DeActiveManagement(unit);
+			unit.manager.EnemyDeclutter(unit.clusterNum);
+		unit.manager.DeActiveManagement(unit);
 		//unit.hpBar.copySlider.gameObject.SetActive(false);
 
-		if (enemyManager.activeEnemys.Count <= 1)
+		if (unit.manager.activeEnemys.Count < 1)
 		{
 			StageEndPotalManager.Instance.ActivePotals();
 		}

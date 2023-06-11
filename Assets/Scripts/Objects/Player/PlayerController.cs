@@ -183,6 +183,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		// Input
 		Vector3 input = context.ReadValue<Vector3>();
+
 		if (input == null) { return; }
 		moveDir = new Vector3(input.x, 0f, input.y);
 		moveAction = context.action;
