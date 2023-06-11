@@ -70,9 +70,6 @@ public class CameraController : MonoBehaviour
 
 		// 투시
 		SetPenetrate();
-		prevPosition = GetTruncatedVector(transform.position);
-		prevTargetVector = GetTruncatedVector(target.position);
-
 	}
 
 	private void Update()
@@ -99,10 +96,10 @@ public class CameraController : MonoBehaviour
 	private void LateUpdate()
 	{
 		// 카메라 위치 조정
-		/*SetCameraPosition();
+		/*SetCameraPosition();*/
 
-		prevPosition = GetTruncatedVector(transform.position);
-		prevTargetVector = GetTruncatedVector(target.position);*/
+		
+		prevTargetVector = GetTruncatedVector(target.position);
 	}
 
 	public void SetVibration(float time, float curvePower = 0.1f, float randomPower = 0.1f)
@@ -179,5 +176,7 @@ public class CameraController : MonoBehaviour
 				penetratedMaterial[length].SetColor(colorFieldName, penetratedColor[length]);
 			}
 		}
+
+		prevPosition = GetTruncatedVector(transform.position);
 	}
 }
