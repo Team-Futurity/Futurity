@@ -38,7 +38,7 @@ public class StageEndPotalController : MonoBehaviour
 	PlayerController playerController;
 	Animator animator;
 	WindowManager windowManager;
-	ChapterManager chapterManager;
+	StageEndPotalManager chapterManager;
 	GameObject currentPotalWindow;
 
 	private Vector3 initialBarrierPosition;
@@ -54,7 +54,7 @@ public class StageEndPotalController : MonoBehaviour
 		playerController = player.GetComponent<PlayerController>();
 		animator = player.GetComponent<Animator>();
 
-		chapterManager = ChapterManager.Instance;
+		chapterManager = StageEndPotalManager.Instance;
 		chapterManager.SetEndWarpPotal(this);
 
 		isActiveStageEndPortal = false;
