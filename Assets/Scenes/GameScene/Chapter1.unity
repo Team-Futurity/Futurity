@@ -4151,7 +4151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openWindow: {fileID: 280084176244655351, guid: c5f21a8ef1431044ea2404ad0fcb91b9, type: 3}
-  openWindowParent: {fileID: 0}
+  openWindowParent: {fileID: 1124304066}
   windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
   windowEvents:
@@ -4196,7 +4196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStartOpen: 0
-  canvas: {fileID: 0}
+  canvas: {fileID: 1124304065}
   characterWindow: {fileID: 7156069533624209710, guid: 94af0b19dff72144b83e807bb2e9f5e3, type: 3}
   texts:
   - "\uC557, \uC7A0\uAE50... \uAE30\uCCB4\uAC00 \uC65C \uC774\uB807\uAC8C \uD754\uB4E4\uB9AC\uC9C0...?!"
@@ -4232,9 +4232,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 744731715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f020a7d3cc7fd1340bb07559073f7292, type: 3}
+  m_Script: {fileID: 11500000, guid: 6825cd2a386babb479e190bb52d444f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActiveStageEndPortal: 1
+  player: {fileID: 630921985}
+  barrierObject: {fileID: 404155967}
+  cameraObject: {fileID: 216791346}
+  windowOpenController: {fileID: 744731717}
+  playerMoveLimit: 10
+  playerSpeed: 1.5
+  barrierSpeed: 3
+  barrierEnd: 5
+  potalUIEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 744731718}
+        m_TargetAssemblyTypeName: CharacterDialogWindowOpener, Assembly-CSharp
+        m_MethodName: CharacterDialogWindowOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onBarrierReachedEndEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 744731720}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: SceneChange
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 0630cd3fc58addb4d91816b1da472da2, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &744731720
 MonoBehaviour:
   m_ObjectHideFlags: 0
