@@ -10,11 +10,17 @@ public class EnemyDeathState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
+		EnemyManager enemyManager = EnemyManager.Instance;
+
 		if (unit.isClustering)
-			EnemyManager.Instance.EnemyDeclutter(unit.clusterNum);
+			enemyManager.EnemyDeclutter(unit.clusterNum);
 		//EnemyManager.Instance.DeActiveManagement(unit);
 		//unit.hpBar.copySlider.gameObject.SetActive(false);
 
+		if (enemyManager.activeEnemys.Count < 1)
+		{
+			ChapterManager.Instance.ActivePotals();
+		}
 		unit.manager.DeActiveManagement(unit);
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);

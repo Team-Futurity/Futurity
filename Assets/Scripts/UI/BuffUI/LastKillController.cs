@@ -90,7 +90,7 @@ public class LastKillController : MonoBehaviour
 
 	public void PotalActive()
 	{
-		DeActivePotals[0].GetComponent<StageEndController>().isActiveStageEndPortal = true;
+		DeActivePotals[0].GetComponent<StageEndPotalController>().isActiveStageEndPortal = true;
 
 
 		/*for (int i = 0; i < DeActivePotals.Count; i++)
