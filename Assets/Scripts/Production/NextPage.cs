@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NextPage : MonoBehaviour
 {
+	public Animator anim;
 	public GameObject page1;
 	public GameObject page2;
 	public bool isNext;
@@ -21,6 +22,8 @@ public class NextPage : MonoBehaviour
 		{
 			page1.SetActive(false);
 			page2.SetActive(true);
+
+			anim.SetTrigger("PressAnyKey");
 		}
 	}
 }
