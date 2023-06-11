@@ -67,6 +67,34 @@ public class PlayerAnimationEvents : MonoBehaviour
 		}
 	}
 
+	// 0 : Charge
+	// 1 : Expolosion
+	// 2 : Landing
+	public void BasicActivePartAttackProc(int attackProccessOrder)
+	{
+		UnitState<PlayerController> GettedState = null;
+		PlayerBasicPartState chargeState;
+		if (!pc.GetState(PlayerState.BasicPart, ref GettedState)) { return; }
+
+		chargeState = GettedState as PlayerBasicPartState;
+
+		switch (attackProccessOrder)
+		{
+			case 0:
+				chargeState.Charging();
+				break;
+			case 1:
+				chargeState.Attack();
+				break;
+			case 2:
+				chargeState.Landing();
+				break;
+			case 3:
+				chargeState.AttackEnd();
+				break;
+		}
+	}
+
 	public void CameraShake()
 	{
 		CameraController cam;

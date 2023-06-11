@@ -296,7 +296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5264724231388114227
 Transform:
   m_ObjectHideFlags: 0
@@ -4282,7 +4282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5074733367378440601
 Transform:
   m_ObjectHideFlags: 0
@@ -6064,7 +6064,6 @@ GameObject:
   - component: {fileID: 8247117609381097480}
   - component: {fileID: 507041425030904175}
   - component: {fileID: 5821464009680269676}
-  - component: {fileID: 6599983942192001998}
   - component: {fileID: 7039203949321405940}
   - component: {fileID: 1070719927369175188}
   - component: {fileID: 1070719927369175189}
@@ -6496,6 +6495,7 @@ MonoBehaviour:
   currentAttackAnimKey: 
   hitCoolTimeIsEnd: 0
   glove: {fileID: 7164896735125955485}
+  rushGlove: {fileID: 6408263023137772874}
   playerData: {fileID: 1070719927369175194}
   activePartController: {fileID: 1921549218}
   comboGaugeSystem: {fileID: 6307489441031809494}
@@ -6507,7 +6507,6 @@ MonoBehaviour:
   buffProvider: {fileID: 1921549231}
   rmController: {fileID: 484117206}
   playerAnimationEvents: {fileID: 507041425030904175}
-  hpUIController: {fileID: 0}
   animator: {fileID: 5821464009680269676}
   rigid: {fileID: 0}
   nextStateEvent:
@@ -6566,7 +6565,7 @@ MonoBehaviour:
   status: {fileID: 11400000, guid: bbdf7818a879f6f49b05ea841d9b4d76, type: 2}
   copyStatus:
   - type: 1
-    value: 27.2
+    value: 100
   - type: 2
     value: 100
   - type: 3
@@ -6576,7 +6575,7 @@ MonoBehaviour:
   - type: 5
     value: 10
   - type: 6
-    value: 0.1
+    value: 0.4
   - type: 7
     value: 2
   - type: 8
@@ -6610,8 +6609,16 @@ MonoBehaviour:
         minRange: 100
         maxRange: 500
         damage: 100
-        duration: 3
+        duration: 0.0953
         buffCode: 1003
+        chargeEffectPos: {fileID: 4741841874766907805}
+        explosionEffectPos: {fileID: 4741841874766907805}
+        landingEffectPos: {fileID: 5328251835375101389}
+        chargeEffect: {fileID: 5653102041688409914, guid: 7c4a404f1628f7e40b71f4da4ccfb643, type: 3}
+        explosionEffect: {fileID: 7882521244870677114, guid: f6b57a94088577e4ea0eeacecf8e7227, type: 3}
+        landingEffect: {fileID: 1642341717177775396, guid: a86da6070f0a91547aa6492b3945cf49, type: 3}
+        chargeEffectParent: {fileID: 3196137401313834547}
+        worldEffectParent: {fileID: 0}
     - rid: 7965168027137212560
       type: {class: TestActivePart, ns: , asm: Assembly-CSharp}
       data:
@@ -6700,114 +6707,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!96 &6599983942192001998
-TrailRenderer:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 0
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 97b238894adc267408a3b81114ff2ac9, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Time: 0.3
-  m_Parameters:
-    serializedVersion: 3
-    widthMultiplier: 1
-    widthCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0.28492644
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    colorGradient:
-      serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0, a: 1}
-      key1: {r: 0.9852941, g: 0, b: 0, a: 0.654902}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
-      key4: {r: 0, g: 0, b: 0, a: 0}
-      key5: {r: 0, g: 0, b: 0, a: 0}
-      key6: {r: 0, g: 0, b: 0, a: 0}
-      key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 12336
-      ctime2: 65535
-      ctime3: 0
-      ctime4: 0
-      ctime5: 0
-      ctime6: 0
-      ctime7: 0
-      atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
-      atime4: 0
-      atime5: 0
-      atime6: 0
-      atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 3
-      m_NumAlphaKeys: 2
-    numCornerVertices: 0
-    numCapVertices: 0
-    alignment: 0
-    textureMode: 0
-    shadowBias: 0.5
-    generateLightingData: 0
-  m_MinVertexDistance: 0
-  m_Autodestruct: 0
-  m_Emitting: 1
 --- !u!114 &7039203949321405940
 MonoBehaviour:
   m_ObjectHideFlags: 0
