@@ -57,7 +57,7 @@ public class StageEndPotalController : MonoBehaviour
 		chapterManager = StageEndPotalManager.Instance;
 		chapterManager.SetEndWarpPotal(this);
 
-		isActiveStageEndPortal = false;
+		//isActiveStageEndPortal = false;
 		windowManager = WindowManager.Instance;
 		initialBarrierPosition = barrierObject.transform.position;
 	}
