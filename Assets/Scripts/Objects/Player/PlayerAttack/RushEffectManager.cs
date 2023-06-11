@@ -7,6 +7,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 {
 	[SerializeField] private EffectData rushEffectData;
 	[SerializeField] private GameObject rushEffectParent;
+	[SerializeField] private GameObject worldRushEffectParent;
 	private Dictionary<EffectType, Dictionary<EffectTarget, List<RushEffectData>>> rushEffectDictionary;
 	private Dictionary<RushEffectData, RushLevelEffect> rushLevelEffectDictionary = new Dictionary<RushEffectData, RushLevelEffect>();
 	private List<TrackingEffectData> trackingEffects = new List<TrackingEffectData>();

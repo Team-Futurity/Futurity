@@ -13,22 +13,32 @@ public class Enemy : UnitBase
 	private void Start()
 	{
 		hpBar = GetComponent<EnemyHpBarController>().currentHpBar.GetComponent<GaugeBarController>();
+
+		if (hpBar != null)
+		{
+			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
+			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
+		}
 	}
 
 	public override void Attack(UnitBase target)
 	{
 		ec.isAttackSuccess = true;
 		target.Hit(this, GetDamage(1));
-		}
+
+	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot)
 	{
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
-		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage); 
-		
-		if (hpBar != null)
-			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 
+
+		if (hpBar != null)
+		{
+			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
+			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
+			}
 	}
 
 	protected override float GetAttackPoint()

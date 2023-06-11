@@ -98,13 +98,18 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
         PoolingObject poolObj;
         target.TryGetComponent(out poolObj);
 
-        // PoolingObject일 경우
-        if (poolObj != null)
+		if(!activedPoolingObjects.Remove(target))
+		{
+			FDebug.LogWarning("[ObjectPoolManager] 해당 오브젝트는 현재 오브젝트 풀링에서 관리하고 있는 오브젝트가 아니거나, 활성화되어 있지 않습니다.");
+			return;
+		}
+
+		// PoolingObject일 경우
+		if (poolObj != null)
         {
             poolObj.DeactiveObj();
         }
         target.gameObject.SetActive(false);
-		activedPoolingObjects.Remove(target);
 		nonActivedObjects.Push(target);
     }
 }

@@ -10,6 +10,12 @@ public class Player : UnitBase
 	private void Start()
 	{
 		pc = GetComponent<PlayerController>();
+
+		if (hpBar != null)
+		{
+			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
+			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
+		}
 	}
 
 	public void Attack(UnitBase target, float AttackST)
@@ -22,6 +28,7 @@ public class Player : UnitBase
 	{
 		float criticalConf = GetCritical();
 		target.Hit(this, GetDamage(1) * criticalConf);
+
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
@@ -39,7 +46,7 @@ public class Player : UnitBase
 		float finalDamage = damage * remainingDamageRatio;
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
-		pc.hpUIController.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
+		hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
@@ -47,6 +54,12 @@ public class Player : UnitBase
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}
+
+		if (hpBar != null)
+		{
+			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
+			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
+			}
 	}
 
 	protected override float GetAttackPoint()

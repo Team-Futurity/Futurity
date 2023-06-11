@@ -87,6 +87,8 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 
 	public void AddSubState(UnitState<Unit> subState)
 	{
+		if(this.subState != null) { FDebug.Log($"현재 SubState({subState})가 존재합니다. RemoveSubState()로 삭제하세요"); }
+
 		if (subState != null && subState != currentState)
 		{
 			this.subState = subState;

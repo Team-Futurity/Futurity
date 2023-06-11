@@ -86,6 +86,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(2)]
 	[Header("References")]
 	public GameObject glove;
+	public GameObject rushGlove;
 	public Player playerData;
 	public ActivePartController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
@@ -97,10 +98,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
-	public GaugeBarController hpUIController;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
-	//[HideInInspector] public TrailRenderer dashEffect;
 	private WaitForSeconds dashCoolTimeWFS;
 	private WaitForSeconds hitCoolTimeWFS;
 
