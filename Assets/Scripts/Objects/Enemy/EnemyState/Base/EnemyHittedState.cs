@@ -19,8 +19,6 @@ public class EnemyHittedState : UnitState<EnemyController>
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
 
 		AudioManager.instance.PlayOneShot(unit.hitSound, unit.transform.position);
-
-		unit.rigid.AddForce(-unit.transform.forward * unit.hitPower, ForceMode.Impulse);
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -33,7 +31,10 @@ public class EnemyHittedState : UnitState<EnemyController>
 				isColorChanged = true;
 			}
 
-		unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
+		if (unit.isTutorialDummy)
+			unit.DelayChangeState(curTime, 0.5f, unit, EnemyController.EnemyState.TutorialIdle);
+		else
+			unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
 
 		//Death event
 		if (unit.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)

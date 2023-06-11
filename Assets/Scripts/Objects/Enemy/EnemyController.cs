@@ -38,6 +38,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		ClusterChase,
 		ClusterSlow,
 
+		//Tutorial
+		TutorialIdle,
+
 	}
 
 	public enum EnemyType : int
@@ -51,6 +54,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
+	public bool isTutorialDummy = false;
 
 	//animation name
 	public readonly string moveAnimParam = "Move";          //¿Ãµø
@@ -174,12 +178,21 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		/*manager.ActiveManagement(this);
 		effectManager.CopyEffect(this);*/
-		chaseRange.enabled = false;
+		if(chaseRange != null)
+			chaseRange.enabled = false;
 
 		//FDebug.Log(hittedEffect.indexNum);
 
 		unit = this;
-		SetUp(EnemyState.Spawn);
+		if (isTutorialDummy)
+		{
+			manager.ActiveManagement(unit);
+			effectManager.CopyEffect(unit);
+			SetUp(EnemyState.TutorialIdle);
+		}
+
+		else
+			SetUp(EnemyState.Spawn);
 	}
 
 
