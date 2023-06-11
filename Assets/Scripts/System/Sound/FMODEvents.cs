@@ -5,9 +5,6 @@ using FMODUnity;
 
 public class FMODEvents: MonoBehaviour
 {
-	[field: Header("TEST")]
-	[field: SerializeField] public EventReference test{ get; private set; }
-
 	public EventReference amb;
 	private FMOD.Studio.EventInstance ambInstance;
 
