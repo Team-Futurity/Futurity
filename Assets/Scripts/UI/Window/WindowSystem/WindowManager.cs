@@ -26,7 +26,7 @@ public class WindowManager : Singleton<WindowManager>
 	private float holdTime;
 	private float holdThreshold = 1f; // 버튼을 길게 누르는 시간 임계값 설정.
 
-	private Transform topCanvasTransform;
+	public Transform topCanvasTransform;
 
 	public InputActionReference leftAction;
 	public InputActionReference rightAction;

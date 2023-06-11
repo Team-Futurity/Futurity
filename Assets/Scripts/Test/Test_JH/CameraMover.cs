@@ -92,9 +92,13 @@ public class CameraMover : MonoBehaviour
 		}
 
 		yield return new WaitForSeconds(moveStartDelayTime);
+		Player statusPlayer = player.GetComponent<Player>();
+		FDebug.Log($"statusPlayer : {statusPlayer}");
 		playerInput.enabled = true;
 		moveCameraController.enabled = true;  // 카메라 이동이 끝나면 CameraController를 활성화합니다.
-		uiCanvas.SetActive(true);
+		uiCanvas.SetActive(true); 
+		statusPlayer.hpBar.GetComponent<GaugeBarController>().SetGaugeFillAmount(statusPlayer.status.GetStatus(StatusType.CURRENT_HP).GetValue() / statusPlayer.status.GetStatus(StatusType.MAX_HP).GetValue());
+
 		this.enabled = false;  // 이 스크립트는 비활성화합니다
 	}
 }

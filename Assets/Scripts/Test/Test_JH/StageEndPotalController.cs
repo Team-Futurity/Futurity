@@ -139,12 +139,14 @@ public class StageEndPotalController : MonoBehaviour
 
 	IEnumerator BarrierEnd()
 	{
-		yield return FadeManager.Instance.FadeCoroutineStart(false, 2, Color.black);
+		yield return FadeManager.Instance.FadeCoroutineStart(false, 1, Color.black);
 
 		chapterManager.ClearEndWarpPotal();
 		isMove = false;
 		cameraObject.GetComponent<CameraController>().enabled = true;
 		player.gameObject.GetComponent<UnityEngine.InputSystem.PlayerInput>().enabled = true;
 		onBarrierReachedEndEvent.Invoke();
+
+		FadeManager.Instance.FadeCoroutineStart(true, 1, Color.clear);
 	}
 }
