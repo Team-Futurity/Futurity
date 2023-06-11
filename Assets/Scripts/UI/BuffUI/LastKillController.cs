@@ -83,6 +83,7 @@ public class LastKillController : MonoBehaviour
 	/// </summary>
 	private void OnDisable()
 	{
+		if(cameraComponent != null)
 		cameraComponent.orthographicSize = normalCameraSize;
 		Time.timeScale = 1f;
 	}
