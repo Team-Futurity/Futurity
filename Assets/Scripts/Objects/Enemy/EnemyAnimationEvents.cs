@@ -29,7 +29,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void HittedEffectActive()
 	{
-		if (ec.effectManager.copyHitted[ec.hittedEffect.indexNum] != null)
+		if (ec.effectManager.copyHitted[ec.hittedEffect.indexNum] != null && !ec.isTutorialDummy)
 		{
 			ec.hittedEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
 			ec.effectManager.HittedEffectActive(ec.hittedEffect.indexNum);
