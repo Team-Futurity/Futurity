@@ -23,8 +23,8 @@ public class WindowManager : Singleton<WindowManager>
 	[SerializeField]
 	private GameObject currentButton; 
 	
-	private float holdStartTime;
-	private float holdThreshold = 2f; // 버튼을 길게 누르는 시간 임계값 설정.
+	private float holdTime;
+	private float holdThreshold = 1f; // 버튼을 길게 누르는 시간 임계값 설정.
 
 	private Transform topCanvasTransform;
 
@@ -262,7 +262,7 @@ public class WindowManager : Singleton<WindowManager>
 		selectAction.action.performed += _ => ClickCurrentButton();
 		
 		selectAction.action.started += _ => StartHold();
-		//selectAction.action.performed += _ => CheckHoldDuration();
+		selectAction.action.canceled += _ => EndHold();
 		
 
 		this.leftAction = leftAction;
@@ -349,7 +349,11 @@ public class WindowManager : Singleton<WindowManager>
 	/// </summary>
 	private void StartHold()
 	{
-		holdStartTime = 0;
+		holdTime = 0;
+		if (holdCorutine != null)
+		{
+			StopCoroutine(holdCorutine);
+		}
 
 		if (buttons != null && buttons.Count > 0)
 		{
@@ -361,10 +365,26 @@ public class WindowManager : Singleton<WindowManager>
 		}
 	}
 
+	/// <summary>
+	/// 버튼을 때었을때 holdCorutine을 중지합니다. 선텍된 버튼의 OnDehold을 실시합니다.
+	/// </summary>
 	private void EndHold()
 	{
+		if (holdCorutine != null)
+		{
+			StopCoroutine(holdCorutine);
+		}
 
-		StopCoroutine(holdCorutine);
+			if (buttons != null && buttons.Count > 0)
+		{
+			if (buttons[currentButtonIndex] != null)
+			{
+				currentButton = buttons[currentButtonIndex].gameObject;
+
+				currentButton.GetComponent<UIWindowButtonController>()?.OnDehold();
+				Debug.Log($"{currentButton.name}의 hold 이벤트가 종료되었습니다.");
+			}
+		}
 	}
 
 	/// <summary>
@@ -374,11 +394,10 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		while (true) {
 			yield return true;
-			Debug.Log($"{currentButton.name}가 {holdStartTime}동안 hold 되었습니다.");
+			holdTime += Time.deltaTime;
+			Debug.Log($"{currentButton.name}가 {holdTime}동안 hold 되었습니다.");
 
-			holdStartTime += Time.time; // 버튼을 누르고 있던 시간을 계산합니다.
-
-			if (holdStartTime >= holdThreshold) // 임계값을 넘어갔다면,
+			if (holdTime >= holdThreshold) // 임계값을 넘어갔다면,
 			{
 				if (buttons != null && buttons.Count > 0)
 				{
