@@ -18,9 +18,14 @@ public class EnemyHpBarController : MonoBehaviour
 	[Header("만약 인게임에 HpBar가 존재한다면 currentHpBar에 값을 넣어주세요")]
 	public GameObject currentHpBar;
 
+	[SerializeField]
+	private Transform canvasTrs;
+
 	[Space(30)]
 	[SerializeField]
 	private Vector2 hpBarPosition;
+
+	private EnemyController ec;
 
 	/// <summary>
 	/// 초기화 작업을 합니다. 만약 currentHpBar가 null이라면 새로운 창을 열어 대입합니다.
@@ -29,6 +34,10 @@ public class EnemyHpBarController : MonoBehaviour
 	{
 		if (currentHpBar == null)
 			currentHpBar = WindowManager.Instance.DontUsedWindowOpen(enemyHpBar);
+
+		ec = GetComponent<EnemyController>();
+
+		currentHpBar.transform.parent = canvasTrs;
 	}
 
 	/// <summary>
@@ -37,7 +46,8 @@ public class EnemyHpBarController : MonoBehaviour
 	void Update()
 	{
 		Vector3 enemyWorldPosition = Camera.main.WorldToScreenPoint(transform.position) + (Vector3)hpBarPosition;
-		currentHpBar.transform.position = enemyWorldPosition;
+		if(ec.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() > 0)
+			currentHpBar.transform.position = enemyWorldPosition;
 	}
 
 	/// <summary>
