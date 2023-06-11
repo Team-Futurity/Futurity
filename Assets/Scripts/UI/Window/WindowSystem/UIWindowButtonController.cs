@@ -16,7 +16,9 @@ public class UIWindowButtonController : MonoBehaviour, ISelectHandler, IDeselect
 	[SerializeField]
 	private UnityEvent offButtonClickedEvents;
 	[SerializeField]
-	private UnityEvent holdButtonEvents;
+	private UnityEvent onHoldButtonEvents;
+	[SerializeField]
+	private UnityEvent offHoldButtonEvents;
 
 	public void OnSelect(BaseEventData eventData)
 	{
@@ -29,6 +31,10 @@ public class UIWindowButtonController : MonoBehaviour, ISelectHandler, IDeselect
 
 	public void OnHold()
 	{
-		holdButtonEvents?.Invoke();
+		onHoldButtonEvents?.Invoke();
+	}
+	public void OnDehold()
+	{
+		offHoldButtonEvents?.Invoke();
 	}
 }

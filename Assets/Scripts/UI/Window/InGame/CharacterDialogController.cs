@@ -32,6 +32,7 @@ public class CharacterDialogController : MonoBehaviour
 	private bool isTextEnd = false;
 
 	private Coroutine showTextCoroutine;
+	private Coroutine skipTextCoroutine;
 
 	[SerializeField]
 	private UnityEngine.InputSystem.PlayerInput playerInput;
@@ -86,12 +87,19 @@ public class CharacterDialogController : MonoBehaviour
 
 	public void SkipCharacterText()
 	{
-		StartCoroutine(SkipCharactorTextWriter());
+		skipTextCoroutine = StartCoroutine(SkipCharactorTextWriter());
+	}
+	public void StopSkipCharacterText()
+	{
+		if (skipTextCoroutine != null)
+		{
+			StopCoroutine(skipTextCoroutine);
+		}
 	}
 
 	IEnumerator SkipCharactorTextWriter()
 	{
-		for(int i = 0; i < fullText.Count + 1; i++)
+		for(int i = 0; i < fullText.Count*2; i++)
 		{
 			yield return new WaitForSeconds(skipDelay);
 			WriteCharactorText();
