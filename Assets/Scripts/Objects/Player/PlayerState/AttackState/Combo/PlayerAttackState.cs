@@ -103,7 +103,7 @@ public class PlayerAttackState : PlayerComboAttackState
 
 		if(particles != null) 
 		{
-			particles.Initialize(attackNode.effectPoolManager);
+			particles.Initialize(attackNode.hitEffectPoolManager);
 		}
 	}
 }
