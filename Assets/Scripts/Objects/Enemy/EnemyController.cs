@@ -186,7 +186,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		unit = this;
 		if (isTutorialDummy)
 		{
-			manager.ActiveManagement(unit);
 			effectManager.CopyEffect(unit);
 			SetUp(EnemyState.TutorialIdle);
 		}

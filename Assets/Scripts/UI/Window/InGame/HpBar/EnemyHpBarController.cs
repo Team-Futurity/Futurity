@@ -16,12 +16,20 @@ public class EnemyHpBarController : MonoBehaviour
 	[SerializeField]
 	private Vector2 hpBarPosition;
 
+	[SerializeField]
+	private UnitBase unitBase;
+
 
 
 	void Start()
     {
 		if(currentHpBar == null)
 		currentHpBar = WindowManager.Instance.DontUsedWindowOpen(enemyHpBar);
+
+		if(unitBase != null)
+		{
+			unitBase.hpBar = currentHpBar.GetComponent<GaugeBarController>();
+		}
     }
 
     void Update()
