@@ -1,7 +1,10 @@
+using Spine;
+using Spine.Unity;
 using System.Collections;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using Spine.Unity;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
@@ -13,6 +16,9 @@ public class StageEndPotalController : MonoBehaviour
 	private GameObject player;
 	[SerializeField]
 	private GameObject barrierObject;
+	[SerializeField]
+	private SkeletonRenderer barrierSkeletonRenderer;
+	//private Skeleton barrierSkeleton;
 	[SerializeField]
 	private GameObject cameraObject;
 	[SerializeField]
@@ -56,6 +62,7 @@ public class StageEndPotalController : MonoBehaviour
 
 		chapterManager = StageEndPotalManager.Instance;
 		chapterManager.SetEndWarpPotal(this);
+		//barrierSkeleton = barrierSkeletonRenderer.Skeleton;
 
 		//isActiveStageEndPortal = false;
 		windowManager = WindowManager.Instance;
@@ -89,7 +96,28 @@ public class StageEndPotalController : MonoBehaviour
 		playerInput.enabled = false;
 		playerMoveDir = barrierObject.transform.position - player.transform.position;
 		playerMoveDir.y = 0;
+		StartCoroutine(FadeOutSkeleton());
 		StartCoroutine(MoveBarrier());
+	}
+
+	IEnumerator FadeOutSkeleton()
+	{
+		float alpha = 1f;
+		var barrierSkeleton = barrierSkeletonRenderer.Skeleton;
+
+		while (alpha > 0f)
+		{
+			FDebug.Log($"barrierSkeleton : {barrierSkeleton}");
+
+			alpha -= Time.deltaTime; 
+
+			alpha = Mathf.Max(alpha, 0f);
+
+			barrierSkeleton.SetColor(new Color(1f, 1f, 1f, alpha));
+			FDebug.Log($"barrierSkeleton.Alpha : {barrierSkeleton.GetColor().a}");
+
+			yield return null;
+		}
 	}
 
 	IEnumerator MoveBarrier()
