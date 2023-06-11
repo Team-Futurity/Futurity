@@ -41,14 +41,14 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		if(isExplosion)
 		{
 			float radius = Mathf.Lerp(unit.attackCollider.radius, maxSize, proccessor.duration / Time.deltaTime);
-			float effectRadius = 2 * radius * explosionEffectUnitSize;
+			float effectRadius = radius * explosionEffectUnitSize;
 			unit.attackCollider.SetCollider(maxAngle, radius);
 			
 			explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
 
 			if (currentTime >= proccessor.duration)
 			{
-				effectRadius = 2 * maxSize * explosionEffectUnitSize;
+				effectRadius = maxSize * explosionEffectUnitSize;
 
 				unit.attackCollider.SetCollider(maxAngle, maxSize);
 				explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
@@ -117,7 +117,7 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		explosionEffect.GetComponent<ParticleController>().Initialize(proccessor.explosionEffectObjectPool);
 		proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
 
-		float diameter = minSize * 2;
+		float diameter = minSize;
 		explosionEffect.localScale = new Vector3(diameter, diameter, diameter);
 
 		Vector3 curPos = new Vector3(pc.transform.position.x, pc.transform.position.y, pc.transform.position.z);
