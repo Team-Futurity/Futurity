@@ -42,7 +42,7 @@ public class DeathEffectController : MonoBehaviour
 
 	void Start()
 	{
-		cameraComponent = cameraTransform.GetComponent<Camera>();
+		cameraComponent = Camera.main.GetComponent<Camera>();
 
 		// backgroundPanel이 할당되지 않았다면 새로운 GameObject를 생성합니다
 		if (backgroundPanel == null)
