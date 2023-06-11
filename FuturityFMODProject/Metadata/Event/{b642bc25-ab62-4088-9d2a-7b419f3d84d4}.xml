@@ -129,22 +129,31 @@
 			<value>3</value>
 		</property>
 		<property name="minimumTimeBetweenSounds">
-			<value>3000</value>
+			<value>5450</value>
 		</property>
 		<property name="maximumTimeBetweenSounds">
-			<value>7000</value>
+			<value>9500</value>
 		</property>
 		<property name="minimumScatterDistance">
-			<value>10</value>
+			<value>3600</value>
 		</property>
 		<property name="maximumScatterDistance">
-			<value>100</value>
+			<value>10000</value>
+		</property>
+		<property name="volumeRandomization">
+			<value>-4</value>
+		</property>
+		<property name="pitchRandomization">
+			<value>2.9000001</value>
 		</property>
 		<relationship name="sound">
 			<destination>{76243192-a985-4ee5-b769-253532f30740}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{1f7949c5-8153-446d-b972-5767a7d62daf}">
+		<property name="volume">
+			<value>3</value>
+		</property>
 		<property name="name">
 			<value>Wreck</value>
 		</property>
@@ -169,16 +178,22 @@
 			<value>3</value>
 		</property>
 		<property name="minimumTimeBetweenSounds">
-			<value>94</value>
+			<value>1950</value>
 		</property>
 		<property name="maximumTimeBetweenSounds">
-			<value>450</value>
+			<value>6500</value>
 		</property>
 		<property name="minimumScatterDistance">
-			<value>5</value>
+			<value>3600</value>
 		</property>
 		<property name="maximumScatterDistance">
-			<value>10</value>
+			<value>10000</value>
+		</property>
+		<property name="volumeRandomization">
+			<value>-3</value>
+		</property>
+		<property name="pitchRandomization">
+			<value>2.9000001</value>
 		</property>
 		<relationship name="sound">
 			<destination>{91cfd875-1a90-4d2f-a34c-da591b10ca41}</destination>
@@ -218,10 +233,16 @@
 			<value>60</value>
 		</property>
 		<property name="minimumScatterDistance">
-			<value>15</value>
+			<value>4000</value>
 		</property>
 		<property name="maximumScatterDistance">
-			<value>200</value>
+			<value>10000</value>
+		</property>
+		<property name="volumeRandomization">
+			<value>-5</value>
+		</property>
+		<property name="pitchRandomization">
+			<value>1.39999998</value>
 		</property>
 		<relationship name="sound">
 			<destination>{ed6367fb-5894-4fd0-9924-f8e9f0bb8627}</destination>
@@ -323,6 +344,7 @@
 	<object class="MixerBusEffectChain" id="{8ebf1c78-ba27-4654-b761-a888ce18e93e}">
 		<relationship name="effects">
 			<destination>{4797d2ab-f864-4ffa-be81-24dc53125c9b}</destination>
+			<destination>{d6d858b5-9003-4590-8395-805522d87e7a}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{73b3b77f-1862-40c3-9ecf-3f89f35603ac}" />
@@ -369,16 +391,25 @@
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{78247a0a-2e64-48e2-86ac-584986a63bee}">
+		<property name="volume">
+			<value>-1.5</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{95588efe-21b0-4c8c-a71c-4275d2fb6149}</destination>
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{589e6734-5908-4680-ba22-f3fcd4103741}">
+		<property name="volume">
+			<value>-6</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{e6992d9e-96b5-4afa-aeb4-25a3c829f3a2}</destination>
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{29705372-772e-4508-aaa4-ce047673e769}">
+		<property name="volume">
+			<value>-1</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{9ac3203a-e7fe-476b-83e8-0fa183b99cfd}</destination>
 		</relationship>
@@ -414,7 +445,29 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{dab4cf12-76a5-487f-9213-2fc9992d9ccf}" />
-	<object class="SFXReverbEffect" id="{af03ae97-176e-4871-9e83-85c12ad688f3}" />
+	<object class="SFXReverbEffect" id="{af03ae97-176e-4871-9e83-85c12ad688f3}">
+		<property name="decayTime">
+			<value>400</value>
+		</property>
+		<property name="earlyDelay">
+			<value>40</value>
+		</property>
+		<property name="lateDelay">
+			<value>17</value>
+		</property>
+		<property name="HFDecayRatio">
+			<value>64</value>
+		</property>
+		<property name="highCut">
+			<value>7800</value>
+		</property>
+		<property name="earlyLateMix">
+			<value>71</value>
+		</property>
+		<property name="wetLevel">
+			<value>-8.5</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{eb16a6bc-cac1-4111-a5ec-f538f13b653a}">
 		<relationship name="audioFile">
 			<destination>{67faa53f-cbe7-4ca1-8e98-5cb041ed3b97}</destination>
@@ -431,11 +484,37 @@
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{88c7243e-c6cd-42ea-afc7-f8899c29cda5}">
+		<property name="volume">
+			<value>-2.5</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{1fd8eee6-8f42-4fce-90c4-aa5c45d275de}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{4797d2ab-f864-4ffa-be81-24dc53125c9b}" />
+	<object class="SFXReverbEffect" id="{d6d858b5-9003-4590-8395-805522d87e7a}">
+		<property name="decayTime">
+			<value>400</value>
+		</property>
+		<property name="earlyDelay">
+			<value>40</value>
+		</property>
+		<property name="lateDelay">
+			<value>17</value>
+		</property>
+		<property name="HFDecayRatio">
+			<value>64</value>
+		</property>
+		<property name="highCut">
+			<value>7800</value>
+		</property>
+		<property name="earlyLateMix">
+			<value>71</value>
+		</property>
+		<property name="wetLevel">
+			<value>-8.5</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{6be60b3a-309e-4146-8c28-cb9746ed9ecb}">
 		<relationship name="audioFile">
 			<destination>{de4fb3ce-d1f9-4a08-8faf-ae2062d4e3d5}</destination>
@@ -453,17 +532,20 @@
 	</object>
 	<object class="MixerBusFader" id="{70de85d2-cc66-4f97-802d-e5d6f538cbfb}" />
 	<object class="ThreeEQEffect" id="{93580cc2-7d5d-451e-b526-dd20bfeffd0d}">
+		<property name="lowGain">
+			<value>-2.5</value>
+		</property>
 		<property name="midGain">
-			<value>-1</value>
+			<value>-3.5</value>
 		</property>
 		<property name="highGain">
-			<value>-3.5</value>
+			<value>-5.5</value>
 		</property>
 		<property name="lowCrossover">
 			<value>700</value>
 		</property>
 		<property name="highCrossover">
-			<value>1700</value>
+			<value>2000</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{83bf5c05-0d9e-4fbf-80e3-a56b180c2440}" />
