@@ -36,7 +36,7 @@ public class LastKillController : MonoBehaviour
 	void Start()
 	{
 		// 카메라 컴포넌트를 가져옵니다
-		cameraComponent = cameraTransform.GetComponent<Camera>();
+		cameraComponent = Camera.main.GetComponent<Camera>();
 	}
 
 	// 이 메서드는 플레이어가 몬스터에게 마지막 타격을 입혔을 때 호출되어야 합니다

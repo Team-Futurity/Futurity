@@ -49,6 +49,8 @@ public class HealthWarningController : MonoBehaviour
 	[SerializeField]
 	private float zoomInCameraSize = 2f;
 	[SerializeField]
+	private float deathDelayTime = 0.5f;
+	[SerializeField]
 	private bool isDeath = false;
 	[Space(15)]
 
@@ -191,7 +193,7 @@ public class HealthWarningController : MonoBehaviour
 		}
 
 		Time.timeScale = 1f;
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(deathDelayTime * Time.timeScale);
 
 		windowManager.WindowOpen(deathOpenWindow, panelCanvas.transform, false, Vector2.zero, Vector2.one);
 		DeathEndEvent?.Invoke();
