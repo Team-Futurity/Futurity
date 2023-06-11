@@ -48,4 +48,9 @@ public class EnemyHpBarController : MonoBehaviour
 	{
 		currentHpBar.GetComponent<GaugeBarController>().SetGaugeFillAmount(setValue);
 	}
+
+	public void DestroyHpBar()
+	{
+		Destroy(currentHpBar);
+	}
 }
