@@ -46,7 +46,7 @@ public class Player : UnitBase
 		float finalDamage = damage * remainingDamageRatio;
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
-		pc.hpUIController.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
+		hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 

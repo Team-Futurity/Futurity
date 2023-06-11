@@ -5,9 +5,6 @@ using FMODUnity;
 
 public class FMODEvents: MonoBehaviour
 {
-	[field: Header("TEST")]
-	[field: SerializeField] public EventReference test{ get; private set; }
-
 	public EventReference amb;
 	private FMOD.Studio.EventInstance ambInstance;
 
@@ -23,5 +20,10 @@ public class FMODEvents: MonoBehaviour
 	{
 		ambInstance = AudioManager.instance.CreateInstance(amb);
 		ambInstance.start();
+	}
+
+	private void OnDestroy()
+	{
+		ambInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 	}
 }
