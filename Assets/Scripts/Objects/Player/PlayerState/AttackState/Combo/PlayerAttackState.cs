@@ -76,7 +76,10 @@ public class PlayerAttackState : PlayerComboAttackState
 				unit.playerData.Attack(enemy, attackNode.attackST);
 				HitEffectPooling(unit, enemy.transform);
 				if(!enemyController.isTutorialDummy)
-					enemy.Knockback(unit.transform.forward, attackNode.attackKnockback);
+				{
+					enemy.Knockback(unit.transform.forward, enemyController.hitPower);
+				}
+					
 				hittedEnemyCount++;
 			}
 		}
