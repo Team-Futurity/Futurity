@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 튜토리얼 시나리오를 관리하고 제어하는 클래스입니다.
@@ -21,7 +22,7 @@ public class TutorialController : MonoBehaviour
 	private UnityEngine.InputSystem.PlayerInput playerInput;
 	[SerializeField]
 	private PlayerController playerController;
-	private float stNum;
+	private AttackNode attackNode;
 
 	[SerializeField]
 	private List<CharacterDialogWindowOpener> dialogWindowOpeners; // dialogWindowOpener 리스트입니다.
@@ -36,13 +37,25 @@ public class TutorialController : MonoBehaviour
 	private List<Quest> activeQuests; // 현재 활성화된 퀘스트 리스트입니다.
 
 	[SerializeField]
+	private Vector3 questImagePos; // quest 이미지 위치입니다.
+	[SerializeField]
 	private List<Quest> tutorialQuests1; // tutorialQuest 리스트입니다.
 	[SerializeField]
 	private List<Sprite> tutorialQuestSprites1; // tutorialQuest 리스트입니다.
 	[SerializeField]
+	private List<Sprite> tutorialQuestClearSprites1; // tutorialQuest 리스트입니다.
+	[SerializeField]
 	private List<Quest> tutorialQuests2; // tutorialQuest 리스트입니다.
 	[SerializeField]
 	private List<Sprite> tutorialQuestSprites2; // tutorialQuest 리스트입니다.
+	[SerializeField]
+	private List<Sprite> tutorialQuestClearSprites2; // tutorialQuest 리스트입니다.
+	[SerializeField]
+	private List<Quest> tutorialQuests3; // tutorialQuest 리스트입니다.
+	[SerializeField]
+	private List<Sprite> tutorialQuestSprites3; // tutorialQuest 리스트입니다.
+	[SerializeField]
+	private List<Sprite> tutorialQuestClearSprites3; // tutorialQuest 리스트입니다.
 
 
 	/// <summary>
@@ -58,6 +71,27 @@ public class TutorialController : MonoBehaviour
 
 		dialogWindowOpeners[0].CharacterDialogWindowOpen();
 
+		for (int i = 0; i < tutorialQuests1.Count; i++)
+		{
+			tutorialQuests1[i].questImage = tutorialQuestSprites1[i];
+			tutorialQuests1[i].questClearImage = tutorialQuestClearSprites1[i];
+			tutorialQuests1[i].questPos = questImagePos;
+		}
+		for (int i = 0; i < tutorialQuests2.Count; i++)
+		{
+			tutorialQuests2[i].questImage = tutorialQuestSprites2[i];
+			tutorialQuests2[i].questClearImage = tutorialQuestClearSprites2[i];
+			tutorialQuests2[i].questPos = questImagePos;
+		}
+		for (int i = 0; i < tutorialQuests3.Count; i++)
+		{
+			tutorialQuests3[i].questImage = tutorialQuestSprites3[i];
+			tutorialQuests3[i].questClearImage = tutorialQuestClearSprites3[i];
+			tutorialQuests3[i].questPos = questImagePos;
+		}
+
+
+
 		foreach (Quest quest in tutorialQuests1)
 		{
 			questUIController.AddQuest(quest);
@@ -65,13 +99,14 @@ public class TutorialController : MonoBehaviour
 		}
 	}
 
+
 	/// <summary>
 	/// 퀘스트의 조건을 체크하고, 모든 퀘스트가 완료되었는지 확인합니다.
 	/// 퀘스트가 완료되었다면, 튜토리얼 단계를 증가시키고 퀘스트 조건을 재설정합니다.
 	/// </summary>
 	private void Update()
 	{
-		stNum = playerController.curNode.attackST;
+		attackNode = playerController.curNode;
 
 		CheckQuestConditions(activeQuests);
 
@@ -80,7 +115,6 @@ public class TutorialController : MonoBehaviour
 			activeQuests.Clear();
 
 			stageNum++;
-
 			switch (stageNum)
 			{
 				case 0:
@@ -93,32 +127,54 @@ public class TutorialController : MonoBehaviour
 					dialogWindowOpeners[1].CharacterDialogWindowOpen();
 					break;
 				case 3:
-					StartCoroutine(DelayQuestClear(0.5f));
+					activeQuests = tutorialQuests3;
+					QuestUIWiter();
+					break;
+				case 4:
+					dialogWindowOpeners[2].CharacterDialogWindowOpen();
 					break;
 				default:
 					return;
 			}
-
-			questUIController.ClearQuests();
-
-			foreach (Quest quest in activeQuests)
-			{
-				dialogWindowOpeners[2].CharacterDialogWindowOpen();
-				questUIController.AddQuest(quest);
-				quest.OnQuestComplete.AddListener(questUIController.UpdateQuestUI); // 퀘스트 완료 시 UI를 업데이트합니다.
-			}
-
-			ResetQuestConditions(activeQuests);
 		}
 	}
 
 
-	IEnumerator DelayQuestClear(float delayTime)
+	public void QuestUIWiter()
+	{
+		questUIController.ClearQuests();
+
+		foreach (Quest quest in activeQuests)
+		{
+			questUIController.AddQuest(quest);
+			quest.OnQuestComplete.AddListener(questUIController.UpdateQuestUI); // 퀘스트 완료 시 UI를 업데이트합니다.
+		}
+
+		ResetQuestConditions(activeQuests);
+	}
+
+
+	IEnumerator DelayQuestClear(float delayTime, int nextDialogNumber, List<Quest> nextQuest)
 	{
 		yield return new WaitForSeconds(delayTime);
-		warpPotalController.isActiveStageEndPortal = true;
-		dialogWindowOpeners[2].CharacterDialogWindowOpen();
+		activeQuests = nextQuest;
+		if (nextDialogNumber >= 0)
+			dialogWindowOpeners[nextDialogNumber].CharacterDialogWindowOpen();
+
+
+
+		questUIController.ClearQuests();
+
+		foreach (Quest quest in activeQuests)
+		{
+			questUIController.AddQuest(quest);
+			quest.OnQuestComplete.AddListener(questUIController.UpdateQuestUI); // 퀘스트 완료 시 UI를 업데이트합니다.
+		}
+
+		ResetQuestConditions(activeQuests);
+		stageNum++;
 	}
+
 
 	/// <summary>
 	/// 각 퀘스트들의 조건들을 할당합니다. 퀘스트의 조건들이 구현되어 있습니다.
@@ -165,12 +221,23 @@ public class TutorialController : MonoBehaviour
 		comboAttack3.questName = "J-J-J : 콤보 공격";
 		comboAttack3.isConditionMet = comboAttack3.isConditionMet = () => IsComboAttack(4);
 		tutorialQuests2.Add(comboAttack3);
+
+		Quest comboChageAttack1 = new Quest();
+		comboChageAttack1.questName = "K- : 차지 공격";
+		comboChageAttack1.isConditionMet = comboChageAttack1.isConditionMet = () => IsComboAttackPlus(2, PlayerInput.SpecialAttack);
+		tutorialQuests3.Add(comboChageAttack1);
+
+		Quest comboExtraAttack2 = new Quest();
+		comboExtraAttack2.questName = "J-J-K : 특수 콤보 공격";
+		comboExtraAttack2.isConditionMet = comboExtraAttack2.isConditionMet = () => IsComboAttackPlus(4, PlayerInput.SpecialAttack);
+		tutorialQuests3.Add(comboExtraAttack2);
+	
 	}
 
-	/// <summary>
-	/// 퀘스트 조건을 검사합니다.
-	/// </summary>
-	private void CheckQuestConditions(List<Quest> quests)
+		/// <summary>
+		/// 퀘스트 조건을 검사합니다.
+		/// </summary>
+		private void CheckQuestConditions(List<Quest> quests)
 	{
 		foreach (Quest quest in quests)
 		{
@@ -275,8 +342,23 @@ public class TutorialController : MonoBehaviour
 
 	private bool IsComboAttack(float stNumber)
 	{
+		float stNum = attackNode.attackST;
 		Debug.Log($"stNum : {stNum} \nstNumber : {stNumber}");
 		if (stNum == stNumber)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	private bool IsComboAttackPlus(float stNumber, PlayerInput playerInput)
+	{
+		float stNum = attackNode.attackST;
+		PlayerInput attackCommend = attackNode.command;
+		Debug.Log($"stNum : {attackNode} \nstNumber : {stNumber}");
+		if (stNum == stNumber && attackCommend == playerInput)
 		{
 			return true;
 		}
@@ -298,6 +380,8 @@ public class Quest
 {
 	public string questName = ""; // 퀘스트 이름입니다.
 	public Sprite questImage; // 퀘스트 이미지입니다. 이것은 선택 사항이며 null일 수 있습니다.
+	public Sprite questClearImage; // 퀘스트 클리어 이미지입니다. 이것은 선택 사항이며 null일 수 있습니다.
+	public Vector3 questPos; // 퀘스트 이미지 위치입니다. 이것은 선택 사항이며 null일 수 있습니다.
 	public Func<bool> isConditionMet; // 퀘스트를 완료하기 위해 필요한 조건입니다.
 	public UnityEvent<Quest> OnQuestComplete = new UnityEvent<Quest>(); // 퀘스트가 완료될 때 호출되는 이벤트입니다.
 	public bool IsCompleted { get; private set; } // 퀘스트의 완료 상태입니다.

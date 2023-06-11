@@ -12,7 +12,7 @@ public class QuestUIController : MonoBehaviour
 	List<TextMeshProUGUI> questTextMeshPro = new List<TextMeshProUGUI>(); // 각 퀘스트의 텍스트를 출력하는 TextMeshProUGUI 리스트입니다.
 
 	[SerializeField]
-	List<Image> questImages = new List<Image>(); // 이미지를 표시할 UI Image 리스트입니다.
+	public List<Image> questImages = new List<Image>(); // 이미지를 표시할 UI Image 리스트입니다.
 
 	private List<Quest> questList = new List<Quest>(); // 해당 스크립트가 관리하는 퀘스트의 리스트입니다.
 
@@ -50,8 +50,10 @@ public class QuestUIController : MonoBehaviour
 			// 퀘스트 이미지가 있을 경우에만 이미지를 표시하고, 없는 경우 텍스트를 표시합니다.
 			if (questList[i].questImage != null)
 			{
-				questImages[i].sprite = questList[i].questImage;
 				questImages[i].enabled = true;
+				questImages[i].sprite = questList[i].IsCompleted ? questList[i].questClearImage : questList[i].questImage;
+				questImages[i].transform.position += questList[i].questPos;
+				questImages[i].SetNativeSize();
 				questTextMeshPro[i].enabled = false;
 			}
 			else
@@ -86,7 +88,8 @@ public class QuestUIController : MonoBehaviour
 
 		for (int i = 0; i < questTextMeshPro.Count; i++)
 		{
-			questTextMeshPro[i].text = $"•";
+			questTextMeshPro[i].text = $"";
+			questImages[i].enabled = false;
 			questTextMeshPro[i].fontStyle = FontStyles.Normal;
 		}
 
