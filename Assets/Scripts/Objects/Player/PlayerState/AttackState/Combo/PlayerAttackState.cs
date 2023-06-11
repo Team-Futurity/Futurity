@@ -71,10 +71,12 @@ public class PlayerAttackState : PlayerComboAttackState
 			if (unit.attackCollider.IsInCollider(other.gameObject))
 			{
 				var enemy = other.gameObject.GetComponent<UnitBase>();
+				var enemyController = other.gameObject.GetComponent<EnemyController>();
 
 				unit.playerData.Attack(enemy, attackNode.attackST);
 				HitEffectPooling(unit, enemy.transform);
-				enemy.Knockback(unit.transform.forward, attackNode.attackKnockback);
+				if(!enemyController.isTutorialDummy)
+					enemy.Knockback(unit.transform.forward, attackNode.attackKnockback);
 				hittedEnemyCount++;
 			}
 		}
