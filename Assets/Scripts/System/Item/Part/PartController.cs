@@ -11,6 +11,8 @@ public class PartController : MonoBehaviour
 
 	private PlayerController ownerUnit;
 
+	public SkillIconTree socket;
+
 	private StatusManager manager = new();
 	private OriginStatus status;
 
@@ -31,6 +33,22 @@ public class PartController : MonoBehaviour
 		TryGetComponent(out ownerUnit);
 		
 		ownerUnit.comboGaugeSystem.OnGaugeChanged.AddListener(OnGaugeChanged);
+
+		foreach (var part in equipPart)
+		{
+			if (part.PartItemData.PartActivation >= 60)
+			{
+				socket.SetSocket(part.PartUIData, 2);
+			}
+			else if (part.PartItemData.PartActivation >= 40)
+			{
+				socket.SetSocket(part.PartUIData, 1);
+			}
+			else if (part.PartItemData.PartActivation >= 20)
+			{
+				socket.SetSocket(part.PartUIData, 0);
+			}
+		}
 	}
 
 	private void OnDisable()
@@ -47,6 +65,7 @@ public class PartController : MonoBehaviour
 		{
 			return;
 		}
+
 
 		if (part.PartItemData.PartActivation <= playerGauge)
 		{
