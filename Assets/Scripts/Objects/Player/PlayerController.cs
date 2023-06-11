@@ -86,6 +86,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(2)]
 	[Header("References")]
 	public GameObject glove;
+	public GameObject rushGlove;
 	public Player playerData;
 	public ActivePartController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
