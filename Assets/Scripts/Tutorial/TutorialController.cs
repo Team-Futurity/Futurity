@@ -121,7 +121,6 @@ public class TutorialController : MonoBehaviour
 					break;
 				case 1:
 					activeQuests = tutorialQuests1;
-					QuestUIWiter();
 					break;
 				case 2:
 					activeQuests = tutorialQuests2;
@@ -129,6 +128,7 @@ public class TutorialController : MonoBehaviour
 					break;
 				case 3:
 					activeQuests = tutorialQuests3;
+					QuestUIWiter();
 					break;
 				case 4:
 					dialogWindowOpeners[2].CharacterDialogWindowOpen();
@@ -136,7 +136,6 @@ public class TutorialController : MonoBehaviour
 				default:
 					return;
 			}
-			QuestUIWiter();
 		}
 	}
 
