@@ -1855,7 +1855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1897,10 +1897,6 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1921549217}
-    - target: {fileID: 7408373401816966350, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7408373401816966352, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
       propertyPath: attenuationObject
       value: 
@@ -4151,7 +4147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openWindow: {fileID: 280084176244655351, guid: c5f21a8ef1431044ea2404ad0fcb91b9, type: 3}
-  openWindowParent: {fileID: 1124304066}
+  openWindowParent: {fileID: 0}
   windowPosition: {x: 0, y: 0}
   windowScale: {x: 1, y: 1}
   windowEvents:
@@ -4196,7 +4192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStartOpen: 0
-  canvas: {fileID: 1124304065}
+  canvas: {fileID: 0}
   characterWindow: {fileID: 7156069533624209710, guid: 94af0b19dff72144b83e807bb2e9f5e3, type: 3}
   texts:
   - "\uC557, \uC7A0\uAE50... \uAE30\uCCB4\uAC00 \uC65C \uC774\uB807\uAC8C \uD754\uB4E4\uB9AC\uC9C0...?!"
@@ -4232,7 +4228,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 744731715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6825cd2a386babb479e190bb52d444f3, type: 3}
+  m_Script: {fileID: 11500000, guid: f020a7d3cc7fd1340bb07559073f7292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isActiveStageEndPortal: 1
@@ -4241,8 +4237,8 @@ MonoBehaviour:
   cameraObject: {fileID: 216791346}
   windowOpenController: {fileID: 744731717}
   playerMoveLimit: 10
-  playerSpeed: 1.5
-  barrierSpeed: 3
+  playerSpeed: 1
+  barrierSpeed: 5
   barrierEnd: 5
   potalUIEvent:
     m_PersistentCalls:
@@ -4267,7 +4263,7 @@ MonoBehaviour:
         m_MethodName: SceneChange
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 0630cd3fc58addb4d91816b1da472da2, type: 2}
+          m_ObjectArgument: {fileID: 11400000, guid: f75e9bce20c47b446a236c18ce3fee4f, type: 2}
           m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -7681,82 +7677,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246459602}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1263078325
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1263078327}
-  - component: {fileID: 1263078326}
-  m_Layer: 0
-  m_Name: ChapterFirstCameraMover
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1263078326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263078325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80db059097582a34d8b77be5a29e300d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startTransform: {fileID: 958269252}
-  endTransform: {fileID: 1921549217}
-  moveCamera: {fileID: 216791346}
-  moveStartDelayTime: 1
-  moveEndDelayTime: 1
-  speed: 10
-  easeGraph:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  uiCanvas: {fileID: 1124304062}
-  player: {fileID: 630921985}
---- !u!4 &1263078327
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263078325}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.69, y: -2.469678, z: 11.015335}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1276608346
 GameObject:
   m_ObjectHideFlags: 0
@@ -10298,7 +10218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5328251835375101389, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -36.54
+      value: -35.1
       objectReference: {fileID: 0}
     - target: {fileID: 5328251835375101389, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13791,7 +13711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2132719497
 Transform:
   m_ObjectHideFlags: 0

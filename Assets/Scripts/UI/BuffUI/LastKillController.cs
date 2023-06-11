@@ -83,14 +83,13 @@ public class LastKillController : MonoBehaviour
 	/// </summary>
 	private void OnDisable()
 	{
-		if(cameraComponent != null)
 		cameraComponent.orthographicSize = normalCameraSize;
 		Time.timeScale = 1f;
 	}
 
 	public void PotalActive()
 	{
-		DeActivePotals[0].GetComponent<StageEndPotalController>().isActiveStageEndPortal = true;
+		DeActivePotals[0].GetComponent<StageEndController>().isActiveStageEndPortal = true;
 
 
 		/*for (int i = 0; i < DeActivePotals.Count; i++)

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class StageEndPotalController : MonoBehaviour
+public class StageEndController : MonoBehaviour
 {
 	[SerializeField]
 	public bool isActiveStageEndPortal = false;
@@ -24,6 +24,7 @@ public class StageEndPotalController : MonoBehaviour
 	[SerializeField]
 	private float playerSpeed = 1;
 
+
 	[SerializeField]
 	private float barrierSpeed = 3;
 	[SerializeField]
@@ -38,7 +39,6 @@ public class StageEndPotalController : MonoBehaviour
 	PlayerController playerController;
 	Animator animator;
 	WindowManager windowManager;
-	StageEndPotalManager chapterManager;
 	GameObject currentPotalWindow;
 
 	private Vector3 initialBarrierPosition;
@@ -54,10 +54,7 @@ public class StageEndPotalController : MonoBehaviour
 		playerController = player.GetComponent<PlayerController>();
 		animator = player.GetComponent<Animator>();
 
-		chapterManager = StageEndPotalManager.Instance;
-		chapterManager.SetEndWarpPotal(this);
-
-		//isActiveStageEndPortal = false;
+		isActiveStageEndPortal = false;
 		windowManager = WindowManager.Instance;
 		initialBarrierPosition = barrierObject.transform.position;
 	}
@@ -141,7 +138,6 @@ public class StageEndPotalController : MonoBehaviour
 	{
 		yield return FadeManager.Instance.FadeCoroutineStart(false, 2, Color.black);
 
-		chapterManager.ClearEndWarpPotal();
 		isMove = false;
 		cameraObject.GetComponent<CameraController>().enabled = true;
 		player.gameObject.GetComponent<UnityEngine.InputSystem.PlayerInput>().enabled = true;

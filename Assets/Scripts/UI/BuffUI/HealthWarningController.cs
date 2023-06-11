@@ -127,7 +127,6 @@ public class HealthWarningController : MonoBehaviour
 
 		if(!isDeath && health <= 0)
 		{
-			PulseEffect(false);
 			PlayerDeath();
 		}
 
@@ -200,10 +199,7 @@ public class HealthWarningController : MonoBehaviour
 	void OnDisable()
 	{
 		Time.timeScale = 1f;
-		if (backgroundPanel != null)
-		{
-			backgroundPanel.SetActive(false);
-		}
+		backgroundPanel.SetActive(false);
 		cameraComponent.orthographicSize = normalCameraSize;
 	}
 }

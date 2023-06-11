@@ -23,16 +23,14 @@ public class WindowManager : Singleton<WindowManager>
 	[SerializeField]
 	private GameObject currentButton; 
 	
-	private float holdTime;
-	private float holdThreshold = 1f; // 버튼을 길게 누르는 시간 임계값 설정.
+	private float holdStartTime;
+	private float holdThreshold = 2f; // 버튼을 길게 누르는 시간 임계값 설정.
 
 	private Transform topCanvasTransform;
 
 	public InputActionReference leftAction;
 	public InputActionReference rightAction;
 	public InputActionReference selectAction;
-
-	public Coroutine holdCorutine;
 
 	protected override void Awake()
 	{
@@ -139,6 +137,7 @@ public class WindowManager : Singleton<WindowManager>
 	}
 
 	
+
 	///<summary>
 	/// 새로운 UI 창을 생성하고 부모와 위치를 설정합니다.
 	///</summary>
@@ -260,10 +259,10 @@ public class WindowManager : Singleton<WindowManager>
 		leftAction.action.performed += _ => SelectPreviousButton();
 		rightAction.action.performed += _ => SelectNextButton();
 		selectAction.action.performed += _ => ClickCurrentButton();
-		
+		/*
 		selectAction.action.started += _ => StartHold();
-		selectAction.action.canceled += _ => EndHold();
-		
+		selectAction.action.performed += _ => CheckHoldDuration();
+		*/
 
 		this.leftAction = leftAction;
 		this.rightAction = rightAction;
@@ -287,7 +286,6 @@ public class WindowManager : Singleton<WindowManager>
 		leftAction.action.Enable();
 		rightAction.action.Enable();
 	}
-
 	///<summary>
 	/// UI의 Button 선택 이벤트를 헤제합니다.
 	///</summary>
@@ -343,48 +341,28 @@ public class WindowManager : Singleton<WindowManager>
 		}
 	}
 
-	#region HoldButton 
-	/// <summary>
+	/*/// <summary>
 	/// 버튼을 누른 시점의 시간을 기록합니다.
 	/// </summary>
 	private void StartHold()
 	{
-		holdTime = 0;
-		if (holdCorutine != null)
-		{
-			StopCoroutine(holdCorutine);
-		}
+		holdStartTime = 0;
 
 		if (buttons != null && buttons.Count > 0)
 		{
 			if (buttons[currentButtonIndex] != null)
 			{
-				holdCorutine = StartCoroutine(CheckHoldDuration());
 				Debug.Log($"{buttons[currentButtonIndex].gameObject.name}의 hold 시작`");
 			}
 		}
 	}
 
 	/// <summary>
-	/// 버튼을 때었을때 holdCorutine을 중지합니다. 선텍된 버튼의 OnDehold을 실시합니다.
+	/// 버튼을 누른 시점의 시간을 기록합니다.
 	/// </summary>
 	private void EndHold()
 	{
-		if (holdCorutine != null)
-		{
-			StopCoroutine(holdCorutine);
-		}
 
-			if (buttons != null && buttons.Count > 0)
-		{
-			if (buttons[currentButtonIndex] != null)
-			{
-				currentButton = buttons[currentButtonIndex].gameObject;
-
-				currentButton.GetComponent<UIWindowButtonController>()?.OnDehold();
-				Debug.Log($"{currentButton.name}의 hold 이벤트가 종료되었습니다.");
-			}
-		}
 	}
 
 	/// <summary>
@@ -394,10 +372,10 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		while (true) {
 			yield return true;
-			holdTime += Time.deltaTime;
-			Debug.Log($"{currentButton.name}가 {holdTime}동안 hold 되었습니다.");
 
-			if (holdTime >= holdThreshold) // 임계값을 넘어갔다면,
+			holdStartTime += Time.time; // 버튼을 누르고 있던 시간을 계산합니다.
+
+			if (holdStartTime >= holdThreshold) // 임계값을 넘어갔다면,
 			{
 				if (buttons != null && buttons.Count > 0)
 				{
@@ -406,15 +384,14 @@ public class WindowManager : Singleton<WindowManager>
 						currentButton = buttons[currentButtonIndex].gameObject;
 
 						currentButton.GetComponent<UIWindowButtonController>()?.OnHold();
-						Debug.Log($"{currentButton.name}의 hold 이벤트가 출력되었습니다.");
+						Debug.Log($"{currentButton.name}가 {holdStartTime}동안 hold 되었습니다.");
 
 						break;
 					}
 				}
 			}
 		}
-	}
-	#endregion
+	}*/
 
 	///<summary>
 	/// 주어진 인덱스의 버튼을 선택합니다.
