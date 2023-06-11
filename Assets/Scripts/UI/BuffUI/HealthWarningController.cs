@@ -127,6 +127,7 @@ public class HealthWarningController : MonoBehaviour
 
 		if(!isDeath && health <= 0)
 		{
+			PulseEffect(false);
 			PlayerDeath();
 		}
 
