@@ -6172,6 +6172,7 @@ GameObject:
   - component: {fileID: 484117206}
   - component: {fileID: 484117190}
   - component: {fileID: 484117207}
+  - component: {fileID: 495645714}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -7129,6 +7130,39 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
+--- !u!114 &495645714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b1239f31a5b864a885bd5f9a6b8df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  panelCanvas: {fileID: 0}
+  statusManager: {fileID: 2214123608498936178}
+  deathOpenWindow: {fileID: 9199333450892302302}
+  cameraTransform: {fileID: 0}
+  playerTransform: {fileID: 0}
+  volume: {fileID: 0}
+  zoomInSpeed: 2
+  fadeInSpeed: 2
+  fadeInAlphaMax: 1
+  slowMotionFactor: 0.2
+  normalCameraSize: 5
+  zoomInCameraSize: 2
+  deathDelayTime: 0.5
+  isDeath: 0
+  backgroundPanel: {fileID: 0}
+  DeathEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  maxAlpha: 0.75
+  pulseSpeed: 2
 --- !u!1 &9205117049474632282
 GameObject:
   m_ObjectHideFlags: 0
