@@ -22,11 +22,13 @@ public class CameraMover : MonoBehaviour
 	private CameraController moveCameraController;
 
 	[SerializeField]
-	private float moveDelayTime = 1f;
+	private float moveStartDelayTime = 1f;
+	[SerializeField]
+	private float moveEndDelayTime = 1f;
 	WaitForSeconds moveDelayWaitForSeconds;
 
 	[SerializeField]
-	private float speed = 1.0f; // 카메라 이동 속도
+	private float speed = 10f; // 카메라 이동 속도
 
 	[SerializeField]
 	private AnimationCurve easeGraph; // 이동에 적용할 easeGraph
@@ -36,6 +38,7 @@ public class CameraMover : MonoBehaviour
 
 	[SerializeField]
 	private GameObject player;
+	private UnityEngine.InputSystem.PlayerInput playerInput;
 
 	/// <summary>
 	/// 시작 시 카메라를 이동시키는 코루틴을 시작합니다.
@@ -44,18 +47,25 @@ public class CameraMover : MonoBehaviour
 	{
 		uiCanvas.SetActive(false);
 
+		if(moveCamera == null)
+		{
+			moveCamera = Camera.main.gameObject;
+		}
 		if(player == null)
 		{
 			player = GameObject.FindWithTag("Player");
 		}
-		player.GetComponent<UnityEngine.InputSystem.PlayerInput>().enabled = false;
+		playerInput = player.GetComponent<UnityEngine.InputSystem.PlayerInput>();
+		playerInput.enabled = false;
 
-		moveDelayWaitForSeconds = new WaitForSeconds(moveDelayTime);
+		moveDelayWaitForSeconds = new WaitForSeconds(moveStartDelayTime);
 		moveCameraController = moveCamera.GetComponent<CameraController>();
 		moveCameraController.enabled = false;
 
 		startPostion = startTransform.position;
-		endPosiotion = endTransform.position;
+		endPosiotion = endTransform.position + moveCameraController.offset;
+
+		moveCamera.transform.position = startPostion;
 
 		StartCoroutine(MoveCamera());
 	}
@@ -81,9 +91,10 @@ public class CameraMover : MonoBehaviour
 			yield return null;  // 다음 프레임을 기다립니다
 		}
 
-
-		uiCanvas.SetActive(true);
+		yield return new WaitForSeconds(moveStartDelayTime);
+		playerInput.enabled = true;
 		moveCameraController.enabled = true;  // 카메라 이동이 끝나면 CameraController를 활성화합니다.
+		uiCanvas.SetActive(true);
 		this.enabled = false;  // 이 스크립트는 비활성화합니다
 	}
 }
