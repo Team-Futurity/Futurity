@@ -91,7 +91,7 @@ public class CharacterDialogController : MonoBehaviour
 
 	IEnumerator SkipCharactorTextWriter()
 	{
-		for(int i = 0; i < fullText.Count + 1; i++)
+		for(int i = 0; i < fullText.Count*2; i++)
 		{
 			yield return new WaitForSeconds(skipDelay);
 			WriteCharactorText();
