@@ -17,7 +17,6 @@ public class Enemy : UnitBase
 		if (hpBar != null)
 		{
 			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
-			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
 		}
 	}
 
