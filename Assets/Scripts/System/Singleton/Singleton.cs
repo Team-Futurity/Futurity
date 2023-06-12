@@ -61,7 +61,20 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 		_applicationQuit = true;
 	}
 
-	public void OnDestroy()
+	// OnDestroy() 메서드에서 _applicationQuit 부분을 제거합니다.
+	public void OnDestroy() { }
+
+	protected virtual void OnEnable()
+	{
+		Application.quitting += OnApplicationQuitting;
+	}
+
+	protected virtual void OnDisable()
+	{
+		Application.quitting -= OnApplicationQuitting;
+	}
+
+	private void OnApplicationQuitting()
 	{
 		_applicationQuit = true;
 	}
