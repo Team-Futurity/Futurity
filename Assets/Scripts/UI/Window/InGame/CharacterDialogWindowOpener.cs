@@ -11,6 +11,9 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 	private bool isStartOpen;
 
 	[SerializeField]
+	private GameObject activeEffect;
+
+	[SerializeField]
 	private Canvas canvas;
 
 	[SerializeField]
@@ -29,6 +32,8 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 	private void Awake()
 	{
 		windowManager = WindowManager.Instance;
+
+
 		if (isStartOpen)
 		{
 			if (canvas != null)
@@ -49,6 +54,11 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 
 	public void CharacterDialogWindowOpen()
 	{
+		if (activeEffect != null)
+		{
+			activeEffect.SetActive(true);
+		}
+
 		FDebug.Log($"{this.gameObject.name} : CharacterDialogWindowOpen");
 
 		if (windowManager.FindWindow($"{characterWindow.name}(Clone)") == null)
@@ -64,9 +74,14 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 
 			characterDialogController = currentCharacterWindow.GetComponent<CharacterDialogController>();
 
+			if (activeEffect != null)
+			{
+				characterDialogController.activeEffect = this.activeEffect;
+			}
 			characterDialogController.SetTexts(texts);
 			characterDialogController.characterDialogEndEvent = characterDialogEndEvent;
 			characterDialogController.WriteCharactorText();
 		}
 	}
+
 }
