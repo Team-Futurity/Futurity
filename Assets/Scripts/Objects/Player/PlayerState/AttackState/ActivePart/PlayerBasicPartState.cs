@@ -20,12 +20,12 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 	private float maxSize;
 
 	private PlayerController pc;
+	private Transform colliderOriginParent;
 
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
 		enemies.Clear();
-		isExplosion = false;
 		minSize = proccessor.minRange * PlayerController.cm2m;
 		maxSize = proccessor.maxRange * PlayerController.cm2m;
 		unit.animator.SetBool(IsActivePartAnimKey, true);
@@ -41,14 +41,15 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		if(isExplosion)
 		{
 			float radius = Mathf.Lerp(unit.attackCollider.radius, maxSize, proccessor.duration / Time.deltaTime);
-			float effectRadius = radius * explosionEffectUnitSize;
+			float effectRadius = 2 * radius * explosionEffectUnitSize;
 			unit.attackCollider.SetCollider(maxAngle, radius);
 			
 			explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
+			pc.attackCollider.transform.position = explosionEffect.transform.position;
 
 			if (currentTime >= proccessor.duration)
 			{
-				effectRadius = maxSize * explosionEffectUnitSize;
+				effectRadius = 2 * maxSize * explosionEffectUnitSize;
 
 				unit.attackCollider.SetCollider(maxAngle, maxSize);
 				explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
@@ -117,11 +118,10 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		explosionEffect.GetComponent<ParticleController>().Initialize(proccessor.explosionEffectObjectPool);
 		proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
 
-		float diameter = minSize;
+		float diameter = 2 * minSize * explosionEffectUnitSize;
 		explosionEffect.localScale = new Vector3(diameter, diameter, diameter);
 
-		Vector3 curPos = new Vector3(pc.transform.position.x, pc.transform.position.y, pc.transform.position.z);
-		pc.attackCollider.transform.position = curPos;
+		pc.attackCollider.transform.position = explosionEffect.transform.position;
 
 		isExplosion = true;
 	}
@@ -134,7 +134,7 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 
 	public void AttackEnd()
 	{
-		pc.attackCollider.transform.position = pc.transform.position;
+		pc.attackCollider.transform.localPosition = Vector3.zero;
 		pc.ChangeState(PlayerState.Idle);
 	}
 }
