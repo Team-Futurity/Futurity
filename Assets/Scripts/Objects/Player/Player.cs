@@ -50,7 +50,7 @@ public class Player : UnitBase
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
-		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun)
+		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicPart))
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}
@@ -59,7 +59,7 @@ public class Player : UnitBase
 		{
 			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
 			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
-			}
+		}
 	}
 
 	protected override float GetAttackPoint()
