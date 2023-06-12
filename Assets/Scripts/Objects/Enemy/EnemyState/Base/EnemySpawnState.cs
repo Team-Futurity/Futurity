@@ -12,8 +12,6 @@ public class EnemySpawnState : UnitState<EnemyController>
 
 	public override void Begin(EnemyController unit)
 	{
-		
-
 		unit.navMesh.speed = unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue();
 
 		if (unit.atkCollider != null)
@@ -21,10 +19,9 @@ public class EnemySpawnState : UnitState<EnemyController>
 		unit.enemyCollider.enabled = false;
 		unit.copyUMat.color = BeginColor;
 		unit.animator.SetBool(unit.moveAnimParam, true);
-		//unit.skinnedMeshRenderer.enabled = false;
 		unit.spawnEffect.SetActive(true);
 
-		targetPos = Vector3.forward * unit.walkDistance;
+		targetPos = unit.transform.position + unit.transform.forward * unit.walkDistance;
 	}
 
 	public override void Update(EnemyController unit)

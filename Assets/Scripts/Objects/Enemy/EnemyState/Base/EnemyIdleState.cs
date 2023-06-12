@@ -12,6 +12,8 @@ public class EnemyIdleState : UnitState<EnemyController>
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("IdleBegin");
+
+		//unit.ChangeState(EnemyController.EnemyState.Spawn);
 	}
 
 	public override void Update(EnemyController unit)

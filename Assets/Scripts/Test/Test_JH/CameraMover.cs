@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -39,6 +40,10 @@ public class CameraMover : MonoBehaviour
 	[SerializeField]
 	private GameObject player;
 	private UnityEngine.InputSystem.PlayerInput playerInput;
+
+	[SerializeField]
+	private UnityEvent endMoveEvent;
+
 
 	/// <summary>
 	/// 시작 시 카메라를 이동시키는 코루틴을 시작합니다.
@@ -92,9 +97,14 @@ public class CameraMover : MonoBehaviour
 		}
 
 		yield return new WaitForSeconds(moveStartDelayTime);
+		Player statusPlayer = player.GetComponent<Player>();
+		uiCanvas.SetActive(true);
+		endMoveEvent.Invoke();
 		playerInput.enabled = true;
 		moveCameraController.enabled = true;  // 카메라 이동이 끝나면 CameraController를 활성화합니다.
-		uiCanvas.SetActive(true);
+		statusPlayer.hpBar.GetComponent<GaugeBarController>().SetGaugeFillAmount(statusPlayer.status.GetStatus(StatusType.CURRENT_HP).GetValue() / statusPlayer.status.GetStatus(StatusType.MAX_HP).GetValue());
+		
+
 		this.enabled = false;  // 이 스크립트는 비활성화합니다
 	}
 }

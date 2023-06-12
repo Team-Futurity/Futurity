@@ -166,6 +166,19 @@ public class HealthWarningController : MonoBehaviour
 		isDeath = true;
 		backgroundPanel.SetActive(true);
 		backgroundImage.color = Color.clear;
+
+		EnemyManager enemyManager = EnemyManager.Instance;
+
+		for (int i = enemyManager.activeEnemys.Count - 1; i >= 0; i--)
+		{
+			enemyManager.DeActiveManagement(enemyManager.activeEnemys[i]);
+		}
+		for (int i = enemyManager.activeEnemysHpBar.Count - 1; i >= 0; i--)
+		{
+			enemyManager.DeactiveHpBar(enemyManager.activeEnemysHpBar[i]);
+		}
+
+
 		StartCoroutine(ZoomInAndSlowMotion());
 	}
 

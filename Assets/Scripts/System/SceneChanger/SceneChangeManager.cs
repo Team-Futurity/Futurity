@@ -32,6 +32,9 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 
 	public void SceneLoad(SceneKeyData loadSceneKey, int loadingSceneNumber)
 	{
+		
+
+
 		this.loadSceneKey = loadSceneKey;
 		loadSceneName = loadSceneKey.sceneName;
 		SceneManager.LoadScene($"LoadingScene {loadingSceneNumber}");

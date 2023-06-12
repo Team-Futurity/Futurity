@@ -214,12 +214,12 @@ public class TutorialController : MonoBehaviour
 
 		Quest comboAttack2 = new Quest();
 		comboAttack2.questName = "J-J : ÄÞº¸ °ø°Ý";
-		comboAttack2.isConditionMet = comboAttack2.isConditionMet = () => IsComboAttack(2);
+		comboAttack2.isConditionMet = comboAttack2.isConditionMet = () => IsComboAttackPlus(2, PlayerInput.NormalAttack);
 		tutorialQuests2.Add(comboAttack2);
 
 		Quest comboAttack3 = new Quest();
 		comboAttack3.questName = "J-J-J : ÄÞº¸ °ø°Ý";
-		comboAttack3.isConditionMet = comboAttack3.isConditionMet = () => IsComboAttack(4);
+		comboAttack3.isConditionMet = comboAttack3.isConditionMet = () => IsComboAttackPlus(4, PlayerInput.NormalAttack);
 		tutorialQuests2.Add(comboAttack3);
 
 		Quest comboChageAttack1 = new Quest();
