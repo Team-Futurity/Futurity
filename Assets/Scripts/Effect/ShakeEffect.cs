@@ -6,6 +6,8 @@ public class ShakeEffect : MonoBehaviour
 	public float duration = 0.5f;
 	public float magnitude = 0.1f;
 
+	public AnimationCurve shakeCurve;
+
 	private Vector3 originalPosition;
 	private bool isShaking = false;
 	private Coroutine currentShakeCoroutine;
@@ -19,7 +21,7 @@ public class ShakeEffect : MonoBehaviour
 	{
 		if (isShaking)
 		{
-			StopCoroutine(currentShakeCoroutine); // If a shake is already going, stop it.
+			StopCoroutine(currentShakeCoroutine);
 		}
 
 		currentShakeCoroutine = StartCoroutine(Shake());
@@ -35,7 +37,10 @@ public class ShakeEffect : MonoBehaviour
 			float x = Random.Range(-1f, 1f) * magnitude;
 			float y = Random.Range(-1f, 1f) * magnitude;
 
-			transform.localPosition = originalPosition + new Vector3(x, y, 0);
+			// Use the curve to get the current shake magnitude
+			float currentMagnitude = shakeCurve.Evaluate(elapsed / duration) * magnitude;
+
+			transform.localPosition = originalPosition + new Vector3(x, y, 0) * currentMagnitude;
 
 			elapsed += Time.deltaTime;
 
