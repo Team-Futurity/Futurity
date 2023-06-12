@@ -67,6 +67,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		base.Begin(unit);
 		unit.attackCollider.radiusCollider.enabled = false;
+		
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
 		attackLengthMark = unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing; // 0 Level Length Mark
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.25f);
@@ -198,6 +199,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
 		base.OnCollisionEnter(unit, collision);
+
+		if(!isReleased) { return; }
 
 		if (collision.transform.CompareTag(unit.EnemyTag))
 		{
