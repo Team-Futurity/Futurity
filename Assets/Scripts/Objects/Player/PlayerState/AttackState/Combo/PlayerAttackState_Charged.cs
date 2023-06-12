@@ -7,6 +7,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public static float LengthMarkIncreasing = 200; // 단계당 돌진 거리 증가량
 	public static float AttackSTIncreasing = 1;     // 단계당 공격 배율 증가량
 	public static float LevelStandard = 1;         // 단계를 나눌 기준
+	public static float initialLevelStandard = 0.5f;
 	public static int MaxLevel = 4;                 // 최대 차지 단계
 	public static float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
 	public static float FlyPower = 45;               // 공중 체공 힘
@@ -107,6 +108,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		{
 			unit.rushObjectPool.DeactiveObject(curEffect);
 		}*/
+
+		pc.basicCollider.radius = originScale;
+		pc.rigid.velocity = Vector3.zero;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
