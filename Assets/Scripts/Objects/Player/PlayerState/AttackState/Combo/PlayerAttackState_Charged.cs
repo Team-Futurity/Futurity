@@ -89,7 +89,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		{
 			firstEnemy.velocity = Vector3.zero;
 			firstEnemy.transform.eulerAngles = new Vector3(0, firstEnemy.rotation.eulerAngles.y, 0);
-			firstEnemy.constraints = RigidbodyConstraints.FreezeAll;
+
+			// Enemy 행동 제약 해제(XZ)
+			firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
+			firstEnemyCollider.enabled = true;
+
 			firstEnemy = null;
 			firstEnemyCollider = null;
 		}
@@ -185,6 +189,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				firstEnemy.transform.position = targetPos + forward * (enemyDistance + moveSpeed * Time.fixedDeltaTime);
 
 				pc = unit;
+
+				unit.animator.SetTrigger("KDashLastAttack");
 
 				//UpAttack();
 
