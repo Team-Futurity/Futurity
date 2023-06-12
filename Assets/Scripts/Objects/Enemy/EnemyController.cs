@@ -242,4 +242,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 				return null;
 		}
 	}
+
+	public void OnDestroy()
+	{
+		EnemyManager.Instance.DeActiveManagement(this);
+	}
 }
