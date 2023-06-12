@@ -68,4 +68,8 @@ public class EnemyHpBarController : MonoBehaviour
 		Destroy(currentHpBar);
 	}
 
+	public void OnDestroy()
+	{
+		EnemyManager.Instance.DeactiveHpBar(this);
+	}
 }
