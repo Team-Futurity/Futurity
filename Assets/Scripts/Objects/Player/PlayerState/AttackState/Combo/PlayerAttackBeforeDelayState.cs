@@ -73,7 +73,6 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 	public override void End(PlayerController pc)
 	{
 		base.End(pc);
-		pc.autoTargetCollider.radiusCollider.enabled = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
