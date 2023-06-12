@@ -243,10 +243,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		}
 	}
 
+/*
 	public void OnDestroy()
 	{
 		EnemyManager enemyManager = EnemyManager.Instance;
 
 		enemyManager.DeActiveManagement(this);
-	}
+	}*/
 }
