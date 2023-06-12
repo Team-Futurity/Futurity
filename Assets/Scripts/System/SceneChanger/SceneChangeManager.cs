@@ -22,20 +22,19 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 	private float loadingDelayTime = 0.25f;
 	WaitForSeconds loadingWaitForSeconds;
 
-
-	EnemyManager enemyManager;
-
 	[SerializeField]
 	private SceneKeyData loadSceneKey;
 
 	public void Start()
 	{
-		enemyManager = EnemyManager.Instance;
 		loadingWaitForSeconds = new WaitForSeconds(loadingDelayTime);
 	}
 
 	public void SceneLoad(SceneKeyData loadSceneKey, int loadingSceneNumber)
 	{
+		
+
+
 		this.loadSceneKey = loadSceneKey;
 		loadSceneName = loadSceneKey.sceneName;
 		SceneManager.LoadScene($"LoadingScene {loadingSceneNumber}");
