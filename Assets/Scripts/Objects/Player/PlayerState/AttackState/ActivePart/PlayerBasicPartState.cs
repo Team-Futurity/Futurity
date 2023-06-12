@@ -23,6 +23,8 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 	private Transform colliderOriginParent;
 	private float initialYPosition;
 
+	private float lastFrameTime;
+
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
@@ -38,6 +40,8 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 	public override void Update(PlayerController unit)
 	{
 		base.Update(unit);
+		
+		if(currentTime == Time.deltaTime) { return; }
 
 		if(isExplosion)
 		{
@@ -56,7 +60,11 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 				explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
 
 				isExplosion = false;
-				EndExtension(unit);
+				lastFrameTime = Time.deltaTime;
+			}
+			else if(currentTime >= proccessor.duration + lastFrameTime)
+			{
+				//EndExtension(unit);
 			}
 		}
 	}
@@ -112,17 +120,28 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 		chargeEffect = proccessor.chargeEffectObjectPool.ActiveObject(proccessor.chargeEffectPos.position, proccessor.chargeEffectPos.rotation);
 	}
 
+	public void PreAttack()
+	{
+		pc.attackCollider.radiusCollider.enabled = true;
+
+		
+
+		FDebug.Log("Pre : " + currentTime);
+	}
+
 	public void Attack()
 	{
+		FDebug.Log("Attack : " + currentTime);
+
 		Vector3 vec = new Vector3(proccessor.explosionEffectPos.position.x, initialYPosition, proccessor.explosionEffectPos.position.z);
 
-		pc.attackCollider.radiusCollider.enabled = true;
 		explosionEffect = proccessor.explosionEffectObjectPool.ActiveObject(vec, Quaternion.identity);
 		explosionEffect.GetComponent<ParticleController>().Initialize(proccessor.explosionEffectObjectPool);
 		proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
 
 		float diameter = 2 * minSize * explosionEffectUnitSize;
 		explosionEffect.localScale = new Vector3(diameter, diameter, diameter);
+		currentTime = 0;
 
 		pc.attackCollider.transform.position = explosionEffect.transform.position;
 
@@ -133,6 +152,8 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 	{
 		proccessor.landingEffectObjectPool.ActiveObject(proccessor.landingEffectPos.position, proccessor.landingEffectPos.rotation).
 			GetComponent<ParticleController>().Initialize(proccessor.landingEffectObjectPool);
+		pc.attackCollider.transform.localPosition = Vector3.zero;
+		EndExtension(pc);
 	}
 
 	public void AttackEnd()
