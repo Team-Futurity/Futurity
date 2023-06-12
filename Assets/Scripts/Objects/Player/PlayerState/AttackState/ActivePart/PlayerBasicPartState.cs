@@ -21,6 +21,7 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 
 	private PlayerController pc;
 	private Transform colliderOriginParent;
+	private float initialYPosition;
 
 	public override void Begin(PlayerController unit)
 	{
@@ -113,8 +114,10 @@ public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
 
 	public void Attack()
 	{
+		Vector3 vec = new Vector3(proccessor.explosionEffectPos.position.x, initialYPosition, proccessor.explosionEffectPos.position.z);
+
 		pc.attackCollider.radiusCollider.enabled = true;
-		explosionEffect = proccessor.explosionEffectObjectPool.ActiveObject(proccessor.explosionEffectPos.position, Quaternion.identity);
+		explosionEffect = proccessor.explosionEffectObjectPool.ActiveObject(vec, Quaternion.identity);
 		explosionEffect.GetComponent<ParticleController>().Initialize(proccessor.explosionEffectObjectPool);
 		proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
 
