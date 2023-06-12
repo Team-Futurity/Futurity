@@ -49,6 +49,8 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 
 	public void CharacterDialogWindowOpen()
 	{
+		FDebug.Log($"{this.gameObject.name} : CharacterDialogWindowOpen");
+
 		if (windowManager.FindWindow($"{characterWindow.name}(Clone)") == null)
 		{
 			if (canvas != null)
