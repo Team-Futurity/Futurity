@@ -2731,6 +2731,7 @@ GameObject:
   - component: {fileID: 3624206818256794684}
   - component: {fileID: 3857168209417554139}
   - component: {fileID: 2879708686385955491}
+  - component: {fileID: 3687882210290057443}
   m_Layer: 0
   m_Name: ComboNum10
   m_TagString: Untagged
@@ -7599,6 +7600,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &3687882210290057443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086203560914500803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceada202aec4de4419933cb24654895d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  magnitude: 0.1
 --- !u!1 &2158891085604873797
 GameObject:
   m_ObjectHideFlags: 0
@@ -7788,6 +7803,7 @@ GameObject:
   - component: {fileID: 8566234755724922303}
   - component: {fileID: 2266832753456069188}
   - component: {fileID: 2266832753456069191}
+  - component: {fileID: 5637741165297081512}
   m_Layer: 0
   m_Name: ComboNum100
   m_TagString: Untagged
@@ -12656,6 +12672,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &5637741165297081512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2266832753456069190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceada202aec4de4419933cb24654895d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  magnitude: 0.1
 --- !u!1 &2389234753899966538
 GameObject:
   m_ObjectHideFlags: 0
@@ -12667,6 +12697,7 @@ GameObject:
   - component: {fileID: 5128126549139785090}
   - component: {fileID: 1347965344497903274}
   - component: {fileID: 2854014496603745516}
+  - component: {fileID: 1870911835289377708}
   m_Layer: 0
   m_Name: ComboNum1
   m_TagString: Untagged
@@ -17535,6 +17566,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &1870911835289377708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389234753899966538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceada202aec4de4419933cb24654895d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  magnitude: 0.1
 --- !u!1 &2461803282820606345
 GameObject:
   m_ObjectHideFlags: 0
@@ -18462,6 +18507,57 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 9b3aa533a81d0f346989d64e09ecb913, type: 3}
   - {fileID: 2800000, guid: 220d65fd9534d254c961fcff5a6439bd, type: 3}
   - {fileID: 2800000, guid: f153b20e3f1e3c54b969faa8117f49b8, type: 3}
+  startSetNumberEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4493771704500607198}
+        m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
+        m_MethodName: StartShake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5637741165297081512}
+        m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
+        m_MethodName: StartShake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3687882210290057443}
+        m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
+        m_MethodName: StartShake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1870911835289377708}
+        m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
+        m_MethodName: StartShake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3472099324905328543
 GameObject:
   m_ObjectHideFlags: 0
@@ -22245,6 +22341,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  startSetNumberEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8193451065651507558
 GameObject:
   m_ObjectHideFlags: 0
@@ -22256,6 +22355,7 @@ GameObject:
   - component: {fileID: 4664207522333907832}
   - component: {fileID: 3278267756498945263}
   - component: {fileID: 6374545599086523087}
+  - component: {fileID: 4493771704500607198}
   m_Layer: 0
   m_Name: ComboText
   m_TagString: Untagged
@@ -27124,6 +27224,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &4493771704500607198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193451065651507558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceada202aec4de4419933cb24654895d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  magnitude: 0.1
 --- !u!1 &8196607656852449932
 GameObject:
   m_ObjectHideFlags: 0
