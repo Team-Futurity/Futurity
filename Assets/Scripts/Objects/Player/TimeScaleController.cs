@@ -15,8 +15,17 @@ public class TimeScaleController : Singleton<TimeScaleController>
 
 	private void Start()
 	{
+		Debug.Log(transform.name + " : ");
+
 		isAdjusting = false;
 		StartCoroutine(TimeScaleCoroutine());
+	}
+
+	private GameObject GetPos()
+	{
+		rayPos = GameObject.Find("Bip001 Pelvis");
+
+		return rayPos;
 	}
 
 	public void SetTimeScale(float timeScale, float adjustTime, Vector3 forward)
@@ -29,13 +38,13 @@ public class TimeScaleController : Singleton<TimeScaleController>
 
 	private void Update()
 	{
-		if(!isReady || isAdjusting) { return; }
-		if(rayPos == null) { return; }
-		
-		RaycastHit[] hits = Physics.RaycastAll(rayPos.transform.position, forward, distanceThreshold);
-		foreach(var hit in hits)
+		if (!isReady || isAdjusting) { return; }
+		if (GetPos() == null) { return; }
+
+		RaycastHit[] hits = Physics.RaycastAll(GetPos().transform.position, forward, distanceThreshold);
+		foreach (var hit in hits)
 		{
-			if(hit.transform.CompareTag("Enemy"))
+			if (hit.transform.CompareTag("Enemy"))
 			{
 				isAdjusting = true;
 				isReady = false;
@@ -47,8 +56,9 @@ public class TimeScaleController : Singleton<TimeScaleController>
 
 	private IEnumerator TimeScaleCoroutine()
 	{
-		while (true) { 
-			if(isAdjusting)
+		while (true)
+		{
+			if (isAdjusting)
 			{
 				Time.timeScale = curTimeScale;
 				FDebug.Log("2");

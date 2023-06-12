@@ -13,12 +13,12 @@ public class SceneChanger : MonoBehaviour
 
 	public void SceneChange(SceneKeyData sceneKeyData)
 	{
-		sceneChangeManager.SceneLoad(sceneKeyData, 1);
+		sceneChangeManager.SceneLoad(sceneKeyData, 2);
 	}
 
 	public void TitleSceneChange(SceneKeyData sceneKeyData)
 	{
-		sceneChangeManager.SceneLoad(sceneKeyData, 2);
+		sceneChangeManager.SceneLoad(sceneKeyData, 1);
 	}
 
 	public void ResetScene()

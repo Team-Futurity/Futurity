@@ -186,7 +186,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		unit = this;
 		if (isTutorialDummy)
 		{
-			manager.ActiveManagement(unit);
 			effectManager.CopyEffect(unit);
 			SetUp(EnemyState.TutorialIdle);
 		}
@@ -242,5 +241,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 				FDebug.Log("ERROR_ChangeChaseState()");
 				return null;
 		}
+	}
+
+	public void OnDestroy()
+	{
+		EnemyManager enemyManager = EnemyManager.Instance;
+
+		enemyManager.DeActiveManagement(this);
 	}
 }

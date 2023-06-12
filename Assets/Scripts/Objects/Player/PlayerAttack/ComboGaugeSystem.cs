@@ -88,6 +88,7 @@ public class ComboGaugeSystem : MonoBehaviour
 
 		if (gaugeBar != null)
 		{
+			FDebug.Log($"gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge) : {(float)currentGauge / maxComboGauge}");
 			gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge);
 			OnGaugeChanged.Invoke(currentGauge);
 		}

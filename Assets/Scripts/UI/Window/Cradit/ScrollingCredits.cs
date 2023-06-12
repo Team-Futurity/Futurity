@@ -27,6 +27,8 @@ public class ScrollingCredits : MonoBehaviour
 		endObject.SetActive(false);
 		allTextsProcessed = false;
 		CreateCredits();
+
+		transform.parent = WindowManager.Instance.topCanvasTransform;
 	}
 
 	void Update()

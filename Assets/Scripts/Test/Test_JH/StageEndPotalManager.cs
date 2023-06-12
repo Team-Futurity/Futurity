@@ -10,6 +10,7 @@ public class StageEndPotalManager : Singleton<StageEndPotalManager>
 {
 	// 워프 포탈 컨트롤러 리스트입니다.
 	private List<StageEndPotalController> warpPotalControllers = new List<StageEndPotalController>();
+	private LastKillController lastKillController;
 
 	/// <summary>
 	/// 새로운 워프 포탈 컨트롤러를 리스트에 추가합니다.
@@ -18,6 +19,11 @@ public class StageEndPotalManager : Singleton<StageEndPotalManager>
 	public void SetEndWarpPotal(StageEndPotalController newWarpPotalController)
 	{
 		warpPotalControllers.Add(newWarpPotalController);
+	}
+
+	public void SetLastKillController(LastKillController getLastKillController)
+	{
+		lastKillController = getLastKillController;
 	}
 
 	/// <summary>
@@ -33,6 +39,8 @@ public class StageEndPotalManager : Singleton<StageEndPotalManager>
 	/// </summary>
 	public void ActivePotals()
 	{
+		lastKillController.LastKill();
+
 		foreach (var controller in warpPotalControllers)
 		{
 			controller.isActiveStageEndPortal = true;
