@@ -76,6 +76,9 @@ public class HealthWarningController : MonoBehaviour
 
 	[SerializeField]
 	private float pulseSpeed = 2f;  // 효과의 박동 속도
+	EnemyManager enemyManager;
+
+
 
 	private void Start()
 	{
@@ -83,6 +86,7 @@ public class HealthWarningController : MonoBehaviour
 		cameraTransform = Camera.main.gameObject.transform;
 		cameraComponent = cameraTransform.GetComponent<Camera>();
 		windowManager = WindowManager.Instance;
+		enemyManager = EnemyManager.Instance;
 
 		if (volume.profile.TryGet<Vignette>(out vignette)) { }
 		isDeath = false;
@@ -167,7 +171,6 @@ public class HealthWarningController : MonoBehaviour
 		backgroundPanel.SetActive(true);
 		backgroundImage.color = Color.clear;
 
-		EnemyManager enemyManager = EnemyManager.Instance;
 
 		for (int i = enemyManager.activeEnemys.Count - 1; i >= 0; i--)
 		{
