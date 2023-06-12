@@ -182,12 +182,12 @@ public class CharacterDialogController : MonoBehaviour
 	{
 		typingDelay = delayTime;
 	}
-
+/*
 	private void OnDestroy()
 	{
 		if (activeEffect != null)
 		{
 			activeEffect.SetActive(false);
 		}
-	}
+	}*/
 }
