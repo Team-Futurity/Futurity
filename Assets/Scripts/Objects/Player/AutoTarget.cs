@@ -31,7 +31,10 @@ public class AutoTarget : Singleton<AutoTarget>
 
 	public void TurnToTarget(GameObject target, GameObject origin)
 	{
-		origin.transform.LookAt(target.transform);
+		Vector3 targetVec = target.transform.position;
+		targetVec.y = origin.transform.position.y;
+
+		origin.transform.LookAt(targetVec);
 	}
 
 	public void TurnToNearstObject(List<GameObject> objs, GameObject origin)

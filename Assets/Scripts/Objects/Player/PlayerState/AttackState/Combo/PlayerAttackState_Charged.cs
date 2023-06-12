@@ -7,6 +7,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public static float LengthMarkIncreasing = 200; // 단계당 돌진 거리 증가량
 	public static float AttackSTIncreasing = 1;     // 단계당 공격 배율 증가량
 	public static float LevelStandard = 1;         // 단계를 나눌 기준
+	public static float initialLevelStandard = 0.5f;
 	public static int MaxLevel = 4;                 // 최대 차지 단계
 	public static float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
 	public static float FlyPower = 45;               // 공중 체공 힘
@@ -67,6 +68,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		base.Begin(unit);
 		unit.attackCollider.radiusCollider.enabled = false;
+		
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
 		attackLengthMark = unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing; // 0 Level Length Mark
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.25f);
@@ -87,7 +89,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		{
 			firstEnemy.velocity = Vector3.zero;
 			firstEnemy.transform.eulerAngles = new Vector3(0, firstEnemy.rotation.eulerAngles.y, 0);
-			firstEnemy.constraints = RigidbodyConstraints.FreezeAll;
+
+			// Enemy 행동 제약 해제(XZ)
+			firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
+			firstEnemyCollider.enabled = true;
+
 			firstEnemy = null;
 			firstEnemyCollider = null;
 		}
@@ -106,6 +112,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		{
 			unit.rushObjectPool.DeactiveObject(curEffect);
 		}*/
+
+		pc.basicCollider.radius = originScale;
+		pc.rigid.velocity = Vector3.zero;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -181,6 +190,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 				pc = unit;
 
+				unit.animator.SetTrigger("KDashLastAttack");
+
 				//UpAttack();
 
 				return;
@@ -198,6 +209,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
 		base.OnCollisionEnter(unit, collision);
+
+		if(!isReleased) { return; }
 
 		if (collision.transform.CompareTag(unit.EnemyTag))
 		{

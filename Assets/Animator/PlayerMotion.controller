@@ -36,6 +36,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: ChargingParam
     m_EventTreshold: 3
+  - m_ConditionMode: 1
+    m_ConditionEvent: KDashLastAttack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8533532931337709419}
   m_Solo: 0
@@ -766,6 +769,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: ChargingParam
     m_EventTreshold: 1
+  - m_ConditionMode: 1
+    m_ConditionEvent: KDashLastAttack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8966065945640848842}
   m_Solo: 0
@@ -1171,6 +1177,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: ChargingParam
     m_EventTreshold: 2
+  - m_ConditionMode: 1
+    m_ConditionEvent: KDashLastAttack
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4598815348355325206}
   m_Solo: 0
@@ -1439,6 +1448,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: MoveDuringRushPreparing
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: KDashLastAttack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
