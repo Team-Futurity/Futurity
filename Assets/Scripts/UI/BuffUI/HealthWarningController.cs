@@ -37,11 +37,11 @@ public class HealthWarningController : MonoBehaviour
 	
 	[Header("Death 연출 관련 변수")]
 	[SerializeField]
-	private float zoomInSpeed = 2f;
+	private float zoomInSpeed = 3f;
 	[SerializeField]
-	private float fadeInSpeed = 2f;
+	private float fadeInSpeed = 1.5f;
 	[SerializeField]
-	private float fadeInAlphaMax = 1f;
+	private float fadeInAlphaMax = 0.5f;
 	[SerializeField]
 	private float slowMotionFactor = 0.2f;
 	[SerializeField]
