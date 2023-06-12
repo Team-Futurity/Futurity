@@ -14,6 +14,9 @@ public class GaugeBarController : MonoBehaviour
 	[SerializeField]
 	private int gaugeIntegerPercent = 100;
 
+	[SerializeField]
+	float duration = 1f;
+
 	private Coroutine fillRoutine;
 
 	/// <summary>
@@ -39,7 +42,6 @@ public class GaugeBarController : MonoBehaviour
 	{
 		float time = 0f;
 		float startValue = gaugeBar.fillAmount;
-		float duration = 1f;
 
 		while (time < duration)
 		{
