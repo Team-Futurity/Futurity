@@ -5272,6 +5272,10 @@ PrefabInstance:
       propertyPath: socket
       value: 
       objectReference: {fileID: 224229402}
+    - target: {fileID: 495645714, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 490917122}
     - target: {fileID: 926590480872082409, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: worldRushEffectParent
       value: 
@@ -5360,7 +5364,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPrefab
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 495645714, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
 --- !u!4 &490917122 stripped
 Transform:
@@ -5517,13 +5522,13 @@ MonoBehaviour:
   cameraTransform: {fileID: 216791354}
   playerTransform: {fileID: 490917122}
   volume: {fileID: 0}
-  zoomInSpeed: 2
-  fadeInSpeed: 2
+  zoomInSpeed: 3
+  fadeInSpeed: 1.5
   fadeInAlphaMax: 0.5
   slowMotionFactor: 0.2
   normalCameraSize: 5
   zoomInCameraSize: 2
-  deathDelayTime: 0.5
+  deathDelayTime: 0.1
   isDeath: 0
   backgroundPanel: {fileID: 0}
   DeathEndEvent:
