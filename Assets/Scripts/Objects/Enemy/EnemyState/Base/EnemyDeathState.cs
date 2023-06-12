@@ -13,7 +13,6 @@ public class EnemyDeathState : UnitState<EnemyController>
 		if (unit.isClustering)
 			unit.manager.EnemyDeclutter(unit.clusterNum);
 		unit.manager.DeActiveManagement(unit);
-		//unit.hpBar.copySlider.gameObject.SetActive(false);
 		
 
 		if (unit.manager.activeEnemys.Count < 1)

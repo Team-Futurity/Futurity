@@ -408,6 +408,7 @@ GameObject:
   - component: {fileID: 1578409721}
   - component: {fileID: 5949557174814836646}
   - component: {fileID: 5380265977753399105}
+  - component: {fileID: 3598896716025941691}
   m_Layer: 5
   m_Name: CraditWindowGlitch
   m_TagString: UIWindow
@@ -578,13 +579,13 @@ MonoBehaviour:
   OnCreditsEnd:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5380265977753399105}
-        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
-        m_MethodName: WindowActiveOpen
-        m_Mode: 1
+      - m_Target: {fileID: 3598896716025941691}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: SceneChange
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 0630cd3fc58addb4d91816b1da472da2, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -627,6 +628,18 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3598896716025941691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280084176244655351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05f0351dd142b446adab1a56a628ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &680259020177190626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,7 +1217,7 @@ GameObject:
   - component: {fileID: 3552058968903331248}
   - component: {fileID: 4655138232128308218}
   m_Layer: 5
-  m_Name: End?
+  m_Name: END?
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1258,7 +1271,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: End?
+  m_text: END?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 734dce16976c576469c0b94c695ec55e, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

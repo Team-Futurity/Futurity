@@ -30,6 +30,7 @@ public class CharacterDialogController : MonoBehaviour
 
 	private string currentText = "";
 	private bool isTextEnd = false;
+	public GameObject activeEffect;
 
 	private Coroutine showTextCoroutine;
 	private Coroutine skipTextCoroutine;
@@ -181,4 +182,12 @@ public class CharacterDialogController : MonoBehaviour
 	{
 		typingDelay = delayTime;
 	}
+/*
+	private void OnDestroy()
+	{
+		if (activeEffect != null)
+		{
+			activeEffect.SetActive(false);
+		}
+	}*/
 }

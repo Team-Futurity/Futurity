@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing.Text;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class NumberImageLoader : MonoBehaviour
@@ -23,6 +24,11 @@ public class NumberImageLoader : MonoBehaviour
 
 	private Coroutine comboDeactiveDelayCorutine;
 
+	[SerializeField]
+	private UnityEvent startSetNumberEvent;
+
+
+
 	private void Awake()
 	{
 		for (int i = 0; i < ComboObjects.Count; i++)
@@ -33,6 +39,8 @@ public class NumberImageLoader : MonoBehaviour
 
 	public void SetNumber(int num)
 	{
+		startSetNumberEvent?.Invoke();
+
 		if (comboDeactiveDelayCorutine is not null)
 		{
 			StopCoroutine(comboDeactiveDelayCorutine);

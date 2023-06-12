@@ -2839,20 +2839,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80db059097582a34d8b77be5a29e300d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startTransform: {fileID: 1277159493}
+  startTransform: {fileID: 754662885}
   endTransform: {fileID: 490917122}
   moveCamera: {fileID: 216791346}
   moveStartDelayTime: 1
   moveEndDelayTime: 1
-  speed: 20
+  speed: 17.5
   easeGraph:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -2904,6 +2904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStartOpen: 0
+  activeEffect: {fileID: 1898593409}
   canvas: {fileID: 1124304065}
   characterWindow: {fileID: 7156069533624209710, guid: 94af0b19dff72144b83e807bb2e9f5e3, type: 3}
   texts:
@@ -5318,22 +5319,22 @@ PrefabInstance:
       propertyPath: socket
       value: 
       objectReference: {fileID: 224229402}
-    - target: {fileID: 1921549218, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: managedReferences[7965168027137212555].worldEffectParent
+    - target: {fileID: 495645714, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: panelCanvas
       value: 
-      objectReference: {fileID: 1737232334}
+      objectReference: {fileID: 1124304065}
+    - target: {fileID: 495645714, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 216791354}
+    - target: {fileID: 872569107971545013, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 216791354}
     - target: {fileID: 926590480872082409, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: worldRushEffectParent
       value: 
       objectReference: {fileID: 1737232334}
-    - target: {fileID: 1070719927369175188, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1070719927369175188, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: comboTree.top.childNodes.Array.data[0].hitEffectParent
       value: 
@@ -5545,74 +5546,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9199333450892302302, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
   m_PrefabInstance: {fileID: 490917121}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &495645712 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2214123608498936178, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-  m_PrefabInstance: {fileID: 490917121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 495645696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &495645714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 495645696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b1239f31a5b864a885bd5f9a6b8df0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
-  panelCanvas: {fileID: 1124304065}
-  statusManager: {fileID: 495645712}
-  deathOpenWindow: {fileID: 280084176244655351, guid: 9c2309d055eb376478a6879c426dd35e, type: 3}
-  cameraTransform: {fileID: 216791354}
-  playerTransform: {fileID: 490917122}
-  volume: {fileID: 0}
-  zoomInSpeed: 2
-  fadeInSpeed: 2
-  fadeInAlphaMax: 0.5
-  slowMotionFactor: 0.2
-  normalCameraSize: 5
-  zoomInCameraSize: 2
-  deathDelayTime: 0.5
-  isDeath: 0
-  backgroundPanel: {fileID: 0}
-  DeathEndEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  maxAlpha: 0.75
-  pulseSpeed: 2
---- !u!114 &495645732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 495645696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acebf0942a894b94eaba61615566c38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DeActivePotals: []
-  playerTransform: {fileID: 490917122}
-  cameraTransform: {fileID: 216791354}
-  zoomInDelayTime: 0.5
-  zoomInSpeed: 2
-  slowMotionFactor: 0.2
-  slowMotionTime: 3
-  normalCameraSize: 5
-  zoomInCameraSize: 2
-  laskKillEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &498995784
 GameObject:
   m_ObjectHideFlags: 0
@@ -8375,6 +8308,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1124304065}
+    - target: {fileID: 1148182273100862127, guid: fc6c7f1b57e946e42bd8287e4b38583b, type: 3}
+      propertyPath: activeEffect
+      value: 
+      objectReference: {fileID: 1898593409}
     - target: {fileID: 1148182273100862127, guid: fc6c7f1b57e946e42bd8287e4b38583b, type: 3}
       propertyPath: texts.Array.data[0]
       value: "\uC557, \uBC29\uD654\uBCBD\uC774!"
@@ -18329,6 +18266,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898563100}
   m_Mesh: {fileID: 0}
+--- !u!1 &1898593409 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3110242956735727320, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+  m_PrefabInstance: {fileID: 490917121}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1908838666
 GameObject:
   m_ObjectHideFlags: 0
