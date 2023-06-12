@@ -56,4 +56,5 @@ public class Enemy : UnitBase
 	{
 		throw new System.NotImplementedException();
 	}
+
 }

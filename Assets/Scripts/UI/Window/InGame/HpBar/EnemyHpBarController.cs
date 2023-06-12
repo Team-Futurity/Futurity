@@ -27,6 +27,8 @@ public class EnemyHpBarController : MonoBehaviour
 
 	private EnemyController ec;
 
+
+
 	/// <summary>
 	/// 초기화 작업을 합니다. 만약 currentHpBar가 null이라면 새로운 창을 열어 대입합니다.
 	/// </summary>
@@ -38,6 +40,8 @@ public class EnemyHpBarController : MonoBehaviour
 		ec = GetComponent<EnemyController>();
 
 		currentHpBar.transform.parent = canvasTrs;
+
+		EnemyManager.Instance.ActiveHpBar(this);
 	}
 
 	/// <summary>
@@ -46,7 +50,7 @@ public class EnemyHpBarController : MonoBehaviour
 	void Update()
 	{
 		Vector3 enemyWorldPosition = Camera.main.WorldToScreenPoint(transform.position) + (Vector3)hpBarPosition;
-		if(ec.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() > 0)
+		if(ec.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() > 0 && currentHpBar != null)
 			currentHpBar.transform.position = enemyWorldPosition;
 	}
 
@@ -63,4 +67,5 @@ public class EnemyHpBarController : MonoBehaviour
 	{
 		Destroy(currentHpBar);
 	}
+
 }
