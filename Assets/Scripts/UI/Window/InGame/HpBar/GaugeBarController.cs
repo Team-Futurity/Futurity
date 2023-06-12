@@ -15,7 +15,7 @@ public class GaugeBarController : MonoBehaviour
 	private int gaugeIntegerPercent = 100;
 
 	[SerializeField]
-	float duration = 1f;
+	float gagueDuration = 1f;
 
 	private Coroutine fillRoutine;
 
@@ -43,9 +43,9 @@ public class GaugeBarController : MonoBehaviour
 		float time = 0f;
 		float startValue = gaugeBar.fillAmount;
 
-		while (time < duration)
+		while (time < gagueDuration)
 		{
-			float easedTime = EaseInOut(time / duration);
+			float easedTime = EaseInOut(time / gagueDuration);
 			gaugeBar.fillAmount = Mathf.Lerp(startValue, target, easedTime);
 			time += Time.deltaTime;
 			yield return null;
