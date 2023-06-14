@@ -15,24 +15,30 @@ public class WindowManager : Singleton<WindowManager>
 	[Header ("윈도우 시스템 총괄 메니저")]
 	[Space(15)]
 
+	[Tooltip("현재 열려있는 window들")]
 	public List<GameObject> windows = new List<GameObject>();
+	[Tooltip("현재 조작중인 window의 Buttons")]
 	public List<Button> buttons;
 
-	[SerializeField]
-	private int currentButtonIndex;
-	[SerializeField]
-	private GameObject currentButton; 
-	
-	private float holdTime;
-	private float holdThreshold = 1f; // 버튼을 길게 누르는 시간 임계값 설정.
 
+	private int currentButtonIndex;					// 현재 열려있는 버튼의 번호
+	[SerializeField]
+	private GameObject currentButton;				// 헌재 열려있는 버튼
+	
+	private float holdTime;                         // 버튼을 누르고 있는 시간
+	[SerializeField]
+	private float holdThreshold = 1f;               // 버튼을 길게 누르는 시간 임계값 설정.
+
+	[Tooltip("최 상단에 위치하고 있는 켄버스의 Transform")]
 	public Transform topCanvasTransform;
 
+	[Space(15)]
+	[Header("Window를 조작하는 Action")]
 	public InputActionReference leftAction;
 	public InputActionReference rightAction;
 	public InputActionReference selectAction;
 
-	public Coroutine holdCorutine;
+	private Coroutine holdCorutine;					// 홀드 시간을 계산하기 위한 코루틴
 
 	protected override void Awake()
 	{
@@ -44,11 +50,13 @@ public class WindowManager : Singleton<WindowManager>
 		SelectButton(0);
 	}
 
-	///<summary>
+	/// <summary>
 	/// 각 액션의 이벤트 핸들러를 제거합니다.
-	///</summary>
+	/// </summary>
 	private void OnDisable()
 	{
+		base.OnDisable();
+
 		leftAction.action.performed -= _ => SelectPreviousButton();
 		rightAction.action.performed -= _ => SelectNextButton();
 		selectAction.action.performed -= _ => ClickCurrentButton();
@@ -76,6 +84,10 @@ public class WindowManager : Singleton<WindowManager>
 		Canvas topCanvas = null;
 		foreach (Canvas canvas in allCanvases)
 		{
+			FDebug.Log($"allCanvases : {canvas}");
+
+			if (canvas.transform.root == canvas.transform) continue;
+
 			if (topCanvas == null || canvas.sortingOrder > topCanvas.sortingOrder)
 			{
 				topCanvas = canvas;
