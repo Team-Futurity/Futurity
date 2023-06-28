@@ -276,7 +276,6 @@ public class WindowManager : Singleton<WindowManager>
 		selectAction.action.started += _ => StartHold();
 		selectAction.action.canceled += _ => EndHold();
 		
-
 		this.leftAction = leftAction;
 		this.rightAction = rightAction;
 		this.selectAction = selectAction;
