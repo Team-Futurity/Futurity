@@ -20,7 +20,7 @@ public class WindowOpenController : MonoBehaviour
 	private Vector2 windowScale = Vector2.one;
 	[SerializeField]
 	public UnityEvent[] windowEvents = new UnityEvent[8];
-	[SerializeField]
+	
 	private Dictionary<string, object> variables = new Dictionary<string, object>();
 	
 	public void WindowDeactiveOpen(GameObject openWindowPrefab = null)
@@ -49,37 +49,12 @@ public class WindowOpenController : MonoBehaviour
 		SetVariablesToWindow(instanceUi);
 	}
 
-	/// <summary>
-	/// 타 Window를 닫지 않는 Window를 생성
-	/// </summary>
-	public void WindowActiveOpen()
+	public void WindowActiveOpen(GameObject openWindowPrefab = null)
 	{
-		GameObject instanceUi = null;
-		if (openWindow)
+		if (openWindowPrefab is not null)
 		{
-			if (openWindowParent)
-			{
-				instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale);
-			}
-			else
-			{
-				instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
-			}
-
-
-			SetWindowEvents(instanceUi);
+			openWindow = openWindowPrefab;
 		}
-		else
-		{
-			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
-		}
-
-		SetWindowEvents(instanceUi);
-		SetVariablesToWindow(instanceUi);
-	}
-	public void WindowActiveOpen(GameObject openWindowPrefab)
-	{
-		openWindow = openWindowPrefab;
 
 		GameObject instanceUi = null;
 		if (openWindow)
