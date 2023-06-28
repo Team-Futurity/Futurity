@@ -7,8 +7,6 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 {
 	[Header("Scene º¯°æ ÃÑ°ý ¸Þ´ÏÀú")]
 
-
-
 	[SerializeField]
 	private string loadSceneName;
 
@@ -32,12 +30,10 @@ public class SceneChangeManager : Singleton<SceneChangeManager>
 
 	public void SceneLoad(SceneKeyData loadSceneKey, int loadingSceneNumber)
 	{
-		
-
-
 		this.loadSceneKey = loadSceneKey;
 		loadSceneName = loadSceneKey.sceneName;
 		SceneManager.LoadScene($"LoadingScene {loadingSceneNumber}");
+		
 		StartCoroutine(LoadSceneProcess(loadingSceneNumber));
 	}
 
