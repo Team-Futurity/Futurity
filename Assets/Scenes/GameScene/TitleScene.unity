@@ -313,8 +313,8 @@ MonoBehaviour:
   modalBackground: {fileID: 0}
   isLock: 0
   buttons:
-  - {fileID: 853552961}
-  - {fileID: 322923538}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 1225286478}
   holdEvent:
     m_PersistentCalls:
@@ -552,6 +552,7 @@ GameObject:
   - component: {fileID: 322923540}
   - component: {fileID: 322923538}
   - component: {fileID: 322923539}
+  - component: {fileID: 322923543}
   m_Layer: 5
   m_Name: CreditButton
   m_TagString: Untagged
@@ -602,19 +603,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 322923540}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 322923539}
-        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
-        m_MethodName: WindowDeactiveOpen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &322923539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,6 +695,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 178.5, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &322923543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322923537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b344a858402e0d44bf273c6d03aa226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &369693654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,19 +1366,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 853552959}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: TitleSceneChange
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 694b74aa964d8304cb8d099ddc5daca8, type: 2}
-          m_ObjectArgumentAssemblyTypeName: SceneKeyData, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &853552962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1783,7 +1772,6 @@ GameObject:
   - component: {fileID: 1225286481}
   - component: {fileID: 1225286478}
   - component: {fileID: 1225286479}
-  - component: {fileID: 1225286480}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -1834,19 +1822,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1225286481}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1225286479}
-        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
-        m_MethodName: WindowActiveOpen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1225286479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1866,7 +1842,7 @@ MonoBehaviour:
   windowEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1225286480}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DebugLogger, Assembly-CSharp
         m_MethodName: TextDebugLog
         m_Mode: 5
@@ -1904,18 +1880,6 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
---- !u!114 &1225286480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1225286477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc7f02895780ba40ae04025907e16b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1225286481
 MonoBehaviour:
   m_ObjectHideFlags: 0
