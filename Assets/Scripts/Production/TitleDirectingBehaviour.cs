@@ -11,7 +11,6 @@ public class TitleDirectingBehaviour : MonoBehaviour
 	{
 		if(Input.anyKeyDown)
 		{
-			Debug.Log("TEST");
 			anyKeyInputEvent?.Invoke();
 		}
 	}
