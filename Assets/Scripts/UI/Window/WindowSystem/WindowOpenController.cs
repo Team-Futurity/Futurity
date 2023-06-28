@@ -30,18 +30,13 @@ public class WindowOpenController : MonoBehaviour
 	public void WindowDeactiveOpen()
 	{
 		GameObject instanceUi = null;
+		
 		if (openWindow)
 		{
-				if (openWindowParent)
-				{
-					instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, true, windowPosition, windowScale);
-				}
-				else
-				{
-					instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, true, windowPosition, windowScale);
-				}
+			instanceUi = (openWindowParent)
+				? WindowManager.Instance.WindowOpen(openWindow, openWindowParent, true, windowPosition, windowScale)
+				: WindowManager.Instance.WindowTopOpen(openWindow, true, windowPosition, windowScale);
 			
-
 			SetWindowEvents(instanceUi);
 		}
 		else
@@ -54,20 +49,18 @@ public class WindowOpenController : MonoBehaviour
 	}
 	public void WindowDeactiveOpen(GameObject openWindowPrefab)
 	{
-		openWindow = openWindowPrefab;
-
+		if (openWindowPrefab is not null)
+		{
+			openWindow = openWindowPrefab;
+		}
+		
 		GameObject instanceUi = null;
+		
 		if (openWindow)
 		{
-			if (openWindowParent)
-			{
-				instanceUi = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, true, windowPosition, windowScale);
-			}
-			else
-			{
-				instanceUi = WindowManager.Instance.WindowTopOpen(openWindow, true, windowPosition, windowScale);
-			}
-
+			instanceUi = (openWindowParent)
+				? WindowManager.Instance.WindowOpen(openWindow, openWindowParent, true, windowPosition, windowScale)
+				: WindowManager.Instance.WindowTopOpen(openWindow, true, windowPosition, windowScale);
 
 			SetWindowEvents(instanceUi);
 		}
