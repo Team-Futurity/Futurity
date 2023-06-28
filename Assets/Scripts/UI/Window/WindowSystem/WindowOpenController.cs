@@ -22,32 +22,8 @@ public class WindowOpenController : MonoBehaviour
 	public UnityEvent[] windowEvents = new UnityEvent[8];
 	[SerializeField]
 	private Dictionary<string, object> variables = new Dictionary<string, object>();
-
-
-	/// <summary>
-	/// 타 Window를 닫는 Window를 생성
-	/// </summary>
-	public void WindowDeactiveOpen()
-	{
-		GameObject instanceUi = null;
-		
-		if (openWindow)
-		{
-			instanceUi = (openWindowParent)
-				? WindowManager.Instance.WindowOpen(openWindow, openWindowParent, true, windowPosition, windowScale)
-				: WindowManager.Instance.WindowTopOpen(openWindow, true, windowPosition, windowScale);
-			
-			SetWindowEvents(instanceUi);
-		}
-		else
-		{
-			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
-		}
-
-		SetWindowEvents(instanceUi);
-		SetVariablesToWindow(instanceUi);
-	}
-	public void WindowDeactiveOpen(GameObject openWindowPrefab)
+	
+	public void WindowDeactiveOpen(GameObject openWindowPrefab = null)
 	{
 		if (openWindowPrefab is not null)
 		{
