@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TitleDirectingBehaviour : MonoBehaviour
+public class TitleDirectingPlayer : MonoBehaviour
 {
 	public UnityEvent anyKeyInputEvent;
 
