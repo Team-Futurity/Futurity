@@ -45,10 +45,6 @@ public class WindowOpenController : MonoBehaviour
 
 			SetWindowEvents(instanceUI);
 		}
-		else
-		{
-			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
-		}
 
 		SetWindowEvents(instanceUI);
 		SetVariablesToWindow(instanceUI);
@@ -65,20 +61,11 @@ public class WindowOpenController : MonoBehaviour
 
 		if (openWindow)
 		{
-			if (openWindowParent)
-			{
-				instanceUI = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale);
-			}
-			else
-			{
-				instanceUI = WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
-			}
+			instanceUI = (openWindowParent) 
+				? WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale)
+				: WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
 
 			SetWindowEvents(instanceUI);
-		}
-		else
-		{
-			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
 		}
 
 		SetWindowEvents(instanceUI);
