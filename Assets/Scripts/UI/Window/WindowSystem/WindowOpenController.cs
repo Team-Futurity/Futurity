@@ -6,28 +6,28 @@ using UnityEngine.Events;
 public class WindowOpenController : MonoBehaviour
 {
 	//#설명#	해당 스크립트는 특정 Window를 열때 사용하는 스크립트입니다.
-	[Header ("해당 스크립트는 특정 Window를 열때 사용하는 스크립트입니다.")]
-	
+	[Header("해당 스크립트는 특정 Window를 열때 사용하는 스크립트입니다.")]
+
 	[Space(15)]
 
 	[SerializeField]
 	private GameObject openWindow;
-	
+
 	[SerializeField]
 	private Transform openWindowParent;
-	
+
 	[SerializeField]
 	private Vector2 windowPosition = Vector2.zero;
-	
+
 	[SerializeField]
 	private Vector2 windowScale = Vector2.one;
 
 	[SerializeField]
 	public UnityEvent[] windowEvents = new UnityEvent[8];
-	
+
 	private Dictionary<string, object> variables = new Dictionary<string, object>();
 	private GameObject instanceUI = null;
-	
+
 	public void WindowDeactiveOpen(GameObject openWindowPrefab = null)
 	{
 		if (openWindowPrefab is not null)
@@ -36,7 +36,7 @@ public class WindowOpenController : MonoBehaviour
 		}
 
 		instanceUI = null;
-		
+
 		if (openWindow)
 		{
 			instanceUI = (openWindowParent)
@@ -61,11 +61,9 @@ public class WindowOpenController : MonoBehaviour
 
 		if (openWindow)
 		{
-			instanceUI = (openWindowParent) 
+			instanceUI = (openWindowParent)
 				? WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale)
 				: WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
-
-			SetWindowEvents(instanceUI);
 		}
 
 		SetWindowEvents(instanceUI);
@@ -81,20 +79,9 @@ public class WindowOpenController : MonoBehaviour
 
 		if (openWindow)
 		{
-				if (openWindowParent)
-				{
-					instanceUI = WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale);
-				}
-				else
-				{
-					instanceUI = WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
-				}
-
-			SetWindowEvents(instanceUI);
-		}
-		else
-		{
-			FDebug.LogWarning($"{gameObject.name}의 UiOpenButtonClick에 OpenUiWindow가 존재하지 않습니다.");
+			instanceUI = (openWindowParent)
+				? WindowManager.Instance.WindowOpen(openWindow, openWindowParent, false, windowPosition, windowScale)
+				: WindowManager.Instance.WindowTopOpen(openWindow, false, windowPosition, windowScale);
 		}
 
 		SetWindowEvents(instanceUI);
