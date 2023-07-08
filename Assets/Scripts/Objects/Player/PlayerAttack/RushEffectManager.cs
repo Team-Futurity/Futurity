@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using static PlayerController;
@@ -20,7 +20,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 	// 추적 설정한 데이터를 찾아옴
 	private int FindTrackingData(GameObject effect)
 	{
-		for(int effectCount = 0; effectCount < trackingEffects.Count; effectCount++)
+		for (int effectCount = 0; effectCount < trackingEffects.Count; effectCount++)
 		{
 			if (trackingEffects[effectCount].effect == effect)
 			{
@@ -36,7 +36,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 	{
 		Vector3 marginPos = inputPosition == null ? Vector3.zero : inputPosition.Value - target.position;
 		Quaternion rot = new Quaternion();
-		rot.eulerAngles = inputRotation == null? Vector3.zero : inputRotation.Value.eulerAngles - target.rotation.eulerAngles;
+		rot.eulerAngles = inputRotation == null ? Vector3.zero : inputRotation.Value.eulerAngles - target.rotation.eulerAngles;
 
 		trackingEffects.Add(new TrackingEffectData(effect, target, marginPos, rot));
 	}
@@ -48,7 +48,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 		List<RushEffectData> effectDatas;
 
 		if (!rushEffectDictionary.TryGetValue(type, out tempDictionary)) { FDebug.LogWarning("[RushEffectManager] Failed to Get Rush Effect. Because of <Type> Mismatch"); return null; }
-		if(!tempDictionary.TryGetValue(target, out effectDatas)) { FDebug.LogWarning("[RushEffectManager] Failed to Get Rush Effect. Because of <Traget> Mismatch"); return null; }
+		if (!tempDictionary.TryGetValue(target, out effectDatas)) { FDebug.LogWarning("[RushEffectManager] Failed to Get Rush Effect. Because of <Traget> Mismatch"); return null; }
 
 		tempDictionary = null;
 
@@ -65,7 +65,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 		var effectObject = Instantiate(effectData.effectList[effectListIndex], pos, rot, rushEffectParent.transform);
 
 		// 추적설정
-		if(trackingTarget != null)
+		if (trackingTarget != null)
 		{
 			RegisterTracking(effectObject, trackingTarget, position, rotation);
 		}
@@ -90,9 +90,9 @@ public class RushEffectManager : Singleton<RushEffectManager>
 		}
 		else
 		{
-		    levelEffect = new RushLevelEffect(0, effectData, obj, index);
+			levelEffect = new RushLevelEffect(0, effectData, obj, index);
 			rushLevelEffectDictionary.Add(effectData, levelEffect);
-		}		
+		}
 
 		return effectData;
 	}
@@ -135,7 +135,7 @@ public class RushEffectManager : Singleton<RushEffectManager>
 	public void RemoveEffectByKey(RushEffectData key, int? trackingNumber = null)
 	{
 		RushLevelEffect obj;
-		if(key == null) { return; }
+		if (key == null) { return; }
 		if (!rushLevelEffectDictionary.TryGetValue(key, out obj)) { FDebug.LogWarning("[RushEffectManager] This key is not Invalid"); return; }
 
 		RemoveEffect(obj.effect, trackingNumber);
@@ -143,14 +143,14 @@ public class RushEffectManager : Singleton<RushEffectManager>
 
 	private void LateUpdate()
 	{
-		if(trackingEffects.Count <= 0) { return; }
+		if (trackingEffects.Count <= 0) { return; }
 
 		List<TrackingEffectData> list = null;
 
 		// 추적 설정한 오브젝트 이동
-		foreach(var effectData in trackingEffects)
+		foreach (var effectData in trackingEffects)
 		{
-			if(effectData.effect == null)
+			if (effectData.effect == null)
 			{
 				if (list == null) { list = new List<TrackingEffectData>(); }
 
@@ -162,11 +162,12 @@ public class RushEffectManager : Singleton<RushEffectManager>
 			effectData.effect.transform.eulerAngles = effectData.target.rotation.eulerAngles + effectData.rotationMargin.eulerAngles;
 		}
 
-		if(list == null) { return; }
+		if (list == null) { return; }
 
-		foreach(var data in list)
+		foreach (var data in list)
 		{
 			trackingEffects.Remove(data);
 		}
 	}
 }
+*/

@@ -10,7 +10,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
 
-	private EffectType effectType;
+	private EffectActivationTime effectType;
 	private EffectTarget EffectTarget;
 	private Transform effectPos;
 
@@ -32,10 +32,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void PreAllocatedEffectPooling()
 	{
-		pc.rushEffectManager.ActiveEffect(effectType, EffectTarget, effectPos);
+		//pc.rushEffectManager.ActiveEffect(effectType, EffectTarget, effectPos);
 	}
 
-	public void AllocateEffect(EffectType type, EffectTarget target, Transform effectPos)
+	public void AllocateEffect(EffectActivationTime type, EffectTarget target, Transform effectPos)
 	{
 		this.effectPos = effectPos;
 		effectType = type;
