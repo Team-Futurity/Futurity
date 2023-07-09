@@ -1,28 +1,31 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static EnemyEffectManager;
+using static UnityEngine.GraphicsBuffer;
 
-public class EffectManager : Singleton<EffectManager>
+public class EffectManager
 {
 	[SerializeField] private EffectDatas effectDatas;
 	//[SerializeField] private GameObject effectParent;
 	[SerializeField] private GameObject worldEffectParent;
 	private Dictionary<EffectActivationTime, Dictionary<EffectTarget, List<EffectData>>> effectDictionary;
-	private Dictionary<EffectKey, LevelEffect> levelEffectDictionary = new Dictionary<EffectKey, LevelEffect>();
+	private Dictionary<EffectActivationTime, Dictionary<EffectTarget, List<EffectPoolingData>>> effectPoolingDictionary = new Dictionary<EffectActivationTime, Dictionary<EffectTarget, List<EffectPoolingData>>>();
+	private Dictionary<EffectData, LevelEffect> levelEffectDictionary = new Dictionary<EffectData, LevelEffect>();
 	private List<TrackingEffectData> trackingEffects = new List<TrackingEffectData>();
 
 	public EffectManager(EffectDatas effectDatas, /*GameObject effectParent,*/ GameObject worldEffectParent)
 	{
 		this.effectDatas = effectDatas;
+		effectDatas.GetDictionary(out effectDictionary);
+		effectDatas.GetPoolingDictionary(out effectPoolingDictionary);
 		//this.effectParent = effectParent;
 		this.worldEffectParent = worldEffectParent;
-	}
-
-	private void Start()
-	{
-		effectDatas.GetDictionary(out effectDictionary);
 	}
 
 	// 추적 설정한 데이터를 찾아옴
@@ -63,6 +66,19 @@ public class EffectManager : Singleton<EffectManager>
 		return effectDatas[index];
 	}
 
+	private ObjectAddressablePoolManager<Transform> GetObjectPoolManager(int index, EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster, int listIndex = 0)
+	{
+		Dictionary<EffectTarget, List<EffectPoolingData>> tempDictionary;
+		List<EffectPoolingData> effectPools;
+
+		if (!effectPoolingDictionary.TryGetValue(activationTime, out tempDictionary)) { FDebug.LogWarning("[EffectManager] Failed to Get ObjectPoolManager. Because of <ActivationTime> Mismatch"); return null; }
+		if (!tempDictionary.TryGetValue(target, out effectPools)) { FDebug.LogWarning("[EffectManager] Failed to Get ObjectPoolManager. Because of <Traget> Mismatch"); return null; }
+
+		tempDictionary = null;
+
+		return effectPools[index].poolManagers[listIndex];
+	}
+
 	// 정상적인 키인지 체크
 	private bool CheckEffectKey(EffectKey key)
 	{
@@ -81,46 +97,54 @@ public class EffectManager : Singleton<EffectManager>
 	/// <param name="trackingTarget">계속 따라갈 대상(없으면 null)</param>
 	/// <param name="position">생성 위치</param>
 	/// <param name="rotation">회전 값</param>
+	/// <param name="localParent">생성될 이펙트의 부모. 기본적으로 Local이며, null은 World</param>
 	/// <param name="index">SO에서 같은 ActivationTime, Target일 경우의 Effect Index</param>
 	/// <param name="effectListIndex">EffectData에 담긴 Effect Index</param>
 	/// <returns>이펙트 데이터가 담긴 키 값 (readonly)</returns>
 	public EffectKey ActiveEffect(EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster, 
-		Vector3? position = null, quaternion? rotation = null,
+		Vector3? position = null, quaternion? rotation = null, GameObject localParent = null,
 		bool isLevel = false, Transform trackingTarget = null,
 		int index = 0, int effectListIndex = 0)
 	{
 		Vector3 pos = position ?? Vector3.zero;
 		quaternion rot = rotation ?? Quaternion.identity;
+		localParent = localParent == null ? worldEffectParent : localParent;
 		bool isTracking = trackingTarget != null;
 
 		EffectData effectData = GetEffectData(index, activationTime, target);
 
 		// addressable로 비동기 생성
-		var effectObject = effectData.effectList[effectListIndex].InstantiateAsync(pos, rot, effectParent.transform); //Instantiate(effectData.effectList[effectListIndex], pos, rot, effectParent.transform);
+		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
+		var poolManager = GetObjectPoolManager(index, activationTime, target, effectListIndex);
+		poolManager.SetManager(effectData.effectList[effectListIndex], localParent);
+		var obj = poolManager.ActiveObject(ref effectObject, position, rotation);
+		//var effectObject = effectData.effectList[effectListIndex].InstantiateAsync(pos, rot, localParent); //Instantiate(effectData.effectList[effectListIndex], pos, rot, effectParent.transform);
 		
 		// 키 생성
-		EffectKey key = new EffectKey(effectData.effectList[effectListIndex], isLevel, isTracking);
+		EffectKey key = new EffectKey(effectData, effectData.effectList[effectListIndex], isLevel, isTracking, poolManager);
 		
 		// 오브젝트 생성 완료 시 처리
-		effectObject.Completed += (AsyncOperationHandle<GameObject> obj) => 
+		//effectObject.Completed += (AsyncOperationHandle<GameObject> obj) => 
 			{
 				// 키에 오브젝트 할당
-				key.EffectObject = obj.Result;
+				//key.EffectObject = obj.Result;
+				key.EffectObject = obj.gameObject;
 
 				// 추적설정
 				if (isTracking)
 				{
-					RegisterTracking(obj.Result, trackingTarget, position, rotation);
+					//RegisterTracking(obj.Result, trackingTarget, position, rotation);
+					RegisterTracking(obj.gameObject, trackingTarget, position, rotation);
 				}
 
 				if(isLevel)
 				{
 					// 단계 세팅
-					EffectData effectData = GetEffectData(index, activationTime, target);
+					//EffectData effectData = GetEffectData(index, activationTime, target);
 					LevelEffect levelEffect;
 
 					// 만일 이미 존재하는 이펙트라면
-					if (levelEffectDictionary.TryGetValue(key, out levelEffect))
+					if (levelEffectDictionary.TryGetValue(effectData, out levelEffect))
 					{
 						levelEffect.currentLevel = effectListIndex;
 						levelEffect.effect = key.EffectObject;
@@ -130,7 +154,7 @@ public class EffectManager : Singleton<EffectManager>
 					else
 					{
 						levelEffect = new LevelEffect(0, effectData, key.EffectObject, index);
-						levelEffectDictionary.Add(key, levelEffect);
+						levelEffectDictionary.Add(effectData, levelEffect);
 					}
 				}
 			};
@@ -139,58 +163,63 @@ public class EffectManager : Singleton<EffectManager>
 	}
 
 	// 단계 기반 이펙트 단계 설정
-	public EffectKey SetEffectLevel(EffectKey currentKey, int level)
+	public void SetEffectLevel(ref EffectKey currentKey, int level)
 	{
-		if (!CheckEffectKey(currentKey)) { return null; }
-		if (!currentKey.isLevelEffect) { FDebug.LogWarning("[EffectManager] This key is not Level Effect Key"); return null; }
+		if (!CheckEffectKey(currentKey)) { return; }
+		if (level < 0) { FDebug.LogWarning("[EffectManager] This Level is too low. Please use a value greater than or equal to Zero"); return; }
+		if (!currentKey.isLevelEffect) { FDebug.LogWarning("[EffectManager] This key is not Level Effect Key"); return; }
 
 		// 데이터 Read
 		LevelEffect levelEffect;
-		if (!levelEffectDictionary.TryGetValue(currentKey, out levelEffect)) { FDebug.LogWarning("[EffectManager] This key is not valid."); return null; }
+		if (!levelEffectDictionary.TryGetValue(currentKey.effectData, out levelEffect)) { FDebug.LogWarning("[EffectManager] This key is not valid."); return; }
 
 		// RushLevelEffect 기반 값 정의
 		EffectData data = levelEffect.data;
 		int trackingNumber = FindTrackingData(levelEffect.effect);
 		bool isTrace = trackingNumber >= 0;
 		Transform traceTarget = isTrace ? trackingEffects[trackingNumber].target : null;
-		EffectKey nextEffect;
 
 		// 새 단계 이펙트 생성
 		FDebug.Log($"data : {data}, levelEffect : {levelEffect}");
 		FDebug.Log($"level : {levelEffect.currentLevel}, data : {levelEffect.data}, effect : {levelEffect.effect}, level : {levelEffect.index}");
-		nextEffect = ActiveEffect(data.effectType, data.effectTarget, levelEffect.effect.transform.position, levelEffect.effect.transform.rotation, true, traceTarget, levelEffect.index, level);
+		var newKey = ActiveEffect(data.effectType, data.effectTarget, 
+			levelEffect.effect.transform.position, levelEffect.effect.transform.rotation, levelEffect.effect.transform.parent.gameObject,
+			true, traceTarget, levelEffect.index, level);
 
 		// 이펙트 제거 및 단계 변경
-		RemoveEffect(levelEffect.effect, trackingNumber);
+		RemoveEffect(currentKey, trackingNumber);
 		levelEffect.currentLevel = level;
-		levelEffect.effect = nextEffect.EffectObject;
-
-		return nextEffect;
+		levelEffect.effect = currentKey.EffectObject;
+		currentKey = newKey;
 	}
 
-	// 이펙트 제거
-	private void RemoveEffect(GameObject effect, int? trackingNumber = null)
+	public void RemoveEffect(EffectKey key, int? trackingNumber = null, bool isUnleveling = false)
 	{
-		int num = trackingNumber ?? FindTrackingData(effect);
+		if (key == null) { return; }
+
+		LevelEffect obj;
+
+		// Tracking 해제
+		int num = trackingNumber ?? FindTrackingData(key.EffectObject);
 		if (num >= 0)
 		{
 			trackingEffects.RemoveAt(num);
 		}
 
-		Destroy(effect);
+		// Leveling 해제
+		if (levelEffectDictionary.TryGetValue(key.effectData, out obj))
+		{
+			if(isUnleveling)
+			{
+				levelEffectDictionary.Remove(key.effectData);
+			}
+		}
+
+		// Deactive
+		key.poolManager.DeactiveObject(key.EffectObject.transform);
 	}
 
-	public void RemoveEffectByKey(EffectKey key, int? trackingNumber = null)
-	{
-		LevelEffect obj;
-		if (key == null) { return; }
-		if (!levelEffectDictionary.TryGetValue(key, out obj)) { FDebug.LogWarning("[EffectManager] This key is not Invalid"); return; }
-
-		
-		RemoveEffect(obj.effect, trackingNumber);
-	}
-
-	private void LateUpdate()
+	public void LateUpdate()
 	{
 		if (trackingEffects.Count <= 0) { return; }
 
@@ -218,6 +247,4 @@ public class EffectManager : Singleton<EffectManager>
 			trackingEffects.Remove(data);
 		}
 	}
-
-	
 }

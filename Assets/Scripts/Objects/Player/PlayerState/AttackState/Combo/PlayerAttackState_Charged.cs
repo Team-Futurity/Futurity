@@ -280,13 +280,13 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				{
 					if(currentLevel == 1)
 					{
-						chargeEffectKey = unit.effectManager.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Caster, unit.rushEffects[0].effectPos.position, null, true);
+						chargeEffectKey = unit.effectManager.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Caster, unit.rushEffects[0].effectPos.position, null, unit.gameObject, true);
 						//rangeEffect = unit.effectManager.ActiveEffect(EffectType.Ready, EffectTarget.Ground, null, unit.transform.position, unit.transform.rotation);
 						//maxRangeEffectScale = new Vector3(rangeEffect.transform.localScale.x, rangeEffect.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + (MaxLevel - 1) * LengthMarkIncreasing) * PlayerController.cm2m);
 					}
 					else
 					{
-						chargeEffectKey = unit.effectManager.SetEffectLevel(chargeEffectKey, currentLevel - 1);
+						unit.effectManager.SetEffectLevel(ref chargeEffectKey, currentLevel - 1);
 					}
 
 					unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
@@ -317,7 +317,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				// 돌진 이펙트는 1단계 이상에서만 실행
 
 				// Remove Charge Effect
-				unit.effectManager.RemoveEffectByKey(chargeEffectKey);
+				unit.effectManager.RemoveEffect(chargeEffectKey, null, true);
 				//unit.rushEffectManager.RemoveEffect(rangeEffect);
 
 				// Active Move Effects

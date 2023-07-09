@@ -36,4 +36,12 @@ public class EMManager : Singleton<EMManager>
 		// ¹ÝÈ¯
 		return em;
 	}
+
+	private void LateUpdate()
+	{
+		foreach(var data in emDictionary.Values)
+		{
+			data.LateUpdate();
+		}
+	}
 }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Rendering.Universal.Internal;
 using static PlayerController;
 
 /*public enum EffectType
@@ -34,6 +36,11 @@ public class EffectData
 	public EffectActivationTime effectType;
 	public EffectTarget effectTarget;
 	public List<AssetReference> effectList;
+}
+
+public class EffectPoolingData
+{
+	public List<ObjectAddressablePoolManager<Transform>> poolManagers = new List<ObjectAddressablePoolManager<Transform>>();
 }
 
 public class LevelEffect
@@ -70,7 +77,8 @@ public class TrackingEffectData
 
 public class EffectKey
 {
-	public readonly AssetReference effectData;
+	public readonly EffectData effectData;
+	public readonly AssetReference effectReference;
 	private GameObject effectObject;
 	public GameObject EffectObject
 	{
@@ -81,12 +89,20 @@ public class EffectKey
 	public readonly bool isLevelEffect;
 	public readonly bool isTrackingEffect;
 	public bool isAssigned;
+	public readonly ObjectAddressablePoolManager<Transform> poolManager;
 
-	public EffectKey(AssetReference effectRef, bool isLevel, bool isTracking)
+	public EffectKey(EffectData data, AssetReference effectRef, bool isLevel, bool isTracking, ObjectAddressablePoolManager<Transform> poolManager)
 	{
-		effectData = effectRef;
+		effectData = data;
+		effectReference = effectRef;
 		isLevelEffect = isLevel;
 		isTrackingEffect = isTracking;
 		isAssigned = false;
+		this.poolManager = poolManager;
 	}
+}
+
+public class LevelEffectKey
+{
+	public List<EffectKey> levelEffectKeys;
 }
