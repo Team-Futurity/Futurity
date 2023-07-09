@@ -3,8 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
-public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass : Component
+public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolParent where PoolingClass : Component
 {
     private List<PoolingClass> activedPoolingObjects = new List<PoolingClass>();
 	private Stack<PoolingClass> nonActivedObjects =  new Stack<PoolingClass>();
@@ -13,21 +16,21 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
 
     [SerializeField] private int activeObjCount;
 
-    public ObjectPoolManager(GameObject prefab, GameObject parent = null)
+    public ObjectAddressablePoolManager(AssetReference prefab, GameObject parent = null)
     {
         this.prefab = prefab;
         this.parent = parent;
         activeObjCount = 0;
     }
 
-	public void SetManager(GameObject prefab, GameObject parent = null)
+	public void SetManager(AssetReference prefab, GameObject parent = null)
 	{
 		this.prefab = prefab;
 		this.parent = parent;
 		activeObjCount = 0;
 	}
 
-    public PoolingClass ActiveObject(Vector3? startPos = null, Quaternion? startRot = null)
+    public PoolingClass ActiveObject(ref AsyncOperationHandle<GameObject> effectObject, Vector3? startPos = null, Quaternion? startRot = null)
     {
 		PoolingClass returnValue = null;
 		startPos = startPos ?? Vector3.zero;
@@ -58,26 +61,43 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
                 obj.gameObject.SetActive(true);
 				returnValue = obj;
             }
-        }
+		}
         else
         {
-            // 새 오브젝트 생성
-            GameObject newObj = GameObject.Instantiate(prefab, parent == null ? null : parent.transform);
+			// 새 오브젝트 생성
+			effectObject = prefab.InstantiateAsync(parent == null ? null : parent.transform);// GameObject.Instantiate(prefab, parent == null ? null : parent.transform);
 
-            PoolingObject poolObj;
-            newObj.TryGetComponent(out poolObj);
+			/*newObj.Completed +=
+				(AsyncOperationHandle<GameObject> handle) =>
+				{
+					
 
-            // PoolingObject일 경우
-            if (poolObj != null)
-            {
-                // 에러 체크로 오류가 아마 발생 안할 듯?
-                dynamic poolManager = this;
+					// 성공시 활성화된 오브젝트 플러스
+					if (returnValue != null)
+					{
+						activeObjCount++;
+						returnValue.gameObject.transform.position = (Vector3)startPos;
+						returnValue.gameObject.transform.rotation = (Quaternion)startRot;
+						activedPoolingObjects.Add(returnValue);
+					}
+				};*/
+			effectObject.WaitForCompletion();
 
-                poolObj.Initialize(poolManager);
-                poolObj.ActiveObj();
-            }
-            returnValue = newObj.GetComponent<PoolingClass>();
-        }
+			PoolingObject poolObj;
+			GameObject obj = effectObject.Result;
+			obj.TryGetComponent(out poolObj);
+
+			// PoolingObject일 경우
+			if (poolObj != null)
+			{
+				// 에러 체크로 오류가 아마 발생 안할 듯?
+				dynamic poolManager = this;
+
+				poolObj.Initialize(poolManager);
+				poolObj.ActiveObj();
+			}
+			returnValue = obj.GetComponent<PoolingClass>();
+		}
         
         // 성공시 활성화된 오브젝트 플러스
         if(returnValue != null)
@@ -87,6 +107,7 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
 			returnValue.gameObject.transform.rotation = (Quaternion)startRot;
 			activedPoolingObjects.Add(returnValue);
 		}
+
         return returnValue;
     }
 
