@@ -8,12 +8,13 @@ using Unity.VisualScripting;
 
 
 //#설명#	해당 스크립트는 UIWindow가 가지고 있는 핵심 스크립트로, UIWindow의 전반적인 행동 양식을 지니고 있습니다.
+
 public class WindowController : MonoBehaviour
 {
 	[Header ("Window라면 무조건 가지고 있어야할 필수 관리자")]
 	[Space (15)]
 
-	[SerializeField] 
+	[SerializeField]
 	private RectTransform rectTransform;
 	[SerializeField]
 	public UnityEvent[] windowEvents = new UnityEvent[8];

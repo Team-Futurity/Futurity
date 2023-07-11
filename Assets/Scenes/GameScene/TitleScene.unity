@@ -704,9 +704,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 322923537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b344a858402e0d44bf273c6d03aa226, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e469dd1aa8af53458ec766ec60c8ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <activeEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 322923539}
+        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
+        m_MethodName: WindowDeactiveOpen
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &369693654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,6 +1272,7 @@ GameObject:
   - component: {fileID: 853552960}
   - component: {fileID: 853552959}
   - component: {fileID: 853552961}
+  - component: {fileID: 853552963}
   - component: {fileID: 853552962}
   m_Layer: 5
   m_Name: StartButton
@@ -1376,11 +1392,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 853552957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ae6968a5922c9844b8e7a5e0bd1b483, type: 3}
+  m_Script: {fileID: 11500000, guid: 1039962f0ea2abf41b7744939e8a7e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <sceneData>k__BackingField: {fileID: 11400000, guid: 1f7d5cc28a1ab3c40bdf8829a6482856, type: 2}
   <loadingType>k__BackingField: 0
+--- !u!114 &853552963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853552957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e469dd1aa8af53458ec766ec60c8ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <activeEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 853552962}
+        m_TargetAssemblyTypeName: SceneDataInfo, Assembly-CSharp
+        m_MethodName: SceneChanger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1039621616
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,6 +1815,7 @@ GameObject:
   - component: {fileID: 1225286481}
   - component: {fileID: 1225286478}
   - component: {fileID: 1225286479}
+  - component: {fileID: 1225286484}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -1938,6 +1982,33 @@ RectTransform:
   m_AnchoredPosition: {x: 906, y: -494}
   m_SizeDelta: {x: 37.0441, y: 44.5688}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1225286484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225286477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e469dd1aa8af53458ec766ec60c8ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <activeEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1225286479}
+        m_TargetAssemblyTypeName: WindowOpenController, Assembly-CSharp
+        m_MethodName: WindowDeactiveOpen
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1456501046
 GameObject:
   m_ObjectHideFlags: 0

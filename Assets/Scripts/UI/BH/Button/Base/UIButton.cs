@@ -1,8 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class UIButton : MonoBehaviour
+public class UIButton : MonoBehaviour
 {
-	public abstract void Action();
+	[field:SerializeField] public UnityEvent activeEvent { get; private set; }
+
+	public void Action()
+	{
+		activeEvent?.Invoke();
+	}
 }
