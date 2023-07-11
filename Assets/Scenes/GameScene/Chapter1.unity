@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 25693233}
   - component: {fileID: 25693232}
   m_Layer: 5
-  m_Name: HealthCanvas
+  m_Name: HealthEffectCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2904,7 +2904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStartOpen: 0
-  activeEffect: {fileID: 1898593409}
+  activeEffect: {fileID: 0}
   canvas: {fileID: 1124304065}
   characterWindow: {fileID: 7156069533624209710, guid: 94af0b19dff72144b83e807bb2e9f5e3, type: 3}
   texts:
@@ -8311,7 +8311,7 @@ PrefabInstance:
     - target: {fileID: 1148182273100862127, guid: fc6c7f1b57e946e42bd8287e4b38583b, type: 3}
       propertyPath: activeEffect
       value: 
-      objectReference: {fileID: 1898593409}
+      objectReference: {fileID: 0}
     - target: {fileID: 1148182273100862127, guid: fc6c7f1b57e946e42bd8287e4b38583b, type: 3}
       propertyPath: texts.Array.data[0]
       value: "\uC557, \uBC29\uD654\uBCBD\uC774!"
@@ -12896,7 +12896,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 280084176244655351, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_Name
-      value: InGameUIWindow
+      value: InGameUI_Window
+      objectReference: {fileID: 0}
+    - target: {fileID: 280084176244655351, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 463736354869077699, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -12998,6 +13002,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3415207402381797137, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552830962852305152, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321302770039057668, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856214994225203612, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_Name
+      value: PlayerStatusGauge
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856214994225203612, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7458285297156149272, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13014,6 +13038,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7674066225742615143, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8960537147448380780, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13030,7 +13058,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4467906768959609520, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f7a373bbc5662a74390221233b49a71f, type: 3}
 --- !u!1 &1304001792
 GameObject:
@@ -18266,11 +18295,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898563100}
   m_Mesh: {fileID: 0}
---- !u!1 &1898593409 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3110242956735727320, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
-  m_PrefabInstance: {fileID: 490917121}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1908838666
 GameObject:
   m_ObjectHideFlags: 0

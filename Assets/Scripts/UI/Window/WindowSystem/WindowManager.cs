@@ -276,7 +276,6 @@ public class WindowManager : Singleton<WindowManager>
 		selectAction.action.started += _ => StartHold();
 		selectAction.action.canceled += _ => EndHold();
 		
-
 		this.leftAction = leftAction;
 		this.rightAction = rightAction;
 		this.selectAction = selectAction;
@@ -347,8 +346,9 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		if (buttons.Count != 0)
 		{
-			Button currentButton = buttons[currentButtonIndex];
-			ExecuteEvents.Execute(currentButton.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+			var currentButton = buttons[currentButtonIndex].GetComponent<UIButton>();
+			
+			currentButton.Action();
 		} else
 		{
 			FDebug.Log($"할당된 버튼이 없습니다. buttons.Count : {buttons.Count}");
@@ -407,7 +407,6 @@ public class WindowManager : Singleton<WindowManager>
 		while (true) {
 			yield return true;
 			holdTime += Time.deltaTime;
-			Debug.Log($"{currentButton.name}가 {holdTime}동안 hold 되었습니다.");
 
 			if (holdTime >= holdThreshold) // 임계값을 넘어갔다면,
 			{
