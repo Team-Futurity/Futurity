@@ -27,32 +27,7 @@ public class EffectManager
 		this.worldEffectParent = worldEffectParent;
 	}
 
-	// 추적 설정한 데이터를 찾아옴
-	private int FindTrackingData(GameObject effect)
-	{
-		for (int effectCount = 0; effectCount < trackingEffects.Count; effectCount++)
-		{
-			if (trackingEffects[effectCount].effect == effect)
-			{
-				return effectCount;
-			}
-		}
-
-		return -1;
-	}
-
-	// 추적 설정
-	private void RegisterTracking(EffectKey effect, Transform target, Vector3? inputPosition = null, Quaternion? inputRotation = null)
-	{
-		if (!CheckEffectKey(effect)) { return; }
-
-		Vector3 marginPos = inputPosition == null ? Vector3.zero : inputPosition.Value - target.position;
-		Quaternion rot = new Quaternion();
-		rot.eulerAngles = inputRotation == null ? Vector3.zero : inputRotation.Value.eulerAngles - target.rotation.eulerAngles;
-
-		trackingEffects.Add(new TrackingEffectData(effect.EffectObject, target, marginPos, rot));
-	}
-
+	#region GetDatas
 	// 알맞은 EffectData를 반환
 	private EffectData GetEffectData(int index, EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster)
 	{
@@ -79,6 +54,7 @@ public class EffectManager
 
 		return effectPools[index].poolManagers[listIndex];
 	}
+	#endregion
 
 	// 정상적인 키인지 체크
 	private bool CheckEffectKey(EffectKey key)
@@ -104,13 +80,11 @@ public class EffectManager
 	/// <returns>이펙트 데이터가 담긴 키 값 (readonly)</returns>
 	public EffectKey ActiveEffect(EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster, 
 		Vector3? position = null, quaternion? rotation = null, GameObject localParent = null,
-		Transform trackingTarget = null, 
 		int index = 0, int effectListIndex = 0)
 	{
 		Vector3 pos = position ?? Vector3.zero;
 		quaternion rot = rotation ?? Quaternion.identity;
 		localParent = localParent == null ? worldEffectParent : localParent;
-		bool isTracking = trackingTarget != null;
 
 		EffectData effectData = GetEffectData(index, activationTime, target);
 
@@ -122,25 +96,42 @@ public class EffectManager
 		
 		// 키 생성
 		EffectKey key = new EffectKey(effectObject, effectData, effectData.effectList[effectListIndex], poolManager, pos, rot, index);
-		
-		// 오브젝트 생성 완료 시 처리
-		//effectObject.Completed += (AsyncOperationHandle<GameObject> obj) => 
-			{
-				// 키에 오브젝트 할당
-				//key.EffectObject = obj.Result;
-				key.EffectObject = obj.gameObject;
-
-				// 추적설정
-				if (isTracking)
-				{
-					//RegisterTracking(obj.Result, trackingTarget, position, rotation);
-					RegisterTracking(key, trackingTarget, position, rotation);
-				}
-			};
+		key.EffectObject = obj.gameObject;
 
 		return key;
 	}
 
+	#region Tracking
+	// 추적 설정한 데이터를 찾아옴
+	private int FindTrackingData(GameObject effect)
+	{
+		for (int effectCount = 0; effectCount < trackingEffects.Count; effectCount++)
+		{
+			if (trackingEffects[effectCount].effect == effect)
+			{
+				return effectCount;
+			}
+		}
+
+		return -1;
+	}
+
+	// 추적 설정
+	public void RegisterTracking(EffectKey key, Transform target)
+	{
+		if (!CheckEffectKey(key)) { return; }
+
+		Vector3 marginPos = key.position == null ? Vector3.zero : key.position - target.position;
+		Quaternion rot = new Quaternion();
+		rot.eulerAngles = key.rotation == null ? Vector3.zero : key.rotation.eulerAngles - target.rotation.eulerAngles;
+
+		trackingEffects.Add(new TrackingEffectData(key.EffectObject, target, marginPos, rot));
+
+		key.SetTrackingEffect(true);
+	}
+	#endregion
+
+	#region Level
 	public void RegistLevelEffect(EffectKey key, int level = 0)
 	{
 		if (!CheckEffectKey(key)) { return; }
@@ -196,6 +187,7 @@ public class EffectManager
 		newKey.SetLevelEffect(true);
 		currentKey = newKey;
 	}
+	#endregion
 
 	public void RemoveEffect(EffectKey key, int? trackingNumber = null, bool isUnleveling = false)
 	{
