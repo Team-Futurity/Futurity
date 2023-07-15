@@ -177,7 +177,10 @@ public class EffectManager
 		// 새 단계 이펙트 생성
 		var newKey = ActiveEffect(data.effectType, data.effectTarget, 
 			levelEffect.effect.transform.position, levelEffect.effect.transform.rotation, levelEffect.effect.transform.parent.gameObject,
-			traceTarget, levelEffect.index, level);
+			levelEffect.index, level);
+
+		// 추적 설정 초기화
+		if (isTrace) { RegisterTracking(newKey, traceTarget); }
 
 		// 이펙트 제거 및 단계 변경
 		RemoveEffect(currentKey, trackingNumber);
