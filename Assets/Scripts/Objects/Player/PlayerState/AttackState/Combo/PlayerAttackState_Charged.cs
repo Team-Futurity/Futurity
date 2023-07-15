@@ -157,7 +157,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				/*unit.rushObjectPool = new ObjectPoolManager<Transform>(unit.rushEffects[5].effect);
 				curEffect = unit.rushObjectPool.ActiveObject(point.point);*/
-				unit.effectManager.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Target, hit.point, Quaternion.LookRotation(hit.normal), null, null, false, 1);
+				unit.effectManager.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Target, hit.point, Quaternion.LookRotation(hit.normal), null, null, 1);
 				unit.effectManager.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Caster, unit.rushEffects[0].effectPos.position, Quaternion.LookRotation(hit.normal), unit.gameObject);
 				
 				CollisionToWallProc(unit);
@@ -280,7 +280,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				{
 					if(currentLevel == 1)
 					{
-						chargeEffectKey = unit.effectManager.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Caster, unit.rushEffects[0].effectPos.position, null, unit.gameObject, null, true);
+						chargeEffectKey = unit.effectManager.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Caster, unit.rushEffects[0].effectPos.position, null, unit.gameObject, null);
+						unit.effectManager.RegistLevelEffect(chargeEffectKey);
 						rangeEffect = unit.effectManager.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Ground, unit.transform.position, unit.transform.rotation);
 						maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + (MaxLevel - 1) * LengthMarkIncreasing) * PlayerController.cm2m);
 					}
@@ -363,7 +364,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 	private void RemoveEffect(PlayerController unit, EffectKey effect)
 	{
-		if(effect != null)
+		// key가 있고 오브젝트가 활성화되어 있다면
+		if(effect != null && effect.EffectObject.activeSelf)
 		{
 			unit.effectManager.RemoveEffect(effect);
 		}
@@ -377,7 +379,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		if(currentLevel > 0)
 		{
-			unit.effectManager.RemoveEffect(chargeEffectKey);
+			RemoveEffect(unit, chargeEffectKey);
 		}
 	}
 
@@ -414,7 +416,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public void EnemyLanding()
 	{
 		// 이팩트 출력
-		pc.effectManager.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Ground, groundPos, null, null, null, false, 0, currentLevel - 1);
+		pc.effectManager.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Ground, groundPos, null, null, null, 0, currentLevel - 1);
 
 		// 포지션 정상화
 		firstEnemy.transform.position = groundPos;

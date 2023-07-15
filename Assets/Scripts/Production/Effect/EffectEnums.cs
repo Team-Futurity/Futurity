@@ -1,16 +1,9 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.EditorTools;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Rendering.Universal.Internal;
-using static PlayerController;
-
-/*public enum EffectType
-{
-	None,
-	Attack
-}*/
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public enum EffectActivationTime
 {
@@ -77,29 +70,45 @@ public class TrackingEffectData
 
 public class EffectKey
 {
+	public readonly AsyncOperationHandle<GameObject> handle;
 	public readonly EffectData effectData;
 	public readonly AssetReference effectReference;
-	private GameObject effectObject;
 	public GameObject EffectObject
 	{
 		get { return effectObject; }
 		// 해당 오브젝트는 비동기로 생성되므로, 생성 이후 수정을 막기 위한 코드.
 		set { effectObject = isAssigned ? effectObject : value; } 
 	}
-	public readonly bool isLevelEffect;
-	public readonly bool isTrackingEffect;
 	public bool isAssigned;
 	public readonly ObjectAddressablePoolManager<Transform> poolManager;
+	public readonly Vector3 position;
+	public readonly Quaternion rotation;
+	public readonly int index;
 
-	public EffectKey(EffectData data, AssetReference effectRef, bool isLevel, bool isTracking, ObjectAddressablePoolManager<Transform> poolManager)
+	private GameObject effectObject;
+	private bool isLevelEffect;
+	private bool isTrackingEffect;
+
+	public EffectKey(AsyncOperationHandle<GameObject> handle, EffectData data, AssetReference effectRef, ObjectAddressablePoolManager<Transform> poolManager, Vector3 pos, Quaternion rot, int index)
 	{
 		effectData = data;
 		effectReference = effectRef;
-		isLevelEffect = isLevel;
-		isTrackingEffect = isTracking;
-		isAssigned = false;
+		isLevelEffect = false;
+		position = pos;
+		rotation = rot;
+
 		this.poolManager = poolManager;
+		this.handle = handle;
+		this.index = index;
+
+		isTrackingEffect = false;
+		isAssigned = false;
 	}
+
+	public bool IsLevelEffect() => isLevelEffect;
+	public bool IsTrackingEffect() => isTrackingEffect;
+	public bool SetLevelEffect(bool isLevel) => isLevelEffect = isLevel;
+	public bool SetTrackingEffect(bool isTrack) => isTrackingEffect = isTrack;
 }
 
 public class LevelEffectKey

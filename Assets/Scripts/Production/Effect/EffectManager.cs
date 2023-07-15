@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
-using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static EnemyEffectManager;
-using static UnityEngine.GraphicsBuffer;
+using static PlayerController;
 
 public class EffectManager
 {
@@ -43,13 +42,15 @@ public class EffectManager
 	}
 
 	// 추적 설정
-	private void RegisterTracking(GameObject effect, Transform target, Vector3? inputPosition = null, Quaternion? inputRotation = null)
+	private void RegisterTracking(EffectKey effect, Transform target, Vector3? inputPosition = null, Quaternion? inputRotation = null)
 	{
+		if (!CheckEffectKey(effect)) { return; }
+
 		Vector3 marginPos = inputPosition == null ? Vector3.zero : inputPosition.Value - target.position;
 		Quaternion rot = new Quaternion();
 		rot.eulerAngles = inputRotation == null ? Vector3.zero : inputRotation.Value.eulerAngles - target.rotation.eulerAngles;
 
-		trackingEffects.Add(new TrackingEffectData(effect, target, marginPos, rot));
+		trackingEffects.Add(new TrackingEffectData(effect.EffectObject, target, marginPos, rot));
 	}
 
 	// 알맞은 EffectData를 반환
@@ -103,7 +104,7 @@ public class EffectManager
 	/// <returns>이펙트 데이터가 담긴 키 값 (readonly)</returns>
 	public EffectKey ActiveEffect(EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster, 
 		Vector3? position = null, quaternion? rotation = null, GameObject localParent = null,
-		Transform trackingTarget = null, bool isLevel = false, 
+		Transform trackingTarget = null, 
 		int index = 0, int effectListIndex = 0)
 	{
 		Vector3 pos = position ?? Vector3.zero;
@@ -117,11 +118,10 @@ public class EffectManager
 		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
 		var poolManager = GetObjectPoolManager(index, activationTime, target, effectListIndex);
 		poolManager.SetManager(effectData.effectList[effectListIndex], localParent);
-		var obj = poolManager.ActiveObject(ref effectObject, position, rotation);
-		//var effectObject = effectData.effectList[effectListIndex].InstantiateAsync(pos, rot, localParent); //Instantiate(effectData.effectList[effectListIndex], pos, rot, effectParent.transform);
+		var obj = poolManager.ActiveObject(ref effectObject, pos, rot);
 		
 		// 키 생성
-		EffectKey key = new EffectKey(effectData, effectData.effectList[effectListIndex], isLevel, isTracking, poolManager);
+		EffectKey key = new EffectKey(effectObject, effectData, effectData.effectList[effectListIndex], poolManager, pos, rot, index);
 		
 		// 오브젝트 생성 완료 시 처리
 		//effectObject.Completed += (AsyncOperationHandle<GameObject> obj) => 
@@ -134,32 +134,36 @@ public class EffectManager
 				if (isTracking)
 				{
 					//RegisterTracking(obj.Result, trackingTarget, position, rotation);
-					RegisterTracking(obj.gameObject, trackingTarget, position, rotation);
-				}
-
-				if(isLevel)
-				{
-					// 단계 세팅
-					//EffectData effectData = GetEffectData(index, activationTime, target);
-					LevelEffect levelEffect;
-
-					// 만일 이미 존재하는 이펙트라면
-					if (levelEffectDictionary.TryGetValue(effectData, out levelEffect))
-					{
-						levelEffect.currentLevel = effectListIndex;
-						levelEffect.effect = key.EffectObject;
-						levelEffect.data = effectData;
-						levelEffect.index = index;
-					}
-					else
-					{
-						levelEffect = new LevelEffect(0, effectData, key.EffectObject, index);
-						levelEffectDictionary.Add(effectData, levelEffect);
-					}
+					RegisterTracking(key, trackingTarget, position, rotation);
 				}
 			};
 
 		return key;
+	}
+
+	public void RegistLevelEffect(EffectKey key, int level = 0)
+	{
+		if (!CheckEffectKey(key)) { return; }
+		if (level < 0) { FDebug.LogWarning("[EffectManager] This Level is too low. Please use a value greater than or equal to Zero"); return; }
+		if (key.IsLevelEffect()) { FDebug.LogWarning("[EffectManager] This key is \"Aleady\" Level Effect Key"); return; }
+
+		// 단계 세팅
+		LevelEffect levelEffect;
+
+		// 만일 이미 존재하는 이펙트라면
+		if (levelEffectDictionary.TryGetValue(key.effectData, out levelEffect))
+		{
+			levelEffect.currentLevel = level;
+			levelEffect.effect = key.EffectObject;
+			levelEffect.data = key.effectData;
+		}
+		else
+		{
+			levelEffect = new LevelEffect(0, key.effectData, key.EffectObject, key.index);
+			levelEffectDictionary.Add(key.effectData, levelEffect);
+		}
+
+		key.SetLevelEffect(true);
 	}
 
 	// 단계 기반 이펙트 단계 설정
@@ -167,29 +171,29 @@ public class EffectManager
 	{
 		if (!CheckEffectKey(currentKey)) { return; }
 		if (level < 0) { FDebug.LogWarning("[EffectManager] This Level is too low. Please use a value greater than or equal to Zero"); return; }
-		if (!currentKey.isLevelEffect) { FDebug.LogWarning("[EffectManager] This key is not Level Effect Key"); return; }
+		if (!currentKey.IsLevelEffect()) { FDebug.LogWarning("[EffectManager] This key is not Level Effect Key"); return; }
 
 		// 데이터 Read
 		LevelEffect levelEffect;
 		if (!levelEffectDictionary.TryGetValue(currentKey.effectData, out levelEffect)) { FDebug.LogWarning("[EffectManager] This key is not valid."); return; }
 
-		// RushLevelEffect 기반 값 정의
+		// LevelEffect 기반 값 정의
 		EffectData data = levelEffect.data;
 		int trackingNumber = FindTrackingData(levelEffect.effect);
 		bool isTrace = trackingNumber >= 0;
 		Transform traceTarget = isTrace ? trackingEffects[trackingNumber].target : null;
 
 		// 새 단계 이펙트 생성
-		FDebug.Log($"data : {data}, levelEffect : {levelEffect}");
-		FDebug.Log($"level : {levelEffect.currentLevel}, data : {levelEffect.data}, effect : {levelEffect.effect}, level : {levelEffect.index}");
 		var newKey = ActiveEffect(data.effectType, data.effectTarget, 
 			levelEffect.effect.transform.position, levelEffect.effect.transform.rotation, levelEffect.effect.transform.parent.gameObject,
-			traceTarget, true, levelEffect.index, level);
+			traceTarget, levelEffect.index, level);
 
 		// 이펙트 제거 및 단계 변경
 		RemoveEffect(currentKey, trackingNumber);
 		levelEffect.currentLevel = level;
 		levelEffect.effect = currentKey.EffectObject;
+		levelEffect.data = data;
+		newKey.SetLevelEffect(true);
 		currentKey = newKey;
 	}
 
