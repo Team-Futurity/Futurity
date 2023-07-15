@@ -6166,7 +6166,6 @@ GameObject:
   - component: {fileID: 1070719927369175188}
   - component: {fileID: 1070719927369175189}
   - component: {fileID: 1070719927369175194}
-  - component: {fileID: 926590480872082409}
   - component: {fileID: 1921549231}
   - component: {fileID: 4272038019141093718}
   - component: {fileID: 484117206}
@@ -6606,7 +6605,7 @@ MonoBehaviour:
   attackCollider: {fileID: 4068547685948332288}
   autoTargetCollider: {fileID: 625353277}
   basicCollider: {fileID: 1070719927369175189}
-  rushEffectManager: {fileID: 926590480872082409}
+  effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
   buffProvider: {fileID: 1921549231}
   rmController: {fileID: 484117206}
   playerAnimationEvents: {fileID: 507041425030904175}
@@ -6745,11 +6744,11 @@ MonoBehaviour:
   maxComboGauge: 100
   comboData:
   - <ComboCount>k__BackingField: 0
-    <AddedGauge>k__BackingField: 21
+    <AddedGauge>k__BackingField: 7
   - <ComboCount>k__BackingField: 1
-    <AddedGauge>k__BackingField: 12
+    <AddedGauge>k__BackingField: 4
   - <ComboCount>k__BackingField: 2
-    <AddedGauge>k__BackingField: 6
+    <AddedGauge>k__BackingField: 2
   gaugeBar: {fileID: 0}
   OnGaugeChanged:
     m_PersistentCalls:
@@ -6978,21 +6977,6 @@ MonoBehaviour:
   OnAttack:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &926590480872082409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33db36c7b6cb34141be8551874420422, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rushEffectData: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
-  rushEffectParent: {fileID: 490048779824429130}
-  worldRushEffectParent: {fileID: 0}
 --- !u!114 &1921549231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7039,7 +7023,7 @@ MonoBehaviour:
   - animationName: Idle
     isRootMotion: 1
   - animationName: Move
-    isRootMotion: 1
+    isRootMotion: 0
   - animationName: Hit
     isRootMotion: 1
   - animationName: Attack
