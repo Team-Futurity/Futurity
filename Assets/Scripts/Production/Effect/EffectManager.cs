@@ -103,7 +103,7 @@ public class EffectManager
 	/// <returns>이펙트 데이터가 담긴 키 값 (readonly)</returns>
 	public EffectKey ActiveEffect(EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster, 
 		Vector3? position = null, quaternion? rotation = null, GameObject localParent = null,
-		bool isLevel = false, Transform trackingTarget = null,
+		Transform trackingTarget = null, bool isLevel = false, 
 		int index = 0, int effectListIndex = 0)
 	{
 		Vector3 pos = position ?? Vector3.zero;
@@ -184,7 +184,7 @@ public class EffectManager
 		FDebug.Log($"level : {levelEffect.currentLevel}, data : {levelEffect.data}, effect : {levelEffect.effect}, level : {levelEffect.index}");
 		var newKey = ActiveEffect(data.effectType, data.effectTarget, 
 			levelEffect.effect.transform.position, levelEffect.effect.transform.rotation, levelEffect.effect.transform.parent.gameObject,
-			true, traceTarget, levelEffect.index, level);
+			traceTarget, true, levelEffect.index, level);
 
 		// 이펙트 제거 및 단계 변경
 		RemoveEffect(currentKey, trackingNumber);

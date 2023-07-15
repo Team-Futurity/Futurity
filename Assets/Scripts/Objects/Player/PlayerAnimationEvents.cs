@@ -35,10 +35,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 		//pc.rushEffectManager.ActiveEffect(effectType, EffectTarget, effectPos);
 	}
 
-	public void AllocateEffect(EffectActivationTime type, EffectTarget target, Transform effectPos)
+	public void AllocateEffect(EffectActivationTime activationTime, EffectTarget target, Transform effectPos)
 	{
 		this.effectPos = effectPos;
-		effectType = type;
+		effectType = activationTime;
 		EffectTarget = target;
 	}
 
