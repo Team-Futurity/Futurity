@@ -7,17 +7,16 @@ public class AreaWarpManager : Singleton<AreaWarpManager>
 {
 	private Transform targetPosition;
 	private GameObject useObject;
-
-	[SerializeField]
+	
 	/// <summary>
 	/// 페이드의 지연 시간을 설정합니다.
 	/// </summary>
-	private float fadeDelay = 0.5f;
-	[SerializeField]
+	[SerializeField] private float fadeDelay = 0.5f;
+	
 	/// <summary>
 	/// 워프 종료 후의 지연 시간을 설정합니다.
 	/// </summary>
-	private float warpEndDelay = 0.1f;
+	[SerializeField] private float warpEndDelay = 0.1f;
 	private WaitForSeconds waitForFadeDuration;
 
 	private void Start()

@@ -1,4 +1,3 @@
-using Spine;
 using Spine.Unity;
 using System.Collections;
 using System.Diagnostics;
@@ -6,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using Spine.Unity;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class StageEndPotalController : MonoBehaviour
 {
