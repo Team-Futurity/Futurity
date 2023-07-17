@@ -28,9 +28,6 @@ public class TutorialController : MonoBehaviour
 	private List<CharacterDialogWindowOpener> dialogWindowOpeners; // dialogWindowOpener 리스트입니다.
 
 	[SerializeField]
-	private StageEndPotalController warpPotalController;
-
-	[SerializeField]
 	private UnityEvent tutorialEndEvent; // 튜토리얼 마지막 단계를 지난 이후 출력하는 이벤트입니다.
 
 	[SerializeField]

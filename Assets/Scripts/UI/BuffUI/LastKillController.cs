@@ -33,8 +33,6 @@ public class LastKillController : MonoBehaviour
 	{
 		// 카메라 컴포넌트를 가져옵니다
 		cameraComponent = Camera.main.GetComponent<Camera>();
-
-		StageEndPotalManager.Instance.SetLastKillController(this);
 	}
 
 	// 이 메서드는 플레이어가 몬스터에게 마지막 타격을 입혔을 때 호출되어야 합니다
@@ -70,7 +68,6 @@ public class LastKillController : MonoBehaviour
 	{
 		yield return new WaitForSeconds(slowMotionTime);
 
-		PotalActive();
 		StopCoroutine(motionCoroutine);
 		cameraComponent.orthographicSize = normalCameraSize;
 		Time.timeScale = 1f;
@@ -86,9 +83,4 @@ public class LastKillController : MonoBehaviour
 		Time.timeScale = 1f;
 	}
 
-	public void PotalActive()
-	{
-		if (DeActivePotals.Count != 0)
-		DeActivePotals[0].GetComponent<StageEndPotalController>().isActiveStageEndPortal = true;
-	}
 }
