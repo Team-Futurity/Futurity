@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 7991068389407235129}
   - component: {fileID: 1981228215929801089}
   - component: {fileID: 8938575885125542276}
+  - component: {fileID: 8170446939015768555}
   m_Layer: 5
   m_Name: skill_ult_background
   m_TagString: Untagged
@@ -364,6 +365,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8170446939015768555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216666871066612986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemUIData: {fileID: 0}
 --- !u!1 &280084176244655351
 GameObject:
   m_ObjectHideFlags: 0
@@ -16090,8 +16104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemNum: 2
-  itemImage: {fileID: 7396672640136538074}
   itemUIData: {fileID: 0}
 --- !u!1 &3846000940453337917
 GameObject:
@@ -16297,8 +16309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemNum: 0
-  itemImage: {fileID: 5968371683768279845}
   itemUIData: {fileID: 0}
 --- !u!1 &4321302770039057668
 GameObject:
@@ -16309,7 +16319,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 741703395834111484}
-  - component: {fileID: 3302887982398206777}
+  - component: {fileID: 5554265331976910692}
   m_Layer: 5
   m_Name: SkillViewer
   m_TagString: Untagged
@@ -16341,7 +16351,7 @@ RectTransform:
   m_AnchoredPosition: {x: -229.8, y: 97.6}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
---- !u!114 &3302887982398206777
+--- !u!114 &5554265331976910692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16350,9 +16360,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4321302770039057668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55f9b09f77dc4784da222d9522c94e85, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d77d0d135059604bb0b08a0ccd6ecd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  socketControllers:
+  - {fileID: 8170446939015768555}
+  - {fileID: 7763123354922742361}
+  - {fileID: 5892741082154232286}
+  - {fileID: 84925635358374572}
 --- !u!1 &4353452502952533275
 GameObject:
   m_ObjectHideFlags: 0
@@ -16831,8 +16846,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemNum: 1
-  itemImage: {fileID: 368528008666149433}
   itemUIData: {fileID: 0}
 --- !u!1 &6738168687393890823
 GameObject:
