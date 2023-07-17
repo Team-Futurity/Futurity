@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class SocketController : MonoBehaviour
 {
 	private Image itemImage;
-
-	
-	[SerializeField] private ItemUIData itemUIData;
+	private ItemUIData itemUIData;
 
 	void Awake()
 	{
