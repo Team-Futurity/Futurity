@@ -4,14 +4,15 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UIElements;
 
 public class EffectController
 {
 	[SerializeField] private EffectDatas effectDatas;
 	//[SerializeField] private GameObject effectParent;
 	[SerializeField] private GameObject worldEffectParent;
-	private Dictionary<EffectActivationTime, Dictionary<EffectTarget, List<EffectData>>> effectDictionary;
-	private Dictionary<EffectActivationTime, Dictionary<EffectTarget, List<EffectPoolingData>>> effectPoolingDictionary = new Dictionary<EffectActivationTime, Dictionary<EffectTarget, List<EffectPoolingData>>>();
+	private Dictionary<(EffectActivationTime, EffectTarget), List<EffectData>> effectDictionary;
+	private Dictionary<(EffectActivationTime, EffectTarget), List<EffectPoolingData>> effectPoolingDictionary = new Dictionary<(EffectActivationTime, EffectTarget), List<EffectPoolingData>>();
 	private Dictionary<EffectData, LevelEffect> levelEffectDictionary = new Dictionary<EffectData, LevelEffect>();
 	private List<TrackingEffectData> trackingEffects = new List<TrackingEffectData>();
 
@@ -28,26 +29,18 @@ public class EffectController
 	// 알맞은 EffectData를 반환
 	private EffectData GetEffectData(int index, EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster)
 	{
-		Dictionary<EffectTarget, List<EffectData>> tempDictionary;
 		List<EffectData> effectDatas;
 
-		if (!effectDictionary.TryGetValue(activationTime, out tempDictionary)) { FDebug.LogWarning("[EffectManager] Failed to Get Effect. Because of <ActivationTime> Mismatch"); return null; }
-		if (!tempDictionary.TryGetValue(target, out effectDatas)) { FDebug.LogWarning("[EffectManager] Failed to Get Effect. Because of <Traget> Mismatch"); return null; }
-
-		tempDictionary = null;
+		if (!effectDictionary.TryGetValue((activationTime, target), out effectDatas)) { FDebug.LogWarning("[EffectManager] Failed to Get Effect. Because of <ActivationTime, Traget> Mismatch"); return null; }
 
 		return effectDatas[index];
 	}
 
 	private ObjectAddressablePoolManager<Transform> GetObjectPoolManager(int index, EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster, int listIndex = 0)
 	{
-		Dictionary<EffectTarget, List<EffectPoolingData>> tempDictionary;
 		List<EffectPoolingData> effectPools;
 
-		if (!effectPoolingDictionary.TryGetValue(activationTime, out tempDictionary)) { FDebug.LogWarning("[EffectManager] Failed to Get ObjectPoolManager. Because of <ActivationTime> Mismatch"); return null; }
-		if (!tempDictionary.TryGetValue(target, out effectPools)) { FDebug.LogWarning("[EffectManager] Failed to Get ObjectPoolManager. Because of <Traget> Mismatch"); return null; }
-
-		tempDictionary = null;
+		if (!effectPoolingDictionary.TryGetValue((activationTime, target), out effectPools)) { FDebug.LogWarning("[EffectManager] Failed to Get ObjectPoolManager. Because of <ActivationTime, Traget> Mismatch"); return null; }
 
 		return effectPools[index].poolManagers[listIndex];
 	}
@@ -76,11 +69,10 @@ public class EffectController
 	/// <param name="effectListIndex">EffectData에 담긴 Effect Index</param>
 	/// <returns>이펙트 데이터가 담긴 키 값 (readonly)</returns>
 	public EffectKey ActiveEffect(EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster, 
-		Vector3? position = null, quaternion? rotation = null, GameObject localParent = null,
+		Vector3? position = null, Quaternion? rotation = null, GameObject localParent = null,
 		int index = 0, int effectListIndex = 0)
 	{
-		Vector3 pos = position ?? Vector3.zero;
-		quaternion rot = rotation ?? Quaternion.identity;
+		
 		localParent = localParent == null ? worldEffectParent : localParent;
 
 		EffectData effectData = GetEffectData(index, activationTime, target);
@@ -89,10 +81,10 @@ public class EffectController
 		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
 		var poolManager = GetObjectPoolManager(index, activationTime, target, effectListIndex);
 		poolManager.SetManager(effectData.effectList[effectListIndex], localParent);
-		var obj = poolManager.ActiveObject(ref effectObject, pos, rot);
+		var obj = poolManager.ActiveObject(ref effectObject, position, rotation);
 		
 		// 키 생성
-		EffectKey key = new EffectKey(effectObject, effectData, effectData.effectList[effectListIndex], poolManager, pos, rot, index);
+		EffectKey key = new EffectKey(effectObject, effectData, effectData.effectList[effectListIndex], poolManager, position, rotation, index);
 		key.EffectObject = obj.gameObject;
 
 		return key;
@@ -118,9 +110,11 @@ public class EffectController
 	{
 		if (!CheckEffectKey(key)) { return; }
 
-		Vector3 marginPos = key.position == null ? Vector3.zero : key.position - target.position;
-		Quaternion rot = new Quaternion();
-		rot.eulerAngles = key.rotation == null ? Vector3.zero : key.rotation.eulerAngles - target.rotation.eulerAngles;
+		Vector3 pos = key.position ?? Vector3.zero;
+		Quaternion rot = key.rotation ?? Quaternion.identity;
+
+		Vector3 marginPos = pos != Vector3.zero? pos - target.position : pos;
+		rot.eulerAngles = rot == Quaternion.identity ? Vector3.zero : rot.eulerAngles - target.rotation.eulerAngles;
 
 		trackingEffects.Add(new TrackingEffectData(key.EffectObject, target, marginPos, rot));
 

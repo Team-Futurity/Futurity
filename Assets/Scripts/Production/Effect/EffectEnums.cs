@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static FMODUnity.Platform;
 
 public enum EffectActivationTime
 {
@@ -80,15 +81,15 @@ public class EffectKey
 	}
 	public bool isAssigned;
 	public readonly ObjectAddressablePoolManager<Transform> poolManager;
-	public readonly Vector3 position;
-	public readonly Quaternion rotation;
+	public readonly Vector3? position;
+	public readonly Quaternion? rotation;
 	public readonly int index;
 
 	private GameObject effectObject;
 	private bool isLevelEffect;
 	private bool isTrackingEffect;
 
-	public EffectKey(AsyncOperationHandle<GameObject> handle, EffectData data, AssetReference effectRef, ObjectAddressablePoolManager<Transform> poolManager, Vector3 pos, Quaternion rot, int index)
+	public EffectKey(AsyncOperationHandle<GameObject> handle, EffectData data, AssetReference effectRef, ObjectAddressablePoolManager<Transform> poolManager, Vector3? pos, Quaternion? rot, int index)
 	{
 		effectData = data;
 		effectReference = effectRef;
@@ -108,9 +109,4 @@ public class EffectKey
 	public bool IsTrackingEffect() => isTrackingEffect;
 	public bool SetLevelEffect(bool isLevel) => isLevelEffect = isLevel;
 	public bool SetTrackingEffect(bool isTrack) => isTrackingEffect = isTrack;
-}
-
-public class LevelEffectKey
-{
-	public List<EffectKey> levelEffectKeys;
 }
