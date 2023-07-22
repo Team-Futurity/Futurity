@@ -97,12 +97,12 @@ public class AttackNode
 }
 
 [Serializable]
-public class Tree
+public class CommandTree
 {
 	public AttackNode top; // 최상단 노드
 	[HideInInspector] public int dataCount;
 
-	public Tree()
+	public CommandTree()
 	{
 		top = new AttackNode(PlayerInput.None);
 	}

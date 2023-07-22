@@ -22,7 +22,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// attack
 	[Space(2)]
 	[Header("ÄÞº¸")]
-	public Tree comboTree;
+	public CommandTree comboTree;
 
 	// move
 	[Space(5)]
