@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class EffectManager
+public class EffectController
 {
 	[SerializeField] private EffectDatas effectDatas;
 	//[SerializeField] private GameObject effectParent;
@@ -15,7 +15,7 @@ public class EffectManager
 	private Dictionary<EffectData, LevelEffect> levelEffectDictionary = new Dictionary<EffectData, LevelEffect>();
 	private List<TrackingEffectData> trackingEffects = new List<TrackingEffectData>();
 
-	public EffectManager(EffectDatas effectDatas, /*GameObject effectParent,*/ GameObject worldEffectParent)
+	public EffectController(EffectDatas effectDatas, /*GameObject effectParent,*/ GameObject worldEffectParent)
 	{
 		this.effectDatas = effectDatas;
 		effectDatas.GetDictionary(out effectDictionary);

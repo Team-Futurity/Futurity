@@ -94,7 +94,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
-	public EffectManager effectManager;
+	public EffectController effectManager;
 	public EffectDatas effectSO;
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
@@ -166,7 +166,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		StartCoroutine(HitDelayCoroutine());
 
 		// effect
-		effectManager = EMManager.Instance.GetEffectManager(effectSO);
+		effectManager = ECManager.Instance.GetEffectManager(effectSO);
 	}
 
 	public void SetFSM()
