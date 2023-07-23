@@ -144,17 +144,4 @@ public class {className} : ScriptableObject
         string result = origin.Replace("Data", "");
         return result;
     }
-    
-    #region TestFunc
-    public void CheckData()
-    {
-        foreach (var data in dataList)
-        {
-            Debug.Log($"Data Type : {data.dataType}");
-            Debug.Log($"Data Name : {data.dataName}");
-            Debug.Log($"Data Values : {data.dataValue}");
-            Debug.Log($"============================");
-        }
-    }
-    #endregion
 }

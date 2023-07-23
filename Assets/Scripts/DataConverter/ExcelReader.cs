@@ -11,8 +11,7 @@ public class ExcelReader
 
         FileInfo file = new FileInfo(filePath);
         ExcelPackage package = new ExcelPackage(file);
-        Debug.Log(package);
-       
+
         sheetNames = new string[package.Workbook.Worksheets.Count];
         var count = 0;
             
