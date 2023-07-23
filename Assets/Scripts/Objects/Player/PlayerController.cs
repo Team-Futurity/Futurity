@@ -411,4 +411,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		LockNextCombo(false);
 		ChangeState(PlayerState.AttackDelay);
 	}
+
+	public void LerpToWorldPosition(Vector3 worldPos, float time)
+	{
+		UnitState<PlayerController> state = null;
+		GetState(PlayerState.AutoMove, ref state);
+
+		if(state == null) { FDebug.LogError("[PlayerController]AutoMoveSate Is Null"); }
+
+		((PlayerAutoMoveState)state).SetAutoMove(worldPos, time);
+		ChangeState(PlayerState.AutoMove);
+	}
 }
