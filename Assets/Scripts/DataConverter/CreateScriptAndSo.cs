@@ -21,16 +21,16 @@ public class Data
 
 public class CreateScriptAndSo
 {
-    private const string ScriptFormat = ".cs";
-    private const string AssetFormat = ".asset";
-    private List<Data> _dataList = new List<Data>();
+    private const string SCRIPT_FORMAT = ".cs";
+    private const string ASSET_FORMAT = ".asset";
+    private List<Data> dataList = new List<Data>();
 
     public void InitExcelData(int col, string[][] data)
     {
-        _dataList.Clear();
+        dataList.Clear();
         for (int i = 0; i < col; ++i)
         {
-            _dataList.Add(new Data(data[i][0], data[i][1], data[i][2]));
+            dataList.Add(new Data(data[i][0], data[i][1], data[i][2]));
         }
     }
 
@@ -59,7 +59,7 @@ public class CreateScriptAndSo
                 asset = ScriptableObject.CreateInstance(className);
                 className = RemoveDataInName(className);
                 
-                AssetDatabase.CreateAsset(asset, assetPath + className + assetCount + AssetFormat);
+                AssetDatabase.CreateAsset(asset, assetPath + className + assetCount + ASSET_FORMAT);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
@@ -78,7 +78,7 @@ public class CreateScriptAndSo
         var script = GenerateScriptContents(className);
 
         className = AddNameInData(className);
-        className += ScriptFormat;
+        className += SCRIPT_FORMAT;
 
         var filePath = Path.Combine(path, className);
         try
@@ -101,7 +101,7 @@ public class CreateScriptAndSo
         string contents = "";
         className = AddNameInData(className);
 
-        foreach (var data in _dataList)
+        foreach (var data in dataList)
         {
             if (string.Equals(data.dataType, "string"))
             {
@@ -148,7 +148,7 @@ public class {className} : ScriptableObject
     #region TestFunc
     public void CheckData()
     {
-        foreach (var data in _dataList)
+        foreach (var data in dataList)
         {
             Debug.Log($"Data Type : {data.dataType}");
             Debug.Log($"Data Name : {data.dataName}");

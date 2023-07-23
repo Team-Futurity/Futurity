@@ -7,26 +7,26 @@ using Button = UnityEngine.UIElements.Button;
 
 public class DataConverterEditor : EditorWindow
 {
-    private CreateScriptAndSo _createScriptAndSo;
-    private ExcelReader _excelReader;
-    private string[] _sheetNames;
-    private string _sheetName;
-    private string _curExcelName = string.Empty;
+    private CreateScriptAndSo createScriptAndSo;
+    private ExcelReader excelReader;
+    private string[] sheetNames;
+    private string sheetName;
+    private string curExcelName = string.Empty;
 
-    private const string ScriptsPath = "Assets/Data/Base";
-    private const string AssetPath = "Assets/Data/";
-    private const string ExcelFormat = ".xlsx";
+    private const string SCRIPTS_PATH = "Assets/Data/Base";
+    private const string ASSET_PATH = "Assets/Data/";
+    private const string EXCEL_FORMAT = ".xlsx";
 
     // UI Toolkit Field
     [SerializeField] private VisualTreeAsset tree;
-    private TextField _excelNameInputField;
-    private Button _getDataFormExcelButton;
-    private Button _generateClassButton;
-    private Button _generateSoButton;
-    private Button _updateClassButton;
-    private Label _resultInfo;
-    private DropdownField _sheetDropdown;
-    private DropdownField _classDropdown;
+    private TextField excelNameInputField;
+    private Button getDataFormExcelButton;
+    private Button generateClassButton;
+    private Button generateSoButton;
+    private Button updateClassButton;
+    private Label resultInfo;
+    private DropdownField sheetDropdown;
+    private DropdownField classDropdown;
 
     [MenuItem("Tools/Data Converter")]
     public static void ShowEditor()
@@ -37,60 +37,60 @@ public class DataConverterEditor : EditorWindow
 
     private void CreateGUI()
     {
-        _createScriptAndSo = new CreateScriptAndSo();
-        _excelReader = new ExcelReader();
+        createScriptAndSo = new CreateScriptAndSo();
+        excelReader = new ExcelReader();
         
         tree.CloneTree(rootVisualElement);
-        _excelNameInputField = rootVisualElement.Q<TextField>("InputExcelName");
+        excelNameInputField = rootVisualElement.Q<TextField>("InputExcelName");
         
-        _getDataFormExcelButton = rootVisualElement.Q<Button>("GetExcelData");
-        _generateClassButton = rootVisualElement.Q<Button>("GenerateClass");
-        _generateSoButton = rootVisualElement.Q<Button>("GenerateObj");
-        _updateClassButton = rootVisualElement.Q<Button>("UpdateClass");
+        getDataFormExcelButton = rootVisualElement.Q<Button>("GetExcelData");
+        generateClassButton = rootVisualElement.Q<Button>("GenerateClass");
+        generateSoButton = rootVisualElement.Q<Button>("GenerateObj");
+        updateClassButton = rootVisualElement.Q<Button>("UpdateClass");
         
-        _getDataFormExcelButton.RegisterCallback<ClickEvent>(DisplaySheetName);
-        _generateClassButton.RegisterCallback<ClickEvent>(GenerateClassClickEvent);
-        _generateSoButton.RegisterCallback<ClickEvent>(GenerateScriptableObjClickEvent);
-        _updateClassButton.RegisterCallback<ClickEvent>(UpdateClassListClickEvent);
+        getDataFormExcelButton.RegisterCallback<ClickEvent>(DisplaySheetName);
+        generateClassButton.RegisterCallback<ClickEvent>(GenerateClassClickEvent);
+        generateSoButton.RegisterCallback<ClickEvent>(GenerateScriptableObjClickEvent);
+        updateClassButton.RegisterCallback<ClickEvent>(UpdateClassListClickEvent);
         
-        _generateClassButton.SetEnabled(false);
-        _generateSoButton.SetEnabled(false);
-        _updateClassButton.SetEnabled(true);
+        generateClassButton.SetEnabled(false);
+        generateSoButton.SetEnabled(false);
+        updateClassButton.SetEnabled(true);
         
-        _resultInfo = rootVisualElement.Q<Label>("ResultInfo");
-        _sheetDropdown = rootVisualElement.Q<DropdownField>("SheetList");
-        _sheetDropdown.RegisterValueChangedCallback(SheetListValueChange);
-        _classDropdown = rootVisualElement.Q<DropdownField>("ClassList");
-        _classDropdown.RegisterValueChangedCallback(ClassListValueChangeEvent);
+        resultInfo = rootVisualElement.Q<Label>("ResultInfo");
+        sheetDropdown = rootVisualElement.Q<DropdownField>("SheetList");
+        sheetDropdown.RegisterValueChangedCallback(SheetListValueChange);
+        classDropdown = rootVisualElement.Q<DropdownField>("ClassList");
+        classDropdown.RegisterValueChangedCallback(ClassListValueChangeEvent);
         
-        _sheetDropdown.choices.Clear();
-        _classDropdown.choices.Clear();
+        sheetDropdown.choices.Clear();
+        classDropdown.choices.Clear();
     }
 
     private void LoadSheetName()
     {
-        if (_sheetNames is null)
+        if (sheetNames is null)
         {
-            _resultInfo.text = "엑셀 이름이 잘못되었거나 시트가 존재하지 않습니다!!";
+            resultInfo.text = "엑셀 이름이 잘못되었거나 시트가 존재하지 않습니다!!";
             return;
         }
         
-        _resultInfo.text = $"엑셀 시트 목록 로드 성공!!(시트 개수 : {_sheetNames.Length})";
-        foreach (var sheetName in _sheetNames)
+        resultInfo.text = $"엑셀 시트 목록 로드 성공!!(시트 개수 : {sheetNames.Length})";
+        foreach (var sheetName in sheetNames)
         {
-            _sheetDropdown.choices.Add(sheetName);
+            sheetDropdown.choices.Add(sheetName);
         }
     }
 
     private void LoadClassList()
     {
-        string[] filePaths = Directory.GetFiles(ScriptsPath, "*.cs");
-        _classDropdown.choices.Clear();
+        string[] filePaths = Directory.GetFiles(SCRIPTS_PATH, "*.cs");
+        classDropdown.choices.Clear();
 
         foreach (var file in filePaths)
         {
             string fileName= Path.GetFileNameWithoutExtension(file);
-            _classDropdown.choices.Add(fileName);
+            classDropdown.choices.Add(fileName);
         }
     }
     
@@ -98,63 +98,63 @@ public class DataConverterEditor : EditorWindow
 
     private void DisplaySheetName(ClickEvent evt)
     {
-        _sheetDropdown.choices.Clear();
-        _resultInfo.text = "";
+        sheetDropdown.choices.Clear();
+        resultInfo.text = "";
         
-        _generateClassButton.SetEnabled(false);
-        _generateSoButton.SetEnabled(false);
+        generateClassButton.SetEnabled(false);
+        generateSoButton.SetEnabled(false);
         
-        _curExcelName = _excelNameInputField.value + ExcelFormat;
-        _sheetNames = _excelReader.GetSheetNameOrNull(_curExcelName);
+        curExcelName = excelNameInputField.value + EXCEL_FORMAT;
+        sheetNames = excelReader.GetSheetNameOrNull(curExcelName);
 
         LoadSheetName();
     }
     
     private void GenerateClassClickEvent(ClickEvent evt)
     {
-        _sheetName = _sheetDropdown.value;
+        sheetName = sheetDropdown.value;
         
-        if (File.Exists(ScriptsPath + "/" + _sheetName + ".cs") == true)
+        if (File.Exists(SCRIPTS_PATH + "/" + sheetName + ".cs") == true)
         {
-            _resultInfo.text = $"{_sheetName + ".cs"} 가 이미 존재합니다.";
+            resultInfo.text = $"{sheetName + ".cs"} 가 이미 존재합니다.";
             return;
         }
         
-        var result = _excelReader.GetDataFromExcel(_curExcelName, _sheetName, _createScriptAndSo);
+        var result = excelReader.GetDataFromExcel(curExcelName, sheetName, createScriptAndSo);
         if (result == true)
         {
-            var createScript = _createScriptAndSo.CreateScript(_sheetName, ScriptsPath);
+            var createScript = createScriptAndSo.CreateScript(sheetName, SCRIPTS_PATH);
 
             if (createScript == true)
             {
-                _resultInfo.text = $"스크립트 생성 성공!!";
+                resultInfo.text = $"스크립트 생성 성공!!";
                 AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
             }
             else
             {
-                _resultInfo.text = $"스크립트 생성 실패!!";
+                resultInfo.text = $"스크립트 생성 실패!!";
             }
         }
         else
         {
-            _resultInfo.text = $"엑셀 데이터 로드 실패!!";
+            resultInfo.text = $"엑셀 데이터 로드 실패!!";
         }
         
-        _generateClassButton.SetEnabled(false);
-        _generateSoButton.SetEnabled(false);
+        generateClassButton.SetEnabled(false);
+        generateSoButton.SetEnabled(false);
     }
 
     private void GenerateScriptableObjClickEvent(ClickEvent evt)
     {
-        var className = _classDropdown.value;
-        if (_createScriptAndSo.CreateScriptableObject(className, ScriptsPath, AssetPath))
+        var className = classDropdown.value;
+        if (createScriptAndSo.CreateScriptableObject(className, SCRIPTS_PATH, ASSET_PATH))
         {
-            _resultInfo.text = $"스크립터블 오브젝트 생성 성공!!";
+            resultInfo.text = $"스크립터블 오브젝트 생성 성공!!";
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }
         else
         {
-            _resultInfo.text = $"스크립터블 오브젝트 생성 실패!!";
+            resultInfo.text = $"스크립터블 오브젝트 생성 실패!!";
         }
     }
     
@@ -162,20 +162,20 @@ public class DataConverterEditor : EditorWindow
     {
         LoadSheetName();
         LoadClassList();
-        _resultInfo.text = "시트 및 클래스 리스트 갱신 성공";
+        resultInfo.text = "시트 및 클래스 리스트 갱신 성공";
     }
     #endregion
 
     #region ValueChangeEvent
     private void SheetListValueChange(ChangeEvent<string> evt)
     {
-        _generateClassButton.SetEnabled(true);
-        _generateSoButton.SetEnabled(false);
+        generateClassButton.SetEnabled(true);
+        generateSoButton.SetEnabled(false);
     }
     
     private void ClassListValueChangeEvent(ChangeEvent<string> evt)
     {
-        _generateSoButton.SetEnabled(true);
+        generateSoButton.SetEnabled(true);
     }
     #endregion
 }
