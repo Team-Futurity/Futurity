@@ -177,7 +177,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnSpecialMove(InputAction.CallbackContext context)
 	{
-		if(!context.started || !activePartIsActive) { return; }
+		if(!context.started || !activePartIsActive || IsCurrentState(PlayerState.AutoMove)) { return; }
 
 		activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
 	}
@@ -188,6 +188,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		Vector3 input = context.ReadValue<Vector3>();
 
 		if (input == null) { return; }
+		if(IsCurrentState(PlayerState.AutoMove)) { return; }
 		moveDir = new Vector3(input.x, 0f, input.y);
 		moveAction = context.action;
 
@@ -222,7 +223,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnDash(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) { return; }
+		if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.AutoMove) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) { return; }
 
 		if (context.performed)
 		{
@@ -240,8 +241,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		FDebug.Log("Normal");
 
-		// 피격 중이거나, 스턴 상태면 리턴
-		if (playerData.isStun || !hitCoolTimeIsEnd) { return; }
+		// 피격 중이거나, 스턴, 자동 이동 상태면 리턴
+		if (playerData.isStun || !hitCoolTimeIsEnd || IsCurrentState(PlayerState.AutoMove)) { return; }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
@@ -262,11 +263,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
-		// 피격 중이거나, 스턴 상태면 리턴
-		if(playerData.isStun || !hitCoolTimeIsEnd) { return; }
+		// 피격 중이거나, 스턴, 자동 이동 상태면 리턴
+		if(playerData.isStun || !hitCoolTimeIsEnd || IsCurrentState(PlayerState.AutoMove)) { return; }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true) ) { return; }
 
 		if (context.started)
 		{
