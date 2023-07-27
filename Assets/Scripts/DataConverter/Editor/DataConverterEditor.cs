@@ -19,7 +19,8 @@ public class DataConverterEditor : EditorWindow
 
     // UI Toolkit Field
     [SerializeField] private VisualTreeAsset tree;
-    private TextField excelNameInputField;
+    private DropdownField excelDropDown;
+    private Button updateExcelButton;
     private Button getDataFormExcelButton;
     private Button generateClassButton;
     private Button generateSoButton;
@@ -41,22 +42,26 @@ public class DataConverterEditor : EditorWindow
         excelReader = new ExcelReader();
         
         tree.CloneTree(rootVisualElement);
-        excelNameInputField = rootVisualElement.Q<TextField>("InputExcelName");
-        
+        excelDropDown = rootVisualElement.Q<DropdownField>("ExcelDropdown");
+        excelDropDown.RegisterValueChangedCallback(ExcelListValueChange);
+
+        updateExcelButton = rootVisualElement.Q<Button>("GetExcelList");
         getDataFormExcelButton = rootVisualElement.Q<Button>("GetExcelData");
         generateClassButton = rootVisualElement.Q<Button>("GenerateClass");
         generateSoButton = rootVisualElement.Q<Button>("GenerateObj");
         updateClassButton = rootVisualElement.Q<Button>("UpdateClass");
         
-        getDataFormExcelButton.RegisterCallback<ClickEvent>(DisplaySheetName);
+        updateExcelButton.RegisterCallback<ClickEvent>(UpdateExcelListClickEvent);
+        getDataFormExcelButton.RegisterCallback<ClickEvent>(DisplaySheetNameClickEvent);
         generateClassButton.RegisterCallback<ClickEvent>(GenerateClassClickEvent);
         generateSoButton.RegisterCallback<ClickEvent>(GenerateScriptableObjClickEvent);
         updateClassButton.RegisterCallback<ClickEvent>(UpdateClassListClickEvent);
         
+        getDataFormExcelButton.SetEnabled(false);
         generateClassButton.SetEnabled(false);
         generateSoButton.SetEnabled(false);
         updateClassButton.SetEnabled(true);
-        
+
         resultInfo = rootVisualElement.Q<Label>("ResultInfo");
         sheetDropdown = rootVisualElement.Q<DropdownField>("SheetList");
         sheetDropdown.RegisterValueChangedCallback(SheetListValueChange);
@@ -65,6 +70,7 @@ public class DataConverterEditor : EditorWindow
         
         sheetDropdown.choices.Clear();
         classDropdown.choices.Clear();
+        excelDropDown.choices.Clear();
     }
 
     private void LoadSheetName()
@@ -95,16 +101,34 @@ public class DataConverterEditor : EditorWindow
     }
     
     #region OnClickEvent
+    private void UpdateExcelListClickEvent(ClickEvent evt)
+    {
+	    excelDropDown.choices.Clear();
+	    string[] xlsxFiles = Directory.GetFiles(Application.streamingAssetsPath, "*.xlsx");
 
-    private void DisplaySheetName(ClickEvent evt)
+	    if (xlsxFiles.Length <= 0)
+	    {
+		    resultInfo.text = "엑셀 파일이 존재하지 않습니다!!";
+	    }
+
+	    foreach (var xlsxFile in xlsxFiles)
+	    {
+		    string xlsx = Path.GetFileNameWithoutExtension(xlsxFile);
+		    excelDropDown.choices.Add(xlsx);
+	    }
+
+	    resultInfo.text = $"엑셀 파일 로드 성공!! (개수 : {xlsxFiles.Length})";
+    }
+    
+    private void DisplaySheetNameClickEvent(ClickEvent evt)
     {
         sheetDropdown.choices.Clear();
         resultInfo.text = "";
         
         generateClassButton.SetEnabled(false);
         generateSoButton.SetEnabled(false);
-        
-        curExcelName = excelNameInputField.value + EXCEL_FORMAT;
+
+        curExcelName = excelDropDown.value + EXCEL_FORMAT;
         sheetNames = excelReader.GetSheetNameOrNull(curExcelName);
 
         LoadSheetName();
@@ -167,6 +191,11 @@ public class DataConverterEditor : EditorWindow
     #endregion
 
     #region ValueChangeEvent
+
+    private void ExcelListValueChange(ChangeEvent<string> evt)
+    {
+	    getDataFormExcelButton.SetEnabled(true);
+    }
     private void SheetListValueChange(ChangeEvent<string> evt)
     {
         generateClassButton.SetEnabled(true);
