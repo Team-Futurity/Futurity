@@ -10,5 +10,5 @@ public class CSNodeSaveData
 	[field: SerializeField] public string GroupID { get; set; }
 	[field: SerializeField] public CSCommandType CommandType { get; set; }
 	[field: SerializeField] public Vector2 Position { get; set; }
-	[field: SerializeField] public string NextComboNodeID { get; set; }	
+	[field: SerializeField] public List<CSNextCommandSaveData> NextComboNodes { get; set; }	
 }

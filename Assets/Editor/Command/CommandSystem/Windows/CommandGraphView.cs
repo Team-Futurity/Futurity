@@ -5,9 +5,14 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEngine.GraphicsBuffer;
 
 public class CommandGraphView : GraphView
 {
+	private const string DefaultNodeName = "CommandName";
+	private const string DefaultGroupName = "CommandGroup";
+
 	private CSSearchWindow searchWindow;
 	private CommandEditorWindow editorWindow;
 
@@ -15,19 +20,21 @@ public class CommandGraphView : GraphView
 	private Dictionary<string, CSGroupErrorData> groups;
 	private Dictionary<(Group, string), CSNodeErrorData> groupedNodes;
 
-	private int repeatedNamesAmount;
-	public int RepeatedNamesAmount
+	private Dictionary<string, CSNextCommandSaveData> nextCommandSaves;
+
+	private int nameErrorsAmount;
+	public int NameErrorsAmount
 	{
-		get { return repeatedNamesAmount; }
+		get { return nameErrorsAmount; }
 		set 
 		{ 
-			repeatedNamesAmount = value; 
+			nameErrorsAmount = value; 
 
-			if(repeatedNamesAmount == 0)
+			if(nameErrorsAmount == 0)
 			{
 				editorWindow.SetEnableSaving(true);
 			}
-			else if(repeatedNamesAmount == 1) 
+			else if(nameErrorsAmount == 1) 
 			{
 				editorWindow.SetEnableSaving(false);
 			}
@@ -41,6 +48,7 @@ public class CommandGraphView : GraphView
 		ungroupedNodes = new Dictionary<string, CSNodeErrorData>();
 		groups = new Dictionary<string, CSGroupErrorData>();
 		groupedNodes = new Dictionary<(Group, string), CSNodeErrorData>();
+		nextCommandSaves = new Dictionary<string, CSNextCommandSaveData>();
 
 		// Control
 		AddSearchWindow();
@@ -52,6 +60,7 @@ public class CommandGraphView : GraphView
 		OnGroupElementsAdded();
 		OnGroupElementRemoved();
 		OnGroupRenamed();
+		OnGraphViewChanged();
 
 		// Style
 		AddStyles();
@@ -93,9 +102,9 @@ public class CommandGraphView : GraphView
 		SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
 
 		// 버튼 추가 기능
-		this.AddManipulator(CreateNodeContextualMenu("Add Node (Normal Attack)", CSCommandType.NormalAttack));
-		this.AddManipulator(CreateNodeContextualMenu("Add Node (Charged Attack)", CSCommandType.ChargedAttack));
-		this.AddManipulator(CreateNodeContextualMenu("Add Node (Dash)", CSCommandType.Dash));
+		this.AddManipulator(CreateNodeContextualMenu("노드 추가 (일반 공격)", CSCommandType.NormalAttack));
+		this.AddManipulator(CreateNodeContextualMenu("노드 추가 (차징 공격)", CSCommandType.ChargedAttack));
+		this.AddManipulator(CreateNodeContextualMenu("노드 추가 (대시)", CSCommandType.Dash));
 
 		// 선택된 요소 드래그 이동
 		// RectangleSelector보다 나중에 Add되면 정상 동작하지 않음
@@ -116,8 +125,8 @@ public class CommandGraphView : GraphView
 				menuEvent =>
 					menuEvent.menu.AppendAction
 						(
-							"Add Group",
-							actionEvent => CreateGroup("DialogueGroup", GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))
+							"그룹 추가",
+							actionEvent => CreateGroup(DefaultGroupName, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))
 						)
 			);
 
@@ -131,7 +140,7 @@ public class CommandGraphView : GraphView
 					menuEvent.menu.AppendAction
 						(
 							actionTitle, 
-							actionEvent => AddElement(CreateNode(commandType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition)))
+							actionEvent => AddElement(CreateNode(DefaultNodeName, commandType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition)))
 						)
 			);
 
@@ -162,14 +171,18 @@ public class CommandGraphView : GraphView
 		return group;
 	}
 
-	public CSNode CreateNode(CSCommandType commandType, Vector2 position)
+	public CSNode CreateNode(string nodeName, CSCommandType commandType, Vector2 position, bool shouldDraw = true)
 	{
 		Type nodeType = Type.GetType($"CS{commandType}Node");
 
 		CSNode node = (CSNode)Activator.CreateInstance(nodeType);
 
-		node.Initialize(this, position);
-		node.Draw();
+		node.Initialize(nodeName, this, position);
+
+		if(shouldDraw)
+		{
+			node.Draw();
+		}
 
 		AddUngroupedNode(node);
 
@@ -205,7 +218,7 @@ public class CommandGraphView : GraphView
 
 		if (ungroupedNodeData.Nodes.Count == 2)
 		{
-			RepeatedNamesAmount++;
+			NameErrorsAmount++;
 			ungroupedNodeData.Nodes[0].SetErrorStyle(errorColor);
 		}
 	}
@@ -221,7 +234,7 @@ public class CommandGraphView : GraphView
 
 		if(ungroupedNodeList.Count == 1)
 		{
-			RepeatedNamesAmount--;
+			NameErrorsAmount--;
 			ungroupedNodeList[0].ResetStyle();
 		}
 		else if(ungroupedNodeList.Count == 0)
@@ -256,7 +269,7 @@ public class CommandGraphView : GraphView
 
 		if(nodeErrorData.Nodes.Count == 2)
 		{
-			RepeatedNamesAmount++;
+			NameErrorsAmount++;
 			nodeErrorData.Nodes[0].SetErrorStyle(errorColor);
 		}
 	}
@@ -275,7 +288,7 @@ public class CommandGraphView : GraphView
 
 		if (groupedNodeList.Count == 1)
 		{
-			RepeatedNamesAmount--;
+			NameErrorsAmount--;
 			groupedNodeList[0].ResetStyle();
 		}
 		else if (groupedNodeList.Count == 0)
@@ -309,7 +322,7 @@ public class CommandGraphView : GraphView
 
 		if (groupNodeData.Groups.Count == 2)
 		{
-			RepeatedNamesAmount++;
+			NameErrorsAmount++;
 			groupNodeData.Groups[0].SetErrorStyle(errorColor);
 		}
 	}
@@ -325,7 +338,7 @@ public class CommandGraphView : GraphView
 
 		if (groupNodeData.Count == 1)
 		{
-			RepeatedNamesAmount--;
+			NameErrorsAmount--;
 			groupNodeData[0].ResetStyle();
 		}
 		else if (groupNodeData.Count == 0)
@@ -439,11 +452,69 @@ public class CommandGraphView : GraphView
 
 			csGroup.title = newTitle.RemoveWhitespaces().RemoveSpecialCharacters();
 
+			if (string.IsNullOrEmpty(csGroup.title))
+			{
+				if (!string.IsNullOrEmpty(csGroup.OldTitle))
+				{
+					++NameErrorsAmount;
+				}
+			}
+			else
+			{
+				if (string.IsNullOrEmpty(csGroup.OldTitle))
+				{
+					--NameErrorsAmount;
+				}
+			}
+
 			RemoveGroup(csGroup);
 
 			csGroup.OldTitle = csGroup.title;
 
 			AddGroup(csGroup);
+		};
+	}
+
+	private void OnGraphViewChanged()
+	{
+		graphViewChanged = (changes) =>
+		{
+			if (changes.edgesToCreate != null)
+			{
+				foreach (var edge in changes.edgesToCreate)
+				{
+					var nextNode = (CSNode)edge.input.node;
+					var curNode = (CSNode)edge.output.userData;
+
+					var nextCommand = new CSNextCommandSaveData()
+					{
+						NodeID = nextNode.ID
+					};
+
+					curNode.NextCommands.Add(nextCommand);
+					nextCommandSaves.Add(nextCommand.NodeID, nextCommand);
+				}
+			}
+
+			if (changes.elementsToRemove != null)
+			{
+				Type edgeType = typeof(Edge);
+
+				foreach (GraphElement element in changes.elementsToRemove)
+				{
+					if (element.GetType() != edgeType) { continue; }
+
+					var edge = (Edge)element;
+
+					var nextNode = (CSNode)edge.input.node;
+					var curNode = (CSNode)edge.output.userData;
+
+					curNode.NextCommands.Remove(nextCommandSaves[nextNode.ID]);
+					nextCommandSaves.Remove(nextNode.ID);
+				}
+			}
+
+			return changes;
 		};
 	}
 	#endregion
@@ -492,6 +563,16 @@ public class CommandGraphView : GraphView
 		Vector2 localMousePosition = contentViewContainer.WorldToLocal(worldMousePosition);
 
 		return localMousePosition;
+	}
+
+	public void ClearGraph()
+	{
+		graphElements.ForEach(graphElement => RemoveElement(graphElement));
+		groups.Clear();
+		groupedNodes.Clear();
+		ungroupedNodes.Clear();
+
+		nameErrorsAmount = 0;
 	}
 	#endregion
 }

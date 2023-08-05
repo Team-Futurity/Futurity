@@ -3,17 +3,19 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System;
+using System.IO;
 
 public class CommandEditorWindow : EditorWindow
 {
+	private CommandGraphView graphView;
 	private readonly string defaultFileName = "DefaultName";
-	private TextField fileNameTextField;
+	private static TextField fileNameTextField;
 	private Button saveButton;
 
     [MenuItem("Window/Player Command/Player Command Graph")]
     public static void ShowAttackGraph()
     {
-        GetWindow<CommandEditorWindow>("Player Command Graph");
+        GetWindow<CommandEditorWindow>("플레이어 커맨드 그래프");
     }
 
 	private void OnEnable()
@@ -27,10 +29,10 @@ public class CommandEditorWindow : EditorWindow
 	#region Elements Addition
 	private void AddGraphView()
 	{
-		CommandGraphView graphview = new CommandGraphView(this);
-		graphview.StretchToParentSize();
+		graphView = new CommandGraphView(this);
+		graphView.StretchToParentSize();
 
-		rootVisualElement.Add(graphview);
+		rootVisualElement.Add(graphView);
 	}
 
 	private void AddStyles()
@@ -43,16 +45,22 @@ public class CommandEditorWindow : EditorWindow
 	private void AddToolBar()
 	{
 		Toolbar toolbar = new Toolbar();
+		Button clearButton = CSElementUtility.CreateButton("지우기", () => Clear());
+		Button resetButton = CSElementUtility.CreateButton("초기화", () => ResetGraph());
+		Button loadButton = CSElementUtility.CreateButton("불러오기", () => Load());
 
-		fileNameTextField = CSElementUtility.CreateTextField(defaultFileName, "File Name : ", callback =>
+		fileNameTextField = CSElementUtility.CreateTextField(defaultFileName, "파일명 : ", callback =>
 		{
 			fileNameTextField.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
 		});
 
-		saveButton = CSElementUtility.CreateButton("Save");
+		saveButton = CSElementUtility.CreateButton("저장", () => Save());
 
 		toolbar.Add(fileNameTextField);
 		toolbar.Add(saveButton);
+		toolbar.Add(loadButton);
+		toolbar.Add(clearButton);
+		toolbar.Add(resetButton);
 
 		toolbar.AddStyleSheets("CommandSystem/CSToolbarStyles.uss");
 
@@ -60,10 +68,59 @@ public class CommandEditorWindow : EditorWindow
 	}
 	#endregion
 
+	#region Toolbar Actions
+	private void Save()
+	{
+		if(string.IsNullOrEmpty(fileNameTextField.value))
+		{
+			EditorUtility.DisplayDialog(
+				"유효하지 않은 파일명",
+				"유효한 파일명을 지으세요",
+				"넵!"
+			);
+
+			return;
+		}
+
+		CSIOUtility.Initialize(graphView, fileNameTextField.value);
+		CSIOUtility.Save();
+	}
+
+	private void Clear()
+	{
+		graphView.ClearGraph();
+	}
+
+	private void ResetGraph()
+	{
+		Clear();
+
+		UpdateFileName(defaultFileName);
+	}
+
+	private void Load()
+	{
+		string filePath = EditorUtility.OpenFilePanel("커맨드 그래프", "Assets/Editor/Command/CommandSystem/Graphs", "asset");
+
+		if(!string.IsNullOrEmpty(filePath))
+		{
+			Clear();
+
+			CSIOUtility.Initialize(graphView, Path.GetFileName(filePath));
+			CSIOUtility.Load();
+		}
+	}
+	#endregion
+
 	#region Utility
 	public void SetEnableSaving(bool isEnable)
 	{
 		saveButton.SetEnabled(isEnable);
+	}
+
+	public static void UpdateFileName(string newFileName)
+	{
+		fileNameTextField.value = newFileName;
 	}
 	#endregion
 }

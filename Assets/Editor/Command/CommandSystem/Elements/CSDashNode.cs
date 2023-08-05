@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class CSDashNode : CSNode
 {
-	public override void Initialize(CommandGraphView cgView, Vector2 position)
+	public override void Initialize(string nodeName, CommandGraphView cgView, Vector2 position)
 	{
-		base.Initialize(cgView, position);
+		base.Initialize(nodeName, cgView, position);
 
 		CommandType = CSCommandType.Dash;
 	}

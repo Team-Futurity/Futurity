@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -8,19 +10,22 @@ public class CSNode : Node
 {
 	public string ID { get; set; }
 	public string CommandName { get; set; }
+	public List<CSNextCommandSaveData> NextCommands { get; set; }
 	public CSCommandType CommandType { get; set; }
 	public CSGroup NodeGroup { get; set; }
+
 
 	private Color defaultBackgroundColor;
 
 	private CommandGraphView graphView;
 
-	public virtual void Initialize(CommandGraphView cgView, Vector2 position)
+	public virtual void Initialize(string nodeName, CommandGraphView cgView, Vector2 position)
 	{
 		ID = Guid.NewGuid().ToString();
 
-		CommandName = "CommandName";
+		CommandName = nodeName;
 		CommandType = CSCommandType.NormalAttack;
+		NextCommands = new List<CSNextCommandSaveData>();
 
 		graphView = cgView;
 
@@ -39,6 +44,22 @@ public class CSNode : Node
 		{
 			TextField target = (TextField)callback.target;
 			target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
+
+			if(string.IsNullOrEmpty(target.value))
+			{
+				if(!string.IsNullOrEmpty(CommandName))
+				{
+					++graphView.NameErrorsAmount;
+				}
+			}
+			else
+			{
+				if(string.IsNullOrEmpty(CommandName))
+				{
+					--graphView.NameErrorsAmount;
+				}
+			}
+
 			if(NodeGroup == null)
 			{
 				graphView.RemoveUngroupedNode(this);
@@ -92,8 +113,9 @@ public class CSNode : Node
 		extensionContainer.Add(customDataContainer);
 
 		// Output Container
-		Port nextCommands = this.CreatePort("다음 커맨드", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
-		outputContainer.Add(nextCommands);
+		Port nextCommandsPort = this.CreatePort("다음 커맨드", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
+		nextCommandsPort.userData = this;
+		outputContainer.Add(nextCommandsPort);
 	}
 
 	#region Overrided
@@ -110,6 +132,7 @@ public class CSNode : Node
 
 
 	#region Utilities
+
 	public void DisconnectAllPorts()
 	{
 		DisconnectInputPorts();
@@ -135,6 +158,13 @@ public class CSNode : Node
 				graphView.DeleteElements(port.connections);
 			}
 		}
+	}
+
+	public bool IsStartingNode()
+	{
+		Port input = (Port)inputContainer.Children().First();
+
+		return !input.connected;
 	}
 
 	public void SetErrorStyle(Color color)
