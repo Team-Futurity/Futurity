@@ -12,9 +12,13 @@ public class CommandGraphView : GraphView
 {
 	private const string DefaultNodeName = "CommandName";
 	private const string DefaultGroupName = "CommandGroup";
+	private readonly StyleColor MiniMapBackgroundColor = new StyleColor(new Color32(29, 29, 30, 255));
+	private readonly StyleColor MiniMapBorderColor = new StyleColor(new Color32(51, 51, 51, 255));
 
 	private CSSearchWindow searchWindow;
 	private CommandEditorWindow editorWindow;
+
+	private MiniMap miniMap;
 
 	private Dictionary<string, CSNodeErrorData> ungroupedNodes;
 	private Dictionary<string, CSGroupErrorData> groups;
@@ -51,8 +55,9 @@ public class CommandGraphView : GraphView
 		nextCommandSaves = new Dictionary<string, CSNextCommandSaveData>();
 
 		// Control
-		AddSearchWindow();
 		AddManipulators();
+		AddSearchWindow();
+		AddMinimap();
 		AddGridBackground();
 
 		// Callbacks
@@ -64,6 +69,7 @@ public class CommandGraphView : GraphView
 
 		// Style
 		AddStyles();
+		AddMiniMapStyle();
 	}
 
 	#region Overrided Methods
@@ -532,6 +538,15 @@ public class CommandGraphView : GraphView
 		nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), searchWindow);
 	}
 
+	private void AddMinimap()
+	{
+		miniMap = new MiniMap();
+
+		miniMap.SetPosition(new Rect(15, 50, 200, 200));
+
+		Add(miniMap);
+	}
+
 	private void AddGridBackground()
 	{
 		GridBackground gridBackground = new GridBackground();
@@ -547,6 +562,17 @@ public class CommandGraphView : GraphView
 			"CommandSystem/CommandGraphViewStyles.uss",
 			"CommandSystem/CSNodeStyles.uss"
 		);
+	}
+
+	private void AddMiniMapStyle()
+	{
+		miniMap.style.backgroundColor= MiniMapBackgroundColor;
+		miniMap.style.borderTopColor = MiniMapBorderColor;
+		miniMap.style.borderRightColor = MiniMapBorderColor;
+		miniMap.style.borderBottomColor = MiniMapBorderColor;
+		miniMap.style.borderLeftColor = MiniMapBorderColor;
+
+		miniMap.visible = false;
 	}
 	#endregion
 
@@ -573,6 +599,11 @@ public class CommandGraphView : GraphView
 		ungroupedNodes.Clear();
 
 		nameErrorsAmount = 0;
+	}
+
+	public void ToggleMiniMap()
+	{
+		miniMap.visible = !miniMap.visible;
 	}
 	#endregion
 }

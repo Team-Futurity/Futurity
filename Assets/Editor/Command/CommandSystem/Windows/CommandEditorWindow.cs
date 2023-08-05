@@ -11,6 +11,7 @@ public class CommandEditorWindow : EditorWindow
 	private readonly string defaultFileName = "DefaultName";
 	private static TextField fileNameTextField;
 	private Button saveButton;
+	private Button miniMapButton;
 
     [MenuItem("Window/Player Command/Player Command Graph")]
     public static void ShowAttackGraph()
@@ -49,18 +50,21 @@ public class CommandEditorWindow : EditorWindow
 		Button resetButton = CSElementUtility.CreateButton("초기화", () => ResetGraph());
 		Button loadButton = CSElementUtility.CreateButton("불러오기", () => Load());
 
+		saveButton = CSElementUtility.CreateButton("저장", () => Save());
+		miniMapButton = CSElementUtility.CreateButton("미니맵", () => ToggleMiniMap());
+		
 		fileNameTextField = CSElementUtility.CreateTextField(defaultFileName, "파일명 : ", callback =>
 		{
 			fileNameTextField.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
 		});
 
-		saveButton = CSElementUtility.CreateButton("저장", () => Save());
 
 		toolbar.Add(fileNameTextField);
 		toolbar.Add(saveButton);
 		toolbar.Add(loadButton);
 		toolbar.Add(clearButton);
 		toolbar.Add(resetButton);
+		toolbar.Add(miniMapButton);
 
 		toolbar.AddStyleSheets("CommandSystem/CSToolbarStyles.uss");
 
@@ -109,6 +113,13 @@ public class CommandEditorWindow : EditorWindow
 			CSIOUtility.Initialize(graphView, Path.GetFileName(filePath));
 			CSIOUtility.Load();
 		}
+	}
+
+	private void ToggleMiniMap()
+	{
+		graphView.ToggleMiniMap();
+
+		miniMapButton.ToggleInClassList("cs-toolbar__button__selected");
 	}
 	#endregion
 
