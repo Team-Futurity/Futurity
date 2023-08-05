@@ -14,9 +14,9 @@ public class CSErrorData
 	private void GenerateRandomColor()
 	{
 		Color = new Color32(
-			(byte)Random.Range(65, 256),
-			(byte)Random.Range(50, 176),
-			(byte)Random.Range(50, 176),
+			(byte)Random.Range(128, 256),
+			(byte)Random.Range(32, 169),
+			(byte)Random.Range(32, 169),
 			255
 		);
 	}
