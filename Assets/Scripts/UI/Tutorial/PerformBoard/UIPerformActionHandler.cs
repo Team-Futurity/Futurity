@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,36 +6,37 @@ using UnityEngine.UI;
 
 public class UIPerformActionHandler : MonoBehaviour
 {
-	[field: SerializeField] public PlayerController target { get; private set; }
+	[field: SerializeField] public PlayerController Target { get; private set; }
 
 	[SerializeField]
 	private List<UIPerformBoard> performBoards;
 
-	[SerializeField]
 	private UIPerformBoard currentBoard;
-
-	[SerializeField]
-	private UIPerformBoard nextBoard;
 
 	private int currentIndex = 0;
 	private int maxIndex = 0;
 
 	private void Awake()
 	{
-		// UI PerformBoard에서 LastEvent를 사용하여, Call 받았을 때, next Event로 옮겨준다.
 		if(performBoards is null)
 		{
 			FDebug.LogError($"{performBoards.GetType()}이 존재하지 않습니다.");
 			Debug.Break();
 		}
 
-		// target에서 Action Event를 가져와야한다.
-
-		// Current Board 설정
 		currentIndex = 0;
 		maxIndex = performBoards.Count;
 
 		currentBoard = performBoards[currentIndex];
+	}
+
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Z))
+			OnNextBoard();
+		
+		if(Input.GetKeyDown(KeyCode.X))
+			OnBeforeBoard();
 	}
 
 	// Target에 들어가는 Event
@@ -47,26 +49,45 @@ public class UIPerformActionHandler : MonoBehaviour
 	// UIPerfomBoard에 들어가는 Event Addlistnener
 	public void CheckAllPass()
 	{
-		OnChangeBoard();
+		// 이 시간 동안 무언가가 켜져야 함.
+		
+		OnNextBoard();
 	}
 
-	private void OnChangeBoard()
+	private void OnNextBoard()
 	{
-		if(currentBoard != null)
+		if (currentIndex + 1 >= maxIndex)
 		{
-			currentBoard.lastClearEvent = null;
+			// Next Board가 Ended일 때.
+			
+			return;
 		}
-
-		currentBoard = nextBoard;
-		currentBoard.lastClearEvent.AddListener(CheckAllPass);
-
-		SetNextBoard();
-
+		
 		currentIndex++;
+
+		SetBoard();
 	}
 
-	private void SetNextBoard()
+	private void OnBeforeBoard()
 	{
+		if (currentIndex - 1 < 0)
+		{
+			return;
+		}
+		
+		currentIndex--;
+		
+		SetBoard();
+	}
 
+	private void SetBoard()
+	{
+		currentBoard.lastClearEvent.RemoveAllListeners();
+		currentBoard.gameObject.SetActive(false);
+
+		currentBoard = performBoards[currentIndex];
+		
+		currentBoard.lastClearEvent.AddListener(CheckAllPass);
+		currentBoard.gameObject.SetActive(true);
 	}
 }
