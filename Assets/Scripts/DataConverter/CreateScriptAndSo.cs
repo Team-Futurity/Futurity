@@ -36,20 +36,7 @@ public class CreateScriptAndSo
 
     public bool CreateScriptableObject(string className, string scriptPath, string assetPath)
     {
-        string[] files = Directory.GetFiles(assetPath);
-        int count = 0;
-
-        foreach (var file in files)
-        {
-            if (Path.GetExtension(file).ToLower() == ".asset")
-            {
-                count++;
-            }
-        }
-
-        string assetCount = Convert.ToString(++count);
-        
-        try
+	    try
         {
             Object asset = AssetDatabase.LoadAssetAtPath(scriptPath, typeof(ScriptableObject));
 
@@ -59,7 +46,21 @@ public class CreateScriptAndSo
                 asset = ScriptableObject.CreateInstance(className);
                 className = RemoveDataInName(className);
                 
-                AssetDatabase.CreateAsset(asset, assetPath + className + assetCount + ASSET_FORMAT);
+                string[] files = Directory.GetFiles(assetPath, "*.asset");
+                int count = 1;
+
+                foreach (var file in files)
+                {
+	                string fileName = Path.GetFileName(file);
+	                Debug.Log(fileName);
+	                
+	                if (fileName.Contains(className))
+	                {
+		                count++;
+	                }
+                }
+
+                AssetDatabase.CreateAsset(asset, assetPath + className + Convert.ToString(count) + ASSET_FORMAT);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
