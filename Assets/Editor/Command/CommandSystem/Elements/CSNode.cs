@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
@@ -14,10 +14,22 @@ public class CSNode : Node
 	public CSCommandType CommandType { get; set; }
 	public CSGroup NodeGroup { get; set; }
 
+	// Combo Data
+	public float AttackLength { get; set; }
+	public float AttackAngle { get; set; }
+	public float AttackLengthMark { get; set; }
+	public float AttackDelay { get; set; }
+	public float AttackSpeed { get; set; }
+	public float AttackAfterDelay { get; set; }
+	public float AttackST { get; set; }
+	public float AttackKnockback { get; set; }
+
 
 	private Color defaultBackgroundColor;
 
 	private CommandGraphView graphView;
+
+	private const int MaxFloatFieldLenght = 7;
 
 	public virtual void Initialize(string nodeName, CommandGraphView cgView, Vector2 position)
 	{
@@ -90,7 +102,7 @@ public class CSNode : Node
 		//titleContainer.Add(commandName);
 
 		// Input Container
-		Port inputPort = this.CreatePort("���� Ŀ�ǵ�", Orientation.Horizontal, Direction.Input, Port.Capacity.Single);
+		Port inputPort = this.CreatePort("이전 커맨드", Orientation.Horizontal, Direction.Input, Port.Capacity.Single);
 
 		inputContainer.Add(inputPort);
 
@@ -99,21 +111,50 @@ public class CSNode : Node
 
 		customDataContainer.AddToClassList("ds-node__custom-data-container");
 
+		// Element Initialize
 		Foldout textFoldout = CSElementUtility.CreateFoldout("Command Type");
 		EnumField enumField = new EnumField(CommandType);
-
 		enumField.AddClasses(
 				"ds-node__textfield",
 				"ds-node__quote-textfield"
 		);
 
+		Foldout comboTextFoldout = CSElementUtility.CreateFoldout("Combo Data");
+		FloatField lengthField =			new FloatField("Attack Length(공격 사거리)				|", MaxFloatFieldLenght);
+		FloatField angleField =				new FloatField("Attack Angle(공격 각도)					|", MaxFloatFieldLenght);
+		FloatField lengthMarkField =		new FloatField("Attack Length Mark(공격 시전지)			|", MaxFloatFieldLenght);
+		FloatField delayField =				new FloatField("Attack Delay(공격 지연 시간)				|", MaxFloatFieldLenght);
+		FloatField speedField =				new FloatField("Attack Speed(공격 속도)				|", MaxFloatFieldLenght);
+		FloatField afterDelayField =		new FloatField("Attack After Delay(공격 후 지연 시간)		|", MaxFloatFieldLenght);
+		FloatField attackSTField =			new FloatField("Attack ST(데미지 배율)					|", MaxFloatFieldLenght);
+		FloatField attackKnockbackField =	new FloatField("Attack Knockback(몬스터를 밀치는 거리)		|", MaxFloatFieldLenght);
+		lengthField.value = AttackLength;
+		angleField.value = AttackAngle;
+		lengthMarkField.value = AttackLengthMark;
+		delayField.value = AttackDelay;
+		speedField.value = AttackSpeed;
+		afterDelayField.value = AttackAfterDelay;
+		attackSTField.value = AttackST;
+		attackKnockbackField.value = AttackKnockback;
+
+		// Add
 		textFoldout.Add(enumField);
 		customDataContainer.Add(textFoldout);
+
+		comboTextFoldout.Add(lengthField);
+		comboTextFoldout.Add(angleField);
+		comboTextFoldout.Add(lengthMarkField);
+		comboTextFoldout.Add(delayField);
+		comboTextFoldout.Add(speedField);
+		comboTextFoldout.Add(afterDelayField);
+		comboTextFoldout.Add(attackSTField);
+		comboTextFoldout.Add(attackKnockbackField);
+		customDataContainer.Add(comboTextFoldout);
 
 		extensionContainer.Add(customDataContainer);
 
 		// Output Container
-		Port nextCommandsPort = this.CreatePort("���� Ŀ�ǵ�", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
+		Port nextCommandsPort = this.CreatePort("다음 커맨드", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
 		nextCommandsPort.userData = this;
 		outputContainer.Add(nextCommandsPort);
 	}
@@ -125,8 +166,6 @@ public class CSNode : Node
 		evt.menu.AppendAction("Disconnect output Ports", actionEvent => DisconnectOutputPorts());
 
 		base.BuildContextualMenu(evt);
-
-
 	}
 	#endregion
 
@@ -175,6 +214,69 @@ public class CSNode : Node
 	public void ResetStyle()
 	{
 		mainContainer.style.backgroundColor = defaultBackgroundColor;
+	}
+
+	public List<CSNextCommandSaveData> CloneNodeNextCommands()
+	{
+		List<CSNextCommandSaveData> commands = new List<CSNextCommandSaveData>();
+
+		foreach (var command in NextCommands)
+		{
+			var commandData = new CSNextCommandSaveData()
+			{
+				NodeID = command.NodeID
+			};
+
+			commands.Add(commandData);
+		}
+
+		return commands;
+	}
+
+	public List<CSNextCommandSaveData> CloneNodeNextCommands(List<CSNextCommandSaveData> saveDatas)
+	{
+		List<CSNextCommandSaveData> commands = new List<CSNextCommandSaveData>();
+
+		foreach (var command in saveDatas)
+		{
+			var commandData = new CSNextCommandSaveData()
+			{
+				NodeID = command.NodeID
+			};
+
+			commands.Add(commandData);
+		}
+
+		return commands;
+	}
+
+	public void LoadFromSaveData(CSNodeSaveData saveData)
+	{
+		var nextCommands = CloneNodeNextCommands(saveData.NextComboNodes);
+
+		ID = saveData.ID;
+		NextCommands = nextCommands;
+
+		AttackLength = saveData.AttackLength;
+		AttackAngle = saveData.AttackAngle;
+		AttackSpeed = saveData.AttackSpeed;
+		AttackLengthMark = saveData.AttackLengthMark;
+		AttackDelay = saveData.AttackDelay;
+		AttackAfterDelay = saveData.AttackAfterDelay;
+		AttackKnockback = saveData.AttackKnockback;
+		AttackST = saveData.AttackST;
+	}
+
+	public void SaveToCommandSO(ref CSCommandSO so)
+	{
+		so.AttackLength = AttackLength;
+		so.AttackAngle = AttackAngle;
+		so.AttackSpeed = AttackSpeed;
+		so.AttackLengthMark = AttackLengthMark;
+		so.AttackDelay = AttackDelay;
+		so.AttackAfterDelay = AttackAfterDelay;
+		so.AttackKnockback = AttackKnockback;
+		so.AttackST = AttackST;
 	}
 	#endregion
 }

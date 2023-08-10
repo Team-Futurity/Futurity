@@ -167,6 +167,8 @@ public static class CSIOUtility
 			node.IsStartingNode()
 		);
 
+		node.SaveToCommandSO(ref command);
+
 		createdCommands.Add(node.ID, command);
 
 		SaveAsset(command);
@@ -187,18 +189,8 @@ public static class CSIOUtility
 	}
 
 	private static void SaveNodeToGraph(CSNode node, CSGraphSaveDataSO graphData)
-	{
-		List<CSNextCommandSaveData> commands = CloneNodeNextCommands(node.NextCommands);
-
-		var nodeData = new CSNodeSaveData()
-		{
-			ID = node.ID,
-			Name = node.CommandName,
-			NextComboNodes = commands,
-			GroupID = node.NodeGroup?.ID,
-			CommandType = node.CommandType,
-			Position = node.GetPosition().position
-		};
+	{ 
+		var nodeData = new CSNodeSaveData(node);
 
 		graphData.Nodes.Add(nodeData);
 	}
@@ -324,12 +316,9 @@ public static class CSIOUtility
 	{
 		foreach(var nodeSaveData in nodes)
 		{
-			List<CSNextCommandSaveData> nextCommands = CloneNodeNextCommands(nodeSaveData.NextComboNodes);
-
 			var node = graphView.CreateNode(nodeSaveData.Name, nodeSaveData.CommandType, nodeSaveData.Position, false);
-
-			node.ID = nodeSaveData.ID;
-			node.NextCommands = nextCommands;
+			
+			node.LoadFromSaveData(nodeSaveData);
 
 			node.Draw();
 
@@ -446,23 +435,6 @@ public static class CSIOUtility
 	private static void RemoveAsset(string path, string assetName)
 	{
 		AssetDatabase.DeleteAsset($"{path}/{assetName}.asset");
-	}
-
-	private static List<CSNextCommandSaveData> CloneNodeNextCommands(List<CSNextCommandSaveData> nextCommands)
-	{
-		List<CSNextCommandSaveData> commands = new List<CSNextCommandSaveData>();
-
-		foreach (var command in nextCommands)
-		{
-			var commandData = new CSNextCommandSaveData()
-			{
-				NodeID = command.NodeID
-			};
-
-			commands.Add(commandData);
-		}
-
-		return commands;
 	}
 	#endregion
 }
