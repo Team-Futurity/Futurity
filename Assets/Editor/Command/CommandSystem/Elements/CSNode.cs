@@ -137,6 +137,17 @@ public class CSNode : Node
 		attackSTField.value = AttackST;
 		attackKnockbackField.value = AttackKnockback;
 
+		// Callbacks
+		enumField.RegisterValueChangedCallback((callback) => { CommandType = (CSCommandType)callback.newValue; });
+		lengthField.RegisterValueChangedCallback((callback) => { AttackLength = callback.newValue; });
+		angleField.RegisterValueChangedCallback((callback) => { AttackAngle = callback.newValue; });
+		lengthMarkField.RegisterValueChangedCallback((callback) => { AttackLengthMark = callback.newValue; });
+		delayField.RegisterValueChangedCallback((callback) => { AttackDelay = callback.newValue; });
+		speedField.RegisterValueChangedCallback((callback) => { AttackSpeed = callback.newValue; });
+		afterDelayField.RegisterValueChangedCallback((callback) => { AttackAfterDelay = callback.newValue; });
+		attackSTField.RegisterValueChangedCallback((callback) => { AttackST = callback.newValue; });
+		attackKnockbackField.RegisterValueChangedCallback((callback) => { AttackKnockback = callback.newValue; });
+
 		// Add
 		textFoldout.Add(enumField);
 		customDataContainer.Add(textFoldout);
