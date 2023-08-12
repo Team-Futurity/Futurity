@@ -37,10 +37,14 @@ public class CommandTreeLoader : MonoBehaviour
 		node.attackKnockback	= commandSO.AttackKnockback;
 
 		node.effectOffset		= commandSO.EffectOffset;
+		node.effectRotOffset	= new Quaternion();
+		node.effectRotOffset.eulerAngles = commandSO.EffectRotOffset;
 		node.effectPrefab		= commandSO.EffectPrefab;
 		node.effectParent		= GetEffectParent(commandSO.AttackEffectParent);
 
 		node.hitEffectOffset	= commandSO.HitEffectOffset;
+		node.hitEffectRotOffset	= new Quaternion(); 
+		node.hitEffectRotOffset.eulerAngles = commandSO.HitEffectRotOffset;
 		node.hitEffectPrefab	= commandSO.HitEffectPrefab;
 		node.hitEffectParent	= GetEffectParent(commandSO.HitEffectParent);
 
@@ -53,6 +57,7 @@ public class CommandTreeLoader : MonoBehaviour
 
 		node.attackSound		= commandSO.AttackSound;
 
+		node.AddPoolManager();
 		node.childNodes = new List<AttackNode>();
 		foreach(var nextSO in commandSO.NextCommands)
 		{

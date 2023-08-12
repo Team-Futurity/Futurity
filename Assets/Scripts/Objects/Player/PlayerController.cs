@@ -149,10 +149,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
+		comboTree = commandTreeLoader.GetCommandTree();
 		curNode = comboTree.top;
 		nextCombo = PlayerInput.None;
 		firstBehaiviorNode = null;
-		comboTree = commandTreeLoader.GetCommandTree();
 		//comboTree.SetTree(comboTree.top, null);
 
 		// Glove Init

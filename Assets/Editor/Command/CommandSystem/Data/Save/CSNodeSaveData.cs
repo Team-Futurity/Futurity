@@ -25,11 +25,13 @@ public class CSNodeSaveData
 
 	// Attack Effect
 	[field: SerializeField] public Vector3 EffectOffset { get; set; }
+	[field: SerializeField] public Vector3 EffectRotOffset { get; set; }
 	[field: SerializeField] public GameObject EffectPrefab { get; set; }
 	[field: SerializeField] public EffectParent AttackEffectParent { get; set; }
 
 	// Enemy Hit Effect
 	[field: SerializeField] public Vector3 HitEffectOffset { get; set; }
+	[field: SerializeField] public Vector3 HitEffectRotOffset { get; set; }
 	[field: SerializeField] public GameObject HitEffectPrefab { get; set; }
 	[field: SerializeField] public EffectParent HitEffectParent { get; set; }
 
@@ -69,10 +71,12 @@ public class CSNodeSaveData
 		AttackKnockback = node.AttackKnockback;
 
 		EffectOffset = node.EffectOffset;
+		EffectRotOffset = node.EffectRotOffset;
 		EffectPrefab = node.EffectPrefab;
 		AttackEffectParent = node.AttackEffectParent;
 
-		HitEffectOffset = node.EffectOffset;
+		HitEffectOffset = node.HitEffectOffset;
+		HitEffectRotOffset = node.HitEffectRotOffset;
 		HitEffectPrefab = node.HitEffectPrefab;
 		HitEffectParent = node.HitEffectParent;
 

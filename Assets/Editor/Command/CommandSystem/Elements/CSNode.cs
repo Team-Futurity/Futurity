@@ -27,11 +27,13 @@ public class CSNode : Node
 
 	// Attack Effect
 	public Vector3 EffectOffset { get; set; }
+	public Vector3 EffectRotOffset { get; set; }
 	public GameObject EffectPrefab { get; set; }
 	public EffectParent AttackEffectParent { get; set; }
 
 	// Enemy Hit Effect
 	public Vector3 HitEffectOffset { get; set; }
+	public Vector3 HitEffectRotOffset { get; set; }
 	public GameObject HitEffectPrefab { get; set; }
 	public EffectParent HitEffectParent { get; set; }
 
@@ -152,13 +154,15 @@ public class CSNode : Node
 
 		// attack effect
 		Foldout attackEffectFoldout = CSElementUtility.CreateFoldout("Attack Effect");
-		Vector3Field effectOffsetField			= CreateAndRegistField("이펙트 오프셋			|", EffectOffset, attackEffectFoldout);
+		Vector3Field effectOffsetField			= CreateAndRegistField("이펙트 위치 오프셋		|", EffectOffset, attackEffectFoldout);
+		Vector3Field effectRotOffsetField			= CreateAndRegistField("이펙트 회전 오프셋		|", EffectRotOffset, attackEffectFoldout);
 		ObjectField effectPrefabField			= CreateAndRegistField("이펙트 프리팹			|", EffectPrefab, typeof(GameObject), attackEffectFoldout);
 		EnumField effectParentField = CreateAndRegistField("이펙트 부모 설정			|", AttackEffectParent, attackEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
 		// enemy hit efffect
 		Foldout enemyHitEffectFoldout = CSElementUtility.CreateFoldout("Enemy Hit Effect");
-		Vector3Field enemyHitEffectOffsetField	= CreateAndRegistField("적 피격 이펙트 오프셋		|", HitEffectOffset, enemyHitEffectFoldout);
+		Vector3Field enemyHitEffectOffsetField	= CreateAndRegistField("적 피격 이펙트 위치 오프셋	|", HitEffectOffset, enemyHitEffectFoldout);
+		Vector3Field enemyHitEffectRotOffsetField	= CreateAndRegistField("적 피격 이펙트 회전 오프셋	|", HitEffectRotOffset, enemyHitEffectFoldout);
 		ObjectField enemyHitEffectPrefabField	= CreateAndRegistField("적 피격 이펙트 프리팹		|", HitEffectPrefab, typeof(GameObject), enemyHitEffectFoldout);
 		EnumField enemyHitEffectField = CreateAndRegistField("적 피격 이펙트 부모 설정	|", HitEffectParent, enemyHitEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
@@ -189,10 +193,12 @@ public class CSNode : Node
 		attackKnockbackField.RegisterValueChangedCallback((callback) => { AttackKnockback = callback.newValue; });
 
 		effectOffsetField.RegisterValueChangedCallback((callback) => { EffectOffset = callback.newValue; });
+		effectRotOffsetField.RegisterValueChangedCallback((callback) => { EffectRotOffset = callback.newValue; });
 		effectPrefabField.RegisterValueChangedCallback((callback) => { EffectPrefab = callback.newValue as GameObject; });
 		effectParentField.RegisterValueChangedCallback((callback) => { AttackEffectParent = (EffectParent)callback.newValue; });
 
 		enemyHitEffectOffsetField.RegisterValueChangedCallback((callback) => { HitEffectOffset = callback.newValue; });
+		enemyHitEffectRotOffsetField.RegisterValueChangedCallback((callback) => { HitEffectRotOffset = callback.newValue; });
 		enemyHitEffectPrefabField.RegisterValueChangedCallback((callback) => { HitEffectPrefab = callback.newValue as GameObject; });
 		enemyHitEffectField.RegisterValueChangedCallback((callback) => { HitEffectParent = (EffectParent)callback.newValue; });
 
@@ -329,11 +335,13 @@ public class CSNode : Node
 		AttackST = saveData.AttackST;
 
 		EffectOffset = saveData.EffectOffset;
+		EffectRotOffset = saveData.EffectRotOffset;
 		EffectPrefab = saveData.EffectPrefab;
 		AttackEffectParent = saveData.AttackEffectParent;
 
-		HitEffectOffset = saveData.EffectOffset;
-		HitEffectPrefab = saveData.EffectPrefab;
+		HitEffectOffset = saveData.HitEffectOffset;
+		HitEffectRotOffset = saveData.HitEffectOffset;
+		HitEffectPrefab = saveData.HitEffectPrefab;
 		HitEffectParent = saveData.HitEffectParent;
 
 		AnimInteger = saveData.AnimInteger;
@@ -358,10 +366,12 @@ public class CSNode : Node
 		so.AttackST = AttackST;
 
 		so.EffectOffset = EffectOffset;
+		so.EffectRotOffset = EffectRotOffset;
 		so.EffectPrefab = EffectPrefab;
 		so.AttackEffectParent = AttackEffectParent;
 
 		so.HitEffectOffset = HitEffectOffset;
+		so.HitEffectRotOffset = HitEffectRotOffset;
 		so.HitEffectPrefab = HitEffectPrefab;
 		so.HitEffectParent = HitEffectParent;
 
@@ -400,6 +410,7 @@ public class CSNode : Node
 		ObjectField newField = new ObjectField(fieldName);
 		newField.objectType = objectType;
 		newField.value = variable;
+		newField.allowSceneObjects = false;
 
 		category.Add(newField);
 

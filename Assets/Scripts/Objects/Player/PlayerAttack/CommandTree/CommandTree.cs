@@ -22,17 +22,16 @@ public class AttackNode
 	public float attackST;
 	public float attackKnockback;
 
-	[Header("공격용 콜라이더")]
-	public Collider collider;
-
 	[Header("공격 이펙트")]
 	public Vector3 effectOffset;
+	public Quaternion effectRotOffset;
 	public GameObject effectPrefab;
 	public GameObject effectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
 	[Header("적 피격 이펙트")]
 	public Vector3 hitEffectOffset;
+	public Quaternion hitEffectRotOffset;
 	public GameObject hitEffectPrefab;
 	public GameObject hitEffectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
@@ -54,31 +53,7 @@ public class AttackNode
 	{
 		this.command = command;
 		childNodes = new List<AttackNode>();
-		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
-		hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
-		//collider.enabled = false;
 	}
-
-/*	public AttackNode(AttackNode node)
-	{
-		Copy(node);
-	}*/
-
-/*	public void Copy(AttackNode node)
-	{
-		command = node.command;
-		childNodes = node.childNodes;
-		parent = node.parent;
-		attackLength = node.attackLength;
-		attackSpeed = node.attackSpeed;
-		attackST = node.attackST;
-		collider = node.collider;
-		effectPrefab = node.effectPrefab;
-		effectParent = node.effectParent;
-		effectPoolManager = new  ObjectPoolManager<Transform>(effectPrefab, effectParent);
-		*//*ObjectPoolManager<Transform> manager = effectParent.AddComponent<ObjectPoolManager<Transform>>();
-		manager.SetManager(effectPrefab, effectParent);*//*
-	}*/
 
 	public void AddPoolManager()
 	{
@@ -114,7 +89,7 @@ public class CommandTree
 		parent.childNodes.Add(newNode);
 	}
 
-	public void SetTree(AttackNode curNode, AttackNode parent)
+	/*public void SetTree(AttackNode curNode, AttackNode parent)
 	{
 		int childCount = 0;
 		curNode.parent = parent;
@@ -124,7 +99,7 @@ public class CommandTree
 		{
 			SetTree(curNode.childNodes[childCount++], curNode);
 		}
-	}
+	}*/
 
 	private bool IsNodeInTree(AttackNode node)
 	{
