@@ -7,13 +7,31 @@ public class CommandTreeLoader : MonoBehaviour
 	[SerializeField] private GameObject localParent;
 	[SerializeField] private GameObject worldParent;
 
+	private List<CSCommandSO> GetCommandsAll()
+	{
+		if (containerSO == null) { FDebug.LogError("[CommandTreeLoader] containerSO is Null"); return null; }
+
+		List<CSCommandSO> commands = new List<CSCommandSO>();
+
+		foreach(var groupedNodes in containerSO.CommandGroups.values)
+		{
+			commands.AddRange(groupedNodes);
+		}
+
+		commands.AddRange(containerSO.UngroupedCommands);
+
+		return commands;
+	}
+
     public CommandTree GetCommandTree()
 	{
-		if(containerSO == null) { FDebug.LogError("[CommandTreeLoader] containerSO is Null"); return null; }
+		var commands = GetCommandsAll();
+
+		if (commands == null) { return null; }
 
 		CommandTree tree = new CommandTree();
 
-		foreach (var node in containerSO.UngroupedCommands)
+		foreach (var node in commands)
 		{
 			if(node.IsStartingCommand)
 			{
