@@ -316,8 +316,6 @@ public static class CSIOUtility
 
 	private static void LoadNodes(List<CSNodeSaveData> nodes)
 	{
-		graphView.CreateStartNode();
-
 		foreach(var nodeSaveData in nodes)
 		{
 			var node = graphView.CreateNode(nodeSaveData.Name, nodeSaveData.CommandType, nodeSaveData.Position, false);
