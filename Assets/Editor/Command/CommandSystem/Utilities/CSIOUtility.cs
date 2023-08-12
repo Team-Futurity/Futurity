@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public static class CSIOUtility
 {
@@ -24,6 +25,7 @@ public static class CSIOUtility
 	public static void Initialize(CommandGraphView csGraphView, string graphName)
 	{
 		graphView = csGraphView;
+		graphView.OnGraphViewChanged();
 
 		graphFileName = graphName;
 		containerFolderPath = $"Assets/Data/CommandSystem/Commands/{graphFileName}";
@@ -408,10 +410,7 @@ public static class CSIOUtility
 
 		graphView.AddElement(edge);
 
-		if (edge.output.userData is CSStartNode startNode)
-		{
-			inputPort.userData = startNode;
-		}
+		graphView.SetConnection(edge);
 
 		outputPort.node.RefreshPorts();
 	}

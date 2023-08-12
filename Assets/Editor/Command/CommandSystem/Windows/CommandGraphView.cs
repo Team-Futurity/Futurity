@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal.Commands;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.XR;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEngine.GraphicsBuffer;
 
@@ -506,7 +508,7 @@ public class CommandGraphView : GraphView
 		};
 	}
 
-	private void OnGraphViewChanged()
+	public void OnGraphViewChanged()
 	{
 		graphViewChanged = (changes) =>
 		{
@@ -514,25 +516,13 @@ public class CommandGraphView : GraphView
 			{
 				foreach (var edge in changes.edgesToCreate)
 				{
-					var nextNode = (CSNode)edge.input.node;
-					var nextInput = (Port)nextNode.inputContainer.Children().First();
+					var nextCommand = SetConnection(edge);
 
-					if (edge.output.userData is CSStartNode startNode) 
-					{
-						nextInput.userData = startNode;
-						continue; 
-					}
+					if(nextCommand == null) { continue; }
 
 					var curNode = (CSNode)edge.output.userData;
-
-					var nextCommand = new CSNextCommandSaveData()
-					{
-						NodeID = nextNode.ID
-					};
-
-					nextInput.userData = curNode;
 					curNode.NextCommands.Add(nextCommand);
-					nextCommandSaves.Add(nextCommand.NodeID, nextCommand);
+					
 				}
 			}
 
@@ -561,6 +551,30 @@ public class CommandGraphView : GraphView
 
 			return changes;
 		};
+	}
+
+	public CSNextCommandSaveData SetConnection(Edge edge)
+	{
+		var nextNode = (CSNode)edge.input.node;
+		var nextInput = (Port)nextNode.inputContainer.Children().First();
+
+		if (edge.output.userData is CSStartNode startNode)
+		{
+			nextInput.userData = startNode;
+			return null;
+		}
+
+		var curNode = (CSNode)edge.output.userData;
+
+		var nextCommand = new CSNextCommandSaveData()
+		{
+			NodeID = nextNode.ID
+		};
+
+		nextInput.userData = curNode;
+		nextCommandSaves.Add(nextCommand.NodeID, nextCommand);
+
+		return nextCommand;
 	}
 	#endregion
 
@@ -636,6 +650,7 @@ public class CommandGraphView : GraphView
 		groups.Clear();
 		groupedNodes.Clear();
 		ungroupedNodes.Clear();
+		nextCommandSaves.Clear();
 
 		nameErrorsAmount = 0;
 	}
