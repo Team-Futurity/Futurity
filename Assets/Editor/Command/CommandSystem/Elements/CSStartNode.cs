@@ -23,7 +23,7 @@ public class CSStartNode : CSBaseNode
 		titleContainer.Insert(0, commandName);
 
 		// ~Output Container~ //
-		Port nextCommandsPort = this.CreatePort("시작 커맨드", Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
+		Port nextCommandsPort = this.CreatePort("시작 커맨드", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
 		nextCommandsPort.userData = this;
 		outputContainer.Add(nextCommandsPort);
 	}
