@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class CommandGraphView : GraphView
 	private const string DefaultGroupName = "CommandGroup";
 	private readonly StyleColor MiniMapBackgroundColor = new StyleColor(new Color32(29, 29, 30, 255));
 	private readonly StyleColor MiniMapBorderColor = new StyleColor(new Color32(51, 51, 51, 255));
+	private readonly Vector2 DefaultStartNodePosition = new Vector2(20, 210);
 
 	private CSSearchWindow searchWindow;
 	private CommandEditorWindow editorWindow;
@@ -45,6 +47,8 @@ public class CommandGraphView : GraphView
 		}
 	}
 
+	public CSStartNode startNode;
+
 	public CommandGraphView(CommandEditorWindow editorWindow)
 	{
 		this.editorWindow = editorWindow;
@@ -59,6 +63,7 @@ public class CommandGraphView : GraphView
 		AddSearchWindow();
 		AddMinimap();
 		AddGridBackground();
+		startNode = CreateStartNode();
 
 		// Callbacks
 		OnElementsDeleted();
@@ -191,6 +196,26 @@ public class CommandGraphView : GraphView
 		}
 
 		AddUngroupedNode(node);
+
+		AddElement(node);
+
+		return node;
+	}
+
+	public CSStartNode CreateStartNode(Vector2? position = null, bool shouldDraw = true)
+	{
+		Vector2 vec = position ?? DefaultStartNodePosition;
+
+		Type nodeType = Type.GetType($"CSStartNode");
+
+		var node = (CSStartNode)Activator.CreateInstance(nodeType);
+
+		node.Initialize(this, vec);
+
+		if (shouldDraw)
+		{
+			node.Draw();
+		}
 
 		AddElement(node);
 
@@ -490,6 +515,14 @@ public class CommandGraphView : GraphView
 				foreach (var edge in changes.edgesToCreate)
 				{
 					var nextNode = (CSNode)edge.input.node;
+					var nextInput = (Port)nextNode.inputContainer.Children().First();
+
+					if (edge.output.userData is CSStartNode startNode) 
+					{
+						nextInput.userData = startNode;
+						continue; 
+					}
+
 					var curNode = (CSNode)edge.output.userData;
 
 					var nextCommand = new CSNextCommandSaveData()
@@ -497,6 +530,7 @@ public class CommandGraphView : GraphView
 						NodeID = nextNode.ID
 					};
 
+					nextInput.userData = curNode;
 					curNode.NextCommands.Add(nextCommand);
 					nextCommandSaves.Add(nextCommand.NodeID, nextCommand);
 				}
@@ -513,8 +547,13 @@ public class CommandGraphView : GraphView
 					var edge = (Edge)element;
 
 					var nextNode = (CSNode)edge.input.node;
-					var curNode = (CSNode)edge.output.userData;
+					var nextInput = (Port)nextNode.inputContainer.Children().First();
+					nextInput.userData = null;
 
+					if (edge.output.userData is CSStartNode) { continue; }
+					
+					var curNode = (CSNode)edge.output.userData;
+					
 					curNode.NextCommands.Remove(nextCommandSaves[nextNode.ID]);
 					nextCommandSaves.Remove(nextNode.ID);
 				}

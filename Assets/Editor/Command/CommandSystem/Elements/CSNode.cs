@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FMODUnity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
@@ -24,12 +25,34 @@ public class CSNode : Node
 	public float AttackST { get; set; }
 	public float AttackKnockback { get; set; }
 
+	// Attack Effect
+	public Vector3 EffectOffset { get; set; }
+	public GameObject EffectPrefab { get; set; }
+	public EffectParent AttackEffectParent { get; set; }
+
+	// Enemy Hit Effect
+	public Vector3 HitEffectOffset { get; set; }
+	public GameObject HitEffectPrefab { get; set; }
+	public EffectParent HitEffectParent { get; set; }
+
+	// Production
+	public int AnimInteger { get; set; }
+
+	float random;
+	public float RandomShakePower { get; set; }
+	public float CurveShakePower { get; set; }
+	public float ShakeTime { get; set; }
+	public float SlowTime { get; set; }
+	public float SlowScale { get; set; }
+
+	// Attack Sound
+	public EventReference AttackSound { get; set; }
 
 	private Color defaultBackgroundColor;
 
 	private CommandGraphView graphView;
 
-	private const int MaxFloatFieldLenght = 7;
+	private const int MaxFieldLength = 7;
 
 	public virtual void Initialize(string nodeName, CommandGraphView cgView, Vector2 position)
 	{
@@ -51,12 +74,13 @@ public class CSNode : Node
 
 	public virtual void Draw()
 	{
-		// Title Container
+		// ~Title Container~ //
 		TextField commandName = CSElementUtility.CreateTextField(CommandName, null, callback =>
 		{
 			TextField target = (TextField)callback.target;
 			target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
 
+			// Checking Name Error
 			if(string.IsNullOrEmpty(target.value))
 			{
 				if(!string.IsNullOrEmpty(CommandName))
@@ -99,46 +123,62 @@ public class CSNode : Node
 		);
 
 		titleContainer.Insert(0, commandName);
-		//titleContainer.Add(commandName);
 
-		// Input Container
+		// ~Input Container~ //
 		Port inputPort = this.CreatePort("이전 커맨드", Orientation.Horizontal, Direction.Input, Port.Capacity.Single);
 
 		inputContainer.Add(inputPort);
 
-		// Extensions Container
+		// ~Extensions Container~ //
 		VisualElement customDataContainer = new VisualElement();
 
 		customDataContainer.AddToClassList("ds-node__custom-data-container");
 
 		// Element Initialize
+		// default
 		Foldout textFoldout = CSElementUtility.CreateFoldout("Command Type");
-		EnumField enumField = new EnumField(CommandType);
-		enumField.AddClasses(
-				"ds-node__textfield",
-				"ds-node__quote-textfield"
-		);
+		EnumField commandTypeField = CreateAndRegistField("커맨드 타입				|", CommandType, textFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
-		Foldout comboTextFoldout = CSElementUtility.CreateFoldout("Combo Data");
-		FloatField lengthField =			new FloatField("Attack Length(공격 사거리)				|", MaxFloatFieldLenght);
-		FloatField angleField =				new FloatField("Attack Angle(공격 각도)					|", MaxFloatFieldLenght);
-		FloatField lengthMarkField =		new FloatField("Attack Length Mark(공격 시전지)			|", MaxFloatFieldLenght);
-		FloatField delayField =				new FloatField("Attack Delay(공격 지연 시간)				|", MaxFloatFieldLenght);
-		FloatField speedField =				new FloatField("Attack Speed(공격 속도)				|", MaxFloatFieldLenght);
-		FloatField afterDelayField =		new FloatField("Attack After Delay(공격 후 지연 시간)		|", MaxFloatFieldLenght);
-		FloatField attackSTField =			new FloatField("Attack ST(데미지 배율)					|", MaxFloatFieldLenght);
-		FloatField attackKnockbackField =	new FloatField("Attack Knockback(몬스터를 밀치는 거리)		|", MaxFloatFieldLenght);
-		lengthField.value = AttackLength;
-		angleField.value = AttackAngle;
-		lengthMarkField.value = AttackLengthMark;
-		delayField.value = AttackDelay;
-		speedField.value = AttackSpeed;
-		afterDelayField.value = AttackAfterDelay;
-		attackSTField.value = AttackST;
-		attackKnockbackField.value = AttackKnockback;
+		// combo
+		Foldout comboFoldout = CSElementUtility.CreateFoldout("Combo Data");
+		FloatField lengthField					= CreateAndRegistField("Attack Length(공격 사거리)				|", AttackLength, comboFoldout);
+		FloatField angleField					= CreateAndRegistField("Attack Angle(공격 각도)					|", AttackAngle, comboFoldout);
+		FloatField lengthMarkField				= CreateAndRegistField("Attack Length Mark(공격 시전지)			|", AttackLengthMark, comboFoldout);
+		FloatField delayField					= CreateAndRegistField("Attack Delay(공격 지연 시간)				|", AttackDelay, comboFoldout);
+		FloatField speedField					= CreateAndRegistField("Attack Speed(공격 속도)				|", AttackSpeed, comboFoldout);
+		FloatField afterDelayField				= CreateAndRegistField("Attack After Delay(공격 후 지연 시간)		|", AttackAfterDelay, comboFoldout);
+		FloatField attackSTField				= CreateAndRegistField("Attack ST(데미지 배율)					|", AttackST, comboFoldout);
+		FloatField attackKnockbackField			= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 거리)		|", AttackKnockback, comboFoldout);
+
+		// attack effect
+		Foldout attackEffectFoldout = CSElementUtility.CreateFoldout("Attack Effect");
+		Vector3Field effectOffsetField			= CreateAndRegistField("이펙트 오프셋			|", EffectOffset, attackEffectFoldout);
+		ObjectField effectPrefabField			= CreateAndRegistField("이펙트 프리팹			|", EffectPrefab, typeof(GameObject), attackEffectFoldout);
+		EnumField effectParentField = CreateAndRegistField("이펙트 부모 설정			|", AttackEffectParent, attackEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+
+		// enemy hit efffect
+		Foldout enemyHitEffectFoldout = CSElementUtility.CreateFoldout("Enemy Hit Effect");
+		Vector3Field enemyHitEffectOffsetField	= CreateAndRegistField("적 피격 이펙트 오프셋		|", HitEffectOffset, enemyHitEffectFoldout);
+		ObjectField enemyHitEffectPrefabField	= CreateAndRegistField("적 피격 이펙트 프리팹		|", HitEffectPrefab, typeof(GameObject), enemyHitEffectFoldout);
+		EnumField enemyHitEffectField = CreateAndRegistField("적 피격 이펙트 부모 설정	|", HitEffectParent, enemyHitEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+
+		// production
+		Foldout productionFoldout = CSElementUtility.CreateFoldout("Production");
+		IntegerField animInteagerField			= CreateAndRegistField("애니메이션 전환값			|", AnimInteger, productionFoldout);
+
+		FloatField randomShakeField				= CreateAndRegistField("무작위로 흔드는 정도		|", RandomShakePower, productionFoldout);
+		FloatField curveShakeField				= CreateAndRegistField("커브로 흔드는 정도		|", CurveShakePower, productionFoldout);
+		FloatField shakeTimeField				= CreateAndRegistField("흔드는 시간				|", ShakeTime, productionFoldout);
+		FloatField slowTimeField				= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
+		FloatField slowScaleField				= CreateAndRegistField("슬로우를 거는 정도		|", SlowScale, productionFoldout);
+
+		// sound
+		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
+		TextField attackSoundField				= CreateAndRegistField("공격 SE				|", AttackSound.Path, soundFoldout);	
 
 		// Callbacks
-		enumField.RegisterValueChangedCallback((callback) => { CommandType = (CSCommandType)callback.newValue; });
+		commandTypeField.RegisterValueChangedCallback((callback) => { CommandType = (CSCommandType)callback.newValue; });
+
 		lengthField.RegisterValueChangedCallback((callback) => { AttackLength = callback.newValue; });
 		angleField.RegisterValueChangedCallback((callback) => { AttackAngle = callback.newValue; });
 		lengthMarkField.RegisterValueChangedCallback((callback) => { AttackLengthMark = callback.newValue; });
@@ -148,23 +188,34 @@ public class CSNode : Node
 		attackSTField.RegisterValueChangedCallback((callback) => { AttackST = callback.newValue; });
 		attackKnockbackField.RegisterValueChangedCallback((callback) => { AttackKnockback = callback.newValue; });
 
-		// Add
-		textFoldout.Add(enumField);
-		customDataContainer.Add(textFoldout);
+		effectOffsetField.RegisterValueChangedCallback((callback) => { EffectOffset = callback.newValue; });
+		effectPrefabField.RegisterValueChangedCallback((callback) => { EffectPrefab = callback.newValue as GameObject; });
+		effectParentField.RegisterValueChangedCallback((callback) => { AttackEffectParent = (EffectParent)callback.newValue; });
 
-		comboTextFoldout.Add(lengthField);
-		comboTextFoldout.Add(angleField);
-		comboTextFoldout.Add(lengthMarkField);
-		comboTextFoldout.Add(delayField);
-		comboTextFoldout.Add(speedField);
-		comboTextFoldout.Add(afterDelayField);
-		comboTextFoldout.Add(attackSTField);
-		comboTextFoldout.Add(attackKnockbackField);
-		customDataContainer.Add(comboTextFoldout);
+		enemyHitEffectOffsetField.RegisterValueChangedCallback((callback) => { HitEffectOffset = callback.newValue; });
+		enemyHitEffectPrefabField.RegisterValueChangedCallback((callback) => { HitEffectPrefab = callback.newValue as GameObject; });
+		enemyHitEffectField.RegisterValueChangedCallback((callback) => { HitEffectParent = (EffectParent)callback.newValue; });
+
+		animInteagerField.RegisterValueChangedCallback((callback) => { AnimInteger = callback.newValue; });
+		randomShakeField.RegisterValueChangedCallback((callback) => { RandomShakePower = callback.newValue; });
+		curveShakeField.RegisterValueChangedCallback((callback) => { CurveShakePower = callback.newValue; });
+		shakeTimeField.RegisterValueChangedCallback((callback) => { ShakeTime = callback.newValue; });
+		slowTimeField.RegisterValueChangedCallback((callback) => { SlowTime = callback.newValue; });
+		slowScaleField.RegisterValueChangedCallback((callback) => { SlowScale = callback.newValue; });
+
+		attackSoundField.RegisterValueChangedCallback((callback) => { AttackSound = EventReference.Find(callback.newValue); });
+
+		// Add
+		customDataContainer.Add(textFoldout);
+		customDataContainer.Add(comboFoldout);
+		customDataContainer.Add(attackEffectFoldout);
+		customDataContainer.Add(enemyHitEffectFoldout);
+		customDataContainer.Add(productionFoldout);
+		customDataContainer.Add(soundFoldout);
 
 		extensionContainer.Add(customDataContainer);
 
-		// Output Container
+		// ~Output Container~ //
 		Port nextCommandsPort = this.CreatePort("다음 커맨드", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
 		nextCommandsPort.userData = this;
 		outputContainer.Add(nextCommandsPort);
@@ -214,7 +265,7 @@ public class CSNode : Node
 	{
 		Port input = (Port)inputContainer.Children().First();
 
-		return !input.connected;
+		return input.connected && input.userData is CSStartNode;
 	}
 
 	public void SetErrorStyle(Color color)
@@ -276,6 +327,23 @@ public class CSNode : Node
 		AttackAfterDelay = saveData.AttackAfterDelay;
 		AttackKnockback = saveData.AttackKnockback;
 		AttackST = saveData.AttackST;
+
+		EffectOffset = saveData.EffectOffset;
+		EffectPrefab = saveData.EffectPrefab;
+		AttackEffectParent = saveData.AttackEffectParent;
+
+		HitEffectOffset = saveData.EffectOffset;
+		HitEffectPrefab = saveData.EffectPrefab;
+		HitEffectParent = saveData.HitEffectParent;
+
+		AnimInteger = saveData.AnimInteger;
+		RandomShakePower = saveData.RandomShakePower;
+		CurveShakePower = saveData.CurveShakePower;
+		ShakeTime = saveData.ShakeTime;
+		SlowTime = saveData.SlowTime;
+		SlowScale = saveData.SlowScale;
+
+		AttackSound = saveData.AttackSound;
 	}
 
 	public void SaveToCommandSO(ref CSCommandSO so)
@@ -288,6 +356,86 @@ public class CSNode : Node
 		so.AttackAfterDelay = AttackAfterDelay;
 		so.AttackKnockback = AttackKnockback;
 		so.AttackST = AttackST;
+
+		so.EffectOffset = EffectOffset;
+		so.EffectPrefab = EffectPrefab;
+		so.AttackEffectParent = AttackEffectParent;
+
+		so.HitEffectOffset = HitEffectOffset;
+		so.HitEffectPrefab = HitEffectPrefab;
+		so.HitEffectParent = HitEffectParent;
+
+		so.AnimInteger = AnimInteger;
+		so.RandomShakePower = RandomShakePower;
+		so.CurveShakePower = CurveShakePower;
+		so.ShakeTime = SlowTime;
+		so.SlowTime = SlowTime;
+		so.SlowScale = SlowScale;
+
+		so.AttackSound = AttackSound;
+	}
+
+	private FloatField CreateAndRegistField(string fieldName, float variable, Foldout category)
+	{
+		FloatField newField = new FloatField(fieldName, MaxFieldLength);
+		newField.value = variable;
+
+		category.Add(newField);
+
+		return newField;
+	}
+
+	private IntegerField CreateAndRegistField(string fieldName, int variable, Foldout category)
+	{
+		IntegerField newField = new IntegerField(fieldName, MaxFieldLength);
+		newField.value = variable;
+
+		category.Add(newField);
+
+		return newField;
+	}
+
+	private ObjectField CreateAndRegistField(string fieldName, UnityEngine.Object variable, Type objectType, Foldout category)
+	{
+		ObjectField newField = new ObjectField(fieldName);
+		newField.objectType = objectType;
+		newField.value = variable;
+
+		category.Add(newField);
+
+		return newField;
+	}
+
+	private Vector3Field CreateAndRegistField(string fieldName, Vector3 variable, Foldout category)
+	{
+		Vector3Field newField = new Vector3Field(fieldName);
+		newField.value = variable;
+
+		category.Add(newField);
+
+		return newField;
+	}
+
+	private TextField CreateAndRegistField(string fieldName, string variable, Foldout category)
+	{
+		TextField newField = new TextField(fieldName);
+		newField.value = variable;
+
+		category.Add(newField);
+
+		return newField;
+	}
+
+	private EnumField CreateAndRegistField(string fieldName, Enum variable, Foldout category, params string[] classNames)
+	{
+		EnumField newField = new EnumField(fieldName, variable);
+		newField.value = variable;
+
+		newField.AddClasses(classNames);
+
+		category.Add(newField);
+
+		return newField;
 	}
 	#endregion
 }

@@ -302,11 +302,13 @@ public static class CSIOUtility
 
 					var nextNodeInputPort = (Port)nextNode.inputContainer.Children().First();
 
-					Edge edge = port.ConnectTo(nextNodeInputPort);
+					/*Edge edge = port.ConnectTo(nextNodeInputPort);
 
 					graphView.AddElement(edge);
 
-					node.Value.RefreshPorts();
+					node.Value.RefreshPorts();*/
+
+					CreateConnection(port, nextNodeInputPort);
 				}
 			}
 		}
@@ -314,6 +316,8 @@ public static class CSIOUtility
 
 	private static void LoadNodes(List<CSNodeSaveData> nodes)
 	{
+		graphView.CreateStartNode();
+
 		foreach(var nodeSaveData in nodes)
 		{
 			var node = graphView.CreateNode(nodeSaveData.Name, nodeSaveData.CommandType, nodeSaveData.Position, false);
@@ -333,6 +337,14 @@ public static class CSIOUtility
 				node.NodeGroup = group;
 
 				group.AddElement(node);
+			}
+
+			if (nodeSaveData.IsStartingNode)
+			{
+				var startNodePort = (Port)graphView.startNode.outputContainer.Children().First();
+				var curNodePort = (Port)node.inputContainer.Children().First();
+
+				CreateConnection(startNodePort, curNodePort);
 			}
 		}
 	}
@@ -390,6 +402,15 @@ public static class CSIOUtility
 		}		
 
 		return asset;
+	}
+
+	public static void CreateConnection(Port outputPort, Port inputPort)
+	{
+		Edge edge = inputPort.ConnectTo(outputPort);
+
+		graphView.AddElement(edge);
+
+		outputPort.node.RefreshPorts();
 	}
 	#endregion
 

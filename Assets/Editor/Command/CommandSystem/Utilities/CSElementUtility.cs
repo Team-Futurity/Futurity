@@ -36,6 +36,14 @@ public static class CSElementUtility
 
 		return port;
 	}
+	public static Port CreatePort(this CSBaseNode node, string portName = "", Orientation orientation = Orientation.Horizontal, Direction direction = Direction.Output, Port.Capacity capacity = Port.Capacity.Single)
+	{
+		Port port = node.InstantiatePort(orientation, direction, capacity, typeof(bool));
+
+		port.portName = portName;
+
+		return port;
+	}
 
 	public static TextField CreateTextField(string value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
 	{

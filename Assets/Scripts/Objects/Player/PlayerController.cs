@@ -88,6 +88,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public GameObject glove;
 	public GameObject rushGlove;
 	public Player playerData;
+	public CommandTreeLoader commandTreeLoader;
 	public ActivePartController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
@@ -151,7 +152,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		curNode = comboTree.top;
 		nextCombo = PlayerInput.None;
 		firstBehaiviorNode = null;
-		comboTree.SetTree(comboTree.top, null);
+		comboTree = commandTreeLoader.GetCommandTree();
+		//comboTree.SetTree(comboTree.top, null);
 
 		// Glove Init
 		glove.SetActive(false);

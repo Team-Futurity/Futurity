@@ -93,13 +93,15 @@ public class CommandEditorWindow : EditorWindow
 	private void Clear()
 	{
 		graphView.ClearGraph();
+
+		graphView.startNode = graphView.CreateStartNode();
 	}
 
 	private void ResetGraph()
 	{
 		Clear();
 
-		UpdateFileName(defaultFileName);
+		UpdateFileName(defaultFileName);		
 	}
 
 	private void Load()

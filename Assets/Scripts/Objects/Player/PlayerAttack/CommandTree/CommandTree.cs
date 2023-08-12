@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using FMODUnity;
 
 [Serializable]
@@ -28,15 +26,15 @@ public class AttackNode
 	public Collider collider;
 
 	[Header("공격 이펙트")]
-	public Transform effectPos;
-	[SerializeField] private GameObject effectPrefab;
-	[SerializeField] private GameObject effectParent;
+	public Vector3 effectOffset;
+	public GameObject effectPrefab;
+	public GameObject effectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
 	[Header("적 피격 이펙트")]
 	public Vector3 hitEffectOffset;
-	[SerializeField] private GameObject hitEffectPrefab;
-	[SerializeField] private GameObject hitEffectParent;
+	public GameObject hitEffectPrefab;
+	public GameObject hitEffectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
 
 	[Header("연출용 데이터")]
@@ -100,11 +98,20 @@ public class AttackNode
 public class CommandTree
 {
 	public AttackNode top; // 최상단 노드
-	[HideInInspector] public int dataCount;
 
 	public CommandTree()
 	{
 		top = new AttackNode(PlayerInput.None);
+	}
+
+	public void AddNode(AttackNode newNode, AttackNode parent)
+	{
+		if (!IsNodeInTree(parent)) { FDebug.LogError("[CommandTree] This Node is not Node in This Tree"); return; }
+
+		newNode.parent = parent;
+		newNode.AddPoolManager();
+
+		parent.childNodes.Add(newNode);
 	}
 
 	public void SetTree(AttackNode curNode, AttackNode parent)
@@ -117,6 +124,17 @@ public class CommandTree
 		{
 			SetTree(curNode.childNodes[childCount++], curNode);
 		}
+	}
+
+	private bool IsNodeInTree(AttackNode node)
+	{
+		var parent = node; 
+		while(parent.parent != null)
+		{
+			parent = parent.parent;
+		}
+
+		return parent == top;
 	}
 
 /*	#region Insert
