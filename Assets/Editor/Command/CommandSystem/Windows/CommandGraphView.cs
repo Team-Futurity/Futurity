@@ -536,6 +536,8 @@ public class CommandGraphView : GraphView
 
 					var edge = (Edge)element;
 
+					if(edge.input == null || edge.output == null) { continue; }
+
 					var nextNode = (CSNode)edge.input.node;
 					var nextInput = (Port)nextNode.inputContainer.Children().First();
 					nextInput.userData = null;
