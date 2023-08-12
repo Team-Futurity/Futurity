@@ -408,6 +408,11 @@ public static class CSIOUtility
 
 		graphView.AddElement(edge);
 
+		if (edge.output.userData is CSStartNode startNode)
+		{
+			inputPort.userData = startNode;
+		}
+
 		outputPort.node.RefreshPorts();
 	}
 	#endregion
