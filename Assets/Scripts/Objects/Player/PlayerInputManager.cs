@@ -37,6 +37,18 @@ public class PlayerInputManager : MonoBehaviour
 		inputQueues[lastQueueIndex] = firstQueue;
 	}
 
+	public Queue<string> GetInputQueue(int queueIndex)
+	{
+		if(queueIndex < 0 || queueIndex > lastQueueIndex) { FDebug.LogError("This Index is Invalid"); return null; }
+
+		return inputQueues[queueIndex];
+	}
+
+	public Queue<string> GetCurrentInputQueue()
+	{
+		return inputQueues[lastQueueIndex];
+	}
+
 	public void OnSpecialMove(InputAction.CallbackContext context)
 	{
 		if (!context.started) { return; }
