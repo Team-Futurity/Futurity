@@ -46,6 +46,8 @@ public class CommandTreeLoader : MonoBehaviour
 	{
 		var node = new AttackNode(CommandEnumConverter.CommandTypeToPlayerInput(commandSO.CommandType));
 
+		node.name				= commandSO.CommandName;
+
 		node.attackLength		= commandSO.AttackLength;
 		node.attackAngle		= commandSO.AttackAngle;
 		node.attackST			= commandSO.AttackST;

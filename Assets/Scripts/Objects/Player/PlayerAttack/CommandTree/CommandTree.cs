@@ -6,6 +6,9 @@ using FMODUnity;
 [Serializable]
 public class AttackNode
 {
+	[Header("노드 이름")]
+	public string name;
+
 	[Header("공격 타입")]
 	public PlayerInput command;
 	[Header("다음 공격(콤보)")]
