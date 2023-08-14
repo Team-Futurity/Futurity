@@ -18,6 +18,9 @@ public enum PlayerState : int
 
 	// 액티브 부품(필살기)
 	BasicPart,      // 기본 부품
+
+	// 기타 유틸
+	AutoMove
 }
 
 public enum PlayerInput : int
@@ -25,7 +28,9 @@ public enum PlayerInput : int
 	None,
 	NormalAttack,
 	SpecialAttack,
-	Dash
+	Dash,
+	Move,
+	SpecialMove
 }
 
 [Serializable]

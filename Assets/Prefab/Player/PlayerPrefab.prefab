@@ -6166,7 +6166,6 @@ GameObject:
   - component: {fileID: 1070719927369175188}
   - component: {fileID: 1070719927369175189}
   - component: {fileID: 1070719927369175194}
-  - component: {fileID: 926590480872082409}
   - component: {fileID: 1921549231}
   - component: {fileID: 4272038019141093718}
   - component: {fileID: 484117206}
@@ -6176,6 +6175,8 @@ GameObject:
   - component: {fileID: 1921549252}
   - component: {fileID: 495645714}
   - component: {fileID: 872569107971545013}
+  - component: {fileID: 8996021751070515556}
+  - component: {fileID: 484117211}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -6219,13 +6220,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboTree:
     top:
+      name: 
       command: 0
       childNodes:
-      - command: 1
+      - name: 
+        command: 1
         childNodes:
-        - command: 1
+        - name: 
+          command: 1
           childNodes:
-          - command: 1
+          - name: 
+            command: 1
             childNodes: []
             attackLength: 235
             attackAngle: 360
@@ -6235,11 +6240,12 @@ MonoBehaviour:
             attackAfterDelay: 1.7
             attackST: 4
             attackKnockback: 0
-            collider: {fileID: 4068547685948332291}
-            effectPos: {fileID: 292770056}
+            effectOffset: {x: 0, y: 0, z: 0}
+            effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
             effectPrefab: {fileID: 743645502276010547, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
             effectParent: {fileID: 0}
             hitEffectOffset: {x: 0, y: 0, z: 0}
+            hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
             hitEffectPrefab: {fileID: 1796362244684154822, guid: 1a4ec730cc5b23f49bacd462aff9ef06, type: 3}
             hitEffectParent: {fileID: 0}
             animInteger: 2
@@ -6254,8 +6260,9 @@ MonoBehaviour:
                 Data2: 1319667708
                 Data3: 1757666958
                 Data4: -356488086
-              Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-j
-          - command: 2
+              Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j-j
+          - name: 
+            command: 2
             childNodes: []
             attackLength: 600
             attackAngle: 40
@@ -6265,11 +6272,12 @@ MonoBehaviour:
             attackAfterDelay: 1.4
             attackST: 4
             attackKnockback: 120
-            collider: {fileID: 4068547685948332291}
-            effectPos: {fileID: 6543905284276725190}
+            effectOffset: {x: 0, y: 0, z: 0}
+            effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
             effectPrefab: {fileID: 7824830144992791228, guid: c0587accfc987084fbdcc4d87255d219, type: 3}
             effectParent: {fileID: 0}
             hitEffectOffset: {x: 0, y: 0, z: 0}
+            hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
             hitEffectPrefab: {fileID: 0}
             hitEffectParent: {fileID: 0}
             animInteger: 3
@@ -6284,7 +6292,7 @@ MonoBehaviour:
                 Data2: 1273239174
                 Data3: 1441446575
                 Data4: -410480518
-              Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-k
+              Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j-k
           attackLength: 250
           attackAngle: 180
           attackLengthMark: 0
@@ -6293,11 +6301,12 @@ MonoBehaviour:
           attackAfterDelay: 0.3
           attackST: 2
           attackKnockback: 100
-          collider: {fileID: 4068547685948332291}
-          effectPos: {fileID: 2014832257133555644}
+          effectOffset: {x: 0, y: 0, z: 0}
+          effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
           effectPrefab: {fileID: 8210732400216373646, guid: ce45194a96c5df94e97e15d0320870f6, type: 3}
           effectParent: {fileID: 490048779824429130}
           hitEffectOffset: {x: 0, y: 0, z: 0}
+          hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
           hitEffectPrefab: {fileID: 3005952347427146351, guid: a8f2bf971d987de449db6de5470a0714, type: 3}
           hitEffectParent: {fileID: 0}
           animInteger: 1
@@ -6312,7 +6321,7 @@ MonoBehaviour:
               Data2: 1165864781
               Data3: -350210426
               Data4: -188375705
-            Path: event:/SE/02basicattack/F_S_01_02_attack_j-j
+            Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j
         attackLength: 160
         attackAngle: 130
         attackLengthMark: 0
@@ -6321,11 +6330,12 @@ MonoBehaviour:
         attackAfterDelay: 0.3
         attackST: 1
         attackKnockback: 270
-        collider: {fileID: 4068547685948332291}
-        effectPos: {fileID: 1941853247}
+        effectOffset: {x: 0, y: 0, z: 0}
+        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 7485104759053717443, guid: 491302905a445004892ba748307860e5, type: 3}
         effectParent: {fileID: 490048779824429130}
         hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 1721076630676558347, guid: cd3ecfbbcbb5e6f4c93a4b43f321bdfb, type: 3}
         hitEffectParent: {fileID: 0}
         animInteger: 0
@@ -6340,8 +6350,9 @@ MonoBehaviour:
             Data2: 1117554763
             Data3: -682623315
             Data4: -2132575348
-          Path: event:/SE/02basicattack/F_S_01_02_attack_j
-      - command: 2
+          Path: event:/SE/PlayerAttack/Basic/F_S_01_02_attack_j
+      - name: 
+        command: 2
         childNodes: []
         attackLength: 0
         attackAngle: 0
@@ -6351,11 +6362,12 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 2
         attackKnockback: 0
-        collider: {fileID: 4068547685948332291}
-        effectPos: {fileID: 5328251835375101389}
+        effectOffset: {x: 0, y: 0, z: 0}
+        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
         effectParent: {fileID: 0}
         hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 0}
         hitEffectParent: {fileID: 0}
         animInteger: 0
@@ -6371,9 +6383,11 @@ MonoBehaviour:
             Data3: 0
             Data4: 0
           Path: 
-      - command: 3
+      - name: 
+        command: 3
         childNodes:
-        - command: 1
+        - name: 
+          command: 1
           childNodes: []
           attackLength: 0
           attackAngle: 0
@@ -6383,11 +6397,12 @@ MonoBehaviour:
           attackAfterDelay: 0
           attackST: 0
           attackKnockback: 0
-          collider: {fileID: 0}
-          effectPos: {fileID: 0}
+          effectOffset: {x: 0, y: 0, z: 0}
+          effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
           effectPrefab: {fileID: 0}
           effectParent: {fileID: 0}
           hitEffectOffset: {x: 0, y: 0, z: 0}
+          hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
           hitEffectPrefab: {fileID: 0}
           hitEffectParent: {fileID: 0}
           animInteger: 0
@@ -6411,11 +6426,12 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 0
         attackKnockback: 0
-        collider: {fileID: 0}
-        effectPos: {fileID: 5328251835375101389}
+        effectOffset: {x: 0, y: 0, z: 0}
+        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
         hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 0}
         hitEffectParent: {fileID: 0}
         animInteger: 0
@@ -6439,11 +6455,12 @@ MonoBehaviour:
       attackAfterDelay: 0
       attackST: 0
       attackKnockback: 0
-      collider: {fileID: 0}
-      effectPos: {fileID: 0}
+      effectOffset: {x: 0, y: 0, z: 0}
+      effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       effectPrefab: {fileID: 0}
       effectParent: {fileID: 0}
       hitEffectOffset: {x: 0, y: 0, z: 0}
+      hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       hitEffectPrefab: {fileID: 0}
       hitEffectParent: {fileID: 0}
       animInteger: 0
@@ -6459,7 +6476,6 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
-    dataCount: 3
   rotatePower: 18
   dashCoolTime: 0.8
   dashEffect: {fileID: 308051857588389, guid: c10bf3382be3d8c448ab0ac0e01127e7, type: 3}
@@ -6473,11 +6489,14 @@ MonoBehaviour:
   curCombo: 0
   nextCombo: 0
   curNode:
+    name: 
     command: 0
     childNodes:
-    - command: 1
+    - name: 
+      command: 1
       childNodes:
-      - command: 0
+      - name: 
+        command: 0
         childNodes: []
         attackLength: 0
         attackAngle: 0
@@ -6487,11 +6506,12 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 0
         attackKnockback: 0
-        collider: {fileID: 0}
-        effectPos: {fileID: 0}
+        effectOffset: {x: 0, y: 0, z: 0}
+        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
         hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 0}
         hitEffectParent: {fileID: 0}
         animInteger: 0
@@ -6515,11 +6535,12 @@ MonoBehaviour:
       attackAfterDelay: 0
       attackST: 0
       attackKnockback: 0
-      collider: {fileID: 0}
-      effectPos: {fileID: 0}
+      effectOffset: {x: 0, y: 0, z: 0}
+      effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
       effectParent: {fileID: 0}
       hitEffectOffset: {x: 0, y: 0, z: 0}
+      hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       hitEffectPrefab: {fileID: 0}
       hitEffectParent: {fileID: 0}
       animInteger: 0
@@ -6543,11 +6564,12 @@ MonoBehaviour:
     attackAfterDelay: 0
     attackST: 0
     attackKnockback: 0
-    collider: {fileID: 0}
-    effectPos: {fileID: 774150179230461155}
+    effectOffset: {x: 0, y: 0, z: 0}
+    effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
     effectParent: {fileID: 0}
     hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     hitEffectPrefab: {fileID: 0}
     hitEffectParent: {fileID: 0}
     animInteger: 0
@@ -6564,6 +6586,7 @@ MonoBehaviour:
         Data4: 0
       Path: 
   firstBehaiviorNode:
+    name: 
     command: 0
     childNodes: []
     attackLength: 0
@@ -6574,11 +6597,12 @@ MonoBehaviour:
     attackAfterDelay: 0
     attackST: 0
     attackKnockback: 0
-    collider: {fileID: 0}
-    effectPos: {fileID: 0}
+    effectOffset: {x: 0, y: 0, z: 0}
+    effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     effectPrefab: {fileID: 0}
     effectParent: {fileID: 0}
     hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     hitEffectPrefab: {fileID: 0}
     hitEffectParent: {fileID: 0}
     animInteger: 0
@@ -6600,13 +6624,14 @@ MonoBehaviour:
   glove: {fileID: 7164896735125955485}
   rushGlove: {fileID: 6408263023137772874}
   playerData: {fileID: 1070719927369175194}
+  commandTreeLoader: {fileID: 8996021751070515556}
   activePartController: {fileID: 1921549218}
   comboGaugeSystem: {fileID: 6307489441031809494}
   hitCountSystem: {fileID: 8247117609381097480}
   attackCollider: {fileID: 4068547685948332288}
   autoTargetCollider: {fileID: 625353277}
   basicCollider: {fileID: 1070719927369175189}
-  rushEffectManager: {fileID: 926590480872082409}
+  effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
   buffProvider: {fileID: 1921549231}
   rmController: {fileID: 484117206}
   playerAnimationEvents: {fileID: 507041425030904175}
@@ -6745,11 +6770,11 @@ MonoBehaviour:
   maxComboGauge: 100
   comboData:
   - <ComboCount>k__BackingField: 0
-    <AddedGauge>k__BackingField: 21
+    <AddedGauge>k__BackingField: 7
   - <ComboCount>k__BackingField: 1
-    <AddedGauge>k__BackingField: 12
+    <AddedGauge>k__BackingField: 4
   - <ComboCount>k__BackingField: 2
-    <AddedGauge>k__BackingField: 6
+    <AddedGauge>k__BackingField: 2
   gaugeBar: {fileID: 0}
   OnGaugeChanged:
     m_PersistentCalls:
@@ -6837,8 +6862,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 484117211}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -6853,8 +6878,8 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 484117211}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
@@ -6869,8 +6894,8 @@ MonoBehaviour:
     m_ActionName: Player/Dash[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 484117211}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnNormalAttack
         m_Mode: 0
         m_Arguments:
@@ -6885,8 +6910,8 @@ MonoBehaviour:
     m_ActionName: Player/BasicAttack[/Keyboard/j]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 484117211}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnSpecialAttack
         m_Mode: 0
         m_Arguments:
@@ -6901,8 +6926,8 @@ MonoBehaviour:
     m_ActionName: Player/SpecialAttack[/Keyboard/k]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 484117211}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnSpecialMove
         m_Mode: 0
         m_Arguments:
@@ -6978,21 +7003,6 @@ MonoBehaviour:
   OnAttack:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &926590480872082409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33db36c7b6cb34141be8551874420422, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rushEffectData: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
-  rushEffectParent: {fileID: 490048779824429130}
-  worldRushEffectParent: {fileID: 0}
 --- !u!114 &1921549231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7039,7 +7049,7 @@ MonoBehaviour:
   - animationName: Idle
     isRootMotion: 1
   - animationName: Move
-    isRootMotion: 1
+    isRootMotion: 0
   - animationName: Hit
     isRootMotion: 1
   - animationName: Attack
@@ -7247,6 +7257,35 @@ MonoBehaviour:
   laskKillEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8996021751070515556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c919fd2832fdc214bb3296485cc36602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerSO: {fileID: 11400000, guid: c4d12abaff4256c46a26163c6feb92c1, type: 2}
+  localParent: {fileID: 490048779824429130}
+  worldParent: {fileID: 0}
+--- !u!114 &484117211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c50611165274ec945bb25fe898e4d3c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameCountToBeSaved: 3
+  pc: {fileID: 1070719927369175192}
 --- !u!1 &9205117049474632282
 GameObject:
   m_ObjectHideFlags: 0
