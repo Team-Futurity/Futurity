@@ -1,6 +1,7 @@
 using Spine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,12 +42,12 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		if(queueIndex < 0 || queueIndex > lastQueueIndex) { FDebug.LogError("This Index is Invalid"); return null; }
 
-		return inputQueues[queueIndex];
+		return new Queue<string>(inputQueues[queueIndex]);
 	}
 
 	public Queue<string> GetCurrentInputQueue()
 	{
-		return inputQueues[lastQueueIndex];
+		return new Queue<string>(inputQueues[lastQueueIndex]);
 	}
 
 	public void OnSpecialMove(InputAction.CallbackContext context)
