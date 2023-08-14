@@ -231,7 +231,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
-			GetInputData(PlayerInput.Move, true, input.ToString(), "State");
+			return GetInputData(PlayerInput.Move, true, input.ToString(), "State");
 		}
 
 		return GetInputData(PlayerInput.Move, false, input.ToString());
