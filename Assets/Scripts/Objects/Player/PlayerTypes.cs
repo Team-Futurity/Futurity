@@ -28,7 +28,9 @@ public enum PlayerInput : int
 	None,
 	NormalAttack,
 	SpecialAttack,
-	Dash
+	Dash,
+	Move,
+	SpecialMove
 }
 
 [Serializable]
