@@ -11,10 +11,6 @@ public class LastKillController : MonoBehaviour
 	private List<GameObject> DeActivePotals;
 
 	[SerializeField]
-	private Transform playerTransform;
-	[SerializeField]
-	private Transform cameraTransform;
-	[SerializeField]
 	private float zoomInDelayTime = 0.5f;
 	[SerializeField]
 	private float zoomInSpeed = 2f;
@@ -94,11 +90,5 @@ public class LastKillController : MonoBehaviour
 	{
 		if (DeActivePotals.Count != 0)
 		DeActivePotals[0].GetComponent<StageEndPotalController>().isActiveStageEndPortal = true;
-
-
-		/*for (int i = 0; i < DeActivePotals.Count; i++)
-		{
-			DeActivePotals[i].GetComponent<StageEndController>().isActiveStageEndPortal = true;
-		}*/
 	}
 }

@@ -5,17 +5,10 @@ using UnityEngine.UI;
 
 public class SocketController : MonoBehaviour
 {
-	[SerializeField]
-	private int itemNum = 0;
-
-	[SerializeField]
 	private Image itemImage;
-
-	[SerializeField]
 	private ItemUIData itemUIData;
 
-
-	void Start()
+	void Awake()
 	{
 		ResetItemUIData();
 	}

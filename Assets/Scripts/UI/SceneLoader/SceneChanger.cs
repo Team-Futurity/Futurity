@@ -3,26 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
+public static class SceneChangerController
 {
-	private SceneChangeManager sceneChangeManager;
-	private void Start()
+	public static void SceneChange(SceneKeyData sceneKeyData, int loadingType)
 	{
-		sceneChangeManager = SceneChangeManager.Instance;
+		SceneChangeManager.Instance.SceneLoad(sceneKeyData, loadingType);
 	}
 
-	public void SceneChange(SceneKeyData sceneKeyData)
+	public static void ResetScene()
 	{
-		sceneChangeManager.SceneLoad(sceneKeyData, 2);
-	}
-
-	public void TitleSceneChange(SceneKeyData sceneKeyData)
-	{
-		sceneChangeManager.SceneLoad(sceneKeyData, 1);
-	}
-
-	public void ResetScene()
-	{
-		sceneChangeManager.SelfSceneLoad();
+		SceneChangeManager.Instance.SelfSceneLoad();
 	}
 }
