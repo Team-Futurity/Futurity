@@ -33,8 +33,6 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 			//unit.StartNextComboAttack(unit.nextCombo, PlayerState.NormalAttack);
 			if (!unit.NodeTransitionProc(unit.nextCombo, PlayerState.NormalAttack)) { /*unit.ChangeState(PlayerState.Idle);*/ return; }
 
-			FDebug.Log("NEXT");
-
 			unit.nextCombo = PlayerInput.None;
 			unit.LockNextCombo(false);
 			NextAttackState(unit, PlayerState.AttackDelay);
