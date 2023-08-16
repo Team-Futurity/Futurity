@@ -6177,6 +6177,7 @@ GameObject:
   - component: {fileID: 872569107971545013}
   - component: {fileID: 8996021751070515556}
   - component: {fileID: 484117211}
+  - component: {fileID: 8335321450642112346}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -6223,13 +6224,13 @@ MonoBehaviour:
       name: 
       command: 0
       childNodes:
-      - name: 
+      - name: J
         command: 1
         childNodes:
-        - name: 
+        - name: JJ
           command: 1
           childNodes:
-          - name: 
+          - name: JJJ
             command: 1
             childNodes: []
             attackLength: 235
@@ -6261,7 +6262,7 @@ MonoBehaviour:
                 Data3: 1757666958
                 Data4: -356488086
               Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j-j
-          - name: 
+          - name: JJK
             command: 2
             childNodes: []
             attackLength: 600
@@ -6862,7 +6863,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 484117211}
+      - m_Target: {fileID: 8335321450642112346}
         m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -6878,7 +6879,7 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 484117211}
+      - m_Target: {fileID: 8335321450642112346}
         m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnDash
         m_Mode: 0
@@ -6894,7 +6895,7 @@ MonoBehaviour:
     m_ActionName: Player/Dash[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 484117211}
+      - m_Target: {fileID: 8335321450642112346}
         m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnNormalAttack
         m_Mode: 0
@@ -6910,7 +6911,7 @@ MonoBehaviour:
     m_ActionName: Player/BasicAttack[/Keyboard/j]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 484117211}
+      - m_Target: {fileID: 8335321450642112346}
         m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnSpecialAttack
         m_Mode: 0
@@ -6926,7 +6927,7 @@ MonoBehaviour:
     m_ActionName: Player/SpecialAttack[/Keyboard/k]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 484117211}
+      - m_Target: {fileID: 8335321450642112346}
         m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: OnSpecialMove
         m_Mode: 0
@@ -7156,8 +7157,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeActivePotals: []
-  playerTransform: {fileID: 5328251835375101389}
-  cameraTransform: {fileID: 0}
   zoomInDelayTime: 0.5
   zoomInSpeed: 2
   slowMotionFactor: 0.2
@@ -7246,8 +7245,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeActivePotals: []
-  playerTransform: {fileID: 5328251835375101389}
-  cameraTransform: {fileID: 0}
   zoomInDelayTime: 1.5
   zoomInSpeed: 2
   slowMotionFactor: 0.2
@@ -7273,6 +7270,20 @@ MonoBehaviour:
   localParent: {fileID: 490048779824429130}
   worldParent: {fileID: 0}
 --- !u!114 &484117211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c50611165274ec945bb25fe898e4d3c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameCountToBeSaved: 3
+  pc: {fileID: 1070719927369175192}
+--- !u!114 &8335321450642112346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
