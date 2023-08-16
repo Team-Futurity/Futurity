@@ -14,6 +14,15 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
 		values = new List<TValue>();
 		SyncInspectorFromDictionary();
 	}
+	public SerializableDictionary(SerializableDictionary<TKey, TValue> dictionary)
+	{
+		keys = new List<TKey>();
+		values = new List<TValue>();
+
+		keys.CopyTo(dictionary.keys.ToArray());
+		values.CopyTo(dictionary.values.ToArray());
+	}
+
 	public new void Add(TKey key, TValue value)
 	{
 		base.Add(key, value);

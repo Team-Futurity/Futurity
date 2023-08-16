@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass : Component
 {
     private List<PoolingClass> activedPoolingObjects = new List<PoolingClass>();
