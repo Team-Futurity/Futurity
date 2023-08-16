@@ -274,7 +274,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			if (nextCombo == PlayerInput.None)
 			{
 				SetNextCombo(PlayerInput.NormalAttack);
-				return GetInputData(PlayerInput.NormalAttack, true, "Queueing");
+				return GetInputData(PlayerInput.NormalAttack, true, "Queueing", FindInput(PlayerInput.NormalAttack).name);
 			}
 		}
 		
