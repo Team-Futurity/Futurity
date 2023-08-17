@@ -1,13 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using FMODUnity;
 
 [Serializable]
 public class AttackNode
 {
+	[Header("노드 이름")]
+	public string name;
+
 	[Header("공격 타입")]
 	public PlayerInput command;
 	[Header("다음 공격(콤보)")]
@@ -24,19 +25,18 @@ public class AttackNode
 	public float attackST;
 	public float attackKnockback;
 
-	[Header("공격용 콜라이더")]
-	public Collider collider;
-
 	[Header("공격 이펙트")]
-	public Transform effectPos;
-	[SerializeField] private GameObject effectPrefab;
-	[SerializeField] private GameObject effectParent;
+	public Vector3 effectOffset;
+	public Quaternion effectRotOffset;
+	public GameObject effectPrefab;
+	public GameObject effectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
 	[Header("적 피격 이펙트")]
 	public Vector3 hitEffectOffset;
-	[SerializeField] private GameObject hitEffectPrefab;
-	[SerializeField] private GameObject hitEffectParent;
+	public Quaternion hitEffectRotOffset;
+	public GameObject hitEffectPrefab;
+	public GameObject hitEffectParent;
 	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
 
 	[Header("연출용 데이터")]
@@ -56,31 +56,7 @@ public class AttackNode
 	{
 		this.command = command;
 		childNodes = new List<AttackNode>();
-		effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
-		hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
-		//collider.enabled = false;
 	}
-
-/*	public AttackNode(AttackNode node)
-	{
-		Copy(node);
-	}*/
-
-/*	public void Copy(AttackNode node)
-	{
-		command = node.command;
-		childNodes = node.childNodes;
-		parent = node.parent;
-		attackLength = node.attackLength;
-		attackSpeed = node.attackSpeed;
-		attackST = node.attackST;
-		collider = node.collider;
-		effectPrefab = node.effectPrefab;
-		effectParent = node.effectParent;
-		effectPoolManager = new  ObjectPoolManager<Transform>(effectPrefab, effectParent);
-		*//*ObjectPoolManager<Transform> manager = effectParent.AddComponent<ObjectPoolManager<Transform>>();
-		manager.SetManager(effectPrefab, effectParent);*//*
-	}*/
 
 	public void AddPoolManager()
 	{
@@ -97,17 +73,26 @@ public class AttackNode
 }
 
 [Serializable]
-public class Tree
+public class CommandTree
 {
 	public AttackNode top; // 최상단 노드
-	[HideInInspector] public int dataCount;
 
-	public Tree()
+	public CommandTree()
 	{
 		top = new AttackNode(PlayerInput.None);
 	}
 
-	public void SetTree(AttackNode curNode, AttackNode parent)
+	public void AddNode(AttackNode newNode, AttackNode parent)
+	{
+		if (!IsNodeInTree(parent)) { FDebug.LogError("[CommandTree] This Node is not Node in This Tree"); return; }
+
+		newNode.parent = parent;
+		newNode.AddPoolManager();
+
+		parent.childNodes.Add(newNode);
+	}
+
+	/*public void SetTree(AttackNode curNode, AttackNode parent)
 	{
 		int childCount = 0;
 		curNode.parent = parent;
@@ -117,6 +102,17 @@ public class Tree
 		{
 			SetTree(curNode.childNodes[childCount++], curNode);
 		}
+	}*/
+
+	private bool IsNodeInTree(AttackNode node)
+	{
+		var parent = node; 
+		while(parent.parent != null)
+		{
+			parent = parent.parent;
+		}
+
+		return parent == top;
 	}
 
 /*	#region Insert

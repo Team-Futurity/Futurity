@@ -10,7 +10,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
 
-	private EffectType effectType;
+	private EffectActivationTime effectType;
 	private EffectTarget EffectTarget;
 	private Transform effectPos;
 
@@ -25,20 +25,20 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public void EffectPooling()
 	{
 		attackNode = pc.curNode;
-		effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, attackNode.effectPos.rotation);
+		effect = attackNode.effectPoolManager.ActiveObject(pc.gameObject.transform.position + attackNode.effectOffset, pc.gameObject.transform.rotation * attackNode.effectRotOffset);
 		var particles = effect.GetComponent<ParticleController>();
 		particles.Initialize(attackNode.effectPoolManager);
 	}
 
 	public void PreAllocatedEffectPooling()
 	{
-		pc.rushEffectManager.ActiveEffect(effectType, EffectTarget, effectPos);
+		//pc.rushEffectManager.ActiveEffect(effectType, EffectTarget, effectPos);
 	}
 
-	public void AllocateEffect(EffectType type, EffectTarget target, Transform effectPos)
+	public void AllocateEffect(EffectActivationTime activationTime, EffectTarget target, Transform effectPos)
 	{
 		this.effectPos = effectPos;
-		effectType = type;
+		effectType = activationTime;
 		EffectTarget = target;
 	}
 

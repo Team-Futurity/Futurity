@@ -22,7 +22,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// attack
 	[Space(2)]
 	[Header("콤보")]
-	public Tree comboTree;
+	public CommandTree comboTree;
 
 	// move
 	[Space(5)]
@@ -88,13 +88,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public GameObject glove;
 	public GameObject rushGlove;
 	public Player playerData;
+	public CommandTreeLoader commandTreeLoader;
 	public ActivePartController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
-	public RushEffectManager rushEffectManager;
+	public EffectController effectManager;
+	public EffectDatas effectSO;
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
@@ -147,10 +149,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
+		//comboTree = commandTreeLoader.GetCommandTree();
 		curNode = comboTree.top;
 		nextCombo = PlayerInput.None;
 		firstBehaiviorNode = null;
-		comboTree.SetTree(comboTree.top, null);
+		//comboTree.SetTree(comboTree.top, null);
 
 		// Glove Init
 		glove.SetActive(false);
@@ -163,6 +166,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
+
+		// effect
+		effectManager = ECManager.Instance.GetEffectManager(effectSO);
 	}
 
 	public void SetFSM()
@@ -171,19 +177,30 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		SetUp(PlayerState.Idle);
 	}
 
-	public void OnSpecialMove(InputAction.CallbackContext context)
+	#region Input
+	private string GetInputData(PlayerInput input, bool isProcess, params string[] additionalDatas)
 	{
-		if(!context.started || !activePartIsActive) { return; }
+		string returnValue = $"Input_{(int)input}_";
 
-		activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
+		returnValue += isProcess ? "T_" : "F_";
+
+		for(int i = 0; i < additionalDatas.Length; i++)
+		{
+			if (additionalDatas[i] != null)
+			{
+				returnValue += $"{additionalDatas[i]}_";
+			}
+		}
+
+		returnValue += "End";
+
+		return returnValue;
 	}
 
-	public void OnMove(InputAction.CallbackContext context)
+	public string MoveProcess(InputAction.CallbackContext context)
 	{
-		// Input
 		Vector3 input = context.ReadValue<Vector3>();
 
-		if (input == null) { return; }
 		moveDir = new Vector3(input.x, 0f, input.y);
 		moveAction = context.action;
 
@@ -199,91 +216,234 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
+					return GetInputData(PlayerInput.Move, true, input.ToString(), "SubState");
 				}
 			}
-			return;
+			return GetInputData(PlayerInput.Move, false, input.ToString());
 		}
 
-		if(playerData.isStun || !hitCoolTimeIsEnd)
+		if (playerData.isStun || !hitCoolTimeIsEnd)
 		{
-			return;
+			return GetInputData(PlayerInput.Move, false, input.ToString()); ;
 		}
 
 		// 이동 기능
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
+			return GetInputData(PlayerInput.Move, true, input.ToString(), "State");
 		}
+
+		return GetInputData(PlayerInput.Move, false, input.ToString());
 	}
 
-	public void OnDash(InputAction.CallbackContext context)
+	public string DashProcess(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) { return; }
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) 
+		{ 
+			return GetInputData(PlayerInput.Dash, false); 
+		}
 
-		if (context.performed)
+		if (!IsCurrentState(PlayerState.Dash))
 		{
-			if (!IsCurrentState(PlayerState.Dash))
-			{
-				ChangeState(PlayerState.Dash);
-			}
+			ChangeState(PlayerState.Dash);
+			return GetInputData(PlayerInput.Dash, true);
 		}
+
+		return GetInputData(PlayerInput.Dash, false);
 	}
 
-	public void OnNormalAttack(InputAction.CallbackContext context)
+	// Normal Attack
+	public string NAProcess(InputAction.CallbackContext context)
 	{
-		// 입력이 되지 않았으면(Pressed 시점이 아니면) 리턴
-		if (!context.started) { return; }
-
-		FDebug.Log("Normal");
-
 		// 피격 중이거나, 스턴 상태면 리턴
-		if (playerData.isStun || !hitCoolTimeIsEnd) { return; }
+		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInput.NormalAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInput.NormalAttack, false); }
 
 		// AfterDelay나 다른 스테이트(Idle, Move)라면
 		if (!IsAttackProcess(true))
 		{
 			StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
+
+			return GetInputData(PlayerInput.NormalAttack, true, currentAttackState.ToString(), curNode.name);
 		}
 		else // 공격 중이라면
 		{
 			if (nextCombo == PlayerInput.None)
 			{
 				SetNextCombo(PlayerInput.NormalAttack);
+				return GetInputData(PlayerInput.NormalAttack, true, "Queueing", FindInput(PlayerInput.NormalAttack).name);
 			}
 		}
+		
+		return GetInputData(PlayerInput.NormalAttack, false);
 	}
 
-	public void OnSpecialAttack(InputAction.CallbackContext context)
+	// Special Attack
+	public string SAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
-		if(playerData.isStun || !hitCoolTimeIsEnd) { return; }
+		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInput.SpecialAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInput.SpecialAttack, false); }
 
+		var state = curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
 		if (context.started)
 		{
-			FDebug.Log("Special");
 			if (!IsAttackProcess(true))
 			{
-				StartNextComboAttack(PlayerInput.SpecialAttack, curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack);
+				StartNextComboAttack(PlayerInput.SpecialAttack, state);
+				return GetInputData(PlayerInput.SpecialAttack, true, state.ToString(), state == PlayerState.NormalAttack ? curNode.name : "Pressed");
 			}
 			else
 			{
 				if (nextCombo == PlayerInput.None && curCombo != PlayerInput.SpecialAttack)
 				{
 					SetNextCombo(PlayerInput.SpecialAttack);
+					return GetInputData(PlayerInput.SpecialAttack, true, "Queueing");
 				}
 			}
 		}
-		else if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
+		else
 		{
-			specialIsReleased = true;
+			if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
+			{
+				specialIsReleased = true;
+				return GetInputData(PlayerInput.SpecialAttack, true, state.ToString(), "Released");
+			}
 		}
+		
+		return GetInputData(PlayerInput.SpecialAttack, false);
 	}
+
+	// Special Move
+	public string SMProcess(InputAction.CallbackContext context)
+	{
+		if (!activePartIsActive) { return GetInputData(PlayerInput.SpecialMove, false); }
+
+		activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
+		return GetInputData(PlayerInput.SpecialAttack, true, ActivePartType.Basic.ToString());
+	}
+	#endregion
+
+	#region legacy input
+	/*	public void OnSpecialMove(InputAction.CallbackContext context)
+		{
+			if(!context.started || !activePartIsActive) { return; }
+
+			activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
+		}
+
+		public void OnMove(InputAction.CallbackContext context)
+		{
+			// Input
+			Vector3 input = context.ReadValue<Vector3>();
+
+			if (input == null) { return; }
+			moveDir = new Vector3(input.x, 0f, input.y);
+			moveAction = context.action;
+
+			moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
+
+			// 예외처리
+			if (!IsCurrentState(PlayerState.Idle))
+			{
+				// 돌진 중 이동 기능
+				if (IsAttackProcess())
+				{
+					if (IsCurrentState(PlayerState.ChargedAttack))
+					{
+						animator.SetTrigger("MoveDuringRushPreparing");
+						AddSubState(PlayerState.Move);
+					}
+				}
+				return;
+			}
+
+			if(playerData.isStun || !hitCoolTimeIsEnd)
+			{
+				return;
+			}
+
+			// 이동 기능
+			if (!IsCurrentState(PlayerState.Move))
+			{
+				ChangeState(PlayerState.Move);
+			}
+		}
+
+		public void OnDash(InputAction.CallbackContext context)
+		{
+			if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) { return; }
+
+			if (context.performed)
+			{
+				if (!IsCurrentState(PlayerState.Dash))
+				{
+					ChangeState(PlayerState.Dash);
+				}
+			}
+		}
+
+		public void OnNormalAttack(InputAction.CallbackContext context)
+		{
+			// 입력이 되지 않았으면(Pressed 시점이 아니면) 리턴
+			if (!context.started) { return; }
+
+			FDebug.Log("Normal");
+
+			// 피격 중이거나, 스턴 상태면 리턴
+			if (playerData.isStun || !hitCoolTimeIsEnd) { return; }
+
+			// Idle, Move, Attack 관련 State가 아니면 리턴
+			if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+
+			// AfterDelay나 다른 스테이트(Idle, Move)라면
+			if (!IsAttackProcess(true))
+			{
+				StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
+			}
+			else // 공격 중이라면
+			{
+				if (nextCombo == PlayerInput.None)
+				{
+					SetNextCombo(PlayerInput.NormalAttack);
+				}
+			}
+		}
+
+		public void OnSpecialAttack(InputAction.CallbackContext context)
+		{
+			// 피격 중이거나, 스턴 상태면 리턴
+			if(playerData.isStun || !hitCoolTimeIsEnd) { return; }
+
+			// Idle, Move, Attack 관련 State가 아니면 리턴
+			if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+
+			if (context.started)
+			{
+				FDebug.Log("Special");
+				if (!IsAttackProcess(true))
+				{
+					StartNextComboAttack(PlayerInput.SpecialAttack, curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack);
+				}
+				else
+				{
+					if (nextCombo == PlayerInput.None && curCombo != PlayerInput.SpecialAttack)
+					{
+						SetNextCombo(PlayerInput.SpecialAttack);
+					}
+				}
+			}
+			else if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
+			{
+				specialIsReleased = true;
+			}
+		}*/
+	#endregion
 
 	public AttackNode FindInput(PlayerInput input)
 	{
@@ -406,5 +566,16 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		nextCombo = PlayerInput.None;
 		LockNextCombo(false);
 		ChangeState(PlayerState.AttackDelay);
+	}
+
+	public void LerpToWorldPosition(Vector3 worldPos, float time)
+	{
+		UnitState<PlayerController> state = null;
+		GetState(PlayerState.AutoMove, ref state);
+
+		if(state == null) { FDebug.LogError("[PlayerController]AutoMoveSate Is Null"); }
+
+		((PlayerAutoMoveState)state).SetAutoMove(worldPos, time);
+		ChangeState(PlayerState.AutoMove);
 	}
 }
