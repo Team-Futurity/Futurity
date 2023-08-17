@@ -14,6 +14,10 @@ public class PlayerInputManager : MonoBehaviour
 
 	private void Start()
 	{
+		if(pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
+
+		pc.attackEndEvent.AddListener((str) => RegistInputMessage(str));
+		
 		for(int i = 0; i < frameCountToBeSaved; i++)
 		{
 			inputQueues.Add(new Queue<string>());
@@ -89,5 +93,10 @@ public class PlayerInputManager : MonoBehaviour
 		inputQueues[lastQueueIndex].Enqueue(data);
 
 		FDebug.Log("___" + data);
+	}
+
+	private void RegistInputMessage(string msg)
+	{
+		QueueingProcess(msg);
 	}
 }
