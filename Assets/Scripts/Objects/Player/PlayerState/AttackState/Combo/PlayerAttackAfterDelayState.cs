@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Windows;
+using UnityEngine.XR;
 using static PlayerController;
 
 [FSMState((int)PlayerState.AttackAfterDelay)]
@@ -41,6 +42,8 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 
 		if (currentTime >= attackNode.attackAfterDelay)
 		{
+			SendAttackEndMessage(unit);
+
 			unit.ChangeState(PlayerState.Idle);
 
 			return;
@@ -50,5 +53,11 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
 		
+	}
+
+	private void SendAttackEndMessage(PlayerController unit)
+	{
+		string msg = unit.GetInputData(unit.curCombo, true, unit.currentAttackState.ToString(), attackNode.name, "Complete");
+		unit.attackEndEvent.Invoke(msg);
 	}
 }
