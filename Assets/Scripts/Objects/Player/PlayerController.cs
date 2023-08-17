@@ -108,6 +108,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// event
 	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
 	[HideInInspector] public InputAction moveAction;
+	[HideInInspector] public UnityEvent<string> attackEndEvent;
 
 	// Temporary
 	[Serializable]
@@ -178,7 +179,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 
 	#region Input
-	private string GetInputData(PlayerInput input, bool isProcess, params string[] additionalDatas)
+	public string GetInputData(PlayerInput input, bool isProcess, params string[] additionalDatas)
 	{
 		string returnValue = $"Input_{(int)input}_";
 

@@ -197,7 +197,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				return;
 			}
 
-			unit.ChangeState(PlayerState.AttackAfterDelay);
+			NextAttackState(unit, PlayerState.AttackAfterDelay);
+			//unit.ChangeState(PlayerState.AttackAfterDelay);
 		}
 	}
 
@@ -345,7 +346,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		}
 
 		// 벽(장애물)과 충돌했으니 바로 돌진 종료
-		unit.ChangeState(PlayerState.AttackAfterDelay);
+		NextAttackState(unit, PlayerState.AttackAfterDelay);
+		//unit.ChangeState(PlayerState.AttackAfterDelay);
 	}
 
 	private void CalculateRushData(PlayerController unit)
@@ -427,6 +429,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		pc.playerData.Attack(firstEnemyData, attackST);
 
 		// State Change
-		pc.ChangeState(PlayerState.AttackAfterDelay);
+		NextAttackState(pc, PlayerState.AttackAfterDelay);
+		//pc.ChangeState(PlayerState.AttackAfterDelay);
 	}
 }
