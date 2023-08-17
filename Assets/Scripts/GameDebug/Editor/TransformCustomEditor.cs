@@ -14,6 +14,9 @@ public class TransformCustomEditor : Editor
 
 	private void OnEnable()
 	{
+		if (serializedObject == null)
+			return;
+
 		m_positionProperty = serializedObject.FindProperty("m_LocalPosition");
 		m_rotationProperty = serializedObject.FindProperty("m_LocalRotation");
 		m_scaleProperty = serializedObject.FindProperty("m_LocalScale");
@@ -21,6 +24,9 @@ public class TransformCustomEditor : Editor
 
 	private void OnDisable()
 	{
+		if (serializedObject == null)
+			return;
+
 		m_positionProperty = null;
 		m_rotationProperty = null;
 		m_scaleProperty = null;

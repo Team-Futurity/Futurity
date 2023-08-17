@@ -149,7 +149,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
-		comboTree = commandTreeLoader.GetCommandTree();
+		//comboTree = commandTreeLoader.GetCommandTree();
 		curNode = comboTree.top;
 		nextCombo = PlayerInput.None;
 		firstBehaiviorNode = null;
@@ -274,7 +274,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			if (nextCombo == PlayerInput.None)
 			{
 				SetNextCombo(PlayerInput.NormalAttack);
-				return GetInputData(PlayerInput.NormalAttack, true, "Queueing");
+				return GetInputData(PlayerInput.NormalAttack, true, "Queueing", FindInput(PlayerInput.NormalAttack).name);
 			}
 		}
 		

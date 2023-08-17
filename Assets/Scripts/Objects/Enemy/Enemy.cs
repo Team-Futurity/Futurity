@@ -12,7 +12,7 @@ public class Enemy : UnitBase
 
 	private void Start()
 	{
-		hpBar = GetComponent<EnemyHpBarController>().currentHpBar.GetComponent<GaugeBarController>();
+		hpBar = GetComponent<EnemyHpBarController>().currentHpBar?.GetComponent<GaugeBarController>();
 
 		if (hpBar != null)
 		{
