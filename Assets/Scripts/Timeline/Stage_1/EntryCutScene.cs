@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class EntryCutScene : MonoBehaviour
 {
@@ -19,13 +20,7 @@ public class EntryCutScene : MonoBehaviour
 	private GameObject player = null;
 	private UnityEngine.InputSystem.PlayerInput playerInput;
 	
-	private void Start()
-	{
-		//컷신을 재생하는 함수가 다른곳에서 불릴 때까지 해당 지점에서 1구역 진입 연출을 시작합니다.
-		PlayEntryCutScene();
-	}
-	
-	private void PlayEntryCutScene()
+	private void OnEnable()
 	{
 		//uiCanvas.SetActive(false);
 		
