@@ -3063,6 +3063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 286474225}
   - component: {fileID: 286474224}
+  - component: {fileID: 286474226}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -3124,6 +3125,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+--- !u!114 &286474226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286474223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398a933a42c67b845b1b20a89c2028a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTf: {fileID: 490917122}
+  visibleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  colorFieldName: _BaseColor
+  opacity: 0.3
+  calcThreshold: 1
+  decimalCount: 3
 --- !u!1001 &317820882
 PrefabInstance:
   m_ObjectHideFlags: 0
