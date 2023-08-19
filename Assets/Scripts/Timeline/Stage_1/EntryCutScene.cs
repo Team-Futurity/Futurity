@@ -10,10 +10,15 @@ public class EntryCutScene : MonoBehaviour
 	[Header("Component")] 
 	[SerializeField] private GameObject uiCanvas;
 	[SerializeField] private GameObject playerCamera;
+	private PlayerController playerController;
 
 	[Header("진입 컷신에서 활성화할 오브젝트 목록")]
 	[SerializeField] private GameObject[] walls;
 
+	[Header("플레이어 이동값")] 
+	[SerializeField] private GameObject targetPos;
+	[SerializeField] private float duration;
+	
 	[Header("Event")] 
 	[SerializeField] private UnityEvent entryCutSceneEndEvent;
 
@@ -30,6 +35,7 @@ public class EntryCutScene : MonoBehaviour
 		}
 		
 		playerInput = player.GetComponent<UnityEngine.InputSystem.PlayerInput>();
+		playerController = player.GetComponent<PlayerController>();
 		playerInput.enabled = false;
 		Time.timeScale = 0.0f;
 	}
@@ -56,5 +62,10 @@ public class EntryCutScene : MonoBehaviour
 	public void EnableEnemy()
 	{
 		Time.timeScale = 1.0f;
+	}
+
+	public void MovePlayer()
+	{
+		playerController.LerpToWorldPosition(targetPos.transform.position, duration);
 	}
 }
