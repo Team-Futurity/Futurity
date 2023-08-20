@@ -74,7 +74,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	{
 		UnitState<PlayerController> GettedState = null;
 		PlayerBasicPartState chargeState;
-		if (!pc.GetState(PlayerState.BasicPart, ref GettedState)) { return; }
+		if (!pc.GetState(PlayerState.BasicSM, ref GettedState)) { return; }
 
 		chargeState = GettedState as PlayerBasicPartState;
 

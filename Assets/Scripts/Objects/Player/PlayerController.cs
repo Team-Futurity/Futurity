@@ -89,7 +89,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public GameObject rushGlove;
 	public Player playerData;
 	public CommandTreeLoader commandTreeLoader;
-	public ActivePartController activePartController;
+	public SpecialMoveController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
 	public RadiusCapsuleCollider attackCollider;
@@ -325,8 +325,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		if (!activePartIsActive) { return GetInputData(PlayerInput.SpecialMove, false); }
 
-		activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
-		return GetInputData(PlayerInput.SpecialAttack, true, ActivePartType.Basic.ToString());
+		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
+		return GetInputData(PlayerInput.SpecialAttack, true, SpecialMoveType.Basic.ToString());
 	}
 	#endregion
 

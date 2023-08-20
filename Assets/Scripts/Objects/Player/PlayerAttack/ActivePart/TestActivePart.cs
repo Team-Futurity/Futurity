@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestActivePart : ActivePartProccessor
+public class TestActivePart : SpecialMoveProcessor
 {
 	public float t1;
 	public override void GetPartData()
