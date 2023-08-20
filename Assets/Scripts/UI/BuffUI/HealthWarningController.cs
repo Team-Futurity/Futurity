@@ -129,6 +129,9 @@ public class HealthWarningController : MonoBehaviour
 	/// </summary>
 	private void Update()
 	{
+		if (true)
+			return;
+		
 		health = statusManager.GetStatus(StatusType.CURRENT_HP).GetValue();
 
 		if(!isDeath && health <= 0)
