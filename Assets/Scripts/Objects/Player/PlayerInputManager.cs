@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -12,13 +13,26 @@ public class PlayerInputManager : MonoBehaviour
 	private List<Queue<string>> inputQueues = new List<Queue<string>>();
 	private int lastQueueIndex;
 
+	[HideInInspector] public UnityEvent<PlayerInput> onChangeStateEvent;
+
 	private void Start()
 	{
-		if(pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
-
-		pc.attackEndEvent.AddListener((str) => RegistInputMessage(str));
+		PlayerInputData data;
+		data.inputState = PlayerInput.None;
 		
-		for(int i = 0; i < frameCountToBeSaved; i++)
+		if (pc == null)
+		{
+			FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null.");
+			return;
+		}
+
+		pc.attackEndEvent.AddListener((str) =>
+		{
+			data.inputMsg = str;
+			RegistInputMessage(data);
+		});
+
+		for (int i = 0; i < frameCountToBeSaved; i++)
 		{
 			inputQueues.Add(new Queue<string>());
 		}
@@ -44,7 +58,11 @@ public class PlayerInputManager : MonoBehaviour
 
 	public Queue<string> GetInputQueue(int queueIndex)
 	{
-		if(queueIndex < 0 || queueIndex > lastQueueIndex) { FDebug.LogError("This Index is Invalid"); return null; }
+		if (queueIndex < 0 || queueIndex > lastQueueIndex)
+		{
+			FDebug.LogError("This Index is Invalid");
+			return null;
+		}
 
 		return new Queue<string>(inputQueues[queueIndex]);
 	}
@@ -70,7 +88,7 @@ public class PlayerInputManager : MonoBehaviour
 
 	public void OnDash(InputAction.CallbackContext context)
 	{
-		if(!context.performed) { return; }
+		if (!context.performed) { return; }
 
 		QueueingProcess(pc.DashProcess(context));
 	}
@@ -88,15 +106,15 @@ public class PlayerInputManager : MonoBehaviour
 		QueueingProcess(pc.SAProcess(context));
 	}
 
-	private void QueueingProcess(string data)
+	private void QueueingProcess(PlayerInputData data)
 	{
-		inputQueues[lastQueueIndex].Enqueue(data);
-
-		FDebug.Log("___" + data);
+		inputQueues[lastQueueIndex].Enqueue(data.inputMsg);
+		
+		onChangeStateEvent?.Invoke(data.inputState);
 	}
 
-	private void RegistInputMessage(string msg)
+	private void RegistInputMessage(PlayerInputData data)
 	{
-		QueueingProcess(msg);
+		QueueingProcess(data);
 	}
 }

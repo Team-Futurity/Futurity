@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIPerformActionHandler : MonoBehaviour
 {
-	[field: SerializeField] public PlayerController Target { get; private set; }
+	[field: SerializeField] public PlayerInputManager Target { get; private set; }
 
 	[SerializeField]
 	private List<UIPerformBoard> performBoards;
@@ -28,29 +28,21 @@ public class UIPerformActionHandler : MonoBehaviour
 		maxIndex = performBoards.Count;
 
 		currentBoard = performBoards[currentIndex];
-	}
-
-	private void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.Z))
-			OnNextBoard();
 		
-		if(Input.GetKeyDown(KeyCode.X))
-			OnBeforeBoard();
+		Target.onChangeStateEvent.AddListener(UpdateAction);
+		currentBoard.onLastClearEvent.AddListener(CheckAllPass);
 	}
 
 	// Target에 들어가는 Event
-	public void UpdateAction(PlayerState state)
+	public void UpdateAction(PlayerInput data)
 	{
-		currentBoard?.CheckedAction(state);
+		currentBoard?.CheckedAction(data);
 	}
 
 	
 	// UIPerfomBoard에 들어가는 Event Addlistnener
 	public void CheckAllPass()
 	{
-		// 이 시간 동안 무언가가 켜져야 함.
-		
 		OnNextBoard();
 	}
 
@@ -59,7 +51,7 @@ public class UIPerformActionHandler : MonoBehaviour
 		if (currentIndex + 1 >= maxIndex)
 		{
 			// Next Board가 Ended일 때.
-			
+			FDebug.Log("Tutorial Clear ! ! !");
 			return;
 		}
 		
@@ -82,12 +74,12 @@ public class UIPerformActionHandler : MonoBehaviour
 
 	private void SetBoard()
 	{
-		currentBoard.lastClearEvent.RemoveAllListeners();
+		currentBoard.onLastClearEvent.RemoveAllListeners();
 		currentBoard.gameObject.SetActive(false);
 
 		currentBoard = performBoards[currentIndex];
 		
-		currentBoard.lastClearEvent.AddListener(CheckAllPass);
+		currentBoard.onLastClearEvent.AddListener(CheckAllPass);
 		currentBoard.gameObject.SetActive(true);
 	}
 }

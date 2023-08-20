@@ -10,7 +10,7 @@ public class UIPerformActionData
 
 	public Sprite disableSpr;
 
-	public PlayerState clearMove;
+	public PlayerInput clearActionString;
 
 	public bool isClear;
 

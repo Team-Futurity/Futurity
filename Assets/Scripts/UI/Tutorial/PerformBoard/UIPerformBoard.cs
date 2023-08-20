@@ -8,14 +8,13 @@ public class UIPerformBoard : MonoBehaviour
 {
 	[SerializeField]
 	private UIPerformActionData[] actionDatas;
-
 	private Image[] viewers;
 
 	private const int ARRAY_MAX = 5;
 	private int DATA_MAX = 0;
 
 	[HideInInspector]
-	public UnityEvent lastClearEvent;
+	public UnityEvent onLastClearEvent;
 
 	private void Awake()
 	{
@@ -35,9 +34,9 @@ public class UIPerformBoard : MonoBehaviour
 			viewers[i].sprite = actionDatas[i].enableSpr;
 		}
 	}
-	public void CheckedAction(PlayerState state)
+	public void CheckedAction(PlayerInput data)
 	{
-		var getIndex = FindIndex(state);
+		var getIndex = FindIndex(data);
 
 		if (getIndex == -1)
 		{
@@ -50,16 +49,18 @@ public class UIPerformBoard : MonoBehaviour
 		CheckClearCount();
 	}
 
-	private int FindIndex(PlayerState state)
+	private int FindIndex(PlayerInput data)
 	{
 		for (int i = 0; i <= DATA_MAX; ++i)
 		{
-			if (!actionDatas[i].clearMove.Equals(state) || actionDatas[i].isClear)
+			if (actionDatas[i].clearActionString != data || actionDatas[i].isClear)
 			{
 				continue;
 			}
-
-			return i;
+			else
+			{
+				return i;
+			}
 		}
 
 		return -1;
@@ -79,7 +80,7 @@ public class UIPerformBoard : MonoBehaviour
 
 		if (count > DATA_MAX)
 		{
-			lastClearEvent?.Invoke();
+			onLastClearEvent?.Invoke();
 		}
 	}
 }

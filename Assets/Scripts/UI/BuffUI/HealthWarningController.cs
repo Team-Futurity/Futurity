@@ -153,15 +153,14 @@ public class HealthWarningController : MonoBehaviour
 	/// </summary>
 	private void PulseEffect(bool isActive)
 	{
-		if (isActive)
-		{
-			effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
-			vignette.intensity.value = effectIntensity;
-		}
-		else
+		if (!isActive)
 		{
 			vignette.intensity.value = 0f;
+			return;
 		}
+
+		effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
+		vignette.intensity.value = effectIntensity;
 	}
 
 
