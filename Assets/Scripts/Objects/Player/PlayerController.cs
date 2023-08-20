@@ -137,7 +137,21 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
-		//dashEffect = GetComponent<TrailRenderer>();
+
+		// effect
+		effectManager = ECManager.Instance.GetEffectManager(effectSO);
+
+		// ReferenceCheck
+		List<string> msgs;
+		if(!CheckReference(out msgs))
+		{
+			DebugLogger.PrintDebugErros(msgs, typeof(PlayerController), DebugTypeEnum.Error);
+			return;
+		}
+		else
+		{
+			DebugLogger.PrintDebugErros(msgs, typeof(PlayerController), DebugTypeEnum.Log);
+		}
 
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
@@ -168,8 +182,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
 
-		// effect
-		effectManager = ECManager.Instance.GetEffectManager(effectSO);
+		
 	}
 
 	public void SetFSM()
@@ -579,4 +592,40 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		((PlayerAutoMoveState)state).SetAutoMove(worldPos, time);
 		ChangeState(PlayerState.AutoMove);
 	}
+
+	#region Util
+	private bool CheckReference(out List<string> msgs)
+	{
+		bool isClear = false;
+
+		msgs = new List<string>();
+
+		if (glove == null) { msgs.Add("glove is Null."); }
+		if (rushGlove == null) { msgs.Add("rushGlove is Null."); }
+		if (playerData == null) { msgs.Add("playerData is Null."); }
+		if (commandTreeLoader == null) { msgs.Add("commandTreeLoader is Null."); }
+		if (activePartController == null) { msgs.Add("activePartController is Null."); }
+		if (comboGaugeSystem == null) { msgs.Add("comboGaugeSystem is Null."); }
+		if (hitCountSystem == null) { msgs.Add("hitCountSystem is Null."); }
+		if (attackCollider == null) { msgs.Add("attackCollider is Null."); }
+		if (autoTargetCollider == null) { msgs.Add("autoTargetCollider is Null."); }
+		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
+		if (effectManager == null) { msgs.Add("effectManager is Null."); }
+		if (effectSO == null) { msgs.Add("effectSO is Null."); }
+		if (buffProvider == null) { msgs.Add("buffProvider is Null."); }
+		if (rmController == null) { msgs.Add("rmController is Null."); }
+		if (playerAnimationEvents == null) { msgs.Add("playerAnimationEvents is Null."); }
+		if (animator == null) { msgs.Add("animator is Null."); }
+		if (rigid == null) { msgs.Add("rigid is Null."); }
+		if (rmController == null) { msgs.Add("rmController is Null."); }
+
+		isClear = msgs.Count == 0;
+		if (isClear)
+		{
+			msgs.Add("Reference Check Clear");
+		}
+
+		return isClear;
+	}
+	#endregion
 }
