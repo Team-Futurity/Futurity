@@ -25,9 +25,17 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public void EffectPooling()
 	{
 		attackNode = pc.curNode;
+
+		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
+		if(attackNode.effectPoolManager == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode.effectPoolManager is Null. Please Check to Command Graph or Script"); return; }
+
 		effect = attackNode.effectPoolManager.ActiveObject(pc.gameObject.transform.position + attackNode.effectOffset, pc.gameObject.transform.rotation * attackNode.effectRotOffset);
 		var particles = effect.GetComponent<ParticleController>();
-		particles.Initialize(attackNode.effectPoolManager);
+
+		if(particles != null )
+		{
+			particles.Initialize(attackNode.effectPoolManager);
+		}
 	}
 
 	public void PreAllocatedEffectPooling()
