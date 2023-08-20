@@ -1,7 +1,4 @@
-using Spine;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +6,7 @@ public class PlayerInputManager : MonoBehaviour
 {
 	[SerializeField] private int frameCountToBeSaved;
 	[SerializeField] private PlayerController pc;
+	[SerializeField] private PlayerInput playerInput;
 	private List<Queue<string>> inputQueues = new List<Queue<string>>();
 	private int lastQueueIndex;
 
@@ -54,6 +52,7 @@ public class PlayerInputManager : MonoBehaviour
 		return new Queue<string>(inputQueues[lastQueueIndex]);
 	}
 
+	#region Events
 	public void OnSpecialMove(InputAction.CallbackContext context)
 	{
 		if (!context.started) { return; }
@@ -87,6 +86,7 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		QueueingProcess(pc.SAProcess(context));
 	}
+	#endregion
 
 	private void QueueingProcess(string data)
 	{
@@ -99,4 +99,6 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		QueueingProcess(msg);
 	}
+
+	public void SetPlayerInput(bool isReceive) => playerInput.enabled = isReceive;
 }
