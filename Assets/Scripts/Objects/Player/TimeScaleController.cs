@@ -15,8 +15,6 @@ public class TimeScaleController : Singleton<TimeScaleController>
 
 	private void Start()
 	{
-		Debug.Log(transform.name + " : ");
-
 		isAdjusting = false;
 		StartCoroutine(TimeScaleCoroutine());
 	}
@@ -48,7 +46,6 @@ public class TimeScaleController : Singleton<TimeScaleController>
 			{
 				isAdjusting = true;
 				isReady = false;
-				FDebug.Log("1");
 				return;
 			}
 		}
@@ -61,10 +58,8 @@ public class TimeScaleController : Singleton<TimeScaleController>
 			if (isAdjusting)
 			{
 				Time.timeScale = curTimeScale;
-				FDebug.Log("2");
 				yield return new WaitForSeconds(adjustTime * Time.timeScale);
 				Time.timeScale = originTimeScale;
-				FDebug.Log("3");
 				isAdjusting = false;
 			}
 			yield return null;

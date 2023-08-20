@@ -3,11 +3,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class ActivePartProccessor
+public abstract class SpecialMoveProcessor
 {
 	public PlayerState stateToChange;
 	public abstract void GetPartData();
-	public virtual void RunActivePart<Proccessor>(PlayerController pc, Proccessor proccessor) where Proccessor : ActivePartProccessor
+	public virtual void RunSpecialMove<Proccessor>(PlayerController pc, Proccessor proccessor) where Proccessor : SpecialMoveProcessor
 	{
 		if (pc == null) { FDebug.LogError("[ActivePartProccessor] pc is null"); return; }
 
@@ -16,8 +16,8 @@ public abstract class ActivePartProccessor
 		if(!pc.GetState(stateToChange, ref nextState)) { FDebug.LogError("[ActivePartProccessor] An Error occurred in GetState"); return; }
 
 		GetPartData();
-		var state = nextState as PlayerActivePartAttackState<BasicActivePart>;
+		var state = nextState as PlayerSpecialMoveState<BasicActivePart>;
 		state.SetActivePartData(proccessor as BasicActivePart);
-		pc.ChangeState(PlayerState.BasicPart);
+		pc.ChangeState(PlayerState.BasicSM);
 	}
 }

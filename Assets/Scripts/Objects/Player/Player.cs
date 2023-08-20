@@ -50,7 +50,7 @@ public class Player : UnitBase
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
-		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicPart))
+		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}

@@ -10,7 +10,7 @@ public class AttackNode
 	public string name;
 
 	[Header("공격 타입")]
-	public PlayerInput command;
+	public PlayerInputEnum command;
 	[Header("다음 공격(콤보)")]
 	public List<AttackNode> childNodes;
 	public AttackNode parent;
@@ -52,7 +52,7 @@ public class AttackNode
 	[Header("공격 사운드")]
 	public EventReference attackSound;
 
-	public AttackNode(PlayerInput command)
+	public AttackNode(PlayerInputEnum command)
 	{
 		this.command = command;
 		childNodes = new List<AttackNode>();
@@ -79,7 +79,7 @@ public class CommandTree
 
 	public CommandTree()
 	{
-		top = new AttackNode(PlayerInput.None);
+		top = new AttackNode(PlayerInputEnum.None);
 	}
 
 	public void AddNode(AttackNode newNode, AttackNode parent)
@@ -140,7 +140,7 @@ public class CommandTree
 	#endregion*/
 
 	#region Find
-	private AttackNode FindProc(PlayerInput targetInput, AttackNode curNode)
+	private AttackNode FindProc(PlayerInputEnum targetInput, AttackNode curNode)
 	{
 		AttackNode returnNode = null;
 
@@ -156,7 +156,7 @@ public class CommandTree
 		return returnNode;
 	}
 
-	public AttackNode FindNode(PlayerInput targetInput, AttackNode curNode = null)
+	public AttackNode FindNode(PlayerInputEnum targetInput, AttackNode curNode = null)
 	{
 		AttackNode resultNode = null;
 		if (top != null) // top이 존재하고

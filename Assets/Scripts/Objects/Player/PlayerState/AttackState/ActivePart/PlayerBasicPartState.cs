@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)PlayerState.BasicPart)]
-public class PlayerBasicPartState : PlayerActivePartAttackState<BasicActivePart>
+[FSMState((int)PlayerState.BasicSM)]
+public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 {
 	private const float explosionEffectUnitSize = 0.1f;
 	private const float maxAngle = 360;

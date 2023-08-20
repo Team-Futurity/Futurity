@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerActivePartAttackState<T> : PlayerAttackBaseState where T : ActivePartProccessor
+public class PlayerSpecialMoveState<T> : PlayerAttackBaseState where T : SpecialMoveProcessor
 {
 	protected T proccessor;
 

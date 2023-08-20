@@ -17,13 +17,13 @@ public enum PlayerState : int
 	Death,          // 사망
 
 	// 액티브 부품(필살기)
-	BasicPart,      // 기본 부품
+	BasicSM,      // 기본 부품
 
 	// 기타 유틸
 	AutoMove
 }
 
-public enum PlayerInput : int
+public enum PlayerInputEnum : int
 {
 	None,
 	NormalAttack,

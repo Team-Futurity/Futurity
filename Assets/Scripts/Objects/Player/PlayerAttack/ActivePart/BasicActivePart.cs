@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-public class BasicActivePart : ActivePartProccessor
+public class BasicActivePart : SpecialMoveProcessor
 {
 	public float minRange;  // cm 단위 (0.01unit)
 	public float maxRange;	// cm 단위 (0.01unit)

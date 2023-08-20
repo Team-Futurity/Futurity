@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum ActivePartType
+public enum SpecialMoveType
 {
 	None,
 	Basic,
@@ -10,11 +10,11 @@ public enum ActivePartType
 [System.Serializable]
 public class ActivePartData
 {
-	public ActivePartType type;
+	public SpecialMoveType type;
 	[SerializeReference]
-	public ActivePartProccessor proccessor;
+	public SpecialMoveProcessor proccessor;
 
-	public ActivePartData(ActivePartType type, ActivePartProccessor proccessor)
+	public ActivePartData(SpecialMoveType type, SpecialMoveProcessor proccessor)
 	{
 		this.type = type;
 		this.proccessor = proccessor;
