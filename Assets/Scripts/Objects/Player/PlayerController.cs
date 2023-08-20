@@ -67,8 +67,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// attack
 	[Space(5)]
 	[Header("공격 관련")]
-	public PlayerInput curCombo;
-	public PlayerInput nextCombo;
+	public PlayerInputEnum curCombo;
+	public PlayerInputEnum nextCombo;
 	public AttackNode curNode;
 	public AttackNode firstBehaiviorNode;
 	public PlayerState currentAttackState;
@@ -166,7 +166,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// Attack Init
 		//comboTree = commandTreeLoader.GetCommandTree();
 		curNode = comboTree.top;
-		nextCombo = PlayerInput.None;
+		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
 		//comboTree.SetTree(comboTree.top, null);
 
@@ -192,7 +192,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 
 	#region Input
-	public string GetInputData(PlayerInput input, bool isProcess, params string[] additionalDatas)
+	public string GetInputData(PlayerInputEnum input, bool isProcess, params string[] additionalDatas)
 	{
 		string returnValue = $"Input_{(int)input}_";
 
@@ -230,94 +230,94 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
-					return GetInputData(PlayerInput.Move, true, input.ToString(), "SubState");
+					return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "SubState");
 				}
 			}
-			return GetInputData(PlayerInput.Move, false, input.ToString());
+			return GetInputData(PlayerInputEnum.Move, false, input.ToString());
 		}
 
 		if (playerData.isStun || !hitCoolTimeIsEnd)
 		{
-			return GetInputData(PlayerInput.Move, false, input.ToString()); ;
+			return GetInputData(PlayerInputEnum.Move, false, input.ToString()); ;
 		}
 
 		// 이동 기능
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
-			return GetInputData(PlayerInput.Move, true, input.ToString(), "State");
+			return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "State");
 		}
 
-		return GetInputData(PlayerInput.Move, false, input.ToString());
+		return GetInputData(PlayerInputEnum.Move, false, input.ToString());
 	}
 
 	public string DashProcess(InputAction.CallbackContext context)
 	{
 		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) 
 		{ 
-			return GetInputData(PlayerInput.Dash, false); 
+			return GetInputData(PlayerInputEnum.Dash, false); 
 		}
 
 		if (!IsCurrentState(PlayerState.Dash))
 		{
 			ChangeState(PlayerState.Dash);
-			return GetInputData(PlayerInput.Dash, true);
+			return GetInputData(PlayerInputEnum.Dash, true);
 		}
 
-		return GetInputData(PlayerInput.Dash, false);
+		return GetInputData(PlayerInputEnum.Dash, false);
 	}
 
 	// Normal Attack
 	public string NAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
-		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInput.NormalAttack, false); }
+		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInput.NormalAttack, false); }
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		// AfterDelay나 다른 스테이트(Idle, Move)라면
 		if (!IsAttackProcess(true))
 		{
-			StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
+			StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack);
 
-			return GetInputData(PlayerInput.NormalAttack, true, currentAttackState.ToString(), curNode.name);
+			return GetInputData(PlayerInputEnum.NormalAttack, true, currentAttackState.ToString(), curNode.name);
 		}
 		else // 공격 중이라면
 		{
-			if (nextCombo == PlayerInput.None)
+			if (nextCombo == PlayerInputEnum.None)
 			{
-				SetNextCombo(PlayerInput.NormalAttack);
-				return GetInputData(PlayerInput.NormalAttack, true, "Queueing", FindInput(PlayerInput.NormalAttack).name);
+				SetNextCombo(PlayerInputEnum.NormalAttack);
+				return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
 			}
 		}
 		
-		return GetInputData(PlayerInput.NormalAttack, false);
+		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
 	// Special Attack
 	public string SAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
-		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInput.SpecialAttack, false); }
+		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInput.SpecialAttack, false); }
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
-		var state = curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
+		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
 		if (context.started)
 		{
 			if (!IsAttackProcess(true))
 			{
-				StartNextComboAttack(PlayerInput.SpecialAttack, state);
-				return GetInputData(PlayerInput.SpecialAttack, true, state.ToString(), state == PlayerState.NormalAttack ? curNode.name : "Pressed");
+				StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
+				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), state == PlayerState.NormalAttack ? curNode.name : "Pressed");
 			}
 			else
 			{
-				if (nextCombo == PlayerInput.None && curCombo != PlayerInput.SpecialAttack)
+				if (nextCombo == PlayerInputEnum.None && curCombo != PlayerInputEnum.SpecialAttack)
 				{
-					SetNextCombo(PlayerInput.SpecialAttack);
-					return GetInputData(PlayerInput.SpecialAttack, true, "Queueing");
+					SetNextCombo(PlayerInputEnum.SpecialAttack);
+					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
 				}
 			}
 		}
@@ -326,20 +326,20 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
 			{
 				specialIsReleased = true;
-				return GetInputData(PlayerInput.SpecialAttack, true, state.ToString(), "Released");
+				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), "Released");
 			}
 		}
 		
-		return GetInputData(PlayerInput.SpecialAttack, false);
+		return GetInputData(PlayerInputEnum.SpecialAttack, false);
 	}
 
 	// Special Move
 	public string SMProcess(InputAction.CallbackContext context)
 	{
-		if (!activePartIsActive) { return GetInputData(PlayerInput.SpecialMove, false); }
+		if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
-		return GetInputData(PlayerInput.SpecialAttack, true, SpecialMoveType.Basic.ToString());
+		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
 	}
 	#endregion
 
@@ -459,13 +459,13 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}*/
 	#endregion
 
-	public AttackNode FindInput(PlayerInput input)
+	public AttackNode FindInput(PlayerInputEnum input)
 	{
 		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
-		PlayerInput nextNodeInput = input;
+		PlayerInputEnum nextNodeInput = input;
 
 		if(IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
-			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInput.None // 콤보를 진행 중이며,
+			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // 콤보를 진행 중이며,
 			&& firstBehaiviorNode.command != input)											// 해당 콤보가 입력값과 다르다면
 		{
 			nextNodeInput = firstBehaiviorNode.command;
@@ -520,9 +520,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void ResetCombo()
 	{
-		nextCombo = PlayerInput.None;
+		nextCombo = PlayerInputEnum.None;
 		curNode = unit.comboTree.top;
-		curCombo = PlayerInput.None;
+		curCombo = PlayerInputEnum.None;
 		currentAttackState = PlayerState.Idle;
 		firstBehaiviorNode = null;
 		LockNextCombo(false);
@@ -532,7 +532,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public bool IsTopNode(AttackNode node) => node == comboTree.top;
 
-	public bool NodeTransitionProc(PlayerInput input, PlayerState nextAttackState)
+	public bool NodeTransitionProc(PlayerInputEnum input, PlayerState nextAttackState)
 	{
 		if(comboIsLock) { return false; }
 		
@@ -557,7 +557,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		return true;
 	}
 
-	public void SetNextCombo(PlayerInput nextCommand)
+	public void SetNextCombo(PlayerInputEnum nextCommand)
 	{
 		if(!comboIsLock)
 		{
@@ -569,15 +569,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		comboIsLock = isLock;
 
-		if(comboIsLock) { nextCombo = PlayerInput.None; }
+		if(comboIsLock) { nextCombo = PlayerInputEnum.None; }
 	}
 	
-	public void StartNextComboAttack(PlayerInput input, PlayerState nextAttackState)
+	public void StartNextComboAttack(PlayerInputEnum input, PlayerState nextAttackState)
 	{
-		if (nextCombo != PlayerInput.None) input = nextCombo;
+		if (nextCombo != PlayerInputEnum.None) input = nextCombo;
 		if (!NodeTransitionProc(input, nextAttackState)) { return; }
 
-		nextCombo = PlayerInput.None;
+		nextCombo = PlayerInputEnum.None;
 		LockNextCombo(false);
 		ChangeState(PlayerState.AttackDelay);
 	}

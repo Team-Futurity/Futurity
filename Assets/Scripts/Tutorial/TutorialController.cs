@@ -214,22 +214,22 @@ public class TutorialController : MonoBehaviour
 
 		Quest comboAttack2 = new Quest();
 		comboAttack2.questName = "J-J : 콤보 공격";
-		comboAttack2.isConditionMet = comboAttack2.isConditionMet = () => IsComboAttackPlus(2, PlayerInput.NormalAttack);
+		comboAttack2.isConditionMet = comboAttack2.isConditionMet = () => IsComboAttackPlus(2, PlayerInputEnum.NormalAttack);
 		tutorialQuests2.Add(comboAttack2);
 
 		Quest comboAttack3 = new Quest();
 		comboAttack3.questName = "J-J-J : 콤보 공격";
-		comboAttack3.isConditionMet = comboAttack3.isConditionMet = () => IsComboAttackPlus(4, PlayerInput.NormalAttack);
+		comboAttack3.isConditionMet = comboAttack3.isConditionMet = () => IsComboAttackPlus(4, PlayerInputEnum.NormalAttack);
 		tutorialQuests2.Add(comboAttack3);
 
 		Quest comboChageAttack1 = new Quest();
 		comboChageAttack1.questName = "K- : 차지 공격";
-		comboChageAttack1.isConditionMet = comboChageAttack1.isConditionMet = () => IsComboAttackPlus(2, PlayerInput.SpecialAttack);
+		comboChageAttack1.isConditionMet = comboChageAttack1.isConditionMet = () => IsComboAttackPlus(2, PlayerInputEnum.SpecialAttack);
 		tutorialQuests3.Add(comboChageAttack1);
 
 		Quest comboExtraAttack2 = new Quest();
 		comboExtraAttack2.questName = "J-J-K : 특수 콤보 공격";
-		comboExtraAttack2.isConditionMet = comboExtraAttack2.isConditionMet = () => IsComboAttackPlus(4, PlayerInput.SpecialAttack);
+		comboExtraAttack2.isConditionMet = comboExtraAttack2.isConditionMet = () => IsComboAttackPlus(4, PlayerInputEnum.SpecialAttack);
 		tutorialQuests3.Add(comboExtraAttack2);
 	
 	}
@@ -353,10 +353,10 @@ public class TutorialController : MonoBehaviour
 			return false;
 		}
 	}
-	private bool IsComboAttackPlus(float stNumber, PlayerInput playerInput)
+	private bool IsComboAttackPlus(float stNumber, PlayerInputEnum playerInput)
 	{
 		float stNum = attackNode.attackST;
-		PlayerInput attackCommend = attackNode.command;
+		PlayerInputEnum attackCommend = attackNode.command;
 		Debug.Log($"stNum : {attackNode} \nstNumber : {stNumber}");
 		if (stNum == stNumber && attackCommend == playerInput)
 		{

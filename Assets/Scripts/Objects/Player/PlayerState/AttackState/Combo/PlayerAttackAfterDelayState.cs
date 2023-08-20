@@ -29,12 +29,12 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 	public override void Update(PlayerController unit)
 	{
 		base.Update(unit);
-		if(unit.nextCombo != PlayerInput.None)
+		if(unit.nextCombo != PlayerInputEnum.None)
 		{
 			//unit.StartNextComboAttack(unit.nextCombo, PlayerState.NormalAttack);
 			if (!unit.NodeTransitionProc(unit.nextCombo, PlayerState.NormalAttack)) { /*unit.ChangeState(PlayerState.Idle);*/ return; }
 
-			unit.nextCombo = PlayerInput.None;
+			unit.nextCombo = PlayerInputEnum.None;
 			unit.LockNextCombo(false);
 			NextAttackState(unit, PlayerState.AttackDelay);
 			return;

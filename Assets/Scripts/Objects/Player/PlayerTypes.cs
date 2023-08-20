@@ -23,7 +23,7 @@ public enum PlayerState : int
 	AutoMove
 }
 
-public enum PlayerInput : int
+public enum PlayerInputEnum : int
 {
 	None,
 	NormalAttack,
