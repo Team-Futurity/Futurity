@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TilelineManager : Singleton<TilelineManager>
+public class TimelineManager : Singleton<TimelineManager>
 {
 	[Header("컷신 목록")] 
-	[SerializeField] private GameObject entryCutScene;
+	[SerializeField] private GameObject[] cutSceneList;
+	
 	public enum ECutScene
 	{
-		Stage1_EntryCutScene = 0	
+		Stage1_EntryCutScene = 0,
+		PlayerDeathCutScene = 1
 	}
 
 	private IEnumerator testCoroutine;
@@ -25,12 +27,7 @@ public class TilelineManager : Singleton<TilelineManager>
 
 	public void EnableCutScene(ECutScene cutScene)
 	{
-		switch (cutScene)
-		{
-			case ECutScene.Stage1_EntryCutScene:
-				entryCutScene.SetActive(true);
-				break;
-		}
+		cutSceneList[(int)cutScene].SetActive(true);
 	}
 
 	private IEnumerator DelayCutScene(ECutScene cutScene)
