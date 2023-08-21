@@ -7,7 +7,8 @@ public class TimelineManager : Singleton<TimelineManager>
 	public enum ECutScene
 	{
 		Stage1_EntryCutScene = 0,
-		PlayerDeathCutScene = 1
+		LastKillCutScene = 1,
+		PlayerDeathCutScene = 2
 	}
 	
 	[Header("Component")]
@@ -21,6 +22,9 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("컷신 목록")] 
 	[SerializeField] private GameObject[] cutSceneList;
 
+	[Header("추적 대상")] 
+	[SerializeField] private Transform lastKillFollowTarget;
+	private Transform originTarget;
 	
 	// reset offset value
 	private Vector3 originOffset;
@@ -34,6 +38,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	private void Start()
 	{
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+		originTarget = playerCamera.m_Follow;
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
@@ -53,6 +58,11 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		cameraBody.m_TrackedObjectOffset = originOffset;
 		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
+	}
+
+	public void ChangeFollowTarget(bool isLastKill)
+	{
+		playerCamera.m_Follow = (isLastKill) ? lastKillFollowTarget : originTarget;
 	}
 
 	private IEnumerator DelayCutScene(ECutScene cutScene)

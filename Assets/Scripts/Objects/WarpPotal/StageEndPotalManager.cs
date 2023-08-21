@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ½ºÅ×ÀÌÁö ÀÌµ¿ Æ÷Å»ÀÇ È°¼ºÈ­¸¦ À§ÇÑ ½Ì±ÛÅæ Å¬·¡½ºÀÔ´Ï´Ù. 
-/// (ÀÓ½Ã ½ºÅ©¸³Æ®·Î ÀÌÈÄ ½Ì±ÛÅæÀ» »ç¿ëÇÏÁö ¾Ê´Â ¹æÇâÀ¸·Î º¯°æÇÒ ÇÊ¿ä°¡ ÀÖ½À´Ï´Ù.)
+/// ìŠ¤í…Œì´ì§€ ì´ë™ í¬íƒˆì˜ í™œì„±í™”ë¥¼ ìœ„í•œ ì‹±ê¸€í†¤ í´ë˜ìŠ¤ì…ë‹ˆë‹¤. 
+/// (ì„ì‹œ ìŠ¤í¬ë¦½íŠ¸ë¡œ ì´í›„ ì‹±ê¸€í†¤ì„ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ” ë°©í–¥ìœ¼ë¡œ ë³€ê²½í•  í•„ìš”ê°€ ìˆìŠµë‹ˆë‹¤.)
 /// </summary>
 public class StageEndPotalManager : Singleton<StageEndPotalManager>
 {
-	// ¿öÇÁ Æ÷Å» ÄÁÆ®·Ñ·¯ ¸®½ºÆ®ÀÔ´Ï´Ù.
+	// ì›Œí”„ í¬íƒˆ ì»¨íŠ¸ë¡¤ëŸ¬ ë¦¬ìŠ¤íŠ¸ì…ë‹ˆë‹¤.
 	private List<StageEndPotalController> warpPotalControllers = new List<StageEndPotalController>();
 	private LastKillController lastKillController;
 
 	/// <summary>
-	/// »õ·Î¿î ¿öÇÁ Æ÷Å» ÄÁÆ®·Ñ·¯¸¦ ¸®½ºÆ®¿¡ Ãß°¡ÇÕ´Ï´Ù.
+	/// ìƒˆë¡œìš´ ì›Œí”„ í¬íƒˆ ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í•©ë‹ˆë‹¤.
 	/// </summary>
-	/// <param name="newWarpPotalController">Ãß°¡ÇÒ ¿öÇÁ Æ÷Å» ÄÁÆ®·Ñ·¯ÀÔ´Ï´Ù.</param>
+	/// <param name="newWarpPotalController">ì¶”ê°€í•  ì›Œí”„ í¬íƒˆ ì»¨íŠ¸ë¡¤ëŸ¬ì…ë‹ˆë‹¤.</param>
 	public void SetEndWarpPotal(StageEndPotalController newWarpPotalController)
 	{
 		warpPotalControllers.Add(newWarpPotalController);
@@ -27,7 +27,7 @@ public class StageEndPotalManager : Singleton<StageEndPotalManager>
 	}
 
 	/// <summary>
-	/// ¿öÇÁ Æ÷Å» ÄÁÆ®·Ñ·¯ ¸®½ºÆ®¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+	/// ì›Œí”„ í¬íƒˆ ì»¨íŠ¸ë¡¤ëŸ¬ ë¦¬ìŠ¤íŠ¸ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
 	/// </summary>
 	public void ClearEndWarpPotal()
 	{
@@ -35,11 +35,11 @@ public class StageEndPotalManager : Singleton<StageEndPotalManager>
 	}
 
 	/// <summary>
-	/// ¸ğµç ¿öÇÁ Æ÷Å»À» È°¼ºÈ­ÇÕ´Ï´Ù.
+	/// ëª¨ë“  ì›Œí”„ í¬íƒˆì„ í™œì„±í™”í•©ë‹ˆë‹¤.
 	/// </summary>
 	public void ActivePotals()
 	{
-		lastKillController.LastKill();
+		TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LastKillCutScene);
 
 		foreach (var controller in warpPotalControllers)
 		{

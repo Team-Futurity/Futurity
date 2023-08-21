@@ -1306,6 +1306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeDefault
       objectReference: {fileID: 0}
+    - target: {fileID: 4439521067689912937, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
 --- !u!4 &64179639 stripped
@@ -2176,7 +2180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 732466587148635620, guid: 19b9c323d982e61489be44bd2788f27a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732466587148635621, guid: 19b9c323d982e61489be44bd2788f27a, type: 3}
       propertyPath: m_RootOrder
@@ -2412,7 +2416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 732466587148635620, guid: 19b9c323d982e61489be44bd2788f27a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732466587148635621, guid: 19b9c323d982e61489be44bd2788f27a, type: 3}
       propertyPath: m_RootOrder
@@ -2556,6 +2560,7 @@ GameObject:
   m_Component:
   - component: {fileID: 190056189}
   - component: {fileID: 190056191}
+  - component: {fileID: 190056192}
   - component: {fileID: 190056190}
   m_Layer: 0
   m_Name: LastKillCutScene
@@ -2594,12 +2599,42 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: 9394698ad6c63b64e9c42a1b19f54b88, type: 2}
+    - {fileID: 11400000, guid: 71462b26ff8a17e429e0fd77190af9fc, type: 2}
+    - {fileID: 11400000, guid: a739a9f45066f4740927a957e30ec85d, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 598606656}
           m_TargetAssemblyTypeName: TimelineManager, Assembly-CSharp
           m_MethodName: StartLerpTimeScale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 598606656}
+          m_TargetAssemblyTypeName: TimelineManager, Assembly-CSharp
+          m_MethodName: StartSlowMotion
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 190056192}
+          m_TargetAssemblyTypeName: LastKillCutScene, Assembly-CSharp
+          m_MethodName: EndLastKillCutScene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2621,7 +2656,7 @@ PlayableDirector:
   m_PlayableAsset: {fileID: 11400000, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
   m_InitialState: 1
   m_WrapMode: 2
-  m_DirectorUpdateMode: 1
+  m_DirectorUpdateMode: 2
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 3888714483340301827, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
@@ -2630,6 +2665,18 @@ PlayableDirector:
     value: {fileID: 286474227}
   m_ExposedReferences:
     m_References: []
+--- !u!114 &190056192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190056188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 518d2b5b2c533674697cda5ddffd84a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &216350248
 GameObject:
   m_ObjectHideFlags: 0
@@ -3191,7 +3238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &286474224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3347,7 +3394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955528926438800399, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
@@ -3941,7 +3988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955528926438800399, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
@@ -4274,7 +4321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955528926438800399, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
@@ -8003,7 +8050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 732466587148635620, guid: 19b9c323d982e61489be44bd2788f27a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732466587148635621, guid: 19b9c323d982e61489be44bd2788f27a, type: 3}
       propertyPath: m_RootOrder
@@ -8117,7 +8164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4439521067689912937, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
@@ -8261,7 +8308,9 @@ MonoBehaviour:
   recoveryTime: 0.8
   cutSceneList:
   - {fileID: 832472301}
+  - {fileID: 190056188}
   - {fileID: 1255412917}
+  lastKillFollowTarget: {fileID: 1663312104}
 --- !u!1 &621393490
 GameObject:
   m_ObjectHideFlags: 0
@@ -9207,7 +9256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955528926438800399, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
@@ -9512,8 +9561,8 @@ GameObject:
   m_Component:
   - component: {fileID: 832472302}
   - component: {fileID: 832472303}
-  - component: {fileID: 832472305}
   - component: {fileID: 832472304}
+  - component: {fileID: 832472305}
   m_Layer: 0
   m_Name: EntryCutScene
   m_TagString: Untagged
@@ -10081,7 +10130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955528926438800399, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
@@ -10284,7 +10333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4439521067689912937, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
@@ -12039,7 +12088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955528926438800399, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
@@ -12934,7 +12983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 732466587148635620, guid: 19b9c323d982e61489be44bd2788f27a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732466587148635621, guid: 19b9c323d982e61489be44bd2788f27a, type: 3}
       propertyPath: m_RootOrder
@@ -14847,7 +14896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4439521067689912937, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
@@ -16490,6 +16539,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2955528926438800398, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
   m_PrefabInstance: {fileID: 1621278212}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1663312104 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2180031117323370357, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+  m_PrefabInstance: {fileID: 490917121}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1672003680
 GameObject:
   m_ObjectHideFlags: 0
@@ -17873,7 +17927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955528926438800399, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
@@ -18284,7 +18338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4439521067689912937, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
@@ -19121,7 +19175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2955528926438800399, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c3a115c3303f0a428067b8a707153e2, type: 3}
