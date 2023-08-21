@@ -38,24 +38,21 @@ public class HealthWarningController : MonoBehaviour
 
 		if(!isDeath && health <= 0)
 		{
-			PulseEffect(false);
+			vignette.intensity.value = 0f;
 			PlayerDeath();
 		}
 
-		// 체력이 60 이하이면 경고 연출 적용
-		if (health <= 60)
+		if (isDeath == true)
 		{
-			PulseEffect(true);
+			return;
 		}
-		else
-		{
-			PulseEffect(false);
-		}
+		
+		PulseEffect();
 	}
 	
-	private void PulseEffect(bool isActive)
+	private void PulseEffect()
 	{
-		if (isActive)
+		if (health <= 60)
 		{
 			effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
 			vignette.intensity.value = effectIntensity;
@@ -65,12 +62,11 @@ public class HealthWarningController : MonoBehaviour
 			vignette.intensity.value = 0f;
 		}
 	}
-
-
+	
 	private void PlayerDeath()
 	{
 		isDeath = true;
-		
+
 		for (int i = enemyManager.activeEnemys.Count - 1; i >= 0; i--)
 		{
 			enemyManager.DeActiveManagement(enemyManager.activeEnemys[i]);
