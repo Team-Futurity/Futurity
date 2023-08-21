@@ -2546,6 +2546,90 @@ Transform:
   m_Father: {fileID: 1347330514}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &190056188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 190056189}
+  - component: {fileID: 190056191}
+  - component: {fileID: 190056190}
+  m_Layer: 0
+  m_Name: LastKillCutScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &190056189
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190056188}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 598606655}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &190056190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190056188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 9394698ad6c63b64e9c42a1b19f54b88, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 598606656}
+          m_TargetAssemblyTypeName: TimelineManager, Assembly-CSharp
+          m_MethodName: StartLerpTimeScale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!320 &190056191
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190056188}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 3888714483340301827, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
+    value: {fileID: 190056190}
+  - key: {fileID: 81208786569561072, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
+    value: {fileID: 286474227}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &216350248
 GameObject:
   m_ObjectHideFlags: 0
@@ -3154,7 +3238,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286474223}
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: -18.641134, y: 7.647467, z: -7.108237}
+  m_LocalPosition: {x: -19.761137, y: 7.6474676, z: -7.1082373}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3397,15 +3481,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.641134
+      value: -19.761137
       objectReference: {fileID: 0}
     - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.647467
+      value: 7.6474676
       objectReference: {fileID: 0}
     - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.108237
+      value: -7.1082373
       objectReference: {fileID: 0}
     - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6387,7 +6471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5328251835375101389, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -41.39
+      value: -36.06
       objectReference: {fileID: 0}
     - target: {fileID: 5328251835375101389, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7405,7 +7489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8155,6 +8239,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 832472302}
+  - {fileID: 190056189}
   - {fileID: 1255412918}
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -8171,6 +8256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57ac7e3df33b3d43ba69f7bac2512f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 286474224}
+  slowMotionDuration: 0.2
+  recoveryTime: 0.8
   cutSceneList:
   - {fileID: 832472301}
   - {fileID: 1255412917}
@@ -13044,7 +13132,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 598606655}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!320 &1255412919
 PlayableDirector:
@@ -13089,8 +13177,8 @@ MonoBehaviour:
     m_Events:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1255412921}
-          m_TargetAssemblyTypeName: PlayerDeathCutScene, Assembly-CSharp
+        - m_Target: {fileID: 598606656}
+          m_TargetAssemblyTypeName: TimelineManager, Assembly-CSharp
           m_MethodName: StartSlowMotion
           m_Mode: 1
           m_Arguments:
@@ -13103,8 +13191,8 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1255412921}
-          m_TargetAssemblyTypeName: PlayerDeathCutScene, Assembly-CSharp
+        - m_Target: {fileID: 598606656}
+          m_TargetAssemblyTypeName: TimelineManager, Assembly-CSharp
           m_MethodName: ResetTimeScale
           m_Mode: 1
           m_Arguments:
@@ -13141,7 +13229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad82560bb25010468300e9d2c3f42e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 286474224}
   disableUI:
   - {fileID: 2108207407}
   - {fileID: 52745147}
