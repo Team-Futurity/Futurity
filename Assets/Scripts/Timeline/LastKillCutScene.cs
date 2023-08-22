@@ -1,16 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class LastKillCutScene : MonoBehaviour
+public class LastKillCutScene : CutSceneBase
 {
-	private void OnEnable()
+	protected override void Init() { }
+
+	protected override void EnableCutScene()
 	{
 		TimelineManager.Instance.ChangeFollowTarget(true);
 	}
 
-	public void EndLastKillCutScene()
+	public override void DisableCutScene()
 	{
 		TimelineManager.Instance.ChangeFollowTarget(false);
 		gameObject.SetActive(false);

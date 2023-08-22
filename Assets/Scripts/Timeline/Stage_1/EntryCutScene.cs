@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
-public class EntryCutScene : MonoBehaviour
+public class EntryCutScene : CutSceneBase
 {
 	[Header("Component")] 
 	[SerializeField] private GameObject uiCanvas;
@@ -24,8 +20,8 @@ public class EntryCutScene : MonoBehaviour
 
 	private GameObject player = null;
 	private UnityEngine.InputSystem.PlayerInput playerInput;
-	
-	private void OnEnable()
+
+	protected override void Init()
 	{
 		//uiCanvas.SetActive(false);
 		
@@ -40,7 +36,9 @@ public class EntryCutScene : MonoBehaviour
 		Time.timeScale = 0.0f;
 	}
 
-	public void EndEntryCutScene()
+	protected override void EnableCutScene() { }
+	
+	public override void DisableCutScene()
 	{
 		foreach (var wall in walls)
 		{
