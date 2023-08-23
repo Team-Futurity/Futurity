@@ -38,7 +38,7 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 
 			if (!states.TryAdd(attribute.key, state))
 			{
-				Debug.LogError($"[FSM ERROR] {typeof(Unit)} ??{attribute.key} ?ㅺ? 以묐났?섏뿀?듬땲??");
+				Debug.LogError($"[FSM ERROR] {typeof(Unit)}의 State 중 {attribute.key}번째 State를 Add하는 데 실패했습니다. 이미 추가했을 수 있습니다.");
 			}
 		}
 

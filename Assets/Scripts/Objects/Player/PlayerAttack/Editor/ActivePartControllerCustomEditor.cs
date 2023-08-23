@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ActivePartController))]
+[CustomEditor(typeof(SpecialMoveController))]
 public class ActivePartControllerCustomEditor : Editor
 {
 	public const int activePartCount = 1;
@@ -18,7 +18,7 @@ public class ActivePartControllerCustomEditor : Editor
 	{
 		base.OnInspectorGUI();
 
-		ActivePartController controller = (ActivePartController)target;
+		SpecialMoveController controller = (SpecialMoveController)target;
 		var list = controller.activePartDatas;
 		var listCount = list.Count;
 		var lastIndex = listCount - 1;
@@ -42,7 +42,7 @@ public class ActivePartControllerCustomEditor : Editor
 			
 			if(part == null)
 			{
-				part = Activator.CreateInstance(type) as ActivePartProccessor;
+				part = Activator.CreateInstance(type) as SpecialMoveProcessor;
 				list[i].proccessor = part;
 			}
 
@@ -60,17 +60,17 @@ public class ActivePartControllerCustomEditor : Editor
 		if(list[lastIndex - 1].proccessor == list[lastIndex].proccessor)
 		{
 			var type = GetPartType(list[lastIndex].type);
-			list[lastIndex].proccessor = Activator.CreateInstance(type) as ActivePartProccessor;
+			list[lastIndex].proccessor = Activator.CreateInstance(type) as SpecialMoveProcessor;
 		}
 	}
 
-	private Type GetPartType(ActivePartType type)
+	private Type GetPartType(SpecialMoveType type)
 	{
 		switch (type)
 		{
-			case ActivePartType.Basic:
+			case SpecialMoveType.Basic:
 				return typeof(BasicActivePart);
-			case ActivePartType.Test:
+			case SpecialMoveType.Test:
 				return typeof(TestActivePart);
 			default:
 				return null;
@@ -78,7 +78,7 @@ public class ActivePartControllerCustomEditor : Editor
 	}
 
 
-	private void DrawInspectorInPart(ActivePartProccessor part)
+	private void DrawInspectorInPart(SpecialMoveProcessor part)
 	{
 		// Part 타입에 따라 해당 Part의 커스텀 에디터 호출
 
