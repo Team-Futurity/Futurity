@@ -54,7 +54,7 @@ public class CSNode : Node
 
 	private CommandGraphView graphView;
 
-	private const int MaxFieldLength = 7;
+	private const int MaxFieldLength = 8;
 
 	public virtual void Initialize(string nodeName, CommandGraphView cgView, Vector2 position)
 	{
