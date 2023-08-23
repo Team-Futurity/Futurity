@@ -24,6 +24,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	[SerializeField] private GameObject[] cutSceneList;
 
 	[Header("추적 대상")] 
+	[SerializeField] private Transform changeTarget;
 	[SerializeField] private Transform playerModel;
 	public Transform PlayerModelTf => playerModel;
 	private Transform originTarget;
@@ -64,7 +65,7 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	public void ChangeFollowTarget(bool changeNewTarget)
 	{
-		playerCamera.m_Follow = (changeNewTarget) ? playerModel : originTarget;
+		playerCamera.m_Follow = (changeNewTarget) ? changeTarget : originTarget;
 	}
 
 	public void ChangeNewFollowTarget(Transform target)
