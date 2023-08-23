@@ -52,27 +52,27 @@ public class CameraMover : MonoBehaviour
 	{
 		uiCanvas.SetActive(false);
 
-		if(moveCamera == null)
-		{
-			moveCamera = Camera.main.gameObject;
-		}
-		if(player == null)
-		{
-			player = GameObject.FindWithTag("Player");
-		}
-		playerInput = player.GetComponent<UnityEngine.InputSystem.PlayerInput>();
-		playerInput.enabled = false;
-		
-		moveDelayWaitForSeconds = new WaitForSeconds(moveStartDelayTime);
-		moveCameraController = moveCamera.GetComponent<CameraController>();
-		moveCameraController.enabled = false;
-		
-		startPostion = startTransform.position;
-		endPosiotion = endTransform.position + moveCameraController.offset;
-		
-		moveCamera.transform.position = startPostion;
-		
-		StartCoroutine(MoveCamera());
+		// if(moveCamera == null)
+		// {
+		// 	moveCamera = Camera.main.gameObject;
+		// }
+		// if(player == null)
+		// {
+		// 	player = GameObject.FindWithTag("Player");
+		// }
+		// playerInput = player.GetComponent<UnityEngine.InputSystem.PlayerInput>();
+		// playerInput.enabled = false;
+		//
+		// moveDelayWaitForSeconds = new WaitForSeconds(moveStartDelayTime);
+		// moveCameraController = moveCamera.GetComponent<CameraController>();
+		// moveCameraController.enabled = false;
+		//
+		// startPostion = startTransform.position;
+		// endPosiotion = endTransform.position + moveCameraController.offset;
+		//
+		// moveCamera.transform.position = startPostion;
+		//
+		// StartCoroutine(MoveCamera());
 	}
 
 	/// <summary>

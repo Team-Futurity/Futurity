@@ -11,6 +11,10 @@ public class PlayerDeathCutScene : CutSceneBase
 
 	[Header("흑백 전환 시간")] 
 	[SerializeField] private float grayScaleTime = 0.5f;
+
+	[Header("넉백 거리 저장")]
+	[SerializeField] private Transform endPos;
+	[SerializeField] private Transform newFollowTarget;
 	
 	private GrayScale grayScale = null;
 	private IEnumerator enableGrayScale;
@@ -25,6 +29,10 @@ public class PlayerDeathCutScene : CutSceneBase
 	
 	protected override void EnableCutScene()
 	{
+		CalDeadPos();
+		TimelineManager.Instance.ChangeNewFollowTarget(newFollowTarget);
+		GameObject.FindWithTag("Player").GetComponent<Animator>().Play("New State", -1, 0f);
+		
 		foreach (var ui in disableUI)
 		{
 			ui.gameObject.SetActive(false);		
@@ -39,6 +47,7 @@ public class PlayerDeathCutScene : CutSceneBase
 			Vector2.zero, Vector2.one);
 		
 		TimelineManager.Instance.ResetCameraValue();
+		TimelineManager.Instance.ChangeFollowTarget(false);
 		
 		grayScale.amount.value = 0.0f;
 		grayScale.active = false;
@@ -50,6 +59,13 @@ public class PlayerDeathCutScene : CutSceneBase
 		
 		enableGrayScale = EnableGrayScale();
 		StartCoroutine(enableGrayScale);
+	}
+
+	private void CalDeadPos()
+	{
+		var playerTf = TimelineManager.Instance.PlayerModelTf;
+		var offset = -3.0f * playerTf.forward;
+		endPos.position = playerTf.position + offset;
 	}
 	
 	private IEnumerator EnableGrayScale()

@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -23,7 +24,8 @@ public class TimelineManager : Singleton<TimelineManager>
 	[SerializeField] private GameObject[] cutSceneList;
 
 	[Header("추적 대상")] 
-	[SerializeField] private Transform lastKillFollowTarget;
+	[SerializeField] private Transform playerModel;
+	public Transform PlayerModelTf => playerModel;
 	private Transform originTarget;
 	
 	// reset offset value
@@ -48,7 +50,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		testCoroutine = DelayCutScene(ECutScene.Stage1_EntryCutScene);
 		StartCoroutine(testCoroutine);
 	}
-
+	
 	public void EnableCutScene(ECutScene cutScene)
 	{
 		cutSceneList[(int)cutScene].SetActive(true);
@@ -60,9 +62,14 @@ public class TimelineManager : Singleton<TimelineManager>
 		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
 	}
 
-	public void ChangeFollowTarget(bool isLastKill)
+	public void ChangeFollowTarget(bool changeNewTarget)
 	{
-		playerCamera.m_Follow = (isLastKill) ? lastKillFollowTarget : originTarget;
+		playerCamera.m_Follow = (changeNewTarget) ? playerModel : originTarget;
+	}
+
+	public void ChangeNewFollowTarget(Transform target)
+	{
+		playerCamera.m_Follow = target;
 	}
 
 	private IEnumerator DelayCutScene(ECutScene cutScene)
