@@ -22,7 +22,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// attack
 	[Space(2)]
 	[Header("콤보")]
-	public CommandTree comboTree;
+	public CommandTree commandTree;
 
 	// move
 	[Space(5)]
@@ -164,8 +164,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
-		comboTree = commandTreeLoader.GetCommandTree();
-		curNode = comboTree.Top;
+		commandTree = commandTreeLoader.GetCommandTree();
+		curNode = commandTree.Top;
 		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
 		//comboTree.SetTree(comboTree.top, null);
@@ -461,10 +461,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public AttackNode FindInput(PlayerInputEnum input)
 	{
-		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.Top : curNode;
+		AttackNode compareNode = curNode.childNodes.Count == 0 ? commandTree.Top : curNode;
 		PlayerInputEnum nextNodeInput = input;
 
-		if(comboTree.IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
+		if(commandTree.IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
 			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // 콤보를 진행 중이며,
 			&& firstBehaiviorNode.command != input)											// 해당 콤보가 입력값과 다르다면
 		{
@@ -473,7 +473,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			return null;
 		}
 
-		AttackNode node = comboTree.FindNode(nextNodeInput, compareNode);
+		AttackNode node = commandTree.FindNode(nextNodeInput, compareNode);
 
 
 		return node;
@@ -521,7 +521,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public void ResetCombo()
 	{
 		nextCombo = PlayerInputEnum.None;
-		curNode = unit.comboTree.Top;
+		curNode = unit.commandTree.Top;
 		curCombo = PlayerInputEnum.None;
 		currentAttackState = PlayerState.Idle;
 		firstBehaiviorNode = null;
@@ -547,7 +547,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		currentAttackState = nextAttackState;
 		currentAttackAnimKey = ComboAttackAnimaKey;
 
-		if (comboTree.IsTopNode(curNode.parent))
+		if (commandTree.IsTopNode(curNode.parent))
 		{
 			firstBehaiviorNode = curNode;
 		}

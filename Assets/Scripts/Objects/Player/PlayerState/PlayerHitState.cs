@@ -13,7 +13,7 @@ public class PlayerHitState : UnitState<PlayerController>
 		pc.animator.SetTrigger(HitTriggerAnim);
 		pc.rmController.SetRootMotion("Hit");
 		pc.specialIsReleased = false;
-		pc.curNode = pc.comboTree.Top;
+		pc.curNode = pc.commandTree.Top;
 
 		Camera.main.gameObject.GetComponent<PostProcessController>().SetVignette(0.5f);
 
