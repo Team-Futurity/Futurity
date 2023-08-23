@@ -23,8 +23,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("컷신 목록")] 
 	[SerializeField] private GameObject[] cutSceneList;
 
-	[Header("추적 대상")] 
-	[SerializeField] private Transform changeTarget;
+	[Header("추적 대상")]
 	[SerializeField] private Transform playerModel;
 	public Transform PlayerModelTf => playerModel;
 	private Transform originTarget;
@@ -63,16 +62,11 @@ public class TimelineManager : Singleton<TimelineManager>
 		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
 	}
 
-	public void ChangeFollowTarget(bool changeNewTarget)
+	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
 	{
-		playerCamera.m_Follow = (changeNewTarget) ? changeTarget : originTarget;
+		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
 	}
-
-	public void ChangeNewFollowTarget(Transform target)
-	{
-		playerCamera.m_Follow = target;
-	}
-
+	
 	private IEnumerator DelayCutScene(ECutScene cutScene)
 	{
 		yield return new WaitForSecondsRealtime(5.0f);
