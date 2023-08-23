@@ -75,7 +75,7 @@ public class AttackNode
 [Serializable]
 public class CommandTree
 {
-	public AttackNode Top { get; private set; } // 최상단 노드
+	[field:SerializeField] public AttackNode Top { get; private set; } // 최상단 노드
 
 	public CommandTree()
 	{
