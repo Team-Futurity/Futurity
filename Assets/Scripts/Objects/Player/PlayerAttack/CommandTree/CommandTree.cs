@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using FMODUnity;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 [Serializable]
 public class AttackNode
@@ -88,9 +89,10 @@ public class CommandTree
 
 		newNode.parent = parent;
 		newNode.AddPoolManager();
-
 		parent.childNodes.Add(newNode);
 	}
+
+	public bool IsTopNode(AttackNode node) => node == top;
 
 	/*public void SetTree(AttackNode curNode, AttackNode parent)
 	{

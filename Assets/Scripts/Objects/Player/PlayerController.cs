@@ -95,7 +95,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
-	public EffectController effectManager;
+	public EffectController effectController;
 	public EffectDatas effectSO;
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
@@ -139,7 +139,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 
 		// effect
-		effectManager = ECManager.Instance.GetEffectManager(effectSO);
+		effectController = ECManager.Instance.GetEffectManager(effectSO);
 
 		// ReferenceCheck
 		List<string> msgs;
@@ -164,7 +164,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
-		//comboTree = commandTreeLoader.GetCommandTree();
+		comboTree = commandTreeLoader.GetCommandTree();
 		curNode = comboTree.top;
 		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
@@ -464,7 +464,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
 		PlayerInputEnum nextNodeInput = input;
 
-		if(IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
+		if(comboTree.IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
 			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // 콤보를 진행 중이며,
 			&& firstBehaiviorNode.command != input)											// 해당 콤보가 입력값과 다르다면
 		{
@@ -530,8 +530,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		comboGaugeSystem.ResetComboCount();
 	}
 
-	public bool IsTopNode(AttackNode node) => node == comboTree.top;
-
 	public bool NodeTransitionProc(PlayerInputEnum input, PlayerState nextAttackState)
 	{
 		if(comboIsLock) { return false; }
@@ -549,7 +547,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		currentAttackState = nextAttackState;
 		currentAttackAnimKey = ComboAttackAnimaKey;
 
-		if (IsTopNode(curNode.parent))
+		if (comboTree.IsTopNode(curNode.parent))
 		{
 			firstBehaiviorNode = curNode;
 		}
@@ -610,7 +608,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (attackCollider == null) { msgs.Add("attackCollider is Null."); }
 		if (autoTargetCollider == null) { msgs.Add("autoTargetCollider is Null."); }
 		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
-		if (effectManager == null) { msgs.Add("effectManager is Null."); }
+		if (effectController == null) { msgs.Add("effectManager is Null."); }
 		if (effectSO == null) { msgs.Add("effectSO is Null."); }
 		if (buffProvider == null) { msgs.Add("buffProvider is Null."); }
 		if (rmController == null) { msgs.Add("rmController is Null."); }
