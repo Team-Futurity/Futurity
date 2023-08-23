@@ -42,7 +42,6 @@ public class AttackNode
 
 	[Header("연출용 데이터")]
 	public int animInteger;
-	//public float moveDistance = 0f;
 
 	public float randomShakePower;
 	public float curveShakePower;
@@ -76,11 +75,11 @@ public class AttackNode
 [Serializable]
 public class CommandTree
 {
-	public AttackNode top; // 최상단 노드
+	public AttackNode Top { get; private set; } // 최상단 노드
 
 	public CommandTree()
 	{
-		top = new AttackNode(PlayerInputEnum.None);
+		Top = new AttackNode(PlayerInputEnum.None);
 	}
 
 	public void AddNode(AttackNode newNode, AttackNode parent)
@@ -92,7 +91,8 @@ public class CommandTree
 		parent.childNodes.Add(newNode);
 	}
 
-	public bool IsTopNode(AttackNode node) => node == top;
+	#region Checker
+	public bool IsTopNode(AttackNode node) => node == Top;
 
 	/*public void SetTree(AttackNode curNode, AttackNode parent)
 	{
@@ -114,32 +114,9 @@ public class CommandTree
 			parent = parent.parent;
 		}
 
-		return parent == top;
+		return parent == Top;
 	}
-
-/*	#region Insert
-	public void InsertNewNode(AttackNode newNode, AttackNode curNode = null, int nodePos = 0)
-	{
-		if (top != null) // top이 null이 아닌 경우
-		{
-			InsertNewNodeProc(newNode, curNode, nodePos);
-		}
-		else // top이 존재하지 않을 경우
-		{
-			FDebug.LogError("[Tree Error] Top Node is Null");
-		}
-	}
-
-	private void InsertNewNodeProc(AttackNode newNode, AttackNode curNode = null, int nodePos = 0)
-	{
-		AttackNode targetNode = top;
-		if (curNode != null)
-			targetNode = curNode;
-
-		targetNode.childNodes.Insert(nodePos, new AttackNode(newNode));
-		newNode.parent = targetNode;
-	}
-	#endregion*/
+	#endregion
 
 	#region Find
 	private AttackNode FindProc(PlayerInputEnum targetInput, AttackNode curNode)
@@ -161,9 +138,9 @@ public class CommandTree
 	public AttackNode FindNode(PlayerInputEnum targetInput, AttackNode curNode = null)
 	{
 		AttackNode resultNode = null;
-		if (top != null) // top이 존재하고
+		if (Top != null) // top이 존재하고
 		{
-			resultNode = FindProc(targetInput, curNode.childNodes == null ? top : curNode);
+			resultNode = FindProc(targetInput, curNode.childNodes == null ? Top : curNode);
 		}
 		return resultNode;
 	}

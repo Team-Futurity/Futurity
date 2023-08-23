@@ -35,7 +35,7 @@ public class CommandTreeLoader : MonoBehaviour
 		{
 			if(node.IsStartingCommand)
 			{
-				tree.AddNode(CSCommandSOToAttackNode(node), tree.top);
+				tree.AddNode(CSCommandSOToAttackNode(node), tree.Top);
 			}
 		}
 

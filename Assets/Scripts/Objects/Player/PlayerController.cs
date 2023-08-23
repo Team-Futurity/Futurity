@@ -165,7 +165,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		// Attack Init
 		comboTree = commandTreeLoader.GetCommandTree();
-		curNode = comboTree.top;
+		curNode = comboTree.Top;
 		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
 		//comboTree.SetTree(comboTree.top, null);
@@ -461,7 +461,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public AttackNode FindInput(PlayerInputEnum input)
 	{
-		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
+		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.Top : curNode;
 		PlayerInputEnum nextNodeInput = input;
 
 		if(comboTree.IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
@@ -521,7 +521,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public void ResetCombo()
 	{
 		nextCombo = PlayerInputEnum.None;
-		curNode = unit.comboTree.top;
+		curNode = unit.comboTree.Top;
 		curCombo = PlayerInputEnum.None;
 		currentAttackState = PlayerState.Idle;
 		firstBehaiviorNode = null;
