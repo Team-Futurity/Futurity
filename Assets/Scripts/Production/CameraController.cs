@@ -97,7 +97,6 @@ public class CameraController : MonoBehaviour
 	{
 		// 카메라 위치 조정
 		/*SetCameraPosition();*/
-
 		
 		prevTargetVector = GetTruncatedVector(target.position);
 	}
