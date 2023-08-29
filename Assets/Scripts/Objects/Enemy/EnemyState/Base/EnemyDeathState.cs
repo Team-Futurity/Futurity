@@ -15,10 +15,6 @@ public class EnemyDeathState : UnitState<EnemyController>
 		unit.manager.DeActiveManagement(unit);
 		
 
-		if (unit.manager.activeEnemys.Count < 1)
-		{
-			StageEndPotalManager.Instance.ActivePotals();
-		}
 		unit.manager.DeActiveManagement(unit);
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
