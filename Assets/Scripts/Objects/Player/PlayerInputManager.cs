@@ -1,38 +1,22 @@
-using Spine;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Events;
 
 public class PlayerInputManager : MonoBehaviour
 {
 	[SerializeField] private int frameCountToBeSaved;
 	[SerializeField] private PlayerController pc;
+	[SerializeField] private PlayerInput playerInput;
 	private List<Queue<string>> inputQueues = new List<Queue<string>>();
 	private int lastQueueIndex;
 
-	[HideInInspector] public UnityEvent<PlayerInput> onChangeStateEvent;
-
 	private void Start()
 	{
-		PlayerInputData data;
-		data.inputState = PlayerInput.None;
+		if(pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
+
+		pc.attackEndEvent.AddListener((str) => RegistInputMessage(str));
 		
-		if (pc == null)
-		{
-			FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null.");
-			return;
-		}
-
-		pc.attackEndEvent.AddListener((str) =>
-		{
-			data.inputMsg = str;
-			RegistInputMessage(data);
-		});
-
-		for (int i = 0; i < frameCountToBeSaved; i++)
+		for(int i = 0; i < frameCountToBeSaved; i++)
 		{
 			inputQueues.Add(new Queue<string>());
 		}
@@ -58,11 +42,7 @@ public class PlayerInputManager : MonoBehaviour
 
 	public Queue<string> GetInputQueue(int queueIndex)
 	{
-		if (queueIndex < 0 || queueIndex > lastQueueIndex)
-		{
-			FDebug.LogError("This Index is Invalid");
-			return null;
-		}
+		if(queueIndex < 0 || queueIndex > lastQueueIndex) { FDebug.LogError("This Index is Invalid"); return null; }
 
 		return new Queue<string>(inputQueues[queueIndex]);
 	}
@@ -72,6 +52,7 @@ public class PlayerInputManager : MonoBehaviour
 		return new Queue<string>(inputQueues[lastQueueIndex]);
 	}
 
+	#region Events
 	public void OnSpecialMove(InputAction.CallbackContext context)
 	{
 		if (!context.started) { return; }
@@ -88,7 +69,7 @@ public class PlayerInputManager : MonoBehaviour
 
 	public void OnDash(InputAction.CallbackContext context)
 	{
-		if (!context.performed) { return; }
+		if(!context.performed) { return; }
 
 		QueueingProcess(pc.DashProcess(context));
 	}
@@ -105,16 +86,19 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		QueueingProcess(pc.SAProcess(context));
 	}
+	#endregion
 
-	private void QueueingProcess(PlayerInputData data)
+	private void QueueingProcess(string data)
 	{
-		inputQueues[lastQueueIndex].Enqueue(data.inputMsg);
-		
-		onChangeStateEvent?.Invoke(data.inputState);
+		inputQueues[lastQueueIndex].Enqueue(data);
+
+		FDebug.Log("___" + data);
 	}
 
-	private void RegistInputMessage(PlayerInputData data)
+	private void RegistInputMessage(string msg)
 	{
-		QueueingProcess(data);
+		QueueingProcess(msg);
 	}
+
+	public void SetPlayerInput(bool isReceive) => playerInput.enabled = isReceive;
 }

@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="MainElement" style="width: 100%; height: 30%; justify-content: center; flex-direction: column; flex-shrink: 1; padding-top: 10px; padding-bottom: 10px; align-items: center; padding-right: 5px; padding-left: 5px; margin-top: 5px; margin-bottom: 5px; margin-right: 5px; margin-left: 5px;">
+        <ui:Label text="Data Converter 0.2V" display-tooltip-when-elided="true" name="Title" style="justify-content: flex-start; color: rgb(255, 255, 255); font-size: 30px; -unity-font-style: bold; -unity-text-align: upper-center; margin-top: 10px; margin-bottom: 10px; margin-right: 80px; margin-left: 80px; padding-left: 0; padding-right: 0;" />
+        <ui:DropdownField label="엑셀 리스트" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="ExcelDropdown" style="width: 100%; -unity-text-align: upper-center; font-size: 15px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
+        <ui:VisualElement name="ButtonElement" style="width: 100%; height: 20%; -unity-text-align: upper-left; align-items: center; justify-content: center; flex-direction: row; flex-shrink: 1;">
+            <ui:Button text="엑셀 리스트 갱신" display-tooltip-when-elided="true" name="GetExcelList" enable-rich-text="false" style="width: 40%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; font-size: 15px; -unity-font-style: bold; top: 0; right: 5%;" />
+            <ui:Button text="엑셀 데이터 추출" display-tooltip-when-elided="true" name="GetExcelData" style="width: 40%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; font-size: 15px; -unity-font-style: bold; top: 0; white-space: nowrap; flex-wrap: nowrap; right: -5%;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Convertelement" style="height: 30%; align-items: stretch; justify-content: space-around;">
+        <ui:Label text="아래의 메뉴는 엑셀 데이터 추출에 성공한 뒤 사용하세요!!!" display-tooltip-when-elided="true" name="MenuText" style="font-size: 15px; -unity-font-style: bold; -unity-text-align: middle-center; color: rgb(255, 255, 255);" />
+        <ui:DropdownField label="시트 리스트" index="-1" name="SheetList" choices="System.Collections.Generic.List`1[System.String]" style="font-size: 15px; -unity-font-style: bold;" />
+        <ui:DropdownField label="클래스 리스트" index="-1" name="ClassList" choices="System.Collections.Generic.List`1[System.String]" style="font-size: 15px; -unity-font-style: bold;" />
+        <ui:TextField picking-mode="Ignore" label="클래스/스크립터블 경로" value="filler text" text="Assets/Data/" name="Path" readonly="true" style="font-size: 15px; -unity-font-style: bold; color: rgb(255, 255, 255);" />
+        <ui:VisualElement name="ButtonElement" style="align-items: flex-start; flex-direction: row; flex-wrap: wrap; justify-content: center; height: auto;">
+            <ui:Button text="클래스 생성" display-tooltip-when-elided="true" name="GenerateClass" enable-rich-text="true" style="width: 40%; font-size: 15px; flex-shrink: 0; flex-grow: 1; visibility: visible; overflow: hidden;" />
+            <ui:Button text="스크립터블 생성" display-tooltip-when-elided="true" name="GenerateObj" style="width: 40%; font-size: 15px; -unity-font-style: bold; flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:Button text="클래스 리스트 갱신(클래스 생성 -&gt; 컴파일 후 실행)" display-tooltip-when-elided="true" name="UpdateClass" style="-unity-text-align: middle-center; white-space: normal; font-size: 15px; -unity-font-style: bold;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="DebugElement" style="width: 100%; height: 40%; justify-content: space-between; flex-direction: column; bottom: auto; top: auto;">
+        <ui:Label text="실행 결과" display-tooltip-when-elided="true" name="DebugInfo" enable-rich-text="true" style="color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 15px;" />
+        <ui:Label display-tooltip-when-elided="true" name="ResultInfo" enable-rich-text="false" class="defult--resultinfo" style="transition-timing-function: linear; width: 100%; height: 85%; font-size: 18px; color: rgb(255, 255, 255); -unity-text-align: middle-center; -unity-font-style: bold;" />
+    </ui:VisualElement>
+</ui:UXML>

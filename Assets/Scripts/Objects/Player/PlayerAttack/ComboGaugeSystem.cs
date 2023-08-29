@@ -37,6 +37,9 @@ public class ComboGaugeSystem : MonoBehaviour
 	{
 		comboCount = maxComboCount;
 		currentGauge = 0;
+
+		if(gaugeBar == null) { FDebug.LogError("[ComboGaugeSystem] gaugeBar is Null. This sripct require GauegeBarController Component in Same Scene"); return; }
+
 		gaugeBar.SetGaugeFillAmount(currentGauge);
 	}
 

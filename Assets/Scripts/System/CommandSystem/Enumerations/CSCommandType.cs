@@ -9,19 +9,19 @@ public enum CSCommandType
 
 public static class CommandEnumConverter
 {
-	public static PlayerInput CommandTypeToPlayerInput(CSCommandType commandType)
+	public static PlayerInputEnum CommandTypeToPlayerInput(CSCommandType commandType)
 	{
-		var playerInput = PlayerInput.None;
+		var playerInput = PlayerInputEnum.None;
 		switch (commandType)
 		{
 			case CSCommandType.NormalAttack:
-				playerInput = PlayerInput.NormalAttack;
+				playerInput = PlayerInputEnum.NormalAttack;
 				break;
 			case CSCommandType.ChargedAttack:
-				playerInput = PlayerInput.SpecialAttack;
+				playerInput = PlayerInputEnum.SpecialAttack;
 				break;
 			case CSCommandType.Dash:
-				playerInput = PlayerInput.Dash;
+				playerInput = PlayerInputEnum.Dash;
 				break;
 			default:
 				FDebug.LogError("[CommandEnumConverter] This Type is Incorrectly Type. Please Check Your Scripts");

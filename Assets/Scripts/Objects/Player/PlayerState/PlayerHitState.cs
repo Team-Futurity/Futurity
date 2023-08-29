@@ -19,7 +19,14 @@ public class PlayerHitState : UnitState<PlayerController>
 
 		pc.glove.SetActive(false);
 
-		pc.ChangeState(PlayerState.Idle);
+		if(pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
+		{
+			pc.ChangeState(PlayerState.Death);
+		}
+		else
+		{
+			pc.ChangeState(PlayerState.Idle);
+		}
 	}
 
 	public override void Update(PlayerController pc)
