@@ -34,7 +34,7 @@ public class UIPerformActionHandler : MonoBehaviour
 	}
 
 	// Target에 들어가는 Event
-	public void UpdateAction(PlayerInput data)
+	public void UpdateAction(PlayerInputEnum data)
 	{
 		currentBoard?.CheckedAction(data);
 	}

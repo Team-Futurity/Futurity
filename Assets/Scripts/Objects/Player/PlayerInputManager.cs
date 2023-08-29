@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
@@ -10,11 +11,22 @@ public class PlayerInputManager : MonoBehaviour
 	private List<Queue<string>> inputQueues = new List<Queue<string>>();
 	private int lastQueueIndex;
 
+	[HideInInspector] 
+	public UnityEvent<PlayerInputEnum> onChangeStateEvent;
+
 	private void Start()
 	{
+		PlayerInputData data;
+		data.inputState = PlayerInputEnum.None;
+		
 		if(pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
+		
 
-		pc.attackEndEvent.AddListener((str) => RegistInputMessage(str));
+		pc.attackEndEvent.AddListener((str) =>
+		{
+			data.inputMsg = str;
+			RegistInputMessage(data);
+		});
 		
 		for(int i = 0; i < frameCountToBeSaved; i++)
 		{
@@ -88,16 +100,16 @@ public class PlayerInputManager : MonoBehaviour
 	}
 	#endregion
 
-	private void QueueingProcess(string data)
+	private void QueueingProcess(PlayerInputData data)
 	{
-		inputQueues[lastQueueIndex].Enqueue(data);
-
-		FDebug.Log("___" + data);
+		inputQueues[lastQueueIndex].Enqueue(data.inputMsg);
+		
+		onChangeStateEvent?.Invoke(data.inputState);
 	}
 
-	private void RegistInputMessage(string msg)
+	private void RegistInputMessage(PlayerInputData data)
 	{
-		QueueingProcess(msg);
+		QueueingProcess(data);
 	}
 
 	public void SetPlayerInput(bool isReceive) => playerInput.enabled = isReceive;

@@ -50,5 +50,5 @@ public struct PlayerStateInfo
 public struct PlayerInputData
 {
 	public string inputMsg;
-	public PlayerInput inputState;
+	public PlayerInputEnum inputState;
 }

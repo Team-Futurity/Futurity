@@ -34,7 +34,7 @@ public class UIPerformBoard : MonoBehaviour
 			viewers[i].sprite = actionDatas[i].enableSpr;
 		}
 	}
-	public void CheckedAction(PlayerInput data)
+	public void CheckedAction(PlayerInputEnum data)
 	{
 		var getIndex = FindIndex(data);
 
@@ -49,7 +49,7 @@ public class UIPerformBoard : MonoBehaviour
 		CheckClearCount();
 	}
 
-	private int FindIndex(PlayerInput data)
+	private int FindIndex(PlayerInputEnum data)
 	{
 		for (int i = 0; i <= DATA_MAX; ++i)
 		{
