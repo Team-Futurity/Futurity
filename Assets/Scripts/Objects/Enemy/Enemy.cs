@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static EnemyController;
-using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : UnitBase
-{ 
+{
 	[SerializeField] private EnemyController ec;
-
 
 	private void Start()
 	{
@@ -16,7 +13,8 @@ public class Enemy : UnitBase
 
 		if (hpBar != null)
 		{
-			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
+			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() /
+			                         status.GetStatus(StatusType.MAX_HP).GetValue());
 		}
 	}
 
@@ -24,20 +22,18 @@ public class Enemy : UnitBase
 	{
 		ec.isAttackSuccess = true;
 		target.Hit(this, GetDamage(1));
-
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot)
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 
-
 		if (hpBar != null)
 		{
-			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
-			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
-			}
+			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() /
+			                         status.GetStatus(StatusType.MAX_HP).GetValue());
+		}
 	}
 
 	protected override float GetAttackPoint()
@@ -47,7 +43,8 @@ public class Enemy : UnitBase
 
 	protected override float GetDamage(float attackCount)
 	{
-		float value = status.GetStatus(StatusType.ATTACK_POINT).GetValue() * attackCount * (1 + Random.Range(-0.1f, 0.1f));
+		float value = status.GetStatus(StatusType.ATTACK_POINT).GetValue() * attackCount *
+		              (1 + Random.Range(-0.1f, 0.1f));
 		return value;
 	}
 
@@ -55,5 +52,4 @@ public class Enemy : UnitBase
 	{
 		throw new System.NotImplementedException();
 	}
-
 }

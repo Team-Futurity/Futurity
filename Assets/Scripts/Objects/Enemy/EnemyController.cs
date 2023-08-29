@@ -194,12 +194,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			SetUp(EnemyState.Spawn);
 	}
 
-
-	protected override void Update()
-	{
-		base.Update();
-	}
-
 	public void SetMaterial()
 	{
 		if (unlitMaterial != null)

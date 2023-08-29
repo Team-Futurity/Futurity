@@ -7,8 +7,10 @@ using UnityEngine.Events;
 
 public class StageController : MonoBehaviour
 {
+	// Monster Action 제어
 	// StageController의 UID
 	[field: SerializeField] public int StageID { get; private set; } 
+	[field: SerializeField] public GameObject Spawner { get; private set; }
 	
     // Stage의 시작과 종료를 관리한다. [T] : Start, [F] : END
     [HideInInspector] public UnityEvent<bool> onGameState;
@@ -27,9 +29,22 @@ public class StageController : MonoBehaviour
     
     public void StartStage()
     {
+	    BeforeStartStage();
+	    onGameState?.Invoke(true);
     }
 
     public void EndStage()
+    {
+	    BefroeEndStage();
+	    onGameState?.Invoke(false);
+    }
+    
+    private void BeforeStartStage()
+    {
+	    
+    }
+
+    private void BefroeEndStage()
     {
 	    
     }
