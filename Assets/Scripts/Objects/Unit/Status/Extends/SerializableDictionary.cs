@@ -57,7 +57,7 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
 		{
 			if (this.ContainsKey(keys[i]))
 			{
-				Debug.LogError("중복된 키가 있습니다.");
+				FDebug.LogError("중복된 키가 있습니다.");
 				break;
 			}
 			base.Add(keys[i], values[i]);
@@ -66,7 +66,7 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
 
 	public void OnAfterDeserialize()
 	{
-		Debug.Log(this + string.Format("인스펙터 키 수 : {0} 값 수 : {1}", keys.Count, values.Count));
+		FDebug.Log(this + string.Format("인스펙터 키 수 : {0} 값 수 : {1}", keys.Count, values.Count));
 
 		if (keys.Count == values.Count)
 		{
