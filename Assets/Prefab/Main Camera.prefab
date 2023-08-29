@@ -11,10 +11,13 @@ GameObject:
   - component: {fileID: 7408373401816966346}
   - component: {fileID: 7408373401816966347}
   - component: {fileID: 7408373401816966348}
-  - component: {fileID: 7408373401816966350}
   - component: {fileID: 7408373401816966353}
   - component: {fileID: 7408373401816966351}
   - component: {fileID: 7408373401816966352}
+  - component: {fileID: 216791347}
+  - component: {fileID: 1353790164641313133}
+  - component: {fileID: 216791361}
+  - component: {fileID: 216791362}
   m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -49,7 +52,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.02745098, g: 0.043137256, b: 0.05490196, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -117,147 +120,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &7408373401816966350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7408373401816966345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d87b24a34868ed249b68cfdf356739d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  offset: {x: 0, y: 2, z: 0}
-  moveOffset: 5
-  isVibrate: 0
-  vibrationPower: 0
-  targetTime: 0.8
-  curvePower: 0.5
-  curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.5
-      inSlope: -10.748733
-      outSlope: -10.748733
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.24629301
-    - serializedVersion: 3
-      time: 0.011285495
-      value: -0.0009978819
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.043750316
-      value: 0.9089038
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.06326854
-      value: 0.23696053
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.090672314
-      value: 0.70997137
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.15643765
-      value: 0.36846393
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.2275903
-      value: 0.57801825
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.32151464
-      value: 0.4550355
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.4720133
-      value: 0.5265907
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.690848
-      value: 0.48814297
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.8562004
-      value: 0.516608
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9916687
-      value: 0.5094261
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.7657722
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  visibleLayer:
-    serializedVersion: 2
-    m_Bits: 65
-  colorFieldName: _BaseColor
-  opacity: 0.5
-  calcThreshold: 5
-  decimalCount: 3
-  camSpeed: 5
 --- !u!114 &7408373401816966353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,7 +148,7 @@ MonoBehaviour:
   priority: 1
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 18ea8212d031fa94482aeb83589e6a6d, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 585b3dbbe4ea62f419db31b16726fbe3, type: 2}
 --- !u!114 &7408373401816966352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +162,103 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!114 &216791347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7408373401816966345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80db059097582a34d8b77be5a29e300d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiCanvas: {fileID: 0}
+--- !u!114 &1353790164641313133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7408373401816966345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b1239f31a5b864a885bd5f9a6b8df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusManager: {fileID: 0}
+  volume: {fileID: 7408373401816966351}
+  maxAlpha: 0.75
+  pulseSpeed: 2
+--- !u!114 &216791361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7408373401816966345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4977923f35028b94789e5e19dbda220d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isStartOpen: 0
+  activeEffect: {fileID: 0}
+  canvas: {fileID: 0}
+  characterWindow: {fileID: 7156069533624209710, guid: 94af0b19dff72144b83e807bb2e9f5e3, type: 3}
+  texts:
+  - "\u2026 \u2026 \uBBF8\uB798 \uC528!"
+  - "\uC81C \uBAA9\uC18C\uB9AC \uB4E4\uB824\uC694?"
+  - "\uD06C\uB85C\uB9C8 \uC790\uAE30\uC7A5 \uC601\uC5ED \uB54C\uBB38\uC5D0 \uB354
+    \uC774\uC0C1 \uC811\uADFC\uD558\uB294  \\n\uAC74 \uBB34\uB9AC\uC608\uC694\u2026!"
+  - "\uD798\uB4E4\uC5B4\uB3C4 \uC5EC\uAE30\uC11C\uBD80\uD130\uB294 \uB3C4\uBCF4 \uC774\uB3D9\uC785\uB2C8\uB2E4!"
+  - "\uC5B4\uB514 \uBCF4\uC790\u2026"
+  - "\uB85C\uB370\uC624 \uAC70\uB9AC, \uBC88\uD654\uAC00\uC5D0\uC11C \uAC70\uB300\uD55C
+    \uC804\uAE30 \uC2E0\uD638\uAC00  \\n\uC218\uC9D1\uB418\uC5C8\uC5B4\uC694!"
+  - "\uC77C\uB2E8 \uBC31\uD654\uC810\uC744 \uBC97\uC5B4\uB098 \uC9C0\uD558\uCCA0
+    \uC5ED\uC0AC\uB85C \\n\uC9C4\uC785\uD558\uB294 \uAC83\uC774 \uC6B0\uC120\uC785\uB2C8\uB2E4! "
+  - "\uADF8\uC804\uAE4C\uC9C0 \uC81C\uAC00 \uC9C0\uD558\uCCA0\uC758 \uD1B5\uC2E0\uB9DD\uC744
+    \uD574\uD0B9\uD558\uACE0 \\n\uC788\uC744\uAC8C\uC694."
+  - "\uD06C\uAC8C \uB2E4\uCE58\uC9C0\uB9CC \uC54A\uC558\uC73C\uBA74 \uC88B\uACA0\uB124\uC694...
+    \\n\uAF2D \uC870\uC2EC\uD574\uC57C \uD574\uC694\u2026!"
+  characterDialogEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &216791362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7408373401816966345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7408373402026296520
 GameObject:
   m_ObjectHideFlags: 0

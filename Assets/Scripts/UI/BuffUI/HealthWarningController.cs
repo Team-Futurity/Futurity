@@ -4,9 +4,6 @@ using UnityEngine.Rendering.Universal;
 
 public class HealthWarningController : MonoBehaviour
 {
-	[SerializeField]
-	private float health = 100.0f;  // 플레이어 체력
-	
 	[Header("필수 변수")]
 	[SerializeField] [Tooltip("플레이어 스텟")] private StatusManager statusManager;
 	
@@ -16,27 +13,26 @@ public class HealthWarningController : MonoBehaviour
 	[SerializeField] private float pulseSpeed = 2f;  // 효과의 박동 속도
 	
 	private float effectIntensity = 0f;
+	private float playerHp;
 	private EnemyManager enemyManager;
 	private Vignette vignette;
 	private bool isDeath = false;
 	
 	private void Start()
 	{
-		Camera.main.gameObject.TryGetComponent<Volume>(out volume);
 		enemyManager = EnemyManager.Instance;
-
-		if (volume.profile.TryGet<Vignette>(out vignette))
-		{
-		}
+		playerHp = statusManager.GetStatus(StatusType.CURRENT_HP).GetValue();
+		
+		volume.profile.TryGet<Vignette>(out vignette);
 		
 		isDeath = false;
 	}
 	
 	private void Update()
 	{
-		health = statusManager.GetStatus(StatusType.CURRENT_HP).GetValue();
+		playerHp = statusManager.GetStatus(StatusType.CURRENT_HP).GetValue();
 
-		if(!isDeath && health <= 0)
+		if(!isDeath && playerHp <= 0)
 		{
 			vignette.intensity.value = 0f;
 			PlayerDeath();
@@ -52,7 +48,7 @@ public class HealthWarningController : MonoBehaviour
 	
 	private void PulseEffect()
 	{
-		if (health <= 60)
+		if (playerHp <= 60)
 		{
 			effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
 			vignette.intensity.value = effectIntensity;
