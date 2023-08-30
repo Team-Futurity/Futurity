@@ -30,20 +30,20 @@ public class HealthWarningController : MonoBehaviour
 	
 	private void Update()
 	{
-		playerHp = statusManager.GetStatus(StatusType.CURRENT_HP).GetValue();
-
-		if(!isDeath && playerHp <= 0)
-		{
-			vignette.intensity.value = 0f;
-			PlayerDeath();
-		}
-
-		if (isDeath == true)
-		{
-			return;
-		}
-		
-		PulseEffect();
+		// playerHp = statusManager.GetStatus(StatusType.CURRENT_HP).GetValue();
+		//
+		// if(!isDeath && playerHp <= 0)
+		// {
+		// 	vignette.intensity.value = 0f;
+		// 	PlayerDeath();
+		// }
+		//
+		// if (isDeath == true)
+		// {
+		// 	return;
+		// }
+		//
+		// PulseEffect();
 	}
 	
 	private void PulseEffect()
