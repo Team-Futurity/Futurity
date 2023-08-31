@@ -34,26 +34,14 @@ public class HealthWarningEffect : MonoBehaviour
 		}
 		else if (hp > 60 && isEffectEnable == true)
 		{
-			vignette.intensity.value = 0f;
 			isEffectEnable = false;	
 		}
 	}
-
-	private IEnumerator PulseEffect()
-	{
-		while (isEffectEnable)
-		{
-			effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
-			vignette.intensity.value = effectIntensity;
-			
-			yield return null;
-		}
-	}
 	
-	private void PlayerDeath()
+	public void PlayerDeath()
 	{
 		isEffectEnable = false;
-		
+
 		for (int i = enemyManager.activeEnemys.Count - 1; i >= 0; i--)
 		{
 			enemyManager.DeActiveManagement(enemyManager.activeEnemys[i]);
@@ -65,5 +53,17 @@ public class HealthWarningEffect : MonoBehaviour
 		
 		TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.PlayerDeathCutScene);
 	}
-
+	
+	private IEnumerator PulseEffect()
+	{
+		while (isEffectEnable)
+		{
+			effectIntensity = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f * maxAlpha;
+			vignette.intensity.value = effectIntensity;
+			
+			yield return null;
+		}
+		
+		vignette.intensity.value = 0f;
+	}
 }
