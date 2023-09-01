@@ -286,7 +286,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true) && IsCurrentState(PlayerState.ChargedAttack)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		// AfterDelay나 다른 스테이트(Idle, Move)라면
 		if (!IsAttackProcess(true))
@@ -297,14 +297,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 		else // 공격 중이라면
 		{
-			if (nextCombo == PlayerInputEnum.None)
-			{
-				SetNextCombo(PlayerInputEnum.NormalAttack);
-				return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
-			}
+			SetNextCombo(PlayerInputEnum.NormalAttack);
+			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
 		}
-		
-		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
 	// Special Attack
@@ -326,7 +321,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 			else
 			{
-				if (nextCombo == PlayerInputEnum.None && curCombo != PlayerInputEnum.SpecialAttack)
+				if (curCombo != PlayerInputEnum.SpecialAttack)
 				{
 					SetNextCombo(PlayerInputEnum.SpecialAttack);
 					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
