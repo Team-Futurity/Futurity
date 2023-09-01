@@ -52,6 +52,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(2)]
 	[Header("이동 관련")]
 	public Vector3 moveDir;
+	public Vector3 lastMoveDir;
 
 	// dash
 	[Space(5)]
@@ -221,6 +222,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		Vector3 input = context.ReadValue<Vector3>();
 
 		moveDir = new Vector3(input.x, 0f, input.y);
+
+		if(moveDir != Vector3.zero)
+		{
+			lastMoveDir = new Vector3(input.x, 0f, input.y);
+		}
+		
 		moveAction = context.action;
 
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
@@ -585,6 +592,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		ChangeState(PlayerState.AttackDelay);
 	}
 
+
+	#region Move
 	public void LerpToWorldPosition(Vector3 worldPos, float time)
 	{
 		UnitState<PlayerController> state = null;
@@ -595,6 +604,24 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		((PlayerAutoMoveState)state).SetAutoMove(worldPos, time);
 		ChangeState(PlayerState.AutoMove);
 	}
+	public Vector3 RotatePlayer(Vector3 dir, bool isLerp = false)
+	{
+		Vector3 rotVec = Quaternion.AngleAxis(45, Vector3.up) * dir;
+
+		if (rotVec == Vector3.zero) { return Vector3.zero; }
+
+		if(isLerp)
+		{
+			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), rotatePower * Time.deltaTime);
+		}
+		else
+		{
+			transform.rotation = Quaternion.LookRotation(rotVec);
+		}
+
+		return rotVec;
+	}
+	#endregion
 
 	#region Util
 	private bool CheckReference(out List<string> msgs)
