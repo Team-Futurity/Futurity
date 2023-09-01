@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -11,9 +12,14 @@ public class HealthWarningEffect : MonoBehaviour
 	[SerializeField] private float pulseSpeed = 2f;  // 효과의 박동 속도
 	
 	private float effectIntensity = 0f;
+	private float curTime = 0.0f;
 	private bool isEffectEnable = false;
+	public bool IsEffectEnable => isEffectEnable;
+	private bool isHit = false;
+	
 	private EnemyManager enemyManager;
 	private Vignette vignette;
+	private IEnumerator hitEffect;
 	private IEnumerator pulseEffect;
 
 	private void Start()
@@ -22,20 +28,31 @@ public class HealthWarningEffect : MonoBehaviour
 		volume.profile.TryGet<Vignette>(out vignette);
 	}
 	
-	
+
 	public void CheckPulseEffect(float hp)
 	{
 		if (hp <= 60 && isEffectEnable == false)
 		{
 			isEffectEnable = true;
 			
-			pulseEffect = PulseEffect();
+			pulseEffect = WarningEffect();
 			StartCoroutine(pulseEffect);
 		}
 		else if (hp > 60 && isEffectEnable == true)
 		{
 			isEffectEnable = false;	
 		}
+	}
+
+	public void StartHitEffect(float time)
+	{
+		if (isHit == true || isEffectEnable == true)
+		{
+			return;
+		}
+
+		hitEffect = HitEffect(time);
+		StartCoroutine(hitEffect);
 	}
 	
 	public void PlayerDeath()
@@ -53,8 +70,25 @@ public class HealthWarningEffect : MonoBehaviour
 		
 		TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.PlayerDeathCutScene);
 	}
+
+	private IEnumerator HitEffect(float vignetteTime)
+	{
+		isHit = true;
+		
+		while (vignetteTime > curTime)
+		{
+			curTime += Time.deltaTime;
+			vignette.intensity.value = 0 + curTime;
+
+			yield return null;
+		}
+		
+		vignette.intensity.value = 0;
+		curTime= 0;
+		isHit = false;
+	}
 	
-	private IEnumerator PulseEffect()
+	private IEnumerator WarningEffect()
 	{
 		while (isEffectEnable)
 		{
