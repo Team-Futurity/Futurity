@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -159,6 +161,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		// UnitFSM Init
 		SetFSM();
+
 		UnitState<PlayerController> astate = null;
 		GetState(PlayerState.AttackAfterDelay, ref astate);
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
@@ -187,6 +190,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void SetFSM()
 	{
+		var list = new List <PlayerState>();
+
 		unit = this;
 		SetUp(PlayerState.Idle);
 	}
