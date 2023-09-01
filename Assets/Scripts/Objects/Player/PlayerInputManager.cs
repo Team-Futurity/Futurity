@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
-	[SerializeField] private int frameCountToBeSaved;
+	[SerializeField, Range(1, int.MaxValue)] private int frameCountToBeSaved;
 	[SerializeField] private PlayerController pc;
 	[SerializeField] private PlayerInput playerInput;
 	private List<Queue<string>> inputQueues = new List<Queue<string>>();
@@ -13,6 +13,8 @@ public class PlayerInputManager : MonoBehaviour
 	private void Start()
 	{
 		if(pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
+		if(frameCountToBeSaved < 1) { frameCountToBeSaved = 1; }
+
 
 		pc.attackEndEvent.AddListener((str) => RegistInputMessage(str));
 		
@@ -26,6 +28,9 @@ public class PlayerInputManager : MonoBehaviour
 
 	private void LateUpdate()
 	{
+		// 1이면 굳이 처리하지 않게 최적화(없어도 동작은 함)
+		if(frameCountToBeSaved == 1) { return; }
+
 		Queue<string> firstQueue = inputQueues[0];
 
 		// Queue를 인덱스 하나 전진
