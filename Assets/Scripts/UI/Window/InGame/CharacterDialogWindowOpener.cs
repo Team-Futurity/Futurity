@@ -33,7 +33,6 @@ public class CharacterDialogWindowOpener : MonoBehaviour
 	{
 		windowManager = WindowManager.Instance;
 
-
 		if (isStartOpen)
 		{
 			if (canvas != null)
