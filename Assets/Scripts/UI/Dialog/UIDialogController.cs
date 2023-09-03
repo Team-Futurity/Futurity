@@ -6,17 +6,19 @@ using UnityEngine.Events;
 
 public class UIDialogController : MonoBehaviour, IControllerMethod
 {
-	[field: SerializeField] public UIDialogType DialogType { get; private set; }
+	[field: SerializeField] 
+	public UIDialogType DialogType { get; private set; }
 	
-	// Dialog Data
-	// Dialog Text
-	[field: SerializeField] public UIDialogText DialogText { get; private set; }
-	// Dialog 
+	[field: Space(10)]
+	
+	[field: SerializeField] 
+	public UIDialogText DialogText { get; private set; }
 
 	private bool isActive;
 
 	public UnityEvent onStart;
 	public UnityEvent onEnd;
+	public UnityEvent onChangeDialog;
 
 	private void Awake()
 	{
