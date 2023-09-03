@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IControllerMethod
 {
-	public void Active();
+	void Active();
 
-	public void Run();
-	public void Stop();
+	void Run();
+	void Stop();
 }
