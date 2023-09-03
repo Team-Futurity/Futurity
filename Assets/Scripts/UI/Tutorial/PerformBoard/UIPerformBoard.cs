@@ -15,10 +15,15 @@ public class UIPerformBoard : MonoBehaviour
 	private int activeActionCount;
 	
 	private bool isClear = false;
+
+	// 애니메이션에 동작 중에는 데이터를 입력받지 않도록 하게끔 필요함. 
+	private Animator anim;
 	
 	private void Awake()
 	{
 		actionDic = new Dictionary<PlayerInputEnum, UIPerformActionDataGroup>();
+		
+		TryGetComponent(out anim);
 		
 		for (int i = 0; i < actionDatas.Length; ++i)
 		{
@@ -39,23 +44,6 @@ public class UIPerformBoard : MonoBehaviour
 		activeActionCount = actionDic.Count;
 	}
 
-	// Test Code
-
-	private PlayerInputEnum[] testInputData =
-	{
-		PlayerInputEnum.Move, PlayerInputEnum.Dash, PlayerInputEnum.NormalAttack_J,
-		PlayerInputEnum.NormalAttack_JJ, PlayerInputEnum.NormalAttack_JJJ
-	};
-	
-	private int testIndex = 0;
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			SetPerformAction(testInputData[testIndex++]);
-		}
-	}
-	
 	public bool SetPerformAction(PlayerInputEnum data)
 	{
 		var index = UpdatePerformAction(data);
@@ -63,6 +51,11 @@ public class UIPerformBoard : MonoBehaviour
 		isClear = (index <= 0);
 		
 		return isClear;
+	}
+
+	public void SetActive(bool isOn)
+	{
+		gameObject.SetActive(isOn);
 	}
 
 	private int UpdatePerformAction(PlayerInputEnum data)
