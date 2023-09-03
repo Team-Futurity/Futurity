@@ -20,6 +20,7 @@ public class UIPerformBoardHandler : MonoBehaviour, IControllerMethod
 	private UIPerformBoard currentBoard;
 	// Index
 	private int currentIndex;
+	private int maxIndex; 
 
 	private bool isActive;
 
@@ -31,44 +32,92 @@ public class UIPerformBoardHandler : MonoBehaviour, IControllerMethod
 			Debug.Break();
 		}
 
+		foreach (var board in PerformBoardList)
+		{
+			board.SetActive(false);
+		}
+
 		isActive = false;
-		currentIndex = 0;
-		currentBoard = PerformBoardList[currentIndex];
 	}
 
 	#region IControllerMethod
 	void IControllerMethod.Active()
 	{
 		isActive = true;
+
+		currentIndex = 0;
+		maxIndex = PerformBoardList.Count - 1;
 		
-		Target?.onChangeStateEvent.AddListener(UpdateAction);
+		currentBoard = PerformBoardList[currentIndex];
+		currentBoard.SetActive(true);
+		
+		Target.onChangeStateEvent?.AddListener(UpdateAction);
 	}
 
 	void IControllerMethod.Run()
 	{
-		Target?.onChangeStateEvent.AddListener(UpdateAction);
+		Target.onChangeStateEvent?.AddListener(UpdateAction);
 	}
 
 	void IControllerMethod.Stop()
 	{
-		Target?.onChangeStateEvent.RemoveListener(UpdateAction);
+		Target.onChangeStateEvent?.RemoveListener(UpdateAction);
 	}
 
 	#endregion
 	
+	// Test Code
+	// private PlayerInputEnum[] testInputData =
+	// {
+	// 	PlayerInputEnum.Move, PlayerInputEnum.Dash, PlayerInputEnum.NormalAttack_J,
+	// 	PlayerInputEnum.NormalAttack_JJ, PlayerInputEnum.NormalAttack_JJJ
+	// };
+	//
+	// private int testIndex = 0;
+	// private void Update()
+	// {
+	// 	if (Input.GetKeyDown(KeyCode.Alpha3) && testIndex < 5)
+	// 	{
+	// 		if (currentBoard is null)
+	// 		{
+	// 			((IControllerMethod)this).Active();
+	// 			return;
+	// 		}
+	//
+	// 		UpdateAction(testInputData[testIndex++]);
+	// 	}
+	// }
+	
 	private void UpdateAction(PlayerInputEnum data)
 	{
-		if (!isActive)
+		var isComplate = currentBoard.SetPerformAction(data);
+		
+		if (!isComplate)
 		{
 			return;
 		}
-		
-		var isComplate = currentBoard.SetPerformAction(data);
+
+		ChangeToNextBoard();
 	}
 
-	private void SetNextBoard()
+	private void ChangeToNextBoard()
 	{
+		if (currentIndex >= maxIndex)
+		{
+			End();
+			
+			return;
+		}
+		currentBoard.SetActive(false);
 		
+		currentIndex++;
+		
+		currentBoard = PerformBoardList[currentIndex];
+		currentBoard.SetActive(true);
 	}
-	
+
+	private void End()
+	{
+		Debug.Log("튜토리얼 클리어");
+	}
 }
