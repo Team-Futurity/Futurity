@@ -59,14 +59,9 @@ public class UIPerformBoard : MonoBehaviour
 	public bool SetPerformAction(PlayerInputEnum data)
 	{
 		var index = UpdatePerformAction(data);
-		
-		if (index <= 0)
-		{
-			Debug.Log("CLEAR!");
-			
-			return isClear;
-		}
 
+		isClear = (index <= 0);
+		
 		return isClear;
 	}
 
