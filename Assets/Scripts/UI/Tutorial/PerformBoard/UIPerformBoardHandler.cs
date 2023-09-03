@@ -23,15 +23,15 @@ public class UIPerformBoardHandler : MonoBehaviour
 
 	private void Awake()
 	{
-		if(PerformBoardList is null)
-		{
-			FDebug.LogError($"{PerformBoardList.GetType()}이 존재하지 않습니다.");
-			
-			Debug.Break();
-		}
-
-		currentIndex = 0;
-		currentBoard = PerformBoardList[currentIndex];
+		// if(PerformBoardList is null)
+		// {
+		// 	FDebug.LogError($"{PerformBoardList.GetType()}이 존재하지 않습니다.");
+		// 	
+		// 	Debug.Break();
+		// }
+		//
+		// currentIndex = 0;
+		// currentBoard = PerformBoardList[currentIndex];
 	}
 
 	public void UpdateAction(PlayerInputEnum data)
