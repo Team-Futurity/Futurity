@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,79 +9,77 @@ public class UIPerformBoard : MonoBehaviour
 {
 	[SerializeField]
 	private UIPerformActionData[] actionDatas;
-	private Image[] viewers;
 
-	private const int ARRAY_MAX = 5;
-	private int DATA_MAX = 0;
+	private Dictionary<PlayerInputEnum, UIPerformActionDataGroup> actionDic;
 
-	[HideInInspector]
-	public UnityEvent onLastClearEvent;
-
+	private int activeActionCount;
+	
+	private bool isClear = false;
+	
 	private void Awake()
 	{
-		DATA_MAX = actionDatas.Length - 1;
-		viewers = new Image[ARRAY_MAX];
-
-		for (int i = 0; i < ARRAY_MAX; ++i)
+		actionDic = new Dictionary<PlayerInputEnum, UIPerformActionDataGroup>();
+		
+		for (int i = 0; i < actionDatas.Length; ++i)
 		{
-			transform.GetChild(i).TryGetComponent(out viewers[i]);
+			var condition = actionDatas[i].conditionAction;
+			var imageObject = transform.GetChild(i).GetComponent<Image>();
 
-			if (i > DATA_MAX)
+			if (imageObject == null)
 			{
-				viewers[i].gameObject.SetActive(false);
 				return;
 			}
 
-			viewers[i].sprite = actionDatas[i].enableSpr;
-		}
-	}
-	public void CheckedAction(PlayerInputEnum data)
-	{
-		var getIndex = FindIndex(data);
-
-		if (getIndex == -1)
-		{
-			return;
+			var dataGroup = new UIPerformActionDataGroup(actionDatas[i], imageObject);
+			
+			actionDic.Add(condition, dataGroup);
+			actionDic[condition].SetImage(ActionImageType.NORMAL);
 		}
 
-		viewers[getIndex].sprite = actionDatas[getIndex].disableSpr;
-		actionDatas[getIndex].isClear = true;
-
-		CheckClearCount();
+		activeActionCount = actionDic.Count;
 	}
 
-	private int FindIndex(PlayerInputEnum data)
+	// Test Code
+
+	private PlayerInputEnum[] testInputData =
 	{
-		for (int i = 0; i <= DATA_MAX; ++i)
+		PlayerInputEnum.Move, PlayerInputEnum.Dash, PlayerInputEnum.NormalAttack_J,
+		PlayerInputEnum.NormalAttack_JJ, PlayerInputEnum.NormalAttack_JJJ
+	};
+	
+	private int testIndex = 0;
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Alpha3))
 		{
-			if (actionDatas[i].clearActionString != data || actionDatas[i].isClear)
-			{
-				continue;
-			}
-			else
-			{
-				return i;
-			}
+			SetPerformAction(testInputData[testIndex++]);
+		}
+	}
+	
+	public bool SetPerformAction(PlayerInputEnum data)
+	{
+		var index = UpdatePerformAction(data);
+		
+		if (index <= 0)
+		{
+			Debug.Log("CLEAR!");
+			
+			return isClear;
 		}
 
-		return -1;
+		return isClear;
 	}
 
-	private void CheckClearCount()
+	private int UpdatePerformAction(PlayerInputEnum data)
 	{
-		int count = 0;
-
-		for (int i = 0; i <= DATA_MAX; ++i)
+		if (actionDic[data].GetChecked())
 		{
-			if (!actionDatas[i].isClear)
-				continue;
-
-			count++;
+			return activeActionCount;
 		}
+		
+		actionDic[data].SetImage(ActionImageType.CLEAR);
+		actionDic[data].SetChecked(true);
 
-		if (count > DATA_MAX)
-		{
-			onLastClearEvent?.Invoke();
-		}
+		return --activeActionCount;
 	}
 }
