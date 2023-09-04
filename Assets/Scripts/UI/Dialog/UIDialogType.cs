@@ -6,10 +6,10 @@ public enum UIDialogType
 {
 	NONE = 0,
 	
-	NORMAL,
-	STANDING,
-	RANGE,
-	CUTSCENE,
+	NORMAL = 1,
+	STANDING = 2,
+	RANGE = 3,
+	CUTSCENE = 4,
 	
 	MAX
 }
