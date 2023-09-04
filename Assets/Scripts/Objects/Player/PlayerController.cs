@@ -26,6 +26,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("콤보")]
 	public CommandTree commandTree;
 
+	[Space(5)]
+	[Header("자동 조준")]
+	public float autoLength;
+	public float autoAngle;
+
 	// move
 	[Space(5)]
 	[Header("이동")]
@@ -566,6 +571,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		if(!comboIsLock)
 		{
+			// 마지막 콤보에서 입력 씹는 코드
+			//if(curNode.childNodes.Count == 0) { return; }
+
 			nextCombo = nextCommand;
 		}
 	}
