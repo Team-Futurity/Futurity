@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public partial class UIDialogController
 {
-	private dynamic baseScript;
+	private Dictionary<UIDialogType, Action> dataSetUpDic; 
 
 	private readonly string[] extensionName =
 	{
@@ -18,7 +19,7 @@ public partial class UIDialogController
 	{
 		if (DialogType == UIDialogType.NONE || DialogType == UIDialogType.MAX || Application.isPlaying)
 			return;
-
+		
 		switch (DialogType)
 		{
 			case UIDialogType.NORMAL:
@@ -83,43 +84,59 @@ public partial class UIDialogController
 
 	private void DataSetUp(UIDialogType type)
 	{
-		switch (type)
-		{
-			case UIDialogType.NORMAL:
-				baseScript = GetComponent<UINormalDialog>();
-				break;
+		dataSetUpDic = new Dictionary<UIDialogType, Action>();
+		
+		dataSetUpDic.Add(UIDialogType.NORMAL, SetNormalData);
+		dataSetUpDic.Add(UIDialogType.RANGE, SetRangeData);
+		dataSetUpDic.Add(UIDialogType.CUTSCENE, SetCutSceneData);
+		dataSetUpDic.Add(UIDialogType.STANDING, SetStandingData);
 
-			case UIDialogType.CUTSCENE:
-				baseScript = GetComponent<UICutSceneDialog>();
-				break;
-
-			case UIDialogType.RANGE:
-				baseScript = GetComponent<UIRangeDialog>();
-				break;
-
-			case UIDialogType.STANDING:
-				baseScript = GetComponent<UIStandingDialog>();
-				break;
-		}
+		dataSetUpDic[type]();
 	}
 
 	#region Normal
 
-	private void SetName()
+	private UINormalDialog normalDialog;
+
+	private void SetNormalData()
 	{
+		TryGetComponent(out normalDialog);
+		normalDialog.NpcNameText.SetText("");
+		
+		onShow.AddListener(SetNormalName);
+	}
+
+	private void SetNormalName(DialogData data)
+	{
+		normalDialog.NpcNameText.SetText(data.name);
 	}
 
 	#endregion
 
 	#region Range
 
+	private void SetRangeData()
+	{
+		
+	}
+
 	#endregion
 
 	#region CutScene
 
+	private void SetCutSceneData()
+	{
+		
+	}
+	
 	#endregion
 
 	#region Standing
+
+	private void SetStandingData()
+	{
+		
+	}
 
 	#endregion
 }

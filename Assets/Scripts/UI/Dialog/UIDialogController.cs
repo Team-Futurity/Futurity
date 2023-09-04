@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public struct DialogData
+{
+	public string name;
+	public string descripton;
+}
+
 public partial class UIDialogController : MonoBehaviour, IControllerMethod
 {
 	[field: Header("게임 실행 중 Type 변경을 권장하지 않음")]
@@ -20,12 +26,20 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 	public UnityEvent onStart;
 	public UnityEvent onEnd;
 	public UnityEvent onChangeDialog;
+	
+	public UnityEvent<DialogData> onShow;
+	private DialogData testDialog;
 
 	private void Awake()
 	{
 		isActive = false;
-	}
 
+		testDialog.name = "테스트";
+		testDialog.descripton = "임시로 텍스트를 작성하고 있습니다...";
+		
+		DataSetUp(DialogType);
+	}
+	
 	// 테스트용 코드
 	private void Update()
 	{
@@ -71,7 +85,9 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 
 	public void Show()
 	{
-		DialogText.Show("임시로 텍스트를 작성해봅니다.");
+		onShow?.Invoke(testDialog);
+		
+		DialogText.Show(testDialog.descripton);
 	}
 	
 	public void Skip()
