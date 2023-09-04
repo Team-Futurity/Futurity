@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class UIDialogController : MonoBehaviour, IControllerMethod
+public partial class UIDialogController : MonoBehaviour, IControllerMethod
 {
+	[field: Header("게임 실행 중 Type 변경을 권장하지 않음")]
 	[field: SerializeField] 
 	public UIDialogType DialogType { get; private set; }
 	
