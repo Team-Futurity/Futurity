@@ -6,13 +6,12 @@ public class PlayerDeathCutScene : CutSceneBase
 {
 	[Header("Component")]
 	[SerializeField] private GameObject[] disableUI;
-	[SerializeField] [Tooltip("플레이어 사망시 호출할 Window")] private GameObject deathOpenWindow;
-	[SerializeField] [Tooltip("panel을 생성할 canvas")] private Canvas panelCanvas;
+	[SerializeField] private GameObject gameOverUI;
 
 	[Header("흑백 전환 시간")] 
 	[SerializeField] private float grayScaleTime = 0.5f;
 
-	[Header("넉백 거리 저장")]
+	[Header("사망 거리 저장")]
 	[SerializeField] private Transform endPos;
 	[SerializeField] private Transform newFollowTarget;
 	
@@ -21,7 +20,7 @@ public class PlayerDeathCutScene : CutSceneBase
 
 	protected override void Init()
 	{
-		if (grayScale == null)
+		if (grayScale == null && Camera.main != null)
 		{
 			Camera.main.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
 		}
@@ -43,14 +42,19 @@ public class PlayerDeathCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-		WindowManager.Instance.WindowOpen(deathOpenWindow, panelCanvas.transform, false, 
-			Vector2.zero, Vector2.one);
-		
 		TimelineManager.Instance.ResetCameraValue();
 		TimelineManager.Instance.ChangeFollowTarget();
 		
+		gameOverUI.SetActive(true);
 		grayScale.amount.value = 0.0f;
 		grayScale.active = false;
+	}
+	
+	private void CalDeadPos()
+	{
+		var playerTf = TimelineManager.Instance.PlayerModelTf;
+		var offset = -3.0f * playerTf.forward;
+		endPos.position = playerTf.position + offset;
 	}
 	
 	private void StartGrayScaleRoutine()
@@ -59,13 +63,6 @@ public class PlayerDeathCutScene : CutSceneBase
 		
 		enableGrayScale = EnableGrayScale();
 		StartCoroutine(enableGrayScale);
-	}
-
-	private void CalDeadPos()
-	{
-		var playerTf = TimelineManager.Instance.PlayerModelTf;
-		var offset = -3.0f * playerTf.forward;
-		endPos.position = playerTf.position + offset;
 	}
 	
 	private IEnumerator EnableGrayScale()

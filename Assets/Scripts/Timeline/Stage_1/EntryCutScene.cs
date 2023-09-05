@@ -23,7 +23,7 @@ public class EntryCutScene : CutSceneBase
 
 	protected override void Init()
 	{
-		//uiCanvas.SetActive(false);
+		uiCanvas.SetActive(false);
 		
 		if (player is null)
 		{
