@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class AutoTarget : Singleton<AutoTarget>
 {
+	// 공격 범위 거르기
+
+	// 공격 사거리 거르기
+
+	// 조준 범위 거르기
     public GameObject GetNearstObject(List<GameObject> objs, GameObject origin)
 	{
 		List<GameObject> list = objs.ToList();
