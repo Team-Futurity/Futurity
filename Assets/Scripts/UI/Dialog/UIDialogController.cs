@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
 public struct DialogData
 {
 	public string talker_Eng;
@@ -23,28 +24,35 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 	[field: SerializeField] 
 	public UIDialogText DialogText { get; private set; }
 
+	// --- Unity Events
+	[HideInInspector]
+	public UnityEvent<DialogData> OnShow;
 
-	// Dialog System이 작동 되었을 때, 발동하는 이벤트
-	public UnityEvent onStart;
-	// Dialog System이 종료 되었을 때, 발동하는 이벤트
-	public UnityEvent onEnd;
-	// Dialog System이 변경 되었을 때, 발동하는 이벤트
-	public UnityEvent onChangeDialog;
-	
-	// 내부적으로 사용되는 변경 이벤트
-	private UnityEvent<DialogData> onShow;
+	[HideInInspector]
+	public UnityEvent<DialogData> OnPlay;
 
+	[HideInInspector]
+	public UnityEvent<DialogData> OnTextEnd;
+
+	[HideInInspector]
+	public UnityEvent<DialogData> OnDialogEnd;
+	// 
+
+	[SerializeField]
 	private List<DialogData> dialogDataList;
 
 	private DialogData currentDialog;
 	private DialogData nextDialog;
 
 	private int currentIndex = 0;
+	private int nextIndex = 0;
 
 	[SerializeField]
 	private GameObject imageObject;
 
 	private bool isActive;
+	private bool isTextEnd;
+	private bool isPrinting;
 
 	private bool usedCallMethod = false;
 
@@ -57,6 +65,9 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 			FDebug.Log($"{imageObject.GetType()}이 존재하지 않습니다.");
 			FDebug.Break();
 		}
+
+		// DialogText에서 End 조건을 확인한다.
+		DialogText.OnEnd?.AddListener(ShowAfter);
 	}
 	
 	// 테스트용 코드
@@ -64,17 +75,22 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 	{
 		if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			Show();
+			SetDialogData("TEST");
+		}
+		
+		if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			ShowDialog();
 		}
 		
 		if (Input.GetKeyDown(KeyCode.Alpha4))
 		{
-			DialogText.Stop();
+			PlayDialog();
 		}
-		
+
 		if (Input.GetKeyDown(KeyCode.Alpha5))
 		{
-			DialogText.Restart();
+			OnNextDialog();
 		}
 	}
 
@@ -109,19 +125,20 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		}
 
 		currentIndex = 0;
-		dialogDataList.Clear();
+		nextIndex = 0;
+		isTextEnd = false;
+		isPrinting = false;
+
+		// dialogDataList.Clear();
 
 		// Addressable Resource Path : Get Code
 		// dialogDataList = new List<DialogData>();
 
 		// 다음 출력 대화 세팅
-		nextDialog = dialogDataList[currentIndex++];
-		
-		// 현재 대화 세팅
-		SetCurrentData();
+		nextDialog = dialogDataList[currentIndex];
 	}
 
-	public void StartDialog()
+	public void ShowDialog()
 	{
 		if(isActive)
 		{
@@ -131,10 +148,13 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 
 		isActive = true;
 
+		SetCurrentData();
+		OnShow?.Invoke(currentDialog);
+
 		imageObject.SetActive(true);
 	}
 
-	public void Show()
+	public void PlayDialog()
 	{
 		if(!isActive)
 		{
@@ -142,20 +162,83 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 			return;
 		}
 
-		onShow?.Invoke(currentDialog);
+		if(isTextEnd)
+		{
+			FDebug.LogError("[Dialog System] 최초 실행 시에만 사용이 가능한 메서드입니다.");
+			FDebug.Break();
+
+			return;
+		}
+
+		if(isPrinting)
+		{
+			FDebug.LogError($"[Dialog System] 현재 출력 중입니다.");
+
+			return;
+		}
+
+		isPrinting = true;
+
+		// Feature에게 Dialog Data를 전달하기 위함.
+		OnPlay?.Invoke(currentDialog);
+
+		// Text를 보여주는 메서드
 		DialogText.Show(currentDialog.descripton);
+
+		// 시작과 동시에, 다음 Dialog를 설정한다.
+		SetCurrentData();
 	}
+
 	private void SetCurrentData()
 	{
 		currentDialog = nextDialog;
+		currentIndex = nextIndex;
 
-		nextDialog = dialogDataList[currentIndex++];
+		nextIndex++;
+
+		if (nextIndex < dialogDataList.Count)
+		{
+			nextDialog = dialogDataList[nextIndex];
+		}
 	}
 
-	private void End()
+	private void EndDialog()
 	{
-		// Dialog System이 종료된다.
+		OnDialogEnd?.Invoke(currentDialog);
+	}
 
-		onEnd?.Invoke();
+	// DialogText에 AddListener로 담은 메서드
+	private void ShowAfter(bool isOn)
+	{
+		if(isOn)
+		{
+			return;
+		}
+
+		isPrinting = isOn;
+		isTextEnd = !isOn;
+	}
+
+	// Pass 키를 누를 경우에 진행이 된다.
+	private void OnNextDialog()
+	{
+		if(!isTextEnd)
+		{
+			DialogText.Stop();
+			DialogText.Pass();
+
+			return;
+		}
+
+		isTextEnd = false;
+
+		if(currentIndex >= dialogDataList.Count)
+		{
+			Debug.Log("대화 종료");
+
+			return;
+		}
+		
+		PlayDialog();
 	}
 }
