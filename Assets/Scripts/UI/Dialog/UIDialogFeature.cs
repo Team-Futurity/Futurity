@@ -108,7 +108,7 @@ public partial class UIDialogController
 
 	private void SetNormalName(DialogData data)
 	{
-		normalDialog.NpcNameText.SetText(data.name);
+		normalDialog.NpcNameText.SetText(data.talker_Kor);
 	}
 
 	#endregion
