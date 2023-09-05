@@ -7,11 +7,15 @@ using UnityEngine.Events;
 
 public partial class UIDialogController
 {
-	private Dictionary<UIDialogType, Action> dataSetUpDic; 
+	private Dictionary<UIDialogType, Action> dataSetUpDic;
+	private UIDialogType beforeType = UIDialogType.NONE;
 
-	private readonly string[] extensionName =
+	private readonly Dictionary<UIDialogType, string[]> extensionNameByType = new Dictionary<UIDialogType, string[]>
 	{
-		"UINormalDialog", "UIStandingDialog", "UIRangeDialog", "UICutSceneDialog"
+		{ UIDialogType.NORMAL , new string[] {"UIDialogNpcNameViewer", "UIDialogPass" } },
+		{ UIDialogType.STANDING, new string[] { "UIDialogImageChanger", "UIDialogNpcNameViewer", "UIDialogPass", "UIDialogSkip"} },
+		{ UIDialogType.RANGE, new string[] { "UIDialogDistance"} },
+		{ UIDialogType.CUTSCENE, new string[] { "UIDialogImageChanger", "UIDialogNpcNameViewer", "UIDialogPass", "UIDialogSkip" } }
 	};
 
 	#region Extension Settings
@@ -19,53 +23,42 @@ public partial class UIDialogController
 	{
 		if (DialogType == UIDialogType.NONE || DialogType == UIDialogType.MAX || Application.isPlaying)
 			return;
-		
-		switch (DialogType)
+
+		RemoveScript(beforeType);
+
+		beforeType = DialogType;
+
+		AddScript(DialogType);
+	}
+
+	private void AddScript(UIDialogType type)
+	{
+		// extension에 맞는 Type List를 String으로 가져온다.
+		var nameByType = extensionNameByType[type];
+
+		// 순회하면서 기능 붙이기
+		for (int i = 0; i < nameByType.Length; ++i)
 		{
-			case UIDialogType.NORMAL:
-				AddScript<UINormalDialog>();
-				break;
+			Type extensionType = Type.GetType(nameByType[i]);
 
-			case UIDialogType.CUTSCENE:
-				AddScript<UICutSceneDialog>();
-				break;
-
-			case UIDialogType.RANGE:
-				AddScript<UIRangeDialog>();
-				break;
-
-			case UIDialogType.STANDING:
-				AddScript<UIStandingDialog>();
-				break;
+			gameObject.AddComponent(extensionType);
 		}
 	}
 
-	private void AddScript<T>() where T : Component
+	private void RemoveScript(UIDialogType type)
 	{
-		for (int i = 0; i < extensionName.Length; ++i)
-		{
-			Type extensionType = Type.GetType(extensionName[i]);
+		var nameByType = extensionNameByType[type];
 
-			if (typeof(T) == extensionType)
+		for (int i = 0; i < nameByType.Length; ++i)
+		{
+			Type extensionType = Type.GetType(nameByType[i]);
+
+			if (CheckScript(extensionType))
 			{
-				if (CheckScript<T>())
+				UnityEditor.EditorApplication.delayCall += () =>
 				{
-					continue;
-				}
-				else
-				{
-					gameObject.AddComponent<T>();
-				}
-			}
-			else
-			{
-				if (CheckScript(extensionType))
-				{
-					UnityEditor.EditorApplication.delayCall += () =>
-					{
-						DestroyImmediate(GetComponent(extensionType));
-					};
-				}
+					DestroyImmediate(GetComponent(extensionType));
+				};
 			}
 		}
 	}
@@ -79,64 +72,7 @@ public partial class UIDialogController
 	{
 		return (GetComponentsInChildren(checkType).FirstOrDefault() != null);
 	}
-	
-	#endregion
-
-	private void DataSetUp()
-	{
-		dataSetUpDic = new Dictionary<UIDialogType, Action>();
-		
-		dataSetUpDic.Add(UIDialogType.NORMAL, SetNormalData);
-		dataSetUpDic.Add(UIDialogType.RANGE, SetRangeData);
-		dataSetUpDic.Add(UIDialogType.CUTSCENE, SetCutSceneData);
-		dataSetUpDic.Add(UIDialogType.STANDING, SetStandingData);
-
-		dataSetUpDic[DialogType]();
-	}
-
-	#region Normal
-
-	private UINormalDialog normalDialog;
-
-	private void SetNormalData()
-	{
-		TryGetComponent(out normalDialog);
-		normalDialog.NpcNameText.SetText("");
-		
-		onShow?.AddListener(SetNormalName);
-	}
-
-	private void SetNormalName(DialogData data)
-	{
-		normalDialog.NpcNameText.SetText(data.talker_Kor);
-	}
 
 	#endregion
 
-	#region Range
-
-	private void SetRangeData()
-	{
-		
-	}
-
-	#endregion
-
-	#region CutScene
-
-	private void SetCutSceneData()
-	{
-		
-	}
-	
-	#endregion
-
-	#region Standing
-
-	private void SetStandingData()
-	{
-		
-	}
-
-	#endregion
 }

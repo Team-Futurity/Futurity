@@ -44,8 +44,9 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 	[SerializeField]
 	private GameObject imageObject;
 
-	// 현재 Dialog System이 살아있는가?
 	private bool isActive;
+
+	private bool usedCallMethod = false;
 
 	private void Awake()
 	{
@@ -56,8 +57,6 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 			FDebug.Log($"{imageObject.GetType()}이 존재하지 않습니다.");
 			FDebug.Break();
 		}
-
-		DataSetUp();
 	}
 	
 	// 테스트용 코드
@@ -66,11 +65,6 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
 			Show();
-		}
-		
-		if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			Pass();
 		}
 		
 		if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -114,7 +108,6 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 			return;
 		}
 
-		// Initialize
 		currentIndex = 0;
 		dialogDataList.Clear();
 
@@ -152,27 +145,6 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		onShow?.Invoke(currentDialog);
 		DialogText.Show(currentDialog.descripton);
 	}
-
-	public void Skip()
-	{
-		if(!isActive)
-		{
-			FDebug.Log($"[Dialog System] 시스템이 실행 중이 아니므로, 스킵할 수 없습니다.");
-			return;
-		}
-	}
-
-	public void Pass()
-	{
-		if (!isActive)
-		{
-			FDebug.Log($"[Dialog System] 시스템이 실행 중이 아니므로, 패스할 수 없습니다.");
-			return;
-		}
-
-		DialogText.Pass();
-	}
-
 	private void SetCurrentData()
 	{
 		currentDialog = nextDialog;
