@@ -109,7 +109,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void CameraShake()
 	{
-		//playerCamera.StartShakeCamera(attackNode.shakeTime, attackNode.curveShakePower);
 		if (playerCamera != null)
 		{
 			playerCamera.CameraShake();
