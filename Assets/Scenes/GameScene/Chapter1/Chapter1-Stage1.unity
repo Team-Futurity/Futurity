@@ -2555,17 +2555,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216350248}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &216791361 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 216791361, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-  m_PrefabInstance: {fileID: 341440630}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4977923f35028b94789e5e19dbda220d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &216791362 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 216791362, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
@@ -3181,7 +3170,8 @@ PrefabInstance:
       propertyPath: attenuationObject
       value: 
       objectReference: {fileID: 495645696}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 216791361, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
 --- !u!1 &345809815
 GameObject:
@@ -4312,6 +4302,7 @@ GameObject:
   - component: {fileID: 452744693}
   - component: {fileID: 452744692}
   - component: {fileID: 452744691}
+  - component: {fileID: 452744694}
   m_Layer: 0
   m_Name: BGM
   m_TagString: Untagged
@@ -4372,6 +4363,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &452744694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452744690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a028c1b6a8031bb45a2d6c6a845896e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &453381803
 GameObject:
   m_ObjectHideFlags: 0
@@ -16333,7 +16336,7 @@ MonoBehaviour:
   entryCutSceneEndEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 216791361}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterDialogWindowOpener, Assembly-CSharp
         m_MethodName: CharacterDialogWindowOpen
         m_Mode: 1
