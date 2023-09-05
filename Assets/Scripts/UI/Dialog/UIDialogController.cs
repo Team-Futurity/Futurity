@@ -54,8 +54,6 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 	private bool isTextEnd;
 	private bool isPrinting;
 
-	private bool usedCallMethod = false;
-
 	private void Awake()
 	{
 		isActive = false;
