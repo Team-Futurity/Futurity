@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class UIDialogText : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class UIDialogText : MonoBehaviour
 	
 	private TMP_Text dialogText;
 	private WaitForSeconds typingPrintSpeed;
+
+	[HideInInspector]
+	public UnityEvent<bool> OnEnd;
 
 	private void Awake()
 	{
@@ -108,5 +112,7 @@ public class UIDialogText : MonoBehaviour
 		copyText = "";
 		isRunning = false;
 		currentAccessIndex = 0;
+
+		OnEnd?.Invoke(isRunning);
 	}
 }
