@@ -111,7 +111,6 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		if(isActive)
 		{
 			FDebug.LogError($"[Dialog System] 실행 중에는 Dialog 데이터를 변경할 수 없습니다.");
-			
 			return;
 		}
 
@@ -133,8 +132,7 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 	{
 		if(isActive)
 		{
-			FDebug.LogError($"[Dialog System] 이미 시스템이 실행중입니다.");
-
+			FDebug.LogError($"[Dialog System] 이미 시스템이 실행 중입니다.");
 			return;
 		}
 
@@ -145,21 +143,32 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 
 	public void Show()
 	{
-		// 한 대화를 보여주는 곳이므로, 데이터 세팅이 이 곳에서 이루어지면 된다.
+		if(!isActive)
+		{
+			FDebug.Log($"[Dialog System] 현재 시스템이 실행 중이 아닙니다.");
+			return;
+		}
 
-		//onShow?.Invoke(testDialog);
-		//DialogText.Show(testDialog.descripton);
+		onShow?.Invoke(currentDialog);
+		DialogText.Show(currentDialog.descripton);
 	}
 
 	public void Skip()
 	{
-		// Skipt은 해당 Dialog를 넘어간다.
-
+		if(!isActive)
+		{
+			FDebug.Log($"[Dialog System] 시스템이 실행 중이 아니므로, 스킵할 수 없습니다.");
+			return;
+		}
 	}
 
 	public void Pass()
 	{
-		// Pass는 텍스트를 전부 추출한다.
+		if (!isActive)
+		{
+			FDebug.Log($"[Dialog System] 시스템이 실행 중이 아니므로, 패스할 수 없습니다.");
+			return;
+		}
 
 		DialogText.Pass();
 	}
@@ -167,7 +176,8 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 	private void SetCurrentData()
 	{
 		currentDialog = nextDialog;
-		nextDialog = dialogDataList[++currentIndex];
+
+		nextDialog = dialogDataList[currentIndex++];
 	}
 
 	private void End()
