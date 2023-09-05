@@ -15,7 +15,7 @@ public class PlayerHitState : UnitState<PlayerController>
 		pc.specialIsReleased = false;
 		pc.curNode = pc.comboTree.top;
 		
-		Camera.main.gameObject.GetComponent<HealthWarningEffect>().StartHitEffect(0.5f);
+		pc.healthEffect.StartHitEffect(0.5f);
 
 		pc.glove.SetActive(false);
 

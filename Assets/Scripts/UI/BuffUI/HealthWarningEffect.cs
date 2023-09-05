@@ -14,7 +14,6 @@ public class HealthWarningEffect : MonoBehaviour
 	private float effectIntensity = 0f;
 	private float curTime = 0.0f;
 	private bool isEffectEnable = false;
-	public bool IsEffectEnable => isEffectEnable;
 	private bool isHit = false;
 	
 	private EnemyManager enemyManager;

@@ -6,12 +6,10 @@ using UnityEngine.Events;
 public class Player : UnitBase
 {
 	private PlayerController pc;
-	private HealthWarningEffect healthEffect;
 
 	private void Start()
 	{
 		pc = GetComponent<PlayerController>();
-		healthEffect = Camera.main.GetComponent<HealthWarningEffect>();
 
 		if (hpBar != null)
 		{
@@ -48,7 +46,7 @@ public class Player : UnitBase
 		float finalDamage = damage * remainingDamageRatio;
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
-		healthEffect.CheckPulseEffect(status.GetStatus(StatusType.CURRENT_HP).GetValue());
+		pc.healthEffect.CheckPulseEffect(status.GetStatus(StatusType.CURRENT_HP).GetValue());
 		hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
 
 		if(!pc.hitCoolTimeIsEnd) { return; }

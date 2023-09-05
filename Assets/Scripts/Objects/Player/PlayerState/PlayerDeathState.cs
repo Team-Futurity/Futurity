@@ -9,7 +9,7 @@ public class PlayerDeathState : UnitState<PlayerController>
 
 	public override void Begin(PlayerController pc)
 	{
-		Camera.main.GetComponent<HealthWarningEffect>().PlayerDeath();
+		pc.healthEffect.PlayerDeath();
 		pc.animator.SetBool(DeathAnimKey, true);
 		pc.rmController.SetRootMotion("Death");
 	}
