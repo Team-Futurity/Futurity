@@ -25,15 +25,11 @@ public class PlayerCamera : MonoBehaviour
 	
 	[Header("Correction")]
 	[SerializeField] private int decimalCount;
-	
 	private Camera mainCam;
-	private CinemachineBasicMultiChannelPerlin perlinNoise;
-	private IEnumerator shakeCamera;
-	
+
 	private void Awake()
 	{
 		mainCam = Camera.main;
-		perlinNoise = gameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 	}
 
 	private void FixedUpdate()
@@ -45,23 +41,6 @@ public class PlayerCamera : MonoBehaviour
 	{
 		impulseSource.GenerateImpulseWithForce(shakeForce);
 	}
-
-	#region Camera Shake
-	public void StartShakeCamera(float duration, float velocity = 0.6f)
-	{
-		shakeCamera = ShakeCamera(duration);
-		
-		perlinNoise.m_AmplitudeGain = velocity * 10;
-		StartCoroutine(shakeCamera);
-	}
-
-	private IEnumerator ShakeCamera(float duration)
-	{
-		yield return new WaitForSeconds(duration);
-		perlinNoise.m_AmplitudeGain = 0;
-	}
-
-	#endregion
 	
 	#region Perspective Effect
 	private void SetPenetrate()
