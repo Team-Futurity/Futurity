@@ -109,11 +109,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void CameraShake()
 	{
-		// CameraController cam;
-		// cam = Camera.main.GetComponent<CameraController>();
-		// cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
-		
-		playerCamera.StartShakeCamera(attackNode.shakeTime, attackNode.curveShakePower);
+		//playerCamera.StartShakeCamera(attackNode.shakeTime, attackNode.curveShakePower);
+		if (playerCamera != null)
+		{
+			playerCamera.CameraShake();
+		}
 	}
 
 	public void WalkSE()

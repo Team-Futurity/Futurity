@@ -9,6 +9,10 @@ public class PlayerCamera : MonoBehaviour
 	[Header("Component")] 
 	public Transform playerTf;
 
+	[Header("Shake Camera")] 
+	[SerializeField] private CinemachineImpulseSource impulseSource;
+	[SerializeField] private float shakeForce = 0.4f;
+
 	[Header("Penetrate")]
 	[SerializeField] private LayerMask visibleLayer;
 	[SerializeField] private string colorFieldName;
@@ -35,6 +39,11 @@ public class PlayerCamera : MonoBehaviour
 	private void FixedUpdate()
 	{
 		SetPenetrate();
+	}
+
+	public void CameraShake()
+	{
+		impulseSource.GenerateImpulseWithForce(shakeForce);
 	}
 
 	#region Camera Shake
