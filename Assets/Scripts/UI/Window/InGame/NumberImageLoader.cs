@@ -39,6 +39,8 @@ public class NumberImageLoader : MonoBehaviour
 
 	public void SetNumber(int num)
 	{
+		return;
+
 		startSetNumberEvent?.Invoke();
 
 		if (comboDeactiveDelayCorutine is not null)
