@@ -201,8 +201,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 
 	#region Input
-	public string GetInputData(PlayerInputEnum input, bool isProcess, params string[] additionalDatas)
+	public PlayerInputData GetInputData(PlayerInputEnum input, bool isProcess, params string[] additionalDatas)
 	{
+		PlayerInputData data;
+
 		string returnValue = $"Input_{(int)input}_";
 
 		returnValue += isProcess ? "T_" : "F_";
@@ -217,10 +219,13 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		returnValue += "End";
 
-		return returnValue;
+		data.inputMsg = returnValue;
+		data.inputState = input;
+
+		return data;
 	}
 
-	public string MoveProcess(InputAction.CallbackContext context)
+	public PlayerInputData MoveProcess(InputAction.CallbackContext context)
 	{
 		Vector3 input = context.ReadValue<Vector3>();
 
@@ -266,7 +271,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		return GetInputData(PlayerInputEnum.Move, false, input.ToString());
 	}
 
-	public string DashProcess(InputAction.CallbackContext context)
+	public PlayerInputData DashProcess(InputAction.CallbackContext context)
 	{
 		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) 
 		{ 
@@ -283,7 +288,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 
 	// Normal Attack
-	public string NAProcess(InputAction.CallbackContext context)
+	public PlayerInputData NAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
 		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
@@ -306,7 +311,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 
 	// Special Attack
-	public string SAProcess(InputAction.CallbackContext context)
+	public PlayerInputData SAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
 		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
@@ -344,7 +349,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 
 	// Special Move
-	public string SMProcess(InputAction.CallbackContext context)
+	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
 		if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
@@ -570,7 +575,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if(!comboIsLock)
 		{
 			// 마지막 콤보에서 입력 씹는 코드
-			//if(curNode.childNodes.Count == 0) { return; }
+			if(curNode.childNodes.Count == 0) { return; }
 
 			nextCombo = nextCommand;
 		}
