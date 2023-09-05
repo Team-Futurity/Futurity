@@ -13,9 +13,9 @@ public class PlayerHitState : UnitState<PlayerController>
 		pc.animator.SetTrigger(HitTriggerAnim);
 		pc.rmController.SetRootMotion("Hit");
 		pc.specialIsReleased = false;
-		pc.curNode = pc.commandTree.Top;
-
-		Camera.main.gameObject.GetComponent<PostProcessController>().SetVignette(0.5f);
+		pc.curNode = pc.comboTree.top;
+		
+		pc.healthEffect.StartHitEffect(0.5f);
 
 		pc.glove.SetActive(false);
 

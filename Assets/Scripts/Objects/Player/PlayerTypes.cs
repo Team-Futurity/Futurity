@@ -27,9 +27,16 @@ public enum PlayerInputEnum : int
 {
 	None,
 	NormalAttack,
+	NormalAttack_J,
+	NormalAttack_JJ,
+	NormalAttack_JJJ,
 	SpecialAttack,
 	Dash,
 	Move,
+	Move_Up,
+	Move_Down,
+	Move_Right,
+	Move_Left,
 	SpecialMove
 }
 
@@ -38,4 +45,10 @@ public struct PlayerStateInfo
 {
 	public PlayerState stateType;
 	public UnitState<PlayerController> state;
+}
+
+public struct PlayerInputData
+{
+	public string inputMsg;
+	public PlayerInputEnum inputState;
 }

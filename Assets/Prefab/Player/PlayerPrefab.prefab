@@ -6168,9 +6168,7 @@ GameObject:
   - component: {fileID: 484117206}
   - component: {fileID: 484117190}
   - component: {fileID: 484117207}
-  - component: {fileID: 495645732}
   - component: {fileID: 1921549252}
-  - component: {fileID: 495645714}
   - component: {fileID: 8335321450642112346}
   - component: {fileID: 7039203949321405940}
   - component: {fileID: 1070719927369175189}
@@ -6680,6 +6678,7 @@ MonoBehaviour:
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
   activePartIsActive: 0
+  healthEffect: {fileID: 0}
 --- !u!114 &2214123608498936178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6844,6 +6843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962e1aa5112a26e42ba20eee4b065a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
   effect: {fileID: 0}
   walk:
     Guid:
@@ -6994,28 +6994,6 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
---- !u!114 &495645732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acebf0942a894b94eaba61615566c38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DeActivePotals: []
-  zoomInDelayTime: 0.5
-  zoomInSpeed: 2
-  slowMotionFactor: 0.2
-  slowMotionTime: 3
-  normalCameraSize: 5
-  zoomInCameraSize: 2
-  laskKillEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1921549252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7049,39 +7027,6 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
---- !u!114 &495645714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b1239f31a5b864a885bd5f9a6b8df0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
-  panelCanvas: {fileID: 0}
-  statusManager: {fileID: 2214123608498936178}
-  deathOpenWindow: {fileID: 280084176244655351, guid: 9c2309d055eb376478a6879c426dd35e, type: 3}
-  cameraTransform: {fileID: 0}
-  playerTransform: {fileID: 5328251835375101389}
-  volume: {fileID: 0}
-  zoomInSpeed: 3
-  fadeInSpeed: 1.5
-  fadeInAlphaMax: 0.5
-  slowMotionFactor: 0.2
-  normalCameraSize: 5
-  zoomInCameraSize: 2
-  deathDelayTime: 0.1
-  isDeath: 0
-  backgroundPanel: {fileID: 0}
-  DeathEndEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  maxAlpha: 0.75
-  pulseSpeed: 2
 --- !u!114 &8335321450642112346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7096,7 +7041,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frameCountToBeSaved: 3
   pc: {fileID: 1070719927369175192}
-  playerInput: {fileID: 7039203949321405940}
+  playerInput: {fileID: 0}
+  onChangeStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7039203949321405940
 MonoBehaviour:
   m_ObjectHideFlags: 0

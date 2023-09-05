@@ -10,6 +10,8 @@ public class SocketController : MonoBehaviour
 
 	void Awake()
 	{
+		TryGetComponent(out itemImage);
+
 		ResetItemUIData();
 	}
 
