@@ -4,18 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class UIPerformActionData
+public struct UIPerformActionData
 {
-	public Sprite enableSpr;
+	public Sprite normalSpr;
+	public Sprite clearSpr;
 
-	public Sprite disableSpr;
-
-	public PlayerInputEnum clearActionString;
-
-	public bool isClear;
-
-	public UIPerformActionData()
-	{
-		isClear = false;
-	}
+	public PlayerInputEnum conditionAction;
+	public bool isComplate;
 }
