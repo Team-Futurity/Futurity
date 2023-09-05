@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class UIDialogNpcNameViewer : MonoBehaviour
+public class UIDialogNpcNameViewer : UIDialogFeatureBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[field: SerializeField]
+	public TMP_Text NpcNameTextField { get; private set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	protected override void UpdateFeature()
+	{
+		NpcNameTextField.text = dialogData.talker_Kor;
+	}
 }

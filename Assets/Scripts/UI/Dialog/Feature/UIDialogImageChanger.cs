@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIDialogImageChanger : MonoBehaviour
+public class UIDialogImageChanger : UIDialogFeatureBase
 {
     // Start is called before the first frame update
     void Start()
