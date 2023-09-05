@@ -138,6 +138,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// etc
 	[HideInInspector] public bool activePartIsActive; // 액티브 부품이 사용가능한지
+	[HideInInspector] public HealthWarningEffect healthEffect;
 
 	private void Start()
 	{
@@ -189,7 +190,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
 
-		
+		// ect
+		healthEffect = Camera.main.GetComponent<HealthWarningEffect>();
 	}
 
 	public void SetFSM()
