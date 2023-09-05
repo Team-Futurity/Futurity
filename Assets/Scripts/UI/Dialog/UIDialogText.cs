@@ -29,7 +29,7 @@ public class UIDialogText : MonoBehaviour
 		typingPrintSpeed = new WaitForSeconds(0.1f);
 		isRunning = false;
 
-		dialogText.text = "";
+		ClearText();
 	}
 
 	public void Show(string text)
@@ -39,7 +39,7 @@ public class UIDialogText : MonoBehaviour
 			return;
 		}
 
-		dialogText.text = "";
+		ClearText();
 		copyText = text;
 		isRunning = true;
 		
@@ -87,6 +87,11 @@ public class UIDialogText : MonoBehaviour
 		}
 		
 		StopCoroutine("StartTypingAnimation");
+	}
+
+	public void ClearText()
+	{
+		dialogText.text = "";
 	}
 
 	private void StartTyping()
