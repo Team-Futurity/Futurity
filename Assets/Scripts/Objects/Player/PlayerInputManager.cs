@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
@@ -10,13 +11,18 @@ public class PlayerInputManager : MonoBehaviour
 	private List<Queue<string>> inputQueues = new List<Queue<string>>();
 	private int lastQueueIndex;
 
+	[HideInInspector]
+	public UnityEvent<PlayerInputEnum> onChangeStateEvent;
+
 	private void Start()
 	{
-		if(pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
+		PlayerInputData data;
+		data.inputState = PlayerInputEnum.None;
+
+		if (pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
 		if(frameCountToBeSaved < 1) { frameCountToBeSaved = 1; }
 
-
-		pc.attackEndEvent.AddListener((str) => RegistInputMessage(str));
+		pc.attackEndEvent.AddListener((str) => { data.inputMsg = str; RegistInputMessage(str); });
 		
 		for(int i = 0; i < frameCountToBeSaved; i++)
 		{
@@ -93,14 +99,14 @@ public class PlayerInputManager : MonoBehaviour
 	}
 	#endregion
 
-	private void QueueingProcess(string data)
+	private void QueueingProcess(PlayerInputData data)
 	{
-		inputQueues[lastQueueIndex].Enqueue(data);
+		inputQueues[lastQueueIndex].Enqueue(data.inputMsg);
 
-		FDebug.Log("___" + data);
+		onChangeStateEvent?.Invoke(data.inputState);
 	}
 
-	private void RegistInputMessage(string msg)
+	private void RegistInputMessage(PlayerInputData msg)
 	{
 		QueueingProcess(msg);
 	}
