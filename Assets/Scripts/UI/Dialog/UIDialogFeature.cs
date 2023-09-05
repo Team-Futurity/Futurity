@@ -82,7 +82,7 @@ public partial class UIDialogController
 	
 	#endregion
 
-	private void DataSetUp(UIDialogType type)
+	private void DataSetUp()
 	{
 		dataSetUpDic = new Dictionary<UIDialogType, Action>();
 		
@@ -91,7 +91,7 @@ public partial class UIDialogController
 		dataSetUpDic.Add(UIDialogType.CUTSCENE, SetCutSceneData);
 		dataSetUpDic.Add(UIDialogType.STANDING, SetStandingData);
 
-		dataSetUpDic[type]();
+		dataSetUpDic[DialogType]();
 	}
 
 	#region Normal
@@ -103,7 +103,7 @@ public partial class UIDialogController
 		TryGetComponent(out normalDialog);
 		normalDialog.NpcNameText.SetText("");
 		
-		onShow.AddListener(SetNormalName);
+		onShow?.AddListener(SetNormalName);
 	}
 
 	private void SetNormalName(DialogData data)
