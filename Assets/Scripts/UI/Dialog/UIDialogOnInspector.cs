@@ -21,13 +21,15 @@ public partial class UIDialogController
 	#region Extension Settings
 	private void OnValidate()
 	{
-		if (DialogType == UIDialogType.NONE || DialogType == UIDialogType.MAX || Application.isPlaying || DialogType == beforeType ||
-			beforeType == UIDialogType.NONE)
+		if (DialogType == UIDialogType.NONE || DialogType == UIDialogType.MAX || Application.isPlaying || DialogType == beforeType)
 		{
 			return;
 		}
 
-		RemoveScript(beforeType);
+		if(beforeType != UIDialogType.NONE && beforeType != UIDialogType.MAX)
+		{
+			RemoveScript(beforeType);
+		}
 
 		beforeType = DialogType;
 
