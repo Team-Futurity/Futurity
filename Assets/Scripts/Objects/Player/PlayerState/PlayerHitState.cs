@@ -13,7 +13,7 @@ public class PlayerHitState : UnitState<PlayerController>
 		pc.animator.SetTrigger(HitTriggerAnim);
 		pc.rmController.SetRootMotion("Hit");
 		pc.specialIsReleased = false;
-		pc.curNode = pc.comboTree.top;
+		pc.curNode = pc.commandTree.Top;
 		
 		pc.healthEffect.StartHitEffect(0.5f);
 

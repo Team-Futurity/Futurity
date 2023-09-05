@@ -24,7 +24,6 @@ public class PlayerAutoMoveState : UnitState<PlayerController>
 		pc.rmController.SetRootMotion("Move");
 		initialPos = pc.transform.position;
 		curTime = 0;
-		t = 0;
 	}
 
 	public override void Update(PlayerController pc)

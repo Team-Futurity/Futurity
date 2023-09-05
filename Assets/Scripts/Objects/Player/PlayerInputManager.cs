@@ -22,7 +22,7 @@ public class PlayerInputManager : MonoBehaviour
 		if (pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
 		if(frameCountToBeSaved < 1) { frameCountToBeSaved = 1; }
 
-		pc.attackEndEvent.AddListener((str) => { data.inputMsg = str; RegistInputMessage(str); });
+		pc.attackEndEvent.AddListener((str) => { data.inputMsg = str; RegistInputMessage(data); });
 		
 		for(int i = 0; i < frameCountToBeSaved; i++)
 		{
