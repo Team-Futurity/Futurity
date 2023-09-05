@@ -128,6 +128,7 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		nextIndex = 0;
 		isTextEnd = false;
 		isPrinting = false;
+		currentDialog.talker_Kor = currentDialog.talker_Eng = currentDialog.descripton = "";
 
 		// dialogDataList.Clear();
 
@@ -189,6 +190,16 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		SetCurrentData();
 	}
 
+	public void OnPass()
+	{
+		OnNextDialog();
+	}
+
+	public bool GetActive()
+	{
+		return isActive;
+	}
+
 	private void SetCurrentData()
 	{
 		currentDialog = nextDialog;
@@ -204,6 +215,12 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 
 	private void EndDialog()
 	{
+		((IControllerMethod)this).Stop();
+
+		imageObject.SetActive(false);
+
+		DialogText.ClearText();
+
 		OnDialogEnd?.Invoke(currentDialog);
 	}
 
@@ -242,3 +259,5 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		PlayDialog();
 	}
 }
+
+// Closed Action 만들어 주어야 함.
