@@ -14,8 +14,11 @@ public class EnemyDeathState : UnitState<EnemyController>
 			unit.manager.EnemyDeclutter(unit.clusterNum);
 		unit.manager.DeActiveManagement(unit);
 		
-
-		unit.manager.DeActiveManagement(unit);
+		if (unit.manager.activeEnemys.Count < 1)
+		{
+			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LastKillCutScene);
+		}
+		
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;

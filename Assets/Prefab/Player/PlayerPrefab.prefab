@@ -6168,7 +6168,6 @@ GameObject:
   - component: {fileID: 484117206}
   - component: {fileID: 484117190}
   - component: {fileID: 484117207}
-  - component: {fileID: 495645732}
   - component: {fileID: 1921549252}
   - component: {fileID: 8335321450642112346}
   - component: {fileID: 7039203949321405940}
@@ -6679,6 +6678,7 @@ MonoBehaviour:
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
   activePartIsActive: 0
+  healthEffect: {fileID: 0}
 --- !u!114 &2214123608498936178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6994,19 +6994,6 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
---- !u!114 &495645732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acebf0942a894b94eaba61615566c38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deActivePortals: []
 --- !u!114 &1921549252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7055,6 +7042,9 @@ MonoBehaviour:
   frameCountToBeSaved: 3
   pc: {fileID: 1070719927369175192}
   playerInput: {fileID: 0}
+  onChangeStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7039203949321405940
 MonoBehaviour:
   m_ObjectHideFlags: 0

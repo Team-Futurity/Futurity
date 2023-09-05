@@ -9,6 +9,10 @@ public class PlayerCamera : MonoBehaviour
 	[Header("Component")] 
 	public Transform playerTf;
 
+	[Header("Shake Camera")] 
+	[SerializeField] private CinemachineImpulseSource impulseSource;
+	[SerializeField] private float shakeForce = 0.4f;
+
 	[Header("Penetrate")]
 	[SerializeField] private LayerMask visibleLayer;
 	[SerializeField] private string colorFieldName;
@@ -21,15 +25,11 @@ public class PlayerCamera : MonoBehaviour
 	
 	[Header("Correction")]
 	[SerializeField] private int decimalCount;
-	
 	private Camera mainCam;
-	private CinemachineBasicMultiChannelPerlin perlinNoise;
-	private IEnumerator shakeCamera;
-	
+
 	private void Awake()
 	{
 		mainCam = Camera.main;
-		perlinNoise = gameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 	}
 
 	private void FixedUpdate()
@@ -37,22 +37,10 @@ public class PlayerCamera : MonoBehaviour
 		SetPenetrate();
 	}
 
-	#region Camera Shake
-	public void StartShakeCamera(float duration, float velocity = 0.6f)
+	public void CameraShake()
 	{
-		shakeCamera = ShakeCamera(duration);
-		
-		perlinNoise.m_AmplitudeGain = velocity * 10;
-		StartCoroutine(shakeCamera);
+		impulseSource.GenerateImpulseWithForce(shakeForce);
 	}
-
-	private IEnumerator ShakeCamera(float duration)
-	{
-		yield return new WaitForSeconds(duration);
-		perlinNoise.m_AmplitudeGain = 0;
-	}
-
-	#endregion
 	
 	#region Perspective Effect
 	private void SetPenetrate()
