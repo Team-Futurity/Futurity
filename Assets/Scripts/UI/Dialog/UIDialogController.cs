@@ -234,8 +234,8 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 
 		if(currentIndex >= dialogDataList.Count)
 		{
-			Debug.Log("대화 종료");
-
+			EndDialog();
+			
 			return;
 		}
 		
