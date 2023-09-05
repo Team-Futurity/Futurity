@@ -597,6 +597,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		nextCombo = PlayerInputEnum.None;
 		LockNextCombo(false);
+		lastMoveDir = Vector3.zero;
 		ChangeState(PlayerState.AttackDelay);
 	}
 
