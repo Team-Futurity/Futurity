@@ -44,7 +44,7 @@ public class WindowManager : Singleton<WindowManager>
 	{
 		base.Awake();
 
-		topCanvasTransform = FindTopCanvas().transform;
+		// topCanvasTransform = FindTopCanvas().transform;
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
 		SelectButton(0);

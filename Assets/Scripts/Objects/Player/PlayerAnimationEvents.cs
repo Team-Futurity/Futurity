@@ -6,11 +6,12 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
+	[SerializeField] private PlayerCamera playerCamera;
 
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
 
-	private EffectType effectType;
+	private EffectActivationTime effectType;
 	private EffectTarget EffectTarget;
 	private Transform effectPos;
 
@@ -25,20 +26,28 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public void EffectPooling()
 	{
 		attackNode = pc.curNode;
-		effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectPos.position, attackNode.effectPos.rotation);
+
+		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
+		if(attackNode.effectPoolManager == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode.effectPoolManager is Null. Please Check to Command Graph or Script"); return; }
+
+		effect = attackNode.effectPoolManager.ActiveObject(pc.gameObject.transform.position + attackNode.effectOffset, pc.gameObject.transform.rotation * attackNode.effectRotOffset);
 		var particles = effect.GetComponent<ParticleController>();
-		particles.Initialize(attackNode.effectPoolManager);
+
+		if(particles != null )
+		{
+			particles.Initialize(attackNode.effectPoolManager);
+		}
 	}
 
 	public void PreAllocatedEffectPooling()
 	{
-		pc.rushEffectManager.ActiveEffect(effectType, EffectTarget, effectPos);
+		//pc.rushEffectManager.ActiveEffect(effectType, EffectTarget, effectPos);
 	}
 
-	public void AllocateEffect(EffectType type, EffectTarget target, Transform effectPos)
+	public void AllocateEffect(EffectActivationTime activationTime, EffectTarget target, Transform effectPos)
 	{
 		this.effectPos = effectPos;
-		effectType = type;
+		effectType = activationTime;
 		EffectTarget = target;
 	}
 
@@ -74,7 +83,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	{
 		UnitState<PlayerController> GettedState = null;
 		PlayerBasicPartState chargeState;
-		if (!pc.GetState(PlayerState.BasicPart, ref GettedState)) { return; }
+		if (!pc.GetState(PlayerState.BasicSM, ref GettedState)) { return; }
 
 		chargeState = GettedState as PlayerBasicPartState;
 
@@ -100,9 +109,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void CameraShake()
 	{
-		CameraController cam;
-		cam = Camera.main.GetComponent<CameraController>();
-		cam.SetVibration(attackNode.shakeTime, attackNode.curveShakePower, attackNode.randomShakePower);
+		if (playerCamera != null)
+		{
+			playerCamera.CameraShake();
+		}
 	}
 
 	public void WalkSE()

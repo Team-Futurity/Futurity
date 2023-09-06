@@ -17,22 +17,22 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public const float cm2m = 0.01f; // centimeter To meter
 	public const float m2cm = 100f; // meter To centimeter
 
-	[Header("[¼öÄ¡ Á¶Àý]¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡")]
+	[Header("[ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
 
 	// attack
 	[Space(2)]
-	[Header("ÄÞº¸")]
-	public Tree comboTree;
+	[Header("ï¿½Þºï¿½")]
+	public CommandTree comboTree;
 
 	// move
 	[Space(5)]
-	[Header("ÀÌµ¿")]
-	[Tooltip("È¸ÀüÇÏ´Â ¼Óµµ")]
+	[Header("ï¿½Ìµï¿½")]
+	[Tooltip("È¸ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Óµï¿½")]
 	public float rotatePower;
 
 	// dash
 	[Space(5)]
-	[Header("´ë½Ã. ·±Å¸ÀÓ º¯°æ ºÒ°¡")]
+	[Header("ï¿½ï¿½ï¿½. ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½")]
 	public float dashCoolTime;
 	public GameObject dashEffect;
 	public Transform dashPos;
@@ -40,35 +40,35 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// hit
 	[Space(5)]
-	[Header("ÇÇ°Ý. ·±Å¸ÀÓ º¯°æ ºÒ°¡")]
+	[Header("ï¿½Ç°ï¿½. ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½")]
 	public float hitCoolTime;
 
 	[Space(15)]
-	[Header("[µð¹ö±ë¿ë]¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡")]
+	[Header("[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
 
 	// move
 	[Space(2)]
-	[Header("ÀÌµ¿ °ü·Ã")]
+	[Header("ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½")]
 	public Vector3 moveDir;
 
 	// dash
 	[Space(5)]
-	[Header("´ë½Ã °ü·Ã")]
+	[Header("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
 	public bool dashCoolTimeIsEnd = false;
 	public bool comboIsEnd = false;
 
 	// input
 	[Space(5)]
-	[Header("ÀÔ·Â °ü·Ã")]
+	[Header("ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½")]
 	public bool specialIsReleased = false;
 	public bool moveIsPressed = false;
 	private bool comboIsLock = false;
 
 	// attack
 	[Space(5)]
-	[Header("°ø°Ý °ü·Ã")]
-	public PlayerInput curCombo;
-	public PlayerInput nextCombo;
+	[Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
+	public PlayerInputEnum curCombo;
+	public PlayerInputEnum nextCombo;
 	public AttackNode curNode;
 	public AttackNode firstBehaiviorNode;
 	public PlayerState currentAttackState;
@@ -76,11 +76,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// hit
 	[Space(5)]
-	[Header("ÇÇ°Ý °ü·Ã")]
+	[Header("ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½")]
 	public bool hitCoolTimeIsEnd = false;
 
 	[Space(15)]
-	[Header("[ÃÖÃÊ 1È¸ ÇÒ´ç]¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡")]
+	[Header("[ï¿½ï¿½ï¿½ï¿½ 1È¸ ï¿½Ò´ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
 
 	// reference
 	[Space(2)]
@@ -88,13 +88,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public GameObject glove;
 	public GameObject rushGlove;
 	public Player playerData;
-	public ActivePartController activePartController;
+	public CommandTreeLoader commandTreeLoader;
+	public SpecialMoveController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
-	public RushEffectManager rushEffectManager;
+	public EffectController effectManager;
+	public EffectDatas effectSO;
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
@@ -106,6 +108,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// event
 	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
 	[HideInInspector] public InputAction moveAction;
+	[HideInInspector] public UnityEvent<string> attackEndEvent;
 
 	// Temporary
 	[Serializable]
@@ -115,26 +118,41 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		public GameObject effect;
 	}
 	[Space(5)]
-	[Header("µ¹Áø ÀÌÆåÆ®")]
+	[Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®")]
 	public List<EffectData> rushEffects;
 	public ObjectPoolManager<Transform> rushObjectPool;
 	public ObjectPoolManager<Transform> rushObjectPool2;
 
 	// sound 
 	[Space(5)]
-	[Header("»ç¿îµå")]
+	[Header("ï¿½ï¿½ï¿½ï¿½")]
 	public FMODUnity.EventReference dash;
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
 
 	// etc
-	[HideInInspector] public bool activePartIsActive; // ¾×Æ¼ºê ºÎÇ°ÀÌ »ç¿ë°¡´ÉÇÑÁö
+	[HideInInspector] public bool activePartIsActive; // ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ë°¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	[HideInInspector] public HealthWarningEffect healthEffect;
 
 	private void Start()
 	{
 		animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
-		//dashEffect = GetComponent<TrailRenderer>();
+
+		// effect
+		effectManager = ECManager.Instance.GetEffectManager(effectSO);
+
+		// ReferenceCheck
+		List<string> msgs;
+		if(!CheckReference(out msgs))
+		{
+			DebugLogger.PrintDebugErros(msgs, typeof(PlayerController), DebugTypeEnum.Error);
+			return;
+		}
+		else
+		{
+			DebugLogger.PrintDebugErros(msgs, typeof(PlayerController), DebugTypeEnum.Log);
+		}
 
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
@@ -147,10 +165,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
+		//comboTree = commandTreeLoader.GetCommandTree();
 		curNode = comboTree.top;
-		nextCombo = PlayerInput.None;
+		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
-		comboTree.SetTree(comboTree.top, null);
+		//comboTree.SetTree(comboTree.top, null);
 
 		// Glove Init
 		glove.SetActive(false);
@@ -163,6 +182,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
+
+		// ect
+		healthEffect = Camera.main.GetComponent<HealthWarningEffect>();
 	}
 
 	public void SetFSM()
@@ -171,128 +193,288 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		SetUp(PlayerState.Idle);
 	}
 
-	public void OnSpecialMove(InputAction.CallbackContext context)
+	#region Input
+	public PlayerInputData GetInputData(PlayerInputEnum input, bool isProcess, params string[] additionalDatas)
 	{
-		if(!context.started || !activePartIsActive) { return; }
+		PlayerInputData data;
+		
+		string returnValue = $"Input_{(int)input}_";
 
-		activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
+		returnValue += isProcess ? "T_" : "F_";
+
+		for(int i = 0; i < additionalDatas.Length; i++)
+		{
+			if (additionalDatas[i] != null)
+			{
+				returnValue += $"{additionalDatas[i]}_";
+			}
+		}
+
+		returnValue += "End";
+
+
+		data.inputMsg = returnValue;
+		data.inputState = input;
+
+		return data;
 	}
 
-	public void OnMove(InputAction.CallbackContext context)
+	public PlayerInputData MoveProcess(InputAction.CallbackContext context)
 	{
-		// Input
 		Vector3 input = context.ReadValue<Vector3>();
 
-		if (input == null) { return; }
 		moveDir = new Vector3(input.x, 0f, input.y);
 		moveAction = context.action;
 
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
-		// ¿¹¿ÜÃ³¸®
+		// ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 		if (!IsCurrentState(PlayerState.Idle))
 		{
-			// µ¹Áø Áß ÀÌµ¿ ±â´É
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½
 			if (IsAttackProcess())
 			{
 				if (IsCurrentState(PlayerState.ChargedAttack))
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
+					return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "SubState");
 				}
 			}
-			return;
+			return GetInputData(PlayerInputEnum.Move, false, input.ToString());
 		}
 
-		if(playerData.isStun || !hitCoolTimeIsEnd)
+		if (playerData.isStun || !hitCoolTimeIsEnd)
 		{
-			return;
+			return GetInputData(PlayerInputEnum.Move, false, input.ToString()); ;
 		}
 
-		// ÀÌµ¿ ±â´É
+		// ï¿½Ìµï¿½ ï¿½ï¿½ï¿½
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
+			return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "State");
 		}
+
+		return GetInputData(PlayerInputEnum.Move, false, input.ToString());
 	}
 
-	public void OnDash(InputAction.CallbackContext context)
+	public PlayerInputData DashProcess(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) { return; }
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) 
+		{ 
+			return GetInputData(PlayerInputEnum.Dash, false); 
+		}
 
-		if (context.performed)
+		if (!IsCurrentState(PlayerState.Dash))
 		{
-			if (!IsCurrentState(PlayerState.Dash))
-			{
-				ChangeState(PlayerState.Dash);
-			}
+			ChangeState(PlayerState.Dash);
+			return GetInputData(PlayerInputEnum.Dash, true);
 		}
+
+		return GetInputData(PlayerInputEnum.Dash, false);
 	}
 
-	public void OnNormalAttack(InputAction.CallbackContext context)
+	// Normal Attack
+	public PlayerInputData NAProcess(InputAction.CallbackContext context)
 	{
-		// ÀÔ·ÂÀÌ µÇÁö ¾Ê¾ÒÀ¸¸é(Pressed ½ÃÁ¡ÀÌ ¾Æ´Ï¸é) ¸®ÅÏ
-		if (!context.started) { return; }
+		// ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½Ì°Å³ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
-		FDebug.Log("Normal");
+		// Idle, Move, Attack ï¿½ï¿½ï¿½ï¿½ Stateï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
-		// ÇÇ°Ý ÁßÀÌ°Å³ª, ½ºÅÏ »óÅÂ¸é ¸®ÅÏ
-		if (playerData.isStun || !hitCoolTimeIsEnd) { return; }
-
-		// Idle, Move, Attack °ü·Ã State°¡ ¾Æ´Ï¸é ¸®ÅÏ
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
-
-		// AfterDelay³ª ´Ù¸¥ ½ºÅ×ÀÌÆ®(Idle, Move)¶ó¸é
+		// AfterDelayï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®(Idle, Move)ï¿½ï¿½ï¿½
 		if (!IsAttackProcess(true))
 		{
-			StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
+			StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack);
+
+			return GetInputData(PlayerInputEnum.NormalAttack, true, currentAttackState.ToString(), curNode.name);
 		}
-		else // °ø°Ý ÁßÀÌ¶ó¸é
+		else // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½
 		{
-			if (nextCombo == PlayerInput.None)
+			if (nextCombo == PlayerInputEnum.None)
 			{
-				SetNextCombo(PlayerInput.NormalAttack);
+				SetNextCombo(PlayerInputEnum.NormalAttack);
+				return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
 			}
 		}
+		
+		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
-	public void OnSpecialAttack(InputAction.CallbackContext context)
+	// Special Attack
+	public PlayerInputData SAProcess(InputAction.CallbackContext context)
 	{
-		// ÇÇ°Ý ÁßÀÌ°Å³ª, ½ºÅÏ »óÅÂ¸é ¸®ÅÏ
-		if(playerData.isStun || !hitCoolTimeIsEnd) { return; }
+		// ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½Ì°Å³ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
-		// Idle, Move, Attack °ü·Ã State°¡ ¾Æ´Ï¸é ¸®ÅÏ
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+		// Idle, Move, Attack ï¿½ï¿½ï¿½ï¿½ Stateï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
+		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
 		if (context.started)
 		{
-			FDebug.Log("Special");
 			if (!IsAttackProcess(true))
 			{
-				StartNextComboAttack(PlayerInput.SpecialAttack, curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack);
+				StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
+				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), state == PlayerState.NormalAttack ? curNode.name : "Pressed");
 			}
 			else
 			{
-				if (nextCombo == PlayerInput.None && curCombo != PlayerInput.SpecialAttack)
+				if (nextCombo == PlayerInputEnum.None && curCombo != PlayerInputEnum.SpecialAttack)
 				{
-					SetNextCombo(PlayerInput.SpecialAttack);
+					SetNextCombo(PlayerInputEnum.SpecialAttack);
+					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
 				}
 			}
 		}
-		else if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
+		else
 		{
-			specialIsReleased = true;
+			if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
+			{
+				specialIsReleased = true;
+				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), "Released");
+			}
 		}
+		
+		return GetInputData(PlayerInputEnum.SpecialAttack, false);
 	}
 
-	public AttackNode FindInput(PlayerInput input)
+	// Special Move
+	public PlayerInputData SMProcess(InputAction.CallbackContext context)
+	{
+		if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+
+		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
+		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
+	}
+	#endregion
+
+	#region legacy input
+	/*	public void OnSpecialMove(InputAction.CallbackContext context)
+		{
+			if(!context.started || !activePartIsActive) { return; }
+
+			activePartController.RunActivePart(this, playerData, ActivePartType.Basic);
+		}
+
+		public void OnMove(InputAction.CallbackContext context)
+		{
+			// Input
+			Vector3 input = context.ReadValue<Vector3>();
+
+			if (input == null) { return; }
+			moveDir = new Vector3(input.x, 0f, input.y);
+			moveAction = context.action;
+
+			moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
+
+			// ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
+			if (!IsCurrentState(PlayerState.Idle))
+			{
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½
+				if (IsAttackProcess())
+				{
+					if (IsCurrentState(PlayerState.ChargedAttack))
+					{
+						animator.SetTrigger("MoveDuringRushPreparing");
+						AddSubState(PlayerState.Move);
+					}
+				}
+				return;
+			}
+
+			if(playerData.isStun || !hitCoolTimeIsEnd)
+			{
+				return;
+			}
+
+			// ï¿½Ìµï¿½ ï¿½ï¿½ï¿½
+			if (!IsCurrentState(PlayerState.Move))
+			{
+				ChangeState(PlayerState.Move);
+			}
+		}
+
+		public void OnDash(InputAction.CallbackContext context)
+		{
+			if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) { return; }
+
+			if (context.performed)
+			{
+				if (!IsCurrentState(PlayerState.Dash))
+				{
+					ChangeState(PlayerState.Dash);
+				}
+			}
+		}
+
+		public void OnNormalAttack(InputAction.CallbackContext context)
+		{
+			// ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½(Pressed ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½) ï¿½ï¿½ï¿½ï¿½
+			if (!context.started) { return; }
+
+			FDebug.Log("Normal");
+
+			// ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½Ì°Å³ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+			if (playerData.isStun || !hitCoolTimeIsEnd) { return; }
+
+			// Idle, Move, Attack ï¿½ï¿½ï¿½ï¿½ Stateï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+			if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+
+			// AfterDelayï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®(Idle, Move)ï¿½ï¿½ï¿½
+			if (!IsAttackProcess(true))
+			{
+				StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
+			}
+			else // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½
+			{
+				if (nextCombo == PlayerInput.None)
+				{
+					SetNextCombo(PlayerInput.NormalAttack);
+				}
+			}
+		}
+
+		public void OnSpecialAttack(InputAction.CallbackContext context)
+		{
+			// ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½Ì°Å³ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+			if(playerData.isStun || !hitCoolTimeIsEnd) { return; }
+
+			// Idle, Move, Attack ï¿½ï¿½ï¿½ï¿½ Stateï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+			if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
+
+			if (context.started)
+			{
+				FDebug.Log("Special");
+				if (!IsAttackProcess(true))
+				{
+					StartNextComboAttack(PlayerInput.SpecialAttack, curCombo != PlayerInput.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack);
+				}
+				else
+				{
+					if (nextCombo == PlayerInput.None && curCombo != PlayerInput.SpecialAttack)
+					{
+						SetNextCombo(PlayerInput.SpecialAttack);
+					}
+				}
+			}
+			else if (context.canceled && currentAttackState == PlayerState.ChargedAttack)
+			{
+				specialIsReleased = true;
+			}
+		}*/
+	#endregion
+
+	public AttackNode FindInput(PlayerInputEnum input)
 	{
 		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
-		PlayerInput nextNodeInput = input;
+		PlayerInputEnum nextNodeInput = input;
 
-		if(IsTopNode(compareNode)															// ÇÏ³ªÀÇ ÄÞº¸°¡ ¸ðµÎ ³¡³­ »óÅÂÀÌ°í,
-			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInput.None // ÄÞº¸¸¦ ÁøÇà ÁßÀÌ¸ç,
-			&& firstBehaiviorNode.command != input)											// ÇØ´ç ÄÞº¸°¡ ÀÔ·Â°ª°ú ´Ù¸£´Ù¸é
+		if(IsTopNode(compareNode)															// ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Þºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½,
+			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // ï¿½Þºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½,
+			&& firstBehaiviorNode.command != input)											// ï¿½Ø´ï¿½ ï¿½Þºï¿½ï¿½ï¿½ ï¿½Ô·Â°ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½Ù¸ï¿½
 		{
 			nextNodeInput = firstBehaiviorNode.command;
 
@@ -346,9 +528,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void ResetCombo()
 	{
-		nextCombo = PlayerInput.None;
+		nextCombo = PlayerInputEnum.None;
 		curNode = unit.comboTree.top;
-		curCombo = PlayerInput.None;
+		curCombo = PlayerInputEnum.None;
 		currentAttackState = PlayerState.Idle;
 		firstBehaiviorNode = null;
 		LockNextCombo(false);
@@ -358,7 +540,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public bool IsTopNode(AttackNode node) => node == comboTree.top;
 
-	public bool NodeTransitionProc(PlayerInput input, PlayerState nextAttackState)
+	public bool NodeTransitionProc(PlayerInputEnum input, PlayerState nextAttackState)
 	{
 		if(comboIsLock) { return false; }
 		
@@ -383,7 +565,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		return true;
 	}
 
-	public void SetNextCombo(PlayerInput nextCommand)
+	public void SetNextCombo(PlayerInputEnum nextCommand)
 	{
 		if(!comboIsLock)
 		{
@@ -395,16 +577,63 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		comboIsLock = isLock;
 
-		if(comboIsLock) { nextCombo = PlayerInput.None; }
+		if(comboIsLock) { nextCombo = PlayerInputEnum.None; }
 	}
 	
-	public void StartNextComboAttack(PlayerInput input, PlayerState nextAttackState)
+	public void StartNextComboAttack(PlayerInputEnum input, PlayerState nextAttackState)
 	{
-		if (nextCombo != PlayerInput.None) input = nextCombo;
+		if (nextCombo != PlayerInputEnum.None) input = nextCombo;
 		if (!NodeTransitionProc(input, nextAttackState)) { return; }
 
-		nextCombo = PlayerInput.None;
+		nextCombo = PlayerInputEnum.None;
 		LockNextCombo(false);
 		ChangeState(PlayerState.AttackDelay);
 	}
+
+	public void LerpToWorldPosition(Vector3 worldPos, float time)
+	{
+		UnitState<PlayerController> state = null;
+		GetState(PlayerState.AutoMove, ref state);
+
+		if(state == null) { FDebug.LogError("[PlayerController]AutoMoveSate Is Null"); }
+
+		((PlayerAutoMoveState)state).SetAutoMove(worldPos, time);
+		ChangeState(PlayerState.AutoMove);
+	}
+
+	#region Util
+	private bool CheckReference(out List<string> msgs)
+	{
+		bool isClear = false;
+
+		msgs = new List<string>();
+
+		if (glove == null) { msgs.Add("glove is Null."); }
+		if (rushGlove == null) { msgs.Add("rushGlove is Null."); }
+		if (playerData == null) { msgs.Add("playerData is Null."); }
+		if (commandTreeLoader == null) { msgs.Add("commandTreeLoader is Null."); }
+		if (activePartController == null) { msgs.Add("activePartController is Null."); }
+		if (comboGaugeSystem == null) { msgs.Add("comboGaugeSystem is Null."); }
+		if (hitCountSystem == null) { msgs.Add("hitCountSystem is Null."); }
+		if (attackCollider == null) { msgs.Add("attackCollider is Null."); }
+		if (autoTargetCollider == null) { msgs.Add("autoTargetCollider is Null."); }
+		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
+		if (effectManager == null) { msgs.Add("effectManager is Null."); }
+		if (effectSO == null) { msgs.Add("effectSO is Null."); }
+		if (buffProvider == null) { msgs.Add("buffProvider is Null."); }
+		if (rmController == null) { msgs.Add("rmController is Null."); }
+		if (playerAnimationEvents == null) { msgs.Add("playerAnimationEvents is Null."); }
+		if (animator == null) { msgs.Add("animator is Null."); }
+		if (rigid == null) { msgs.Add("rigid is Null."); }
+		if (rmController == null) { msgs.Add("rmController is Null."); }
+
+		isClear = msgs.Count == 0;
+		if (isClear)
+		{
+			msgs.Add("Reference Check Clear");
+		}
+
+		return isClear;
+	}
+	#endregion
 }

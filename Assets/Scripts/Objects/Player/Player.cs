@@ -46,11 +46,12 @@ public class Player : UnitBase
 		float finalDamage = damage * remainingDamageRatio;
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
+		pc.healthEffect.CheckPulseEffect(status.GetStatus(StatusType.CURRENT_HP).GetValue());
 		hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
-		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicPart))
+		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}

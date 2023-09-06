@@ -6157,25 +6157,23 @@ GameObject:
   - component: {fileID: 5328251835375101389}
   - component: {fileID: 1070719927369175192}
   - component: {fileID: 2214123608498936178}
+  - component: {fileID: 1070719927369175194}
   - component: {fileID: 1921549218}
   - component: {fileID: 6307489441031809494}
   - component: {fileID: 8247117609381097480}
+  - component: {fileID: 8996021751070515556}
   - component: {fileID: 507041425030904175}
-  - component: {fileID: 5821464009680269676}
-  - component: {fileID: 7039203949321405940}
-  - component: {fileID: 1070719927369175188}
-  - component: {fileID: 1070719927369175189}
-  - component: {fileID: 1070719927369175194}
-  - component: {fileID: 926590480872082409}
   - component: {fileID: 1921549231}
   - component: {fileID: 4272038019141093718}
   - component: {fileID: 484117206}
   - component: {fileID: 484117190}
   - component: {fileID: 484117207}
-  - component: {fileID: 495645732}
   - component: {fileID: 1921549252}
-  - component: {fileID: 495645714}
-  - component: {fileID: 872569107971545013}
+  - component: {fileID: 8335321450642112346}
+  - component: {fileID: 7039203949321405940}
+  - component: {fileID: 1070719927369175189}
+  - component: {fileID: 5821464009680269676}
+  - component: {fileID: 1070719927369175188}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -6219,13 +6217,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboTree:
     top:
+      name: 
       command: 0
       childNodes:
-      - command: 1
+      - name: J
+        command: 1
         childNodes:
-        - command: 1
+        - name: JJ
+          command: 1
           childNodes:
-          - command: 1
+          - name: JJJ
+            command: 1
             childNodes: []
             attackLength: 235
             attackAngle: 360
@@ -6235,11 +6237,12 @@ MonoBehaviour:
             attackAfterDelay: 1.7
             attackST: 4
             attackKnockback: 0
-            collider: {fileID: 4068547685948332291}
-            effectPos: {fileID: 292770056}
+            effectOffset: {x: 0, y: 0, z: 0}
+            effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
             effectPrefab: {fileID: 743645502276010547, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
             effectParent: {fileID: 0}
             hitEffectOffset: {x: 0, y: 0, z: 0}
+            hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
             hitEffectPrefab: {fileID: 1796362244684154822, guid: 1a4ec730cc5b23f49bacd462aff9ef06, type: 3}
             hitEffectParent: {fileID: 0}
             animInteger: 2
@@ -6254,8 +6257,9 @@ MonoBehaviour:
                 Data2: 1319667708
                 Data3: 1757666958
                 Data4: -356488086
-              Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-j
-          - command: 2
+              Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j-j
+          - name: JJK
+            command: 2
             childNodes: []
             attackLength: 600
             attackAngle: 40
@@ -6265,11 +6269,12 @@ MonoBehaviour:
             attackAfterDelay: 1.4
             attackST: 4
             attackKnockback: 120
-            collider: {fileID: 4068547685948332291}
-            effectPos: {fileID: 6543905284276725190}
+            effectOffset: {x: 0, y: 0, z: 0}
+            effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
             effectPrefab: {fileID: 7824830144992791228, guid: c0587accfc987084fbdcc4d87255d219, type: 3}
             effectParent: {fileID: 0}
             hitEffectOffset: {x: 0, y: 0, z: 0}
+            hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
             hitEffectPrefab: {fileID: 0}
             hitEffectParent: {fileID: 0}
             animInteger: 3
@@ -6284,7 +6289,7 @@ MonoBehaviour:
                 Data2: 1273239174
                 Data3: 1441446575
                 Data4: -410480518
-              Path: event:/SE/02basicattack/F_S_01_02_attack_j-j-k
+              Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j-k
           attackLength: 250
           attackAngle: 180
           attackLengthMark: 0
@@ -6293,11 +6298,12 @@ MonoBehaviour:
           attackAfterDelay: 0.3
           attackST: 2
           attackKnockback: 100
-          collider: {fileID: 4068547685948332291}
-          effectPos: {fileID: 2014832257133555644}
+          effectOffset: {x: 0, y: 0, z: 0}
+          effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
           effectPrefab: {fileID: 8210732400216373646, guid: ce45194a96c5df94e97e15d0320870f6, type: 3}
           effectParent: {fileID: 490048779824429130}
           hitEffectOffset: {x: 0, y: 0, z: 0}
+          hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
           hitEffectPrefab: {fileID: 3005952347427146351, guid: a8f2bf971d987de449db6de5470a0714, type: 3}
           hitEffectParent: {fileID: 0}
           animInteger: 1
@@ -6312,7 +6318,7 @@ MonoBehaviour:
               Data2: 1165864781
               Data3: -350210426
               Data4: -188375705
-            Path: event:/SE/02basicattack/F_S_01_02_attack_j-j
+            Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j
         attackLength: 160
         attackAngle: 130
         attackLengthMark: 0
@@ -6321,11 +6327,12 @@ MonoBehaviour:
         attackAfterDelay: 0.3
         attackST: 1
         attackKnockback: 270
-        collider: {fileID: 4068547685948332291}
-        effectPos: {fileID: 1941853247}
+        effectOffset: {x: 0, y: 0, z: 0}
+        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 7485104759053717443, guid: 491302905a445004892ba748307860e5, type: 3}
         effectParent: {fileID: 490048779824429130}
         hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 1721076630676558347, guid: cd3ecfbbcbb5e6f4c93a4b43f321bdfb, type: 3}
         hitEffectParent: {fileID: 0}
         animInteger: 0
@@ -6340,8 +6347,9 @@ MonoBehaviour:
             Data2: 1117554763
             Data3: -682623315
             Data4: -2132575348
-          Path: event:/SE/02basicattack/F_S_01_02_attack_j
-      - command: 2
+          Path: event:/SE/PlayerAttack/Basic/F_S_01_02_attack_j
+      - name: 
+        command: 2
         childNodes: []
         attackLength: 0
         attackAngle: 0
@@ -6351,11 +6359,12 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 2
         attackKnockback: 0
-        collider: {fileID: 4068547685948332291}
-        effectPos: {fileID: 5328251835375101389}
+        effectOffset: {x: 0, y: 0, z: 0}
+        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
         effectParent: {fileID: 0}
         hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 0}
         hitEffectParent: {fileID: 0}
         animInteger: 0
@@ -6371,9 +6380,11 @@ MonoBehaviour:
             Data3: 0
             Data4: 0
           Path: 
-      - command: 3
+      - name: 
+        command: 3
         childNodes:
-        - command: 1
+        - name: 
+          command: 1
           childNodes: []
           attackLength: 0
           attackAngle: 0
@@ -6383,11 +6394,12 @@ MonoBehaviour:
           attackAfterDelay: 0
           attackST: 0
           attackKnockback: 0
-          collider: {fileID: 0}
-          effectPos: {fileID: 0}
+          effectOffset: {x: 0, y: 0, z: 0}
+          effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
           effectPrefab: {fileID: 0}
           effectParent: {fileID: 0}
           hitEffectOffset: {x: 0, y: 0, z: 0}
+          hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
           hitEffectPrefab: {fileID: 0}
           hitEffectParent: {fileID: 0}
           animInteger: 0
@@ -6411,11 +6423,12 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 0
         attackKnockback: 0
-        collider: {fileID: 0}
-        effectPos: {fileID: 5328251835375101389}
+        effectOffset: {x: 0, y: 0, z: 0}
+        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
         hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 0}
         hitEffectParent: {fileID: 0}
         animInteger: 0
@@ -6439,11 +6452,12 @@ MonoBehaviour:
       attackAfterDelay: 0
       attackST: 0
       attackKnockback: 0
-      collider: {fileID: 0}
-      effectPos: {fileID: 0}
+      effectOffset: {x: 0, y: 0, z: 0}
+      effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       effectPrefab: {fileID: 0}
       effectParent: {fileID: 0}
       hitEffectOffset: {x: 0, y: 0, z: 0}
+      hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       hitEffectPrefab: {fileID: 0}
       hitEffectParent: {fileID: 0}
       animInteger: 0
@@ -6459,7 +6473,6 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
-    dataCount: 3
   rotatePower: 18
   dashCoolTime: 0.8
   dashEffect: {fileID: 308051857588389, guid: c10bf3382be3d8c448ab0ac0e01127e7, type: 3}
@@ -6473,11 +6486,14 @@ MonoBehaviour:
   curCombo: 0
   nextCombo: 0
   curNode:
+    name: 
     command: 0
     childNodes:
-    - command: 1
+    - name: 
+      command: 1
       childNodes:
-      - command: 0
+      - name: 
+        command: 0
         childNodes: []
         attackLength: 0
         attackAngle: 0
@@ -6487,11 +6503,12 @@ MonoBehaviour:
         attackAfterDelay: 0
         attackST: 0
         attackKnockback: 0
-        collider: {fileID: 0}
-        effectPos: {fileID: 0}
+        effectOffset: {x: 0, y: 0, z: 0}
+        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
         hitEffectOffset: {x: 0, y: 0, z: 0}
+        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 0}
         hitEffectParent: {fileID: 0}
         animInteger: 0
@@ -6515,11 +6532,12 @@ MonoBehaviour:
       attackAfterDelay: 0
       attackST: 0
       attackKnockback: 0
-      collider: {fileID: 0}
-      effectPos: {fileID: 0}
+      effectOffset: {x: 0, y: 0, z: 0}
+      effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
       effectParent: {fileID: 0}
       hitEffectOffset: {x: 0, y: 0, z: 0}
+      hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       hitEffectPrefab: {fileID: 0}
       hitEffectParent: {fileID: 0}
       animInteger: 0
@@ -6543,11 +6561,12 @@ MonoBehaviour:
     attackAfterDelay: 0
     attackST: 0
     attackKnockback: 0
-    collider: {fileID: 0}
-    effectPos: {fileID: 774150179230461155}
+    effectOffset: {x: 0, y: 0, z: 0}
+    effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
     effectParent: {fileID: 0}
     hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     hitEffectPrefab: {fileID: 0}
     hitEffectParent: {fileID: 0}
     animInteger: 0
@@ -6564,6 +6583,7 @@ MonoBehaviour:
         Data4: 0
       Path: 
   firstBehaiviorNode:
+    name: 
     command: 0
     childNodes: []
     attackLength: 0
@@ -6574,11 +6594,12 @@ MonoBehaviour:
     attackAfterDelay: 0
     attackST: 0
     attackKnockback: 0
-    collider: {fileID: 0}
-    effectPos: {fileID: 0}
+    effectOffset: {x: 0, y: 0, z: 0}
+    effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     effectPrefab: {fileID: 0}
     effectParent: {fileID: 0}
     hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     hitEffectPrefab: {fileID: 0}
     hitEffectParent: {fileID: 0}
     animInteger: 0
@@ -6600,13 +6621,14 @@ MonoBehaviour:
   glove: {fileID: 7164896735125955485}
   rushGlove: {fileID: 6408263023137772874}
   playerData: {fileID: 1070719927369175194}
+  commandTreeLoader: {fileID: 8996021751070515556}
   activePartController: {fileID: 1921549218}
   comboGaugeSystem: {fileID: 6307489441031809494}
   hitCountSystem: {fileID: 8247117609381097480}
   attackCollider: {fileID: 4068547685948332288}
   autoTargetCollider: {fileID: 625353277}
   basicCollider: {fileID: 1070719927369175189}
-  rushEffectManager: {fileID: 926590480872082409}
+  effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
   buffProvider: {fileID: 1921549231}
   rmController: {fileID: 484117206}
   playerAnimationEvents: {fileID: 507041425030904175}
@@ -6624,6 +6646,9 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  attackEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
   rushEffects:
   - effectPos: {fileID: 3970360354596990030}
     effect: {fileID: 2131523196075662621, guid: 8f83a2171f859c04ca34ce2e7f7c7022, type: 3}
@@ -6653,6 +6678,7 @@ MonoBehaviour:
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
   activePartIsActive: 0
+  healthEffect: {fileID: 0}
 --- !u!114 &2214123608498936178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6683,6 +6709,26 @@ MonoBehaviour:
     value: 2
   - type: 8
     value: 35
+--- !u!114 &1070719927369175194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e586bd859c67b4e8fd0eef524c346b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 2214123608498936178}
+  rigid: {fileID: 1070719927369175188}
+  hpBar: {fileID: 0}
+  isGodMode: 0
+  isStun: 0
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1921549218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6745,11 +6791,11 @@ MonoBehaviour:
   maxComboGauge: 100
   comboData:
   - <ComboCount>k__BackingField: 0
-    <AddedGauge>k__BackingField: 21
+    <AddedGauge>k__BackingField: 7
   - <ComboCount>k__BackingField: 1
-    <AddedGauge>k__BackingField: 12
+    <AddedGauge>k__BackingField: 4
   - <ComboCount>k__BackingField: 2
-    <AddedGauge>k__BackingField: 6
+    <AddedGauge>k__BackingField: 2
   gaugeBar: {fileID: 0}
   OnGaugeChanged:
     m_PersistentCalls:
@@ -6770,6 +6816,21 @@ MonoBehaviour:
   coolTime: 7
   hitCountUI: {fileID: 0}
   <hitCount>k__BackingField: 0
+--- !u!114 &8996021751070515556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c919fd2832fdc214bb3296485cc36602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerSO: {fileID: 11400000, guid: c4d12abaff4256c46a26163c6feb92c1, type: 2}
+  localParent: {fileID: 490048779824429130}
+  worldParent: {fileID: 0}
 --- !u!114 &507041425030904175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6782,6 +6843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962e1aa5112a26e42ba20eee4b065a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
   effect: {fileID: 0}
   walk:
     Guid:
@@ -6790,209 +6852,6 @@ MonoBehaviour:
       Data3: -396244858
       Data4: -2039320639
     Path: event:/SE/01move/F_S_01_01_basicmove
---- !u!95 &5821464009680269676
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 38533b871cd808b4594f1765969c915b, type: 3}
-  m_Controller: {fileID: 9100000, guid: cf80628b31e3f5a4ca765b29e756872c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
---- !u!114 &7039203949321405940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f75f6dd3-6146-4ca9-b5a2-f23fe905f4be
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnDash
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 498b8f64-c784-44f9-b1b3-d83583499288
-    m_ActionName: Player/Dash[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnNormalAttack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: c7cd515b-d4ab-4f24-8b7a-978cbd06b3bd
-    m_ActionName: Player/BasicAttack[/Keyboard/j]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnSpecialAttack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 41a8819d-167f-447a-a7a9-503d1c5e59dd
-    m_ActionName: Player/SpecialAttack[/Keyboard/k]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1070719927369175192}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnSpecialMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: cb3cd42d-0a3a-4cac-8a10-86134262524e
-    m_ActionName: Player/ActiveSkill[/Keyboard/r]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b0e17317-dc4c-4b4d-b240-ac8ef083a394
-    m_ActionName: Player/Interaction[/Keyboard/f]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 54c66f0f-e4c6-409c-8eaf-96ba3c610903
-    m_ActionName: Player/UI[/Keyboard/tab]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: PC
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!54 &1070719927369175188
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 116
-  m_CollisionDetection: 2
---- !u!136 &1070719927369175189
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.16
-  m_Height: 1.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &1070719927369175194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1e586bd859c67b4e8fd0eef524c346b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: {fileID: 2214123608498936178}
-  rigid: {fileID: 1070719927369175188}
-  hpBar: {fileID: 0}
-  isGodMode: 0
-  isStun: 0
-  OnAttack:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &926590480872082409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33db36c7b6cb34141be8551874420422, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rushEffectData: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
-  rushEffectParent: {fileID: 490048779824429130}
-  worldRushEffectParent: {fileID: 0}
 --- !u!114 &1921549231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7039,10 +6898,12 @@ MonoBehaviour:
   - animationName: Idle
     isRootMotion: 1
   - animationName: Move
-    isRootMotion: 1
+    isRootMotion: 0
   - animationName: Hit
     isRootMotion: 1
   - animationName: Attack
+    isRootMotion: 1
+  - animationName: Death
     isRootMotion: 1
 --- !u!114 &484117190
 MonoBehaviour:
@@ -7133,30 +6994,6 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
---- !u!114 &495645732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acebf0942a894b94eaba61615566c38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DeActivePotals: []
-  playerTransform: {fileID: 5328251835375101389}
-  cameraTransform: {fileID: 0}
-  zoomInDelayTime: 0.5
-  zoomInSpeed: 2
-  slowMotionFactor: 0.2
-  slowMotionTime: 3
-  normalCameraSize: 5
-  zoomInCameraSize: 2
-  laskKillEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1921549252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7190,7 +7027,7 @@ MonoBehaviour:
       m_Calls: []
   - m_PersistentCalls:
       m_Calls: []
---- !u!114 &495645714
+--- !u!114 &8335321450642112346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7199,31 +7036,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 9199333450892302302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b1239f31a5b864a885bd5f9a6b8df0, type: 3}
+  m_Script: {fileID: 11500000, guid: c50611165274ec945bb25fe898e4d3c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  panelCanvas: {fileID: 0}
-  statusManager: {fileID: 2214123608498936178}
-  deathOpenWindow: {fileID: 280084176244655351, guid: 9c2309d055eb376478a6879c426dd35e, type: 3}
-  cameraTransform: {fileID: 0}
-  playerTransform: {fileID: 5328251835375101389}
-  volume: {fileID: 0}
-  zoomInSpeed: 3
-  fadeInSpeed: 1.5
-  fadeInAlphaMax: 0.5
-  slowMotionFactor: 0.2
-  normalCameraSize: 5
-  zoomInCameraSize: 2
-  deathDelayTime: 0.1
-  isDeath: 0
-  backgroundPanel: {fileID: 0}
-  DeathEndEvent:
+  frameCountToBeSaved: 3
+  pc: {fileID: 1070719927369175192}
+  playerInput: {fileID: 0}
+  onChangeStateEvent:
     m_PersistentCalls:
       m_Calls: []
-  maxAlpha: 0.75
-  pulseSpeed: 2
---- !u!114 &872569107971545013
+--- !u!114 &7039203949321405940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7232,21 +7054,165 @@ MonoBehaviour:
   m_GameObject: {fileID: 9199333450892302302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acebf0942a894b94eaba61615566c38f, type: 3}
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeActivePotals: []
-  playerTransform: {fileID: 5328251835375101389}
-  cameraTransform: {fileID: 0}
-  zoomInDelayTime: 1.5
-  zoomInSpeed: 2
-  slowMotionFactor: 0.2
-  slowMotionTime: 3
-  normalCameraSize: 5
-  zoomInCameraSize: 3
-  laskKillEvent:
+  m_Actions: {fileID: -944628639613478452, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8335321450642112346}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f75f6dd3-6146-4ca9-b5a2-f23fe905f4be
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8335321450642112346}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: OnDash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 498b8f64-c784-44f9-b1b3-d83583499288
+    m_ActionName: Player/Dash[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8335321450642112346}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: OnNormalAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c7cd515b-d4ab-4f24-8b7a-978cbd06b3bd
+    m_ActionName: Player/BasicAttack[/Keyboard/j]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8335321450642112346}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: OnSpecialAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 41a8819d-167f-447a-a7a9-503d1c5e59dd
+    m_ActionName: Player/SpecialAttack[/Keyboard/k]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8335321450642112346}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: OnSpecialMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cb3cd42d-0a3a-4cac-8a10-86134262524e
+    m_ActionName: Player/ActiveSkill[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b0e17317-dc4c-4b4d-b240-ac8ef083a394
+    m_ActionName: Player/Interaction[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 54c66f0f-e4c6-409c-8eaf-96ba3c610903
+    m_ActionName: Player/UI[/Keyboard/tab]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: PC
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!136 &1070719927369175189
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.16
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!95 &5821464009680269676
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+  m_Controller: {fileID: 9100000, guid: cf80628b31e3f5a4ca765b29e756872c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!54 &1070719927369175188
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 116
+  m_CollisionDetection: 2
 --- !u!1 &9205117049474632282
 GameObject:
   m_ObjectHideFlags: 0
