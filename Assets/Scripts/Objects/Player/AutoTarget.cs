@@ -4,32 +4,75 @@ using UnityEngine;
 
 public class AutoTarget : Singleton<AutoTarget>
 {
-	// °ø°İ ¹üÀ§ °Å¸£±â
+	private const int MaxAngle = 360; 
+	private SortedDictionary<float, GameObject> ascendingDistances = new SortedDictionary<float, GameObject>();
 
-	// °ø°İ »ç°Å¸® °Å¸£±â
-
-	// Á¶ÁØ ¹üÀ§ °Å¸£±â
-    public GameObject GetNearstObject(List<GameObject> objs, GameObject origin)
+	// originê³¼ ì˜¤ë¸Œì íŠ¸ì™€ì˜ ê±°ë¦¬ë¥¼ Keyë¡œ í•´ë‹¹ ì˜¤ë¸Œì íŠ¸ì˜ ì¸ë±ìŠ¤ë¥¼ Dictionary í˜•íƒœë¡œ ì €ì¥
+	private void SetDistance(GameObject[] objectList, GameObject origin)
 	{
-		List<GameObject> list = objs.ToList();
-		float distance = (list[0].transform.position - origin.transform.position).magnitude;
-		GameObject nearstObj = list[0];
-		list.RemoveAt(0);
+		ascendingDistances.Clear();
 
-		foreach(GameObject obj in list)
+		for (int length = 0; length < objectList.Length; length++)
 		{
-			if(obj != null)
+			float distance = (objectList[length].transform.position - origin.transform.position).sqrMagnitude;
+
+			ascendingDistances.Add(distance, objectList[length]);
+		}
+	}
+
+	// ê³µê²© ë²”ìœ„ ê±°ë¥´ê¸°
+	public GameObject[] GetObjectsInAttackRange(GameObject[] objectList, RadiusCapsuleCollider collider)
+	{
+		if (objectList.Length == 0) { return null; }
+
+		List<GameObject> list = new List<GameObject>();
+		for (int length = 0; length < objectList.Length; length++)
+		{
+			if (collider.IsInCollider(objectList[length]))
 			{
-				float curDistance = (obj.transform.position - origin.transform.position).magnitude;
-				if (curDistance < distance)
+				list.Add(objectList[length]);
+			}
+		}
+
+		return list.ToArray();
+	}
+
+	// ê³µê²© ì‚¬ê±°ë¦¬ ê±°ë¥´ê¸°
+	private GameObject[] GetObjectsInAttackLength(float attackLength)
+	{
+		if (ascendingDistances.Count == 0) { return null; }
+
+		return ascendingDistances.Where(value => value.Key < attackLength).Select(value => value.Value).ToArray();
+	}
+
+	// ì¡°ì¤€ ë²”ìœ„ ê±°ë¥´ê¸°
+	private GameObject GetObjectInTargetRange(GameObject[] objectList, GameObject origin, float halfAngle)
+	{
+		if(objectList.Length == 0) { return null; }
+		if(objectList.Length == 1) { return objectList[0]; }
+
+		float cos = Mathf.Cos(halfAngle);
+
+		List<GameObject> list = new List<GameObject>();
+		float biggestDot = -10;
+		GameObject closestObject = null;
+		foreach (GameObject obj in objectList)
+		{
+			float dot = Vector3.Dot(origin.transform.forward, (obj.transform.position - origin.transform.position).normalized);
+
+			if (dot >= cos)
+			{
+				list.Add(obj);
+
+				if(dot > biggestDot)
 				{
-					distance = curDistance;
-					nearstObj = obj;
+					biggestDot = dot;
+					closestObject = obj;
 				}
 			}
 		}
 
-		return nearstObj;
+		return closestObject;
 	}
 
 	public void TurnToTarget(GameObject target, GameObject origin)
@@ -40,13 +83,37 @@ public class AutoTarget : Singleton<AutoTarget>
 		origin.transform.LookAt(targetVec);
 	}
 
-	public void TurnToNearstObject(List<GameObject> objs, GameObject origin)
+	public void TurnToAutoTargetedObject(List<GameObject> objects, GameObject origin, RadiusCapsuleCollider attackCollider, float autoTargetAngle)
 	{
-		GameObject target = GetNearstObject(objs, origin);
+		if(objects.Count == 0) { return; }
+		if(autoTargetAngle > MaxAngle) { autoTargetAngle %= MaxAngle; }
 
-		if (target != null)
+		float halfAngle = autoTargetAngle * 0.5f;
+		GameObject[] objectsArray = objects.ToArray();
+		GameObject[] candidateObjects = GetObjectsInAttackRange(objectsArray, attackCollider);
+
+		// ê³µê²© ë²”ìœ„ ë‚´ì— ìˆëŠ” ê²½ìš°ëŠ” ë¬´ì‹œ
+		if(candidateObjects.Length > 0)
 		{
-			TurnToTarget(target, origin);
+			return;
+			/*SetDistance(ObjectsInAttackRange, origin);
+			int[] ascendingIndexes = ascendingDistances.Values.ToArray();
+
+			TurnToTarget(objects[ascendingIndexes[0]], origin);*/
+		}
+
+		candidateObjects = GetObjectsInAttackLength(attackCollider.radius);
+		if (candidateObjects.Length > 0)
+		{
+			TurnToTarget(candidateObjects[0], origin);
+			return;
+		}
+
+		GameObject finalTarget = GetObjectInTargetRange(objectsArray, origin, halfAngle);
+
+		if (finalTarget != null)
+		{
+			TurnToTarget(finalTarget, origin);
 		}
 		else
 		{

@@ -44,7 +44,10 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		// autoTargetting
 		float range = isCombo ? pc.autoLength * PlayerController.cm2m : (attackNode.attackLengthMark + (PlayerAttackState_Charged.MaxLevel - 1) * PlayerAttackState_Charged.LengthMarkIncreasing) * PlayerController.cm2m;
 		pc.autoTargetCollider.radiusCollider.enabled = true;
+		pc.attackCollider.radiusCollider.enabled = true;
 		pc.autoTargetCollider.SetCollider(pc.autoAngle, range);
+		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength * PlayerController.cm2m);
+
 		targets.Clear();
 
 		// ohter Setting
@@ -57,7 +60,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		if (targets.Count > 0)
 		{
-			AutoTarget.Instance.TurnToNearstObject(targets, pc.gameObject);
+			AutoTarget.Instance.TurnToAutoTargetedObject(targets, pc.gameObject, pc.attackCollider, pc.autoAngle);
 		}
 
 		if (currentTime >= attackNode.attackDelay)
