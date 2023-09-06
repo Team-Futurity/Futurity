@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class CSNode : Node
@@ -139,7 +140,7 @@ public class CSNode : Node
 		// Element Initialize
 		// default
 		Foldout textFoldout = CSElementUtility.CreateFoldout("Command Type");
-		EnumField commandTypeField = CreateAndRegistField("커맨드 타입				|", CommandType, textFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+		EnumField commandTypeField				= CreateAndRegistField("커맨드 타입				|", CommandType, textFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
 		// combo
 		Foldout comboFoldout = CSElementUtility.CreateFoldout("Combo Data");
@@ -153,18 +154,18 @@ public class CSNode : Node
 		FloatField attackKnockbackField			= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 거리)		|", AttackKnockback, comboFoldout);
 
 		// attack effect
-		Foldout attackEffectFoldout = CSElementUtility.CreateFoldout("Attack Effect");
+		Foldout attackEffectFoldout	= CSElementUtility.CreateFoldout("Attack Effect");
 		Vector3Field effectOffsetField			= CreateAndRegistField("이펙트 위치 오프셋		|", EffectOffset, attackEffectFoldout);
-		Vector3Field effectRotOffsetField			= CreateAndRegistField("이펙트 회전 오프셋		|", EffectRotOffset, attackEffectFoldout);
+		Vector3Field effectRotOffsetField		= CreateAndRegistField("이펙트 회전 오프셋		|", EffectRotOffset, attackEffectFoldout);
 		ObjectField effectPrefabField			= CreateAndRegistField("이펙트 프리팹			|", EffectPrefab, typeof(GameObject), attackEffectFoldout);
-		EnumField effectParentField = CreateAndRegistField("이펙트 부모 설정			|", AttackEffectParent, attackEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+		EnumField effectParentField				= CreateAndRegistField("이펙트 부모 설정			|", AttackEffectParent, attackEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
 		// enemy hit efffect
 		Foldout enemyHitEffectFoldout = CSElementUtility.CreateFoldout("Enemy Hit Effect");
 		Vector3Field enemyHitEffectOffsetField	= CreateAndRegistField("적 피격 이펙트 위치 오프셋	|", HitEffectOffset, enemyHitEffectFoldout);
 		Vector3Field enemyHitEffectRotOffsetField	= CreateAndRegistField("적 피격 이펙트 회전 오프셋	|", HitEffectRotOffset, enemyHitEffectFoldout);
 		ObjectField enemyHitEffectPrefabField	= CreateAndRegistField("적 피격 이펙트 프리팹		|", HitEffectPrefab, typeof(GameObject), enemyHitEffectFoldout);
-		EnumField enemyHitEffectField = CreateAndRegistField("적 피격 이펙트 부모 설정	|", HitEffectParent, enemyHitEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+		EnumField enemyHitEffectField			= CreateAndRegistField("적 피격 이펙트 부모 설정	|", HitEffectParent, enemyHitEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
 		// production
 		Foldout productionFoldout = CSElementUtility.CreateFoldout("Production");
