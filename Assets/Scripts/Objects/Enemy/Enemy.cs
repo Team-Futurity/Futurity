@@ -9,7 +9,6 @@ public class Enemy : UnitBase
 {
 	[SerializeField] private EnemyController ec;
 
-
 	private void Start()
 	{
 		hpBar = GetComponent<EnemyHpBarController>()?.currentHpBar.GetComponent<GaugeBarController>();
