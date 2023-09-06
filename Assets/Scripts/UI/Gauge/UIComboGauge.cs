@@ -22,7 +22,12 @@ public class UIComboGauge : MonoBehaviour
 		}
 	}
 
-	private void UpdateHitGauge()
+	private void Start()
+	{
+		ComboSystem.OnGaugeChanged?.AddListener(UpdateHitGauge);
+	}
+
+	private void UpdateHitGauge(float gauge)
 	{
 		
 	}
