@@ -11,8 +11,6 @@ public class PartController : MonoBehaviour
 
 	private PlayerController ownerUnit;
 
-	public SkillIconTree socket;
-
 	private StatusManager manager = new();
 	private OriginStatus status;
 
@@ -38,15 +36,12 @@ public class PartController : MonoBehaviour
 		{
 			if (part.PartItemData.PartActivation >= 60)
 			{
-				socket.SetSocket(part.PartUIData, 2);
 			}
 			else if (part.PartItemData.PartActivation >= 40)
 			{
-				socket.SetSocket(part.PartUIData, 1);
 			}
 			else if (part.PartItemData.PartActivation >= 20)
 			{
-				socket.SetSocket(part.PartUIData, 0);
 			}
 		}
 	}
