@@ -15,8 +15,6 @@ public class PlayerHitState : UnitState<PlayerController>
 		pc.specialIsReleased = false;
 		pc.curNode = pc.comboTree.top;
 		
-		pc.healthEffect.StartHitEffect(0.5f);
-
 		pc.glove.SetActive(false);
 
 		if(pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
