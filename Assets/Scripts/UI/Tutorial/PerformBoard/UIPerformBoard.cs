@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,79 +9,65 @@ public class UIPerformBoard : MonoBehaviour
 {
 	[SerializeField]
 	private UIPerformActionData[] actionDatas;
-	private Image[] viewers;
 
-	private const int ARRAY_MAX = 5;
-	private int DATA_MAX = 0;
+	private Dictionary<PlayerInputEnum, UIPerformActionDataGroup> actionDic;
 
-	[HideInInspector]
-	public UnityEvent onLastClearEvent;
+	private int activeActionCount;
+	
+	private bool isClear = false;
 
+	// 애니메이션에 동작 중에는 데이터를 입력받지 않도록 하게끔 필요함. 
+	private Animator anim;
+	
 	private void Awake()
 	{
-		DATA_MAX = actionDatas.Length - 1;
-		viewers = new Image[ARRAY_MAX];
-
-		for (int i = 0; i < ARRAY_MAX; ++i)
+		actionDic = new Dictionary<PlayerInputEnum, UIPerformActionDataGroup>();
+		
+		TryGetComponent(out anim);
+		
+		for (int i = 0; i < actionDatas.Length; ++i)
 		{
-			transform.GetChild(i).TryGetComponent(out viewers[i]);
+			var condition = actionDatas[i].conditionAction;
+			var imageObject = transform.GetChild(i).GetComponent<Image>();
 
-			if (i > DATA_MAX)
+			if (imageObject == null)
 			{
-				viewers[i].gameObject.SetActive(false);
 				return;
 			}
 
-			viewers[i].sprite = actionDatas[i].enableSpr;
-		}
-	}
-	public void CheckedAction(PlayerInputEnum data)
-	{
-		var getIndex = FindIndex(data);
-
-		if (getIndex == -1)
-		{
-			return;
+			var dataGroup = new UIPerformActionDataGroup(actionDatas[i], imageObject);
+			
+			actionDic.Add(condition, dataGroup);
+			actionDic[condition].SetImage(ActionImageType.NORMAL);
 		}
 
-		viewers[getIndex].sprite = actionDatas[getIndex].disableSpr;
-		actionDatas[getIndex].isClear = true;
-
-		CheckClearCount();
+		activeActionCount = actionDic.Count;
 	}
 
-	private int FindIndex(PlayerInputEnum data)
+	public bool SetPerformAction(PlayerInputEnum data)
 	{
-		for (int i = 0; i <= DATA_MAX; ++i)
-		{
-			if (actionDatas[i].clearActionString != data || actionDatas[i].isClear)
-			{
-				continue;
-			}
-			else
-			{
-				return i;
-			}
-		}
+		var index = UpdatePerformAction(data);
 
-		return -1;
+		isClear = (index <= 0);
+		
+		return isClear;
 	}
 
-	private void CheckClearCount()
+	public void SetActive(bool isOn)
 	{
-		int count = 0;
+		gameObject.SetActive(isOn);
+	}
 
-		for (int i = 0; i <= DATA_MAX; ++i)
+	private int UpdatePerformAction(PlayerInputEnum data)
+	{
+		if (actionDic[data].GetChecked())
 		{
-			if (!actionDatas[i].isClear)
-				continue;
-
-			count++;
+			return activeActionCount;
 		}
+		
+		actionDic[data].SetImage(ActionImageType.CLEAR);
+		actionDic[data].SetChecked(true);
 
-		if (count > DATA_MAX)
-		{
-			onLastClearEvent?.Invoke();
-		}
+		return --activeActionCount;
 	}
 }

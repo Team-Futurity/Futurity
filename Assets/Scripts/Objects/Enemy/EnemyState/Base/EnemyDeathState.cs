@@ -22,8 +22,6 @@ public class EnemyDeathState : UnitState<EnemyController>
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
-
-		unit.GetComponent<EnemyHpBarController>().DestroyHpBar();
 	}
 
 	public override void Update(EnemyController unit)

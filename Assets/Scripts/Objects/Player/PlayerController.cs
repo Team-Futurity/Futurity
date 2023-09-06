@@ -131,8 +131,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference hitRanged;
 
 	// etc
-	[HideInInspector] public bool activePartIsActive; // ��Ƽ�� ��ǰ�� ��밡������
-	[HideInInspector] public HealthWarningEffect healthEffect;
+	[HideInInspector] public bool activePartIsActive;
 
 	private void Start()
 	{
@@ -182,9 +181,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
-
-		// ect
-		healthEffect = Camera.main.GetComponent<HealthWarningEffect>();
 	}
 
 	public void SetFSM()

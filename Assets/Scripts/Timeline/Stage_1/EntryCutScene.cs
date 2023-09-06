@@ -48,11 +48,6 @@ public class EntryCutScene : CutSceneBase
 		playerInput.enabled = true;
 		entryCutSceneEndEvent.Invoke();
 		
-		Player statusPlayer = player.GetComponent<Player>();
-		statusPlayer.hpBar.GetComponent<GaugeBarController>().SetGaugeFillAmount(
-			statusPlayer.status.GetStatus(StatusType.CURRENT_HP).GetValue() /
-			statusPlayer.status.GetStatus(StatusType.MAX_HP).GetValue());
-		
 		playerCamera.SetActive(true);
 		gameObject.SetActive(false);
 	}

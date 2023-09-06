@@ -8,7 +8,6 @@ public class HitCountSystem : MonoBehaviour
 	[SerializeField] private float coolTime = 10;
 	private bool isCounting = false;
 	private float currentTime = 0;
-	public NumberImageLoader hitCountUI;
  	[field: SerializeField] public int hitCount { get; private set; }
 
 	private void Start()
@@ -27,10 +26,10 @@ public class HitCountSystem : MonoBehaviour
 	{
 		hitCount = Mathf.Clamp(number, 0, maxHitCount);
 
-		if (hitCount != 0 && hitCountUI != null)
-		{
-			hitCountUI.SetNumber(hitCount);
-		}
+		//if (hitCount != 0 && hitCountUI != null)
+		//{
+		//	hitCountUI.SetNumber(hitCount);
+		//}
 	}
 
 	private void Update()

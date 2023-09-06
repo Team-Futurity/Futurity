@@ -9,7 +9,6 @@ public class PlayerDeathState : UnitState<PlayerController>
 
 	public override void Begin(PlayerController pc)
 	{
-		pc.healthEffect.PlayerDeath();
 		pc.animator.SetBool(DeathAnimKey, true);
 		pc.rmController.SetRootMotion("Death");
 	}

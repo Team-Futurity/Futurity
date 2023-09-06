@@ -86,8 +86,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	/*[HideInInspector] public List<GameObject> initiateEffects;
 	[HideInInspector] public GameObject initiateHitEffect;*/
 
-
-
 	[Space(3)]
 	[Header("Reference")]
 	[HideInInspector] public UnitBase target;				//Attack target ÁöÁ¤
@@ -171,17 +169,14 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 		navMesh = GetComponent<NavMeshAgent>();
+		
 		if (spawnEffect != null)
 			spawnEffect.transform.parent = null;
 
 		SetMaterial();
 
-		/*manager.ActiveManagement(this);
-		effectManager.CopyEffect(this);*/
 		if(chaseRange != null)
 			chaseRange.enabled = false;
-
-		//FDebug.Log(hittedEffect.indexNum);
 
 		unit = this;
 		if (isTutorialDummy)
@@ -189,11 +184,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			effectManager.CopyEffect(unit);
 			SetUp(EnemyState.TutorialIdle);
 		}
-
 		else
 			SetUp(EnemyState.Spawn);
 	}
-
 
 	protected override void Update()
 	{
@@ -226,15 +219,15 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public System.ValueType UnitChaseState()
 	{
-		switch ((int)enemyType)
+		switch (enemyType)
 		{
-			case 0:
+			case EnemyType.MeleeDefault:
 				return EnemyController.EnemyState.MDefaultChase;
 
-			case 1:
+			case EnemyType.RangedDefault:
 				return EnemyController.EnemyState.RDefaultChase;
 
-			case 2:
+			case EnemyType.MinimalDefault:
 				return EnemyController.EnemyState.MiniDefaultChase;
 
 			default:
@@ -242,12 +235,4 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 				return null;
 		}
 	}
-
-/*
-	public void OnDestroy()
-	{
-		EnemyManager enemyManager = EnemyManager.Instance;
-
-		enemyManager.DeActiveManagement(this);
-	}*/
 }
