@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,9 @@ public class UIGauge : MonoBehaviour
 	private Image gaugeImage;
 
 	private float currentGaugeValue = .0f;
-	private float targetGauge = .0f;
+	public float targetGauge = .0f;
 	
-	public float timer = .0f;
+	private float timer = .0f;
 		
 	private void Awake()
 	{
@@ -33,17 +34,29 @@ public class UIGauge : MonoBehaviour
 		float startGaugeValue = currentGaugeValue;
 		float targetGaugeValue = target;
 
-		while (timer >= 1f)
+		while (timer <= 1f)
 		{
-			gaugeImage.fillAmount = Mathf.Lerp(startGaugeValue, targetGaugeValue, timer);
-			
-			yield return null;
+			// targetGaugeValue 수치까지 올려준다.
+			//gaugeImage.fillAmount = currentGaugeValue++;
+			var test = EaseOutExpo(currentGaugeValue, targetGaugeValue, timer);
+			gaugeImage.fillAmount = test / 100f;
+
+			yield return new WaitForSeconds(0.01f);
 
 			timer += 0.1f;
 		}
+
+		timer = .0f;
 
 		currentGaugeValue = targetGaugeValue;
 
 		Debug.Log("목표치 완료");
 	}
+
+	public static float EaseOutExpo(float start, float end, float value)
+	{
+		end -= start;
+		return end * (-Mathf.Pow(2, -10 * value) + 1) + start;
+	}
+
 }
