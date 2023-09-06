@@ -5,9 +5,11 @@ using UnityEngine;
 public class UIWindowOpener : MonoBehaviour
 {
 	[field: Space(10)]
+	[field: Header("열어줄 윈도우")]
 	[field: SerializeField]
 	public UIWindow window { get; private set; }
 
+	[field: Space(10)]
 	[field: SerializeField]
 	public bool usedAwakeOpen { get; private set; }
 
@@ -29,7 +31,7 @@ public class UIWindowOpener : MonoBehaviour
 
 	public void OnWindow()
 	{
-		if(!window.gameObject.activeSelf)
+		if(!window.gameObject.activeSelf && window.CurrentState == WindowState.NONE)
 		{
 			window.gameObject.SetActive(true);
 		}
