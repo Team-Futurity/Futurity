@@ -6,6 +6,7 @@ public class WindowManager : Singleton<WindowManager>
 {
 	private Dictionary<string, UIWindow> activeWindowDic;
 
+	[SerializeField]
 	private List<string> activeWindowNameList;
 
 	private bool isAdmin = false;
@@ -15,12 +16,12 @@ public class WindowManager : Singleton<WindowManager>
 		base.Awake();
 
 		activeWindowDic = new Dictionary<string, UIWindow>();
-		activeWindowNameList = new List<string>();
 	}
 
 	public void AddWindow(string name, UIWindow window)
 	{
 		activeWindowDic?.Add(name, window);
+		activeWindowNameList?.Add(name);
 	}
 
 	public bool GetWindowState(string name)
@@ -73,6 +74,7 @@ public class WindowManager : Singleton<WindowManager>
 		}
 
 		activeWindowDic.Remove(name);
+		activeWindowNameList.Remove(name);
 	}
 
 	public void SetAdmin(bool isOn)
