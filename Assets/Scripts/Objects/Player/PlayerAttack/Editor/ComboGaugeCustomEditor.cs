@@ -12,7 +12,7 @@ public class ComboGaugeCustomEditor : Editor
 		var comboGaugeSystem = (ComboGaugeSystem)target;
 
 		// 변수 변경
-		comboGaugeSystem.gaugeBar = comboGaugeSystem.gaugeBar == null ? GameObject.Find("HitGauge")?.GetComponent<GaugeBarController>() : comboGaugeSystem.gaugeBar;
+		// comboGaugeSystem.gaugeBar = comboGaugeSystem.gaugeBar == null ? GameObject.Find("HitGauge")?.GetComponent<GaugeBarController>() : comboGaugeSystem.gaugeBar;
 		//if(comboGaugeSystem.gaugeBar == null ) { FDebug.LogWarning("[ComboGaugeCustomEditor] ComboGaugeBar를 찾을 수 없음. Plyer 오브젝트에 GaugeBar에 할당 필요."); }
 
 		// ComboData 리스트 변경

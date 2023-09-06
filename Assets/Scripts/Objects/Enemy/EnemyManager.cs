@@ -6,7 +6,6 @@ using UnityEngine;
 public class EnemyManager : Singleton<EnemyManager>
 {
 	public List<EnemyController> activeEnemys;
-	public List<EnemyHpBarController> activeEnemysHpBar;
 	public List<Cluster> clusters;
 	public List<EnemyController> clusterElse;
 
@@ -20,18 +19,6 @@ public class EnemyManager : Singleton<EnemyManager>
 	{
 		activeEnemys.Remove(unit);
 	}
-
-
-	public void ActiveHpBar(EnemyHpBarController hpBar)
-	{
-		activeEnemysHpBar.Add(hpBar);
-	}
-	public void DeactiveHpBar(EnemyHpBarController hpBar)
-	{
-		hpBar.DestroyHpBar();
-		activeEnemysHpBar.Remove(hpBar);
-	}
-
 
 	public void EnemyClustering(EnemyController unit)
 	{

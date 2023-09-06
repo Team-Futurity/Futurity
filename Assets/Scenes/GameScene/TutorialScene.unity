@@ -1699,58 +1699,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ac5308b229211845bcca423245748b8, type: 3}
---- !u!1 &543399375
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 543399377}
-  - component: {fileID: 543399376}
-  m_Layer: 0
-  m_Name: WindowManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &543399376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543399375}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1592d5a67878e34ea7ddf0170e09b85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windows: []
-  buttons: []
-  currentButton: {fileID: 0}
-  holdThreshold: 1
-  topCanvasTransform: {fileID: 0}
-  leftAction: {fileID: 0}
-  rightAction: {fileID: 0}
-  selectAction: {fileID: 0}
---- !u!4 &543399377
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543399375}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 340.02325, y: 209.01094, z: -1.0972577}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &558003434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3026515660721127089, guid: 2ac5308b229211845bcca423245748b8, type: 3}
@@ -2852,7 +2800,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1047948260
 PrefabInstance:
@@ -3852,6 +3800,8 @@ GameObject:
   - component: {fileID: 1339290558}
   - component: {fileID: 1339290560}
   - component: {fileID: 1339290559}
+  - component: {fileID: 1339290562}
+  - component: {fileID: 1339290561}
   m_Layer: 5
   m_Name: Dialog System Group
   m_TagString: Untagged
@@ -3934,6 +3884,41 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
 --- !u!114 &1339290560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339290556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ab96a040f7d834bb199e36857da597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <NpcNameTextField>k__BackingField: {fileID: 0}
+--- !u!114 &1339290561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339290556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a8e5cde6a11e245a208a4eb56871c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PassButton>k__BackingField: {fileID: 0}
+  passKey:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+--- !u!114 &1339290562
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8073,6 +8058,7 @@ MonoBehaviour:
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
   activePartIsActive: 0
+  healthEffect: {fileID: 0}
 --- !u!114 &1070719926827461967
 MonoBehaviour:
   m_ObjectHideFlags: 0
