@@ -10,14 +10,17 @@ public class UIWindow : MonoBehaviour
 	[field: SerializeField]
 	public string WindowName { get; private set; }
 
-	public void Awake()
+	private void Awake()
 	{
 		if(WindowName == "")
 		{
 			FDebug.Log($"[Window] {gameObject.name}이(가) 가지고 있는 윈도우의 이름이 없습니다.");
 			FDebug.Break();
 		}
+	}
 
+	private void Start()
+	{
 		// WindowManager에 Window 등록하기
 		WindowManager.Instance.AddWindow(WindowName, this);
 
