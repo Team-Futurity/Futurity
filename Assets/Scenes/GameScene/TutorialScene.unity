@@ -845,7 +845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &174832965
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2612,6 +2612,51 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7686853111009963861, guid: e51f7c56c728dc743b2d3223833f9e22, type: 3}
   m_PrefabInstance: {fileID: 882675856}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &928214580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 928214582}
+  - component: {fileID: 928214581}
+  m_Layer: 0
+  m_Name: WindowManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &928214581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928214580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8889513c7d276149963d8d375acc84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeWindowNameList: []
+--- !u!4 &928214582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928214580}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 238.95055, y: 134.09122, z: -2.0263035}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &935906409 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3026515660721127089, guid: 2ac5308b229211845bcca423245748b8, type: 3}
@@ -3802,6 +3847,12 @@ GameObject:
   - component: {fileID: 1339290559}
   - component: {fileID: 1339290562}
   - component: {fileID: 1339290561}
+  - component: {fileID: 1339290564}
+  - component: {fileID: 1339290563}
+  - component: {fileID: 1339290566}
+  - component: {fileID: 1339290565}
+  - component: {fileID: 1339290568}
+  - component: {fileID: 1339290567}
   m_Layer: 5
   m_Name: Dialog System Group
   m_TagString: Untagged
@@ -3910,6 +3961,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PassButton>k__BackingField: {fileID: 0}
   passKey:
+    m_Name: Pass Key
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: ba5af77f-566e-4bb3-ad0f-5fdef69953a4
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+--- !u!114 &1339290562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339290556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ab96a040f7d834bb199e36857da597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <NpcNameTextField>k__BackingField: {fileID: 0}
+--- !u!114 &1339290563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339290556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a8e5cde6a11e245a208a4eb56871c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PassButton>k__BackingField: {fileID: 0}
+  passKey:
     m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
@@ -3918,7 +4004,77 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
---- !u!114 &1339290562
+--- !u!114 &1339290564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339290556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ab96a040f7d834bb199e36857da597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <NpcNameTextField>k__BackingField: {fileID: 0}
+--- !u!114 &1339290565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339290556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a8e5cde6a11e245a208a4eb56871c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PassButton>k__BackingField: {fileID: 0}
+  passKey:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+--- !u!114 &1339290566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339290556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ab96a040f7d834bb199e36857da597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <NpcNameTextField>k__BackingField: {fileID: 0}
+--- !u!114 &1339290567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339290556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a8e5cde6a11e245a208a4eb56871c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PassButton>k__BackingField: {fileID: 0}
+  passKey:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+--- !u!114 &1339290568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4192,6 +4348,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1466397053}
+  - component: {fileID: 1466397054}
   m_Layer: 5
   m_Name: Perfrom System Window
   m_TagString: Untagged
@@ -4220,6 +4377,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1466397054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466397052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2631c988c57de7b4baa33790baec7383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CurrentState>k__BackingField: 0
+  <WindowName>k__BackingField: Perform
 --- !u!1 &1479669352
 GameObject:
   m_ObjectHideFlags: 0
@@ -6453,7 +6624,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipPart: []
-  socket: {fileID: 0}
   testPart: []
 --- !u!1 &22181758822539909
 GameObject:
@@ -6562,6 +6732,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemImage: {fileID: 0}
+  itemUIData: {fileID: 0}
 --- !u!1 &102146159052306760
 GameObject:
   m_ObjectHideFlags: 0
@@ -7260,6 +7432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gaugeBar: {fileID: 3978524782534420548}
+  comboGaugeTempBar: {fileID: 0}
   gaugeBarfillAmount: 1
   gaugeIntegerPercent: 100
   gagueDuration: 1
@@ -8058,7 +8231,6 @@ MonoBehaviour:
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
   activePartIsActive: 0
-  healthEffect: {fileID: 0}
 --- !u!114 &1070719926827461967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8073,7 +8245,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 2214123606896321703}
   rigid: {fileID: 1070719926827461953}
-  hpBar: {fileID: 764587347727309035}
   isGodMode: 0
   isStun: 0
   OnAttack:
@@ -19439,6 +19610,7 @@ MonoBehaviour:
   - {fileID: 3857168208538076533}
   - {fileID: 1347965343380892420}
   - {fileID: 3278267755633592641}
+  currntCombos: 000000000000000000000000
   numberSprite:
   - {fileID: 2800000, guid: 6c02d9b54fa7a264196931d2a197693b, type: 3}
   - {fileID: 2800000, guid: f0f57dc96c91a224cae34e526e2bd279, type: 3}
@@ -19453,54 +19625,11 @@ MonoBehaviour:
   startSetNumberEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4493771703517779312}
-        m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
-        m_MethodName: StartShake
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5637741164283416838}
-        m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
-        m_MethodName: StartShake
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3687882211136539981}
-        m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
-        m_MethodName: StartShake
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1870911834306614786}
-        m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp
-        m_MethodName: StartShake
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      - {m_Target: {fileID: 4493771703517779312}, m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp, m_MethodName: StartShake, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+      - {m_Target: {fileID: 5637741164283416838}, m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp, m_MethodName: StartShake, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+      - {m_Target: {fileID: 3687882211136539981}, m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp, m_MethodName: StartShake, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+      - {m_Target: {fileID: 1870911834306614786}, m_TargetAssemblyTypeName: ShakeEffect, Assembly-CSharp, m_MethodName: StartShake, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
+    m_CallsDirty: 1
 --- !u!137 &2507170126166121416
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -31962,6 +32091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gaugeBar: {fileID: 0}
+  comboGaugeTempBar: {fileID: 0}
   gaugeBarfillAmount: 1
   gaugeIntegerPercent: 100
   gagueDuration: 1
@@ -32112,44 +32242,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5163636620533659078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5163636620533659080}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &5163636620533659079
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5163636620533659080}
-  m_CullTransparentMesh: 1
 --- !u!1 &5163636620533659080
 GameObject:
   m_ObjectHideFlags: 0
@@ -32159,15 +32251,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5163636620533659081}
-  - component: {fileID: 5163636620533659079}
-  - component: {fileID: 5163636620533659078}
+  - component: {fileID: 5163636620533659082}
   m_Layer: 5
   m_Name: Dialog System Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5163636620533659081
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32189,6 +32280,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5163636620533659082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5163636620533659080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2631c988c57de7b4baa33790baec7383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CurrentState>k__BackingField: 0
+  <WindowName>k__BackingField: Dialog
 --- !u!1 &5180193561525214462
 GameObject:
   m_ObjectHideFlags: 0
@@ -32982,6 +33087,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemImage: {fileID: 0}
+  itemUIData: {fileID: 0}
 --- !u!114 &5968371685053099659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33287,7 +33394,6 @@ MonoBehaviour:
     <AddedGauge>k__BackingField: 4
   - <ComboCount>k__BackingField: 2
     <AddedGauge>k__BackingField: 2
-  gaugeBar: {fileID: 7612488353238122196}
   OnGaugeChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -34733,6 +34839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gaugeBar: {fileID: 5188313553698575587}
+  comboGaugeTempBar: {fileID: 0}
   gaugeBarfillAmount: 1
   gaugeIntegerPercent: 100
   gagueDuration: 1
@@ -34933,6 +35040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemImage: {fileID: 0}
+  itemUIData: {fileID: 0}
 --- !u!224 &7791670519295347215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35292,6 +35401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemImage: {fileID: 0}
+  itemUIData: {fileID: 0}
 --- !u!1 &8188706585266069871
 GameObject:
   m_ObjectHideFlags: 0
@@ -35500,7 +35611,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHitCount: 999
   coolTime: 7
-  hitCountUI: {fileID: 2488525889089632429}
   <hitCount>k__BackingField: 0
 --- !u!1 &8262145077494594660
 GameObject:
