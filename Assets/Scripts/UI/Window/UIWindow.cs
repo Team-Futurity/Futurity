@@ -14,7 +14,7 @@ public class UIWindow : MonoBehaviour
 	{
 		if(WindowName == "")
 		{
-			FDebug.Log($"[Window] {GetType()}이 가지고 있는 윈도우의 이름이 없습니다.");
+			FDebug.Log($"[Window] {gameObject.name}이(가) 가지고 있는 윈도우의 이름이 없습니다.");
 			FDebug.Break();
 		}
 
