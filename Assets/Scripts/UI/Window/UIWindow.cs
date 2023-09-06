@@ -12,8 +12,14 @@ public class UIWindow : MonoBehaviour
 
 	public void Awake()
 	{
+		if(WindowName == "")
+		{
+			FDebug.Log($"[Window] {GetType()}이 가지고 있는 윈도우의 이름이 없습니다.");
+			FDebug.Break();
+		}
+
 		// WindowManager에 Window 등록하기
-		// WindowManager.Instance.AddWindow(WindowName, this);
+		WindowManager.Instance.AddWindow(WindowName, this);
 	}
 
 	// Window Manager에는 등록이 되어 있으나, 보이지 않는 상태.
