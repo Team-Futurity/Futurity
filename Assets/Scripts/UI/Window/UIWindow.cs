@@ -20,6 +20,16 @@ public class UIWindow : MonoBehaviour
 
 		// WindowManager에 Window 등록하기
 		WindowManager.Instance.AddWindow(WindowName, this);
+
+		bool isSetInBuffer = WindowManager.Instance.HasWindow(WindowName);
+
+		if (!isSetInBuffer)
+		{
+			FDebug.Log($"[Window] {gameObject.name}이(가) 정상적으로 등록되지 않았습니다.");
+			FDebug.Break();
+		}
+
+		ChangeState(WindowState.UNASSIGN);
 	}
 
 	// Window Manager에는 등록이 되어 있으나, 보이지 않는 상태.
