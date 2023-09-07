@@ -3,10 +3,8 @@ using UnityEngine.Events;
 
 public class EntryCutScene : CutSceneBase
 {
-	[Header("Component")] 
-	[SerializeField] private GameObject uiCanvas;
+	[Header("Component")]
 	[SerializeField] private GameObject playerCamera;
-	private PlayerController playerController;
 
 	[Header("진입 컷신에서 활성화할 오브젝트 목록")]
 	[SerializeField] private GameObject[] walls;
@@ -23,7 +21,7 @@ public class EntryCutScene : CutSceneBase
 
 	protected override void Init()
 	{
-		uiCanvas.SetActive(false);
+		TimelineManager.Instance.uiCanvas.SetActive(false);
 		
 		if (player is null)
 		{
@@ -31,7 +29,6 @@ public class EntryCutScene : CutSceneBase
 		}
 		
 		playerInput = player.GetComponent<UnityEngine.InputSystem.PlayerInput>();
-		playerController = player.GetComponent<PlayerController>();
 		playerInput.enabled = false;
 		Time.timeScale = 0.0f;
 	}
@@ -44,7 +41,7 @@ public class EntryCutScene : CutSceneBase
 		{
 			wall.SetActive(true);
 		}
-		uiCanvas.SetActive(true);
+		TimelineManager.Instance.uiCanvas.SetActive(true);
 		playerInput.enabled = true;
 		entryCutSceneEndEvent.Invoke();
 		
@@ -59,6 +56,6 @@ public class EntryCutScene : CutSceneBase
 
 	public void MovePlayer()
 	{
-		playerController.LerpToWorldPosition(targetPos.transform.position, duration);
+		TimelineManager.Instance.PlayerController.LerpToWorldPosition(targetPos.transform.position, duration);
 	}
 }
