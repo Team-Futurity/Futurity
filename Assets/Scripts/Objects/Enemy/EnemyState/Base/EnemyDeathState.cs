@@ -16,7 +16,7 @@ public class EnemyDeathState : UnitState<EnemyController>
 		
 		if (unit.manager.activeEnemys.Count < 1)
 		{
-			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LastKillCutScene);
+			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LASTKILLCUTSCENE);
 		}
 		
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
