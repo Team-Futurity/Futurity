@@ -13,9 +13,6 @@ public class EntryCutScene : CutSceneBase
 	[SerializeField] private GameObject targetPos;
 	[SerializeField] private float duration;
 	
-	[Header("Event")] 
-	[SerializeField] private UnityEvent entryCutSceneEndEvent;
-	
 	protected override void Init()
 	{
 		TimelineManager.Instance.uiCanvas.SetActive(false);
@@ -33,8 +30,7 @@ public class EntryCutScene : CutSceneBase
 		}
 		TimelineManager.Instance.uiCanvas.SetActive(true);
 		TimelineManager.Instance.SetActivePlayerInput(true);
-		entryCutSceneEndEvent.Invoke();
-		
+
 		playerCamera.SetActive(true);
 		gameObject.SetActive(false);
 	}

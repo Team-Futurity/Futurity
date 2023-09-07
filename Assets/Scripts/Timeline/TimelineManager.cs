@@ -53,11 +53,11 @@ public class TimelineManager : Singleton<TimelineManager>
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
-		// // 컷신을 재생하는 함수가 다른곳에서 불릴 때까지 해당 지점에서 1구역 진입 연출을 시작합니다.
-		// // 로딩이 끝난 후 실행할 수 있도록 의도적으로 함수 실행시간을 지연시킵니다.
-		// Time.timeScale = 0.0f;
-		// testCoroutine = DelayCutScene(ECutScene.Stage1_EntryCutScene);
-		// StartCoroutine(testCoroutine);
+		// 컷신을 재생하는 함수가 다른곳에서 불릴 때까지 해당 지점에서 1구역 진입 연출을 시작합니다.
+		// 로딩이 끝난 후 실행할 수 있도록 의도적으로 함수 실행시간을 지연시킵니다.
+		Time.timeScale = 0.0f;
+		testCoroutine = DelayCutScene(ECutScene.STAGE1_ENTRYCUTSCENE);
+		StartCoroutine(testCoroutine);
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
