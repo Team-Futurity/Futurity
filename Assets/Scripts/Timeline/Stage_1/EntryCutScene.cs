@@ -15,21 +15,11 @@ public class EntryCutScene : CutSceneBase
 	
 	[Header("Event")] 
 	[SerializeField] private UnityEvent entryCutSceneEndEvent;
-
-	private GameObject player = null;
-	private UnityEngine.InputSystem.PlayerInput playerInput;
-
+	
 	protected override void Init()
 	{
 		TimelineManager.Instance.uiCanvas.SetActive(false);
-		
-		if (player is null)
-		{
-			player = GameObject.FindWithTag("Player");
-		}
-		
-		playerInput = player.GetComponent<UnityEngine.InputSystem.PlayerInput>();
-		playerInput.enabled = false;
+		TimelineManager.Instance.SetActivePlayerInput(false);
 		Time.timeScale = 0.0f;
 	}
 
@@ -42,7 +32,7 @@ public class EntryCutScene : CutSceneBase
 			wall.SetActive(true);
 		}
 		TimelineManager.Instance.uiCanvas.SetActive(true);
-		playerInput.enabled = true;
+		TimelineManager.Instance.SetActivePlayerInput(true);
 		entryCutSceneEndEvent.Invoke();
 		
 		playerCamera.SetActive(true);
