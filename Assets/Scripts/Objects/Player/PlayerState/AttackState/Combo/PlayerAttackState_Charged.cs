@@ -122,7 +122,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		base.FixedUpdate(unit);
 
 		// 디버깅용 Ray
-		FDebug.DrawRay(unit.transform.position, unit.transform.forward * ((unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing) / (PlayerController.cm2m * unit.curNode.attackDelay) * Time.fixedDeltaTime + unit.basicCollider.radius), UnityEngine.Color.red);
+		FDebug.DrawRay(unit.transform.position, unit.transform.forward * ((unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing) / (MathPlus.cm2m * unit.curNode.attackDelay) * Time.fixedDeltaTime + unit.basicCollider.radius), UnityEngine.Color.red);
 		FDebug.DrawRay(unit.transform.position, unit.transform.forward * rayLength, UnityEngine.Color.blue);
 
 		if (!isReleased) { return; }
@@ -284,7 +284,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 						chargeEffectKey = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Caster, unit.rushEffects[0].effectPos.position, null, unit.gameObject);
 						unit.effectController.RegistLevelEffect(chargeEffectKey);
 						rangeEffect = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Ground, unit.transform.position, unit.transform.rotation);
-						maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + (MaxLevel - 1) * LengthMarkIncreasing) * PlayerController.cm2m);
+						maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + (MaxLevel - 1) * LengthMarkIncreasing) * MathPlus.cm2m);
 					}
 					else
 					{
@@ -292,7 +292,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 					}
 
 					unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
-					rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * PlayerController.cm2m);
+					rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * MathPlus.cm2m);
 				}
 
 			}
@@ -356,12 +356,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		attackST = unit.curNode.attackST + currentLevel * AttackSTIncreasing;
 
 		// 초당 이동 속도 계산(m/sec)
-		moveSpeed = (attackLengthMark * PlayerController.cm2m) / (unit.curNode.attackDelay);
+		moveSpeed = (attackLengthMark * MathPlus.cm2m) / (unit.curNode.attackDelay);
 
 		// 필요 변수 세팅
 		forward = unit.transform.forward;
 		originPos = unit.transform.position;
-		targetPos = originPos + forward * (attackLengthMark * PlayerController.cm2m);
+		targetPos = originPos + forward * (attackLengthMark * MathPlus.cm2m);
 		targetMagnitude = (targetPos - originPos).magnitude;
 		basicRayLength = moveSpeed * Time.fixedDeltaTime + Sqrt2 * unit.basicCollider.radius;
 	}

@@ -14,8 +14,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public readonly string ChargedAttackAnimaKey = "ChargingParam";
 	public readonly string IsAttackingAnimKey = "IsAttacking";
 	public const int NullState = -1;
-	public const float cm2m = 0.01f; // centimeter To meter
-	public const float m2cm = 100f; // meter To centimeter
 
 	[Header("[수치 조절]────────────────────────────────────────────────────────────────────────────────────────────")]
 
@@ -26,8 +24,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	[Space(5)]
 	[Header("자동 조준")]
-	public float autoLength;
-	public float autoAngle;
+	[Tooltip("자동 조준 거리(cm)")]public float autoLength;
+	[Tooltip("자동 조준 각도(육십분법)")]public float autoAngle;
+	[Tooltip("움직일 시간")]public float moveTime;
+	[Tooltip("멈춰설 거리(cm)")]public float moveMargin;
 
 	// move
 	[Space(5)]

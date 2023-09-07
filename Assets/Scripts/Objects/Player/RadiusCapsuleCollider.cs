@@ -29,8 +29,18 @@ public class RadiusCapsuleCollider : MonoBehaviour
 
 	public bool IsInCollider(GameObject target)
 	{
+		Vector3 targetVec = target.transform.position - transform.position;
+
+		return targetVec.magnitude <= radius;
+	}
+
+	public bool IsInCuttedCollider(GameObject target)
+	{
 		float clampedAngle = angle % 360;
 		Vector3 targetVec = target.transform.position - transform.position;
+
+		if(targetVec.magnitude > radius) { return false; }
+
 		float dot = Vector3.Dot(targetVec.normalized, transform.forward);
 		float theta = Mathf.Acos(dot);
 
@@ -58,7 +68,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		List<GameObject> objects = targets.ToList();
 		for(int targetCount = 0; targetCount < objects.Count; targetCount++)
 		{ 
-			if(!IsInCollider(objects[targetCount]))
+			if(!IsInCuttedCollider(objects[targetCount]))
 			{
 				objects.RemoveAt(targetCount);
 			}
