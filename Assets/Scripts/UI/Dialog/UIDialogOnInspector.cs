@@ -26,6 +26,8 @@ public partial class UIDialogController
 			return;
 		}
 
+		Debug.Log(DialogType + " : " + beforeType);
+
 		if(beforeType != UIDialogType.NONE && beforeType != UIDialogType.MAX)
 		{
 			RemoveScript(beforeType);
@@ -45,7 +47,10 @@ public partial class UIDialogController
 		for (int i = 0; i < nameByType.Length; ++i)
 		{
 			Type extensionType = Type.GetType(nameByType[i]);
-			
+
+			if (CheckScript(extensionType))
+				return;
+
 			gameObject.AddComponent(extensionType);
 		}
 	}
