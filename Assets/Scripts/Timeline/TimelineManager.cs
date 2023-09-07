@@ -2,19 +2,25 @@ using Cinemachine;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TimelineManager : Singleton<TimelineManager>
 {
 	public enum ECutScene
 	{
-		Stage1_EntryCutScene = 0,
-		LastKillCutScene = 1,
-		PlayerDeathCutScene = 2
+		STAGE1_ENTRYCUTSCENE = 0,
+		LASTKILLCUTSCENE = 1,
+		PLYAERDEATHCUTSCENE = 2,
+		STAGE1_EXITCUTSCENE = 3
 	}
 	
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	
+	public GameObject uiCanvas;
+	private PlayerController playerController;
+	private PlayerInput playerInput;
+	public PlayerController PlayerController => playerController;
+
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 시간")] private float slowMotionDuration;
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
@@ -24,8 +30,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	[SerializeField] private GameObject[] cutSceneList;
 
 	[Header("추적 대상")]
-	[SerializeField] private Transform playerModel;
-	public Transform PlayerModelTf => playerModel;
+	[SerializeField] private Transform playerModelTf;
 	private Transform originTarget;
 	
 	// reset offset value
@@ -39,6 +44,10 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	private void Start()
 	{
+		var player = GameObject.FindWithTag("Player");
+		playerController = player.GetComponent<PlayerController>();
+		playerInput = player.GetComponent<PlayerInput>();
+		
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		originTarget = playerCamera.m_Follow;
 		originOffset = cameraBody.m_TrackedObjectOffset;
@@ -47,7 +56,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		// 컷신을 재생하는 함수가 다른곳에서 불릴 때까지 해당 지점에서 1구역 진입 연출을 시작합니다.
 		// 로딩이 끝난 후 실행할 수 있도록 의도적으로 함수 실행시간을 지연시킵니다.
 		Time.timeScale = 0.0f;
-		testCoroutine = DelayCutScene(ECutScene.Stage1_EntryCutScene);
+		testCoroutine = DelayCutScene(ECutScene.STAGE1_ENTRYCUTSCENE);
 		StartCoroutine(testCoroutine);
 	}
 	
@@ -62,9 +71,22 @@ public class TimelineManager : Singleton<TimelineManager>
 		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
 	}
 
+	public Vector3 GetOffsetVector(float distance, Vector3 forward = default(Vector3))
+	{
+		forward = (forward == Vector3.zero) ? playerModelTf.forward : forward;
+		
+		var offset = distance * forward;
+		return playerModelTf.position + offset;
+	}
+
 	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
 	{
 		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
+	}
+
+	public void SetActivePlayerInput(bool active)
+	{
+		playerInput.enabled = active;
 	}
 	
 	private IEnumerator DelayCutScene(ECutScene cutScene)
