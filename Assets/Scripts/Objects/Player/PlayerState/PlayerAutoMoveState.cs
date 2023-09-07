@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [FSMState((int)PlayerState.AutoMove)]
@@ -11,7 +10,6 @@ public class PlayerAutoMoveState : UnitState<PlayerController>
 	private float curTime;
 	private Vector3 targetPos;
 	private Vector3 initialPos;
-	private float t;
 
 	public void SetAutoMove(Vector3 worldPos, float time)
 	{
@@ -26,7 +24,6 @@ public class PlayerAutoMoveState : UnitState<PlayerController>
 		pc.rmController.SetRootMotion("Move");
 		initialPos = pc.transform.position;
 		curTime = 0;
-		t = 0;
 	}
 
 	public override void Update(PlayerController pc)

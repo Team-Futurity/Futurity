@@ -19,6 +19,7 @@ public class Data
     }
 }
 
+#if UNITY_EDITOR
 public class CreateScriptAndSo
 {
     private const string SCRIPT_FORMAT = ".cs";
@@ -146,3 +147,4 @@ public class {className} : ScriptableObject
         return result;
     }
 }
+#endif

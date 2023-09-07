@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,25 +14,30 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public readonly string ChargedAttackAnimaKey = "ChargingParam";
 	public readonly string IsAttackingAnimKey = "IsAttacking";
 	public const int NullState = -1;
-	public const float cm2m = 0.01f; // centimeter To meter
-	public const float m2cm = 100f; // meter To centimeter
 
-	[Header("[��ġ ����]����������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������")]
+	[Header("[수치 조절]────────────────────────────────────────────────────────────────────────────────────────────")]
 
 	// attack
 	[Space(2)]
-	[Header("�޺�")]
-	public CommandTree comboTree;
+	[Header("콤보")]
+	public CommandTree commandTree;
+
+	[Space(5)]
+	[Header("자동 조준")]
+	[Tooltip("자동 조준 거리(cm)")]public float autoLength;
+	[Tooltip("자동 조준 각도(육십분법)")]public float autoAngle;
+	[Tooltip("움직일 시간")]public float moveTime;
+	[Tooltip("멈춰설 거리(cm)")]public float moveMargin;
 
 	// move
 	[Space(5)]
-	[Header("�̵�")]
-	[Tooltip("ȸ���ϴ� �ӵ�")]
+	[Header("이동")]
+	[Tooltip("회전하는 속도")]
 	public float rotatePower;
 
 	// dash
 	[Space(5)]
-	[Header("���. ��Ÿ�� ���� �Ұ�")]
+	[Header("대시. 런타임 변경 불가")]
 	public float dashCoolTime;
 	public GameObject dashEffect;
 	public Transform dashPos;
@@ -40,33 +45,34 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// hit
 	[Space(5)]
-	[Header("�ǰ�. ��Ÿ�� ���� �Ұ�")]
+	[Header("피격. 런타임 변경 불가")]
 	public float hitCoolTime;
 
 	[Space(15)]
-	[Header("[������]������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������")]
+	[Header("[디버깅용]─────────────────────────────────────────────────────────────────────────────────────────────")]
 
 	// move
 	[Space(2)]
-	[Header("�̵� ����")]
+	[Header("이동 관련")]
 	public Vector3 moveDir;
+	public Vector3 lastMoveDir;
 
 	// dash
 	[Space(5)]
-	[Header("��� ����")]
+	[Header("대시 관련")]
 	public bool dashCoolTimeIsEnd = false;
 	public bool comboIsEnd = false;
 
 	// input
 	[Space(5)]
-	[Header("�Է� ����")]
+	[Header("입력 관련")]
 	public bool specialIsReleased = false;
 	public bool moveIsPressed = false;
 	private bool comboIsLock = false;
 
 	// attack
 	[Space(5)]
-	[Header("���� ����")]
+	[Header("공격 관련")]
 	public PlayerInputEnum curCombo;
 	public PlayerInputEnum nextCombo;
 	public AttackNode curNode;
@@ -76,11 +82,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// hit
 	[Space(5)]
-	[Header("�ǰ� ����")]
+	[Header("피격 관련")]
 	public bool hitCoolTimeIsEnd = false;
 
 	[Space(15)]
-	[Header("[���� 1ȸ �Ҵ�]������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������")]
+	[Header("[최초 1회 할당]──────────────────────────────────────────────────────────────────────────────────────────")]
 
 	// reference
 	[Space(2)]
@@ -95,7 +101,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
-	public EffectController effectManager;
+	public EffectController effectController;
 	public EffectDatas effectSO;
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
@@ -118,20 +124,20 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		public GameObject effect;
 	}
 	[Space(5)]
-	[Header("���� ����Ʈ")]
+	[Header("돌진 이펙트")]
 	public List<EffectData> rushEffects;
 	public ObjectPoolManager<Transform> rushObjectPool;
 	public ObjectPoolManager<Transform> rushObjectPool2;
 
 	// sound 
 	[Space(5)]
-	[Header("����")]
+	[Header("사운드")]
 	public FMODUnity.EventReference dash;
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
 
 	// etc
-	[HideInInspector] public bool activePartIsActive;
+	[HideInInspector] public bool activePartIsActive; // 액티브 부품이 사용가능한지
 
 	private void Start()
 	{
@@ -139,7 +145,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 
 		// effect
-		effectManager = ECManager.Instance.GetEffectManager(effectSO);
+		effectController = ECManager.Instance.GetEffectManager(effectSO);
 
 		// ReferenceCheck
 		List<string> msgs;
@@ -159,13 +165,14 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		// UnitFSM Init
 		SetFSM();
+
 		UnitState<PlayerController> astate = null;
 		GetState(PlayerState.AttackAfterDelay, ref astate);
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
-		//comboTree = commandTreeLoader.GetCommandTree();
-		curNode = comboTree.top;
+		commandTree = commandTreeLoader.GetCommandTree();
+		curNode = commandTree.Top;
 		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
 		//comboTree.SetTree(comboTree.top, null);
@@ -185,6 +192,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void SetFSM()
 	{
+		var list = new List <PlayerState>();
+
 		unit = this;
 		SetUp(PlayerState.Idle);
 	}
@@ -193,7 +202,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerInputData GetInputData(PlayerInputEnum input, bool isProcess, params string[] additionalDatas)
 	{
 		PlayerInputData data;
-		
+
 		string returnValue = $"Input_{(int)input}_";
 
 		returnValue += isProcess ? "T_" : "F_";
@@ -208,7 +217,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		returnValue += "End";
 
-
 		data.inputMsg = returnValue;
 		data.inputState = input;
 
@@ -220,14 +228,20 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		Vector3 input = context.ReadValue<Vector3>();
 
 		moveDir = new Vector3(input.x, 0f, input.y);
+
+		if(moveDir != Vector3.zero)
+		{
+			lastMoveDir = new Vector3(input.x, 0f, input.y);
+		}
+		
 		moveAction = context.action;
 
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
-		// ����ó��
+		// 예외처리
 		if (!IsCurrentState(PlayerState.Idle))
 		{
-			// ���� �� �̵� ���
+			// 돌진 중 이동 기능
 			if (IsAttackProcess())
 			{
 				if (IsCurrentState(PlayerState.ChargedAttack))
@@ -245,7 +259,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			return GetInputData(PlayerInputEnum.Move, false, input.ToString()); ;
 		}
 
-		// �̵� ���
+		// 이동 기능
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
@@ -274,38 +288,33 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Normal Attack
 	public PlayerInputData NAProcess(InputAction.CallbackContext context)
 	{
-		// �ǰ� ���̰ų�, ���� ���¸� ����
+		// 피격 중이거나, 스턴 상태면 리턴
 		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
-		// Idle, Move, Attack ���� State�� �ƴϸ� ����
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+		// Idle, Move, Attack 관련 State가 아니면 리턴
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true) && IsCurrentState(PlayerState.ChargedAttack)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
-		// AfterDelay�� �ٸ� ������Ʈ(Idle, Move)���
+		// AfterDelay나 다른 스테이트(Idle, Move)라면
 		if (!IsAttackProcess(true))
 		{
 			StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack);
 
 			return GetInputData(PlayerInputEnum.NormalAttack, true, currentAttackState.ToString(), curNode.name);
 		}
-		else // ���� ���̶��
+		else // 공격 중이라면
 		{
-			if (nextCombo == PlayerInputEnum.None)
-			{
-				SetNextCombo(PlayerInputEnum.NormalAttack);
-				return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
-			}
+			SetNextCombo(PlayerInputEnum.NormalAttack);
+			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
 		}
-		
-		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
 	// Special Attack
 	public PlayerInputData SAProcess(InputAction.CallbackContext context)
 	{
-		// �ǰ� ���̰ų�, ���� ���¸� ����
+		// 피격 중이거나, 스턴 상태면 리턴
 		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
-		// Idle, Move, Attack ���� State�� �ƴϸ� ����
+		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
 		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
@@ -318,7 +327,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 			else
 			{
-				if (nextCombo == PlayerInputEnum.None && curCombo != PlayerInputEnum.SpecialAttack)
+				if (curCombo != PlayerInputEnum.SpecialAttack)
 				{
 					SetNextCombo(PlayerInputEnum.SpecialAttack);
 					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
@@ -366,10 +375,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 			moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
-			// ����ó��
+			// 예외처리
 			if (!IsCurrentState(PlayerState.Idle))
 			{
-				// ���� �� �̵� ���
+				// 돌진 중 이동 기능
 				if (IsAttackProcess())
 				{
 					if (IsCurrentState(PlayerState.ChargedAttack))
@@ -386,7 +395,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				return;
 			}
 
-			// �̵� ���
+			// 이동 기능
 			if (!IsCurrentState(PlayerState.Move))
 			{
 				ChangeState(PlayerState.Move);
@@ -408,23 +417,23 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		public void OnNormalAttack(InputAction.CallbackContext context)
 		{
-			// �Է��� ���� �ʾ�����(Pressed ������ �ƴϸ�) ����
+			// 입력이 되지 않았으면(Pressed 시점이 아니면) 리턴
 			if (!context.started) { return; }
 
 			FDebug.Log("Normal");
 
-			// �ǰ� ���̰ų�, ���� ���¸� ����
+			// 피격 중이거나, 스턴 상태면 리턴
 			if (playerData.isStun || !hitCoolTimeIsEnd) { return; }
 
-			// Idle, Move, Attack ���� State�� �ƴϸ� ����
+			// Idle, Move, Attack 관련 State가 아니면 리턴
 			if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
 
-			// AfterDelay�� �ٸ� ������Ʈ(Idle, Move)���
+			// AfterDelay나 다른 스테이트(Idle, Move)라면
 			if (!IsAttackProcess(true))
 			{
 				StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
 			}
-			else // ���� ���̶��
+			else // 공격 중이라면
 			{
 				if (nextCombo == PlayerInput.None)
 				{
@@ -435,10 +444,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		public void OnSpecialAttack(InputAction.CallbackContext context)
 		{
-			// �ǰ� ���̰ų�, ���� ���¸� ����
+			// 피격 중이거나, 스턴 상태면 리턴
 			if(playerData.isStun || !hitCoolTimeIsEnd) { return; }
 
-			// Idle, Move, Attack ���� State�� �ƴϸ� ����
+			// Idle, Move, Attack 관련 State가 아니면 리턴
 			if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
 
 			if (context.started)
@@ -465,19 +474,19 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public AttackNode FindInput(PlayerInputEnum input)
 	{
-		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
+		AttackNode compareNode = curNode.childNodes.Count == 0 ? commandTree.Top : curNode;
 		PlayerInputEnum nextNodeInput = input;
 
-		if(IsTopNode(compareNode)															// �ϳ��� �޺��� ��� ���� �����̰�,
-			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // �޺��� ���� ���̸�,
-			&& firstBehaiviorNode.command != input)											// �ش� �޺��� �Է°��� �ٸ��ٸ�
+		if(commandTree.IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
+			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // 콤보를 진행 중이며,
+			&& firstBehaiviorNode.command != input)											// 해당 콤보가 입력값과 다르다면
 		{
 			nextNodeInput = firstBehaiviorNode.command;
 
 			return null;
 		}
 
-		AttackNode node = comboTree.FindNode(nextNodeInput, compareNode);
+		AttackNode node = commandTree.FindNode(nextNodeInput, compareNode);
 
 
 		return node;
@@ -525,7 +534,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public void ResetCombo()
 	{
 		nextCombo = PlayerInputEnum.None;
-		curNode = unit.comboTree.top;
+		curNode = unit.commandTree.Top;
 		curCombo = PlayerInputEnum.None;
 		currentAttackState = PlayerState.Idle;
 		firstBehaiviorNode = null;
@@ -533,8 +542,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		comboGaugeSystem.ResetComboCount();
 	}
-
-	public bool IsTopNode(AttackNode node) => node == comboTree.top;
 
 	public bool NodeTransitionProc(PlayerInputEnum input, PlayerState nextAttackState)
 	{
@@ -553,7 +560,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		currentAttackState = nextAttackState;
 		currentAttackAnimKey = ComboAttackAnimaKey;
 
-		if (IsTopNode(curNode.parent))
+		if (commandTree.IsTopNode(curNode.parent))
 		{
 			firstBehaiviorNode = curNode;
 		}
@@ -565,6 +572,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		if(!comboIsLock)
 		{
+			// 마지막 콤보에서 입력 씹는 코드
+			if(curNode.childNodes.Count == 0) { return; }
+
 			nextCombo = nextCommand;
 		}
 	}
@@ -583,9 +593,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		nextCombo = PlayerInputEnum.None;
 		LockNextCombo(false);
+		lastMoveDir = Vector3.zero;
 		ChangeState(PlayerState.AttackDelay);
 	}
 
+
+	#region Move
 	public void LerpToWorldPosition(Vector3 worldPos, float time)
 	{
 		UnitState<PlayerController> state = null;
@@ -596,6 +609,24 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		((PlayerAutoMoveState)state).SetAutoMove(worldPos, time);
 		ChangeState(PlayerState.AutoMove);
 	}
+	public Vector3 RotatePlayer(Vector3 dir, bool isLerp = false)
+	{
+		Vector3 rotVec = Quaternion.AngleAxis(45, Vector3.up) * dir;
+
+		if (rotVec == Vector3.zero) { return Vector3.zero; }
+
+		if(isLerp)
+		{
+			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), rotatePower * Time.deltaTime);
+		}
+		else
+		{
+			transform.rotation = Quaternion.LookRotation(rotVec);
+		}
+
+		return rotVec;
+	}
+	#endregion
 
 	#region Util
 	private bool CheckReference(out List<string> msgs)
@@ -614,7 +645,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (attackCollider == null) { msgs.Add("attackCollider is Null."); }
 		if (autoTargetCollider == null) { msgs.Add("autoTargetCollider is Null."); }
 		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
-		if (effectManager == null) { msgs.Add("effectManager is Null."); }
+		if (effectController == null) { msgs.Add("effectManager is Null."); }
 		if (effectSO == null) { msgs.Add("effectSO is Null."); }
 		if (buffProvider == null) { msgs.Add("buffProvider is Null."); }
 		if (rmController == null) { msgs.Add("rmController is Null."); }

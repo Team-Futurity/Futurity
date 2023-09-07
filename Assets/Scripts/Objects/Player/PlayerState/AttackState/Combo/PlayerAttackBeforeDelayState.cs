@@ -42,9 +42,14 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		}
 
 		// autoTargetting
-		float range = isCombo ? attackNode.attackLength * PlayerController.cm2m : (attackNode.attackLengthMark + (PlayerAttackState_Charged.MaxLevel - 1) * PlayerAttackState_Charged.LengthMarkIncreasing) * PlayerController.cm2m;
+		float range = isCombo 
+			? pc.autoLength * MathPlus.cm2m 
+			: (attackNode.attackLengthMark + (PlayerAttackState_Charged.MaxLevel - 1) * PlayerAttackState_Charged.LengthMarkIncreasing) * MathPlus.cm2m;
 		pc.autoTargetCollider.radiusCollider.enabled = true;
-		pc.autoTargetCollider.SetCollider(360, range);
+		pc.attackCollider.radiusCollider.enabled = true;
+		pc.autoTargetCollider.SetCollider(pc.autoAngle, range);
+		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength * MathPlus.cm2m);
+
 		targets.Clear();
 
 		// ohter Setting
@@ -57,7 +62,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		if (targets.Count > 0)
 		{
-			AutoTarget.Instance.TurnToNearstObject(targets, pc.gameObject);
+			AutoTarget.Instance.AutoTargetProcess(targets, pc.gameObject, pc.attackCollider, pc.autoAngle, pc.moveMargin, pc.moveTime);
 		}
 
 		if (currentTime >= attackNode.attackDelay)
@@ -73,13 +78,18 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 	public override void End(PlayerController pc)
 	{
 		base.End(pc);
+
+		pc.attackCollider.radiusCollider.enabled = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
 		if (other.CompareTag(unit.EnemyTag))
 		{
-			targets.Add(other.gameObject);
+			if(unit.attackCollider.IsInCollider(other.gameObject) || unit.autoTargetCollider.IsInCuttedCollider(other.gameObject))
+			{
+				targets.Add(other.gameObject);
+			}
 		}
 	}
 

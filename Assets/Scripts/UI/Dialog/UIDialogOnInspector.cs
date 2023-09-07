@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
+#if UNITY_EDITOR
 public partial class UIDialogController
 {
 	private Dictionary<UIDialogType, Action> dataSetUpDic;
@@ -19,6 +20,7 @@ public partial class UIDialogController
 	};
 
 	#region Extension Settings
+
 	private void OnValidate()
 	{
 		if (DialogType == UIDialogType.NONE || DialogType == UIDialogType.MAX || Application.isPlaying || DialogType == beforeType)
@@ -78,6 +80,7 @@ public partial class UIDialogController
 		return (GetComponentsInChildren(checkType).FirstOrDefault() != null);
 	}
 
-	#endregion
+#endregion
 
 }
+#endif
