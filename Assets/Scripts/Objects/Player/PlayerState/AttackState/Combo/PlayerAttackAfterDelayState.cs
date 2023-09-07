@@ -44,6 +44,7 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 		{
 			SendAttackEndMessage(unit);
 
+			unit.RotatePlayer(unit.lastMoveDir);
 			unit.ChangeState(PlayerState.Idle);
 
 			return;

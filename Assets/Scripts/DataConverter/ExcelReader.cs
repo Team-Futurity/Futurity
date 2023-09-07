@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using OfficeOpenXml;
 
+#if UNITY_EDITOR
 public class ExcelReader
 {
     public string[] GetSheetNameOrNull(string excelName)
@@ -67,3 +68,4 @@ public class ExcelReader
         }
     }
 }
+#endif

@@ -521,8 +521,11 @@ public class CommandGraphView : GraphView
 					if(nextCommand == null) { continue; }
 
 					var curNode = (CSNode)edge.output.userData;
-					curNode.NextCommands.Add(nextCommand);
-					
+
+					if(curNode.NextCommands.Find(x => x.NodeID == nextCommand.NodeID) == null)
+					{
+						curNode.NextCommands.Add(nextCommand);
+					}	
 				}
 			}
 
@@ -574,7 +577,12 @@ public class CommandGraphView : GraphView
 		};
 
 		nextInput.userData = curNode;
-		nextCommandSaves.Add(nextCommand.NodeID, nextCommand);
+
+		if(!nextCommandSaves.ContainsKey(nextNode.ID))
+		{
+			nextCommandSaves.Add(nextCommand.NodeID, nextCommand);
+		}
+		
 
 		return nextCommand;
 	}

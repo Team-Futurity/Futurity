@@ -5,28 +5,24 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
-	[SerializeField] private int frameCountToBeSaved;
+	[SerializeField, Range(1, int.MaxValue)] private int frameCountToBeSaved;
 	[SerializeField] private PlayerController pc;
 	[SerializeField] private PlayerInput playerInput;
 	private List<Queue<string>> inputQueues = new List<Queue<string>>();
 	private int lastQueueIndex;
 
-	[HideInInspector] 
+	[HideInInspector]
 	public UnityEvent<PlayerInputEnum> onChangeStateEvent;
 
 	private void Start()
 	{
 		PlayerInputData data;
 		data.inputState = PlayerInputEnum.None;
-		
-		if(pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
-		
 
-		pc.attackEndEvent.AddListener((str) =>
-		{
-			data.inputMsg = str;
-			RegistInputMessage(data);
-		});
+		if (pc == null) { FDebug.LogWarning("[PlayerInputManager] PC(PlayerController) is Null."); return; }
+		if(frameCountToBeSaved < 1) { frameCountToBeSaved = 1; }
+
+		pc.attackEndEvent.AddListener((str) => { data.inputMsg = str; RegistInputMessage(data); });
 		
 		for(int i = 0; i < frameCountToBeSaved; i++)
 		{
@@ -38,6 +34,9 @@ public class PlayerInputManager : MonoBehaviour
 
 	private void LateUpdate()
 	{
+		// 1이면 굳이 처리하지 않게 최적화(없어도 동작은 함)
+		if(frameCountToBeSaved == 1) { return; }
+
 		Queue<string> firstQueue = inputQueues[0];
 
 		// Queue를 인덱스 하나 전진
@@ -103,13 +102,13 @@ public class PlayerInputManager : MonoBehaviour
 	private void QueueingProcess(PlayerInputData data)
 	{
 		inputQueues[lastQueueIndex].Enqueue(data.inputMsg);
-		
+
 		onChangeStateEvent?.Invoke(data.inputState);
 	}
 
-	private void RegistInputMessage(PlayerInputData data)
+	private void RegistInputMessage(PlayerInputData msg)
 	{
-		QueueingProcess(data);
+		QueueingProcess(msg);
 	}
 
 	public void SetPlayerInput(bool isReceive) => playerInput.enabled = isReceive;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(CapsuleCollider))]
 public class RadiusCapsuleCollider : MonoBehaviour 
@@ -11,6 +10,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 	public float angle;
 	public float radius;
 	public CapsuleCollider radiusCollider;
+	[SerializeField] private Color colliderColor = Color.red;
 
 	private void Start()
 	{
@@ -29,8 +29,18 @@ public class RadiusCapsuleCollider : MonoBehaviour
 
 	public bool IsInCollider(GameObject target)
 	{
+		Vector3 targetVec = target.transform.position - transform.position;
+
+		return targetVec.magnitude <= radius;
+	}
+
+	public bool IsInCuttedCollider(GameObject target)
+	{
 		float clampedAngle = angle % 360;
 		Vector3 targetVec = target.transform.position - transform.position;
+
+		if(targetVec.magnitude > radius) { return false; }
+
 		float dot = Vector3.Dot(targetVec.normalized, transform.forward);
 		float theta = Mathf.Acos(dot);
 
@@ -58,7 +68,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		List<GameObject> objects = targets.ToList();
 		for(int targetCount = 0; targetCount < objects.Count; targetCount++)
 		{ 
-			if(!IsInCollider(objects[targetCount]))
+			if(!IsInCuttedCollider(objects[targetCount]))
 			{
 				objects.RemoveAt(targetCount);
 			}
@@ -92,13 +102,13 @@ public class RadiusCapsuleCollider : MonoBehaviour
 #if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
-		Gizmos.color = Color.red;
+		Gizmos.color = colliderColor;
 		var vecs = GetRadiusVector();
 		Vector3 leftPos = transform.position + vecs[1];
 		Vector3 rightPos = transform.position + vecs[0];
 
 		// Arc
-		Handles.color = new Color(1, 0, 0, 0.1f);
+		Handles.color = new Color(colliderColor.r, colliderColor.g, colliderColor.b, 0.1f);
 		Handles.DrawSolidArc(transform.position, Vector3.up, vecs[1], angle, radius);
 
 		// Line

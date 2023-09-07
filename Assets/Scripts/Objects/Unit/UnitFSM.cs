@@ -45,6 +45,40 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		ChangeState(firstState);
 	}
 
+	protected void SetUp(ValueType firstState, List<ValueType> statesToUse) 
+	{
+		if(statesToUse.Count == 0) { FDebug.LogWarning("[UnitFSM] Count of List<ValueType> stateToUse is Zero. If you don't want that, Check this Method Call Part"); return; }
+
+		states = new Dictionary<int, UnitState<Unit>>();
+
+		var stateTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => typeof(UnitState<Unit>).IsAssignableFrom(t));
+
+		foreach (var stateType in stateTypes)
+		{
+			var attribute = stateType.GetCustomAttribute<FSMStateAttribute>();
+
+			if (attribute == null)
+			{
+				continue;
+			}
+
+			var correctState = statesToUse.Where(value => (int)value == attribute.key);
+			if (correctState.Count() == 0)
+			{
+				continue;
+			}
+
+			var state = Activator.CreateInstance(stateType) as UnitState<Unit>;
+
+			if (!states.TryAdd(attribute.key, state))
+			{
+				Debug.LogError($"[FSM ERROR] {typeof(Unit)}의 State 중 {attribute.key}번째 State를 Add하는 데 실패했습니다. 이미 추가했을 수 있습니다.");
+			}
+		}
+
+		ChangeState(firstState);
+	}
+
 	public void ChangeState(ValueType nextEnumState)
 	{
 		UnitState<Unit> state = null;
