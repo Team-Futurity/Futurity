@@ -1042,6 +1042,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fceb10cc8de10634a84acc02bdcb033d, type: 2}
+  - {fileID: 2100000, guid: 13b65caac7529b04981855f52dc6691c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1238,6 +1239,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fceb10cc8de10634a84acc02bdcb033d, type: 2}
+  - {fileID: 2100000, guid: 13b65caac7529b04981855f52dc6691c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1876,6 +1878,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 06de7b25cccdb8d4bad8a8637a49c622, type: 2}
+  - {fileID: 2100000, guid: 13b65caac7529b04981855f52dc6691c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2404,6 +2407,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 07470841833c7e947a9c24c7c96db776, type: 2}
+  - {fileID: 2100000, guid: 13b65caac7529b04981855f52dc6691c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3199,6 +3203,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: d1b0d47906ee8b7409d870f78111ee57, type: 2}
+  - {fileID: 2100000, guid: 13b65caac7529b04981855f52dc6691c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3389,6 +3394,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 80f1130b9cff51e4b8e595a0a6f66ff4, type: 2}
+  - {fileID: 2100000, guid: 13b65caac7529b04981855f52dc6691c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5572,6 +5578,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 5109ef1806eaba948b7bb309cc034966, type: 2}
+  - {fileID: 2100000, guid: 13b65caac7529b04981855f52dc6691c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5690,7 +5697,6 @@ GameObject:
   - component: {fileID: 484117206}
   - component: {fileID: 484117190}
   - component: {fileID: 484117207}
-  - component: {fileID: 1921549252}
   - component: {fileID: 8335321450642112346}
   - component: {fileID: 7039203949321405940}
   - component: {fileID: 1070719927369175189}
@@ -5771,8 +5777,10 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
-  autoLength: 0
-  autoAngle: 0
+  autoLength: 500
+  autoAngle: 180
+  moveTime: 0.1
+  moveMargin: 100
   rotatePower: 18
   dashCoolTime: 0.8
   dashEffect: {fileID: 308051857588389, guid: c10bf3382be3d8c448ab0ac0e01127e7, type: 3}
@@ -5979,7 +5987,6 @@ MonoBehaviour:
       Data4: 521687612
     Path: event:/SE/04hit/F_S_01_04_rangedmonster
   activePartIsActive: 0
-  healthEffect: {fileID: 0}
 --- !u!114 &2214123608498936178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6024,7 +6031,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 2214123608498936178}
   rigid: {fileID: 1070719927369175188}
-  hpBar: {fileID: 0}
   isGodMode: 0
   isStun: 0
   OnAttack:
@@ -6097,7 +6103,6 @@ MonoBehaviour:
     <AddedGauge>k__BackingField: 4
   - <ComboCount>k__BackingField: 2
     <AddedGauge>k__BackingField: 2
-  gaugeBar: {fileID: 0}
   OnGaugeChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6115,7 +6120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHitCount: 999
   coolTime: 7
-  hitCountUI: {fileID: 0}
   <hitCount>k__BackingField: 0
 --- !u!114 &8996021751070515556
 MonoBehaviour:
@@ -6223,7 +6227,6 @@ MonoBehaviour:
   - {fileID: 1906155753934975866, guid: d23193cd5df231749b628278d18c4311, type: 3}
   - {fileID: 1906155753934975866, guid: 0578915934534ef41b2227faef173308, type: 3}
   - {fileID: 1906155753934975866, guid: df5626256856d91498d3adf942a76955, type: 3}
-  socket: {fileID: 0}
   testPart: []
 --- !u!114 &484117207
 MonoBehaviour:
@@ -6295,39 +6298,6 @@ MonoBehaviour:
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
   m_Multithread: 1
---- !u!114 &1921549252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca86bcf95c7e8f43ac2897d08623b05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openWindow: {fileID: 0}
-  openWindowParent: {fileID: 0}
-  windowPosition: {x: 0, y: 0}
-  windowScale: {x: 1, y: 1}
-  windowEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
-  - m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8335321450642112346
 MonoBehaviour:
   m_ObjectHideFlags: 0
