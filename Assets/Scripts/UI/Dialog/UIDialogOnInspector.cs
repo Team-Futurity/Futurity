@@ -26,8 +26,6 @@ public partial class UIDialogController
 			return;
 		}
 
-		Debug.Log(DialogType + " : " + beforeType);
-
 		if(beforeType != UIDialogType.NONE && beforeType != UIDialogType.MAX)
 		{
 			RemoveScript(beforeType);
