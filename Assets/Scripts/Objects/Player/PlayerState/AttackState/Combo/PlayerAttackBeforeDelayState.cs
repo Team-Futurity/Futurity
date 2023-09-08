@@ -62,7 +62,8 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		if (targets.Count > 0)
 		{
-			AutoTarget.Instance.AutoTargetProcess(targets, pc.gameObject, pc.attackCollider, pc.autoAngle, pc.moveMargin, pc.moveTime);
+			bool isMove = AutoTarget.Instance.AutoTargetProcess(targets, pc.gameObject, pc.attackCollider, pc.autoAngle, pc.moveMargin, pc.moveTime);
+			// 오토타겟 이동 2안) /*if (isMove) { pc.ResetCombo(); pc.StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack); Begin(pc); }*/
 		}
 
 		if (currentTime >= attackNode.attackDelay)

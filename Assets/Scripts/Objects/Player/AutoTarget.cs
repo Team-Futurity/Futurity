@@ -150,9 +150,10 @@ public class AutoTarget : Singleton<AutoTarget>
 	/// <param name="autoTargetAngle">자동 조준할 각도</param>
 	/// <param name="margin">이동 시 멈춰설 거리</param>
 	/// <param name="time">이동 시 이동에 소모하는 시간</param>
-	public void AutoTargetProcess(List<GameObject> objects, GameObject origin, RadiusCapsuleCollider attackCollider, float autoTargetAngle, float margin, float time)
+	/// <returns>이동을 수행했는가</returns>
+	public bool AutoTargetProcess(List<GameObject> objects, GameObject origin, RadiusCapsuleCollider attackCollider, float autoTargetAngle, float margin, float time)
 	{
-		if(objects.Count == 0) { return; }
+		if(objects.Count == 0) { return false; }
 		if(autoTargetAngle > MaxAngle) { autoTargetAngle %= MaxAngle; }
 
 		float halfAngle = autoTargetAngle * 0.5f;
@@ -162,7 +163,7 @@ public class AutoTarget : Singleton<AutoTarget>
 		// 공격 범위 내에 있는 경우는 무시
 		if(objectInAttackRange.Length > 0)
 		{
-			return;
+			return false;
 			/*SetDistance(ObjectsInAttackRange, origin);
 			int[] ascendingIndexes = ascendingDistances.Values.ToArray();
 
@@ -180,7 +181,7 @@ public class AutoTarget : Singleton<AutoTarget>
 			if (objectInAttackLength != null)
 			{
 				TurnToTarget(objectInAttackLength, origin);
-				return;
+				return false;
 			}
 		}
 
@@ -192,11 +193,13 @@ public class AutoTarget : Singleton<AutoTarget>
 		{
 			TurnToTarget(objectInTargetRange, origin);
 			MoveToTarget(objectInTargetRange, origin, margin, time);
-			return;
+			return true;
 		}
 		else // 조준범위 내에 없는 경우는 코딩 잘못한 거  
 		{
 			FDebug.LogWarning("[AutoTarget]Target Is NULL");
 		}
+
+		return false;
 	}
 }
