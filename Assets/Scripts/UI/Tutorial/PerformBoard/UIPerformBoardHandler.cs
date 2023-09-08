@@ -41,7 +41,7 @@ public class UIPerformBoardHandler : MonoBehaviour, IControllerMethod
 	}
 
 	#region IControllerMethod
-	void IControllerMethod.Active()
+	void IControllerMethod.Init()
 	{
 		isActive = true;
 
@@ -65,29 +65,7 @@ public class UIPerformBoardHandler : MonoBehaviour, IControllerMethod
 	}
 
 	#endregion
-	
-	// Test Code
-	// private PlayerInputEnum[] testInputData =
-	// {
-	// 	PlayerInputEnum.Move, PlayerInputEnum.Dash, PlayerInputEnum.NormalAttack_J,
-	// 	PlayerInputEnum.NormalAttack_JJ, PlayerInputEnum.NormalAttack_JJJ
-	// };
-	//
-	// private int testIndex = 0;
-	// private void Update()
-	// {
-	// 	if (Input.GetKeyDown(KeyCode.Alpha3) && testIndex < 5)
-	// 	{
-	// 		if (currentBoard is null)
-	// 		{
-	// 			((IControllerMethod)this).Active();
-	// 			return;
-	// 		}
-	//
-	// 		UpdateAction(testInputData[testIndex++]);
-	// 	}
-	// }
-	
+
 	private void UpdateAction(PlayerInputEnum data)
 	{
 		var isComplate = currentBoard.SetPerformAction(data);
