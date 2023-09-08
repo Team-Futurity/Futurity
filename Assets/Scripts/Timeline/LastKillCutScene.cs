@@ -2,21 +2,22 @@ using UnityEngine;
 
 public class LastKillCutScene : CutSceneBase
 {
-	private PlayerController playerController;
-
-	protected override void Init()
-	{
-		playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-	}
+	[SerializeField] private BoxCollider disableCollider;
+	[SerializeField] private BoxCollider enableCollider;
+	
+	protected override void Init() { }
 
 	protected override void EnableCutScene()
 	{
-		playerController.enabled = false;
+		TimelineManager.Instance.SetActivePlayerInput(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		playerController.enabled = true;
+		TimelineManager.Instance.SetActivePlayerInput(true);
+		disableCollider.enabled = false;
+		enableCollider.enabled = true;
+		
 		gameObject.SetActive(false);
 	}
 }
