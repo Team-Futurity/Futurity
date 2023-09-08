@@ -2379,7 +2379,6 @@ GameObject:
   m_Component:
   - component: {fileID: 928214582}
   - component: {fileID: 928214581}
-  - component: {fileID: 928214583}
   m_Layer: 0
   m_Name: WindowManager
   m_TagString: Untagged
@@ -2408,39 +2407,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928214580}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 238.95055, y: 134.09122, z: -2.0263035}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &928214583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 928214580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddfc91daa824630448df397687cf760e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minComboCount: 0
-  maxComboCount: 3
-  minComboGauge: 0
-  maxComboGauge: 100
-  comboData:
-  - <ComboCount>k__BackingField: 0
-    <AddedGauge>k__BackingField: 0
-  - <ComboCount>k__BackingField: 1
-    <AddedGauge>k__BackingField: 0
-  - <ComboCount>k__BackingField: 2
-    <AddedGauge>k__BackingField: 0
-  OnGaugeChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &935906409 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3026515660721127089, guid: 2ac5308b229211845bcca423245748b8, type: 3}
@@ -2609,6 +2582,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1000963567}
+  - component: {fileID: 1000963568}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -2624,13 +2598,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000963566}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 366.249, y: 221.91791, z: -0.29678357}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1000963568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000963566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 003756de0efcfdf4086f7a681aae732b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1047948260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2705,10 +2691,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c46339d5851f54ab79f6e0d2463414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sockController:
-  - {fileID: 7763123353621217271}
-  - {fileID: 5892741083153278064}
-  - {fileID: 84925634325313282}
 --- !u!1 &1089975094
 GameObject:
   m_ObjectHideFlags: 0
@@ -6388,8 +6370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImage: {fileID: 0}
-  itemUIData: {fileID: 0}
 --- !u!1 &102146159052306760
 GameObject:
   m_ObjectHideFlags: 0
@@ -12953,6 +12933,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5880255354604699327}
+  - component: {fileID: 5880255354604699328}
   m_Layer: 5
   m_Name: Hit Gauge Group
   m_TagString: Untagged
@@ -13368,6 +13349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7755452890250919085}
+  - component: {fileID: 7755452890250919086}
   m_Layer: 5
   m_Name: Hp Gauge Group
   m_TagString: Untagged
@@ -24972,6 +24954,7 @@ GameObject:
   - component: {fileID: 1959167201624556823}
   - component: {fileID: 7856192207712832184}
   - component: {fileID: 3978524782534420548}
+  - component: {fileID: 7856192207712832185}
   m_Layer: 5
   m_Name: Gauge
   m_TagString: Untagged
@@ -31295,7 +31278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4856421659135814718
 Transform:
   m_ObjectHideFlags: 0
@@ -31736,7 +31719,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0
+  m_FillAmount: 0.605
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -32412,6 +32395,20 @@ RectTransform:
   m_AnchoredPosition: {x: 94.3, y: 43.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5880255354604699328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465199820927315772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac513a2a0c007294193d73a2001ab559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Gauge>k__BackingField: {fileID: 8196607657968871203}
+  <ComboSystem>k__BackingField: {fileID: 0}
 --- !u!1 &5890914310319450885
 GameObject:
   m_ObjectHideFlags: 0
@@ -32440,8 +32437,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImage: {fileID: 0}
-  itemUIData: {fileID: 0}
 --- !u!114 &5968371685053099659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34206,6 +34201,20 @@ RectTransform:
   m_AnchoredPosition: {x: 79.2, y: 98}
   m_SizeDelta: {x: 300, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7755452890250919086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693602364696687224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 388d29b3f5fc7634788aded2c6cf5db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Gauge>k__BackingField: {fileID: 7856192207712832185}
+  <StatusManager>k__BackingField: {fileID: 0}
 --- !u!1 &7759291123353139575
 GameObject:
   m_ObjectHideFlags: 0
@@ -34234,8 +34243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImage: {fileID: 0}
-  itemUIData: {fileID: 0}
 --- !u!224 &7791670519295347215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34288,6 +34295,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3612112730192372052}
   m_CullTransparentMesh: 1
+--- !u!114 &7856192207712832185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3612112730192372052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3c55c395da66b4d85420d3c79323b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FillCurve>k__BackingField:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  targetGauge: 0
 --- !u!1 &7875318449294991428
 GameObject:
   m_ObjectHideFlags: 0
@@ -34576,8 +34602,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97f0364c9427b46bb7b898cd380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImage: {fileID: 0}
-  itemUIData: {fileID: 0}
 --- !u!1 &8188706585266069871
 GameObject:
   m_ObjectHideFlags: 0
@@ -34624,6 +34648,7 @@ GameObject:
   - component: {fileID: 7241207978715035750}
   - component: {fileID: 4122454009898343834}
   - component: {fileID: 5188313553698575587}
+  - component: {fileID: 8196607657968871203}
   m_Layer: 5
   m_Name: Gauge
   m_TagString: Untagged
@@ -34631,6 +34656,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8196607657968871203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8196607657968871202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3c55c395da66b4d85420d3c79323b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FillCurve>k__BackingField:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  targetGauge: 0
 --- !u!137 &8204415692201247385
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
