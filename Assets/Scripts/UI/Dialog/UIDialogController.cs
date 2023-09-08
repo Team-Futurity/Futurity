@@ -67,34 +67,10 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		// DialogText에서 End 조건을 확인한다.
 		DialogText.OnEnd?.AddListener(ShowAfter);
 	}
-	
-	// 테스트용 코드
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			SetDialogData("TEST");
-		}
-		
-		if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			ShowDialog();
-		}
-		
-		if (Input.GetKeyDown(KeyCode.Alpha4))
-		{
-			PlayDialog();
-		}
-
-		if (Input.GetKeyDown(KeyCode.Alpha5))
-		{
-			OnNextDialog();
-		}
-	}
 
 	#region IControllerMethod
 	
-	void IControllerMethod.Active()
+	void IControllerMethod.Init()
 	{
 		currentIndex = 0;
 		dialogDataList.Clear();
