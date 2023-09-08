@@ -12,7 +12,6 @@ public class PlayerAttackState_Normal : PlayerAttackState
 		base.Begin(pc);
 
 		pc.attackCollider.radiusCollider.enabled = true;
-		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength * PlayerController.cm2m);
 	}
 
 	public override void End(PlayerController pc)

@@ -6,11 +6,18 @@ using UnityEngine;
 public class EnemyManager : Singleton<EnemyManager>
 {
 	public List<EnemyController> activeEnemys;
-	public List<EnemyHpBarController> activeEnemysHpBar;
 	public List<Cluster> clusters;
 	public List<EnemyController> clusterElse;
 
 
+	// 리스트를 퍼블릭으로 관리하지 않는다.
+	// 리스트 널 에이블 처리가 안되었다.
+	
+	// 단순하게 에너미 컨트롤러만 수집하기에 어떤 타입의 몬스터가 있는지 파악이 힘들다.
+	// 보스 몬스터 관리가 없다.
+	
+	// 클러스팅 도대체 뭐임
+	// 
 	public void ActiveManagement(EnemyController unit)
 	{
 		activeEnemys.Add(unit);
@@ -20,18 +27,6 @@ public class EnemyManager : Singleton<EnemyManager>
 	{
 		activeEnemys.Remove(unit);
 	}
-
-
-	public void ActiveHpBar(EnemyHpBarController hpBar)
-	{
-		activeEnemysHpBar.Add(hpBar);
-	}
-	public void DeactiveHpBar(EnemyHpBarController hpBar)
-	{
-		hpBar.DestroyHpBar();
-		activeEnemysHpBar.Remove(hpBar);
-	}
-
 
 	public void EnemyClustering(EnemyController unit)
 	{
@@ -59,6 +54,7 @@ public class EnemyManager : Singleton<EnemyManager>
 		}
 	}
 
+	// ?? 
 	public void EnemyDeclutter(int clusterNum)
 	{
 		for (int i = 0; i < clusters[clusterNum].enemys.Count; i++)
@@ -68,6 +64,9 @@ public class EnemyManager : Singleton<EnemyManager>
 	}
 }
 
+// 클래스는 새로운 파일을 통해서 분리한다.
+
+// 이외에 관리를 위해서 필요한 메서드가 무엇이 있을지 고민.........
 [Serializable]
 public class Cluster
 {

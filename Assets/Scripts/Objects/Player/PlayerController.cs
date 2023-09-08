@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,25 +14,30 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public readonly string ChargedAttackAnimaKey = "ChargingParam";
 	public readonly string IsAttackingAnimKey = "IsAttacking";
 	public const int NullState = -1;
-	public const float cm2m = 0.01f; // centimeter To meter
-	public const float m2cm = 100f; // meter To centimeter
 
-	[Header("[¼öÄ¡ Á¶Àı]¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡")]
+	[Header("[ìˆ˜ì¹˜ ì¡°ì ˆ]â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")]
 
 	// attack
 	[Space(2)]
-	[Header("ÄŞº¸")]
-	public CommandTree comboTree;
+	[Header("ì½¤ë³´")]
+	public CommandTree commandTree;
+
+	[Space(5)]
+	[Header("ìë™ ì¡°ì¤€")]
+	[Tooltip("ìë™ ì¡°ì¤€ ê±°ë¦¬(cm)")]public float autoLength;
+	[Tooltip("ìë™ ì¡°ì¤€ ê°ë„(ìœ¡ì‹­ë¶„ë²•)")]public float autoAngle;
+	[Tooltip("ì›€ì§ì¼ ì‹œê°„")]public float moveTime;
+	[Tooltip("ë©ˆì¶°ì„¤ ê±°ë¦¬(cm)")]public float moveMargin;
 
 	// move
 	[Space(5)]
-	[Header("ÀÌµ¿")]
-	[Tooltip("È¸ÀüÇÏ´Â ¼Óµµ")]
+	[Header("ì´ë™")]
+	[Tooltip("íšŒì „í•˜ëŠ” ì†ë„")]
 	public float rotatePower;
 
 	// dash
 	[Space(5)]
-	[Header("´ë½Ã. ·±Å¸ÀÓ º¯°æ ºÒ°¡")]
+	[Header("ëŒ€ì‹œ. ëŸ°íƒ€ì„ ë³€ê²½ ë¶ˆê°€")]
 	public float dashCoolTime;
 	public GameObject dashEffect;
 	public Transform dashPos;
@@ -40,33 +45,34 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// hit
 	[Space(5)]
-	[Header("ÇÇ°İ. ·±Å¸ÀÓ º¯°æ ºÒ°¡")]
+	[Header("í”¼ê²©. ëŸ°íƒ€ì„ ë³€ê²½ ë¶ˆê°€")]
 	public float hitCoolTime;
 
 	[Space(15)]
-	[Header("[µğ¹ö±ë¿ë]¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡")]
+	[Header("[ë””ë²„ê¹…ìš©]â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")]
 
 	// move
 	[Space(2)]
-	[Header("ÀÌµ¿ °ü·Ã")]
+	[Header("ì´ë™ ê´€ë ¨")]
 	public Vector3 moveDir;
+	public Vector3 lastMoveDir;
 
 	// dash
 	[Space(5)]
-	[Header("´ë½Ã °ü·Ã")]
+	[Header("ëŒ€ì‹œ ê´€ë ¨")]
 	public bool dashCoolTimeIsEnd = false;
 	public bool comboIsEnd = false;
 
 	// input
 	[Space(5)]
-	[Header("ÀÔ·Â °ü·Ã")]
+	[Header("ì…ë ¥ ê´€ë ¨")]
 	public bool specialIsReleased = false;
 	public bool moveIsPressed = false;
 	private bool comboIsLock = false;
 
 	// attack
 	[Space(5)]
-	[Header("°ø°İ °ü·Ã")]
+	[Header("ê³µê²© ê´€ë ¨")]
 	public PlayerInputEnum curCombo;
 	public PlayerInputEnum nextCombo;
 	public AttackNode curNode;
@@ -76,11 +82,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// hit
 	[Space(5)]
-	[Header("ÇÇ°İ °ü·Ã")]
+	[Header("í”¼ê²© ê´€ë ¨")]
 	public bool hitCoolTimeIsEnd = false;
 
 	[Space(15)]
-	[Header("[ÃÖÃÊ 1È¸ ÇÒ´ç]¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡")]
+	[Header("[ìµœì´ˆ 1íšŒ í• ë‹¹]â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")]
 
 	// reference
 	[Space(2)]
@@ -95,7 +101,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public RadiusCapsuleCollider attackCollider;
 	public RadiusCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
-	public EffectController effectManager;
+	public EffectController effectController;
 	public EffectDatas effectSO;
 	public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
@@ -118,20 +124,20 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		public GameObject effect;
 	}
 	[Space(5)]
-	[Header("µ¹Áø ÀÌÆåÆ®")]
+	[Header("ëŒì§„ ì´í™íŠ¸")]
 	public List<EffectData> rushEffects;
 	public ObjectPoolManager<Transform> rushObjectPool;
 	public ObjectPoolManager<Transform> rushObjectPool2;
 
 	// sound 
 	[Space(5)]
-	[Header("»ç¿îµå")]
+	[Header("ì‚¬ìš´ë“œ")]
 	public FMODUnity.EventReference dash;
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
 
 	// etc
-	[HideInInspector] public bool activePartIsActive; // ¾×Æ¼ºê ºÎÇ°ÀÌ »ç¿ë°¡´ÉÇÑÁö
+	[HideInInspector] public bool activePartIsActive; // ì•¡í‹°ë¸Œ ë¶€í’ˆì´ ì‚¬ìš©ê°€ëŠ¥í•œì§€
 
 	private void Start()
 	{
@@ -139,7 +145,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 
 		// effect
-		effectManager = ECManager.Instance.GetEffectManager(effectSO);
+		effectController = ECManager.Instance.GetEffectManager(effectSO);
 
 		// ReferenceCheck
 		List<string> msgs;
@@ -159,13 +165,14 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		// UnitFSM Init
 		SetFSM();
+
 		UnitState<PlayerController> astate = null;
 		GetState(PlayerState.AttackAfterDelay, ref astate);
 		nextStateEvent.AddListener((state) => { ((PlayerAttackAfterDelayState)astate).NextAttackState(unit, state); });
 
 		// Attack Init
-		//comboTree = commandTreeLoader.GetCommandTree();
-		curNode = comboTree.top;
+		commandTree = commandTreeLoader.GetCommandTree();
+		curNode = commandTree.Top;
 		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
 		//comboTree.SetTree(comboTree.top, null);
@@ -181,19 +188,21 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
-
-		
 	}
 
 	public void SetFSM()
 	{
+		var list = new List <PlayerState>();
+
 		unit = this;
 		SetUp(PlayerState.Idle);
 	}
 
 	#region Input
-	public string GetInputData(PlayerInputEnum input, bool isProcess, params string[] additionalDatas)
+	public PlayerInputData GetInputData(PlayerInputEnum input, bool isProcess, params string[] additionalDatas)
 	{
+		PlayerInputData data;
+
 		string returnValue = $"Input_{(int)input}_";
 
 		returnValue += isProcess ? "T_" : "F_";
@@ -208,22 +217,31 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		returnValue += "End";
 
-		return returnValue;
+		data.inputMsg = returnValue;
+		data.inputState = input;
+
+		return data;
 	}
 
-	public string MoveProcess(InputAction.CallbackContext context)
+	public PlayerInputData MoveProcess(InputAction.CallbackContext context)
 	{
 		Vector3 input = context.ReadValue<Vector3>();
 
 		moveDir = new Vector3(input.x, 0f, input.y);
+
+		if(moveDir != Vector3.zero)
+		{
+			lastMoveDir = new Vector3(input.x, 0f, input.y);
+		}
+		
 		moveAction = context.action;
 
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
-		// ¿¹¿ÜÃ³¸®
+		// ì˜ˆì™¸ì²˜ë¦¬
 		if (!IsCurrentState(PlayerState.Idle))
 		{
-			// µ¹Áø Áß ÀÌµ¿ ±â´É
+			// ëŒì§„ ì¤‘ ì´ë™ ê¸°ëŠ¥
 			if (IsAttackProcess())
 			{
 				if (IsCurrentState(PlayerState.ChargedAttack))
@@ -241,7 +259,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			return GetInputData(PlayerInputEnum.Move, false, input.ToString()); ;
 		}
 
-		// ÀÌµ¿ ±â´É
+		// ì´ë™ ê¸°ëŠ¥
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
@@ -251,7 +269,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		return GetInputData(PlayerInputEnum.Move, false, input.ToString());
 	}
 
-	public string DashProcess(InputAction.CallbackContext context)
+	public PlayerInputData DashProcess(InputAction.CallbackContext context)
 	{
 		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) 
 		{ 
@@ -268,40 +286,35 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 
 	// Normal Attack
-	public string NAProcess(InputAction.CallbackContext context)
+	public PlayerInputData NAProcess(InputAction.CallbackContext context)
 	{
-		// ÇÇ°İ ÁßÀÌ°Å³ª, ½ºÅÏ »óÅÂ¸é ¸®ÅÏ
+		// í”¼ê²© ì¤‘ì´ê±°ë‚˜, ìŠ¤í„´ ìƒíƒœë©´ ë¦¬í„´
 		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
-		// Idle, Move, Attack °ü·Ã State°¡ ¾Æ´Ï¸é ¸®ÅÏ
-		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+		// Idle, Move, Attack ê´€ë ¨ Stateê°€ ì•„ë‹ˆë©´ ë¦¬í„´
+		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true) && IsCurrentState(PlayerState.ChargedAttack)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
-		// AfterDelay³ª ´Ù¸¥ ½ºÅ×ÀÌÆ®(Idle, Move)¶ó¸é
+		// AfterDelayë‚˜ ë‹¤ë¥¸ ìŠ¤í…Œì´íŠ¸(Idle, Move)ë¼ë©´
 		if (!IsAttackProcess(true))
 		{
 			StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack);
 
 			return GetInputData(PlayerInputEnum.NormalAttack, true, currentAttackState.ToString(), curNode.name);
 		}
-		else // °ø°İ ÁßÀÌ¶ó¸é
+		else // ê³µê²© ì¤‘ì´ë¼ë©´
 		{
-			if (nextCombo == PlayerInputEnum.None)
-			{
-				SetNextCombo(PlayerInputEnum.NormalAttack);
-				return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
-			}
+			SetNextCombo(PlayerInputEnum.NormalAttack);
+			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
 		}
-		
-		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
 	// Special Attack
-	public string SAProcess(InputAction.CallbackContext context)
+	public PlayerInputData SAProcess(InputAction.CallbackContext context)
 	{
-		// ÇÇ°İ ÁßÀÌ°Å³ª, ½ºÅÏ »óÅÂ¸é ¸®ÅÏ
+		// í”¼ê²© ì¤‘ì´ê±°ë‚˜, ìŠ¤í„´ ìƒíƒœë©´ ë¦¬í„´
 		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
-		// Idle, Move, Attack °ü·Ã State°¡ ¾Æ´Ï¸é ¸®ÅÏ
+		// Idle, Move, Attack ê´€ë ¨ Stateê°€ ì•„ë‹ˆë©´ ë¦¬í„´
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
 		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
@@ -314,7 +327,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 			else
 			{
-				if (nextCombo == PlayerInputEnum.None && curCombo != PlayerInputEnum.SpecialAttack)
+				if (curCombo != PlayerInputEnum.SpecialAttack)
 				{
 					SetNextCombo(PlayerInputEnum.SpecialAttack);
 					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
@@ -334,7 +347,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	}
 
 	// Special Move
-	public string SMProcess(InputAction.CallbackContext context)
+	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
 		if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
@@ -362,10 +375,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 			moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
-			// ¿¹¿ÜÃ³¸®
+			// ì˜ˆì™¸ì²˜ë¦¬
 			if (!IsCurrentState(PlayerState.Idle))
 			{
-				// µ¹Áø Áß ÀÌµ¿ ±â´É
+				// ëŒì§„ ì¤‘ ì´ë™ ê¸°ëŠ¥
 				if (IsAttackProcess())
 				{
 					if (IsCurrentState(PlayerState.ChargedAttack))
@@ -382,7 +395,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				return;
 			}
 
-			// ÀÌµ¿ ±â´É
+			// ì´ë™ ê¸°ëŠ¥
 			if (!IsCurrentState(PlayerState.Move))
 			{
 				ChangeState(PlayerState.Move);
@@ -404,23 +417,23 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		public void OnNormalAttack(InputAction.CallbackContext context)
 		{
-			// ÀÔ·ÂÀÌ µÇÁö ¾Ê¾ÒÀ¸¸é(Pressed ½ÃÁ¡ÀÌ ¾Æ´Ï¸é) ¸®ÅÏ
+			// ì…ë ¥ì´ ë˜ì§€ ì•Šì•˜ìœ¼ë©´(Pressed ì‹œì ì´ ì•„ë‹ˆë©´) ë¦¬í„´
 			if (!context.started) { return; }
 
 			FDebug.Log("Normal");
 
-			// ÇÇ°İ ÁßÀÌ°Å³ª, ½ºÅÏ »óÅÂ¸é ¸®ÅÏ
+			// í”¼ê²© ì¤‘ì´ê±°ë‚˜, ìŠ¤í„´ ìƒíƒœë©´ ë¦¬í„´
 			if (playerData.isStun || !hitCoolTimeIsEnd) { return; }
 
-			// Idle, Move, Attack °ü·Ã State°¡ ¾Æ´Ï¸é ¸®ÅÏ
+			// Idle, Move, Attack ê´€ë ¨ Stateê°€ ì•„ë‹ˆë©´ ë¦¬í„´
 			if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
 
-			// AfterDelay³ª ´Ù¸¥ ½ºÅ×ÀÌÆ®(Idle, Move)¶ó¸é
+			// AfterDelayë‚˜ ë‹¤ë¥¸ ìŠ¤í…Œì´íŠ¸(Idle, Move)ë¼ë©´
 			if (!IsAttackProcess(true))
 			{
 				StartNextComboAttack(PlayerInput.NormalAttack, PlayerState.NormalAttack);
 			}
-			else // °ø°İ ÁßÀÌ¶ó¸é
+			else // ê³µê²© ì¤‘ì´ë¼ë©´
 			{
 				if (nextCombo == PlayerInput.None)
 				{
@@ -431,10 +444,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		public void OnSpecialAttack(InputAction.CallbackContext context)
 		{
-			// ÇÇ°İ ÁßÀÌ°Å³ª, ½ºÅÏ »óÅÂ¸é ¸®ÅÏ
+			// í”¼ê²© ì¤‘ì´ê±°ë‚˜, ìŠ¤í„´ ìƒíƒœë©´ ë¦¬í„´
 			if(playerData.isStun || !hitCoolTimeIsEnd) { return; }
 
-			// Idle, Move, Attack °ü·Ã State°¡ ¾Æ´Ï¸é ¸®ÅÏ
+			// Idle, Move, Attack ê´€ë ¨ Stateê°€ ì•„ë‹ˆë©´ ë¦¬í„´
 			if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return; }
 
 			if (context.started)
@@ -461,19 +474,19 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public AttackNode FindInput(PlayerInputEnum input)
 	{
-		AttackNode compareNode = curNode.childNodes.Count == 0 ? comboTree.top : curNode;
+		AttackNode compareNode = curNode.childNodes.Count == 0 ? commandTree.Top : curNode;
 		PlayerInputEnum nextNodeInput = input;
 
-		if(IsTopNode(compareNode)															// ÇÏ³ªÀÇ ÄŞº¸°¡ ¸ğµÎ ³¡³­ »óÅÂÀÌ°í,
-			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // ÄŞº¸¸¦ ÁøÇà ÁßÀÌ¸ç,
-			&& firstBehaiviorNode.command != input)											// ÇØ´ç ÄŞº¸°¡ ÀÔ·Â°ª°ú ´Ù¸£´Ù¸é
+		if(commandTree.IsTopNode(compareNode)															// í•˜ë‚˜ì˜ ì½¤ë³´ê°€ ëª¨ë‘ ëë‚œ ìƒíƒœì´ê³ ,
+			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // ì½¤ë³´ë¥¼ ì§„í–‰ ì¤‘ì´ë©°,
+			&& firstBehaiviorNode.command != input)											// í•´ë‹¹ ì½¤ë³´ê°€ ì…ë ¥ê°’ê³¼ ë‹¤ë¥´ë‹¤ë©´
 		{
 			nextNodeInput = firstBehaiviorNode.command;
 
 			return null;
 		}
 
-		AttackNode node = comboTree.FindNode(nextNodeInput, compareNode);
+		AttackNode node = commandTree.FindNode(nextNodeInput, compareNode);
 
 
 		return node;
@@ -521,7 +534,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public void ResetCombo()
 	{
 		nextCombo = PlayerInputEnum.None;
-		curNode = unit.comboTree.top;
+		curNode = unit.commandTree.Top;
 		curCombo = PlayerInputEnum.None;
 		currentAttackState = PlayerState.Idle;
 		firstBehaiviorNode = null;
@@ -529,8 +542,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		comboGaugeSystem.ResetComboCount();
 	}
-
-	public bool IsTopNode(AttackNode node) => node == comboTree.top;
 
 	public bool NodeTransitionProc(PlayerInputEnum input, PlayerState nextAttackState)
 	{
@@ -549,7 +560,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		currentAttackState = nextAttackState;
 		currentAttackAnimKey = ComboAttackAnimaKey;
 
-		if (IsTopNode(curNode.parent))
+		if (commandTree.IsTopNode(curNode.parent))
 		{
 			firstBehaiviorNode = curNode;
 		}
@@ -561,6 +572,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		if(!comboIsLock)
 		{
+			// ë§ˆì§€ë§‰ ì½¤ë³´ì—ì„œ ì…ë ¥ ì”¹ëŠ” ì½”ë“œ
+			if(curNode.childNodes.Count == 0) { return; }
+
 			nextCombo = nextCommand;
 		}
 	}
@@ -579,9 +593,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		nextCombo = PlayerInputEnum.None;
 		LockNextCombo(false);
+		lastMoveDir = Vector3.zero;
 		ChangeState(PlayerState.AttackDelay);
 	}
 
+
+	#region Move
 	public void LerpToWorldPosition(Vector3 worldPos, float time)
 	{
 		UnitState<PlayerController> state = null;
@@ -592,6 +609,24 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		((PlayerAutoMoveState)state).SetAutoMove(worldPos, time);
 		ChangeState(PlayerState.AutoMove);
 	}
+	public Vector3 RotatePlayer(Vector3 dir, bool isLerp = false)
+	{
+		Vector3 rotVec = Quaternion.AngleAxis(45, Vector3.up) * dir;
+
+		if (rotVec == Vector3.zero) { return Vector3.zero; }
+
+		if(isLerp)
+		{
+			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), rotatePower * Time.deltaTime);
+		}
+		else
+		{
+			transform.rotation = Quaternion.LookRotation(rotVec);
+		}
+
+		return rotVec;
+	}
+	#endregion
 
 	#region Util
 	private bool CheckReference(out List<string> msgs)
@@ -610,7 +645,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (attackCollider == null) { msgs.Add("attackCollider is Null."); }
 		if (autoTargetCollider == null) { msgs.Add("autoTargetCollider is Null."); }
 		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
-		if (effectManager == null) { msgs.Add("effectManager is Null."); }
+		if (effectController == null) { msgs.Add("effectManager is Null."); }
 		if (effectSO == null) { msgs.Add("effectSO is Null."); }
 		if (buffProvider == null) { msgs.Add("buffProvider is Null."); }
 		if (rmController == null) { msgs.Add("rmController is Null."); }

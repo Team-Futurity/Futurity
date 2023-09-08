@@ -66,7 +66,7 @@ public class PlayerAttackState : PlayerComboAttackState
 	{
 		if (other.CompareTag(unit.EnemyTag))
 		{
-			if (unit.attackCollider.IsInCollider(other.gameObject))
+			if (unit.attackCollider.IsInCuttedCollider(other.gameObject))
 			{
 				var enemy = other.gameObject.GetComponent<UnitBase>();
 				var enemyController = other.gameObject.GetComponent<EnemyController>();

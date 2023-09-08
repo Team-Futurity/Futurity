@@ -9,13 +9,6 @@ public class Enemy : UnitBase
 
 	private void Start()
 	{
-		hpBar = GetComponent<EnemyHpBarController>().currentHpBar.GetComponent<GaugeBarController>();
-
-		if (hpBar != null)
-		{
-			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() /
-			                         status.GetStatus(StatusType.MAX_HP).GetValue());
-		}
 	}
 
 	public override void Attack(UnitBase target)
@@ -28,12 +21,6 @@ public class Enemy : UnitBase
 	{
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
-
-		if (hpBar != null)
-		{
-			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() /
-			                         status.GetStatus(StatusType.MAX_HP).GetValue());
-		}
 	}
 
 	protected override float GetAttackPoint()

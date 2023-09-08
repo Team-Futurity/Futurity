@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Player : UnitBase
 {
@@ -10,12 +9,6 @@ public class Player : UnitBase
 	private void Start()
 	{
 		pc = GetComponent<PlayerController>();
-
-		if (hpBar != null)
-		{
-			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
-			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
-		}
 	}
 
 	public void Attack(UnitBase target, float AttackST)
@@ -46,19 +39,12 @@ public class Player : UnitBase
 		float finalDamage = damage * remainingDamageRatio;
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
-		hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
 		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
 		{
 			pc.ChangeState(PlayerState.Hit);
-		}
-
-		if (hpBar != null)
-		{
-			hpBar.SetGaugeFillAmount(status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue());
-			FDebug.Log($"SetGaugeFillAmount : {status.GetStatus(StatusType.CURRENT_HP).GetValue() / status.GetStatus(StatusType.MAX_HP).GetValue()}");
 		}
 	}
 

@@ -44,6 +44,7 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 		{
 			SendAttackEndMessage(unit);
 
+			unit.RotatePlayer(unit.lastMoveDir);
 			unit.ChangeState(PlayerState.Idle);
 
 			return;
@@ -57,7 +58,7 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 
 	private void SendAttackEndMessage(PlayerController unit)
 	{
-		string msg = unit.GetInputData(unit.curCombo, true, unit.currentAttackState.ToString(), attackNode.name, "Complete");
+		string msg = unit.GetInputData(unit.curCombo, true, unit.currentAttackState.ToString(), attackNode.name, "Complete").inputMsg;
 		unit.attackEndEvent.Invoke(msg);
 	}
 }

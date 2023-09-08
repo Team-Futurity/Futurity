@@ -14,17 +14,14 @@ public class EnemyDeathState : UnitState<EnemyController>
 			unit.manager.EnemyDeclutter(unit.clusterNum);
 		unit.manager.DeActiveManagement(unit);
 		
-
 		if (unit.manager.activeEnemys.Count < 1)
 		{
-			StageEndPotalManager.Instance.ActivePotals();
+			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LASTKILLCUTSCENE);
 		}
-		unit.manager.DeActiveManagement(unit);
+		
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
-
-		unit.GetComponent<EnemyHpBarController>().DestroyHpBar();
 	}
 
 	public override void Update(EnemyController unit)

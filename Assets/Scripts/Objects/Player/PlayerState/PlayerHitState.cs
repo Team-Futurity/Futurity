@@ -13,10 +13,8 @@ public class PlayerHitState : UnitState<PlayerController>
 		pc.animator.SetTrigger(HitTriggerAnim);
 		pc.rmController.SetRootMotion("Hit");
 		pc.specialIsReleased = false;
-		pc.curNode = pc.comboTree.top;
-
-		Camera.main.gameObject.GetComponent<PostProcessController>().SetVignette(0.5f);
-
+		pc.curNode = pc.commandTree.Top;
+		
 		pc.glove.SetActive(false);
 
 		if(pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)

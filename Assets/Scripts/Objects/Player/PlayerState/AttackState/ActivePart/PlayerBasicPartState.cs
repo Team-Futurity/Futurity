@@ -29,8 +29,8 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 	{
 		base.Begin(unit);
 		enemies.Clear();
-		minSize = proccessor.minRange * PlayerController.cm2m;
-		maxSize = proccessor.maxRange * PlayerController.cm2m;
+		minSize = proccessor.minRange * MathPlus.cm2m;
+		maxSize = proccessor.maxRange * MathPlus.cm2m;
 		unit.animator.SetBool(IsActivePartAnimKey, true);
 		unit.attackCollider.SetCollider(maxAngle, minSize);
 
@@ -107,7 +107,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 	private void EndExtension(PlayerController unit)
 	{
-		unit.attackCollider.SetCollider(maxAngle, proccessor.maxRange * PlayerController.cm2m);
+		unit.attackCollider.SetCollider(maxAngle, proccessor.maxRange * MathPlus.cm2m);
 
 		foreach(var enemy in enemies)
 		{

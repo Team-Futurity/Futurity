@@ -27,7 +27,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	private int currentGauge;
 	private int maxGauge;
 	public List<ComboCountData> comboData;
-	public GaugeBarController gaugeBar;
+	//public GaugeBarController gaugeBar;
 	[HideInInspector] public UnityEvent<float> OnGaugeChanged;
 
 	public int ComboCount { get { return comboCount; } }
@@ -36,11 +36,8 @@ public class ComboGaugeSystem : MonoBehaviour
 	private void Start()
 	{
 		comboCount = maxComboCount;
-		currentGauge = 0;
 
-		if(gaugeBar == null) { FDebug.LogError("[ComboGaugeSystem] gaugeBar is Null. This sripct require GauegeBarController Component in Same Scene"); return; }
-
-		gaugeBar.SetGaugeFillAmount(currentGauge);
+		SetComboGauge(0);
 	}
 
 	// ComboCount∏¶ ∞·¡§
@@ -88,13 +85,8 @@ public class ComboGaugeSystem : MonoBehaviour
 	private void SetComboGauge(int gauge)
 	{
 		currentGauge = Mathf.Clamp(gauge, minComboGauge, maxComboGauge);
-
-		if (gaugeBar != null)
-		{
-			FDebug.Log($"gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge) : {(float)currentGauge / maxComboGauge}");
-			gaugeBar.SetGaugeFillAmount((float)currentGauge / maxComboGauge);
-			OnGaugeChanged.Invoke(currentGauge);
-		}
+		
+		OnGaugeChanged?.Invoke(currentGauge);
 	}
 
 	public void ResetComboGauge()
