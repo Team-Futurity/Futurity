@@ -9,8 +9,8 @@ public class AreaController : MonoBehaviour
 	public int AreaID { get; private set; }
 
 	// Events : Area Start, Area End
-	public UnityEvent<bool> OnAreaStart;
-	public UnityEvent<bool> OnAreaEnd;
+	public UnityEvent OnAreaStart;
+	public UnityEvent OnAreaEnd;
 
 	// Controller Method
 	public List<IControllerMethod> controllerObserverList;
@@ -37,6 +37,8 @@ public class AreaController : MonoBehaviour
 	private void Start()
 	{
 		InitAll();
+
+		OnAreaStart?.Invoke();
 	}
 
 	private void Update()
