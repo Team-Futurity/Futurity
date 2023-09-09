@@ -379,7 +379,7 @@ public class CSNode : Node
 		so.AnimInteger = AnimInteger;
 		so.RandomShakePower = RandomShakePower;
 		so.CurveShakePower = CurveShakePower;
-		so.ShakeTime = SlowTime;
+		so.ShakeTime = ShakeTime;
 		so.SlowTime = SlowTime;
 		so.SlowScale = SlowScale;
 
