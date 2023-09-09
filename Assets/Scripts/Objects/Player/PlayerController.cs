@@ -327,7 +327,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 			else
 			{
-				if (curCombo != PlayerInputEnum.SpecialAttack)
+				if (firstBehaiviorNode.command == PlayerInputEnum.NormalAttack)
 				{
 					SetNextCombo(PlayerInputEnum.SpecialAttack);
 					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
