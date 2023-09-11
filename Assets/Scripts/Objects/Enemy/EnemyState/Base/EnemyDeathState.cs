@@ -11,7 +11,10 @@ public class EnemyDeathState : UnitState<EnemyController>
 	public override void Begin(EnemyController unit)
 	{
 		if (unit.isClustering)
-			unit.manager.EnemyDeclutter(unit.clusterNum);
+		{
+			//unit.manager.EnemyDeclutter(unit.clusterNum);
+			ClusterManager.Instance.EnemyDeCluster(unit.clusterNum);
+		}
 		unit.manager.DeActiveManagement(unit);
 		
 		if (unit.manager.activeEnemys.Count < 1)

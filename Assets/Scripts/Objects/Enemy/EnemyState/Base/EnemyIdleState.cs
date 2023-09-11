@@ -43,7 +43,10 @@ public class EnemyIdleState : UnitState<EnemyController>
 			unit.ChangeState(unit.UnitChaseState());
 
 			if (unit.isClusteringObj)
-				EnemyManager.Instance.EnemyClustering(unit);
+			{
+				//EnemyManager.Instance.EnemyClustering(unit);
+				ClusterManager.Instance.EnemyClustering(unit);
+			}
 		}
 	}
 
