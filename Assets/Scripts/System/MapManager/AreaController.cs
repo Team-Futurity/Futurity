@@ -9,6 +9,7 @@ public class AreaController : MonoBehaviour
 	public int AreaID { get; private set; }
 
 	// Events : Area Start, Area End
+	public UnityEvent OnAreaInit;
 	public UnityEvent OnAreaStart;
 	public UnityEvent OnAreaEnd;
 
@@ -33,56 +34,5 @@ public class AreaController : MonoBehaviour
 			FDebug.Break();
 		}
 	}
-
-	private void Start()
-	{
-		InitAll();
-
-		OnAreaStart?.Invoke();
-	}
-
-	private void Update()
-	{
-
-	}
-
-	private void OnDrawGizmos()
-	{
-		if (startPortalTrans == null || endPortalTrans == null)
-		{
-			return;
-		}
-
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(startPortalTrans.position, 1f);
-
-		Gizmos.color = Color.green;
-		Gizmos.DrawWireSphere(endPortalTrans.position, 1f);
-	}
-
-	public void InitAll()
-	{
-		foreach (var observer in controllerObserverList)
-		{
-			observer.Init();
-		}
-	}
-
-	public void RunAll()
-	{
-		foreach (var observer in controllerObserverList)
-		{
-			observer.Run();
-		}
-	}
-
-	public void StopAll()
-	{
-		foreach (var observer in controllerObserverList)
-		{
-			observer.Stop();
-		}
-	}
-
 
 }
