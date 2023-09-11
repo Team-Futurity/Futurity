@@ -37,7 +37,7 @@ public class GameManagerBase : Singleton<GameManagerBase>
 	{
 		foreach(var observer in controllObserverList)
 		{
-			observer.Active();
+			observer.Run();
 		}
 	}
 
