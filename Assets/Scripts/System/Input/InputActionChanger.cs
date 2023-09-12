@@ -33,7 +33,7 @@ public class InputActionChanger : Singleton<InputActionChanger>
 		}
 	}
 
-	public void ActiveInputActionAsset(InputActionType type)
+	public void EnableInputActionAsset(InputActionType type)
 	{
 		InputActionData data = GetActionData(type);
 
@@ -42,15 +42,15 @@ public class InputActionChanger : Singleton<InputActionChanger>
 		activatedAssets.Add(data.actionFile);
 	}
 
-	public void ActiveInputActionAssets(params InputActionType[] types)
+	public void EnableInputActionAssets(params InputActionType[] types)
 	{
 		foreach (var type in types)
 		{
-			ActiveInputActionAsset(type);
+			EnableInputActionAsset(type);
 		}
 	}
 
-	public void DeactiveInputActionAsset(InputActionType type)
+	public void DisableInputActionAsset(InputActionType type)
 	{
 		InputActionData data = GetActionData(type);
 
@@ -59,7 +59,7 @@ public class InputActionChanger : Singleton<InputActionChanger>
 		activatedAssets.Remove(data.actionFile);
 	}
 
-	public void DeactiveAllInputActionAsset()
+	public void DisableAllInputActionAsset()
 	{
 		foreach (var data in activatedAssets)
 		{
