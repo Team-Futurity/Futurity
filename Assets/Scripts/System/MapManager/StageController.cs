@@ -18,47 +18,51 @@ public class StageController : MonoBehaviour
 	public int currentAreaIndex = 0;
 	private int maxAreaIndex = 0;
 
-	// Stage 상태에 따른 Unity Event
-	[HideInInspector]
-	public UnityEvent<bool> OnStageActive;
-
 	[HideInInspector]
 	public UnityEvent OnStageStart;
 
 	[HideInInspector]
 	public UnityEvent OnStageEnd;
 
-	// 현재 Area가 Start Directing을 가지고 있을 경우 실행한다. -> Play에서 처리해줄 것
-	// 다음 씬으로 이동할 때, SetNextArea -> 네이밍 생각해볼 것.
-
-	// Stage Controller의 역할
-	// 씬 로딩 -> 로딩 완료 -> Play
-
 	private void Awake()
 	{
 		maxAreaIndex = areaControllerList.Count;
+
+		SetUp();
+	}
+
+	private void SetUp()
+	{
+		areaControllerList[currentAreaIndex].OnAreaClear.AddListener(() =>
+	   {
+		   ChangeToNextIndex();
+	   });
 	}
 
 	public void InitStage()
 	{
 		areaControllerList[currentAreaIndex].InitArea();
+
+		SetRunning(true);
 	}
 
 	public void PlayStage()
 	{
-		OnStageStart?.Invoke();
-	}
-
-	public void PauseStage()
-	{
+		areaControllerList[currentAreaIndex].PlayArea();
 	}
 
 	public void EndStage()
 	{
-		OnStageEnd?.Invoke();
+		SetRunning(false);
+
+		PauseStage();
 	}
 
-	// Index
+	public void PauseStage()
+	{
+		areaControllerList[currentAreaIndex].StopArea();
+	}
+
 	private void ChangeToNextIndex()
 	{
 		CheckStatus();
@@ -82,7 +86,7 @@ public class StageController : MonoBehaviour
 		}
 	}
 
-	private void SetRunStatus(bool isOn)
+	private void SetRunning(bool isOn)
 	{
 		if (isRunning == isOn)
 		{
@@ -90,7 +94,5 @@ public class StageController : MonoBehaviour
 		}
 
 		isRunning = isOn;
-
-		OnStageActive?.Invoke(isRunning);
 	}
 }
