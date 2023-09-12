@@ -8,6 +8,8 @@ public class AreaController : MonoBehaviour
 	[field: SerializeField]
 	public bool UseDirecting { get; private set; }
 	public TimelineManager.ECutScene directingType;
+	
+	[field:Space(10)]
 
 	[field: SerializeField]
 	public List<GameObject> ControlObserverList { get; private set; }
@@ -17,7 +19,10 @@ public class AreaController : MonoBehaviour
 	public Transform endPortalTrans;
 
 	private bool isActive = false;
-
+	
+	[Space(10)]
+	[Header("Events")]
+	[Space(5)]
 	public UnityEvent OnAreaClear;
 	
 	private void Awake()
