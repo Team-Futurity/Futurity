@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class FadeManager : Singleton<FadeManager>
 {
-	[SerializeField]
 	private Image fadeImage;
 
 	private readonly float MAX = 1f;
@@ -18,11 +17,11 @@ public class FadeManager : Singleton<FadeManager>
 
 	private float timer;
 	private bool isFading;
+	
 
 	protected override void Awake()
 	{
 		TryGetComponent(out fadeImage);
-		fadeImage.enabled = false;
 	}
 
 	public void FadeIn(float time = 1f, UnityAction inAction = null)
