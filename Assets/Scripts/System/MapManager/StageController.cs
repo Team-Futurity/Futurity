@@ -7,36 +7,38 @@ using UnityEngine.Events;
 
 public class StageController : MonoBehaviour
 {
-	// 현재 Stage가 실행중인지 확인하기
+	// Stage Controller가 실행중인가?
 	private bool isRunning = false;
 
-	// 모든 Area 데이터 가지고 있기
-	[field: SerializeField]
-	public List<AreaController> areaControllerList;
+	[field: SerializeField] public List<AreaController> areaControllerList;
 
-	[field: SerializeField]
-	public int currentAreaIndex = 0;
+	[field: SerializeField] public int currentAreaIndex = 0;
 	private int maxAreaIndex = 0;
 
-	[HideInInspector]
-	public UnityEvent OnStageStart;
+	[HideInInspector] public UnityEvent OnStageStart;
 
-	[HideInInspector]
-	public UnityEvent OnStageEnd;
+	[HideInInspector] public UnityEvent OnStageEnd;
 
 	private void Awake()
 	{
 		maxAreaIndex = areaControllerList.Count;
 
 		SetUp();
+		
+		FadeManager.Instance.FadeOut(3f, new UnityAction( () =>
+		{
+			InitStage();
+		}));
 	}
 
 	private void SetUp()
 	{
 		areaControllerList[currentAreaIndex].OnAreaClear.AddListener(() =>
-	   {
-		   ChangeToNextIndex();
-	   });
+		{
+			areaControllerList[currentAreaIndex].OnAreaClear?.RemoveListener(ChangeToNextIndex);
+
+			ChangeToNextIndex();
+		});
 	}
 
 	public void InitStage()
@@ -67,17 +69,17 @@ public class StageController : MonoBehaviour
 	{
 		CheckStatus();
 
-		if(currentAreaIndex + 1 >= maxAreaIndex)
+		if (currentAreaIndex + 1 >= maxAreaIndex)
 		{
 			return;
-		}	
+		}
 
 		currentAreaIndex++;
 	}
 
 	private void CheckStatus()
 	{
-		if(!isRunning)
+		if (!isRunning)
 		{
 			FDebug.Log($"[{GetType()}] 현재 Active 상태가 아닙니다.");
 			FDebug.Break();
