@@ -33,29 +33,6 @@ public class InputActionChanger : Singleton<InputActionChanger>
 		}
 	}
 
-	public void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.U))
-		{
-			AddInputActionAsset(InputActionType.Player);
-		}
-
-		if (Input.GetKeyDown(KeyCode.I))
-		{
-			RemoveInputActionAsset(InputActionType.Player);
-		}
-
-		if (Input.GetKeyDown(KeyCode.T))
-		{
-			AddInputActionAsset(InputActionType.UI);
-		}
-
-		if (Input.GetKeyDown(KeyCode.Y))
-		{
-			RemoveInputActionAsset(InputActionType.UI);
-		}
-	}
-
 	public void AddInputActionAsset(InputActionType type)
 	{
 		InputActionData data = GetActionData(type);
