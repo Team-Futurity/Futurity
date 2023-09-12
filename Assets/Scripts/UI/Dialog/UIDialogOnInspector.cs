@@ -47,7 +47,10 @@ public partial class UIDialogController
 		for (int i = 0; i < nameByType.Length; ++i)
 		{
 			Type extensionType = Type.GetType(nameByType[i]);
-			
+
+			if (CheckScript(extensionType))
+				return;
+
 			gameObject.AddComponent(extensionType);
 		}
 	}
