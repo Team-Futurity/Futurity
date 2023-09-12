@@ -7,44 +7,91 @@ using UnityEngine.Events;
 
 public class StageController : MonoBehaviour
 {
+	// 현재 Stage가 실행중인지 확인하기
+	private bool isActive = false;
+
 	// 모든 Area 데이터 가지고 있기
 	[field: SerializeField]
 	public List<AreaController> areaControllerList;
 
-	// 현재 Area의 Index
 	[field: SerializeField]
 	public int currentAreaIndex = 0;
 	private int maxAreaIndex = 0;
 
-	// 현재 Area의 Init, Play, Stop 메서드 가지고 있기
-	// Init : 데이터 초기화
-	// Play : 즉각적인 게임 Play
-	// Stop : 게임 일시 중지 -> UI 제외
+
+	// Stage 상태에 따른 Unity Event
+	[HideInInspector]
+	public UnityEvent<bool> OnStageActive;
+
+	[HideInInspector]
+	public UnityEvent OnStageStart;
+
+	[HideInInspector]
+	public UnityEvent OnStageEnd;
 
 	// 현재 Area가 Start Directing을 가지고 있을 경우 실행한다. -> Play에서 처리해줄 것
 	// 다음 씬으로 이동할 때, SetNextArea -> 네이밍 생각해볼 것.
+
+	// Stage Controller의 역할
+	// 씬 로딩 -> 로딩 완료 -> Play
 
 	private void Awake()
 	{
 		maxAreaIndex = areaControllerList.Count;
 	}
 
+	public void PlayStage()
+	{
+		OnStageStart?.Invoke();
+
+		SetStageActive(true);
+	}
+
+	public void EndStage()
+	{
+		OnStageEnd?.Invoke();
+
+		SetStageActive(false);
+	}
+
+	public void PauseStage()
+	{
+		SetStageActive(false);
+	}
+
+
 	public void SetNextArea()
 	{
-		// 인덱스 증가
+		CheckActive();
+
+		if(currentAreaIndex + 1 >= maxAreaIndex)
+		{
+			return;
+		}	
+
+		currentAreaIndex++;
 	}
 
-	public void InitArea()
+	private void CheckActive()
 	{
+		if(!isActive)
+		{
+			FDebug.Log($"[{GetType()}] 현재 Active 상태가 아닙니다.");
+			FDebug.Break();
+
+			return;
+		}
 	}
 
-	public void PlayArea()
+	private void SetStageActive(bool isOn)
 	{
+		if (isActive == isOn)
+		{
+			return;
+		}
 
-	}
+		isActive = isOn;
 
-	public void StopArea()
-	{
-
+		OnStageActive?.Invoke(isActive);
 	}
 }
