@@ -1675,7 +1675,7 @@ Transform:
   - {fileID: 5328251833773529112}
   - {fileID: 297851204}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &609950026
 GameObject:
@@ -1944,7 +1944,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &755222900
 GameObject:
@@ -2369,6 +2369,124 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868804782}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &922802231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 922802235}
+  - component: {fileID: 922802234}
+  - component: {fileID: 922802233}
+  - component: {fileID: 922802232}
+  m_Layer: 0
+  m_Name: MainCamera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &922802232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922802231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+--- !u!81 &922802233
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922802231}
+  m_Enabled: 1
+--- !u!20 &922802234
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922802231}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &922802235
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922802231}
+  m_LocalRotation: {x: 0.29650065, y: 0.40715015, z: -0.1390511, w: 0.8526318}
+  m_LocalPosition: {x: -12.093571, y: 13.37065, z: -6.178484}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &928214580
 GameObject:
   m_ObjectHideFlags: 0
@@ -2412,7 +2530,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &935906409 stripped
 Transform:
@@ -2603,7 +2721,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1000963568
 MonoBehaviour:
@@ -2863,7 +2981,7 @@ RectTransform:
   - {fileID: 2261325129806406824}
   - {fileID: 5163636620533659081}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2973,6 +3091,7 @@ MonoBehaviour:
   angle: 0
   radius: 0
   radiusCollider: {fileID: 0}
+  colliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &1173889001
 Transform:
   m_ObjectHideFlags: 0
@@ -3352,69 +3471,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1306457391
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7408373401816966345, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_Name
-      value: Main Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.89239913
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.23911765
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.3696438
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.09904577
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966346, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408373401816966350, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 5328251833773529112}
-    m_RemovedComponents:
-    - {fileID: 216791361, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-    - {fileID: 216791347, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: 80031e9de60bf254bba39b595cf8ffc3, type: 3}
 --- !u!1 &1311646212
 GameObject:
   m_ObjectHideFlags: 0
@@ -7363,235 +7419,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106ac3badaf664445aaae88fc61fb65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comboTree:
-    top:
+  commandTree:
+    <Top>k__BackingField:
       name: 
       command: 0
-      childNodes:
-      - name: J
-        command: 1
-        childNodes:
-        - name: JJ
-          command: 1
-          childNodes:
-          - name: JJJ
-            command: 1
-            childNodes: []
-            attackLength: 235
-            attackAngle: 360
-            attackLengthMark: 0
-            attackDelay: 1.055967
-            attackSpeed: 0.297567
-            attackAfterDelay: 1.7
-            attackST: 4
-            attackKnockback: 0
-            effectOffset: {x: 0, y: 0, z: 0}
-            effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-            effectPrefab: {fileID: 743645502276010547, guid: a342788b24e2bf34b8297f3a0da0474f, type: 3}
-            effectParent: {fileID: 0}
-            hitEffectOffset: {x: 0, y: 0, z: 0}
-            hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-            hitEffectPrefab: {fileID: 1796362244684154822, guid: 1a4ec730cc5b23f49bacd462aff9ef06, type: 3}
-            hitEffectParent: {fileID: 0}
-            animInteger: 2
-            randomShakePower: 0.2
-            curveShakePower: 0.2
-            shakeTime: 0.25
-            slowTime: 0.1
-            slowScale: 0.075
-            attackSound:
-              Guid:
-                Data1: 1134026463
-                Data2: 1319667708
-                Data3: 1757666958
-                Data4: -356488086
-              Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j-j
-          - name: JJK
-            command: 2
-            childNodes: []
-            attackLength: 600
-            attackAngle: 40
-            attackLengthMark: 0
-            attackDelay: 0.5
-            attackSpeed: 0.333
-            attackAfterDelay: 1.4
-            attackST: 4
-            attackKnockback: 120
-            effectOffset: {x: 0, y: 0, z: 0}
-            effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-            effectPrefab: {fileID: 7824830144992791228, guid: c0587accfc987084fbdcc4d87255d219, type: 3}
-            effectParent: {fileID: 0}
-            hitEffectOffset: {x: 0, y: 0, z: 0}
-            hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-            hitEffectPrefab: {fileID: 0}
-            hitEffectParent: {fileID: 0}
-            animInteger: 3
-            randomShakePower: 0
-            curveShakePower: 0
-            shakeTime: 0
-            slowTime: 0
-            slowScale: 0
-            attackSound:
-              Guid:
-                Data1: 1260165558
-                Data2: 1273239174
-                Data3: 1441446575
-                Data4: -410480518
-              Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j-k
-          attackLength: 250
-          attackAngle: 180
-          attackLengthMark: 0
-          attackDelay: 0.09277
-          attackSpeed: 0.14923
-          attackAfterDelay: 0.3
-          attackST: 2
-          attackKnockback: 100
-          effectOffset: {x: 0, y: 0, z: 0}
-          effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-          effectPrefab: {fileID: 8210732400216373646, guid: ce45194a96c5df94e97e15d0320870f6, type: 3}
-          effectParent: {fileID: 490048779298424223}
-          hitEffectOffset: {x: 0, y: 0, z: 0}
-          hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-          hitEffectPrefab: {fileID: 3005952347427146351, guid: a8f2bf971d987de449db6de5470a0714, type: 3}
-          hitEffectParent: {fileID: 0}
-          animInteger: 1
-          randomShakePower: 0
-          curveShakePower: 0
-          shakeTime: 0
-          slowTime: 0.01
-          slowScale: 0.001
-          attackSound:
-            Guid:
-              Data1: -1140022161
-              Data2: 1165864781
-              Data3: -350210426
-              Data4: -188375705
-            Path: event:/SE/PlayerAttack/Combo/F_S_01_02_attack_j-j
-        attackLength: 160
-        attackAngle: 130
-        attackLengthMark: 0
-        attackDelay: 0.0732
-        attackSpeed: 0.123
-        attackAfterDelay: 0.3
-        attackST: 1
-        attackKnockback: 270
-        effectOffset: {x: 0, y: 0, z: 0}
-        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-        effectPrefab: {fileID: 7485104759053717443, guid: 491302905a445004892ba748307860e5, type: 3}
-        effectParent: {fileID: 490048779298424223}
-        hitEffectOffset: {x: 0, y: 0, z: 0}
-        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-        hitEffectPrefab: {fileID: 1721076630676558347, guid: cd3ecfbbcbb5e6f4c93a4b43f321bdfb, type: 3}
-        hitEffectParent: {fileID: 0}
-        animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
-        shakeTime: 0
-        slowTime: 0.006
-        slowScale: 0
-        attackSound:
-          Guid:
-            Data1: 457418093
-            Data2: 1117554763
-            Data3: -682623315
-            Data4: -2132575348
-          Path: event:/SE/PlayerAttack/Basic/F_S_01_02_attack_j
-      - name: 
-        command: 2
-        childNodes: []
-        attackLength: 0
-        attackAngle: 0
-        attackLengthMark: 100
-        attackDelay: 0.3
-        attackSpeed: 1.7
-        attackAfterDelay: 0
-        attackST: 2
-        attackKnockback: 0
-        effectOffset: {x: 0, y: 0, z: 0}
-        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-        effectPrefab: {fileID: 1239019903903526306, guid: 80105e3230f8fce43a1f815990224c65, type: 3}
-        effectParent: {fileID: 0}
-        hitEffectOffset: {x: 0, y: 0, z: 0}
-        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-        hitEffectPrefab: {fileID: 0}
-        hitEffectParent: {fileID: 0}
-        animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
-        shakeTime: 0
-        slowTime: 0
-        slowScale: 0
-        attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
-      - name: 
-        command: 3
-        childNodes:
-        - name: 
-          command: 1
-          childNodes: []
-          attackLength: 0
-          attackAngle: 0
-          attackLengthMark: 0
-          attackDelay: 0
-          attackSpeed: 0
-          attackAfterDelay: 0
-          attackST: 0
-          attackKnockback: 0
-          effectOffset: {x: 0, y: 0, z: 0}
-          effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-          effectPrefab: {fileID: 0}
-          effectParent: {fileID: 0}
-          hitEffectOffset: {x: 0, y: 0, z: 0}
-          hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-          hitEffectPrefab: {fileID: 0}
-          hitEffectParent: {fileID: 0}
-          animInteger: 0
-          randomShakePower: 0
-          curveShakePower: 0
-          shakeTime: 0
-          slowTime: 0
-          slowScale: 0
-          attackSound:
-            Guid:
-              Data1: 0
-              Data2: 0
-              Data3: 0
-              Data4: 0
-            Path: 
-        attackLength: 0
-        attackAngle: 0
-        attackLengthMark: 0
-        attackDelay: 0
-        attackSpeed: 0
-        attackAfterDelay: 0
-        attackST: 0
-        attackKnockback: 0
-        effectOffset: {x: 0, y: 0, z: 0}
-        effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-        effectPrefab: {fileID: 0}
-        effectParent: {fileID: 0}
-        hitEffectOffset: {x: 0, y: 0, z: 0}
-        hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
-        hitEffectPrefab: {fileID: 0}
-        hitEffectParent: {fileID: 0}
-        animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
-        shakeTime: 0
-        slowTime: 0
-        slowScale: 0
-        attackSound:
-          Guid:
-            Data1: 0
-            Data2: 0
-            Data3: 0
-            Data4: 0
-          Path: 
+      childNodes: []
       attackLength: 0
       attackAngle: 0
       attackLengthMark: 0
@@ -7621,12 +7453,17 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
+  autoLength: 0
+  autoAngle: 0
+  moveTime: 0
+  moveMargin: 0
   rotatePower: 18
   dashCoolTime: 0.8
   dashEffect: {fileID: 308051857588389, guid: c10bf3382be3d8c448ab0ac0e01127e7, type: 3}
   dashPos: {fileID: 9054446366126042402}
   hitCoolTime: 0.533
   moveDir: {x: 0, y: 0, z: 0}
+  lastMoveDir: {x: 0, y: 0, z: 0}
   dashCoolTimeIsEnd: 0
   comboIsEnd: 0
   specialIsReleased: 0
@@ -30276,6 +30113,7 @@ MonoBehaviour:
   angle: 0
   radius: 0
   radiusCollider: {fileID: 0}
+  colliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!136 &4068547684327105750
 CapsuleCollider:
   m_ObjectHideFlags: 0
