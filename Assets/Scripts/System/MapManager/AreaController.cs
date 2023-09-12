@@ -8,12 +8,13 @@ public class AreaController : MonoBehaviour
 	[field: SerializeField]
 	public int AreaID { get; private set; }
 
+	[field: SerializeField]
+	public List<IControlCommand> ControlObserverList { get; private set; }
+
 	// Events : Area Start, Area End
 	public UnityEvent OnAreaInit;
 	public UnityEvent OnAreaStart;
 	public UnityEvent OnAreaEnd;
-
-	// Controller Method
 
 	// Portal
 	public Transform startPortalTrans;
@@ -21,21 +22,29 @@ public class AreaController : MonoBehaviour
 
 	private void Awake()
 	{
-		//if(controllerObserverList == null)
+		if (ControlObserverList == null)
 		{
 			FDebug.Log($"[{GetType()}] ControllerObserverList에 아무 것도 존재하지 않습니다.");
 			FDebug.Break();
 		}
 
-		if(AreaID == 0)
+	}
+
+	public void PlayArea()
+	{
+		foreach(var observer in ControlObserverList)
 		{
-			FDebug.Log($"[{GetType()}] AreaID가 부여되지 않았습니다.");
-			FDebug.Break();
+			observer.Run();
 		}
 	}
 
-	// Area Controller
-	// ControlMethod 
+	public void StopArea()
+	{
 
+	}
 
+	public void EndArea()
+	{
+
+	}
 }
