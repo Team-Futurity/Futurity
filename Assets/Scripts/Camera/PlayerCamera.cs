@@ -37,9 +37,10 @@ public class PlayerCamera : MonoBehaviour
 		SetPenetrate();
 	}
 
-	public void CameraShake()
+	public void CameraShake(float velocity = 0.4f, float duration = 0.2f)
 	{
-		impulseSource.GenerateImpulseWithForce(shakeForce);
+		impulseSource.m_ImpulseDefinition.m_ImpulseDuration = duration;
+		impulseSource.GenerateImpulseWithForce(velocity);
 	}
 	
 	#region Perspective Effect
