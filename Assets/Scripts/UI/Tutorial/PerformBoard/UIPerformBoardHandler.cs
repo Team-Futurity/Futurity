@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIPerformBoardHandler : MonoBehaviour, IControllerMethod
+public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 {
 	// Data를 전달받는 타겟 오브젝트
 	[field: Header("플레이어 데이터")]
@@ -40,8 +40,8 @@ public class UIPerformBoardHandler : MonoBehaviour, IControllerMethod
 		isActive = false;
 	}
 
-	#region IControllerMethod
-	void IControllerMethod.Init()
+	#region IControlCommand
+	void IControlCommand.Init()
 	{
 		isActive = true;
 
@@ -54,12 +54,12 @@ public class UIPerformBoardHandler : MonoBehaviour, IControllerMethod
 		Target.onChangeStateEvent?.AddListener(UpdateAction);
 	}
 
-	void IControllerMethod.Run()
+	void IControlCommand.Run()
 	{
 		Target.onChangeStateEvent?.AddListener(UpdateAction);
 	}
 
-	void IControllerMethod.Stop()
+	void IControlCommand.Stop()
 	{
 		Target.onChangeStateEvent?.RemoveListener(UpdateAction);
 	}

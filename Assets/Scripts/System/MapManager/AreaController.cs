@@ -14,7 +14,6 @@ public class AreaController : MonoBehaviour
 	public UnityEvent OnAreaEnd;
 
 	// Controller Method
-	public List<IControllerMethod> controllerObserverList;
 
 	// Portal
 	public Transform startPortalTrans;
@@ -22,7 +21,7 @@ public class AreaController : MonoBehaviour
 
 	private void Awake()
 	{
-		if(controllerObserverList == null)
+		//if(controllerObserverList == null)
 		{
 			FDebug.Log($"[{GetType()}] ControllerObserverList에 아무 것도 존재하지 않습니다.");
 			FDebug.Break();
@@ -34,5 +33,9 @@ public class AreaController : MonoBehaviour
 			FDebug.Break();
 		}
 	}
+
+	// Area Controller
+	// ControlMethod 
+
 
 }
