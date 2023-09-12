@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class StageController : MonoBehaviour
 {
 	// 현재 Stage가 실행중인지 확인하기
-	private bool isActive = false;
+	private bool isRunning = false;
 
 	// 모든 Area 데이터 가지고 있기
 	[field: SerializeField]
@@ -17,7 +17,6 @@ public class StageController : MonoBehaviour
 	[field: SerializeField]
 	public int currentAreaIndex = 0;
 	private int maxAreaIndex = 0;
-
 
 	// Stage 상태에 따른 Unity Event
 	[HideInInspector]
@@ -40,29 +39,29 @@ public class StageController : MonoBehaviour
 		maxAreaIndex = areaControllerList.Count;
 	}
 
+	public void InitStage()
+	{
+		areaControllerList[currentAreaIndex].InitArea();
+	}
+
 	public void PlayStage()
 	{
 		OnStageStart?.Invoke();
+	}
 
-		SetStageActive(true);
+	public void PauseStage()
+	{
 	}
 
 	public void EndStage()
 	{
 		OnStageEnd?.Invoke();
-
-		SetStageActive(false);
 	}
 
-	public void PauseStage()
+	// Index
+	private void ChangeToNextIndex()
 	{
-		SetStageActive(false);
-	}
-
-
-	public void SetNextArea()
-	{
-		CheckActive();
+		CheckStatus();
 
 		if(currentAreaIndex + 1 >= maxAreaIndex)
 		{
@@ -72,9 +71,9 @@ public class StageController : MonoBehaviour
 		currentAreaIndex++;
 	}
 
-	private void CheckActive()
+	private void CheckStatus()
 	{
-		if(!isActive)
+		if(!isRunning)
 		{
 			FDebug.Log($"[{GetType()}] 현재 Active 상태가 아닙니다.");
 			FDebug.Break();
@@ -83,15 +82,15 @@ public class StageController : MonoBehaviour
 		}
 	}
 
-	private void SetStageActive(bool isOn)
+	private void SetRunStatus(bool isOn)
 	{
-		if (isActive == isOn)
+		if (isRunning == isOn)
 		{
 			return;
 		}
 
-		isActive = isOn;
+		isRunning = isOn;
 
-		OnStageActive?.Invoke(isActive);
+		OnStageActive?.Invoke(isRunning);
 	}
 }
