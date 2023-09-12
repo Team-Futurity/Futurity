@@ -59,6 +59,14 @@ public class InputActionChanger : Singleton<InputActionChanger>
 		activatedAssets.Remove(data.actionFile);
 	}
 
+	public void DisableInputActionAssets(params InputActionType[] types)
+	{
+		foreach (var type in types)
+		{
+			DisableInputActionAsset(type);
+		}
+	}
+
 	public void DisableAllInputActionAsset()
 	{
 		foreach (var data in activatedAssets)
