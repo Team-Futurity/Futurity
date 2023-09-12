@@ -13,4 +13,5 @@ public struct InputActionData
 {
 	public InputActionType actionType;
 	public InputActionAsset actionFile;
+	public bool canRunDefault;
 }
