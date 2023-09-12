@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class FadeManager : Singleton<FadeManager>
 {
-	[field: SerializeField] public Image FadeImage { get; private set; }
+	[SerializeField]
+	private Image fadeImage;
 
 	private readonly float MAX = 1f;
 	private readonly float MIN = 0f;
@@ -20,10 +21,11 @@ public class FadeManager : Singleton<FadeManager>
 
 	protected override void Awake()
 	{
-		FadeImage.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
+		TryGetComponent(out fadeImage);
+		fadeImage.enabled = false;
 	}
 
-	public void FadeIn(float time = 0f, UnityAction inAction = null)
+	public void FadeIn(float time = 1f, UnityAction inAction = null)
 	{
 		if (isFading)
 		{
@@ -31,11 +33,12 @@ public class FadeManager : Singleton<FadeManager>
 		}
 
 		SetFadeRun(true);
+		SetFadeImage(MIN);
 
 		StartCoroutine(UpdateScreenFade(MIN, MAX, time, inAction));
 	}
 
-	public void FadeOut(float time = 0f, UnityAction outAction = null)
+	public void FadeOut(float time = 1f, UnityAction outAction = null)
 	{
 		if (isFading)
 		{
@@ -43,20 +46,21 @@ public class FadeManager : Singleton<FadeManager>
 		}
 
 		SetFadeRun(true);
+		SetFadeImage(MAX);
 
 		StartCoroutine(UpdateScreenFade(MAX, MIN, time, outAction));
 	}
 
 	private IEnumerator UpdateScreenFade(float start, float end, float time, UnityAction updateAction = null)
 	{
-		var imageColor = FadeImage.color;
+		var imageColor = fadeImage.color;
 
 		while (timer < time)
 		{
 			timer += Time.deltaTime;
 
 			imageColor.a = Mathf.Lerp(start, end, timer / time);
-			FadeImage.color = imageColor;
+			fadeImage.color = imageColor;
 
 			yield return null;
 		}
@@ -72,6 +76,16 @@ public class FadeManager : Singleton<FadeManager>
 	private void SetFadeRun(bool isTrigger)
 	{
 		isFading = isTrigger;
-		FadeImage.raycastTarget = !isTrigger;
+
+		fadeImage.enabled = isTrigger;
+		fadeImage.raycastTarget = !isTrigger;
+	}
+
+	private void SetFadeImage(float ratio)
+	{
+		var imageColor = fadeImage.color;
+		imageColor.a = ratio;
+		
+		fadeImage.color = imageColor;
 	}
 }
