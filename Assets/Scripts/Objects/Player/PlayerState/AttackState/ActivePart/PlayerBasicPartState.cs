@@ -91,7 +91,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 			if(enemy == null) { return; }
 
 			enemies.Add(enemy);
-			unit.buffProvider.SetBuff(enemy, proccessor.buffCode, proccessor.duration - currentTime);
+			//unit.buffProvider.SetBuff(enemy, proccessor.buffCode, proccessor.duration - currentTime);
 		}
 	}
 
