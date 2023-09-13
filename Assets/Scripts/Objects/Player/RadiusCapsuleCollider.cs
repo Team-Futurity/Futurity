@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -19,6 +19,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		radiusCollider.enabled = false;
 	}
 
+	// 콜라이더 기본 설정
 	public void SetCollider(float angle, float radius)
 	{ 
 		this.angle = angle;
@@ -27,6 +28,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		radiusCollider.radius = radius;
 	}
 
+	// 원본 콜라이더 내에 들어왔는지 검증하는 메소드
 	public bool IsInCollider(GameObject target)
 	{
 		Vector3 targetVec = target.transform.position - transform.position;
@@ -34,6 +36,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		return targetVec.magnitude <= radius;
 	}
 
+	// 잘라낸 콜라이더 내에 있는지 검증하는 메소드
 	public bool IsInCuttedCollider(GameObject target)
 	{
 		float clampedAngle = angle % 360;
@@ -63,6 +66,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		return theta * 2 <= (clampedAngle == 0 && angle > 0 ? 360 : clampedAngle) * Mathf.Deg2Rad;
 	}
 
+	// 해당 오브젝트들이 잘라낸 콜라이더 내에 있는지 검증하는 메소드
 	public List<GameObject> GetObjectsInCollider(List<GameObject> targets)
 	{
 		List<GameObject> objects = targets.ToList();
@@ -77,6 +81,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		return objects;
 	}
 
+	// 경계선 벡터를 알아내는 메소드
 	public Vector3[] GetRadiusVector()
 	{
 		Vector3[] vecs = new Vector3[2];
@@ -99,6 +104,7 @@ public class RadiusCapsuleCollider : MonoBehaviour
 		return vecs;
 	}
 
+	// 공격 범위 표시
 #if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
