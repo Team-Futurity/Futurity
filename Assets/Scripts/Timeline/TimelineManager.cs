@@ -22,7 +22,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	public PlayerController PlayerController => playerController;
 
 	[Header("슬로우 타임")] 
-	[SerializeField] [Tooltip("슬로우 시간")] private float slowMotionDuration;
+	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
 	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
 
@@ -117,9 +117,9 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		var time = 0.0f;
 
-		while (time < slowMotionDuration)
+		while (time < timeToSlowMotion)
 		{
-			Time.timeScale = Mathf.Lerp(Time.timeScale, targetTimeScale, time / slowMotionDuration);
+			Time.timeScale = Mathf.Lerp(Time.timeScale, targetTimeScale, time / timeToSlowMotion);
 			time += Time.unscaledDeltaTime;
 
 			yield return null;
