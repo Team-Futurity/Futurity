@@ -97,7 +97,7 @@ public class PlayerAttackState : PlayerComboAttackState
 	{
 		attackNode = unit.curNode;
 
-		if (attackNode.effectPoolManager == null) { return; }
+		if (attackNode.hitEffectPoolManager == null) { return; }
 
 		Vector3 rot = target.rotation.eulerAngles;
 		rot.y *= -1;

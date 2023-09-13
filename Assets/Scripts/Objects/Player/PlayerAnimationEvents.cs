@@ -110,6 +110,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	{
 		if (playerCamera != null)
 		{
+			attackNode = pc.curNode;
 			playerCamera.CameraShake(attackNode.shakePower, attackNode.shakeTime);
 		}
 	}
