@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using static EnemyEffectManager;
 using FMODUnity;
 using System.Linq;
+using UnityEngine.Events;
 
 public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
@@ -45,9 +46,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public enum EnemyType : int
 	{
-		MeleeDefault,
-		RangedDefault,
-		MinimalDefault,
+		MeleeDefault = 0,
+		RangedDefault = 1,
+		MinimalDefault = 2
 	}
 
 	//[HideInInspector] public TestHPBar hpBar; //임시
@@ -67,7 +68,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Enemy Management")]
-	[HideInInspector] public EnemyManager manager;
 	[HideInInspector] public EnemyEffectManager effectManager;
 
 	//clustering
@@ -155,11 +155,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Death")]
 	public float deathDelay = 2.0f;
-
-
+	
 	private void Start()
 	{
-		manager = EnemyManager.Instance;
 		effectManager = EnemyEffectManager.Instance;
 
 		//hpBar = GetComponent<TestHPBar>(); //임시

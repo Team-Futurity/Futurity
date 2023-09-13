@@ -12,14 +12,7 @@ public class EnemyDeathState : UnitState<EnemyController>
 	{
 		if (unit.isClustering)
 		{
-			//unit.manager.EnemyDeclutter(unit.clusterNum);
 			ClusterManager.Instance.EnemyDeCluster(unit.clusterNum);
-		}
-		unit.manager.DeActiveManagement(unit);
-		
-		if (unit.manager.activeEnemys.Count < 1)
-		{
-			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LASTKILLCUTSCENE);
 		}
 		
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;

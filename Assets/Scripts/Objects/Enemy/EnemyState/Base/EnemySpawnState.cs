@@ -52,7 +52,6 @@ public class EnemySpawnState : UnitState<EnemyController>
 /*		unit.manager = EnemyManager.Instance;
 		unit.effectManager = EnemyEffectManager.Instance;*/
 
-		unit.manager.ActiveManagement(unit);
 		unit.effectManager.CopyEffect(unit);
 	}
 
