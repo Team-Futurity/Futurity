@@ -70,8 +70,7 @@ public class CommandTreeLoader : MonoBehaviour
 		node.hitEffectParent	= GetEffectParent(commandSO.HitEffectParent);
 
 		node.animInteger		= commandSO.AnimInteger;
-		node.randomShakePower	= commandSO.RandomShakePower;
-		node.curveShakePower	= commandSO.CurveShakePower;
+		node.shakePower			= commandSO.ShakePower;
 		node.shakeTime			= commandSO.ShakeTime;
 		node.slowTime			= commandSO.SlowTime;
 		node.slowScale			= commandSO.SlowScale;

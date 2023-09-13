@@ -42,8 +42,7 @@ public class CSNode : Node
 	public int AnimInteger { get; set; }
 
 	float random;
-	public float RandomShakePower { get; set; }
-	public float CurveShakePower { get; set; }
+	public float ShakePower { get; set; }
 	public float ShakeTime { get; set; }
 	public float SlowTime { get; set; }
 	public float SlowScale { get; set; }
@@ -171,11 +170,10 @@ public class CSNode : Node
 		Foldout productionFoldout = CSElementUtility.CreateFoldout("Production");
 		IntegerField animInteagerField			= CreateAndRegistField("애니메이션 전환값			|", AnimInteger, productionFoldout);
 
-		FloatField randomShakeField				= CreateAndRegistField("무작위로 흔드는 정도		|", RandomShakePower, productionFoldout);
-		FloatField curveShakeField				= CreateAndRegistField("커브로 흔드는 정도		|", CurveShakePower, productionFoldout);
+		FloatField shakeField				= CreateAndRegistField("커브로 흔드는 세기		|", ShakePower, productionFoldout);
 		FloatField shakeTimeField				= CreateAndRegistField("흔드는 시간				|", ShakeTime, productionFoldout);
 		FloatField slowTimeField				= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
-		FloatField slowScaleField				= CreateAndRegistField("슬로우를 거는 정도		|", SlowScale, productionFoldout);
+		FloatField slowScaleField				= CreateAndRegistField("슬로우를 거는 세기		|", SlowScale, productionFoldout);
 
 		// sound
 		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
@@ -204,8 +202,7 @@ public class CSNode : Node
 		enemyHitEffectField.RegisterValueChangedCallback((callback) => { HitEffectParent = (EffectParent)callback.newValue; });
 
 		animInteagerField.RegisterValueChangedCallback((callback) => { AnimInteger = callback.newValue; });
-		randomShakeField.RegisterValueChangedCallback((callback) => { RandomShakePower = callback.newValue; });
-		curveShakeField.RegisterValueChangedCallback((callback) => { CurveShakePower = callback.newValue; });
+		shakeField.RegisterValueChangedCallback((callback) => { ShakePower = callback.newValue; });
 		shakeTimeField.RegisterValueChangedCallback((callback) => { ShakeTime = callback.newValue; });
 		slowTimeField.RegisterValueChangedCallback((callback) => { SlowTime = callback.newValue; });
 		slowScaleField.RegisterValueChangedCallback((callback) => { SlowScale = callback.newValue; });
@@ -346,8 +343,7 @@ public class CSNode : Node
 		HitEffectParent = saveData.HitEffectParent;
 
 		AnimInteger = saveData.AnimInteger;
-		RandomShakePower = saveData.RandomShakePower;
-		CurveShakePower = saveData.CurveShakePower;
+		ShakePower = saveData.ShakePower;
 		ShakeTime = saveData.ShakeTime;
 		SlowTime = saveData.SlowTime;
 		SlowScale = saveData.SlowScale;
@@ -377,8 +373,7 @@ public class CSNode : Node
 		so.HitEffectParent = HitEffectParent;
 
 		so.AnimInteger = AnimInteger;
-		so.RandomShakePower = RandomShakePower;
-		so.CurveShakePower = CurveShakePower;
+		so.ShakePower = ShakePower;
 		so.ShakeTime = ShakeTime;
 		so.SlowTime = SlowTime;
 		so.SlowScale = SlowScale;
