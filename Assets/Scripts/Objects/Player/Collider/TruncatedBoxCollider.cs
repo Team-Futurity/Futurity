@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
@@ -34,6 +35,18 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 	protected override void OnDrawGizmos()
 	{
-		throw new System.NotImplementedException();
+		Gizmos.color = colliderColor;
+		var vecs = GetVectorToCut();
+		Vector3 leftPos = transform.position + vecs[1];
+		Vector3 rightPos = transform.position + vecs[0];
+
+		// Head(TopLine)
+		Handles.color = new Color(colliderColor.r, colliderColor.g, colliderColor.b, 0.1f);
+		Handles.DrawLines()
+
+		// Line
+		if (Angle % 360 == 0) return;
+		Gizmos.DrawLine(transform.position, rightPos);
+		Gizmos.DrawLine(transform.position, leftPos);
 	}
 }
