@@ -11,7 +11,7 @@ public class PlayerAttackState_Normal : PlayerAttackState
 	{
 		base.Begin(pc);
 
-		pc.attackCollider.radiusCollider.enabled = true;
+		pc.attackCollider.truncatedCollider.enabled = true;
 	}
 
 	public override void End(PlayerController pc)

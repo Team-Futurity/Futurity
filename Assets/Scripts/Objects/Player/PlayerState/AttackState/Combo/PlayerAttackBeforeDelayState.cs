@@ -45,8 +45,8 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		float range = isCombo 
 			? pc.autoLength * MathPlus.cm2m 
 			: (attackNode.attackLengthMark + (PlayerAttackState_Charged.MaxLevel - 1) * PlayerAttackState_Charged.LengthMarkIncreasing) * MathPlus.cm2m;
-		pc.autoTargetCollider.radiusCollider.enabled = true;
-		pc.attackCollider.radiusCollider.enabled = true;
+		pc.autoTargetCollider.truncatedCollider.enabled = true;
+		pc.attackCollider.truncatedCollider.enabled = true;
 		pc.autoTargetCollider.SetCollider(pc.autoAngle, range);
 		pc.attackCollider.SetCollider(attackNode.attackAngle, attackNode.attackLength * MathPlus.cm2m);
 
@@ -80,7 +80,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 	{
 		base.End(pc);
 
-		pc.attackCollider.radiusCollider.enabled = false;
+		pc.attackCollider.truncatedCollider.enabled = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

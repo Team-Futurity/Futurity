@@ -45,7 +45,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 		if(isExplosion)
 		{
-			float radius = Mathf.Lerp(unit.attackCollider.radius, maxSize, proccessor.duration / Time.deltaTime);
+			float radius = Mathf.Lerp(unit.attackCollider.Radius, maxSize, proccessor.duration / Time.deltaTime);
 			float effectRadius = 2 * radius * explosionEffectUnitSize;
 			unit.attackCollider.SetCollider(maxAngle, radius);
 			
@@ -122,7 +122,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 	public void PreAttack()
 	{
-		pc.attackCollider.radiusCollider.enabled = true;
+		pc.attackCollider.truncatedCollider.enabled = true;
 
 		
 

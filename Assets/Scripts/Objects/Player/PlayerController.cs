@@ -98,8 +98,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public SpecialMoveController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
-	public RadiusCapsuleCollider attackCollider;
-	public RadiusCapsuleCollider autoTargetCollider;
+	public TruncatedCapsuleCollider attackCollider;
+	public TruncatedCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
 	public EffectController effectController;
 	public EffectDatas effectSO;
