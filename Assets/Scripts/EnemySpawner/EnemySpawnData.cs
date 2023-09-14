@@ -5,11 +5,19 @@ using UnityEngine;
 public class EnemySpawnData : ScriptableObject
 {
 	[Header("각 웨이브에서 스폰시킬 수")] [Tooltip("List의 Count가 최대 웨이브 횟수")]
-	public List<WaveSpawnCount> waveSpawnCounts;
+	public List<WaveCount> waveSpawnCounts;
 }
 
 [System.Serializable]
-public struct WaveSpawnCount
+public struct WaveCount
 {
-	public int[] spawnCounts;
+	public SpawnCount[] wave;
+}
+
+[System.Serializable]
+public struct SpawnCount
+{
+	public int meleeCnt;
+	public int rangedCnt;
+	public int minimalCnt;
 }

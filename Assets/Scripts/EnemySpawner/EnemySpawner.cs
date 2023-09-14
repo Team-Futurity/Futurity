@@ -2,197 +2,116 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
 	private const int MAX_ENEMY_TYPE = 3;
-	
-	[Header("Component")] 
-	[SerializeField] private EnemySpawnData enemySpawnData;
-	[SerializeField] private List<GameObject> enemyPrefabs;
-	[SerializeField] private Transform enemyParents;
-	[SerializeField] private Transform enemyContainer;
 
-	[Header("스폰 상황 확인")] 
-	[ReadOnly(false), SerializeField] public int maxWaveCount = 0;
-	[ReadOnly(false), SerializeField] private int curWaveIndex = 0;
-	[ReadOnly(false), SerializeField] private int[] spawnedEnemyCount;
-	public int MaxWaveCount => maxWaveCount;
-	public int CurWaveIndex => curWaveIndex;
-	public int[] SpawnedEnemyCount => spawnedEnemyCount;
+	[Header("컴포넌트")] 
+	[SerializeField] private Transform enemyParents;
 	
-	// EnemyPool
-	private readonly List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
-	private const string MELEE_POS_NAME = "MeleePos";
-	private const string RANGED_POS_NAME = "RangedPos";
-	private const string MINIMAL_POS_NAME = "MinimalPos";
+	[Header("스폰 데이터")] 
+	[SerializeField] private EnemySpawnData spawnData;
+	private int totalWaveCount = 0;
+	private int curWaveCount = 0;
+	private int totalStepCount = 0;
+	private int curStepCount = 0;
 	
+	[Header("스포너 범위")] 
+	[SerializeField] private float spawnRadius = 20.0f;
+	[SerializeField] private float yOffset = 0.64f;
+	[SerializeField] private Color radiusColor = Color.clear;
+	[SerializeField] private int maxCheckCount = 30;
+	private int curCheckCount = 0;
+	private Transform spawnArea = null;
+
+	[Header("중복 소환 검사 크기")] 
+	[SerializeField] private float inspectionRange = 2.0f;
+	
+	// 실제 소환 개수 저장
+	[HideInInspector] public int[] spawnCount = new int[3];
+	private int spawnIndex = 0;
+
 	private void Awake()
 	{
 		Init();
-		CreateEnemyPool();
-
-		for (int i = 0; i < spawnedEnemyCount.Length; ++i)
-		{
-			Debug.Log(spawnedEnemyCount[i]);
-		}
 	}
-	
-	public void EnableEnemyWave()
+
+	public void SpawnEnemy(GameObject[] enemyPrefabs)
 	{
-		if (enemyPool.Count <= 0)
+		if (curWaveCount >= totalWaveCount)
 		{
 			return;
 		}
 		
-		var pool = enemyPool[0];
-		while (pool.Count != 0)
+		if (curStepCount >= totalStepCount)
 		{
-			var enemy = pool.Dequeue();
-			
-			enemy.transform.SetParent(enemyParents);
-			enemy.SetActive(true);
+			curWaveCount++;
+			curStepCount = 0;
 		}
+		
+		int melee = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].meleeCnt;
+		int ranged = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].rangedCnt;
+		int minimal = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].minimalCnt;
 
-		curWaveIndex++;
-		enemyPool.RemoveAt(0);
+		spawnIndex = 0;
+		CreateEnemy(melee, enemyPrefabs[0]);
+		CreateEnemy(ranged, enemyPrefabs[1]);
+		CreateEnemy(minimal, enemyPrefabs[2]);
 	}
 
-	public void EnemyDisableEvent()
+	private void CreateEnemy(int count, GameObject prefab)
 	{
-		
-	}
-	
-	private void CreateEnemyPool()
-	{
-		int curWaveIndex = 1;
-		
-		foreach (var spawnData in enemySpawnData.waveSpawnCounts)
+		for (int i = 0; i < count; ++i)
 		{
-			int index = 0;
+			Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
+			Vector3 spawnPos = new Vector3(randomPos.x, yOffset, randomPos.y) + spawnArea.position;
 
-			for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
+			Collider[] colliders = Physics.OverlapSphere(spawnPos, inspectionRange);
+			bool isEnemyFound = false;
+			foreach (var col in colliders)
 			{
-				for (int j = 0; j < spawnData.spawnCounts[i]; ++j)
+				if (col.CompareTag("Enemy"))
 				{
-					var enemy = Instantiate(enemyPrefabs[i], enemyContainer);
-					enemy.GetComponent<EnemyController>().SpawnInitData(curWaveIndex, EnemyDisableEvent);
-
-					enemy.transform.position = transform.GetChild(curWaveIndex).GetChild(index++).position;
-					enemy.transform.forward = Vector3.left;
-					enemy.SetActive(false);
-					
-					enemyPool[curWaveIndex - 1].Enqueue(enemy);
+					isEnemyFound = true;
+					curCheckCount++;
+					break;
 				}
 			}
 
-			spawnedEnemyCount[curWaveIndex - 1] = enemyPool[curWaveIndex - 1].Count;
-			curWaveIndex++;
+			if (isEnemyFound == true && curCheckCount <= maxCheckCount)
+			{
+				i--;
+				continue;
+			}
+
+			// TODO : 풀링을 사용한 방법으로 변경
+			curCheckCount = 0;
+			
+			var enemy = Instantiate(prefab, spawnPos, Quaternion.Euler(0, -90f, 0));
+			enemy.transform.SetParent(enemyParents);
+
+			spawnCount[spawnIndex]++;
 		}
+
+		spawnIndex++;
 	}
 
 	private void Init()
 	{
-		maxWaveCount = enemySpawnData.waveSpawnCounts.Count;
-		spawnedEnemyCount = new int[maxWaveCount];
-		
-		for (int i = 0; i < maxWaveCount; ++i)
-		{
-			enemyPool.Add(new Queue<GameObject>());
-		}
+		totalWaveCount = spawnData.waveSpawnCounts.Count;
+		totalStepCount = spawnData.waveSpawnCounts[curWaveCount].wave.Length;
+
+		spawnArea = transform;
 	}
 	
-	#region OnlyUseEditor
-	public void InstantiatePosition()
+	private void OnDrawGizmos()
 	{
-		if (enemySpawnData == null)
-		{
-			return;
-		}
-
-		int waveCount = enemySpawnData.waveSpawnCounts.Count;
-
-		for (int i = 0; i < waveCount; ++i)
-		{
-			var obj = new GameObject("Wave" + (i + 1));
-			obj.transform.SetParent(transform);
-		}
-
-		int curWave = 1;
-		foreach (var spawnData in enemySpawnData.waveSpawnCounts)
-		{
-			int melee = 0;
-			int ranged = 0;
-			int minimal = 0;
-			
-			for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
-			{
-				switch (i)
-				{
-					case 0:
-						melee = spawnData.spawnCounts[i];
-						break;
-					
-					case 1:
-						ranged = spawnData.spawnCounts[i];
-						break;
-					
-					case 2:
-						minimal = spawnData.spawnCounts[i];
-						break;
-				}
-			}
-			CreateTransformObj(melee, MELEE_POS_NAME, EnemyController.EnemyType.MeleeDefault, curWave);
-			CreateTransformObj(ranged, RANGED_POS_NAME, EnemyController.EnemyType.RangedDefault, curWave);
-			CreateTransformObj(minimal, MINIMAL_POS_NAME, EnemyController.EnemyType.MinimalDefault, curWave);
-
-			curWave++;
-		}
+		Handles.color = radiusColor;
+		Handles.DrawWireArc(transform.position, Vector3.up, Vector3.forward, 360, spawnRadius);
 	}
-
-	public void RemoveAllPosition()
-	{
-		int waveCount = enemySpawnData.waveSpawnCounts.Count;
-		
-		for (int i = 0; i < waveCount; ++i)
-		{
-			DestroyImmediate(transform.GetChild(1).gameObject);
-		}
-	}
-
-	private void CreateTransformObj(int count, string objName, EnemyController.EnemyType type,
-		int parentsIndex)
-
-	{
-		Color color = Color.clear;
-		switch (type)
-		{
-			case EnemyController.EnemyType.MeleeDefault:
-				color = Color.red;
-				break;
-
-			case EnemyController.EnemyType.RangedDefault:
-				color = Color.green;
-				break;
-
-			case EnemyController.EnemyType.MinimalDefault:
-				color = Color.yellow;
-				break;
-		}
-
-		for (int i = 0; i < count; ++i)
-		{
-			var posObj = new GameObject(objName + (i + 1));
-
-			posObj.transform.SetParent(transform.GetChild(parentsIndex));
-			posObj.transform.localPosition = Vector3.zero;
-
-			posObj.AddComponent<DrawPosition>().color = color;
-		}
-	}
-
-	#endregion
-
 }
 
