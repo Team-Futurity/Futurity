@@ -34,9 +34,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MiniDefaultAttack,
 		MiniDefaultKnockback,
 
-		//Cluster
-		ClusterChase,
-		ClusterSlow,
+		//EliteDefault
+		EliteDefaultChase,
+		EliteMeleeAttack,
+		EliteRangedAttack,
 
 		//Tutorial
 		TutorialIdle,
@@ -48,6 +49,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MeleeDefault,
 		RangedDefault,
 		MinimalDefault,
+		EliteDefault,
 	}
 
 	//[HideInInspector] public TestHPBar hpBar; //юс╫ц
