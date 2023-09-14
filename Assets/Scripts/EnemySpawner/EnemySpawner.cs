@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -10,14 +11,19 @@ public class EnemySpawner : MonoBehaviour
 	[Header("Component")] 
 	[SerializeField] private EnemySpawnData enemySpawnData;
 	[SerializeField] private List<GameObject> enemyPrefabs;
-	[SerializeField] private List<Transform> positionParents;
 	[SerializeField] private Transform enemyParents;
 	[SerializeField] private Transform enemyContainer;
-	public SpawnCountData data;
+
+	[Header("스폰 상황 확인")] 
+	[ReadOnly(false), SerializeField] public int maxWaveCount = 0;
+	[ReadOnly(false), SerializeField] private int curWaveIndex = 0;
+	[ReadOnly(false), SerializeField] private int[] spawnedEnemyCount;
+	public int MaxWaveCount => maxWaveCount;
+	public int CurWaveIndex => curWaveIndex;
+	public int[] SpawnedEnemyCount => spawnedEnemyCount;
 	
 	// EnemyPool
 	private readonly List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
-
 	private const string MELEE_POS_NAME = "MeleePos";
 	private const string RANGED_POS_NAME = "RangedPos";
 	private const string MINIMAL_POS_NAME = "MinimalPos";
@@ -27,60 +33,74 @@ public class EnemySpawner : MonoBehaviour
 		Init();
 		CreateEnemyPool();
 
-		for (int i = 0; i < enemySpawnData.firstSpawnCount.Length; ++i)
+		for (int i = 0; i < spawnedEnemyCount.Length; ++i)
 		{
-			SpawnEnemy(enemySpawnData.firstSpawnCount[i], i);
+			Debug.Log(spawnedEnemyCount[i]);
 		}
-
-		Debug.Log(
-			$"{data.totalCount}   /   {data.totalRemainingCount} = {enemyPool[0].Count} + {enemyPool[1].Count} + {enemyPool[2].Count}");
 	}
 	
-	public void SpawnEnemy(int spawnCount, int type)
+	public void EnableEnemyWave()
 	{
-		if (spawnCount > enemyPool[type].Count)
+		if (enemyPool.Count <= 0)
 		{
-			Debug.Log("Spawn Count is to Large!!");
 			return;
 		}
-
-		for (int i = 0; i < spawnCount; ++i)
+		
+		var pool = enemyPool[0];
+		while (pool.Count != 0)
 		{
-			var enemy = enemyPool[type].Dequeue();
+			var enemy = pool.Dequeue();
 			
 			enemy.transform.SetParent(enemyParents);
 			enemy.SetActive(true);
-
-			data.UpdateRemainingCounts(type);
 		}
+
+		curWaveIndex++;
+		enemyPool.RemoveAt(0);
+	}
+
+	public void EnemyDisableEvent()
+	{
+		
 	}
 	
 	private void CreateEnemyPool()
 	{
-		for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
+		int curWaveIndex = 1;
+		
+		foreach (var spawnData in enemySpawnData.waveSpawnCounts)
 		{
-			var prefabs = enemyPrefabs[i];
-			
-			for (int j = 0; j < data.maxSpawnCounts[i]; ++j)
-			{
-				var enemy = Instantiate(prefabs, enemyContainer);
+			int index = 0;
 
-				enemy.transform.position = positionParents[i].GetChild(j).position;
-				enemy.transform.forward = Vector3.left;
-				enemy.SetActive(false);
-				
-				enemyPool[i].Enqueue(enemy);
+			for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
+			{
+				for (int j = 0; j < spawnData.spawnCounts[i]; ++j)
+				{
+					var enemy = Instantiate(enemyPrefabs[i], enemyContainer);
+					enemy.GetComponent<EnemyController>().SpawnInitData(curWaveIndex, EnemyDisableEvent);
+
+					enemy.transform.position = transform.GetChild(curWaveIndex).GetChild(index++).position;
+					enemy.transform.forward = Vector3.left;
+					enemy.SetActive(false);
+					
+					enemyPool[curWaveIndex - 1].Enqueue(enemy);
+				}
 			}
+
+			spawnedEnemyCount[curWaveIndex - 1] = enemyPool[curWaveIndex - 1].Count;
+			curWaveIndex++;
 		}
 	}
 
 	private void Init()
 	{
-		data = new SpawnCountData(enemySpawnData);
+		maxWaveCount = enemySpawnData.waveSpawnCounts.Count;
+		spawnedEnemyCount = new int[maxWaveCount];
 		
-		enemyPool.Add(new Queue<GameObject>());
-		enemyPool.Add(new Queue<GameObject>());
-		enemyPool.Add(new Queue<GameObject>());
+		for (int i = 0; i < maxWaveCount; ++i)
+		{
+			enemyPool.Add(new Queue<GameObject>());
+		}
 	}
 	
 	#region OnlyUseEditor
@@ -90,29 +110,60 @@ public class EnemySpawner : MonoBehaviour
 		{
 			return;
 		}
-		
-		int meleeCount = enemySpawnData.MeleeDefaultSpawnCount;
-		int rangeCount = enemySpawnData.RangedDefaultSpawnCount;
-		int minimalCount = enemySpawnData.MinimalDefaultSpawnCount;
-		
-		CreateTransformObj(meleeCount, MELEE_POS_NAME, EnemyController.EnemyType.MeleeDefault);
-		CreateTransformObj(rangeCount, RANGED_POS_NAME, EnemyController.EnemyType.RangedDefault);
-		CreateTransformObj(minimalCount, MINIMAL_POS_NAME, EnemyController.EnemyType.MinimalDefault);
+
+		int waveCount = enemySpawnData.waveSpawnCounts.Count;
+
+		for (int i = 0; i < waveCount; ++i)
+		{
+			var obj = new GameObject("Wave" + (i + 1));
+			obj.transform.SetParent(transform);
+		}
+
+		int curWave = 1;
+		foreach (var spawnData in enemySpawnData.waveSpawnCounts)
+		{
+			int melee = 0;
+			int ranged = 0;
+			int minimal = 0;
+			
+			for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
+			{
+				switch (i)
+				{
+					case 0:
+						melee = spawnData.spawnCounts[i];
+						break;
+					
+					case 1:
+						ranged = spawnData.spawnCounts[i];
+						break;
+					
+					case 2:
+						minimal = spawnData.spawnCounts[i];
+						break;
+				}
+			}
+			CreateTransformObj(melee, MELEE_POS_NAME, EnemyController.EnemyType.MeleeDefault, curWave);
+			CreateTransformObj(ranged, RANGED_POS_NAME, EnemyController.EnemyType.RangedDefault, curWave);
+			CreateTransformObj(minimal, MINIMAL_POS_NAME, EnemyController.EnemyType.MinimalDefault, curWave);
+
+			curWave++;
+		}
 	}
 
 	public void RemoveAllPosition()
 	{
-		for (int i = 0; i < positionParents.Count; ++i)
+		int waveCount = enemySpawnData.waveSpawnCounts.Count;
+		
+		for (int i = 0; i < waveCount; ++i)
 		{
-			int childCount = positionParents[i].childCount;
-			for (int j = 0; j < childCount; ++j)
-			{
-				DestroyImmediate(positionParents[i].GetChild(0).gameObject);
-			}
+			DestroyImmediate(transform.GetChild(1).gameObject);
 		}
 	}
-	
-	private void CreateTransformObj(int count, string objName, EnemyController.EnemyType type)
+
+	private void CreateTransformObj(int count, string objName, EnemyController.EnemyType type,
+		int parentsIndex)
+
 	{
 		Color color = Color.clear;
 		switch (type)
@@ -120,26 +171,27 @@ public class EnemySpawner : MonoBehaviour
 			case EnemyController.EnemyType.MeleeDefault:
 				color = Color.red;
 				break;
-			
+
 			case EnemyController.EnemyType.RangedDefault:
 				color = Color.green;
 				break;
-			
+
 			case EnemyController.EnemyType.MinimalDefault:
 				color = Color.yellow;
 				break;
 		}
-		
+
 		for (int i = 0; i < count; ++i)
 		{
 			var posObj = new GameObject(objName + (i + 1));
-			
-			posObj.transform.SetParent(positionParents[(int)type]);
+
+			posObj.transform.SetParent(transform.GetChild(parentsIndex));
 			posObj.transform.localPosition = Vector3.zero;
 
 			posObj.AddComponent<DrawPosition>().color = color;
 		}
 	}
+
 	#endregion
 
 }

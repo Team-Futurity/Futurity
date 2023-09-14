@@ -1,13 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy Spawn Data", menuName = "ScriptableObject/Spawn Data", order = int.MaxValue)]
 public class EnemySpawnData : ScriptableObject
 {
-	[field: Header("스폰시킬 적 숫자")]
-	[field: SerializeField] public int MeleeDefaultSpawnCount { get; private set; }
-	[field: SerializeField] public int RangedDefaultSpawnCount { get; private set; }
-	[field: SerializeField] public int MinimalDefaultSpawnCount { get; private set; }
+	[Header("각 웨이브에서 스폰시킬 수")] [Tooltip("List의 Count가 최대 웨이브 횟수")]
+	public List<WaveSpawnCount> waveSpawnCounts;
+}
 
-	[Header("처음 소환시킬 적 숫자")] 
-	[Tooltip("스포터가 Enable 시 바로 소환할 적 숫자를 저장")] public int[] firstSpawnCount = new int[3];
+[System.Serializable]
+public struct WaveSpawnCount
+{
+	public int[] spawnCounts;
 }
