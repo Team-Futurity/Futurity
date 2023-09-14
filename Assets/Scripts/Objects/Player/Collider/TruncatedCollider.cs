@@ -6,11 +6,19 @@ using UnityEngine;
 
 public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
 {
-	private float angle;
+	[SerializeField] private float angle;
 
 	public bool IsTrigger { get; protected set; }
-	public float Angle { get { return angle; } protected set { angle = value % 360; } }
-	public float Radius { get; protected set; }
+	public float Angle
+	{
+		get { return angle; }
+		protected set
+		{
+			if (value == 360) { angle = 360; }
+			else { angle = value % 360;	}
+		}
+	}
+	[field : SerializeField] public float Radius { get; protected set; }
 	public T truncatedCollider { get; private set; }
 	[SerializeField] protected Color colliderColor = Color.red;
 
