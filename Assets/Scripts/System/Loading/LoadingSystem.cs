@@ -8,14 +8,26 @@ public class LoadingSystem : MonoBehaviour
 	[field: SerializeField]
 	private UIGauge loadingGauge;
 
-	private void Awake()
+	private void Start()
 	{
 		loadingGauge.SetCurrentGauge(0f);
+
+		FadeManager.Instance.FadeOut(1f, () =>
+		{
+			SceneLoader.Instance.LoadSceneAsync("TutorialScene",
+												UnityEngine.SceneManagement.LoadSceneMode.Single,
+												() =>
+												{
+													// Scene Load가 끝나고 취할 행동
+													// Fade In -> 
+												});
+
+			FillLoadingGauge(SceneLoader.Instance.sceneProgress);
+		});
 	}
 
 	private void FillLoadingGauge(float targetValue)
 	{
-		// Target Value : Progress Gauge
-		loadingGauge.StartFillGauge(3f);
+		loadingGauge.StartFillGauge(targetValue * 100f);
 	}
 }
