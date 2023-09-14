@@ -1,14 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class InputActionManager : Singleton<InputActionManager>
 {
+	public UnityEvent<InputActionType> OnInputActionEnabled;
+	public bool ProcessesDefaulting { get; private set; }
+
 	[SerializeField] private List<InputActionData> actionDatas = new List<InputActionData>();
 	private List<InputActionData> activatedAssets = new List<InputActionData>();
 
 	private InputActionData GetActionData(InputActionType type) => actionDatas.First(data => data.actionType == type);
+
+	protected override void Awake()
+	{
+		base.Awake();
+
+		ProcessesDefaulting = false;
+	}
 
 	private void Start()
 	{
@@ -31,6 +41,8 @@ public class InputActionManager : Singleton<InputActionManager>
 				data.actionAsset.Disable();
 			}
 		}
+
+		ProcessesDefaulting = true;
 	}
 
 	public void EnableInputActionAsset(InputActionType type)
@@ -40,6 +52,8 @@ public class InputActionManager : Singleton<InputActionManager>
 		data.actionAsset.Enable();
 
 		activatedAssets.Add(data);
+
+		OnInputActionEnabled.Invoke(type);
 	}
 
 	public void EnableInputActionAssets(params InputActionType[] types)
