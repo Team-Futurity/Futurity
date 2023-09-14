@@ -13,3 +13,7 @@ public enum WindowState
 
 	MAX
 }
+
+// UNASSIGN = WindowManager에서 등록이 해제된 상태
+// ASSIGN = WindowManager에 등록된 상태
+// ACTIVE = WindowManager에 등록되고, 보여지고 있는 상태
