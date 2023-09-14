@@ -28,6 +28,16 @@ public class UIGauge : MonoBehaviour
 		}
 	}
 
+	public void SetCurrentGauge(float gauge)
+	{
+		currentGaugeValue = gauge;
+	}
+
+	public void StartFillGauge(float target)
+	{
+		StartCoroutine(FillGauge(target));
+	}
+
 	// Gauge를 targetValue까지 채운다.
 	private IEnumerator FillGauge(float target)
 	{
