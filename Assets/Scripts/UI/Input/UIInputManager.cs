@@ -5,7 +5,6 @@ using UnityEngine;
 public class UIInputManager : Singleton<UIInputManager>
 {
 	private Dictionary<int, UIButton> buttonDic = new Dictionary<int, UIButton>();
-	public List<UIButton> test;
 
 	private int currentIndex = 0;
 
@@ -22,7 +21,6 @@ public class UIInputManager : Singleton<UIInputManager>
 	public void AddButton(int order, UIButton button)
 	{
 		buttonDic?.Add(order, button);
-		test?.Add(button);
 	}
 
 	public void ClearAll()
@@ -68,5 +66,4 @@ public class UIInputManager : Singleton<UIInputManager>
 		buttonDic[currentIndex].Active();
 	}
 	#endregion
-
 }
