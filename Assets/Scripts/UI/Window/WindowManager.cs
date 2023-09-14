@@ -20,18 +20,10 @@ public class WindowManager : Singleton<WindowManager>
 
 	public void AddWindow(string name, UIWindow window)
 	{
+		window.SetUp();
+
 		activeWindowDic?.Add(name, window);
 		activeWindowNameList?.Add(name);
-	}
-
-	public bool GetWindowState(string name)
-	{
-		if(!HasWindow(name))
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	public bool HasWindow(string name)
@@ -53,7 +45,7 @@ public class WindowManager : Singleton<WindowManager>
 			return;
 		}
 
-		activeWindowDic[name].gameObject.SetActive(false);
+		activeWindowDic[name].CloseWindow();
 	}
 
 	public void ShowWindow(string name)
@@ -63,7 +55,7 @@ public class WindowManager : Singleton<WindowManager>
 			return;
 		}
 
-		activeWindowDic[name].gameObject.SetActive(true);
+		activeWindowDic[name].ShowWindow();
 	}
 
 	public void RemoveWindow(string name)
@@ -72,6 +64,8 @@ public class WindowManager : Singleton<WindowManager>
 		{
 			return;
 		}
+
+		activeWindowDic[name].RemoveWindow();
 
 		activeWindowDic.Remove(name);
 		activeWindowNameList.Remove(name);
