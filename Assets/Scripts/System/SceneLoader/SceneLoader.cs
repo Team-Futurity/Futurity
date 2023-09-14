@@ -32,13 +32,26 @@ public class SceneLoader : Singleton<SceneLoader>
 		// 씬 즉시 이동 해제
 		operation.allowSceneActivation = false;
 
+		var timer = .0f;
+
 		while (!operation.isDone)
 		{
-			sceneProgress = operation.progress;
-
 			yield return null;
+
+			timer += Time.deltaTime;
+
+			sceneProgress = operation.progress / 0.9f;
+
+			Debug.Log(sceneProgress + " : " + operation.progress);
+
+			if(sceneProgress >= 0.95f && timer >= 2f)
+			{
+				operation.allowSceneActivation = true;
+			}
 		}
 
 		endAction?.Invoke();
+		//operation.allowSceneActivation = true;
 	}
+
 }
