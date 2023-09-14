@@ -7,15 +7,7 @@ public class UIInputController : MonoBehaviour
 	public void SetUp()
 	{
 		InputActionManager.Instance.DisableAllInputActionAsset();
-
 		InputActionManager.Instance.EnableInputActionAsset(InputActionType.UI);
-
-		SetKeyAction();
-	}
-
-	public void SetKeyAction()
-	{
-		
 	}
 
 	public void OnMoveToNextUI()
@@ -23,4 +15,13 @@ public class UIInputController : MonoBehaviour
 		Debug.Log("TEST");
 	}
 
+	public void OnMoveToPreviousUI()
+	{
+
+	}
+
+	public void OnSelectUI()
+	{
+
+	}
 }
