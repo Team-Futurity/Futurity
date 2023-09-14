@@ -5,17 +5,24 @@ using UnityEngine;
 public class UIInputManager : Singleton<UIInputManager>
 {
 	private Dictionary<int, UIButton> buttonDic = new Dictionary<int, UIButton>();
+	public List<UIButton> test;
 
 	private int currentIndex = 0;
 
+	private void Start()
+	{
+// 		InputActionManager.Instance.OnInput
+	}
+
 	public void SetUp()
 	{
-
+		SelectUI();
 	}
 
 	public void AddButton(int order, UIButton button)
 	{
 		buttonDic?.Add(order, button);
+		test?.Add(button);
 	}
 
 	public void ClearAll()
@@ -23,16 +30,43 @@ public class UIInputManager : Singleton<UIInputManager>
 		buttonDic.Clear();
 	}
 
+	private void SelectUI()
+	{
+		buttonDic[currentIndex].Select();
+	}
+	
+	private void ChangeToIndex(int num)
+	{
+		var result = currentIndex + num;
+
+		if(result < 0 || result >= buttonDic.Count)
+		{
+			return;
+		}
+
+		currentIndex = result;
+	}
+
+	#region Input Action
 
 	public void OnMoveToNextUI()
 	{
+		ChangeToIndex(1);
+
+		SelectUI();
 	}
 
 	public void OnMoveToPreviousUI()
 	{
+		ChangeToIndex(-1);
+
+		SelectUI();
 	}
 
-	public void OnSelectUI()
+	public void OnClickUI()
 	{
+		buttonDic[currentIndex].Active();
 	}
+	#endregion
+
 }
