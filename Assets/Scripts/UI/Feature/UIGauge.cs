@@ -14,27 +14,23 @@ public class UIGauge : MonoBehaviour
 	public float targetGauge = .0f;
 	
 	private float timer = .0f;
+	private float maxTIme = .0f;
 		
 	private void Awake()
 	{
 		TryGetComponent(out gaugeImage);
 	}
-
-	public void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			StartCoroutine(FillGauge(targetGauge));
-		}
-	}
-
 	public void SetCurrentGauge(float gauge)
 	{
 		currentGaugeValue = gauge;
+
+		gaugeImage.fillAmount = currentGaugeValue / 100f;
 	}
 
-	public void StartFillGauge(float target)
+	public void StartFillGauge(float target, float max = 1f)
 	{
+		maxTIme = max;
+
 		StartCoroutine(FillGauge(target));
 	}
 
@@ -44,16 +40,17 @@ public class UIGauge : MonoBehaviour
 		float startGaugeValue = currentGaugeValue;
 		float targetGaugeValue = target;
 
-		while (timer <= 1f)
+		// N초 동안 바로 가게 하기
+		while (timer <= maxTIme)
 		{
-			// targetGaugeValue 수치까지 올려준다.
-			//gaugeImage.fillAmount = currentGaugeValue++;
-			var test = EaseOutExpo(currentGaugeValue, targetGaugeValue, timer);
-			gaugeImage.fillAmount = test / 100f;
+			var resultEasing = EaseOutExpo(startGaugeValue, targetGaugeValue, timer / maxTIme);
+			
+			// 0 ~ 1f
+			gaugeImage.fillAmount = resultEasing / targetGaugeValue;
 
-			yield return new WaitForSeconds(0.01f);
+			yield return null;
 
-			timer += 0.1f;
+			timer += Time.deltaTime;
 		}
 
 		timer = .0f;
