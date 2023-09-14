@@ -9,6 +9,7 @@ public abstract class UIButton : MonoBehaviour
 	private Button button;
 
 	public int layerOrder = 0;
+	protected abstract void SelectAction();
 
 	protected virtual void Awake()
 	{
@@ -20,11 +21,15 @@ public abstract class UIButton : MonoBehaviour
 		});
 	}
 
+	private void Start()
+	{
+		UIInputManager.Instance.AddButton(layerOrder, this);
+	}
+
 	public virtual void Select()
 	{
 		button.Select();
 
 		SelectAction();
 	}
-	protected abstract void SelectAction();
 }
