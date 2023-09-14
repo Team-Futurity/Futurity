@@ -18,7 +18,6 @@ public abstract class UIButton : MonoBehaviour
 		button.onClick.AddListener(() =>
 		{
 			Select();
-
 			ActiveAction();
 		});
 	}
