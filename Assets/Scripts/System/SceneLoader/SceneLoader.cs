@@ -33,25 +33,28 @@ public class SceneLoader : Singleton<SceneLoader>
 		operation.allowSceneActivation = false;
 
 		var timer = .0f;
+		sceneProgress = .0f;
 
 		while (!operation.isDone)
 		{
-			yield return null;
-
 			timer += Time.deltaTime;
 
 			sceneProgress = operation.progress / 0.9f;
 
-			Debug.Log(sceneProgress + " : " + operation.progress);
+			yield return null;
 
-			if(sceneProgress >= 0.95f && timer >= 2f)
+			if (sceneProgress > 0.95f && timer >= 2f)
 			{
-				operation.allowSceneActivation = true;
+				FadeManager.Instance.FadeIn(1f, () =>
+				{
+					operation.allowSceneActivation = true;
+				});
+
+				break;
 			}
+
 		}
 
 		endAction?.Invoke();
-		//operation.allowSceneActivation = true;
 	}
-
 }
