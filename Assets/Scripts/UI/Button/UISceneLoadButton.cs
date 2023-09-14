@@ -6,7 +6,7 @@ public class UISceneLoadButton : UIButton
 {
 	public float fadeTime = .0f;
 
-	protected override void SelectAction()
+	protected override void ActiveAction()
 	{
 		SceneLoader.Instance.LoadScene("LoadingScene 1");
 

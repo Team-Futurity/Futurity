@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIGameExitButton : UIButton
 {
 
-	protected override void SelectAction()
+	protected override void ActiveAction()
 	{
 		Debug.Log("SELECT" + GetType());
 	}
