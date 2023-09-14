@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 457634395}
   - component: {fileID: 457634394}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Main Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -613,7 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentState>k__BackingField: 0
-  <WindowName>k__BackingField: 
+  <WindowName>k__BackingField: Loading1
   <PlayOnStart>k__BackingField: 0
 --- !u!1 &683046385
 GameObject:
@@ -624,6 +624,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 683046386}
+  - component: {fileID: 683046387}
   m_Layer: 5
   m_Name: Loading System Group
   m_TagString: Untagged
@@ -654,6 +655,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &683046387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683046385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a910fe4131bcb744b9b49fbf8a8426ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingGauge: {fileID: 823774893}
 --- !u!1 &823774888
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +679,7 @@ GameObject:
   - component: {fileID: 823774889}
   - component: {fileID: 823774892}
   - component: {fileID: 823774891}
+  - component: {fileID: 823774893}
   m_Layer: 5
   m_Name: LoaidngBar Image
   m_TagString: Untagged
@@ -730,6 +745,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 823774888}
   m_CullTransparentMesh: 1
+--- !u!114 &823774893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823774888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3c55c395da66b4d85420d3c79323b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FillCurve>k__BackingField:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  targetGauge: 0
 --- !u!1 &1210016554
 GameObject:
   m_ObjectHideFlags: 0
