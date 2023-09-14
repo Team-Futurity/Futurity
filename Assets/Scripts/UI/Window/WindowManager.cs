@@ -9,6 +9,7 @@ public class WindowManager : Singleton<WindowManager>
 	[SerializeField]
 	private List<string> activeWindowNameList;
 
+
 	private bool isAdmin = false;
 
 	protected override void Awake()
@@ -70,7 +71,6 @@ public class WindowManager : Singleton<WindowManager>
 		activeWindowDic.Remove(name);
 		activeWindowNameList.Remove(name);
 	}
-
 	public void SetAdmin(bool isOn)
 	{
 		isAdmin = isOn;
