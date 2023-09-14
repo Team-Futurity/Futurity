@@ -12,16 +12,16 @@ public class UIInputController : MonoBehaviour
 
 	public void OnMoveToNextUI()
 	{
-		Debug.Log("TEST");
+		Debug.Log("Next UI");
 	}
 
 	public void OnMoveToPreviousUI()
 	{
-
+		Debug.Log("Previous UI");
 	}
 
 	public void OnSelectUI()
 	{
-
+		Debug.Log("Select UI");
 	}
 }
