@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static EnemyController;
-using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : UnitBase
 {
@@ -19,7 +17,7 @@ public class Enemy : UnitBase
 		target.Hit(this, GetDamage(1));
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot)
+	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
