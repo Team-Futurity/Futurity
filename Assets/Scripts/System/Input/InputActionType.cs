@@ -12,6 +12,6 @@ public enum InputActionType
 public struct InputActionData
 {
 	public InputActionType actionType;
-	public InputActionAsset actionFile;
+	public InputActionAsset actionAsset;
 	public bool canRunDefault;
 }
