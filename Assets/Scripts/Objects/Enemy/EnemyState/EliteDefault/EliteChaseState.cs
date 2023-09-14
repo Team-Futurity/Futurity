@@ -8,8 +8,6 @@ public class EliteChaseState : EnemyChaseBaseState
 
 	public override void Begin(EnemyController unit)
 	{
-		//FDebug.Log("RDefault chase Begin");
-
 		base.Begin(unit);
 	}
 
@@ -18,7 +16,6 @@ public class EliteChaseState : EnemyChaseBaseState
 		base.Update(unit);
 
 		unit.transform.LookAt(unit.target.transform.position);
-		//unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, Quaternion.LookRotation(unit.target.transform.position), unit.turnSpeed * Time.deltaTime);
 
 
 		if (distance < unit.attackRange * 0.5f)
@@ -34,7 +31,6 @@ public class EliteChaseState : EnemyChaseBaseState
 		}
 		else if (distance > unit.attackRange)
 		{
-			//unit.transform.position += unit.transform.forward * unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime;
 			unit.navMesh.enabled = true;
 			unit.navMesh.SetDestination(unit.target.transform.position);
 		}
@@ -47,20 +43,13 @@ public class EliteChaseState : EnemyChaseBaseState
 
 	public override void End(EnemyController unit)
 	{
-		//FDebug.Log("RDefault chase End");
-
 		base.End(unit);
 		curTime = 0f;
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		/*		if (other.CompareTag(unit.playerTag))
-				{
-					//FDebug.Log("RDefault Chase Trigger");
-					unit.rigid.velocity = Vector3.zero;
-					unit.ChangeState(EnemyController.EnemyState.RDefaultBackMove);
-				}*/
+
 	}
 
 	public override void OnCollisionEnter(EnemyController unit, Collision collision)

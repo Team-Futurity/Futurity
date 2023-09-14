@@ -210,39 +210,40 @@ MonoBehaviour:
     effectTransform: {fileID: 0}
     effectExtraTransform: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 3319673298915680775}
   animator: {fileID: 0}
   rigid: {fileID: 0}
   navMesh: {fileID: 0}
-  chaseRange: {fileID: 0}
-  atkCollider: {fileID: 0}
-  skinnedMeshRenderer: {fileID: 0}
+  chaseRange: {fileID: 1082336031020996592}
+  atkCollider: {fileID: 1820448522187861049}
+  eliteCollider: {fileID: 8216517965165791814}
+  skinnedMeshRenderer: {fileID: 4706696313475467886}
   material: {fileID: 0}
   transparentMaterial: {fileID: 0}
-  unlitMaterial: {fileID: 0}
+  unlitMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
   copyTMat: {fileID: 0}
   copyUMat: {fileID: 0}
-  maxSpawningTime: 0
+  maxSpawningTime: 3.8
   enemyCollider: {fileID: 0}
-  spawnEffect: {fileID: 0}
-  walkDistance: 3
-  idleSetTime: 3
+  spawnEffect: {fileID: 7997830417991574652}
+  walkDistance: 2
+  idleSetTime: 2
   movePercentage: 5
   randMoveDistanceMin: 1.5
   randMoveDistanceMax: 3
-  attackRange: 0
-  attackChangeDelay: 0
-  turnSpeed: 15
+  attackRange: 7
+  attackChangeDelay: 1
+  turnSpeed: 150
   isAttackSuccess: 0
   projectileDistance: 0
   rangedProjectile: {fileID: 0}
   projectileSpeed: 0
   powerReference1: 0
   powerReference2: 0
-  hitMaxTime: 2
+  hitMaxTime: 0.8
   hitColorChangeTime: 0.2
-  hitPower: 450
-  damagedColor: {r: 0, g: 0, b: 0, a: 0}
+  hitPower: 500
+  damagedColor: {r: 0.8784314, g: 0.03137255, b: 0, a: 1}
   hitSound:
     Guid:
       Data1: 0
@@ -259,13 +260,13 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3319673298915680796}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 10
+  m_Drag: 15
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!65 &3319673298915680794
 BoxCollider:
@@ -304,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94a52788bd5ab9242848ba5af30cf7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  status: {fileID: 0}
+  status: {fileID: 11400000, guid: 03312e920fdc1d94f97b5d591508fc33, type: 2}
   copyStatus: []
 --- !u!195 &3319673298915680793
 NavMeshAgent:
@@ -536,6 +537,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1206874426333947015, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1206874426333947015, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: -3620572297651811420, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
     - target: {fileID: 919132149155446097, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
       propertyPath: m_Name
       value: F_02_01_01_elite_default
@@ -550,6 +559,11 @@ PrefabInstance:
 --- !u!4 &2998095787108955900 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
+  m_PrefabInstance: {fileID: 3319673297830154519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &4706696313475467886 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1206874426333947015, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
   m_PrefabInstance: {fileID: 3319673297830154519}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8044902168695467058
@@ -628,5 +642,10 @@ PrefabInstance:
 --- !u!4 &2116485019638872330 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8285066472365905208, guid: b6a0a94ce625fbc419d6fedf2b6529fa, type: 3}
+  m_PrefabInstance: {fileID: 8044902168695467058}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7997830417991574652 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 97737246986160206, guid: b6a0a94ce625fbc419d6fedf2b6529fa, type: 3}
   m_PrefabInstance: {fileID: 8044902168695467058}
   m_PrefabAsset: {fileID: 0}

@@ -15,7 +15,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		Default,
 		MoveIdle,				//대기 중 랜덤 이동
 		Hitted,					//피격
-		Death,					//사망
+		Death,                  //사망
+
+		ClusterSlow,
+		ClusterChase,
 
 		//Melee Default
 		MDefaultChase,          //추격
@@ -98,6 +101,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public CapsuleCollider chaseRange;						//추적 반경
 	public SphereCollider atkCollider;                      //타격 Collider
+	public SphereCollider eliteCollider;
 
 	public SkinnedMeshRenderer skinnedMeshRenderer;
 	public Material material;

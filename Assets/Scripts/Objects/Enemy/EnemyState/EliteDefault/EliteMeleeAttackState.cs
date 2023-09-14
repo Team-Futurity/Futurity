@@ -11,12 +11,13 @@ public class EliteMeleeAttackState : EnemyAttackBaseState
 
 		//unit.atkCollider.enabled = true;
 		unit.navMesh.enabled = true;
+		unit.atkCollider.enabled = true;
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.MDefaultAttack2nd);
+		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.EliteDefaultChase);
 	}
 
 	public override void End(EnemyController unit)
