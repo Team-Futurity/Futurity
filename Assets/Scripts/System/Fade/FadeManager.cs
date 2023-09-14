@@ -16,8 +16,9 @@ public class FadeManager : Singleton<FadeManager>
 	private float startAlpha = .0f;
 	private float targetAlpha = .0f;
 
-	private float timer;
-	private bool isFading;
+	private float timer = .0f;
+	[HideInInspector]
+	public bool isFading;
 	
 
 	protected override void Awake()
@@ -57,26 +58,30 @@ public class FadeManager : Singleton<FadeManager>
 		StartCoroutine(UpdateScreenFade(MAX, MIN, time, outAction));
 	}
 
-	private IEnumerator UpdateScreenFade(float start, float end, float time, UnityAction updateAction = null)
+	private IEnumerator UpdateScreenFade(float start, float end, float time, UnityAction endAction = null)
 	{
 		var imageColor = fadeImage.color;
 
-		while (timer < time)
-		{
-			timer += Time.deltaTime;
 
+		Debug.Log("FADE ÁøÇàÁß...");
+		while (timer <= time)
+		{
 			imageColor.a = Mathf.Lerp(start, end, timer / time);
 			fadeImage.color = imageColor;
 
 			yield return null;
+
+			timer += Time.deltaTime;
+			Debug.Log("TIMER : " + timer);
 		}
 
 		// is Fading OFF
 		SetFadeRun(false);
 		timer = .0f;
 
+		Debug.Log("FADE CLEAR");
 		// Used Action
-		updateAction?.Invoke();
+		endAction?.Invoke();
 	}
 
 	private void SetFadeRun(bool isTrigger)
