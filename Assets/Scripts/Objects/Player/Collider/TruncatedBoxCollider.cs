@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEditor;
 using UnityEngine;
 
@@ -33,10 +34,40 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		return absVecX <= halfSizeX && absVecZ <= halfSizeZ;
 	}
 
+
+	// 0 : leftTop
+	// 1 : leftBottom
+	// 2 : rightTop
+	// 3 : rightBottom
+	private Vector2[] GetRectanglePoints()
+	{
+		Vector2[] points = new Vector2[4];
+		Vector2 originPos = new Vector2(transform.position.x, transform.position.z);
+		Vector2 finalPos = offset + originPos;
+
+		float halfSizeX = size.x * 0.5f;
+		float halfSizeZ = size.y * 0.5f;
+
+		points[0] = new Vector2(-halfSizeX, halfSizeZ);
+		points[1] = new Vector2(-halfSizeX, -halfSizeZ);
+		points[2] = new Vector2(halfSizeX, halfSizeZ);
+		points[3] = new Vector2(halfSizeX, -halfSizeZ);
+
+		for(int i = 0; i < 4; i++)
+		{
+			points[i] += finalPos;
+		}
+
+		return points;
+	}
+
+#if UNITY_EDITOR
 	protected override void OnDrawGizmos()
 	{
 		Gizmos.color = colliderColor;
 		var vecs = GetVectorToCut();
+		var rectanglePoints = GetRectanglePoints();
+
 		Vector3 leftPos = transform.position + vecs[1];
 		Vector3 rightPos = transform.position + vecs[0];
 
@@ -49,4 +80,5 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		Gizmos.DrawLine(transform.position, rightPos);
 		Gizmos.DrawLine(transform.position, leftPos);
 	}
+#endif
 }
