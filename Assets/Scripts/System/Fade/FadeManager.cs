@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class FadeManager : Singleton<FadeManager>
 {
+	[SerializeField]
 	private Image fadeImage;
 
 	private readonly float MAX = 1f;
@@ -21,7 +22,12 @@ public class FadeManager : Singleton<FadeManager>
 
 	protected override void Awake()
 	{
-		TryGetComponent(out fadeImage);
+		base.Awake();
+
+		if (fadeImage == null)
+		{
+			TryGetComponent(out fadeImage);
+		}
 	}
 
 	public void FadeIn(float time = 1f, UnityAction inAction = null)
@@ -33,6 +39,7 @@ public class FadeManager : Singleton<FadeManager>
 
 		SetFadeRun(true);
 		SetFadeImage(MIN);
+		fadeImage.enabled = true;
 
 		StartCoroutine(UpdateScreenFade(MIN, MAX, time, inAction));
 	}
@@ -75,8 +82,6 @@ public class FadeManager : Singleton<FadeManager>
 	private void SetFadeRun(bool isTrigger)
 	{
 		isFading = isTrigger;
-
-		fadeImage.enabled = isTrigger;
 		fadeImage.raycastTarget = !isTrigger;
 	}
 
