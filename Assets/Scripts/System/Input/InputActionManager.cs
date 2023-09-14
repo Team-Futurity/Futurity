@@ -3,10 +3,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputActionChanger : Singleton<InputActionChanger>
+public class InputActionManager : Singleton<InputActionManager>
 {
 	[SerializeField] private List<InputActionData> actionDatas = new List<InputActionData>();
-	private List<InputActionAsset> activatedAssets = new List<InputActionAsset>();
+	private List<InputActionData> activatedAssets = new List<InputActionData>();
 
 	private InputActionData GetActionData(InputActionType type) => actionDatas.First(data => data.actionType == type);
 
@@ -23,12 +23,12 @@ public class InputActionChanger : Singleton<InputActionChanger>
 		{
 			if (data.canRunDefault)
 			{
-				data.actionFile.Enable();
-				activatedAssets.Add(data.actionFile);
+				data.actionAsset.Enable();
+				activatedAssets.Add(data);
 			}
 			else
 			{
-				data.actionFile.Disable();
+				data.actionAsset.Disable();
 			}
 		}
 	}
@@ -37,9 +37,9 @@ public class InputActionChanger : Singleton<InputActionChanger>
 	{
 		InputActionData data = GetActionData(type);
 
-		data.actionFile.Enable();
+		data.actionAsset.Enable();
 
-		activatedAssets.Add(data.actionFile);
+		activatedAssets.Add(data);
 	}
 
 	public void EnableInputActionAssets(params InputActionType[] types)
@@ -54,9 +54,9 @@ public class InputActionChanger : Singleton<InputActionChanger>
 	{
 		InputActionData data = GetActionData(type);
 
-		data.actionFile.Disable();
+		data.actionAsset.Disable();
 
-		activatedAssets.Remove(data.actionFile);
+		activatedAssets.Remove(data);
 	}
 
 	public void DisableInputActionAssets(params InputActionType[] types)
@@ -71,9 +71,11 @@ public class InputActionChanger : Singleton<InputActionChanger>
 	{
 		foreach (var data in activatedAssets)
 		{
-			data.Disable();
+			data.actionAsset.Disable();
 		}
 
 		activatedAssets.Clear();
 	}
+
+	public bool IsActive(InputActionType type) => activatedAssets.Count(data => data.actionType == type) > 0;
 }
