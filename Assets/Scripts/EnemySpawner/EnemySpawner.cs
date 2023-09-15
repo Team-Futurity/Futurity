@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-	private const int MAX_ENEMY_TYPE = 3;
-
 	[Header("컴포넌트")] 
 	[SerializeField] private Transform enemyParents;
 	
 	[Header("스폰 데이터")] 
 	[SerializeField] private EnemySpawnData spawnData;
+	[HideInInspector] public int curEnemyTotalCount = 0;
 	private int totalWaveCount = 0;
 	private int curWaveCount = 0;
 	private int totalStepCount = 0;
 	private int curStepCount = 0;
-	
+
 	[Header("스포너 범위")] 
 	[SerializeField] private float spawnRadius = 20.0f;
 	[SerializeField] private float yOffset = 0.64f;
@@ -30,6 +30,10 @@ public class EnemySpawner : MonoBehaviour
 
 	[Header("중복 소환 검사 크기")] 
 	[SerializeField] private float inspectionRange = 2.0f;
+
+	// Pool Event
+	public event GetEnemy GetEnemyEvent;
+	public delegate GameObject GetEnemy(EnemyController.EnemyType type);
 	
 	// 실제 소환 개수 저장
 	[HideInInspector] public int[] spawnCount = new int[3];
@@ -38,32 +42,54 @@ public class EnemySpawner : MonoBehaviour
 	private void Awake()
 	{
 		Init();
+		GetEnemyEvent += gameObject.GetComponentInParent<EnemyManager>().GetEnemy;
 	}
 
-	public void SpawnEnemy(GameObject[] enemyPrefabs)
+	public void SpawnEnemy()
 	{
-		if (curWaveCount >= totalWaveCount)
-		{
-			return;
-		}
-		
 		if (curStepCount >= totalStepCount)
 		{
 			curWaveCount++;
 			curStepCount = 0;
+
+			if (curWaveCount >= totalWaveCount)
+			{
+				Debug.Log("Spawn is Done");
+				gameObject.SetActive(false);
+				return;
+			}
+			
+			totalStepCount = spawnData.waveSpawnCounts[curWaveCount].wave.Length;
 		}
+
+		Debug.Log($"Total Wave : {totalWaveCount} / Cur Wave : {curWaveCount}");
+		Debug.Log($"Total Step : {totalStepCount} / Cur Wave : {curStepCount}");
 		
 		int melee = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].meleeCnt;
 		int ranged = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].rangedCnt;
 		int minimal = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].minimalCnt;
-
+		curEnemyTotalCount = melee + ranged + minimal;
+		
+		Debug.Log(curEnemyTotalCount);
 		spawnIndex = 0;
-		CreateEnemy(melee, enemyPrefabs[0]);
-		CreateEnemy(ranged, enemyPrefabs[1]);
-		CreateEnemy(minimal, enemyPrefabs[2]);
+		
+		PlaceEnemy(melee, EnemyController.EnemyType.MeleeDefault);
+		PlaceEnemy(ranged, EnemyController.EnemyType.RangedDefault);
+		PlaceEnemy(minimal, EnemyController.EnemyType.MinimalDefault);
 	}
 
-	private void CreateEnemy(int count, GameObject prefab)
+	public void OnDisableEvent()
+	{
+		curEnemyTotalCount--;
+		Debug.Log($"Remain : {curEnemyTotalCount}");
+
+		if (curEnemyTotalCount <= 0)
+		{
+			curStepCount++;
+			SpawnEnemy();
+		}
+	}
+	private void PlaceEnemy(int count, EnemyController.EnemyType type)
 	{
 		for (int i = 0; i < count; ++i)
 		{
@@ -72,7 +98,7 @@ public class EnemySpawner : MonoBehaviour
 
 			Collider[] colliders = Physics.OverlapSphere(spawnPos, inspectionRange);
 			bool isEnemyFound = false;
-			foreach (var col in colliders)
+			foreach (Collider col in colliders)
 			{
 				if (col.CompareTag("Enemy"))
 				{
@@ -87,12 +113,19 @@ public class EnemySpawner : MonoBehaviour
 				i--;
 				continue;
 			}
-
-			// TODO : 풀링을 사용한 방법으로 변경
-			curCheckCount = 0;
 			
-			var enemy = Instantiate(prefab, spawnPos, Quaternion.Euler(0, -90f, 0));
+			curCheckCount = 0;
+
+			var enemy = GetEnemyEvent?.Invoke(type);
+			if (enemy == null)
+			{
+				return;
+			}
+			
+			enemy.GetComponent<EnemyController>().RegisterEvent(OnDisableEvent);
+			enemy.transform.SetPositionAndRotation(spawnPos, Quaternion.Euler(0, -90f, 0));
 			enemy.transform.SetParent(enemyParents);
+			enemy.SetActive(true);
 
 			spawnCount[spawnIndex]++;
 		}
@@ -107,7 +140,7 @@ public class EnemySpawner : MonoBehaviour
 
 		spawnArea = transform;
 	}
-	
+
 	private void OnDrawGizmos()
 	{
 		Handles.color = radiusColor;

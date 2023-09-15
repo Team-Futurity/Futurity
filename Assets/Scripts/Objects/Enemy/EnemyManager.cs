@@ -1,67 +1,64 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
-public class EnemyManager : Singleton<EnemyManager>
+public class EnemyManager : MonoBehaviour
 {
-	public List<EnemyController> activeEnemys;
-	// public List<Cluster> clusters;
-	// public List<EnemyController> clusterElse;
-
-
-	// 리스트를 퍼블릭으로 관리하지 않는다.
-	// 리스트 널 에이블 처리가 안되었다.
+	private const int MAX_ENEMY_TYPE = 3;
 	
-	// 단순하게 에너미 컨트롤러만 수집하기에 어떤 타입의 몬스터가 있는지 파악이 힘들다.
-	// 보스 몬스터 관리가 없다.
-	
-	// 클러스팅 도대체 뭐임
-	// 
-	public void ActiveManagement(EnemyController unit)
+	[Header("컴포넌트")] 
+	[SerializeField] private List<EnemySpawner> spawnerList;
+	[SerializeField] private GameObject[] enemyPrefabs;
+	[SerializeField] private Transform enemyContainer;
+
+	[Header("Enemy Pool")] 
+	[SerializeField] private int initCount = 20;
+	private List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
+
+	private void Awake()
 	{
-		activeEnemys.Add(unit);
+		for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
+		{
+			enemyPool.Add(new Queue<GameObject>());
+		}
+		
+		CreateEnemyObject(initCount, EnemyController.EnemyType.MeleeDefault);
+		CreateEnemyObject(initCount, EnemyController.EnemyType.RangedDefault);
+		CreateEnemyObject(initCount, EnemyController.EnemyType.MinimalDefault);
 	}
 
-	public void DeActiveManagement(EnemyController unit)
+	public GameObject GetEnemy(EnemyController.EnemyType type)
 	{
-		activeEnemys.Remove(unit);
+		if (enemyPool[(int)type].Count <= 0)
+		{
+			CreateEnemyObject(initCount / 2, type);
+		}
+		
+		GameObject enemy = enemyPool[(int)type].Dequeue();
+		return enemy;
 	}
 
-	// public void EnemyClustering(EnemyController unit)
-	// {
-	// 	clusterElse.Add(unit);
-	//
-	// 	if(clusterElse.Count > 3)
-	// 	{
-	// 		clusters.Add(new Cluster());
-	// 		for (int i = 0; i < 3; i++)
-	// 		{
-	// 			clusterElse[i].isClustering = true;
-	// 			clusterElse[i].navMesh.avoidancePriority = i * 10;
-	// 			clusterElse[i].clusterNum = clusters.Count - 1;
-	// 			clusterElse[i].individualNum = i;
-	//
-	// 			if (i > 0)
-	// 			{
-	// 				clusterElse[i].clusterTarget = clusterElse[i - 1];
-	// 				clusterElse[i].ChangeState(EnemyController.EnemyState.ClusterChase);
-	// 			}
-	//
-	// 			clusters[clusters.Count - 1].enemyList.Add(clusterElse[i]);
-	// 		}
-	// 		clusterElse.RemoveRange(0, 3);
-	// 	}
-	// }
-	//
-	// // ?? 
-	// public void EnemyDeclutter(int clusterNum)
-	// {
-	// 	for (int i = 0; i < clusters[clusterNum].enemyList.Count; ++i)
-	// 	{
-	// 		clusters[clusterNum].enemyList[i].isClustering = false;
-	// 	}
-	//
-	// 	clusters.RemoveAt(clusterNum);
-	// }
+	// 체크용 
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			spawnerList[0].SpawnEnemy();
+		}
+	}
+
+	private void CreateEnemyObject(int count, EnemyController.EnemyType type)
+	{
+		int index = (int)type;
+
+		for (int i = 0; i < count; ++i)
+		{
+			var enemy = Instantiate(enemyPrefabs[index], enemyContainer);
+			enemy.SetActive(false);
+			
+			enemyPool[index].Enqueue(enemy);
+		}
+	}
 }
