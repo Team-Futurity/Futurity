@@ -26,6 +26,9 @@ public class EnemySpawnState : UnitState<EnemyController>
 
 	public override void Update(EnemyController unit)
 	{
+		if (true)
+			return;
+		
 		curTime += Time.deltaTime;
 
 		if (refColor.a > 0f)

@@ -12,7 +12,7 @@ public struct DialogData
 	public string descripton;
 }
 
-public partial class UIDialogController : MonoBehaviour, IControllerMethod
+public partial class UIDialogController : MonoBehaviour, IControlCommand
 {
 	[field: Header("게임 실행 중 Type 변경을 권장하지 않음")]
 	[field: SerializeField] 
@@ -68,22 +68,22 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 		DialogText.OnEnd?.AddListener(ShowAfter);
 	}
 
-	#region IControllerMethod
-	
-	void IControllerMethod.Init()
+	#region IControlCommand
+
+	void IControlCommand.Init()
 	{
 		currentIndex = 0;
 		dialogDataList.Clear();
 
-		((IControllerMethod)this).Run();
+		((IControlCommand)this).Run();
 	}
 
-	void IControllerMethod.Run()
+	void IControlCommand.Run()
 	{
 		isActive = true;
 	}
 
-	void IControllerMethod.Stop()
+	void IControlCommand.Stop()
 	{
 		isActive = false;
 	}
@@ -189,7 +189,7 @@ public partial class UIDialogController : MonoBehaviour, IControllerMethod
 
 	private void EndDialog()
 	{
-		((IControllerMethod)this).Stop();
+		((IControlCommand)this).Stop();
 
 		imageObject.SetActive(false);
 
