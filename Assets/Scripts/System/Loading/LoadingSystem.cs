@@ -13,23 +13,26 @@ public class LoadingSystem : MonoBehaviour
 
 	private bool isFillGaugeStart = false;
 
-	private void Start()
-	{
-		loadingGauge.SetCurrentGauge(0f);
-
-		FadeManager.Instance.FadeOut(fadeTime, () =>
-		{
-			SceneLoader.Instance.LoadSceneAsync("TutorialScene");
-			isFillGaugeStart = true;
-		});
-	}
-
+	private string nextScene = "";
 	private void Update()
 	{
 		if (!isFillGaugeStart)
 			return;
 
 		FillLoadingGauge(SceneLoader.Instance.sceneProgress);
+	}
+
+	public void SetNextScene(string sceneName)
+	{
+		loadingGauge.SetCurrentGauge(0f);
+
+		nextScene = sceneName;
+
+		FadeManager.Instance.FadeOut(fadeTime, () =>
+		{
+			SceneLoader.Instance.LoadSceneAsync(nextScene);
+			isFillGaugeStart = true;
+		});
 	}
 
 	private void FillLoadingGauge(float targetValue)
