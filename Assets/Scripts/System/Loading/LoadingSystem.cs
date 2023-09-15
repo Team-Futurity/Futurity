@@ -5,32 +5,31 @@ using UnityEngine.UI;
 
 public class LoadingSystem : MonoBehaviour
 {
-	[field: SerializeField]
+	[SerializeField]
 	private UIGauge loadingGauge;
 
-	private bool isActionStart = false;
+	[SerializeField]
+	private float fadeTime = 1f;
+
+	private bool isFillGaugeStart = false;
 
 	private void Start()
 	{
-		Debug.Log("START LOADING PROCESS");
-
 		loadingGauge.SetCurrentGauge(0f);
 
-		Debug.Log("START COROUTINE - FADE OUT");
-		FadeManager.Instance.FadeOut(0.3f, () =>
+		FadeManager.Instance.FadeOut(fadeTime, () =>
 		{
 			SceneLoader.Instance.LoadSceneAsync("TutorialScene");
-
-			isActionStart = true;
+			isFillGaugeStart = true;
 		});
 	}
 
 	private void Update()
 	{
-		if (isActionStart)
-		{
-			FillLoadingGauge(SceneLoader.Instance.sceneProgress);
-		}
+		if (!isFillGaugeStart)
+			return;
+
+		FillLoadingGauge(SceneLoader.Instance.sceneProgress);
 	}
 
 	private void FillLoadingGauge(float targetValue)
