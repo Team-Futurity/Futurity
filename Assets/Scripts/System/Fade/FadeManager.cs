@@ -63,7 +63,6 @@ public class FadeManager : Singleton<FadeManager>
 		var imageColor = fadeImage.color;
 
 
-		Debug.Log("FADE ม๘วเม฿...");
 		while (timer <= time)
 		{
 			imageColor.a = Mathf.Lerp(start, end, timer / time);
@@ -72,14 +71,12 @@ public class FadeManager : Singleton<FadeManager>
 			yield return null;
 
 			timer += Time.deltaTime;
-			Debug.Log("TIMER : " + timer);
 		}
 
 		// is Fading OFF
 		SetFadeRun(false);
 		timer = .0f;
 
-		Debug.Log("FADE CLEAR");
 		// Used Action
 		endAction?.Invoke();
 	}
