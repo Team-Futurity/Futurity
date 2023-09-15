@@ -18,6 +18,8 @@ public class EnemyDeathState : UnitState<EnemyController>
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
+		
+		unit.OnDisableEvent();
 	}
 
 	public override void Update(EnemyController unit)

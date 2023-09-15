@@ -46,8 +46,11 @@ public class EnemySpawnState : UnitState<EnemyController>
 		unit.chaseRange.enabled = true;
 		unit.animator.SetBool(unit.moveAnimParam, false);
 		//unit.skinnedMeshRenderer.enabled = true;
-		unit.spawnEffect.SetActive(false);
 		unit.rigid.velocity = Vector3.zero;
+		
+		// spawnEffect Reset
+		unit.spawnEffect.transform.SetParent(unit.transform);
+		unit.spawnEffect.SetActive(false);
 
 /*		unit.manager = EnemyManager.Instance;
 		unit.effectManager = EnemyEffectManager.Instance;*/

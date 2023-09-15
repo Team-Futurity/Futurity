@@ -55,6 +55,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
+	public EnemyType ThisEnemyType => enemyType;
 	public bool isTutorialDummy = false;
 
 	//animation name
@@ -111,8 +112,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public BoxCollider enemyCollider;     //ÇÇ°Ý Collider
 	public GameObject spawnEffect;
 	public float walkDistance = 3.0f;
-
-
+	
+	
 	[Space(3)]
 	[Header("Idle")]
 	/*[HideInInspector] public bool isChasing = false;*/
@@ -155,6 +156,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Death")]
 	public float deathDelay = 2.0f;
+
+	[Space(3)] 
+	[Header("Spawn Info & Event")]
+	[HideInInspector] public UnityEvent disableEvent;
 	
 	private void Start()
 	{
@@ -232,5 +237,15 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 				FDebug.Log("ERROR_ChangeChaseState()");
 				return null;
 		}
+	}
+	
+	public void RegisterEvent(UnityAction eventFunc)
+	{
+		disableEvent.AddListener(eventFunc);
+	}
+	
+	public void OnDisableEvent()
+	{
+		disableEvent?.Invoke();
 	}
 }
