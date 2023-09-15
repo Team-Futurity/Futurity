@@ -177,7 +177,6 @@ GameObject:
   - component: {fileID: 2396154895953505876}
   - component: {fileID: 3867396437893702998}
   - component: {fileID: 7664875056306253619}
-  - component: {fileID: 1705710427}
   - component: {fileID: 96197000385174355}
   m_Layer: 0
   m_Name: MeleeDefault
@@ -243,7 +242,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 3867396437893702998}
   rigid: {fileID: 4439521067689912938}
-  hpBar: {fileID: 0}
   isGodMode: 0
   isStun: 0
   OnAttack:
@@ -264,7 +262,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   isTutorialDummy: 0
-  manager: {fileID: 0}
   effectManager: {fileID: 0}
   isClusteringObj: 0
   isClustering: 0
@@ -333,6 +330,10 @@ MonoBehaviour:
       Data4: -192804069
     Path: event:/SE/06monster/Melee/F_S_01_06_hit_melee
   deathDelay: 2
+  waveIndex: 0
+  disableEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &4439521067689912938
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -410,22 +411,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1705710427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4439521067689912937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eff409e9990ebd409083c282bb70ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyHpBar: {fileID: 7370879006473176586, guid: 7221245dab407784082de2b5f7d39347, type: 3}
-  currentHpBar: {fileID: 0}
-  canvasTrs: {fileID: 0}
-  hpBarPosition: {x: 0, y: 200}
 --- !u!114 &96197000385174355
 MonoBehaviour:
   m_ObjectHideFlags: 0

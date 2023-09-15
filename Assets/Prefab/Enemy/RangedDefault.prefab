@@ -63,7 +63,6 @@ GameObject:
   - component: {fileID: 732466587148635616}
   - component: {fileID: 732466587148635619}
   - component: {fileID: 732466587148635618}
-  - component: {fileID: 1085455731}
   - component: {fileID: -2856616483354723734}
   m_Layer: 0
   m_Name: RangedDefault
@@ -129,7 +128,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 732466587148635617}
   rigid: {fileID: 732466587148635616}
-  hpBar: {fileID: 0}
   isGodMode: 0
   isStun: 0
   OnAttack:
@@ -150,7 +148,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   isTutorialDummy: 0
-  manager: {fileID: 0}
   effectManager: {fileID: 0}
   isClusteringObj: 0
   isClustering: 0
@@ -215,6 +212,10 @@ MonoBehaviour:
       Data4: 712377152
     Path: event:/SE/06monster/Ranged/F_S_01_06_hit_ranged
   deathDelay: 2
+  waveIndex: 0
+  disableEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &732466587148635422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,22 +293,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1085455731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732466587148635620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eff409e9990ebd409083c282bb70ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyHpBar: {fileID: 7370879006473176586, guid: 7221245dab407784082de2b5f7d39347, type: 3}
-  currentHpBar: {fileID: 0}
-  canvasTrs: {fileID: 0}
-  hpBarPosition: {x: 0, y: 175}
 --- !u!114 &-2856616483354723734
 MonoBehaviour:
   m_ObjectHideFlags: 0
