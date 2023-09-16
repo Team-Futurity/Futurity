@@ -30,10 +30,6 @@ public class TutorialManager : MonoBehaviour
 
 	private void StartTutorial()
 	{
-		dialogController.SetDialogData("TEST");
-		dialogController.ShowDialog();
-		dialogController.PlayDialog();
-		
 		// Dialog End에 Perform Action 넣어주고
 		// Dialog의 모든 End를 Clear로 판단하자.
 	}
