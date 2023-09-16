@@ -52,7 +52,7 @@ public class PlayerAttackState : PlayerComboAttackState
 
 		unit.rigid.velocity = Vector3.zero;
 
-		unit.attackCollider.radiusCollider.enabled = false;
+		unit.attackCollider.truncatedCollider.enabled = false;
 
 		bool isAttack = hittedEnemyCount > 0;
 		unit.comboGaugeSystem.SetComboGaugeProc(isAttack, hittedEnemyCount);
@@ -97,7 +97,7 @@ public class PlayerAttackState : PlayerComboAttackState
 	{
 		attackNode = unit.curNode;
 
-		if (attackNode.effectPoolManager == null) { return; }
+		if (attackNode.hitEffectPoolManager == null) { return; }
 
 		Vector3 rot = target.rotation.eulerAngles;
 		rot.y *= -1;

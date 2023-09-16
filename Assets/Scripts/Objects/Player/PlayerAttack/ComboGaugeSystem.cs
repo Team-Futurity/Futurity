@@ -86,7 +86,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	{
 		currentGauge = Mathf.Clamp(gauge, minComboGauge, maxComboGauge);
 		
-		OnGaugeChanged?.Invoke(currentGauge);
+		//OnGaugeChanged?.Invoke(currentGauge);
 	}
 
 	public void ResetComboGauge()

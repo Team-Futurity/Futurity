@@ -43,8 +43,7 @@ public class AttackNode
 	[Header("연출용 데이터")]
 	public int animInteger;
 
-	public float randomShakePower;
-	public float curveShakePower;
+	public float shakePower;
 	public float shakeTime;
 	public float slowTime;
 	public float slowScale;
