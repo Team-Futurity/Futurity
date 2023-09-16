@@ -25,19 +25,18 @@ public class DialogData : ScriptableObject
 	public List<DialogDataGroup> dataList;
 
 	private DialogDataGroup currentData;
-	private DialogDataGroup nextData;
 
 	private int currentIndex;
 
+	private bool onLastData;
+
 	public void Init()
 	{
+		currentData.Reset();
 		currentIndex = 0;
+		onLastData = false;
+		
 		currentData = dataList[currentIndex];
-
-		if (dataList.Count > 1)
-		{
-			nextData = dataList[currentIndex + 1];
-		}
 	}
 
 	// Index, Dialog Data
@@ -48,19 +47,21 @@ public class DialogData : ScriptableObject
 
 	public void NextDialog()
 	{
-		if (nextData.talker_Eng == "")
+		if (onLastData)
 		{
 			return;
 		}
+		
+		currentData = dataList[++currentIndex];
 
-		currentData = nextData;
-
-		if (currentIndex >= dataList.Count)
+		if (currentIndex >= dataList.Count - 1)
 		{
-			nextData.Reset();
-			return;
+			onLastData = true;
 		}
+	}
 
-		nextData = dataList[++currentIndex];
+	public bool GetLastData()
+	{
+		return onLastData;
 	}
 }
