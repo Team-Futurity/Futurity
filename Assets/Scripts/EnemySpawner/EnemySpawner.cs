@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
@@ -89,6 +84,24 @@ public class EnemySpawner : MonoBehaviour
 			SpawnEnemy();
 		}
 	}
+
+	public int[] GetTotalCreateCount()
+	{
+		int[] result = new int[3];
+
+		foreach (var totalWave in spawnData.waveSpawnCounts)
+		{
+			foreach (var count in totalWave.wave)
+			{
+				result[0] += count.meleeCnt;
+				result[1] += count.rangedCnt;
+				result[2] += count.minimalCnt;
+			}
+		}
+		
+		return result;
+	}
+	
 	private void PlaceEnemy(int count, EnemyController.EnemyType type)
 	{
 		for (int i = 0; i < count; ++i)
@@ -132,7 +145,7 @@ public class EnemySpawner : MonoBehaviour
 
 		spawnIndex++;
 	}
-
+	
 	private void Init()
 	{
 		totalWaveCount = spawnData.waveSpawnCounts.Count;
@@ -141,10 +154,12 @@ public class EnemySpawner : MonoBehaviour
 		spawnArea = transform;
 	}
 
+	#region Editor
 	private void OnDrawGizmos()
 	{
 		Handles.color = radiusColor;
 		Handles.DrawWireArc(transform.position, Vector3.up, Vector3.forward, 360, spawnRadius);
 	}
+	#endregion
 }
 

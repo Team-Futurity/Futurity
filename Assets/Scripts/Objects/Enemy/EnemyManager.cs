@@ -14,7 +14,7 @@ public class EnemyManager : MonoBehaviour
 	[SerializeField] private Transform enemyContainer;
 
 	[Header("Enemy Pool")] 
-	[SerializeField] private int initCount = 20;
+	[ReadOnly(false), SerializeField] private int[] totalSpawnCount;
 	private List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
 
 	private void Awake()
@@ -23,29 +23,36 @@ public class EnemyManager : MonoBehaviour
 		{
 			enemyPool.Add(new Queue<GameObject>());
 		}
+
+		totalSpawnCount = new int[3];
+		UpdateTotalSpawnCount();
 		
-		CreateEnemyObject(initCount, EnemyController.EnemyType.MeleeDefault);
-		CreateEnemyObject(initCount, EnemyController.EnemyType.RangedDefault);
-		CreateEnemyObject(initCount, EnemyController.EnemyType.MinimalDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MeleeDefault], EnemyController.EnemyType.MeleeDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.RangedDefault], EnemyController.EnemyType.RangedDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MinimalDefault], EnemyController.EnemyType.MinimalDefault);
 	}
 
 	public GameObject GetEnemy(EnemyController.EnemyType type)
 	{
 		if (enemyPool[(int)type].Count <= 0)
 		{
-			CreateEnemyObject(initCount / 2, type);
+			CreateEnemyObject(1, type);
 		}
 		
 		GameObject enemy = enemyPool[(int)type].Dequeue();
 		return enemy;
 	}
 
-	// 체크용 
-	private void Update()
+	private void UpdateTotalSpawnCount()
 	{
-		if (Input.GetKeyDown(KeyCode.E))
+		foreach (var spawner in spawnerList)
 		{
-			spawnerList[0].SpawnEnemy();
+			int[] arr = spawner.GetTotalCreateCount();
+
+			for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
+			{
+				totalSpawnCount[i] += arr[i];
+			}
 		}
 	}
 
