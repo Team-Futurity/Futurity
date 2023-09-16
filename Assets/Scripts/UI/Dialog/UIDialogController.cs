@@ -166,6 +166,11 @@ public partial class UIDialogController : MonoBehaviour, IControlCommand
 
 	public void OnPass()
 	{
+		if(!isActive)
+		{
+			return;
+		}
+		
 		OnNextDialog();
 	}
 
