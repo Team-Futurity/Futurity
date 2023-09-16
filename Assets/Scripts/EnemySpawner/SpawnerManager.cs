@@ -13,11 +13,12 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private GameObject[] enemyPrefabs;
 	[SerializeField] private Transform enemyContainer;
 
-	[Header("소환 데이터")] 
+	[Header("Debug 패널")] 
+	[Tooltip("다음 웨이브 조건"), SerializeField] private int nextWaveCondition = 3;
 	[ReadOnly(false), SerializeField] private int[] totalSpawnCount;
-	[ReadOnly(false), SerializeField] private int totalWaveSpawnCount;
-	[SerializeField] private int nextWaveCondition = 3;
-	private List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
+	[ReadOnly(false), SerializeField] private int curWaveSpawnCount;
+	
+	private readonly List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
 
 	private void Awake()
 	{
@@ -39,7 +40,7 @@ public class SpawnerManager : MonoBehaviour
 		foreach (var spawner in spawnerList)
 		{
 			spawner.SpawnEnemy();
-			totalWaveSpawnCount += spawner.GetCurrentSpawnCount();
+			curWaveSpawnCount += spawner.GetCurrentSpawnCount();
 		}
 	}
 
@@ -59,7 +60,7 @@ public class SpawnerManager : MonoBehaviour
 		foreach (var spawner in spawnerList)
 		{
 			int[] arr = spawner.GetTotalCreateCount();
-			spawner.GetComponent<EnemySpawner>().disableEvent.AddListener(SpawnerDisableEvent);
+			spawner.GetComponent<EnemySpawner>().spawnerDisableEvent.AddListener(SpawnerDisableEvent);
 
 			for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
 			{
@@ -84,9 +85,9 @@ public class SpawnerManager : MonoBehaviour
 
 	private void MonsterDisableEvent()
 	{
-		totalWaveSpawnCount--;
+		curWaveSpawnCount--;
 
-		if (totalWaveSpawnCount > nextWaveCondition)
+		if (curWaveSpawnCount > nextWaveCondition)
 		{
 			return;
 		}
@@ -94,7 +95,7 @@ public class SpawnerManager : MonoBehaviour
 		foreach (var spawner in spawnerList)
 		{
 			spawner.SpawnEnemy();
-			totalWaveSpawnCount += spawner.GetCurrentSpawnCount();
+			curWaveSpawnCount += spawner.GetCurrentSpawnCount();
 		}
 	}
 	
