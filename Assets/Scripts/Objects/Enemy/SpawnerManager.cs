@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class SpawnerManager : MonoBehaviour
 {
 	private const int MAX_ENEMY_TYPE = 3;
 	
@@ -30,6 +30,14 @@ public class EnemyManager : MonoBehaviour
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MeleeDefault], EnemyController.EnemyType.MeleeDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.RangedDefault], EnemyController.EnemyType.RangedDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MinimalDefault], EnemyController.EnemyType.MinimalDefault);
+	}
+
+	private void Start()
+	{
+		foreach (var spawner in spawnerList)
+		{
+			spawner.SpawnEnemy();
+		}
 	}
 
 	public GameObject GetEnemy(EnemyController.EnemyType type)

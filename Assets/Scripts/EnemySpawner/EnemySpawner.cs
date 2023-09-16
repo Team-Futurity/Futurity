@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
 	private void Awake()
 	{
 		Init();
-		GetEnemyEvent += gameObject.GetComponentInParent<EnemyManager>().GetEnemy;
+		GetEnemyEvent += gameObject.GetComponentInParent<SpawnerManager>().GetEnemy;
 	}
 
 	public void SpawnEnemy()
@@ -111,6 +111,7 @@ public class EnemySpawner : MonoBehaviour
 
 			Collider[] colliders = Physics.OverlapSphere(spawnPos, inspectionRange);
 			bool isEnemyFound = false;
+			
 			foreach (Collider col in colliders)
 			{
 				if (col.CompareTag("Enemy"))
