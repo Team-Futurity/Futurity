@@ -29,7 +29,11 @@ public class UIDialogInteraction : UIDialogFeatureBase
 		if (controller.currentState != DialogSystemState.NONE || controller.currentState != DialogSystemState.MAX)
 		{
 			controller.EnterNextInteraction();
+
+			return;
 		}
+		
+		OnDisable();
 	}
 
 	private void OnDisable()
