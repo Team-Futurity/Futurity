@@ -98,12 +98,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public SpecialMoveController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
-	public RadiusCapsuleCollider attackCollider;
-	public RadiusCapsuleCollider autoTargetCollider;
+	public TruncatedCapsuleCollider attackCollider;
+	public TruncatedCapsuleCollider autoTargetCollider;
 	public CapsuleCollider basicCollider;
 	public EffectController effectController;
 	public EffectDatas effectSO;
-	public BuffProvider buffProvider;
+	//public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
 	[HideInInspector] public Animator animator;
@@ -192,8 +192,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void SetFSM()
 	{
-		var list = new List <PlayerState>();
-
 		unit = this;
 		SetUp(PlayerState.Idle);
 	}
@@ -327,7 +325,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 			else
 			{
-				if (curCombo != PlayerInputEnum.SpecialAttack)
+				if (firstBehaiviorNode.command == PlayerInputEnum.NormalAttack)
 				{
 					SetNextCombo(PlayerInputEnum.SpecialAttack);
 					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
@@ -647,7 +645,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
 		if (effectController == null) { msgs.Add("effectManager is Null."); }
 		if (effectSO == null) { msgs.Add("effectSO is Null."); }
-		if (buffProvider == null) { msgs.Add("buffProvider is Null."); }
+		//if (buffProvider == null) { msgs.Add("buffProvider is Null."); }
 		if (rmController == null) { msgs.Add("rmController is Null."); }
 		if (playerAnimationEvents == null) { msgs.Add("playerAnimationEvents is Null."); }
 		if (animator == null) { msgs.Add("animator is Null."); }

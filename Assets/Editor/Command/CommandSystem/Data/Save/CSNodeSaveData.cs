@@ -37,8 +37,7 @@ public class CSNodeSaveData
 
 	// Production
 	[field: SerializeField] public int AnimInteger { get; set; }
-	[field: SerializeField] public float RandomShakePower { get; set; }
-	[field: SerializeField] public float CurveShakePower { get; set; }
+	[field: SerializeField] public float ShakePower { get; set; }
 	[field: SerializeField] public float ShakeTime { get; set; }
 	[field: SerializeField] public float SlowTime { get; set; }
 	[field: SerializeField] public float SlowScale { get; set; }
@@ -81,8 +80,7 @@ public class CSNodeSaveData
 		HitEffectParent = node.HitEffectParent;
 
 		AnimInteger = node.AnimInteger;
-		RandomShakePower = node.RandomShakePower;
-		CurveShakePower = node.CurveShakePower;
+		ShakePower = node.ShakePower;
 		ShakeTime = node.ShakeTime;
 		SlowTime = node.SlowTime;
 		SlowScale = node.SlowScale;

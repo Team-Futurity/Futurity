@@ -35,8 +35,7 @@ public class CSCommandSO : ScriptableObject
 
 	// Production
 	[field: SerializeField] public int AnimInteger { get; set; }
-	[field: SerializeField] public float RandomShakePower { get; set; }
-	[field: SerializeField] public float CurveShakePower { get; set; }
+	[field: SerializeField] public float ShakePower { get; set; }
 	[field: SerializeField] public float ShakeTime { get; set; }
 	[field: SerializeField] public float SlowTime { get; set; }
 	[field: SerializeField] public float SlowScale { get; set; }
