@@ -20218,9 +20218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebd15f785cd2c14f88b0b5399cefc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeEnemys: []
-  clusters: []
-  clusterElse: []
+  spawnerList: []
+  enemyPrefabs: []
+  enemyContainer: {fileID: 0}
+  totalSpawnCount: 
 --- !u!4 &389479187
 Transform:
   m_ObjectHideFlags: 0
@@ -29016,6 +29017,14 @@ PrefabInstance:
       propertyPath: buffProvider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: attackCollider
+      value: 
+      objectReference: {fileID: 1432759825}
+    - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: autoTargetCollider
+      value: 
+      objectReference: {fileID: 1600526867}
     - target: {fileID: 5328251835375101389, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -55003,6 +55012,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432602157}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1432759821 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4068547685948332289, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+  m_PrefabInstance: {fileID: 490917121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1432759825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432759821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65acb2058499920478e25358d6c8f434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angle: 0
+  <Radius>k__BackingField: 0
+  <IsTrigger>k__BackingField: 1
+  colliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1435350851
 GameObject:
   m_ObjectHideFlags: 0
@@ -59452,6 +59482,27 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1600526863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 625353275, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+  m_PrefabInstance: {fileID: 490917121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1600526867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600526863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65acb2058499920478e25358d6c8f434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angle: 0
+  <Radius>k__BackingField: 0
+  <IsTrigger>k__BackingField: 1
+  colliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1605540696
 GameObject:
   m_ObjectHideFlags: 0

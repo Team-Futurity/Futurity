@@ -13,8 +13,10 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private GameObject[] enemyPrefabs;
 	[SerializeField] private Transform enemyContainer;
 
-	[Header("Enemy Pool")] 
+	[Header("소환 데이터")] 
 	[ReadOnly(false), SerializeField] private int[] totalSpawnCount;
+	[ReadOnly(false), SerializeField] private int totalWaveSpawnCount;
+	[SerializeField] private int nextWaveCondition = 3;
 	private List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
 
 	private void Awake()
@@ -25,7 +27,7 @@ public class SpawnerManager : MonoBehaviour
 		}
 
 		totalSpawnCount = new int[3];
-		UpdateTotalSpawnCount();
+		InitSpawnerData();
 		
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MeleeDefault], EnemyController.EnemyType.MeleeDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.RangedDefault], EnemyController.EnemyType.RangedDefault);
@@ -37,6 +39,7 @@ public class SpawnerManager : MonoBehaviour
 		foreach (var spawner in spawnerList)
 		{
 			spawner.SpawnEnemy();
+			totalWaveSpawnCount += spawner.GetCurrentSpawnCount();
 		}
 	}
 
@@ -51,11 +54,12 @@ public class SpawnerManager : MonoBehaviour
 		return enemy;
 	}
 
-	private void UpdateTotalSpawnCount()
+	private void InitSpawnerData()
 	{
 		foreach (var spawner in spawnerList)
 		{
 			int[] arr = spawner.GetTotalCreateCount();
+			spawner.GetComponent<EnemySpawner>().disableEvent.AddListener(SpawnerDisableEvent);
 
 			for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
 			{
@@ -71,9 +75,31 @@ public class SpawnerManager : MonoBehaviour
 		for (int i = 0; i < count; ++i)
 		{
 			var enemy = Instantiate(enemyPrefabs[index], enemyContainer);
+			enemy.GetComponent<EnemyController>().disableEvent.AddListener(MonsterDisableEvent);
 			enemy.SetActive(false);
 			
 			enemyPool[index].Enqueue(enemy);
 		}
+	}
+
+	private void MonsterDisableEvent()
+	{
+		totalWaveSpawnCount--;
+
+		if (totalWaveSpawnCount > nextWaveCondition)
+		{
+			return;
+		}
+
+		foreach (var spawner in spawnerList)
+		{
+			spawner.SpawnEnemy();
+			totalWaveSpawnCount += spawner.GetCurrentSpawnCount();
+		}
+	}
+	
+	private void SpawnerDisableEvent(EnemySpawner spawner)
+	{
+		spawnerList.Remove(spawner);
 	}
 }

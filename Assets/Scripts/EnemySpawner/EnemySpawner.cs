@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
@@ -9,12 +12,9 @@ public class EnemySpawner : MonoBehaviour
 	
 	[Header("스폰 데이터")] 
 	[SerializeField] private EnemySpawnData spawnData;
-	[HideInInspector] public int curEnemyTotalCount = 0;
 	private int totalWaveCount = 0;
 	private int curWaveCount = 0;
-	private int totalStepCount = 0;
-	private int curStepCount = 0;
-
+	
 	[Header("스포너 범위")] 
 	[SerializeField] private float spawnRadius = 20.0f;
 	[SerializeField] private float yOffset = 0.64f;
@@ -26,12 +26,13 @@ public class EnemySpawner : MonoBehaviour
 	[Header("중복 소환 검사 크기")] 
 	[SerializeField] private float inspectionRange = 2.0f;
 
-	// Pool Event
+	// Event
 	public event GetEnemy GetEnemyEvent;
 	public delegate GameObject GetEnemy(EnemyController.EnemyType type);
+	[HideInInspector] public UnityEvent<EnemySpawner> disableEvent;
 	
 	// 실제 소환 개수 저장
-	[HideInInspector] public int[] spawnCount = new int[3];
+	[HideInInspector] public int[] curWaveEnemyCount = new int[3];
 	private int spawnIndex = 0;
 
 	private void Awake()
@@ -42,64 +43,45 @@ public class EnemySpawner : MonoBehaviour
 
 	public void SpawnEnemy()
 	{
-		if (curStepCount >= totalStepCount)
+		curWaveEnemyCount = curWaveEnemyCount.Select(x => 0).ToArray();
+		if (curWaveCount >= totalWaveCount)
 		{
-			curWaveCount++;
-			curStepCount = 0;
-
-			if (curWaveCount >= totalWaveCount)
-			{
-				Debug.Log("Spawn is Done");
-				gameObject.SetActive(false);
-				return;
-			}
-			
-			totalStepCount = spawnData.waveSpawnCounts[curWaveCount].wave.Length;
+			Debug.Log("Spawn is Done");
+			gameObject.SetActive(false);
+			return;
 		}
-
-		Debug.Log($"Total Wave : {totalWaveCount} / Cur Wave : {curWaveCount}");
-		Debug.Log($"Total Step : {totalStepCount} / Cur Wave : {curStepCount}");
 		
-		int melee = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].meleeCnt;
-		int ranged = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].rangedCnt;
-		int minimal = spawnData.waveSpawnCounts[curWaveCount].wave[curStepCount].minimalCnt;
-		curEnemyTotalCount = melee + ranged + minimal;
+		int melee = spawnData.waveSpawnCounts[curWaveCount].meleeCnt;
+		int ranged = spawnData.waveSpawnCounts[curWaveCount].rangedCnt;
+		int minimal = spawnData.waveSpawnCounts[curWaveCount].minimalCnt;
 		
-		Debug.Log(curEnemyTotalCount);
 		spawnIndex = 0;
-		
+
 		PlaceEnemy(melee, EnemyController.EnemyType.MeleeDefault);
 		PlaceEnemy(ranged, EnemyController.EnemyType.RangedDefault);
 		PlaceEnemy(minimal, EnemyController.EnemyType.MinimalDefault);
+		
+		curWaveCount++;
 	}
-
-	public void OnDisableEvent()
-	{
-		curEnemyTotalCount--;
-		Debug.Log($"Remain : {curEnemyTotalCount}");
-
-		if (curEnemyTotalCount <= 0)
-		{
-			curStepCount++;
-			SpawnEnemy();
-		}
-	}
-
+	
 	public int[] GetTotalCreateCount()
 	{
 		int[] result = new int[3];
 
-		foreach (var totalWave in spawnData.waveSpawnCounts)
+		foreach (var data in spawnData.waveSpawnCounts)
 		{
-			foreach (var count in totalWave.wave)
-			{
-				result[0] += count.meleeCnt;
-				result[1] += count.rangedCnt;
-				result[2] += count.minimalCnt;
-			}
+			result[0] += data.meleeCnt;
+			result[1] += data.rangedCnt;
+			result[2] += data.minimalCnt;
 		}
 		
 		return result;
+	}
+
+	public int GetCurrentSpawnCount()
+	{
+		Debug.Log(curWaveEnemyCount.Sum());
+		return curWaveEnemyCount.Sum();
 	}
 	
 	private void PlaceEnemy(int count, EnemyController.EnemyType type)
@@ -127,32 +109,32 @@ public class EnemySpawner : MonoBehaviour
 				i--;
 				continue;
 			}
-			
 			curCheckCount = 0;
 
-			var enemy = GetEnemyEvent?.Invoke(type);
+			GameObject enemy = GetEnemyEvent?.Invoke(type);
 			if (enemy == null)
 			{
 				return;
 			}
 			
-			enemy.GetComponent<EnemyController>().RegisterEvent(OnDisableEvent);
 			enemy.transform.SetPositionAndRotation(spawnPos, Quaternion.Euler(0, -90f, 0));
 			enemy.transform.SetParent(enemyParents);
 			enemy.SetActive(true);
 
-			spawnCount[spawnIndex]++;
+			curWaveEnemyCount[spawnIndex]++;
 		}
-
 		spawnIndex++;
 	}
 	
 	private void Init()
 	{
 		totalWaveCount = spawnData.waveSpawnCounts.Count;
-		totalStepCount = spawnData.waveSpawnCounts[curWaveCount].wave.Length;
-
 		spawnArea = transform;
+	}
+
+	private void OnDisable()
+	{
+		disableEvent?.Invoke(this);
 	}
 
 	#region Editor

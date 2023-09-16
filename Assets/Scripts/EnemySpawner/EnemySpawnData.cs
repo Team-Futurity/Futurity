@@ -5,17 +5,7 @@ using UnityEngine;
 public class EnemySpawnData : ScriptableObject
 {
 	[Header("각 웨이브에서 스폰시킬 수")] [Tooltip("List의 Count가 최대 웨이브 횟수")]
-	public List<WaveCount> waveSpawnCounts;
-	
-	// 아직 미정
-	public int nextWaveCondition;
-	public float nextWaveTime;
-}
-
-[System.Serializable]
-public struct WaveCount
-{
-	public SpawnCount[] wave;
+	public List<SpawnCount> waveSpawnCounts;
 }
 
 [System.Serializable]
