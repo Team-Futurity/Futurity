@@ -45,6 +45,11 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 		isActive = false;
 	}
 
+	private void Start()
+	{
+		((IControlCommand)this).Init();
+	}
+
 	#region IControlCommand
 	void IControlCommand.Init()
 	{
