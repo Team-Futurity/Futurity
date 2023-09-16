@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
@@ -18,12 +19,16 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 
 	// Current Board
 	private UIPerformBoard currentBoard;
+	
 	// Index
 	private int currentIndex;
-	private int maxIndex; 
-
+	private int maxIndex;
+	
 	private bool isActive;
 
+	[HideInInspector] 
+	public UnityEvent OnChangePerformBoard;
+	
 	private void Awake()
 	{
 		if(PerformBoardList is null)
@@ -74,7 +79,9 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 		{
 			return;
 		}
-
+		
+		OnChangePerformBoard?.Invoke();
+		
 		ChangeToNextBoard();
 	}
 
@@ -82,7 +89,7 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 	{
 		if (currentIndex >= maxIndex)
 		{
-			End();
+			GetEndProcess();
 			
 			return;
 		}
@@ -94,8 +101,8 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 		currentBoard.SetActive(true);
 	}
 
-	private void End()
+	private void GetEndProcess()
 	{
-		Debug.Log("튜토리얼 클리어");
+		Debug.Log("Perform Board Action Clear");
 	}
 }
