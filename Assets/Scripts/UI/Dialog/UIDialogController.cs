@@ -24,7 +24,8 @@ public partial class UIDialogController : MonoBehaviour
 	[Space(10)]
 	
 	[Header("현재 Dialog Data")]
-	public DialogData currentDialogData;
+	[SerializeField]
+	private DialogData currentDialogData;
 	
 	[field: Space(10)]
 
@@ -32,7 +33,7 @@ public partial class UIDialogController : MonoBehaviour
 	[field: SerializeField] 
 	public UIDialogText DialogText { get; private set; }
 
-	[SerializeField] private DialogSystemState currentState;
+	public DialogSystemState currentState;
 
 	private DialogData nextDialogData;
 	
@@ -58,7 +59,7 @@ public partial class UIDialogController : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			InitDialog("TEST");
+			SetDialogData("TEST");
 		}
 		
 		if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -67,37 +68,61 @@ public partial class UIDialogController : MonoBehaviour
 		}
 	}
 
-	public void InitDialog(string code)
+	public void SetDialogData(string code)
 	{
 		ChangeState(DialogSystemState.INIT);
 
-		// Current Dialog Data를 Code에 맞게 수정해야 함.
 		currentDialogData.Init();
+		
+		gameObject.SetActive(true);
+		
+		// Dialog가 종료되었다면, Next Dialog로 이동
+		DialogText.OnEnd.AddListener(GetNextDialog);
 		
 		OnStarted?.Invoke();
 	}
 	
 	public void PlayDialog()
 	{
+		if (currentState == DialogSystemState.NONE)
+		{
+			return;
+		}
+		
 		ChangeState(DialogSystemState.PRINTING);
 
-		// Current Dioalog Data가 존재하지 않을 경우, Play가 불가능하다.
 		var (_,dialogData) = currentDialogData.GetCurrentData();
+		
+		// Dialog Text
 		DialogText.Show(dialogData.descripton);
 		
 		OnShow?.Invoke(dialogData);
 	}
 
-	// Dialog Open
-	public void SetDialogActive(bool isOn)
+	public void GetNextDialog()
 	{
-		gameObject.SetActive(isOn);
+		ChangeState(DialogSystemState.PRINTING_END);
+		
+		currentDialogData.NextDialog();
 	}
-	
+
+	private void CloseDialog()
+	{
+		ChangeState(DialogSystemState.NONE);
+		
+		gameObject.SetActive(false);
+	}
+
 	#region Dialog Feature
 
-	public void OnTextPass()
+	public void EnterNextInteraction()
 	{
+		if (currentState == DialogSystemState.PRINTING_END)
+		{
+			PlayDialog();
+			return;
+		}
+		
 		DialogText.Pass();
 	}
 
