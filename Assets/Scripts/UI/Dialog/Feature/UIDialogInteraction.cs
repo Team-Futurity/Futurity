@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class UIDialogPass : UIDialogFeatureBase
+public class UIDialogInteraction : UIDialogFeatureBase
 {
 	[field :SerializeField]
 	public Button PassButton { get; private set; }
@@ -20,21 +20,15 @@ public class UIDialogPass : UIDialogFeatureBase
 
 		passKey.performed += (x) =>
 		{
-			OnPass();
+			PassDialog();
 		};
 	}
 
-	public void SetKey(InputAction input)
+	private void PassDialog()
 	{
-		//// 추후, KeyChanger에서 가져올 수 있도록 한다.
-		//passKey = input;
-	}
-
-	private void OnPass()
-	{
-		if (controller.GetActive())
+		if (controller.currentState != DialogSystemState.NONE || controller.currentState != DialogSystemState.MAX)
 		{
-			controller.OnPass();
+			controller.EnterNextInteraction();
 		}
 	}
 
