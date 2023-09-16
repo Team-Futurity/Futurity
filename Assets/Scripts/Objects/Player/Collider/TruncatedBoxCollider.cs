@@ -40,11 +40,9 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 	// 1 : leftBottom
 	// 2 : rightTop
 	// 3 : rightBottom
-	private Vector2[] GetRectanglePoints()
+	private Vector2[] GetRectanglePoints(Vector2 origin, Vector2 forward)
 	{
 		Vector2[] points = new Vector2[4];
-		Vector2 originPos = new Vector2(transform.position.x, transform.position.z);
-		Vector2 finalPos = offset + originPos;
 
 		float halfSizeX = size.x * 0.5f;
 		float halfSizeZ = size.y * 0.5f;
@@ -56,19 +54,61 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 		for (int i = 0; i < 4; i++)
 		{
-			points[i] += finalPos;
+			points[i] += origin;
+			points[i].RotateToDirection(forward);
 		}
 
 		return points;
 	}
 
 	// 최종적으로 몇 개의 점이 존재할지 예상하여 반환함.
-	private int GetintersectionPoint(Vector2 topPoint1, Vector2 topPoint2, Vector2 targetPoint1, Vector2 tagetPoint2, Vector2 line, out Vector2 intersectionPoint)
+	private int GetintersectionPoint(Vector2[] rectanglePoints, Vector2 origin, Vector2 line, out Vector2[] intersectionPoint)
 	{
-		int pointCount = 5;
+		List<Vector2> points = new List<Vector2>();
+		Vector2 intersection;
+		bool isEnd = false;
+		bool isRight = false;
+		int dir = 0; // 0 : top, 1 : side, 2 : bottom
 
-		// 옆면에 교차했는지 체크 교차 못하면 if문 안으로
-		if (!MathPlus.GetIntersectionPoint(targetPoint1, tagetPoint2, transform.position, line, out intersectionPoint))
+		// 윗면 교차 체크
+		if (MathPlus.GetIntersectionPoint(rectanglePoints[0], rectanglePoints[2], origin, line, out intersection))
+		{
+			Vector2 centerPoint = (rectanglePoints[0] + rectanglePoints[2]) * 0.5f;
+
+			Vector2 originToIS = origin - intersection;
+			Vector2 originToLeftTop = origin - rectanglePoints[0];
+			Vector2 originToRightTop = origin - rectanglePoints[2];
+
+			isEnd = !(originToIS.magnitude > originToRightTop.magnitude || originToIS.magnitude > originToLeftTop.magnitude);
+			dir = 0;
+
+			if (!isEnd)
+			{
+				isRight = centerPoint.Cross(intersection) < 0;
+
+				intersection = isRight ? rectanglePoints[0] : rectanglePoints[2];
+			}
+
+			points.Add(new Vector2(intersection.x, intersection.y));
+		}
+
+		Vector2[] sidePoints = new Vector2[2];
+		sidePoints[0] = isRight ? rectanglePoints[2] : rectanglePoints[0];
+		sidePoints[1] = isRight ? rectanglePoints[3] : rectanglePoints[1];
+
+		if (!isEnd && MathPlus.GetIntersectionPoint(sidePoints[0], sidePoints[1], origin, line, out intersection))
+		{
+			dir = 1;
+
+			points.Add(new Vector2(intersection.x, intersection.y));
+		}
+
+		intersectionPoint = points.ToArray();
+
+		return dir;
+
+		/*	// 옆면에 교차했는지 체크 교차 못하면 if문 안으로
+			if (!MathPlus.GetIntersectionPoint(targetPoint1, tagetPoint2, transform.position, line, out intersectionPoint))
 		{
 			pointCount = 3;
 			// 윗면에 교차했는지 체크 교차 못하면 if문 안으로
@@ -78,9 +118,9 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 				intersectionPoint = transform.position;
 				pointCount = 4;
 			}
-		}
+		}*/
 
-		return pointCount;
+		//return pointCount;
 	}
 
 	private Vector2[] GetFinalPoints(int pointCount, Vector2 originPos, Vector2[] rectanglePoints, Vector2 leftPoint, Vector2 rightPoint)
@@ -128,7 +168,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 	protected override void OnDrawGizmos()
 	{
-		Gizmos.color = colliderColor;
+		/*Gizmos.color = colliderColor;
 		var vecs = GetVectorToCut();
 		var rectanglePoints = GetRectanglePoints();
 
@@ -151,7 +191,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 		Vector2[] finalPoints = GetFinalPoints(leftPoints, originPos, rectanglePoints, leftIntersectionPoint, rightIntersectionPoint);
 		Vector3[] points = Vector2ToVector3(finalPoints);
-		points[0] = leftPos; points[3] = rightPos;
+		//points[0] = leftPos; points[3] = rightPos;
 		// Draw Lines
 		Handles.color = new Color(colliderColor.r, colliderColor.g, colliderColor.b, 0.1f);
 		for (int i = 0; i < points.Length - 1; i++)
@@ -159,7 +199,45 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 			Gizmos.DrawLine(points[i], points[i + 1]);
 		}
 		Gizmos.DrawLine(points[points.Length - 1], points[0]);
-		/*Handles.DrawPolyLine(Vector2ToVector3(finalPoints));*/
+		*//*Handles.DrawPolyLine(Vector2ToVector3(finalPoints));*/
+
+		Gizmos.color = colliderColor;
+		Vector3 origin = transform.position + new Vector3(offset.x, 0, offset.y);
+		var vecs = GetVectorToCut();
+		var rectanglePoints = GetRectanglePoints(origin, new Vector2(transform.forward.x, transform.forward.z));
+
+		Vector3 leftLine = vecs[0] + origin;
+		Vector3 rightLine = vecs[1] + origin;
+
+		// 각도 선
+		Handles.color = new Color(colliderColor.r, colliderColor.g, colliderColor.b, 0.1f);
+		Gizmos.DrawLine(leftLine, origin);
+		Gizmos.DrawLine(rightLine, origin);
+
+		// 상판
+		Vector2[] intersectionPoint1, intersectionPoint2;
+		int dir = GetintersectionPoint(rectanglePoints, new Vector2(origin.x, origin.z), new Vector2(leftLine.x, leftLine.z), out intersectionPoint1);
+		GetintersectionPoint(rectanglePoints, new Vector2(origin.x, origin.z), new Vector2(rightLine.x, rightLine.z), out intersectionPoint2);
+
+		if(dir >= 0)
+		{
+			Gizmos.DrawLine(new Vector3(intersectionPoint1[0].x, transform.position.y, intersectionPoint1[0].y), new Vector3(intersectionPoint2[0].x, transform.position.y, intersectionPoint2[0].y));
+		}
+
+		if (dir >= 1)
+		{
+			Gizmos.DrawLine(new Vector3(rectanglePoints[2].x, transform.position.y, rectanglePoints[2].y), new Vector3(intersectionPoint1[1].x, transform.position.y, intersectionPoint1[1].y));
+			Gizmos.DrawLine(new Vector3(rectanglePoints[0].x, transform.position.y, rectanglePoints[0].y), new Vector3(intersectionPoint2[1].x, transform.position.y, intersectionPoint2[1].y));
+		}
+
+		/*if (dir >= 0)
+		{
+			Gizmos.DrawLine(new Vector3(intersectionPoint1.x, transform.position.y, intersectionPoint1.y), new Vector3(intersectionPoint2.x, transform.position.y, intersectionPoint2.y));
+		}*/
+
+		// 좌우
+
+		// 하단
 	}
 #endif
 }
