@@ -15,9 +15,9 @@ public class SpawnerManager : MonoBehaviour
 
 	[Header("Debug 패널")] 
 	[Tooltip("다음 웨이브 조건"), SerializeField] private int nextWaveCondition = 3;
-	[ReadOnly(false), SerializeField] private int[] totalSpawnCount;
 	[ReadOnly(false), SerializeField] private int curWaveSpawnCount;
-	
+	[ReadOnly(false), SerializeField] private int[] totalSpawnCount;
+
 	private readonly List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
 
 	private void Awake()
