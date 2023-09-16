@@ -9249,9 +9249,9 @@ MonoBehaviour:
   - {fileID: 133472735}
   - {fileID: 1621278214}
   enemyContainer: {fileID: 1981199156}
-  totalSpawnCount: 
-  totalWaveSpawnCount: 0
   nextWaveCondition: 3
+  totalSpawnCount: 
+  curWaveSpawnCount: 0
 --- !u!4 &131474380
 Transform:
   m_ObjectHideFlags: 0
@@ -32411,7 +32411,7 @@ GameObject:
   - component: {fileID: 669746122}
   - component: {fileID: 669746121}
   m_Layer: 0
-  m_Name: EnemySpawner-2
+  m_Name: EnemySpawner_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32431,16 +32431,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyParents: {fileID: 1253942853}
   spawnData: {fileID: 11400000, guid: ae10158e558e20b4d9eedbec19e99165, type: 2}
-  curEnemyTotalCount: 0
   spawnRadius: 5
   yOffset: 0.64
   radiusColor: {r: 1, g: 0, b: 0, a: 1}
   maxCheckCount: 30
   inspectionRange: 2
-  disableEvent:
+  spawnerDisableEvent:
     m_PersistentCalls:
       m_Calls: []
-  spawnCount: 000000000000000000000000
+  curWaveEnemyCount: 000000000000000000000000
 --- !u!4 &669746122
 Transform:
   m_ObjectHideFlags: 0
@@ -45369,7 +45368,7 @@ GameObject:
   - component: {fileID: 1257957574}
   - component: {fileID: 1257957573}
   m_Layer: 0
-  m_Name: EnemySpawner-1
+  m_Name: EnemySpawner_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45389,16 +45388,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyParents: {fileID: 1253942853}
   spawnData: {fileID: 11400000, guid: a85fbb32496436a4b8b577342c16d5f2, type: 2}
-  curEnemyTotalCount: 0
   spawnRadius: 5
   yOffset: 0.64
   radiusColor: {r: 1, g: 0, b: 0, a: 1}
   maxCheckCount: 30
   inspectionRange: 2
-  disableEvent:
+  spawnerDisableEvent:
     m_PersistentCalls:
       m_Calls: []
-  spawnCount: 000000000000000000000000
+  curWaveEnemyCount: 000000000000000000000000
 --- !u!4 &1257957574
 Transform:
   m_ObjectHideFlags: 0

@@ -29,10 +29,10 @@ public class EnemySpawner : MonoBehaviour
 	// Event
 	public event GetEnemy GetEnemyEvent;
 	public delegate GameObject GetEnemy(EnemyController.EnemyType type);
-	[HideInInspector] public UnityEvent<EnemySpawner> disableEvent;
+	[HideInInspector] public UnityEvent<EnemySpawner> spawnerDisableEvent;
 	
 	// 실제 소환 개수 저장
-	[HideInInspector] public int[] curWaveEnemyCount = new int[3];
+	[ReadOnly(false)] public int[] curWaveEnemyCount = new int[3];
 	private int spawnIndex = 0;
 
 	private void Awake()
@@ -134,7 +134,7 @@ public class EnemySpawner : MonoBehaviour
 
 	private void OnDisable()
 	{
-		disableEvent?.Invoke(this);
+		spawnerDisableEvent?.Invoke(this);
 	}
 
 	#region Editor
