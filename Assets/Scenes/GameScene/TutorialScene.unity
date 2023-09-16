@@ -678,45 +678,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ac5308b229211845bcca423245748b8, type: 3}
---- !u!1 &174832964
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 174832965}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &174832965
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174832964}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 705354499}
-  - {fileID: 7791670519295347215}
-  - {fileID: 4316055307870923070}
-  m_Father: {fileID: 1339290557}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &198577811
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,6 +929,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549034317028659117, guid: 2f3ea68821f8144418fcc7d6dd960faa, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3126969255195065411, guid: 2f3ea68821f8144418fcc7d6dd960faa, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3397637381652569117, guid: 2f3ea68821f8144418fcc7d6dd960faa, type: 3}
@@ -2195,7 +2160,7 @@ RectTransform:
   - {fileID: 5573045369348523783}
   - {fileID: 1519320279730145142}
   - {fileID: 5789659358875274919}
-  m_Father: {fileID: 174832965}
+  m_Father: {fileID: 1339290557}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4343,7 +4308,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 174832965}
+  - {fileID: 705354499}
+  - {fileID: 7791670519295347215}
+  - {fileID: 4316055307870923070}
   m_Father: {fileID: 5163636620533659081}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4365,33 +4332,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <DialogType>k__BackingField: 1
+  currentDialogData: {fileID: 11400000, guid: eec3325b2d2957945ade28c55c784533, type: 2}
   <DialogText>k__BackingField: {fileID: 9059214695848916322}
+  currentState: 0
+  OnStarted:
+    m_PersistentCalls:
+      m_Calls: []
   OnShow:
     m_PersistentCalls:
       m_Calls: []
-  OnPlay:
+  OnEnded:
     m_PersistentCalls:
       m_Calls: []
-  OnTextEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDialogEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  dialogDataList:
-  - talker_Eng: "\uBBF8\uB798"
-    talker_Kor: "\uC1A1\uC0AC\uB9AC"
-    descripton: "\uBBF8\uB798\uC528 \uB4E4\uB824\uC694?"
-  - talker_Eng: "\uBBF8\uB798"
-    talker_Kor: "\uC1A1\uC0AC\uB9AC"
-    descripton: 123
-  - talker_Eng: "\uBBF8\uB798"
-    talker_Kor: "\uC1A1\uC0AC\uB9AC"
-    descripton: 12344132
-  - talker_Eng: "\uBBF8\uB798"
-    talker_Kor: "\uC1A1\uC0AC\uB9AC"
-    descripton: 51555
-  imageObject: {fileID: 174832964}
 --- !u!114 &1339290559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4412,7 +4364,15 @@ MonoBehaviour:
     m_Id: 92ce9496-2a41-45ae-8663-636b367b1b94
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 3c7e6247-8fd9-41e5-9abb-9638cdc72ec6
+      m_Path: <Keyboard>/f
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pass Key
+      m_Flags: 0
     m_Flags: 0
 --- !u!114 &1339290560
 MonoBehaviour:
@@ -30801,7 +30761,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3438909025674139354}
-  m_Father: {fileID: 174832965}
+  m_Father: {fileID: 1339290557}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -34551,7 +34511,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 174832965}
+  m_Father: {fileID: 1339290557}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

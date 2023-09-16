@@ -119,6 +119,13 @@ public partial class UIDialogController : MonoBehaviour
 	{
 		if (currentState == DialogSystemState.PRINTING_END)
 		{
+			if (currentDialogData.GetLastData())
+			{
+				CloseDialog();
+				
+				return;
+			}
+			
 			PlayDialog();
 			return;
 		}

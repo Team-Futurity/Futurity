@@ -26,8 +26,6 @@ public class UIDialogDistance : UIDialogFeatureBase
 		
 		isInCollider = false;
 		isOpen = false;
-		
-		controller.SetDialogData("Test");
 	}
 
 	private void Update()
@@ -36,7 +34,7 @@ public class UIDialogDistance : UIDialogFeatureBase
 		{
 			isOpen = true;
 			
-			controller.ShowDialog();
+			// controller.ShowDialog();
 			controller.PlayDialog();
 		}
 
@@ -44,7 +42,7 @@ public class UIDialogDistance : UIDialogFeatureBase
 		{
 			isOpen = false;
 			
-			controller.OnPass();
+			// controller.OnPass();
 		}
 	}
 
