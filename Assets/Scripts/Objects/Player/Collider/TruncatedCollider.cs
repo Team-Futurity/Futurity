@@ -8,7 +8,6 @@ public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
 {
 	[SerializeField] private float angle;
 
-	public bool IsTrigger { get; protected set; }
 	public float Angle
 	{
 		get { return angle; }
@@ -19,6 +18,7 @@ public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
 		}
 	}
 	[field : SerializeField] public float Radius { get; protected set; }
+	[field: SerializeField] public bool IsTrigger { get; protected set; }
 	public T truncatedCollider { get; private set; }
 	[SerializeField] protected Color colliderColor = Color.red;
 
