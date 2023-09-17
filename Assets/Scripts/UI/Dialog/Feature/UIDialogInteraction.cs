@@ -22,22 +22,29 @@ public class UIDialogInteraction : UIDialogFeatureBase
 		{
 			PassDialog();
 		};
+
+		controller.OnStarted.AddListener(EnableKey);
+		controller.OnEnded.AddListener(DisableKey);
 	}
 
 	private void PassDialog()
 	{
 		if (controller.currentState != DialogSystemState.NONE || controller.currentState != DialogSystemState.MAX)
 		{
+			Debug.Log("KEY ют╥б");
 			controller.EnterNextInteraction();
 
 			return;
 		}
-		
-		OnDisable();
 	}
 
-	private void OnDisable()
+	public void DisableKey()
 	{
 		passKey.Disable();
+	}
+
+	public void EnableKey()
+	{
+		passKey.Enable();
 	}
 }
