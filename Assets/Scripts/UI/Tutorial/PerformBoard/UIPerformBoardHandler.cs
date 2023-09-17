@@ -87,6 +87,7 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 		
 		OnChangePerformBoard?.Invoke();
 		
+		// Next Board로 변경해주는 작업임
 		ChangeToNextBoard();
 	}
 
