@@ -27,7 +27,6 @@ public class ComboGaugeSystem : MonoBehaviour
 	private int currentGauge;
 	private int maxGauge;
 	public List<ComboCountData> comboData;
-	//public GaugeBarController gaugeBar;
 	[HideInInspector] public UnityEvent<float> OnGaugeChanged;
 
 	public int ComboCount { get { return comboCount; } }

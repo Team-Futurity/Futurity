@@ -10,6 +10,19 @@ public static class MathPlus
 	{
 		return first.x * second.y - first.y * second.x;
 	}
+	public static void RotateToDirection(this Vector2 originPoint, Vector2 direction)
+	{
+		float rotationAngle = Vector2.SignedAngle(originPoint, direction) * Mathf.Deg2Rad;
+
+		float cosAngle = Mathf.Cos(rotationAngle);
+		float sinAngle = Mathf.Sin(rotationAngle);
+
+		float x = originPoint.x;
+		float y = originPoint.y;
+
+		originPoint.x = x * cosAngle - y * sinAngle;
+		originPoint.y = x * sinAngle + y * cosAngle;
+	}
 
 	public static bool GetIntersectionPoint(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4, out Vector2 vec)
 	{

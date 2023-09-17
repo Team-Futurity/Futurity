@@ -102,8 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 625353276}
-  - component: {fileID: 625353278}
-  - component: {fileID: 1456509}
+  - component: {fileID: 3061016113067807086}
   m_Layer: 0
   m_Name: AutoTargetCollider
   m_TagString: Untagged
@@ -126,21 +125,7 @@ Transform:
   m_Father: {fileID: 5328251835375101389}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &625353278
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625353275}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 2.28
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1456509
+--- !u!114 &3061016113067807086
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -502,8 +487,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 774150179230461155}
-  - component: {fileID: 4068547685948332291}
-  - component: {fileID: 2036585137}
+  - component: {fileID: 675479338}
+  - component: {fileID: 1293169109851640137}
   m_Layer: 0
   m_Name: AttackCollider
   m_TagString: Untagged
@@ -526,21 +511,25 @@ Transform:
   m_Father: {fileID: 5328251835375101389}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &4068547685948332291
-CapsuleCollider:
+--- !u!114 &675479338
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4068547685948332289}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 2.28
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2036585137
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cbf1364bff0ed48ba1720d64ca7b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angle: 172.66
+  <Radius>k__BackingField: 4.2
+  <IsTrigger>k__BackingField: 1
+  colliderColor: {r: 1, g: 0, b: 0, a: 1}
+  offset: {x: 0, y: 0}
+  size: {x: 5, y: 5}
+--- !u!114 &1293169109851640137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -909,8 +898,8 @@ MonoBehaviour:
   activePartController: {fileID: 1921549218}
   comboGaugeSystem: {fileID: 6307489441031809494}
   hitCountSystem: {fileID: 8247117609381097480}
-  attackCollider: {fileID: 2036585137}
-  autoTargetCollider: {fileID: 1456509}
+  attackCollider: {fileID: 1293169109851640137}
+  autoTargetCollider: {fileID: 3061016113067807086}
   basicCollider: {fileID: 1070719927369175189}
   effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
   rmController: {fileID: 484117206}
@@ -1486,7 +1475,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Model
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 38533b871cd808b4594f1765969c915b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 38533b871cd808b4594f1765969c915b, type: 3}
 --- !u!1 &71485536562590071 stripped
 GameObject:
