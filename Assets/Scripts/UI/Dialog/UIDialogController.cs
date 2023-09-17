@@ -50,11 +50,6 @@ public partial class UIDialogController : MonoBehaviour
 	
 	#endregion
 	
-	// SetDialogActive를 통해서 Dialog System을 킬 수 있다.
-	
-	// InitDialogSystem(code)를 통해서 Data를 미리 세팅한다.
-	// PlayDialogSystem() 을 통해서 Dialog를 Play한다.
-
 	public void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -76,7 +71,6 @@ public partial class UIDialogController : MonoBehaviour
 		
 		gameObject.SetActive(true);
 		
-		// Dialog가 종료되었다면, Next Dialog로 이동
 		DialogText.OnEnd.AddListener(GetNextDialog);
 		
 		OnStarted?.Invoke();
@@ -102,15 +96,15 @@ public partial class UIDialogController : MonoBehaviour
 	public void GetNextDialog()
 	{
 		ChangeState(DialogSystemState.PRINTING_END);
-		
 		currentDialogData.NextDialog();
 	}
 
 	private void CloseDialog()
 	{
 		ChangeState(DialogSystemState.NONE);
-		
 		gameObject.SetActive(false);
+
+		OnEnded?.Invoke();
 	}
 
 	#region Dialog Feature
