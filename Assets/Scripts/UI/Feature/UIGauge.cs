@@ -14,43 +14,60 @@ public class UIGauge : MonoBehaviour
 	public float targetGauge = .0f;
 	
 	private float timer = .0f;
-		
+	private float maxTIme = .0f;
+
+	private bool isFillig = false;
+
 	private void Awake()
 	{
 		TryGetComponent(out gaugeImage);
 	}
-
-	public void Update()
+	public void SetCurrentGauge(float gauge)
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			StartCoroutine(FillGauge(targetGauge));
-		}
+		currentGaugeValue = gauge;
+
+		gaugeImage.fillAmount = currentGaugeValue / 100f;
 	}
 
-	// Gauge를 targetValue까지 채운다.
+	public void StartFillGauge(float target, float max = 1f)
+	{
+		if(targetGauge >= target)
+		{
+			return;
+		}
+
+		timer = .0f;
+		maxTIme = max;
+		currentGaugeValue = (gaugeImage.fillAmount * 100f);
+		targetGauge = target;
+
+		if(isFillig)
+		{
+			return;
+		}
+
+		StartCoroutine(FillGauge(target));
+	}
+
 	private IEnumerator FillGauge(float target)
 	{
-		float startGaugeValue = currentGaugeValue;
-		float targetGaugeValue = target;
+		isFillig = true;
 
-		while (timer <= 1f)
+		while (timer <= maxTIme)
 		{
-			// targetGaugeValue 수치까지 올려준다.
-			//gaugeImage.fillAmount = currentGaugeValue++;
-			var test = EaseOutExpo(currentGaugeValue, targetGaugeValue, timer);
-			gaugeImage.fillAmount = test / 100f;
+			var resultEasing = EaseOutExpo(currentGaugeValue, targetGauge, timer / maxTIme);
+			
+			gaugeImage.fillAmount = resultEasing / targetGauge;
 
-			yield return new WaitForSeconds(0.01f);
+			yield return null;
 
-			timer += 0.1f;
+			timer += Time.deltaTime;
 		}
 
 		timer = .0f;
 
-		currentGaugeValue = targetGaugeValue;
-
-		Debug.Log("목표치 완료");
+		currentGaugeValue = targetGauge;
+		isFillig = false;
 	}
 
 	public static float EaseOutExpo(float start, float end, float value)

@@ -10,6 +10,6 @@ public class UIDialogNpcNameViewer : UIDialogFeatureBase
 
 	protected override void UpdateFeature()
 	{
-		NpcNameTextField.text = dialogData.talker_Kor;
+		// NpcNameTextField.text = dialogData.talker_Kor;
 	}
 }

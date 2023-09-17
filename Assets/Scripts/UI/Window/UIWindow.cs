@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class UIWindow : MonoBehaviour
 {
-	[field: SerializeField]
-	public WindowState CurrentState { get; private set; }
-	
-	[field: SerializeField]
-	public string WindowName { get; private set; }
+	[field: SerializeField] public WindowState CurrentState { get; private set; }
+
+	[field: SerializeField] public string WindowName { get; private set; }
+
+	[field: SerializeField] public bool PlayOnStart { get; private set; }
 
 	private void Awake()
 	{
-		if(WindowName == "")
+		if (WindowName == "")
 		{
 			FDebug.Log($"[Window] {gameObject.name}이(가) 가지고 있는 윈도우의 이름이 없습니다.");
 			FDebug.Break();
@@ -21,7 +21,6 @@ public class UIWindow : MonoBehaviour
 
 	private void Start()
 	{
-		// WindowManager에 Window 등록하기
 		WindowManager.Instance.AddWindow(WindowName, this);
 
 		bool isSetInBuffer = WindowManager.Instance.HasWindow(WindowName);
@@ -32,49 +31,49 @@ public class UIWindow : MonoBehaviour
 			FDebug.Break();
 		}
 
-		ChangeState(WindowState.UNASSIGN);
+		if (PlayOnStart)
+		{
+			WindowManager.Instance.ShowWindow(WindowName);
+		}
+		else
+		{
+			WindowManager.Instance.CloseWindow(WindowName);
+		}
 	}
 
-	// Window Manager에는 등록이 되어 있으나, 보이지 않는 상태.
+	public void SetUp()
+	{
+		ChangeState(WindowState.ASSIGN);
+	}
+
 	public void ShowWindow()
 	{
-		if(CurrentState == WindowState.ASSIGN)
-		{
-			ChangeState(WindowState.ACTIVE);
-		}
+		ChangeState(WindowState.ACTIVE);
+
+		gameObject.SetActive(true);
 	}
 
-	// Window의 상태를 Assign으로 변경한다.
 	public void CloseWindow()
 	{
-		if(CurrentState == WindowState.ACTIVE)
-		{
-			ChangeState(WindowState.ASSIGN);
-		}
+		ChangeState(WindowState.ASSIGN);
+		gameObject.SetActive(false);
 	}
 
 	public void RemoveWindow()
 	{
-		// Window Memory에서 지워버린 상태.
-		if(CurrentState == WindowState.ACTIVE || CurrentState == WindowState.ASSIGN)
+		if (CurrentState == WindowState.ACTIVE || CurrentState == WindowState.ASSIGN)
 		{
+			CloseWindow();
+
 			ChangeState(WindowState.UNASSIGN);
 		}
 	}
 
 	private void ChangeState(WindowState state)
 	{
-		if(state == WindowState.NONE || state == WindowState.MAX)
+		if (state == WindowState.NONE || state == WindowState.MAX)
 		{
 			FDebug.Log($"[Window] 사용하지 않는 State 입니다.");
-			FDebug.Break();
-
-			return;
-		}
-
-		if(CurrentState == state)
-		{
-			FDebug.Log($"[Window] 동일한 Window로 변경하고 있습니다.");
 			FDebug.Break();
 
 			return;
