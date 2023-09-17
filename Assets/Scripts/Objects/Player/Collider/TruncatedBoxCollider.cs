@@ -218,7 +218,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 		// »óÆÇ
 		Vector2[] intersectionPoint1, intersectionPoint2;
-		int dir = GetintersectionPoint(rectanglePoints, originVec2, originVec2, out intersectionPoint1);
+		int dir = GetintersectionPoint(rectanglePoints, originVec2, new Vector2(leftLine.x, leftLine.z), out intersectionPoint1);
 		GetintersectionPoint(rectanglePoints, originVec2, new Vector2(rightLine.x, rightLine.z), out intersectionPoint2);
 
 		if (dir >= 0)
