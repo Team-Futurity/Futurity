@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 625353276}
   - component: {fileID: 625353278}
-  - component: {fileID: 625353277}
+  - component: {fileID: 1456509}
   m_Layer: 0
   m_Name: AutoTargetCollider
   m_TagString: Untagged
@@ -140,7 +140,7 @@ CapsuleCollider:
   m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &625353277
+--- !u!114 &1456509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,12 +149,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 625353275}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d69974fc75b6a4e9d8eabfab0b4dfc, type: 3}
+  m_Script: {fileID: 11500000, guid: 65acb2058499920478e25358d6c8f434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   angle: 0
-  radius: 0
-  radiusCollider: {fileID: 0}
+  <Radius>k__BackingField: 0
+  <IsTrigger>k__BackingField: 1
   colliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1222493725
 GameObject:
@@ -503,7 +503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 774150179230461155}
   - component: {fileID: 4068547685948332291}
-  - component: {fileID: 4068547685948332288}
+  - component: {fileID: 2036585137}
   m_Layer: 0
   m_Name: AttackCollider
   m_TagString: Untagged
@@ -540,7 +540,7 @@ CapsuleCollider:
   m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4068547685948332288
+--- !u!114 &2036585137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -549,12 +549,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4068547685948332289}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d69974fc75b6a4e9d8eabfab0b4dfc, type: 3}
+  m_Script: {fileID: 11500000, guid: 65acb2058499920478e25358d6c8f434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   angle: 0
-  radius: 0
-  radiusCollider: {fileID: 0}
+  <Radius>k__BackingField: 0
+  <IsTrigger>k__BackingField: 1
   colliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &5180193562067198251
 GameObject:
@@ -745,8 +745,7 @@ MonoBehaviour:
       hitEffectPrefab: {fileID: 0}
       hitEffectParent: {fileID: 0}
       animInteger: 0
-      randomShakePower: 0
-      curveShakePower: 0
+      shakePower: 0
       shakeTime: 0
       slowTime: 0
       slowScale: 0
@@ -801,8 +800,7 @@ MonoBehaviour:
         hitEffectPrefab: {fileID: 0}
         hitEffectParent: {fileID: 0}
         animInteger: 0
-        randomShakePower: 0
-        curveShakePower: 0
+        shakePower: 0
         shakeTime: 0
         slowTime: 0
         slowScale: 0
@@ -830,8 +828,7 @@ MonoBehaviour:
       hitEffectPrefab: {fileID: 0}
       hitEffectParent: {fileID: 0}
       animInteger: 0
-      randomShakePower: 0
-      curveShakePower: 0
+      shakePower: 0
       shakeTime: 0
       slowTime: 0
       slowScale: 0
@@ -859,8 +856,7 @@ MonoBehaviour:
     hitEffectPrefab: {fileID: 0}
     hitEffectParent: {fileID: 0}
     animInteger: 0
-    randomShakePower: 0
-    curveShakePower: 0
+    shakePower: 0
     shakeTime: 0
     slowTime: 0
     slowScale: 0
@@ -892,8 +888,7 @@ MonoBehaviour:
     hitEffectPrefab: {fileID: 0}
     hitEffectParent: {fileID: 0}
     animInteger: 0
-    randomShakePower: 0
-    curveShakePower: 0
+    shakePower: 0
     shakeTime: 0
     slowTime: 0
     slowScale: 0
@@ -914,11 +909,10 @@ MonoBehaviour:
   activePartController: {fileID: 1921549218}
   comboGaugeSystem: {fileID: 6307489441031809494}
   hitCountSystem: {fileID: 8247117609381097480}
-  attackCollider: {fileID: 4068547685948332288}
-  autoTargetCollider: {fileID: 625353277}
+  attackCollider: {fileID: 2036585137}
+  autoTargetCollider: {fileID: 1456509}
   basicCollider: {fileID: 1070719927369175189}
   effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
-  buffProvider: {fileID: 0}
   rmController: {fileID: 484117206}
   playerAnimationEvents: {fileID: 507041425030904175}
   animator: {fileID: 5821464009680269676}
