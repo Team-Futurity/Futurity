@@ -7,7 +7,7 @@ public class UIComboGauge : MonoBehaviour
 {
 	[field: SerializeField]
 	public UIGauge Gauge { get; private set; }
-	
+
 	[field: SerializeField]
 	public ComboGaugeSystem ComboSystem { get; private set; }
 
@@ -24,11 +24,11 @@ public class UIComboGauge : MonoBehaviour
 
 	private void Start()
 	{
-		ComboSystem.OnGaugeChanged?.AddListener(UpdateHitGauge);
+		ComboSystem.OnGaugeChanged?.AddListener(UpdateComboGauge);
 	}
 
-	private void UpdateHitGauge(float gauge)
+	private void UpdateComboGauge(float gauge)
 	{
-		
+
 	}
 }
