@@ -29,6 +29,7 @@ public class EnemyChaseBaseState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		unit.animator.SetBool(unit.moveAnimParam, false);
+		unit.navMesh.enabled = false;
 
 		/*unit.isChasing = false;*/
 	}
