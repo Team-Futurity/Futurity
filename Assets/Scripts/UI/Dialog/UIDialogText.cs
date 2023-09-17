@@ -20,7 +20,7 @@ public class UIDialogText : MonoBehaviour
 	private WaitForSeconds typingPrintSpeed;
 
 	[HideInInspector]
-	public UnityEvent<bool> OnEnd;
+	public UnityEvent OnEnd;
 
 	private void Awake()
 	{
@@ -76,6 +76,7 @@ public class UIDialogText : MonoBehaviour
 		{
 			return;
 		}
+		
 		StartTyping();
 	}
 	
@@ -118,6 +119,6 @@ public class UIDialogText : MonoBehaviour
 		isRunning = false;
 		currentAccessIndex = 0;
 
-		OnEnd?.Invoke(isRunning);
+		OnEnd?.Invoke();
 	}
 }

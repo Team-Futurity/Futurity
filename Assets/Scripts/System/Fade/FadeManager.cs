@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class FadeManager : Singleton<FadeManager>
 {
+	[SerializeField]
 	private Image fadeImage;
 
 	private readonly float MAX = 1f;
@@ -15,13 +16,19 @@ public class FadeManager : Singleton<FadeManager>
 	private float startAlpha = .0f;
 	private float targetAlpha = .0f;
 
-	private float timer;
-	private bool isFading;
+	private float timer = .0f;
+	[HideInInspector]
+	public bool isFading;
 	
 
 	protected override void Awake()
 	{
-		TryGetComponent(out fadeImage);
+		base.Awake();
+
+		if (fadeImage == null)
+		{
+			TryGetComponent(out fadeImage);
+		}
 	}
 
 	public void FadeIn(float time = 1f, UnityAction inAction = null)
@@ -33,6 +40,7 @@ public class FadeManager : Singleton<FadeManager>
 
 		SetFadeRun(true);
 		SetFadeImage(MIN);
+		fadeImage.enabled = true;
 
 		StartCoroutine(UpdateScreenFade(MIN, MAX, time, inAction));
 	}
@@ -50,18 +58,19 @@ public class FadeManager : Singleton<FadeManager>
 		StartCoroutine(UpdateScreenFade(MAX, MIN, time, outAction));
 	}
 
-	private IEnumerator UpdateScreenFade(float start, float end, float time, UnityAction updateAction = null)
+	private IEnumerator UpdateScreenFade(float start, float end, float time, UnityAction endAction = null)
 	{
 		var imageColor = fadeImage.color;
 
-		while (timer < time)
-		{
-			timer += Time.deltaTime;
 
+		while (timer <= time)
+		{
 			imageColor.a = Mathf.Lerp(start, end, timer / time);
 			fadeImage.color = imageColor;
 
 			yield return null;
+
+			timer += Time.deltaTime;
 		}
 
 		// is Fading OFF
@@ -69,14 +78,12 @@ public class FadeManager : Singleton<FadeManager>
 		timer = .0f;
 
 		// Used Action
-		updateAction?.Invoke();
+		endAction?.Invoke();
 	}
 
 	private void SetFadeRun(bool isTrigger)
 	{
 		isFading = isTrigger;
-
-		fadeImage.enabled = isTrigger;
 		fadeImage.raycastTarget = !isTrigger;
 	}
 
