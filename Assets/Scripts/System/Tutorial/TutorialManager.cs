@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class TutorialManager : MonoBehaviour
 		dialogController.TryGetComponent(out dialogCommand);
 		performHanlder.TryGetComponent(out dialogCommand);
 
-		InputActionManager.Instance.DisableAllInputActionAsset();
-		InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
+		// InputActionManager.Instance.DisableAllInputActionAsset();
+		// InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
 	}
 
 	private void Start()
@@ -33,9 +34,9 @@ public class TutorialManager : MonoBehaviour
 
 	private void StartTutorial()
 	{
-		//
-		// Dialog End에 Perform Action 넣어주고
-		// Dialog의 모든 End를 Clear로 판단하자.
+		DialogData dialogData = Addressables.LoadAsset<DialogData>("Assets/Data/Dialog/Tutorial/TutorialData1.asset").WaitForCompletion();
+
+		dialogController.SetDialogData(dialogData);
+		dialogController.PlayDialog();
 	}
-	
 }
