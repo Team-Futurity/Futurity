@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[FSMState((int)EnemyController.EnemyState.EliteMeleeAttack)]
 public class EliteMeleeAttackState : EnemyAttackBaseState
 {
 	public override void Begin(EnemyController unit)
 	{
-		//FDebug.Log("MDefault Attack begin");
 		base.Begin(unit);
-
-		//unit.atkCollider.enabled = true;
+		unit.rigid.velocity = Vector3.zero;
 		unit.navMesh.enabled = true;
 		unit.atkCollider.enabled = true;
 	}
@@ -22,7 +20,6 @@ public class EliteMeleeAttackState : EnemyAttackBaseState
 
 	public override void End(EnemyController unit)
 	{
-		//FDebug.Log("MDefault Attack End");
 
 		base.End(unit);
 		unit.atkCollider.enabled = false;
@@ -30,7 +27,6 @@ public class EliteMeleeAttackState : EnemyAttackBaseState
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
-		//FDebug.Log("MDefault Attack Trigger");
 		base.OnTriggerEnter(unit, other);
 	}
 }

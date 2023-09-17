@@ -40,4 +40,10 @@ public class EnemyAnimationEvents : MonoBehaviour
 	{
 		ec.atkCollider.enabled = true;
 	}
+
+	public void EliteRangedPositioning()
+	{
+		ec.atkCollider.transform.position = ec.target.transform.position;
+		ec.effects[1].effectTransform.position = ec.target.transform.position;
+	}
 }

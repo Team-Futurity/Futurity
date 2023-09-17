@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[FSMState((int)EnemyController.EnemyState.EliteDefaultChase)]
 public class EliteChaseState : EnemyChaseBaseState
 {
 	private float curTime = .0f;
@@ -9,6 +10,7 @@ public class EliteChaseState : EnemyChaseBaseState
 	public override void Begin(EnemyController unit)
 	{
 		base.Begin(unit);
+		
 	}
 
 	public override void Update(EnemyController unit)
@@ -24,10 +26,7 @@ public class EliteChaseState : EnemyChaseBaseState
 		}
 		else if (distance < unit.attackRange)
 		{
-			curTime += Time.deltaTime;
-			unit.rigid.velocity = Vector3.zero;
-			unit.navMesh.enabled = false;
-			unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.EliteRangedAttack);
+			unit.ChangeState(EnemyController.EnemyState.EliteRangedAttack);
 		}
 		else if (distance > unit.attackRange)
 		{

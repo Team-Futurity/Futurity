@@ -64,6 +64,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	//animation name
 	public readonly string moveAnimParam = "Move";          //이동
 	public readonly string atkAnimParam = "Attack";         //공격
+	public readonly string ragnedAnimParam = "Ranged";
 	public readonly string dashAnimParam = "Dash";			//쫄 대쉬
 	public readonly string hitAnimParam = "Hit";            //피격
 	public readonly string deadAnimParam = "Dead";			//사망
@@ -101,7 +102,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public CapsuleCollider chaseRange;						//추적 반경
 	public SphereCollider atkCollider;                      //타격 Collider
-	public SphereCollider eliteCollider;
 
 	public SkinnedMeshRenderer skinnedMeshRenderer;
 	public Material material;
@@ -235,6 +235,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 			case EnemyType.MinimalDefault:
 				return EnemyController.EnemyState.MiniDefaultChase;
+
+			case EnemyType.EliteDefault:
+				return EnemyController.EnemyState.EliteDefaultChase;
 
 			default:
 				FDebug.Log("ERROR_ChangeChaseState()");
