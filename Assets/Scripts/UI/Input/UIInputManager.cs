@@ -8,19 +8,11 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	private int currentIndex = 0;
 
-	private void Start()
-	{
-// 		InputActionManager.Instance.OnInput
-	}
-
-	public void SetUp()
-	{
-		SelectUI();
-	}
-
 	public void AddButton(int order, UIButton button)
 	{
 		buttonDic?.Add(order, button);
+
+		SelectUI();
 	}
 
 	public void ClearAll()
