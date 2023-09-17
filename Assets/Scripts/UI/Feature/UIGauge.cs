@@ -75,5 +75,4 @@ public class UIGauge : MonoBehaviour
 		end -= start;
 		return end * (-Mathf.Pow(2, -10 * value) + 1) + start;
 	}
-
 }
