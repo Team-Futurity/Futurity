@@ -29,6 +29,11 @@ public class UIComboGauge : MonoBehaviour
 
 	private void UpdateComboGauge(float gauge)
 	{
+		if(gauge > 100f)
+		{
+			gauge = 100f;
+		}
 
+		Gauge.StartFillGauge(gauge);
 	}
 }

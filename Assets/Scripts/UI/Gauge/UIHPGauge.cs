@@ -23,11 +23,20 @@ public class UIHPGauge : MonoBehaviour
 
 	private void Start()
 	{
-		// StatusManager.OnGaugeChanged?.AddListener(UpdateHPGauge);
+		StatusManager.GetStatus(StatusType.CURRENT_HP).UpdateStatus.AddListener( (x) => {
+			UpdateHPGauge(x);
+		});
 	}
 
 	private void UpdateHPGauge(float gauge)
 	{
+		var maxHpElement = StatusManager.GetStatus(StatusType.MAX_HP).GetValue();
 
+		if (gauge > maxHpElement)
+		{
+			gauge = maxHpElement;
+		}
+
+		Gauge.StartFillGauge(gauge);
 	}
 }
