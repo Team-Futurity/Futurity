@@ -13,10 +13,10 @@ public partial class UIDialogController
 
 	private readonly Dictionary<UIDialogType, string[]> extensionNameByType = new Dictionary<UIDialogType, string[]>
 	{
-		{ UIDialogType.NORMAL , new string[] {"UIDialogNpcNameViewer", "UIDialogPass" } },
-		{ UIDialogType.STANDING, new string[] { "UIDialogImageChanger", "UIDialogNpcNameViewer", "UIDialogPass", "UIDialogSkip"} },
+		{ UIDialogType.NORMAL , new string[] {"UIDialogNpcNameViewer", "UIDialogInteraction" } },
+		{ UIDialogType.STANDING, new string[] { "UIDialogImageChanger", "UIDialogNpcNameViewer", "UIDialogInteraction", "UIDialogSkip"} },
 		{ UIDialogType.RANGE, new string[] { "UIDialogDistance"} },
-		{ UIDialogType.CUTSCENE, new string[] { "UIDialogImageChanger", "UIDialogNpcNameViewer", "UIDialogPass", "UIDialogSkip" } }
+		{ UIDialogType.CUTSCENE, new string[] { "UIDialogImageChanger", "UIDialogNpcNameViewer", "UIDialogInteraction", "UIDialogSkip" } }
 	};
 
 	#region Extension Settings

@@ -4,234 +4,149 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public struct DialogData
+public enum DialogSystemState
 {
-	public string talker_Eng;
-	public string talker_Kor;
-	public string descripton;
+	NONE,
+	
+	INIT,
+	NORMAL,
+	PRINTING,
+	PRINTING_END,
+	
+	MAX
 }
-
-public partial class UIDialogController : MonoBehaviour, IControlCommand
+public partial class UIDialogController : MonoBehaviour
 {
 	[field: Header("게임 실행 중 Type 변경을 권장하지 않음")]
 	[field: SerializeField] 
 	public UIDialogType DialogType { get; private set; }
 	
-	[field: Space(10)]
+	[Space(10)]
 	
+	[Header("현재 Dialog Data")]
+	[SerializeField]
+	private DialogData currentDialogData;
+	
+	[field: Space(10)]
+
 	[field: Header("텍스트가 출력되는 오브젝트")]
 	[field: SerializeField] 
 	public UIDialogText DialogText { get; private set; }
 
-	// --- Unity Events
+	public DialogSystemState currentState;
+
+	private DialogData nextDialogData;
+	
+	#region Dialog Events
+	
 	[HideInInspector]
-	public UnityEvent<DialogData> OnShow;
+	public UnityEvent OnStarted;
 
 	[HideInInspector]
-	public UnityEvent<DialogData> OnPlay;
+	public UnityEvent<DialogDataGroup> OnShow;
 
 	[HideInInspector]
-	public UnityEvent<DialogData> OnTextEnd;
-
-	[HideInInspector]
-	public UnityEvent<DialogData> OnDialogEnd;
-	// 
-
-	[SerializeField]
-	private List<DialogData> dialogDataList;
-
-	private DialogData currentDialog;
-	private DialogData nextDialog;
-
-	private int currentIndex = 0;
-	private int nextIndex = 0;
-
-	[SerializeField]
-	private GameObject imageObject;
-
-	private bool isActive;
-	private bool isTextEnd;
-	private bool isPrinting;
-
-	private void Awake()
+	public UnityEvent OnEnded;
+	
+	#endregion
+	
+	public void Update()
 	{
-		isActive = false;
-		
-		if(imageObject == null)
+		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			FDebug.Log($"{imageObject.GetType()}이 존재하지 않습니다.");
-			FDebug.Break();
+			SetDialogData("TEST");
 		}
-
-		// DialogText에서 End 조건을 확인한다.
-		DialogText.OnEnd?.AddListener(ShowAfter);
+		
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			PlayDialog();
+		}
 	}
 
-	#region IControlCommand
-
-	void IControlCommand.Init()
+	public void SetDialogData(DialogData data)
 	{
-		currentIndex = 0;
-		dialogDataList.Clear();
-
-		((IControlCommand)this).Run();
+		currentDialogData = data;
+		SetDialogData("TEST");
 	}
 
-	void IControlCommand.Run()
+	public void SetDialogData(string code)
 	{
-		isActive = true;
+		ChangeState(DialogSystemState.INIT);
+
+		currentDialogData.Init();
+		
+		gameObject.SetActive(true);
+		
+		DialogText.OnEnd.AddListener(GetNextDialog);
+		
+		OnStarted?.Invoke();
+	}
+	
+	public void PlayDialog()
+	{
+		if (currentState == DialogSystemState.NONE)
+		{
+			return;
+		}
+		
+		ChangeState(DialogSystemState.PRINTING);
+
+		var (_,dialogData) = currentDialogData.GetCurrentData();
+		
+		// Dialog Text
+		DialogText.Show(dialogData.descripton);
+		
+		OnShow?.Invoke(dialogData);
 	}
 
-	void IControlCommand.Stop()
+	public void GetNextDialog()
 	{
-		isActive = false;
+		ChangeState(DialogSystemState.PRINTING_END);
+		currentDialogData.NextDialog();
+	}
+
+	private void CloseDialog()
+	{
+		ChangeState(DialogSystemState.NONE);
+		gameObject.SetActive(false);
+
+		OnEnded?.Invoke();
+	}
+
+	#region Dialog Feature
+
+	public void EnterNextInteraction()
+	{
+		if (currentState == DialogSystemState.PRINTING_END)
+		{
+			if (currentDialogData.GetLastData())
+			{
+				CloseDialog();
+				
+				return;
+			}
+			
+			PlayDialog();
+			return;
+		}
+		
+		DialogText.Pass();
+	}
+
+	public void OnDialogSkip()
+	{
+		
+	}
+
+	public void StopDialog()
+	{
+		DialogText.Stop();
 	}
 	
 	#endregion
 
-	public void SetDialogData(string code)
+	private void ChangeState(DialogSystemState state)
 	{
-		if(isActive)
-		{
-			FDebug.LogError($"[Dialog System] 실행 중에는 Dialog 데이터를 변경할 수 없습니다.");
-			return;
-		}
-
-		currentIndex = 0;
-		nextIndex = 0;
-		isTextEnd = false;
-		isPrinting = false;
-		currentDialog.talker_Kor = currentDialog.talker_Eng = currentDialog.descripton = "";
-
-		// dialogDataList.Clear();
-
-		// Addressable Resource Path : Get Code
-		// dialogDataList = new List<DialogData>();
-
-		// 다음 출력 대화 세팅
-		nextDialog = dialogDataList[currentIndex];
-	}
-
-	public void ShowDialog()
-	{
-		if(isActive)
-		{
-			FDebug.LogError($"[Dialog System] 이미 시스템이 실행 중입니다.");
-			return;
-		}
-
-		isActive = true;
-
-		SetCurrentData();
-		OnShow?.Invoke(currentDialog);
-
-		imageObject.SetActive(true);
-	}
-
-	public void PlayDialog()
-	{
-		if(!isActive)
-		{
-			FDebug.Log($"[Dialog System] 현재 시스템이 실행 중이 아닙니다.");
-			return;
-		}
-
-		if(isTextEnd)
-		{
-			FDebug.LogError("[Dialog System] 최초 실행 시에만 사용이 가능한 메서드입니다.");
-			FDebug.Break();
-
-			return;
-		}
-
-		if(isPrinting)
-		{
-			FDebug.LogError($"[Dialog System] 현재 출력 중입니다.");
-
-			return;
-		}
-
-		isPrinting = true;
-
-		// Feature에게 Dialog Data를 전달하기 위함.
-		OnPlay?.Invoke(currentDialog);
-
-		// Text를 보여주는 메서드
-		DialogText.Show(currentDialog.descripton);
-
-		// 시작과 동시에, 다음 Dialog를 설정한다.
-		SetCurrentData();
-	}
-
-	public void OnPass()
-	{
-		OnNextDialog();
-	}
-
-	public bool GetActive()
-	{
-		return isActive;
-	}
-
-	private void SetCurrentData()
-	{
-		currentDialog = nextDialog;
-		currentIndex = nextIndex;
-
-		nextIndex++;
-
-		if (nextIndex < dialogDataList.Count)
-		{
-			nextDialog = dialogDataList[nextIndex];
-		}
-	}
-
-	private void EndDialog()
-	{
-		((IControlCommand)this).Stop();
-
-		imageObject.SetActive(false);
-
-		DialogText.ClearText();
-
-		OnDialogEnd?.Invoke(currentDialog);
-	}
-
-	// DialogText에 AddListener로 담은 메서드
-	private void ShowAfter(bool isOn)
-	{
-		if(isOn)
-		{
-			return;
-		}
-
-		isPrinting = isOn;
-		isTextEnd = !isOn;
-	}
-
-	// Pass 키를 누를 경우에 진행이 된다.
-	private void OnNextDialog()
-	{
-		if(!isTextEnd)
-		{
-			DialogText.Stop();
-			DialogText.Pass();
-
-			return;
-		}
-
-		isTextEnd = false;
-
-		if(currentIndex >= dialogDataList.Count)
-		{
-			EndDialog();
-			
-			return;
-		}
-		
-		PlayDialog();
+		currentState = state;
 	}
 }
-
-// Closed Action 만들어 주어야 함.
