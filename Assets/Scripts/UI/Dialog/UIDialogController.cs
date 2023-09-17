@@ -63,6 +63,12 @@ public partial class UIDialogController : MonoBehaviour
 		}
 	}
 
+	public void SetDialogData(DialogData data)
+	{
+		currentDialogData = data;
+		SetDialogData("TEST");
+	}
+
 	public void SetDialogData(string code)
 	{
 		ChangeState(DialogSystemState.INIT);
