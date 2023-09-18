@@ -135,4 +135,18 @@ public class TimelineManager : Singleton<TimelineManager>
 		Time.timeScale = 1.0f;
 	}
 	#endregion
+	
+	// test signal
+	public void PlayerMoveStage()
+	{
+		SteageMove.Instance.MoveStage(SteageMove.EStageType.STAGE_2);
+
+		playerCamera.m_Follow = originTarget;
+		playerInput.enabled = true;
+	}
+
+	public void EnableUI()
+	{
+		uiCanvas.SetActive(true);
+	}
 }
