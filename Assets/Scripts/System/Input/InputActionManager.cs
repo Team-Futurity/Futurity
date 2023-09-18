@@ -18,10 +18,7 @@ public class InputActionManager : Singleton<InputActionManager>
 		base.Awake();
 
 		ProcessesDefaulting = false;
-	}
 
-	private void Start()
-	{
 		SetDefault();
 	}
 
@@ -92,4 +89,9 @@ public class InputActionManager : Singleton<InputActionManager>
 	}
 
 	public bool IsActive(InputActionType type) => activatedAssets.Count(data => data.actionType == type) > 0;
+
+	public UnityEngine.InputSystem.InputActionAsset GetByType(InputActionType type)
+	{
+		return GetActionData(type).actionAsset;
+	}
 }
