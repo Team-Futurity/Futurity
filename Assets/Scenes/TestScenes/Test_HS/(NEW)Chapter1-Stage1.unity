@@ -594,10 +594,12 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: 3888714483340301827, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
     value: {fileID: 10743433}
-  - key: {fileID: 81208786569561072, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
+  - key: {fileID: 0}
     value: {fileID: 821468368}
   - key: {fileID: 8026796253174130466, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
     value: {fileID: 216791362}
+  - key: {fileID: -295136993267678320, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
+    value: {fileID: 945677445}
   m_ExposedReferences:
     m_References:
     - 576dfd039a37d1f48961207a9d847a9d: {fileID: 821468369}
@@ -9228,7 +9230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &131474379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9250,8 +9252,8 @@ MonoBehaviour:
   - {fileID: 1621278214}
   enemyContainer: {fileID: 1981199156}
   nextWaveCondition: 3
-  totalSpawnCount: 
   curWaveSpawnCount: 0
+  totalSpawnCount: 
 --- !u!4 &131474380
 Transform:
   m_ObjectHideFlags: 0
@@ -27678,6 +27680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f1d738b0f25db4d9fa8f7a04127da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeImage: {fileID: 0}
+  isFading: 0
 --- !u!114 &454346346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35942,7 +35946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 821468367}
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: -25.091135, y: 7.6474676, z: -7.1082373}
+  m_LocalPosition: {x: -22.983725, y: 7.6474676, z: -7.103724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -37012,8 +37016,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 0
-  m_FrequencyGain: 5
+  m_AmplitudeGain: 2
+  m_FrequencyGain: 2
   mNoiseOffsets: {x: 413.1541, y: 209.79037, z: 379.37183}
 --- !u!114 &866852996
 MonoBehaviour:
@@ -38689,7 +38693,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945677442}
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: -19.297586, y: 6.590499, z: -7.103725}
+  m_LocalPosition: {x: -23.183725, y: 6.5904026, z: -7.103725}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -61729,7 +61733,7 @@ Camera:
   far clip plane: 40
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 1.7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -61753,7 +61757,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695686879}
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: -19.297586, y: 6.590499, z: -7.103725}
+  m_LocalPosition: {x: -23.183725, y: 6.5904026, z: -7.103725}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -72931,7 +72935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 821468369}
   uiCanvas: {fileID: 1124304062}
-  timeToSlowMotion: 0
+  timeToSlowMotion: 0.2
   recoveryTime: 0.8
   cutSceneList:
   - {fileID: 1830528896}
