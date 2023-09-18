@@ -23,7 +23,7 @@ public class StatusData
 	[SerializeField] private float value;
 
 	[HideInInspector]
-	public UnityEvent<float> UpdateStatus;
+	public UnityAction<float> UpdateStatus;
 
 	public float GetValue()
 	{
