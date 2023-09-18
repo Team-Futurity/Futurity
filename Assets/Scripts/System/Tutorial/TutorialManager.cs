@@ -8,7 +8,7 @@ public class TutorialManager : MonoBehaviour
 {
 	[SerializeField] private float fadeTime = 1f;
 
-	[SerializeField] private UIPerformBoardHandler performHanlder;
+	[SerializeField] private UIPerformBoardHandler performHandler;
 
 	[SerializeField] private UIDialogController dialogController;
 
@@ -25,10 +25,12 @@ public class TutorialManager : MonoBehaviour
 		"TutorialData4"
 	};
 
+	private int currentIndex = 0;
+
 	private void Awake()
 	{
 		dialogController.TryGetComponent(out dialogCommand);
-		performHanlder.TryGetComponent(out dialogCommand);
+		performHandler.TryGetComponent(out dialogCommand);
 
 		// InputActionManager.Instance.DisableAllInputActionAsset();
 		// InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
@@ -46,19 +48,65 @@ public class TutorialManager : MonoBehaviour
 
 	private void StartTutorial()
 	{
-		//dialogController.SetDialogData(dialogData);
-		//dialogController.PlayDialog();
+		// 처음 나타날 Dialog 세팅
+		dialogController.SetDialogData(tutorialDialogList[currentIndex]);
+		NextDialogData();
+
+		// Perform Board 초기 세팅
+		performHandler.SetPerfrom();
+
+		dialogController.PlayDialog();
+
+		// Dialog가 종료되면 Perform 시작하기
+		dialogController.OnEnded.AddListener(() => {
+			WindowManager.Instance.ShowWindow("Perform");
+			performHandler.Run();
+		});
+
+		// Perform 종료 시, Next Dialog 출력
+		performHandler.OnChangePerformBoard.AddListener(() =>
+	   {
+		   dialogController.SetDialogData(tutorialDialogList[currentIndex]);
+		   NextDialogData();
+
+		   dialogController.PlayDialog();
+
+		   // 초기 세팅 지워주기
+		   dialogController.OnEnded.RemoveAllListeners();
+
+		   dialogController.OnEnded.AddListener(() =>
+		  {
+			  if (currentIndex >= 4)
+			  {
+				  FadeManager.Instance.FadeIn(fadeTime, () =>
+				  {
+					  SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+				  });
+			  }
+			  else
+			  {
+				  performHandler.ChangeToNextBoard();
+			  }
+		  });
+	   });
 	}
 
 	private void LoadTutorialDialogData()
 	{
-		Debug.Log("CALL");
 		foreach (var key in dialogKey)
 		{
-			DialogData dialogData = Addressables.LoadAsset<DialogData>(dialogPath + dialogKey +".assets").WaitForCompletion();
-			tutorialDialogList.Add(dialogData);
+			var path = dialogPath + key + ".asset";
 
-			Debug.Log(dialogData.name);
+			DialogData dialogData = Addressables.LoadAsset<DialogData>(path).WaitForCompletion();
+			tutorialDialogList.Add(dialogData);
+		}
+	}
+
+	private void NextDialogData()
+	{
+		if(currentIndex < 4)
+		{
+			currentIndex++;
 		}
 	}
 }
