@@ -25,6 +25,11 @@ public abstract class UIButton : MonoBehaviour
 	private void Start()
 	{
 		UIInputManager.Instance.AddButton(layerOrder, this);
+
+		if(layerOrder == 0)
+		{
+			UIInputManager.Instance.SelectUI();
+		}
 	}
 
 	public void Active()
