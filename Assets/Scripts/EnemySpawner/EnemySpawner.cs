@@ -44,13 +44,7 @@ public class EnemySpawner : MonoBehaviour
 	public void SpawnEnemy()
 	{
 		curWaveEnemyCount = curWaveEnemyCount.Select(x => 0).ToArray();
-		if (curWaveCount >= totalWaveCount)
-		{
-			Debug.Log("Spawn is Done");
-			gameObject.SetActive(false);
-			return;
-		}
-		
+	
 		int melee = spawnData.waveSpawnCounts[curWaveCount].meleeCnt;
 		int ranged = spawnData.waveSpawnCounts[curWaveCount].rangedCnt;
 		int minimal = spawnData.waveSpawnCounts[curWaveCount].minimalCnt;
@@ -78,10 +72,8 @@ public class EnemySpawner : MonoBehaviour
 		return result;
 	}
 
-	public int GetCurrentSpawnCount()
-	{
-		return curWaveEnemyCount.Sum();
-	}
+	public int GetCurrentSpawnCount() => (curWaveEnemyCount.Sum());
+	public bool IsSpawnEnd() => (curWaveCount >= totalWaveCount);
 	
 	private void PlaceEnemy(int count, EnemyController.EnemyType type)
 	{

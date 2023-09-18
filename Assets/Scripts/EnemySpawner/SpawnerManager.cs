@@ -42,6 +42,8 @@ public class SpawnerManager : MonoBehaviour
 			spawner.SpawnEnemy();
 			curWaveSpawnCount += spawner.GetCurrentSpawnCount();
 		}
+		
+		UpdateSpawnerList();
 	}
 
 	public GameObject GetEnemy(EnemyController.EnemyType type)
@@ -76,7 +78,7 @@ public class SpawnerManager : MonoBehaviour
 		for (int i = 0; i < count; ++i)
 		{
 			var enemy = Instantiate(enemyPrefabs[index], enemyContainer);
-			enemy.GetComponent<EnemyController>().disableEvent.AddListener(MonsterDisableEvent);
+			enemy.GetComponent<EnemyController>().RegisterEvent(MonsterDisableEvent);
 			enemy.SetActive(false);
 			
 			enemyPool[index].Enqueue(enemy);
@@ -87,21 +89,40 @@ public class SpawnerManager : MonoBehaviour
 	{
 		curWaveSpawnCount--;
 
-		if (curWaveSpawnCount > nextWaveCondition)
+		if (curWaveSpawnCount <= 0 && spawnerList.Count <= 0)
+		{
+			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LASTKILLCUTSCENE);
+		}
+		
+		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{
 			return;
 		}
 
-		if (spawnerList.Count <= 0 && curWaveSpawnCount <= 0)
-		{
-			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LASTKILLCUTSCENE);
-			return;
-		}
-		
-		foreach(EnemySpawner spawner in spawnerList)
+		foreach (EnemySpawner spawner in spawnerList)
 		{
 			spawner.SpawnEnemy();
 			curWaveSpawnCount += spawner.GetCurrentSpawnCount();
+		}
+		
+		UpdateSpawnerList();
+	}
+
+	private void UpdateSpawnerList()
+	{
+		List<int> removeIndex = new List<int>();
+
+		for (int i = spawnerList.Count - 1; i >= 0; --i)
+		{
+			if (spawnerList[i].IsSpawnEnd() == true)
+			{
+				removeIndex.Add(i);
+			}
+		}
+
+		foreach (int index in removeIndex)
+		{
+			spawnerList[index].gameObject.SetActive(false);		
 		}
 	}
 	
