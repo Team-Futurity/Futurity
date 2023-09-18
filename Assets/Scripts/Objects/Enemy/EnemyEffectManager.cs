@@ -6,7 +6,7 @@ using static EnemyEffectManager;
 
 public class EnemyEffectManager : Singleton<EnemyEffectManager>
 {
-	[HideInInspector] public List<GameObject> copySpecific;
+	public List<GameObject> copySpecific = new List<GameObject>();
 	[HideInInspector] public List<GameObject> copyHit;
 	[HideInInspector] public List<GameObject> copyHitted;
 
@@ -70,8 +70,13 @@ public class EnemyEffectManager : Singleton<EnemyEffectManager>
 
 	private int InstantiateEffect(List<GameObject> list, Effect effect)
 	{
-		list.Add(GameObject.Instantiate(effect.effectPrefab, effect.effectTransform == null ? null : effect.effectTransform));
-		list[list.Count - 1].SetActive(false);
-		return list.Count - 1;
+		var effectObj = Instantiate(effect.effectPrefab, effect.effectTransform == null ? null : effect.effectTransform);
+		effectObj.SetActive(false);
+
+		Debug.Log(effectObj.name);
+
+		copySpecific.Add(effectObj);
+
+		return copySpecific.Count - 1;
 	}
 }
