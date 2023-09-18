@@ -17,7 +17,6 @@ public class EntryCutScene : CutSceneBase
 	{
 		TimelineManager.Instance.uiCanvas.SetActive(false);
 		TimelineManager.Instance.SetActivePlayerInput(false);
-		Time.timeScale = 0.0f;
 	}
 
 	protected override void EnableCutScene() { }

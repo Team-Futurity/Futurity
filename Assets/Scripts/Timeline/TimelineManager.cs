@@ -17,7 +17,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	//[SerializeField] private PlayerInput playerInput;
+	[SerializeField] private PlayerInput playerInput;
 	public GameObject uiCanvas;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
@@ -51,8 +51,6 @@ public class TimelineManager : Singleton<TimelineManager>
 		originTarget = playerCamera.m_Follow;
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
-		
-		
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
@@ -86,7 +84,7 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	public void SetActivePlayerInput(bool active)
 	{
-		//playerInput.enabled = active;
+		playerInput.enabled = active;
 	}
 	
 	#region TimelineSignalFunc
