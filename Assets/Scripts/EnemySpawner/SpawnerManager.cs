@@ -92,7 +92,13 @@ public class SpawnerManager : MonoBehaviour
 			return;
 		}
 
-		foreach (var spawner in spawnerList)
+		if (spawnerList.Count <= 0 && curWaveSpawnCount <= 0)
+		{
+			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LASTKILLCUTSCENE);
+			return;
+		}
+		
+		foreach(EnemySpawner spawner in spawnerList)
 		{
 			spawner.SpawnEnemy();
 			curWaveSpawnCount += spawner.GetCurrentSpawnCount();
