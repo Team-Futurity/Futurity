@@ -23,9 +23,10 @@ public class UIHPGauge : MonoBehaviour
 
 	private void Start()
 	{
-		StatusManager.GetStatus(StatusType.CURRENT_HP).UpdateStatus.AddListener( (x) => {
+		StatusManager.GetStatus(StatusType.CURRENT_HP).UpdateStatus += (x) =>
+		{
 			UpdateHPGauge(x);
-		});
+		};
 	}
 
 	private void UpdateHPGauge(float gauge)
