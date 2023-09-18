@@ -20,12 +20,19 @@ public class SceneLoader : Singleton<SceneLoader>
 	{
 		base.Awake();
 
-		SceneManager.sceneLoaded += Test;
+		SceneManager.sceneLoaded += SetLoadSystemData;
 	}
 
-	private void Test(Scene scene, LoadSceneMode mode)
+	private void SetLoadSystemData(Scene scene, LoadSceneMode mode)
 	{
-		GameObject.Find("Loading System Group").TryGetComponent<LoadingSystem>(out var loadSystem);
+		var loadSystemObject = GameObject.Find("Loading System Group");
+
+		if (loadSystemObject == null)
+		{
+			return;
+		}
+
+		loadSystemObject.TryGetComponent<LoadingSystem>(out var loadSystem);
 		loadSystem.SetNextScene(nextSceneName);
 	}
 
