@@ -39,11 +39,10 @@ public class TutorialManager : MonoBehaviour
 
 	private void Start()
 	{
-		StartTutorial();
-		//FadeManager.Instance.FadeOut(fadeTime, () =>
-		//{
-		//	StartTutorial();
-		//});
+		FadeManager.Instance.FadeOut(fadeTime, () =>
+		{
+			StartTutorial();
+		});
 	}
 
 	private void StartTutorial()
