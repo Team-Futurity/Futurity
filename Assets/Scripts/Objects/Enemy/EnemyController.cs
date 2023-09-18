@@ -14,15 +14,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		Spawn,					//½ºÆù
 		Idle,					//´ë±â
 		Default,
-<<<<<<< Updated upstream
-		MoveIdle,				//ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
-		Hitted,					//ï¿½Ç°ï¿½
-		Death,                  //ï¿½ï¿½ï¿½
-=======
+		
 		MoveIdle,				//´ë±â Áß ·£´ý ÀÌµ¿
 		Hitted,					//ÇÇ°Ý
 		Death,                  //»ç¸Á
->>>>>>> Stashed changes
 
 		ClusterSlow,
 		ClusterChase,
@@ -70,15 +65,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public bool isTutorialDummy = false;
 
 	//animation name
-<<<<<<< Updated upstream
-	public readonly string moveAnimParam = "Move";          //ï¿½Ìµï¿½
-	public readonly string atkAnimParam = "Attack";         //ï¿½ï¿½ï¿½ï¿½
-	public readonly string ragnedAnimParam = "Ranged";
-	public readonly string dashAnimParam = "Dash";			//ï¿½ï¿½ ï¿½ë½¬
-	public readonly string hitAnimParam = "Hit";            //ï¿½Ç°ï¿½
-	public readonly string deadAnimParam = "Dead";			//ï¿½ï¿½ï¿½
-	public readonly string playerTag = "Player";            //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Â±ï¿½ ï¿½Ì¸ï¿½
-=======
 	public readonly string moveAnimParam = "Move";          //ÀÌµ¿
 	public readonly string atkAnimParam = "Attack";         //°ø°Ý
 	public readonly string ragnedAnimParam = "Ranged";
@@ -86,7 +72,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public readonly string hitAnimParam = "Hit";            //ÇÇ°Ý
 	public readonly string deadAnimParam = "Dead";			//»ç¸Á
 	public readonly string playerTag = "Player";            //ÇÃ·¹ÀÌ¾î ÅÂ±× ÀÌ¸§
->>>>>>> Stashed changes
+
 	public readonly string matColorProperty = "_BaseColor";
 
 	[Space(3)]
