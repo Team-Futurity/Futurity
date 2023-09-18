@@ -17,9 +17,9 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
+	//[SerializeField] private PlayerInput playerInput;
 	public GameObject uiCanvas;
 	private PlayerController playerController;
-	private PlayerInput playerInput;
 	public PlayerController PlayerController => playerController;
 
 	[Header("슬로우 타임")] 
@@ -46,12 +46,13 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
-		playerInput = player.GetComponent<PlayerInput>();
-		
+
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		originTarget = playerCamera.m_Follow;
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
+		
+		
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
@@ -85,7 +86,7 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	public void SetActivePlayerInput(bool active)
 	{
-		playerInput.enabled = active;
+		//playerInput.enabled = active;
 	}
 	
 	#region TimelineSignalFunc
