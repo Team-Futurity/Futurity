@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 
 [System.Serializable]
 public class StatusData
@@ -21,6 +21,9 @@ public class StatusData
 	
 	public StatusType type;
 	[SerializeField] private float value;
+
+	[HideInInspector]
+	public UnityEvent<float> UpdateStatus;
 
 	public float GetValue()
 	{
@@ -50,6 +53,8 @@ public class StatusData
 	public void SubValue(float value)
 	{
 		this.value -= value;
+
+		UpdateStatus?.Invoke(value);
 	}
 	
 }

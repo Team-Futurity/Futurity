@@ -9,6 +9,8 @@ public class UISceneLoadButton : UIButton
 
 	protected override void ActiveAction()
 	{
+		UIInputManager.Instance.ClearAll();
+
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
 			SceneLoader.Instance.LoadScene(sceneName);

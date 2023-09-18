@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
+public class UIPerformBoardHandler : MonoBehaviour
 {
 	// Data를 전달받는 타겟 오브젝트
 	[field: Header("플레이어 데이터")]
@@ -28,6 +28,9 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 
 	[HideInInspector] 
 	public UnityEvent OnChangePerformBoard;
+
+	[HideInInspector]
+	public UnityEvent OnEnded;
 	
 	private void Awake()
 	{
@@ -45,13 +48,7 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 		isActive = false;
 	}
 
-	private void Start()
-	{
-		((IControlCommand)this).Init();
-	}
-
-	#region IControlCommand
-	void IControlCommand.Init()
+	public void SetPerfrom()
 	{
 		isActive = true;
 
@@ -60,21 +57,17 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 		
 		currentBoard = PerformBoardList[currentIndex];
 		currentBoard.SetActive(true);
-		
-		Target.onChangeStateEvent?.AddListener(UpdateAction);
 	}
 
-	void IControlCommand.Run()
+	public void Run()
 	{
 		Target.onChangeStateEvent?.AddListener(UpdateAction);
 	}
 
-	void IControlCommand.Stop()
+	public void Stop()
 	{
 		Target.onChangeStateEvent?.RemoveListener(UpdateAction);
 	}
-
-	#endregion
 
 	private void UpdateAction(PlayerInputEnum data)
 	{
@@ -84,22 +77,34 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 		{
 			return;
 		}
-		
+
+		currentBoard.SetActive(false);
+
 		OnChangePerformBoard?.Invoke();
-		
-		// Next Board로 변경해주는 작업임
-		ChangeToNextBoard();
+		Stop();
 	}
 
-	private void ChangeToNextBoard()
+	private void Update()
 	{
+		if(Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			currentBoard.SetActive(false);
+
+			OnChangePerformBoard?.Invoke();
+			Stop();
+		}
+	}
+
+	public void ChangeToNextBoard()
+	{
+		Run();
+
 		if (currentIndex >= maxIndex)
 		{
 			GetEndProcess();
 			
 			return;
 		}
-		currentBoard.SetActive(false);
 		
 		currentIndex++;
 		
@@ -109,6 +114,6 @@ public class UIPerformBoardHandler : MonoBehaviour, IControlCommand
 
 	private void GetEndProcess()
 	{
-		Debug.Log("Perform Board Action Clear");
+		OnEnded?.Invoke();
 	}
 }
