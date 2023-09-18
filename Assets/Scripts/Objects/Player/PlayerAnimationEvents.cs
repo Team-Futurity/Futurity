@@ -110,7 +110,8 @@ public class PlayerAnimationEvents : MonoBehaviour
 	{
 		if (playerCamera != null)
 		{
-			playerCamera.CameraShake();
+			attackNode = pc.curNode;
+			playerCamera.CameraShake(attackNode.shakePower, attackNode.shakeTime);
 		}
 	}
 
@@ -119,8 +120,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 		AudioManager.instance.PlayOneShot(walk, transform.position);
 	}
 
-	public void MoveWithAttack(float pow)
+	public void SetCollider(int isActiveInteager)
 	{
-		pc.rigid.velocity = pc.transform.forward * pow;
+		bool isActive = isActiveInteager == 1;
+
+		pc.SetCollider(isActive);
 	}
 }
