@@ -38,7 +38,6 @@ public class TimelineManager : Singleton<TimelineManager>
 	private float originOrthoSize;
 
 	private CinemachineFramingTransposer cameraBody;
-	private IEnumerator testCoroutine;
 	private IEnumerator timeSlow;
 	private IEnumerator lerpTimeScale;
 	
@@ -52,12 +51,6 @@ public class TimelineManager : Singleton<TimelineManager>
 		originTarget = playerCamera.m_Follow;
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
-		
-		// 컷신을 재생하는 함수가 다른곳에서 불릴 때까지 해당 지점에서 1구역 진입 연출을 시작합니다.
-		// 로딩이 끝난 후 실행할 수 있도록 의도적으로 함수 실행시간을 지연시킵니다.
-		// Time.timeScale = 0.0f;
-		// testCoroutine = DelayCutScene(ECutScene.STAGE1_ENTRYCUTSCENE);
-		// StartCoroutine(testCoroutine);
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
@@ -89,12 +82,6 @@ public class TimelineManager : Singleton<TimelineManager>
 		playerInput.enabled = active;
 	}
 	
-	private IEnumerator DelayCutScene(ECutScene cutScene)
-	{
-		yield return new WaitForSecondsRealtime(5.0f);
-		EnableCutScene(cutScene);
-	}
-
 	#region TimelineSignalFunc
 	public void ResetTimeScale()
 	{
