@@ -21,8 +21,7 @@ public class TutorialManager : MonoBehaviour
 	{
 		"TutorialData1",
 		"TutorialData2",
-		"TutorialData3",
-		"TutorialData4"
+		"TutorialData3"
 	};
 
 	private int currentIndex = 0;
@@ -32,22 +31,25 @@ public class TutorialManager : MonoBehaviour
 		dialogController.TryGetComponent(out dialogCommand);
 		performHandler.TryGetComponent(out dialogCommand);
 
-		InputActionManager.Instance.DisableAllInputActionAsset();
-		InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
+		// InputActionManager.Instance.DisableAllInputActionAsset();
+		// InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
 
 		LoadTutorialDialogData();
 	}
 
 	private void Start()
 	{
-		FadeManager.Instance.FadeOut(fadeTime, () =>
-		{
-			StartTutorial();
-		});
+		StartTutorial();
+		//FadeManager.Instance.FadeOut(fadeTime, () =>
+		//{
+		//	StartTutorial();
+		//});
 	}
 
 	private void StartTutorial()
 	{
+		Debug.Log("Tutorial 시나리오 시작");
+
 		// 처음 나타날 Dialog 세팅
 		dialogController.SetDialogData(tutorialDialogList[currentIndex]);
 		NextDialogData();
@@ -66,6 +68,13 @@ public class TutorialManager : MonoBehaviour
 		// Perform 종료 시, Next Dialog 출력
 		performHandler.OnChangePerformBoard.AddListener(() =>
 	   {
+		   if (currentIndex == 1)
+		   {
+			   performHandler.ChangeToNextBoard();
+			   NextDialogData();
+			   return;
+		   }
+
 		   dialogController.SetDialogData(tutorialDialogList[currentIndex]);
 		   NextDialogData();
 
@@ -76,7 +85,7 @@ public class TutorialManager : MonoBehaviour
 
 		   dialogController.OnEnded.AddListener(() =>
 		  {
-			  if (currentIndex >= 4)
+			  if (currentIndex >= 3)
 			  {
 				  FadeManager.Instance.FadeIn(fadeTime, () =>
 				  {
@@ -104,7 +113,7 @@ public class TutorialManager : MonoBehaviour
 
 	private void NextDialogData()
 	{
-		if(currentIndex < 4)
+		if(currentIndex < 3)
 		{
 			currentIndex++;
 		}

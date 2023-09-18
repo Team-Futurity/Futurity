@@ -18,11 +18,6 @@ public class UIDialogInteraction : UIDialogFeatureBase
 
 		passKey.Enable();
 
-		passKey.performed += (x) =>
-		{
-			PassDialog();
-		};
-
 		controller.OnStarted.AddListener(EnableKey);
 		controller.OnEnded.AddListener(DisableKey);
 	}
@@ -31,7 +26,6 @@ public class UIDialogInteraction : UIDialogFeatureBase
 	{
 		if (controller.currentState != DialogSystemState.NONE || controller.currentState != DialogSystemState.MAX)
 		{
-			Debug.Log("KEY ют╥б");
 			controller.EnterNextInteraction();
 
 			return;
@@ -40,11 +34,21 @@ public class UIDialogInteraction : UIDialogFeatureBase
 
 	public void DisableKey()
 	{
+		passKey.performed -= (x) =>
+		{
+			PassDialog();
+		};
+
 		passKey.Disable();
 	}
 
 	public void EnableKey()
 	{
+		passKey.performed += (x) =>
+		{
+			PassDialog();
+		};
+
 		passKey.Enable();
 	}
 }
