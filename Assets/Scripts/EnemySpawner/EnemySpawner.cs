@@ -80,7 +80,6 @@ public class EnemySpawner : MonoBehaviour
 
 	public int GetCurrentSpawnCount()
 	{
-		Debug.Log(curWaveEnemyCount.Sum());
 		return curWaveEnemyCount.Sum();
 	}
 	
