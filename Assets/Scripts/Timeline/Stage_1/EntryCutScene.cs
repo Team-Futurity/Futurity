@@ -35,11 +35,6 @@ public class EntryCutScene : CutSceneBase
 		gameObject.SetActive(false);
 	}
 	
-	public void EnableEnemy()
-	{
-		Time.timeScale = 1.0f;
-	}
-
 	public void MovePlayer()
 	{
 		TimelineManager.Instance.PlayerController.LerpToWorldPosition(targetPos.transform.position, duration);

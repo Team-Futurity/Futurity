@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 public class TimelineManager : Singleton<TimelineManager>
 {
@@ -55,6 +56,11 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	public void EnableCutScene(ECutScene cutScene)
 	{
+		if (cutScene == ECutScene.STAGE1_ENTRYCUTSCENE)
+		{
+			cutSceneList[(int)cutScene].GetComponent<PlayableDirector>().Play();
+		}
+		
 		cutSceneList[(int)cutScene].SetActive(true);
 	}
 
