@@ -11,17 +11,15 @@ public class EnemyDeathState : UnitState<EnemyController>
 	public override void Begin(EnemyController unit)
 	{
 		if (unit.isClustering)
-			unit.manager.EnemyDeclutter(unit.clusterNum);
-		unit.manager.DeActiveManagement(unit);
-		
-		if (unit.manager.activeEnemys.Count < 1)
 		{
-			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LASTKILLCUTSCENE);
+			ClusterManager.Instance.EnemyDeCluster(unit.clusterNum);
 		}
 		
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
+		
+		unit.OnDisableEvent();
 	}
 
 	public override void Update(EnemyController unit)

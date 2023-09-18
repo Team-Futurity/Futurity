@@ -170,7 +170,6 @@ GameObject:
   - component: {fileID: 2955528926438800395}
   - component: {fileID: 2955528926438800396}
   - component: {fileID: 1731697029185738527}
-  - component: {fileID: 1621278223}
   - component: {fileID: -6939958355517781970}
   m_Layer: 0
   m_Name: MinimalDefault
@@ -236,7 +235,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 2955528926438800394}
   rigid: {fileID: 2955528926438800395}
-  hpBar: {fileID: 0}
   isGodMode: 0
   isStun: 0
   OnAttack:
@@ -257,7 +255,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 2
   isTutorialDummy: 0
-  manager: {fileID: 0}
   effectManager: {fileID: 0}
   isClusteringObj: 0
   isClustering: 0
@@ -326,6 +323,10 @@ MonoBehaviour:
       Data4: 1092868903
     Path: event:/SE/06monster/Minimal/F_S_01_06_hit_minimal
   deathDelay: 2
+  waveIndex: 0
+  disableEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2955528926438800393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,22 +404,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1621278223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2955528926438800399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eff409e9990ebd409083c282bb70ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyHpBar: {fileID: 7370879006473176586, guid: 7221245dab407784082de2b5f7d39347, type: 3}
-  currentHpBar: {fileID: 0}
-  canvasTrs: {fileID: 0}
-  hpBarPosition: {x: 0, y: 125}
 --- !u!114 &-6939958355517781970
 MonoBehaviour:
   m_ObjectHideFlags: 0
