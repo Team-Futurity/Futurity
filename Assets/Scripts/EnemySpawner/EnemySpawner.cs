@@ -136,13 +136,15 @@ public class EnemySpawner : MonoBehaviour
 	{
 		spawnerDisableEvent?.Invoke(this);
 	}
-
+	
 	#region Editor
+	#if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
 		Handles.color = radiusColor;
 		Handles.DrawWireArc(transform.position, Vector3.up, Vector3.forward, 360, spawnRadius);
 	}
+	#endif
 	#endregion
 }
 
