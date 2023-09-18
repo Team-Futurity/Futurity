@@ -11,19 +11,25 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
 	public enum EnemyState : int
 	{
-		Spawn,					//ï¿½ï¿½ï¿½ï¿½
-		Idle,					//ï¿½ï¿½ï¿½
+		Spawn,					//½ºÆù
+		Idle,					//´ë±â
 		Default,
+<<<<<<< Updated upstream
 		MoveIdle,				//ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 		Hitted,					//ï¿½Ç°ï¿½
 		Death,                  //ï¿½ï¿½ï¿½
+=======
+		MoveIdle,				//´ë±â Áß ·£´ý ÀÌµ¿
+		Hitted,					//ÇÇ°Ý
+		Death,                  //»ç¸Á
+>>>>>>> Stashed changes
 
 		ClusterSlow,
 		ClusterChase,
 
 		//Melee Default
-		MDefaultChase,          //ï¿½ß°ï¿½
-		MDefaultAttack,         //ï¿½ï¿½ï¿½ï¿½
+		MDefaultChase,          //Ãß°Ý
+		MDefaultAttack,         //°ø°Ý
 		MDefaultAttack2nd,
 
 		//Ranged Default
@@ -56,7 +62,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		EliteDefault,
 	}
 
-	//[HideInInspector] public TestHPBar hpBar; //ï¿½Ó½ï¿½
+	//[HideInInspector] public TestHPBar hpBar; //ÀÓ½Ã
 
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
@@ -64,6 +70,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public bool isTutorialDummy = false;
 
 	//animation name
+<<<<<<< Updated upstream
 	public readonly string moveAnimParam = "Move";          //ï¿½Ìµï¿½
 	public readonly string atkAnimParam = "Attack";         //ï¿½ï¿½ï¿½ï¿½
 	public readonly string ragnedAnimParam = "Ranged";
@@ -71,6 +78,15 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public readonly string hitAnimParam = "Hit";            //ï¿½Ç°ï¿½
 	public readonly string deadAnimParam = "Dead";			//ï¿½ï¿½ï¿½
 	public readonly string playerTag = "Player";            //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Â±ï¿½ ï¿½Ì¸ï¿½
+=======
+	public readonly string moveAnimParam = "Move";          //ÀÌµ¿
+	public readonly string atkAnimParam = "Attack";         //°ø°Ý
+	public readonly string ragnedAnimParam = "Ranged";
+	public readonly string dashAnimParam = "Dash";			//ÂÌ ´ë½¬
+	public readonly string hitAnimParam = "Hit";            //ÇÇ°Ý
+	public readonly string deadAnimParam = "Dead";			//»ç¸Á
+	public readonly string playerTag = "Player";            //ÇÃ·¹ÀÌ¾î ÅÂ±× ÀÌ¸§
+>>>>>>> Stashed changes
 	public readonly string matColorProperty = "_BaseColor";
 
 	[Space(3)]
@@ -86,7 +102,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float clusterDistance = 2.5f;
 
 	//effect
-	public List<EnemyEffectManager.Effect> effects;                           //ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public List<EnemyEffectManager.Effect> effects;                           //ÀÌÆåÆ® ÇÁ¸®ÆÕ
 	public EnemyEffectManager.Effect hitEffect;
 	public EnemyEffectManager.Effect hittedEffect;
 
@@ -95,14 +111,14 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Reference")]
-	[HideInInspector] public UnitBase target;				//Attack target ï¿½ï¿½ï¿½ï¿½
-	public Enemy enemyData;									//Enemy status Ä³ï¿½ï¿½
+	[HideInInspector] public UnitBase target;				//Attack target ÁöÁ¤
+	public Enemy enemyData;									//Enemy status Ä³½Ì
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public NavMeshAgent navMesh;
 
-	public CapsuleCollider chaseRange;						//ï¿½ï¿½ï¿½ï¿½ ï¿½Ý°ï¿½
-	public SphereCollider atkCollider;                      //Å¸ï¿½ï¿½ Collider
+	public CapsuleCollider chaseRange;						//ÃßÀû ¹Ý°æ
+	public SphereCollider atkCollider;                      //Å¸°Ý Collider
 
 	public SkinnedMeshRenderer skinnedMeshRenderer;
 	public Material material;
@@ -114,8 +130,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Spawn")]
-	public float maxSpawningTime;                           //ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ã°ï¿½
-	[HideInInspector] public BoxCollider enemyCollider;     //ï¿½Ç°ï¿½ Collider
+	public float maxSpawningTime;                           //½ºÆù ÃÖ´ë ½Ã°£
+	[HideInInspector] public BoxCollider enemyCollider;     //ÇÇ°Ý Collider
 	public GameObject spawnEffect;
 	public float walkDistance = 3.0f;
 	
@@ -123,11 +139,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Idle")]
 	/*[HideInInspector] public bool isChasing = false;*/
-	public float idleSetTime = 3f;                          //Defaultï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+	public float idleSetTime = 3f;                          //Default·Î º¯È¯ Àü ´ë±â ½Ã°£
 
 	[Space(3)]
 	[Header("Default")]
-	public float movePercentage = 5f;                       //MoveIdle/Idle ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+	public float movePercentage = 5f;                       //MoveIdle/Idle Áß º¯È¯ ·£´ý ¼öÄ¡
 
 	[Space(3)]
 	[Header("MoveIdle")]
@@ -136,27 +152,27 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Chase")]
-	public float attackRange;								//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½Å¸ï¿½
-	public float attackChangeDelay;                         //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
-	public float turnSpeed = 15.0f;                         //È¸ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Óµï¿½
+	public float attackRange;								//°ø°Ý ÀüÈ¯ »ç°Å¸®
+	public float attackChangeDelay;                         //°ø°Ý µô·¹ÀÌ
+	public float turnSpeed = 15.0f;                         //È¸Àü ÀüÈ¯ ¼Óµµ
 
 	[Space(3)]
 	[Header("Attack")]
 	[HideInInspector] public bool isAttackSuccess = false;
-	public float projectileDistance;						//ï¿½ß»ï¿½Ã¼ ï¿½ï¿½Å¸ï¿½
-	public GameObject rangedProjectile;						//ï¿½ß»ï¿½Ã¼ Ä³ï¿½ï¿½
-	public float projectileSpeed;                           //ï¿½ß»ï¿½Ã¼ ï¿½Óµï¿½
+	public float projectileDistance;						//¹ß»çÃ¼ »ç°Å¸®
+	public GameObject rangedProjectile;						//¹ß»çÃ¼ Ä³½Ì
+	public float projectileSpeed;                           //¹ß»çÃ¼ ¼Óµµ
 
-	public float powerReference1;							//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	public float powerReference1;							//µ¹Áø µî
 	public float powerReference2;
 
 
 	[Space(3)]
 	[Header("Hitted")]
-	public float hitMaxTime = 2f;                           //ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+	public float hitMaxTime = 2f;                           //ÇÇ°Ý µô·¹ÀÌ
 	public float hitColorChangeTime = 0.2f;
-	public float hitPower = 450f;							//ï¿½Ç°ï¿½ AddForce ï¿½ï¿½
-	public Color damagedColor;                              //ï¿½Ç°ï¿½ ï¿½ï¿½È¯ ï¿½Ã·ï¿½ï¿½ï¿½
+	public float hitPower = 450f;							//ÇÇ°Ý AddForce °ª
+	public Color damagedColor;                              //ÇÇ°Ý º¯È¯ ÄÃ·¯°ª
 	public EventReference hitSound;
 
 	[Space(3)]
@@ -171,7 +187,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	{
 		effectManager = EnemyEffectManager.Instance;
 
-		//hpBar = GetComponent<TestHPBar>(); //ï¿½Ó½ï¿½
+		//hpBar = GetComponent<TestHPBar>(); //ÀÓ½Ã
 
 		//Basic Set Up
 		animator = GetComponent<Animator>();
