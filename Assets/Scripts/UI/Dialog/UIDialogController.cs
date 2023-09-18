@@ -50,18 +50,18 @@ public partial class UIDialogController : MonoBehaviour
 	
 	#endregion
 	
-	public void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			SetDialogData("TEST");
-		}
+	//public void Update()
+	//{
+	//	if (Input.GetKeyDown(KeyCode.Alpha1))
+	//	{
+	//		SetDialogData("TEST");
+	//	}
 		
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			PlayDialog();
-		}
-	}
+	//	if (Input.GetKeyDown(KeyCode.Alpha2))
+	//	{
+	//		PlayDialog();
+	//	}
+	//}
 
 	public void SetDialogData(DialogData data)
 	{
@@ -93,7 +93,6 @@ public partial class UIDialogController : MonoBehaviour
 
 		var (_,dialogData) = currentDialogData.GetCurrentData();
 		
-		// Dialog Text
 		DialogText.Show(dialogData.descripton);
 		
 		OnShow?.Invoke(dialogData);
@@ -109,6 +108,7 @@ public partial class UIDialogController : MonoBehaviour
 	{
 		ChangeState(DialogSystemState.NONE);
 		gameObject.SetActive(false);
+		DialogText.OnEnd.RemoveListener(GetNextDialog);
 
 		OnEnded?.Invoke();
 	}

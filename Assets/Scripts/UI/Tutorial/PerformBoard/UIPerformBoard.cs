@@ -16,14 +16,9 @@ public class UIPerformBoard : MonoBehaviour
 	
 	private bool isClear = false;
 
-	// 애니메이션에 동작 중에는 데이터를 입력받지 않도록 하게끔 필요함. 
-	private Animator anim;
-	
 	private void Awake()
 	{
 		actionDic = new Dictionary<PlayerInputEnum, UIPerformActionDataGroup>();
-		
-		TryGetComponent(out anim);
 		
 		for (int i = 0; i < actionDatas.Length; ++i)
 		{
