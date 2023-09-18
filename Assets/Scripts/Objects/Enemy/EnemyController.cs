@@ -16,7 +16,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		Default,
 		MoveIdle,				//��� �� ���� �̵�
 		Hitted,					//�ǰ�
-		Death,					//���
+		Death,                  //���
+
+		ClusterSlow,
+		ClusterChase,
 
 		//Melee Default
 		MDefaultChase,          //�߰�
@@ -35,9 +38,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		MiniDefaultAttack,
 		MiniDefaultKnockback,
 
-		//Cluster
-		ClusterChase,
-		ClusterSlow,
+		//EliteDefault
+		EliteDefaultChase,
+		EliteMeleeAttack,
+		EliteRangedAttack,
 
 		//Tutorial
 		TutorialIdle,
@@ -46,9 +50,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public enum EnemyType : int
 	{
-		MeleeDefault = 0,
-		RangedDefault = 1,
-		MinimalDefault = 2
+		MeleeDefault,
+		RangedDefault,
+		MinimalDefault,
+		EliteDefault,
 	}
 
 	//[HideInInspector] public TestHPBar hpBar; //�ӽ�
@@ -61,6 +66,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	//animation name
 	public readonly string moveAnimParam = "Move";          //�̵�
 	public readonly string atkAnimParam = "Attack";         //����
+	public readonly string ragnedAnimParam = "Ranged";
 	public readonly string dashAnimParam = "Dash";			//�� �뽬
 	public readonly string hitAnimParam = "Hit";            //�ǰ�
 	public readonly string deadAnimParam = "Dead";			//���
@@ -232,6 +238,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 			case EnemyType.MinimalDefault:
 				return EnemyController.EnemyState.MiniDefaultChase;
+
+			case EnemyType.EliteDefault:
+				return EnemyController.EnemyState.EliteDefaultChase;
 
 			default:
 				FDebug.Log("ERROR_ChangeChaseState()");

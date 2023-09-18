@@ -120,8 +120,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 		AudioManager.instance.PlayOneShot(walk, transform.position);
 	}
 
-	public void MoveWithAttack(float pow)
+	public void SetCollider(int isActiveInteager)
 	{
-		pc.rigid.velocity = pc.transform.forward * pow;
+		bool isActive = isActiveInteager == 1;
+
+		pc.SetCollider(isActive);
 	}
 }

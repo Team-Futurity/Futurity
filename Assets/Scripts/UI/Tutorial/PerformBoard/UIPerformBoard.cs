@@ -60,6 +60,12 @@ public class UIPerformBoard : MonoBehaviour
 
 	private int UpdatePerformAction(PlayerInputEnum data)
 	{
+		if (!actionDic.ContainsKey(data))
+		{
+			FDebug.Log($"[{GetType()}] {data}에 해당하는 Key가 존재하지 않습니다 ");
+			FDebug.Break();
+		}
+		
 		if (actionDic[data].GetChecked())
 		{
 			return activeActionCount;
