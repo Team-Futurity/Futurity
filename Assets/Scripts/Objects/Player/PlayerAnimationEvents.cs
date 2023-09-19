@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
-	[SerializeField] private PlayerCamera playerCamera;
+	[SerializeField] private PlayerCameraEffect cameraEffect;
 
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
@@ -108,11 +108,13 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void CameraShake()
 	{
-		if (playerCamera != null)
+		if (cameraEffect == null)
 		{
-			attackNode = pc.curNode;
-			playerCamera.CameraShake(attackNode.shakePower, attackNode.shakeTime);
+			return;
 		}
+		
+		attackNode = pc.curNode;
+		cameraEffect.CameraShake(attackNode.shakePower, attackNode.shakeTime);
 	}
 
 	public void WalkSE()

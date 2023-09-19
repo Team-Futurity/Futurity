@@ -4,14 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCamera : MonoBehaviour
+public class ObjectPenetrate : MonoBehaviour
 {
 	[Header("Component")] 
 	public Transform playerTf;
-
-	[Header("Shake Camera")] 
-	[SerializeField] private CinemachineImpulseSource impulseSource;
-	[SerializeField] private float shakeForce = 0.4f;
 
 	[Header("Penetrate")]
 	[SerializeField] private LayerMask visibleLayer;
@@ -37,12 +33,6 @@ public class PlayerCamera : MonoBehaviour
 		SetPenetrate();
 	}
 
-	public void CameraShake(float velocity = 0.4f, float duration = 0.2f)
-	{
-		impulseSource.m_ImpulseDefinition.m_ImpulseDuration = duration;
-		impulseSource.GenerateImpulseWithForce(velocity);
-	}
-	
 	#region Perspective Effect
 	private void SetPenetrate()
 	{

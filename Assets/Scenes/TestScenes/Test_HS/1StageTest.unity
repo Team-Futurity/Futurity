@@ -2304,6 +2304,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 609957741}
     m_Modifications:
     - target: {fileID: 507041425030904175, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: cameraEffect
+      value: 
+      objectReference: {fileID: 821468374}
+    - target: {fileID: 507041425030904175, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 821468371}
@@ -4612,6 +4616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 821468370}
   - component: {fileID: 821468371}
+  - component: {fileID: 821468374}
   - component: {fileID: 821468369}
   - component: {fileID: 821468368}
   - component: {fileID: 821468373}
@@ -4622,7 +4627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &821468368
 Animator:
   serializedVersion: 5
@@ -4710,8 +4715,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTf: {fileID: 490917122}
-  impulseSource: {fileID: 821468372}
-  shakeForce: 0.4
   visibleLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -4993,6 +4996,19 @@ MonoBehaviour:
     m_FrequencyGain: 1
     m_Duration: 1
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &821468374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821468367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78113019d0acf734d80b46ed55abca70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  impulseSource: {fileID: 821468372}
 --- !u!1 &830583336
 GameObject:
   m_ObjectHideFlags: 0
@@ -5868,8 +5884,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTf: {fileID: 490917122}
-  impulseSource: {fileID: 945677447}
-  shakeForce: 0.4
   visibleLayer:
     serializedVersion: 2
     m_Bits: 64
