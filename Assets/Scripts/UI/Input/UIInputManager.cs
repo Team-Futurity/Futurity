@@ -15,13 +15,40 @@ public class UIInputManager : Singleton<UIInputManager>
 		base.Awake();
 
 		TryGetComponent(out playerInput);
+
+		playerInput.ActivateInput();
 	}
 
 	private void Start()
 	{
-		if (InputActionManager.Instance.IsActive(InputActionType.UI))
+		InputActionManager.Instance.OnEnableEvent.AddListener(SetInputActionAsset);
+		InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);
+	}
+
+	private void SetInputActionAsset(InputActionData 액션데이터)
+	{
+		if (액션데이터.actionType == InputActionType.UI)
 		{
-			SetInputAction(InputActionManager.Instance.GetByType(InputActionType.UI));
+			playerInput.actions = 액션데이터.actionAsset;
+		}
+	}
+
+	private void RemoveInputActionAsset()
+	{
+		playerInput.actions = null;
+	}
+
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.R))
+		{
+			InputActionManager.Instance.DisableAllInputActionAsset();
+			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
+		}
+		if (Input.GetKeyDown(KeyCode.T))
+		{
+			InputActionManager.Instance.DisableAllInputActionAsset();
+			InputActionManager.Instance.EnableInputActionAsset(InputActionType.UI);
 		}
 	}
 

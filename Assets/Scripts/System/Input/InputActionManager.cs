@@ -6,6 +6,9 @@ using UnityEngine.Events;
 public class InputActionManager : Singleton<InputActionManager>
 {
 	public UnityEvent<InputActionType> OnInputActionEnabled;
+	public UnityEvent<InputActionData> OnEnableEvent;
+	public UnityEvent OnDisableEvent;
+
 	public bool ProcessesDefaulting { get; private set; }
 
 	[SerializeField] private List<InputActionData> actionDatas = new List<InputActionData>();
@@ -51,6 +54,7 @@ public class InputActionManager : Singleton<InputActionManager>
 		activatedAssets.Add(data);
 
 		OnInputActionEnabled.Invoke(type);
+		OnEnableEvent?.Invoke(data);
 	}
 
 	public void EnableInputActionAssets(params InputActionType[] types)
@@ -82,6 +86,7 @@ public class InputActionManager : Singleton<InputActionManager>
 	{
 		foreach (var data in activatedAssets)
 		{
+			OnDisableEvent?.Invoke();
 			data.actionAsset.Disable();
 		}
 

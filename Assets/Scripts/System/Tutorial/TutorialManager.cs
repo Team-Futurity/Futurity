@@ -31,10 +31,11 @@ public class TutorialManager : MonoBehaviour
 		dialogController.TryGetComponent(out dialogCommand);
 		performHandler.TryGetComponent(out dialogCommand);
 
-		// InputActionManager.Instance.DisableAllInputActionAsset();
-		// InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
+		InputActionManager.Instance.DisableAllInputActionAsset();
+		InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
 
 		LoadTutorialDialogData();
+
 	}
 
 	private void Start()

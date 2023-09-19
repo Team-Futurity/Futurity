@@ -10,6 +10,7 @@ public class UISceneLoadButton : UIButton
 	protected override void ActiveAction()
 	{
 		UIInputManager.Instance.ClearAll();
+		InputActionManager.Instance.DisableAllInputActionAsset();
 
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
