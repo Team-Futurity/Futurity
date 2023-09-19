@@ -6,7 +6,7 @@ using static EnemyEffectManager;
 
 public class EnemyEffectManager : Singleton<EnemyEffectManager>
 {
-	[HideInInspector] public List<GameObject> copySpecific = new List<GameObject>();
+	[HideInInspector] public List<GameObject> copySpecific;
 	[HideInInspector] public List<GameObject> copyHit;
 	[HideInInspector] public List<GameObject> copyHitted;
 
@@ -19,6 +19,12 @@ public class EnemyEffectManager : Singleton<EnemyEffectManager>
 		public Vector3 effectExtraTransform;
 	}
 
+	public void Start()
+	{
+		copySpecific = new List<GameObject>();
+		copyHit = new List<GameObject>();
+		copyHitted = new List<GameObject>();
+	}
 
 	#region Active/DeActive
 	public void SpecificEffectActive(int index)
@@ -71,7 +77,7 @@ public class EnemyEffectManager : Singleton<EnemyEffectManager>
 	private int InstantiateEffect(List<GameObject> list, Effect effect)
 	{
 		list.Add(GameObject.Instantiate(effect.effectPrefab, effect.effectTransform == null ? null : effect.effectTransform));
-		list[list.Count - 1].SetActive(false);
+		list[^1].SetActive(false);
 		return list.Count - 1;
 	}
 }
