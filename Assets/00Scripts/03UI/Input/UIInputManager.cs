@@ -25,11 +25,11 @@ public class UIInputManager : Singleton<UIInputManager>
 		InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);
 	}
 
-	private void SetInputActionAsset(InputActionData 액션데이터)
+	private void SetInputActionAsset(InputActionData actionData)
 	{
-		if (액션데이터.actionType == InputActionType.UI)
+		if (actionData.actionType == InputActionType.UI)
 		{
-			playerInput.actions = 액션데이터.actionAsset;
+			playerInput.actions = actionData.actionAsset;
 		}
 	}
 
