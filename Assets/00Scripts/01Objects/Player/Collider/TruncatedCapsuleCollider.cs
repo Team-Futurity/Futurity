@@ -10,8 +10,8 @@ public class TruncatedCapsuleCollider : TruncatedCollider<CapsuleCollider>
 	// 콜라이더 기본 설정
 	public void SetCollider(float angle, float radius)
 	{ 
-		this.Angle = angle;
-		this.Radius = radius;
+		Angle = angle;
+		Radius = radius;
 
 		truncatedCollider.radius = radius;
 	}
@@ -30,8 +30,6 @@ public class TruncatedCapsuleCollider : TruncatedCollider<CapsuleCollider>
 	{
 		Gizmos.color = colliderColor;
 		var vecs = GetVectorToCut();
-		Vector3 leftPos = transform.position + vecs[1];
-		Vector3 rightPos = transform.position + vecs[0];
 
 		// Arc
 		Handles.color = new Color(colliderColor.r, colliderColor.g, colliderColor.b, 0.1f);
@@ -39,8 +37,8 @@ public class TruncatedCapsuleCollider : TruncatedCollider<CapsuleCollider>
 
 		// Line
 		if (Angle % 360 == 0) return;
-		Gizmos.DrawLine(transform.position, rightPos);
-		Gizmos.DrawLine(transform.position, leftPos);
+		Gizmos.DrawLine(transform.position, vecs[0]);
+		Gizmos.DrawLine(transform.position, vecs[1]);
 	}
 #endif
 }
