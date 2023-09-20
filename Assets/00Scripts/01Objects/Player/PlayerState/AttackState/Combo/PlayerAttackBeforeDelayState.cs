@@ -13,7 +13,6 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 	//private CameraController cam;
 	private List<GameObject> targets = new List<GameObject>();
 	public int GetTargetCount() => targets.Count;
-	public int sdfsdf;
 
 	public override void Begin(PlayerController pc)
 	{

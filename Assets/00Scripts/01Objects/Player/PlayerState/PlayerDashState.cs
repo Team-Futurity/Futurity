@@ -15,6 +15,8 @@ public class PlayerDashState : UnitState<PlayerController>
 
 	public override void Begin(PlayerController pc)
 	{
+		Time.timeScale = 1.0f;
+		
 		//base.Begin(pc);
 		pc.animator.SetTrigger(DashTriggerAnimKey);
 		pc.rmController.SetRootMotion("Dash");
@@ -25,7 +27,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		pc.transform.rotation = Quaternion.LookRotation(rotVec);
 		pc.rigid.velocity = rotVec.normalized * pc.playerData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
 		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);
-
+		
 		pc.glove.SetActive(false);
 	}
 
