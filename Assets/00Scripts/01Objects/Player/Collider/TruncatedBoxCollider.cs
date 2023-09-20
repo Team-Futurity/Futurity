@@ -201,72 +201,67 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 	// 점을 모두 저장하고 충돌한 면이 어딘지를 반환함
 	// 0 : top, 1 : side, 2 : bottom
-	private int GetintersectionPoint(Vector2[] rectanglePoints, Vector2 origin, Vector2 line, out Vector2[] intersectionPoint)
+	private void GetIntersectionPoint(Vector2[] rectanglePoints, Vector2 origin, Vector2 line, out Vector2 intersectionPoint)
 	{
-		List<Vector2> points = new List<Vector2>();
 		Vector2 intersection;
-		bool isEnd = false;
-		bool isRight = false;
-		int dir = 0;
+		Vector2 point1, point2;
+		bool isBounded = false;
 
 		// 윗면 교차 체크
-		if (MathPlus.GetIntersectionPoint(rectanglePoints[0], rectanglePoints[2], origin, line, out intersection))
+		point1 = rectanglePoints[0];
+		point2 = rectanglePoints[2];
+		if (MathPlus.GetIntersectionPoint(point1, point2, origin, line, out intersection))
 		{
-			Vector2 centerPoint = (rectanglePoints[0] + rectanglePoints[2]) * 0.5f;
+			Vector2 centerPoint = (point1 + point2) * 0.5f;
 
-			Vector2 originToIS = origin - intersection;
-			Vector2 originToLeftTop = origin - rectanglePoints[0];
-			Vector2 originToRightTop = origin - rectanglePoints[2];
+			intersectionPoint = intersection;
 
-			isEnd = !(originToIS.magnitude > originToRightTop.magnitude || originToIS.magnitude > originToLeftTop.magnitude);
-			dir = 0;
-
-			if (!isEnd)
+			if (IsInRectangle(intersection, origin, rectanglePoints))
 			{
-				isRight = centerPoint.Cross(intersection) < 0;
-
-				intersection = isRight ? rectanglePoints[2] : rectanglePoints[0];
+				return;
 			}
-
-			points.Add(new Vector2(intersection.x, intersection.y));
+			isBounded = centerPoint.Cross(intersection) < 0;
 		}
 
-		Vector2[] sidePoints = new Vector2[2];
-		sidePoints[0] = isRight ? rectanglePoints[2] : rectanglePoints[0];
-		sidePoints[1] = isRight ? rectanglePoints[3] : rectanglePoints[1];
-
-		if (!isEnd && MathPlus.GetIntersectionPoint(sidePoints[0], sidePoints[1], origin, line, out intersection))
+		point1 = isBounded ? rectanglePoints[2] : rectanglePoints[0];
+		point2 = isBounded ? rectanglePoints[3] : rectanglePoints[1];
+		if (MathPlus.GetIntersectionPoint(point1, point2, origin, line, out intersection))
 		{
-			dir = 1;
+			Vector2 centerPoint = (point1 + point2) * 0.5f;
 
-			points.Add(new Vector2(intersection.x, intersection.y));
-		}
+			intersectionPoint = intersection;
 
-		intersectionPoint = points.ToArray();
-
-		return dir;
-
-		/*// 옆면에 교차했는지 체크 교차 못하면 if문 안으로
-		if (!MathPlus.GetIntersectionPoint(targetPoint1, tagetPoint2, transform.position, line, out intersectionPoint))
-		{
-			pointCount = 3;
-			// 윗면에 교차했는지 체크 교차 못하면 if문 안으로
-			if (!MathPlus.GetIntersectionPoint(topPoint1, topPoint2, transform.position, line, out intersectionPoint))
+			if (IsInRectangle(intersection, origin, rectanglePoints))
 			{
-				// 그냥 원점(시작점)으로
-				intersectionPoint = transform.position;
-				pointCount = 4;
+				return;
 			}
+			isBounded = centerPoint.Cross(intersection) > 0;
 		}
-		*/
 
-		//return pointCount;
+		point1 = rectanglePoints[1];
+		point2 = rectanglePoints[2];
+		if (MathPlus.GetIntersectionPoint(point1, point2, origin, line, out intersection))
+		{
+			Vector2 centerPoint = (point1 + point2) * 0.5f;
+
+			intersectionPoint = intersection;
+
+			if (IsInRectangle(intersection, origin, rectanglePoints))
+			{
+				return;
+			}
+			isBounded = centerPoint.Cross(intersection) > 0;
+		}
+
+		intersectionPoint = Vector2.zero;
+
+		FDebug.LogWarning("[TruncatedBoxCollider] Do not Check to Point is Bounded");
 	}
 
 	protected override void OnDrawGizmos()
 	{
 		float originYPos = transform.position.y; 
-		Vector2 originPos = new Vector2(transform.position.x, transform.position.z) + new Vector2(offset.x, offset.y);
+		Vector2 originPos = new Vector2(transform.position.x, transform.position.z) + offset;
 		Vector3 originPosVec3 = new Vector3(originPos.x, originYPos, originPos.y);
 		Vector2[] rectanglePoints = GetRectanglePoints(originPos, transform.forward);
 		Vector3[] rangeVectors = GetVectorToCut(originPosVec3);
@@ -292,11 +287,16 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		Handles.DrawSolidRectangleWithOutline(points.ToArray(), colliderColor, Color.blue);
 
 		// 공격 범위 표시
-		Gizmos.DrawLine(originPosVec3, rangeVectors[0]);
-		Gizmos.DrawLine(originPosVec3, rangeVectors[1]);
+		/*Gizmos.DrawLine(originPosVec3, rangeVectors[0]);
+		Gizmos.DrawLine(originPosVec3, rangeVectors[1]);*/
 
 		// 공격 범위 자르기
-		//MathPlus.GetIntersectionPoint(sidePoints[0], sidePoints[1], origin, line, out intersection)
+		Vector2 intersectionPoint1, intersectionPoint2;
+		GetIntersectionPoint(rectanglePoints, originPos, rangeVectors[0], out intersectionPoint1);
+		GetIntersectionPoint(rectanglePoints, originPos, rangeVectors[1], out intersectionPoint2);
+
+		Gizmos.DrawLine(originPosVec3, new Vector3(intersectionPoint1.x, originYPos, intersectionPoint1.y));
+		Gizmos.DrawLine(originPosVec3, new Vector3(intersectionPoint2.x, originYPos, intersectionPoint2.y));
 	}
 #endif
 }
