@@ -12,6 +12,8 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 	private Transform effect;
 	//private CameraController cam;
 	private List<GameObject> targets = new List<GameObject>();
+	public int GetTargetCount() => targets.Count;
+	public int sdfsdf;
 
 	public override void Begin(PlayerController pc)
 	{
@@ -63,7 +65,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		if (targets.Count > 0)
 		{
 			bool isMove = AutoTarget.Instance.AutoTargetProcess(targets, pc.gameObject, pc.attackCollider, pc.autoAngle, pc.moveMargin, pc.moveTime);
-			// ¿ÀÅäÅ¸°Ù ÀÌµ¿ 2¾È) /*if (isMove) { pc.ResetCombo(); pc.StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack); Begin(pc); }*/
+			// ì˜¤í† íƒ€ê²Ÿ ì´ë™ 2ì•ˆ) /*if (isMove) { pc.ResetCombo(); pc.StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack); Begin(pc); }*/
 		}
 
 		if (currentTime >= attackNode.attackDelay)

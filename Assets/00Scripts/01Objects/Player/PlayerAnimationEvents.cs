@@ -118,9 +118,23 @@ public class PlayerAnimationEvents : MonoBehaviour
 	}
 
 	#region HitEffectEvent
-	public void PlayerAttackEffect_Start()
+	public void PlayerAttackEffect_Start(float timeScale)
 	{
-		cameraEffect.SetTimeScale();
+		UnitState<PlayerController> state = null;
+		pc.GetState(PlayerState.AttackDelay, ref state);
+		int count = 0;
+
+		if (state != null)
+		{
+			count = ((PlayerAttackBeforeDelayState)state).GetTargetCount();
+		}
+
+		if (count <= 0)
+		{
+			return;
+		}
+		
+		cameraEffect.SetTimeScale(timeScale);
 	}
 
 	public void PlayerAttackEffect_End()
