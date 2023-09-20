@@ -24,6 +24,7 @@ public class PlayerCameraEffect : MonoBehaviour
 	
 	// Coroutine
 	private IEnumerator lerpTimeScale;
+	private IEnumerator timeScaleTimer;
 
 	public void Awake()
 	{
@@ -32,6 +33,7 @@ public class PlayerCameraEffect : MonoBehaviour
 
 	public void Update()
 	{
+		Debug.Log(Time.timeScale);
 		if (Input.GetKeyDown(KeyCode.E))
 		{
 			StartLerpTime(0.2f);
@@ -49,6 +51,12 @@ public class PlayerCameraEffect : MonoBehaviour
 	{
 		lerpTimeScale = LerpTimeScale(reachTime);
 		StartCoroutine(lerpTimeScale);
+	}
+
+	public void StartTimeScaleTimer(float duration)
+	{
+		timeScaleTimer = TimeScaleTimer(duration);
+		StartCoroutine(timeScaleTimer);
 	}
 
 	public void SetTimeScale(float time = 0.2f)
@@ -74,6 +82,13 @@ public class PlayerCameraEffect : MonoBehaviour
 		}
 
 		Time.timeScale = targetTimeScale;
+	}
+
+	private IEnumerator TimeScaleTimer(float duration)
+	{
+		Time.timeScale = 0.1f;
+		yield return new WaitForSecondsRealtime(duration);
+		Time.timeScale = 1.0f;
 	}
 	#endregion
 

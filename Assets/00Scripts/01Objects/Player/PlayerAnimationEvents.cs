@@ -117,6 +117,20 @@ public class PlayerAnimationEvents : MonoBehaviour
 		cameraEffect.CameraShake(attackNode.shakePower, attackNode.shakeTime);
 	}
 
+	#region HitEffectEvent
+	public void PlayerAttackEffect_Start()
+	{
+		cameraEffect.SetTimeScale();
+	}
+
+	public void PlayerAttackEffect_End()
+	{
+		cameraEffect.ResetTimeScale();
+		cameraEffect.CameraShake();
+	}
+	
+	#endregion
+
 	public void WalkSE()
 	{
 		AudioManager.instance.PlayOneShot(walk, transform.position);
