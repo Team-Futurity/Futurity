@@ -150,7 +150,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 		for (int i = 0; i < result.Length; ++i)
 		{
-			if (float.TryParse(strResult[i], out result[i])) { Debug.Log(result[i]); }
+			float.TryParse(strResult[i], out result[i]);
 		}
 
 		return result;
