@@ -15,24 +15,27 @@ public class PlayerDashState : UnitState<PlayerController>
 
 	public override void Begin(PlayerController pc)
 	{
-		//base.Begin(pc);
 		pc.animator.SetTrigger(DashTriggerAnimKey);
 		pc.rmController.SetRootMotion("Dash");
 		currentTime = 0;
-		//pc.dashEffect.enabled = true;
+
 		dashEffect = pc.dashPoolManager.ActiveObject(pc.dashPos.position, pc.dashPos.rotation);
 		Vector3 rotVec = pc.moveDir == Vector3.zero ? pc.transform.forward : Quaternion.AngleAxis(45, Vector3.up) * pc.moveDir;
 		pc.transform.rotation = Quaternion.LookRotation(rotVec);
 		pc.rigid.velocity = rotVec.normalized * pc.playerData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
-		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);
+
+		pc.currentDashCount--;
 
 		pc.glove.SetActive(false);
+
+		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);
 	}
 
 	public override void Update(PlayerController pc)
 	{
 		if (currentTime > dashTime)
 		{
+			pc.currentDashCount = 0;
 			pc.ChangeState(PlayerState.Idle);
 		}
 		currentTime += Time.deltaTime;
