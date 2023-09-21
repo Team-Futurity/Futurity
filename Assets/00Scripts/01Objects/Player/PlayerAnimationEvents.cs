@@ -107,19 +107,22 @@ public class PlayerAnimationEvents : MonoBehaviour
 		}
 	}
 
-	public void CameraShake()
+	public void CameraShake(string str)
 	{
 		if (cameraEffect == null)
 		{
 			return;
 		}
-		
-		attackNode = pc.curNode;
-		cameraEffect.CameraShake(attackNode.shakePower, attackNode.shakeTime);
+
+		// 0 : velocity, 1 : Duration
+		float[] value = ConvertStringToFloatArray(str);
+
+		// attackNode = pc.curNode;
+		cameraEffect.CameraShake(value[0], value[1]);
 	}
 
 	#region HitEffectEvent
-	public void CameraEffect(string value)
+	public void SlowMotion(string value)
 	{
 		UnitState<PlayerController> state = null;
 		pc.GetState(PlayerState.AttackDelay, ref state);
@@ -137,12 +140,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 		float[] values = ConvertStringToFloatArray(value);
 		cameraEffect.StartTimeScaleTimer(values[0], values[1]);
-	}
-
-	public void CamShakeForEvent(string value)
-	{
-		float[] result = ConvertStringToFloatArray(value);
-		cameraEffect.CameraShake(result[0], result[1]);
+		cameraEffect.CameraShake();
 	}
 	
 	private float[] ConvertStringToFloatArray(string input)

@@ -4632,6 +4632,7 @@ GameObject:
   - component: {fileID: 821468368}
   - component: {fileID: 821468373}
   - component: {fileID: 821468372}
+  - component: {fileID: 821468376}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: MainCamera
@@ -4963,7 +4964,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0, y: -1, z: 0}
+  m_DefaultVelocity: {x: -1, y: -1, z: 0}
 --- !u!114 &821468373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5025,6 +5026,27 @@ MonoBehaviour:
   opacity: 0.3
   calcThreshold: 1
   decimalCount: 3
+--- !u!320 &821468376
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821468367}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 2e142302b486d43478360c83062b87ca, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 898806839386496382, guid: 2e142302b486d43478360c83062b87ca, type: 2}
+    value: {fileID: 821468368}
+  - key: {fileID: 1738276973441809972, guid: 2e142302b486d43478360c83062b87ca, type: 2}
+    value: {fileID: 1340476360}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &830583336
 GameObject:
   m_ObjectHideFlags: 0
@@ -9164,6 +9186,7 @@ GameObject:
   - component: {fileID: 1340476356}
   - component: {fileID: 1340476355}
   - component: {fileID: 1340476354}
+  - component: {fileID: 1340476360}
   m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -9330,6 +9353,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+--- !u!95 &1340476360
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340476353}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1349303199
 GameObject:
   m_ObjectHideFlags: 0
