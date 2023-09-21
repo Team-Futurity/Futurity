@@ -5,12 +5,22 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.MDefaultAttack)]
 public class MDefaultAttackState : EnemyAttackBaseState
 {
+	public EffectActiveData atk1 = new EffectActiveData();
+
+	public MDefaultAttackState()
+	{
+		atk1.activationTime = EffectActivationTime.InstanceAttack;
+		atk1.target = EffectTarget.Caster;
+		atk1.position = new Vector3(0, 1.0f, 0);
+		atk1.index = 0;
+	}
+
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Attack begin");
 		base.Begin(unit);
 
-		//unit.atkCollider.enabled = true;
+		unit.currentEffectData = atk1;
 		unit.navMesh.enabled = true;
 	}
 
@@ -25,6 +35,7 @@ public class MDefaultAttackState : EnemyAttackBaseState
 		//FDebug.Log("MDefault Attack End");
 
 		base.End(unit);
+
 		unit.atkCollider.enabled = false;
 	}
 

@@ -78,6 +78,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Enemy Management")]
 	[HideInInspector] public EnemyEffectManager effectManager;
+	public EffectController effectController;
+	public EffectDatas effectSO;
+	public EffectActiveData currentEffectData;
+
 
 	//clustering
 	public bool isClusteringObj = false;
@@ -92,12 +96,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public EnemyEffectManager.Effect hitEffect;
 	public EnemyEffectManager.Effect hittedEffect;
 
-	/*[HideInInspector] public List<GameObject> initiateEffects;
-	[HideInInspector] public GameObject initiateHitEffect;*/
+	[HideInInspector] public List<GameObject> initiateEffects;
+	[HideInInspector] public GameObject initiateHitEffect;
 
 	[Space(3)]
 	[Header("Reference")]
-	[HideInInspector] public UnitBase target;				//Attack target 지정
+	/*[HideInInspector]*/ public UnitBase target;				//Attack target 지정
 	public Enemy enemyData;									//Enemy status 캐싱
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
@@ -172,6 +176,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	private void Start()
 	{
 		effectManager = EnemyEffectManager.Instance;
+		effectController = ECManager.Instance.GetEffectManager(effectSO);
 
 		//hpBar = GetComponent<TestHPBar>(); //임시
 
@@ -186,8 +191,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		SetMaterial();
 
-		if(chaseRange != null)
-			chaseRange.enabled = false;
+		/*if(chaseRange != null)
+			chaseRange.enabled = false;*/
 
 		unit = this;
 		if (isTutorialDummy)
@@ -196,7 +201,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			SetUp(EnemyState.TutorialIdle);
 		}
 		else
-			SetUp(EnemyState.Spawn);
+			SetUp(EnemyState.Idle);
 	}
 
 	protected override void Update()

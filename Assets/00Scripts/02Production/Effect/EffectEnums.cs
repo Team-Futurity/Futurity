@@ -12,6 +12,9 @@ public enum EffectActivationTime
 	MoveWhileAttack,
 	InstanceAttack,
 	AfterDoingAttack,
+
+	Hit,
+	Spawn,
 }
 
 public enum EffectTarget
@@ -21,6 +24,8 @@ public enum EffectTarget
 	Ground
 }
 
+
+
 [Serializable]
 public class EffectData
 {
@@ -29,6 +34,14 @@ public class EffectData
 	public EffectActivationTime effectType;
 	public EffectTarget effectTarget;
 	public List<AssetReference> effectList;
+}
+
+public class EffectActiveData
+{
+	public EffectActivationTime activationTime;
+	public EffectTarget target;
+	public Vector3 position;
+	public int index;
 }
 
 public class EffectPoolingData
