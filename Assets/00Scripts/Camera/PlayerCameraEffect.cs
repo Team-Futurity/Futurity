@@ -50,10 +50,10 @@ public class PlayerCameraEffect : MonoBehaviour
 		StartCoroutine(lerpTimeScale);
 	}
 
-	// 지정된 시간동안 TimeScale을 0으로 만들었다 복귀시킨다.
-	public void StartTimeScaleTimer(float duration)
+	// 지정된 시간동안 TimeScale을 target으로 만들었다 복귀시킨다.
+	public void StartTimeScaleTimer(float target, float duration)
 	{
-		timeScaleTimer = TimeScaleTimer(duration);
+		timeScaleTimer = TimeScaleTimer(target, duration);
 		StartCoroutine(timeScaleTimer);
 	}
 
@@ -82,9 +82,9 @@ public class PlayerCameraEffect : MonoBehaviour
 		Time.timeScale = targetTimeScale;
 	}
 
-	private IEnumerator TimeScaleTimer(float duration)
+	private IEnumerator TimeScaleTimer(float target, float duration)
 	{
-		Time.timeScale = 0.1f;
+		Time.timeScale = target;
 		yield return new WaitForSecondsRealtime(duration);
 		Time.timeScale = 1.0f;
 	}

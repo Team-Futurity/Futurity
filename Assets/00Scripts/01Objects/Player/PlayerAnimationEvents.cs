@@ -119,7 +119,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	}
 
 	#region HitEffectEvent
-	public void PlayerAttackEffect_Start(float timeScale)
+	public void CameraEffect(string value)
 	{
 		UnitState<PlayerController> state = null;
 		pc.GetState(PlayerState.AttackDelay, ref state);
@@ -134,16 +134,23 @@ public class PlayerAnimationEvents : MonoBehaviour
 		{
 			return;
 		}
-		
-		cameraEffect.SetTimeScale(timeScale);
-	}
 
-	public void PlayerAttackEffect_End()
-	{
-		cameraEffect.ResetTimeScale();
-		cameraEffect.CameraShake();
+		float[] values = ConvertStringToFloatArray(value);
+		cameraEffect.StartTimeScaleTimer(values[0], values[1]);
 	}
 	
+	private float[] ConvertStringToFloatArray(string input)
+	{
+		string[] strResult = input.Split(',');
+		float[] result = new float[2];
+
+		for (int i = 0; i < result.Length; ++i)
+		{
+			if (float.TryParse(strResult[i], out result[i])) { Debug.Log(result[i]); }
+		}
+
+		return result;
+	}
 	#endregion
 
 	public void WalkSE()
