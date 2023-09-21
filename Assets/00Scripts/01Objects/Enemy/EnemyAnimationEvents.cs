@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyAnimationEvents : MonoBehaviour
 {
 	private EnemyController ec;
-
+	private IEnumerator hitStop;
+	
 	private void Start()
 	{
 		ec = GetComponent<EnemyController>();
@@ -41,6 +43,26 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.atkCollider.enabled = true;
 	}
 
+	public void CheckCamEffect(float duration)
+	{
+		if (ec.isInPlayer == false)
+		{
+			return;
+		}
+		
+		hitStop = EnemyHitStop(duration);
+		StartCoroutine(hitStop);
+	}
+
+	private IEnumerator EnemyHitStop(float duration)
+	{
+		Time.timeScale = 0.0f;
+
+		yield return new WaitForSecondsRealtime(duration);
+
+		Time.timeScale = 1.0f;
+	}
+	
 	public void EliteRangedPositioning()
 	{
 		ec.atkCollider.transform.position = ec.target.transform.position;

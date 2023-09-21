@@ -160,6 +160,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float hitPower = 450f;							//피격 AddForce 값
 	public Color damagedColor;                              //피격 변환 컬러값
 	public EventReference hitSound;
+	[HideInInspector] public bool isInPlayer = false;
 
 	[Space(3)]
 	[Header("Death")]
