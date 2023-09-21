@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
-	[SerializeField] private PlayerCamera playerCamera;
+	[SerializeField] private PlayerCameraEffect cameraEffect;
 
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
@@ -13,6 +13,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	private EffectActivationTime effectType;
 	private EffectTarget EffectTarget;
 	private Transform effectPos;
+	private IEnumerator hitStop;
 
 	public FMODUnity.EventReference walk;
 
@@ -106,14 +107,55 @@ public class PlayerAnimationEvents : MonoBehaviour
 		}
 	}
 
-	public void CameraShake()
+	public void CameraShake(string str)
 	{
-		if (playerCamera != null)
+		if (cameraEffect == null)
 		{
-			attackNode = pc.curNode;
-			playerCamera.CameraShake(attackNode.shakePower, attackNode.shakeTime);
+			return;
 		}
+
+		// 0 : velocity, 1 : Duration
+		float[] value = ConvertStringToFloatArray(str);
+
+		// attackNode = pc.curNode;
+		cameraEffect.CameraShake(value[0], value[1]);
 	}
+
+	#region HitEffectEvent
+	public void SlowMotion(string value)
+	{
+		UnitState<PlayerController> state = null;
+		pc.GetState(PlayerState.AttackDelay, ref state);
+		int count = 0;
+
+		if (state != null)
+		{
+			count = ((PlayerAttackBeforeDelayState)state).GetTargetCount();
+		}
+
+		if (count <= 0)
+		{
+			return;
+		}
+
+		float[] values = ConvertStringToFloatArray(value);
+		cameraEffect.StartTimeScaleTimer(values[0], values[1]);
+		cameraEffect.CameraShake();
+	}
+	
+	private float[] ConvertStringToFloatArray(string input)
+	{
+		string[] strResult = input.Split(',');
+		float[] result = new float[2];
+
+		for (int i = 0; i < result.Length; ++i)
+		{
+			if (float.TryParse(strResult[i], out result[i])) { Debug.Log(result[i]); }
+		}
+
+		return result;
+	}
+	#endregion
 
 	public void WalkSE()
 	{
@@ -125,5 +167,18 @@ public class PlayerAnimationEvents : MonoBehaviour
 		bool isActive = isActiveInteager == 1;
 
 		pc.SetCollider(isActive);
+	}
+	
+	public void StartHitStop(float duration)
+	{
+		hitStop = HitStop(duration);
+		StartCoroutine(hitStop);
+	}
+	
+	private IEnumerator HitStop(float duration)
+	{
+		Time.timeScale = 0.0f;
+		yield return new WaitForSecondsRealtime(duration);
+		Time.timeScale = 1.0f;
 	}
 }

@@ -15,6 +15,7 @@ public class PlayerDashState : UnitState<PlayerController>
 
 	public override void Begin(PlayerController pc)
 	{
+		Time.timeScale = 1.0f;
 		pc.animator.SetTrigger(DashTriggerAnimKey);
 		pc.rmController.SetRootMotion("Dash");
 		currentTime = 0;
