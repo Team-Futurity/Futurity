@@ -34,10 +34,6 @@ public class PlayerCameraEffect : MonoBehaviour
 	public void Update()
 	{
 		Debug.Log(Time.timeScale);
-		if (Input.GetKeyDown(KeyCode.E))
-		{
-			StartLerpTime(0.2f);
-		}
 	}
 
 	public void CameraShake(float velocity = 0.4f, float duration = 0.2f)
@@ -47,12 +43,14 @@ public class PlayerCameraEffect : MonoBehaviour
 	}
 
 	#region TimeSacleEvent
+	// 지정된 시간안에 TimeScale을 0으로 만든다.
 	public void StartLerpTime(float reachTime)
 	{
 		lerpTimeScale = LerpTimeScale(reachTime);
 		StartCoroutine(lerpTimeScale);
 	}
 
+	// 지정된 시간동안 TimeScale을 0으로 만들었다 복귀시킨다.
 	public void StartTimeScaleTimer(float duration)
 	{
 		timeScaleTimer = TimeScaleTimer(duration);
@@ -97,4 +95,6 @@ public class PlayerCameraEffect : MonoBehaviour
 		camBody = cam.GetCinemachineComponent<CinemachineFramingTransposer>();
 		originOrthoSize = cam.m_Lens.OrthographicSize;
 	}
+	
+	
 }
