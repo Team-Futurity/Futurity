@@ -13,6 +13,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	private EffectActivationTime effectType;
 	private EffectTarget EffectTarget;
 	private Transform effectPos;
+	private IEnumerator hitStop;
 
 	public FMODUnity.EventReference walk;
 
@@ -155,5 +156,18 @@ public class PlayerAnimationEvents : MonoBehaviour
 		bool isActive = isActiveInteager == 1;
 
 		pc.SetCollider(isActive);
+	}
+	
+	public void StartHitStop(float duration)
+	{
+		hitStop = HitStop(duration);
+		StartCoroutine(hitStop);
+	}
+	
+	private IEnumerator HitStop(float duration)
+	{
+		Time.timeScale = 0.0f;
+		yield return new WaitForSecondsRealtime(duration);
+		Time.timeScale = 1.0f;
 	}
 }
