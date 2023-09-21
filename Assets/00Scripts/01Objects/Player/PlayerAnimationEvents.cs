@@ -138,6 +138,12 @@ public class PlayerAnimationEvents : MonoBehaviour
 		float[] values = ConvertStringToFloatArray(value);
 		cameraEffect.StartTimeScaleTimer(values[0], values[1]);
 	}
+
+	public void CamShakeForEvent(string value)
+	{
+		float[] result = ConvertStringToFloatArray(value);
+		cameraEffect.CameraShake(result[0], result[1]);
+	}
 	
 	private float[] ConvertStringToFloatArray(string input)
 	{

@@ -33,7 +33,7 @@ public class PlayerCameraEffect : MonoBehaviour
 
 	public void Update()
 	{
-		Debug.Log(Time.timeScale);
+		//Debug.Log(Time.timeScale);
 	}
 
 	public void CameraShake(float velocity = 0.4f, float duration = 0.2f)
