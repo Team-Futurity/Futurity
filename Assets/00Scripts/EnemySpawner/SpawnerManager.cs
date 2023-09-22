@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class SpawnerManager : MonoBehaviour
 {
-	private const int MAX_ENEMY_TYPE = 3;
+	public readonly static int MAX_ENEMY_TYPE = 4;
 	
 	[Header("컴포넌트")] 
 	[SerializeField] private List<EnemySpawner> spawnerList;
@@ -27,12 +27,13 @@ public class SpawnerManager : MonoBehaviour
 			enemyPool.Add(new Queue<GameObject>());
 		}
 
-		totalSpawnCount = new int[3];
+		totalSpawnCount = new int[MAX_ENEMY_TYPE];
 		InitSpawnerData();
 		
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MeleeDefault], EnemyController.EnemyType.MeleeDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.RangedDefault], EnemyController.EnemyType.RangedDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MinimalDefault], EnemyController.EnemyType.MinimalDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.EliteDefault], EnemyController.EnemyType.EliteDefault);
 	}
 
 	private void Start()
