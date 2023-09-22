@@ -36,12 +36,12 @@ public class UIGauge : MonoBehaviour
 
 	public void StartFillGauge(float targetGaugeValue, float maxGaugeValue)
 	{
-		isFilling = true;
-
 		if (isFilling)
 		{
 			StopCoroutine("FillGauge");
 		}
+
+		isFilling = true;
 
 		currentGauge = gaugeImage.fillAmount * maxGaugeValue;
 
@@ -57,16 +57,9 @@ public class UIGauge : MonoBehaviour
 	{
 		while (timer <= activeTime)
 		{
-			if (isEasing)
-			{
-				var resultGauge = EaseOutExpo(currentGauge, targetGauge, timer / activeTime) / maxGauge;
-				gaugeImage.fillAmount = resultGauge;
-			}
-			else
-			{
-				var resultGauge = Mathf.Lerp(currentGauge, targetGauge, timer / activeTime) / maxGauge;
-				gaugeImage.fillAmount = resultGauge;
-			}
+			var resultGauge = isEasing ? EaseOutExpo(currentGauge, targetGauge, timer / activeTime) : Mathf.Lerp(currentGauge, targetGauge, timer / activeTime);
+
+			gaugeImage.fillAmount = resultGauge;
 
 			yield return new WaitForSeconds(0.01f);
 
