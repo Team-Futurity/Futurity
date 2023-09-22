@@ -249,25 +249,25 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
-					return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "SubState");
+					return GetInputData(PlayerInputEnum.Move, true, moveDir.ToString(), "SubState");
 				}
 			}
-			return GetInputData(PlayerInputEnum.Move, false, input.ToString());
+			return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString());
 		}
 
 		if (playerData.isStun || !hitCoolTimeIsEnd)
 		{
-			return GetInputData(PlayerInputEnum.Move, false, input.ToString()); ;
+			return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); ;
 		}
 
 		// 이동 기능
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
-			return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "State");
+			return GetInputData(PlayerInputEnum.Move, true, moveDir.ToString(), "State");
 		}
 
-		return GetInputData(PlayerInputEnum.Move, false, input.ToString());
+		return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString());
 	}
 
 	public PlayerInputData DashProcess(InputAction.CallbackContext context)
