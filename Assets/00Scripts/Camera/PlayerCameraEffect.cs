@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerCameraEffect : MonoBehaviour
 {
@@ -21,19 +23,36 @@ public class PlayerCameraEffect : MonoBehaviour
 	[Space(3)]
 	[Header("Shake Camera")] 
 	[SerializeField] private CinemachineImpulseSource impulseSource;
-	
+
+	[Space(3)] 
+	[Header("Vignette")] 
+	[SerializeField] private float lerpTime = 0.5f;
+	[SerializeField] private float maxIntensity = 0.8f;
+	private Volume volume;
+	private Vignette vignette;
+
 	// Coroutine
 	private IEnumerator lerpTimeScale;
 	private IEnumerator timeScaleTimer;
+	private IEnumerator pulseVignette;
 
 	public void Awake()
 	{
 		Init();
 	}
 
+
 	public void Update()
 	{
-		//Debug.Log(Time.timeScale);
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			StartPulseVignette();
+		}
+
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			StopPulseVignette();
+		}
 	}
 
 	public void CameraShake(float velocity = 0.4f, float duration = 0.2f)
@@ -90,10 +109,53 @@ public class PlayerCameraEffect : MonoBehaviour
 	}
 	#endregion
 
+	#region Vignette
+	public void StartPulseVignette()
+	{
+		pulseVignette = PulseVignette();
+		StartCoroutine(pulseVignette);
+	}
+	
+	public void StopPulseVignette()
+	{
+		if (pulseVignette == null)
+		{
+			return;
+		}
+
+		vignette.intensity.value = 0f;
+		StartCoroutine(pulseVignette);
+	}
+	
+	private IEnumerator PulseVignette()
+	{
+		float curTime = 0.0f;
+
+		while (curTime < lerpTime)
+		{
+			vignette.intensity.value =
+				Mathf.Lerp(vignette.intensity.value, maxIntensity, curTime / lerpTime);
+
+			curTime += Time.deltaTime;
+			yield return null;
+		}
+		
+		Debug.Log(curTime);
+		Debug.Break();
+	}
+	#endregion
+
 	private void Init()
 	{
 		camBody = cam.GetCinemachineComponent<CinemachineFramingTransposer>();
 		originOrthoSize = cam.m_Lens.OrthographicSize;
+		
+		// vignette
+		volume = Camera.main.GetComponent<Volume>();
+		if (volume != null && volume.profile.TryGet(out vignette))
+		{
+			FDebug.Log("Init Success");
+		}
 	}
 	
 	
