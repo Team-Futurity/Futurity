@@ -35,6 +35,11 @@ public partial class UIDialogController : MonoBehaviour
 
 	public DialogSystemState currentState;
 
+	[Space(10)]
+	[Header("Player Input Á¦¾î")]
+	[SerializeField]
+	private PlayerInputManager inputManager;
+
 	private DialogData nextDialogData;
 	
 	#region Dialog Events
@@ -78,7 +83,8 @@ public partial class UIDialogController : MonoBehaviour
 		gameObject.SetActive(true);
 		
 		DialogText.OnEnd.AddListener(GetNextDialog);
-		
+
+		inputManager.SetPlayerInput(false);
 		OnStarted?.Invoke();
 	}
 	
@@ -109,6 +115,7 @@ public partial class UIDialogController : MonoBehaviour
 		ChangeState(DialogSystemState.NONE);
 		gameObject.SetActive(false);
 		DialogText.OnEnd.RemoveListener(GetNextDialog);
+		inputManager.SetPlayerInput(true);
 
 		OnEnded?.Invoke();
 	}
