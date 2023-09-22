@@ -25,34 +25,21 @@ public class PlayerCameraEffect : MonoBehaviour
 	[SerializeField] private CinemachineImpulseSource impulseSource;
 
 	[Space(3)] 
-	[Header("Vignette")] 
-	[SerializeField] private float lerpTime = 0.5f;
-	[SerializeField] private float maxIntensity = 0.8f;
+	[Header("Vignette")]
+	[SerializeField] private float intensity = 0.6f;
+	[SerializeField] private float waitTime = 0.2f;
 	private Volume volume;
 	private Vignette vignette;
 
 	// Coroutine
 	private IEnumerator lerpTimeScale;
 	private IEnumerator timeScaleTimer;
-	private IEnumerator pulseVignette;
-
+	private IEnumerator playerHitEffect;
+	private WaitForSeconds waitForSeconds;
+	
 	public void Awake()
 	{
 		Init();
-	}
-
-
-	public void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.E))
-		{
-			StartPulseVignette();
-		}
-
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			StopPulseVignette();
-		}
 	}
 
 	public void CameraShake(float velocity = 0.4f, float duration = 0.2f)
@@ -110,38 +97,17 @@ public class PlayerCameraEffect : MonoBehaviour
 	#endregion
 
 	#region Vignette
-	public void StartPulseVignette()
+	public void StartHitEffectVignette()
 	{
-		pulseVignette = PulseVignette();
-		StartCoroutine(pulseVignette);
+		playerHitEffect = HitVignette();
+		StartCoroutine(playerHitEffect);
 	}
 	
-	public void StopPulseVignette()
+	private IEnumerator HitVignette()
 	{
-		if (pulseVignette == null)
-		{
-			return;
-		}
-
-		vignette.intensity.value = 0f;
-		StartCoroutine(pulseVignette);
-	}
-	
-	private IEnumerator PulseVignette()
-	{
-		float curTime = 0.0f;
-
-		while (curTime < lerpTime)
-		{
-			vignette.intensity.value =
-				Mathf.Lerp(vignette.intensity.value, maxIntensity, curTime / lerpTime);
-
-			curTime += Time.deltaTime;
-			yield return null;
-		}
-		
-		Debug.Log(curTime);
-		Debug.Break();
+		vignette.intensity.value = intensity;
+		yield return waitForSeconds;
+		vignette.intensity.value = 0.0f;
 	}
 	#endregion
 
@@ -149,6 +115,8 @@ public class PlayerCameraEffect : MonoBehaviour
 	{
 		camBody = cam.GetCinemachineComponent<CinemachineFramingTransposer>();
 		originOrthoSize = cam.m_Lens.OrthographicSize;
+
+		waitForSeconds = new WaitForSeconds(waitTime);
 		
 		// vignette
 		volume = Camera.main.GetComponent<Volume>();
