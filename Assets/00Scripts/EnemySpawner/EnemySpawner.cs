@@ -48,25 +48,28 @@ public class EnemySpawner : MonoBehaviour
 		int melee = spawnData.waveSpawnCounts[curWaveCount].meleeCnt;
 		int ranged = spawnData.waveSpawnCounts[curWaveCount].rangedCnt;
 		int minimal = spawnData.waveSpawnCounts[curWaveCount].minimalCnt;
+		int eliteDefault = spawnData.waveSpawnCounts[curWaveCount].eliteDefault;
 		
 		spawnIndex = 0;
 
 		PlaceEnemy(melee, EnemyController.EnemyType.MeleeDefault);
 		PlaceEnemy(ranged, EnemyController.EnemyType.RangedDefault);
 		PlaceEnemy(minimal, EnemyController.EnemyType.MinimalDefault);
+		PlaceEnemy(eliteDefault, EnemyController.EnemyType.EliteDefault);
 		
 		curWaveCount++;
 	}
 	
 	public int[] GetTotalCreateCount()
 	{
-		int[] result = new int[3];
+		int[] result = new int[SpawnerManager.MAX_ENEMY_TYPE];
 
 		foreach (var data in spawnData.waveSpawnCounts)
 		{
 			result[0] += data.meleeCnt;
 			result[1] += data.rangedCnt;
 			result[2] += data.minimalCnt;
+			result[3] += data.eliteDefault;
 		}
 		
 		return result;
@@ -77,6 +80,11 @@ public class EnemySpawner : MonoBehaviour
 	
 	private void PlaceEnemy(int count, EnemyController.EnemyType type)
 	{
+		if (count <= 0)
+		{
+			return;
+		}
+		
 		for (int i = 0; i < count; ++i)
 		{
 			Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
