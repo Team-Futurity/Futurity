@@ -59,7 +59,6 @@ public class EnemyHittedState : UnitState<EnemyController>
 		unit.rigid.velocity = Vector3.zero;
 		isColorChanged = false;
 		unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
-		unit.effectManager.HittedEffectDeActive(unit.hittedEffect.indexNum);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

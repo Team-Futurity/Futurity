@@ -41,6 +41,8 @@ public class EffectActiveData
 	public EffectActivationTime activationTime;
 	public EffectTarget target;
 	public Vector3 position;
+	public Quaternion rotation;
+	public GameObject parent;
 	public int index;
 }
 

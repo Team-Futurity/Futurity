@@ -24,7 +24,7 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 	public override void End(EnemyController unit)
 	{
 		unit.atkCollider.transform.position = unit.transform.position;
-		unit.effects[1].effectTransform.position = unit.transform.position;
+		//unit.effects[1].effectTransform.position = unit.transform.position;
 		unit.atkCollider.enabled = false;
 		base.End(unit);
 

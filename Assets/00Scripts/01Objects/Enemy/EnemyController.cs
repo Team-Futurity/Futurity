@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static EnemyEffectManager;
 using FMODUnity;
 using System.Linq;
 using UnityEngine.Events;
@@ -77,10 +76,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Enemy Management")]
-	[HideInInspector] public EnemyEffectManager effectManager;
+	public EnemyAnimationEvents animationEvents;
 	public EffectController effectController;
 	public EffectDatas effectSO;
-	public EffectActiveData currentEffectData;
+	public EffectActiveData currentEffectData = new EffectActiveData();
 
 
 	//clustering
@@ -90,14 +89,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public int individualNum = 0;
 	[HideInInspector] public EnemyController clusterTarget;
 	public float clusterDistance = 2.5f;
-
-	//effect
-	public List<EnemyEffectManager.Effect> effects;                           //이펙트 프리팹
-	public EnemyEffectManager.Effect hitEffect;
-	public EnemyEffectManager.Effect hittedEffect;
-
-	[HideInInspector] public List<GameObject> initiateEffects;
-	[HideInInspector] public GameObject initiateHitEffect;
 
 	[Space(3)]
 	[Header("Reference")]
@@ -122,7 +113,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Header("Spawn")]
 	public float maxSpawningTime;                           //스폰 최대 시간
 	[HideInInspector] public BoxCollider enemyCollider;     //피격 Collider
-	public GameObject spawnEffect;
 	public float walkDistance = 3.0f;
 	
 	
@@ -175,7 +165,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	
 	private void Start()
 	{
-		effectManager = EnemyEffectManager.Instance;
 		effectController = ECManager.Instance.GetEffectManager(effectSO);
 
 		//hpBar = GetComponent<TestHPBar>(); //임시
@@ -185,23 +174,19 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 		navMesh = GetComponent<NavMeshAgent>();
-		
-		if (spawnEffect != null)
-			spawnEffect.transform.parent = null;
 
 		SetMaterial();
 
-		/*if(chaseRange != null)
-			chaseRange.enabled = false;*/
+		if (chaseRange != null)
+			chaseRange.enabled = false;
 
 		unit = this;
 		if (isTutorialDummy)
 		{
-			effectManager.CopyEffect(unit);
 			SetUp(EnemyState.TutorialIdle);
 		}
 		else
-			SetUp(EnemyState.Idle);
+			SetUp(EnemyState.Spawn);
 	}
 
 	protected override void Update()

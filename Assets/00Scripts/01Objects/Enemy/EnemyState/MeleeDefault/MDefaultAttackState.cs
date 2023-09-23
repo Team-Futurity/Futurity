@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [FSMState((int)EnemyController.EnemyState.MDefaultAttack)]
 public class MDefaultAttackState : EnemyAttackBaseState
 {
-	public EffectActiveData atk1 = new EffectActiveData();
+	private EffectActiveData atk1 = new EffectActiveData();
 
-	public MDefaultAttackState()
+	private MDefaultAttackState()
 	{
 		atk1.activationTime = EffectActivationTime.InstanceAttack;
 		atk1.target = EffectTarget.Caster;
-		atk1.position = new Vector3(0, 1.0f, 0);
 		atk1.index = 0;
 	}
 
@@ -19,7 +19,8 @@ public class MDefaultAttackState : EnemyAttackBaseState
 	{
 		//FDebug.Log("MDefault Attack begin");
 		base.Begin(unit);
-
+		atk1.position = unit.transform.position;
+		atk1.rotation = unit.transform.rotation;
 		unit.currentEffectData = atk1;
 		unit.navMesh.enabled = true;
 	}
