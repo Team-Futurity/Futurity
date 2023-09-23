@@ -14,4 +14,5 @@ public struct SpawnCount
 	public int meleeCnt;
 	public int rangedCnt;
 	public int minimalCnt;
+	public int eliteDefault;
 }

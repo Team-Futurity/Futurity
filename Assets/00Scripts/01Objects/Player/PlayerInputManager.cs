@@ -75,7 +75,20 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		if (context.ReadValue<Vector3>() == null) { return; }
 
-		QueueingProcess(pc.MoveProcess(context));
+		PlayerInputData data = pc.MoveProcess(context);
+
+		Vector3 inputVector;
+		Vector2 rightBottomVector = (Vector3.right + Vector3.back).normalized.Vector3To2RemoveY();
+		if(!data.inputMsg.Split("_")[3].TryParseVector3(out inputVector)) { FDebug.LogWarning("Failed to Parsing", GetType()); return; }
+
+		if(inputVector != Vector3.zero)
+		{
+			data.inputState = GetDirection(inputVector.Vector3To2RemoveY().GetAngleWithStandard(rightBottomVector));
+
+			FDebug.Log(data.inputState);
+		}
+
+		QueueingProcess(data);
 	}
 
 	public void OnDash(InputAction.CallbackContext context)
@@ -109,6 +122,17 @@ public class PlayerInputManager : MonoBehaviour
 	private void RegistInputMessage(PlayerInputData msg)
 	{
 		QueueingProcess(msg);
+	}
+
+	private PlayerInputEnum GetDirection(float angle)
+	{
+		if(angle < MathPlus.QuaterMaxAngle) { return PlayerInputEnum.Move_Right; }
+		if(angle < MathPlus.HalfMaxAngle) { return PlayerInputEnum.Move_Up; }
+		if(angle < MathPlus.QuaterMaxAngle * 3) { return PlayerInputEnum.Move_Left; }
+		if(angle < MathPlus.MaxAngle) { return PlayerInputEnum.Move_Down; }
+
+		FDebug.LogWarning("This Vector has Non-Direction", GetType());
+		return PlayerInputEnum.Move;
 	}
 
 	public void SetPlayerInput(bool isReceive) => playerInput.enabled = isReceive;

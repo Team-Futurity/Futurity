@@ -42,6 +42,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public GameObject dashEffect;
 	public Transform dashPos;
 	public ObjectPoolManager<Transform> dashPoolManager;
+	public int maxDashCount;
 
 	// hit
 	[Space(5)]
@@ -62,6 +63,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("대시 관련")]
 	public bool dashCoolTimeIsEnd = false;
 	public bool comboIsEnd = false;
+	public int currentDashCount;
 
 	// input
 	[Space(5)]
@@ -183,6 +185,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// dash
 		dashPoolManager = new ObjectPoolManager<Transform>(dashEffect, gameObject);
 		dashCoolTimeWFS = new WaitForSeconds(dashCoolTime);
+		currentDashCount = maxDashCount;
 		StartCoroutine(DashDelayCoroutine());
 
 		// hit
@@ -246,30 +249,30 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
-					return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "SubState");
+					return GetInputData(PlayerInputEnum.Move, true, moveDir.ToString(), "SubState");
 				}
 			}
-			return GetInputData(PlayerInputEnum.Move, false, input.ToString());
+			return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString());
 		}
 
 		if (playerData.isStun || !hitCoolTimeIsEnd)
 		{
-			return GetInputData(PlayerInputEnum.Move, false, input.ToString()); ;
+			return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); ;
 		}
 
 		// 이동 기능
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
-			return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "State");
+			return GetInputData(PlayerInputEnum.Move, true, moveDir.ToString(), "State");
 		}
 
-		return GetInputData(PlayerInputEnum.Move, false, input.ToString());
+		return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString());
 	}
 
 	public PlayerInputData DashProcess(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !dashCoolTimeIsEnd || !hitCoolTimeIsEnd) 
+		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !hitCoolTimeIsEnd || currentDashCount <= 0) 
 		{ 
 			return GetInputData(PlayerInputEnum.Dash, false); 
 		}
@@ -278,6 +281,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			ChangeState(PlayerState.Dash);
 			return GetInputData(PlayerInputEnum.Dash, true);
+		}
+		else
+		{
+			ChangeState(PlayerState.Idle);
+			ChangeState(PlayerState.Dash);
 		}
 
 		return GetInputData(PlayerInputEnum.Dash, false);
@@ -511,6 +519,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			{
 				yield return dashCoolTimeWFS;
 				dashCoolTimeIsEnd = true;
+				currentDashCount = maxDashCount;
 			}
 			yield return null;
 		}
@@ -571,7 +580,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if(!comboIsLock)
 		{
 			// 마지막 콤보에서 입력 씹는 코드
-			if(curNode.childNodes.Count == 0) { return; }
+			if(curNode.childNodes.Count == 0 && !IsCurrentState(PlayerState.AttackAfterDelay)) { return; }
 
 			nextCombo = nextCommand;
 		}

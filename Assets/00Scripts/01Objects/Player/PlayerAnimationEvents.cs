@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
-	[SerializeField] private PlayerCamera playerCamera;
+	[SerializeField] private PlayerCameraEffect cameraEffect;
 
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
@@ -13,6 +13,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	private EffectActivationTime effectType;
 	private EffectTarget EffectTarget;
 	private Transform effectPos;
+	private IEnumerator hitStop;
 
 	public FMODUnity.EventReference walk;
 
@@ -29,7 +30,15 @@ public class PlayerAnimationEvents : MonoBehaviour
 		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
 		if(attackNode.effectPoolManager == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode.effectPoolManager is Null. Please Check to Command Graph or Script"); return; }
 
-		effect = attackNode.effectPoolManager.ActiveObject(pc.gameObject.transform.position + attackNode.effectOffset, pc.gameObject.transform.rotation * attackNode.effectRotOffset);
+
+		Quaternion playerRot = pc.gameObject.transform.localRotation;
+		if(playerRot.y > 180f) { playerRot.y -= 360f; }
+		Quaternion rotation = playerRot * attackNode.effectRotOffset;
+
+		Vector3 position = pc.gameObject.transform.position + rotation * attackNode.effectOffset;
+		position.y = pc.gameObject.transform.position.y + attackNode.effectOffset.y;
+
+		effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
 		var particles = effect.GetComponent<ParticleController>();
 
 		if(particles != null )
@@ -106,14 +115,55 @@ public class PlayerAnimationEvents : MonoBehaviour
 		}
 	}
 
-	public void CameraShake()
+	public void CameraShake(string str)
 	{
-		if (playerCamera != null)
+		if (cameraEffect == null)
 		{
-			attackNode = pc.curNode;
-			playerCamera.CameraShake(attackNode.shakePower, attackNode.shakeTime);
+			return;
 		}
+
+		// 0 : velocity, 1 : Duration
+		float[] value = ConvertStringToFloatArray(str);
+
+		// attackNode = pc.curNode;
+		cameraEffect.CameraShake(value[0], value[1]);
 	}
+
+	#region HitEffectEvent
+	public void SlowMotion(string value)
+	{
+		UnitState<PlayerController> state = null;
+		pc.GetState(PlayerState.AttackDelay, ref state);
+		int count = 0;
+
+		if (state != null)
+		{
+			count = ((PlayerAttackBeforeDelayState)state).GetTargetCount();
+		}
+
+		if (count <= 0)
+		{
+			return;
+		}
+
+		float[] values = ConvertStringToFloatArray(value);
+		cameraEffect.StartTimeScaleTimer(values[0], values[1]);
+		cameraEffect.CameraShake();
+	}
+	
+	private float[] ConvertStringToFloatArray(string input)
+	{
+		string[] strResult = input.Split(',');
+		float[] result = new float[2];
+
+		for (int i = 0; i < result.Length; ++i)
+		{
+			float.TryParse(strResult[i], out result[i]);
+		}
+
+		return result;
+	}
+	#endregion
 
 	public void WalkSE()
 	{
@@ -125,5 +175,18 @@ public class PlayerAnimationEvents : MonoBehaviour
 		bool isActive = isActiveInteager == 1;
 
 		pc.SetCollider(isActive);
+	}
+	
+	public void StartHitStop(float duration)
+	{
+		hitStop = HitStop(duration);
+		StartCoroutine(hitStop);
+	}
+	
+	private IEnumerator HitStop(float duration)
+	{
+		Time.timeScale = 0.0f;
+		yield return new WaitForSecondsRealtime(duration);
+		Time.timeScale = 1.0f;
 	}
 }

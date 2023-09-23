@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyAnimationEvents : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 	{
 		ec.atkCollider.enabled = true;
 	}
-
+	
 	public void EliteRangedPositioning()
 	{
 		ec.atkCollider.transform.position = ec.target.transform.position;
