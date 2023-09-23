@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
 
 [FSMState((int)EnemyController.EnemyState.MDefaultAttack)]
 public class MDefaultAttackState : EnemyAttackBaseState
 {
 	private EffectActiveData atk1 = new EffectActiveData();
 
-	private MDefaultAttackState()
+	public MDefaultAttackState()
 	{
 		atk1.activationTime = EffectActivationTime.InstanceAttack;
 		atk1.target = EffectTarget.Caster;

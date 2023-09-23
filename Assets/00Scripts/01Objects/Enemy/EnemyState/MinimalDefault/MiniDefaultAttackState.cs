@@ -7,7 +7,7 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 {
 	private EffectActiveData atk1 = new EffectActiveData();
 
-	private MiniDefaultAttackState()
+	public MiniDefaultAttackState()
 	{
 		atk1.activationTime = EffectActivationTime.MoveWhileAttack;
 		atk1.target = EffectTarget.Caster;
@@ -21,6 +21,7 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 		unit.animator.SetTrigger(unit.dashAnimParam);
 		atk1.position = unit.transform.position;
 		atk1.rotation = unit.transform.rotation;
+		unit.currentEffectData = atk1;
 		unit.atkCollider.enabled = true;
 		unit.rigid.AddForce(unit.transform.forward * unit.powerReference1, ForceMode.Impulse);
 	}
