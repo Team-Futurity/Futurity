@@ -11,8 +11,32 @@ public abstract class UnitBase : MonoBehaviour
 
 	public bool isGodMode = false;
 	public bool isStun = false;
+	public bool IsAttackTime { get; set; } // 현재 공격중인지
+	public bool IsAttackTiming { get; set; } // 공격이 이뤄지는 시점이후인지
+
+	[Header("런타임 변경 불가."), Tooltip("공격이 시작했는지를 체크할 고정 프레임(Fixed Delta Time) 단위")]
+	public int AttackCheckFrameCount = 3;
+	protected WaitForSeconds attackCheckWFS;
+	//protected List<>
 
 	public UnityEvent<UnitBase> OnAttack;
+
+	protected virtual void Start()
+	{
+		attackCheckWFS = new WaitForSeconds(Time.fixedDeltaTime * AttackCheckFrameCount);
+	}
+
+	protected virtual IEnumerable AttackProcessCorotutine()
+	{
+		while(true)
+		{
+			if(IsAttackTime)
+			{
+				//if()
+			}
+			yield return attackCheckWFS;
+		}
+	}	
 
 	protected virtual float GetCritical()
 	{
@@ -24,7 +48,7 @@ public abstract class UnitBase : MonoBehaviour
 	protected abstract float GetDamage(float damageValue); // 최종 데미지 반환
 
 	public abstract void Hit(UnitBase attacker, float damage, bool isDot = false); // Unit이 피격 됐을 때 호출
-	public abstract void Attack(UnitBase target); // Unit이 공격할 때 호출
+	public abstract void Attack(UnitBase target, float attackST = 1); // Unit이 공격할 때 호출
 
 
 	public virtual void Knockback(Vector3 direction, float power)

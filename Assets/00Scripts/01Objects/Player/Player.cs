@@ -11,17 +11,10 @@ public class Player : UnitBase
 		pc = GetComponent<PlayerController>();
 	}
 
-	public void Attack(UnitBase target, float AttackST)
+	public override void Attack(UnitBase target, float AttackST = 1)
 	{
 		float criticalConf = GetCritical();
 		target.Hit(this, GetDamage(AttackST) * criticalConf);
-	}
-
-	public override void Attack(UnitBase target)
-	{
-		float criticalConf = GetCritical();
-		target.Hit(this, GetDamage(1) * criticalConf);
-
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
