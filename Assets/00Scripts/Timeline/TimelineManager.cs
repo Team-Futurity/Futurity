@@ -22,6 +22,16 @@ public class TimelineManager : Singleton<TimelineManager>
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 
+	[Header("스크립트 출력 UI")] 
+	public GameObject scriptingUI;
+	public GameObject[] character;
+	public enum ECharacter
+	{
+		Normal = 0,
+		Angry = 1,
+		Happy = 2
+	}
+	
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
@@ -88,6 +98,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	}
 	
 	#region TimelineSignalFunc
+	#region TimeScale
 	public void ResetTimeScale()
 	{
 		Time.timeScale = 1.0f;
@@ -134,6 +145,52 @@ public class TimelineManager : Singleton<TimelineManager>
 
 		Time.timeScale = 1.0f;
 	}
+	
+	
+	#endregion
+	public void SetActiveScriptsUI(bool active)
+	{
+		scriptingUI.gameObject.SetActive(active);
+	}
+
+	public void SetActiveCharacter(string type)
+	{
+		int index = CompareType(type);
+		
+		for (int i = 0; i < character.Length; ++i)
+		{
+			if (i == index)
+			{
+				character[i].SetActive(true);
+				continue;
+			}
+			
+			character[i].SetActive(false);
+		}
+	}
+
+	private int CompareType(string type)
+	{
+		int result = 0;
+
+		switch (type)
+		{
+			case "Normal":
+				result = 0;
+				break;
+			
+			case "Angry":
+				result = 1;
+				break;
+			
+			default:
+				result = 2;
+				break;
+		}
+		
+		return result;
+	}
+	
 	#endregion
 	
 	// test signal

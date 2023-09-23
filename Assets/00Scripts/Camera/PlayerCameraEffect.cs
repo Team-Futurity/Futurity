@@ -30,6 +30,7 @@ public class PlayerCameraEffect : MonoBehaviour
 	[SerializeField] private float waitTime = 0.2f;
 	private Volume volume;
 	private Vignette vignette;
+	public Vignette Vignette => vignette;
 
 	// Coroutine
 	private IEnumerator lerpTimeScale;
