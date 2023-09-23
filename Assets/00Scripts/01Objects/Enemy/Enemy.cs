@@ -19,7 +19,7 @@ public class Enemy : UnitBase
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
 	{
-		ec.ChangeState(EnemyController.EnemyState.Hitted);udd
+		ec.ChangeState(EnemyController.EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
 	}
 
