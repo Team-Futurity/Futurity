@@ -260,7 +260,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 	protected override void OnDrawGizmos()
 	{
-		float originYPos = transform.position.y; 
+		/*float originYPos = transform.position.y; 
 		Vector2 originPos = new Vector2(transform.position.x, transform.position.z) + offset;
 		Vector3 originPosVec3 = new Vector3(originPos.x, originYPos, originPos.y);
 		Vector2[] rectanglePoints = GetRectanglePoints(originPos, transform.forward);
@@ -287,8 +287,8 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		Handles.DrawSolidRectangleWithOutline(points.ToArray(), colliderColor, Color.blue);
 
 		// 공격 범위 표시
-		/*Gizmos.DrawLine(originPosVec3, rangeVectors[0]);
-		Gizmos.DrawLine(originPosVec3, rangeVectors[1]);*/
+		*//*Gizmos.DrawLine(originPosVec3, rangeVectors[0]);
+		Gizmos.DrawLine(originPosVec3, rangeVectors[1]);*//*
 
 		// 공격 범위 자르기
 		Vector2 intersectionPoint1, intersectionPoint2;
@@ -296,7 +296,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		GetIntersectionPoint(rectanglePoints, originPos, rangeVectors[1], out intersectionPoint2);
 
 		Gizmos.DrawLine(originPosVec3, new Vector3(intersectionPoint1.x, originYPos, intersectionPoint1.y));
-		Gizmos.DrawLine(originPosVec3, new Vector3(intersectionPoint2.x, originYPos, intersectionPoint2.y));
+		Gizmos.DrawLine(originPosVec3, new Vector3(intersectionPoint2.x, originYPos, intersectionPoint2.y));*/
 	}
 #endif
 }
