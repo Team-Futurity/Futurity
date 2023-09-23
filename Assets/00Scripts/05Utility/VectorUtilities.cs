@@ -86,9 +86,9 @@ public static class VectorUtilities
 	public static bool TryParseVector3(this string vector, out Vector3 result)
 	{
 		//
-		string[] vecDatas = vector.Replace("(", "").Replace(")", "").RemoveWhitespaces().Split(",");
+		//string[] vecDatas = vector.Replace("(", "").Replace(")", "").RemoveWhitespaces().Split(",");
 		result = Vector3.zero;
-
+/*
 		if (vecDatas.Length != 3) { FDebug.LogWarning($"Inputed string is not Vector3 or Proper Value: {vector}", typeof(VectorUtilities)); return false; }
 
 		float x, y, z;
@@ -98,7 +98,7 @@ public static class VectorUtilities
 		{
 			result = new Vector3(x, y, z);
 			return true;
-		}
+		}*/
 
 		return false;
 	}
