@@ -1,6 +1,8 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -25,6 +27,10 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("스크립트 출력 UI")] 
 	public GameObject scriptingUI;
 	public GameObject[] character;
+	[HideInInspector] public bool isEnd = false;
+	[SerializeField] private TextMeshProUGUI textInput;
+	[SerializeField] private float textOutputDelay = 0.05f;
+	private bool isInput = false;
 	public enum ECharacter
 	{
 		Normal = 0,
@@ -51,6 +57,9 @@ public class TimelineManager : Singleton<TimelineManager>
 	private CinemachineFramingTransposer cameraBody;
 	private IEnumerator timeSlow;
 	private IEnumerator lerpTimeScale;
+	private IEnumerator textPrint;
+	private IEnumerator inputCheck;
+	private WaitForSecondsRealtime waitForSecondsRealtime;
 	
 	private void Start()
 	{
@@ -61,6 +70,8 @@ public class TimelineManager : Singleton<TimelineManager>
 		originTarget = playerCamera.m_Follow;
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
+
+		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
@@ -98,6 +109,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	}
 	
 	#region TimelineSignalFunc
+	
 	#region TimeScale
 	public void ResetTimeScale()
 	{
@@ -148,6 +160,80 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	
 	#endregion
+
+	#region ScriptingFunc
+
+	public void StartPrintingScript(List<string> textList)
+	{
+		textPrint = PrintingScript(textList);
+		StartCoroutine(textPrint);
+		StartInputCheck();
+	}
+
+	private IEnumerator PrintingScript(List<string> textList)
+	{
+		foreach (string textArr in textList)
+		{
+			foreach (char text in textArr)
+			{
+				textInput.text += text;
+
+				if (isInput == true)
+				{
+					textInput.text = textArr;
+					isInput = false;
+					break;
+				}
+
+				yield return waitForSecondsRealtime;
+			}
+
+			while (true)
+			{
+				if (isInput == true)
+				{
+					isInput = false;
+					break;
+				}
+
+				yield return null;
+			}
+
+			textInput.text = String.Empty;
+		}
+
+		isEnd = true;
+	}
+
+	private void StartInputCheck()
+	{
+		inputCheck = InputCheck();
+		StartCoroutine(inputCheck);
+	}
+
+	private void StopInputCheck()
+	{
+		if (inputCheck != null)
+		{
+			StopCoroutine(inputCheck);
+		}
+	}
+	
+	private IEnumerator InputCheck()
+	{
+		while (true)
+		{
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				isInput = true;
+			}
+
+			yield return null;
+		}
+	}
+	
+	#endregion
+	
 	public void SetActiveScriptsUI(bool active)
 	{
 		scriptingUI.gameObject.SetActive(active);

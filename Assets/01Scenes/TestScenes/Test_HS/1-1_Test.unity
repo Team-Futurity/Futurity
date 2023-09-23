@@ -5820,7 +5820,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1206044626
 Transform:
   m_ObjectHideFlags: 0
@@ -5871,12 +5871,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f169a833aad71f409f6ebbf06cd8101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chapter1Director: {fileID: 1206044627}
   cameraEffect: {fileID: 6655423353520036324}
   playerMoveTarget:
   - {fileID: 399413936}
   - {fileID: 1144866003}
   mapLight: {fileID: 5986842733198211062}
   intensity: 1
+  textList:
+  - Cause I I I I
+  - Know what you like boy
+  - You're my a a a a
+  - Chemical hype boy
+  - "\uB0B4 \uC9C0\uB09C\uB0A0\uB4E4\uC740 \uB208 \uB728\uBA74 \uC78A\uB294 \uAFC8"
+  - "Hype boy \uB108\uB9CC \uC6D0\uD574"
+  - "Hype boy \uB0B4\uAC00 \uC804\uD574"
 --- !u!95 &1206044629
 Animator:
   serializedVersion: 5
@@ -5914,6 +5923,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7c78eb995c7b19648bd40ae84ebb388e, type: 2}
     - {fileID: 11400000, guid: f5d0ad7c9fc48554ea2fd05663a4f863, type: 2}
     - {fileID: 11400000, guid: 15aae47510810f44784961004a68f6f2, type: 2}
+    - {fileID: 11400000, guid: c9132a6160e2d0a4187a9b4970744746, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -5949,6 +5959,20 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: TimelineManager, Assembly-CSharp
           m_MethodName: SetActiveCharacter
           m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1206044628}
+          m_TargetAssemblyTypeName: Chapter1_Entry, Assembly-CSharp
+          m_MethodName: Stage1_PrintScripts
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -25742,6 +25766,10 @@ PrefabInstance:
       propertyPath: uiCanvas
       value: 
       objectReference: {fileID: 1124304062}
+    - target: {fileID: 6934600567714598397, guid: 91361872866fce74d8cda8774bac8392, type: 3}
+      propertyPath: textInput
+      value: 
+      objectReference: {fileID: 1817547316}
     - target: {fileID: 6934600567714598397, guid: 91361872866fce74d8cda8774bac8392, type: 3}
       propertyPath: playerInput
       value: 
