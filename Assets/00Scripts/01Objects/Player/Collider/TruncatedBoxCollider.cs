@@ -210,7 +210,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		// 윗면 교차 체크
 		point1 = rectanglePoints[0];
 		point2 = rectanglePoints[2];
-		if (MathPlus.GetIntersectionPoint(point1, point2, origin, line, out intersection))
+		if (VectorUtilities.GetIntersectionPoint(point1, point2, origin, line, out intersection))
 		{
 			Vector2 centerPoint = (point1 + point2) * 0.5f;
 
@@ -225,7 +225,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 		point1 = isBounded ? rectanglePoints[2] : rectanglePoints[0];
 		point2 = isBounded ? rectanglePoints[3] : rectanglePoints[1];
-		if (MathPlus.GetIntersectionPoint(point1, point2, origin, line, out intersection))
+		if (VectorUtilities.GetIntersectionPoint(point1, point2, origin, line, out intersection))
 		{
 			Vector2 centerPoint = (point1 + point2) * 0.5f;
 
@@ -240,7 +240,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 		point1 = rectanglePoints[1];
 		point2 = rectanglePoints[2];
-		if (MathPlus.GetIntersectionPoint(point1, point2, origin, line, out intersection))
+		if (VectorUtilities.GetIntersectionPoint(point1, point2, origin, line, out intersection))
 		{
 			Vector2 centerPoint = (point1 + point2) * 0.5f;
 
