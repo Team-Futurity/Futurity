@@ -6,15 +6,16 @@ public class Player : UnitBase
 {
 	private PlayerController pc;
 
-	private void Start()
+	protected override void Start()
 	{
+		base.Start();
 		pc = GetComponent<PlayerController>();
 	}
 
-	public override void Attack(UnitBase target, float AttackST = 1)
+	protected override void AttackProcess(DamageInfo info)
 	{
 		float criticalConf = GetCritical();
-		target.Hit(this, GetDamage(AttackST) * criticalConf);
+		info.Defender.Hit(this, GetDamage(info.AttackST) * criticalConf);
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
