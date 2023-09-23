@@ -30,7 +30,23 @@ public class PlayerAnimationEvents : MonoBehaviour
 		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
 		if(attackNode.effectPoolManager == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode.effectPoolManager is Null. Please Check to Command Graph or Script"); return; }
 
-		effect = attackNode.effectPoolManager.ActiveObject(pc.gameObject.transform.position + attackNode.effectOffset, pc.gameObject.transform.rotation * attackNode.effectRotOffset);
+
+		Quaternion playerRot = pc.gameObject.transform.localRotation;
+		if(playerRot.y > 180f) { playerRot.y -= 360f; }
+		Quaternion rotation = playerRot * attackNode.effectRotOffset;
+
+		//Vector3 rotVec = Quaternion.AngleAxis(rotation.y, Vector3.up) * attackNode.effectOffset;
+
+		FDebug.Log("RotY : "+rotation.y * Mathf.Rad2Deg);
+		//FDebug.Log("RotVec : " + rotVec);
+
+		Vector3 position = pc.gameObject.transform.position + rotation * attackNode.effectOffset;
+		position.y = pc.gameObject.transform.position.y + attackNode.effectOffset.y;
+		/*position.x = Mathf.Round(position.x);
+		position.y = Mathf.Round(position.y);
+		position.z = Mathf.Round(position.z);*/
+
+		effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
 		var particles = effect.GetComponent<ParticleController>();
 
 		if(particles != null )
