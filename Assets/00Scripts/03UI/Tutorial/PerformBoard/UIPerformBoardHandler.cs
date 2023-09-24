@@ -18,14 +18,13 @@ public class UIPerformBoardHandler : MonoBehaviour
 	public List<UIPerformBoard> PerformBoardList { get; private set; }
 
 	// Current Board
+	[SerializeField]
 	private UIPerformBoard currentBoard;
 	
 	// Index
 	private int currentIndex;
 	private int maxIndex;
 	
-	private bool isActive;
-
 	[HideInInspector] 
 	public UnityEvent OnChangePerformBoard;
 
@@ -44,17 +43,13 @@ public class UIPerformBoardHandler : MonoBehaviour
 		{
 			board.SetActive(false);
 		}
-
-		isActive = false;
+		
+		currentIndex = 0;
+		maxIndex = PerformBoardList.Count - 1;
 	}
 
 	public void SetPerfrom()
 	{
-		isActive = true;
-
-		currentIndex = 0;
-		maxIndex = PerformBoardList.Count - 1;
-		
 		currentBoard = PerformBoardList[currentIndex];
 		currentBoard.SetActive(true);
 	}
@@ -66,6 +61,7 @@ public class UIPerformBoardHandler : MonoBehaviour
 
 	public void Stop()
 	{
+		currentBoard.SetActive(false);
 		Target.onChangeStateEvent?.RemoveListener(UpdateAction);
 	}
 
@@ -77,43 +73,25 @@ public class UIPerformBoardHandler : MonoBehaviour
 		{
 			return;
 		}
-
-		currentBoard.SetActive(false);
-
-		OnChangePerformBoard?.Invoke();
+		
 		Stop();
-	}
-
-	private void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.Alpha3))
+		
+		if (currentIndex >= maxIndex)
 		{
-			currentBoard.SetActive(false);
-
+			OnEnded?.Invoke();
+			return;
+		}
+		else
+		{
 			OnChangePerformBoard?.Invoke();
-			Stop();
 		}
 	}
 
 	public void ChangeToNextBoard()
 	{
 		Run();
-
-		if (currentIndex >= maxIndex)
-		{
-			GetEndProcess();
-			
-			return;
-		}
 		
 		currentIndex++;
-		
-		currentBoard = PerformBoardList[currentIndex];
-		currentBoard.SetActive(true);
-	}
-
-	private void GetEndProcess()
-	{
-		OnEnded?.Invoke();
+		SetPerfrom();
 	}
 }
