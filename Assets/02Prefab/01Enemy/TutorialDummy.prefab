@@ -139,7 +139,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 2955528926438800394}
   rigid: {fileID: 2955528926438800395}
-  hpBar: {fileID: 0}
   isGodMode: 0
   isStun: 0
   OnAttack:
@@ -158,35 +157,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8676add6620b0e409274690c724b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test: {fileID: 0}
+  test1: {x: 0, y: 0, z: 0}
   enemyType: 2
   isTutorialDummy: 1
-  manager: {fileID: 0}
-  effectManager: {fileID: 0}
+  animationEvents: {fileID: 0}
+  effectSO: {fileID: 0}
   isClusteringObj: 0
   isClustering: 0
   clusterNum: 0
   individualNum: 0
   clusterTarget: {fileID: 0}
   clusterDistance: 2.5
-  effects:
-  - indexNum: 0
-    effectPrefab: {fileID: 4977015249492719082, guid: 02e0dd41d62ee5847a836aa518c8b7a4, type: 3}
-    effectTransform: {fileID: 5829005529114813085}
-    effectExtraTransform: {x: 0, y: 0, z: 0}
-  - indexNum: 0
-    effectPrefab: {fileID: 1489961734888500412, guid: 577e4d7d9eed4be47a216a8b2d351805, type: 3}
-    effectTransform: {fileID: 1713969581520489599}
-    effectExtraTransform: {x: 0, y: 0, z: 0}
-  hitEffect:
-    indexNum: 0
-    effectPrefab: {fileID: 1489961734888500412, guid: 577e4d7d9eed4be47a216a8b2d351805, type: 3}
-    effectTransform: {fileID: 1713969581520489599}
-    effectExtraTransform: {x: 0, y: 0, z: 0}
-  hittedEffect:
-    indexNum: 0
-    effectPrefab: {fileID: 1908104371959478918, guid: 60b9a9ef4c83cdd408bfab04b384a405, type: 3}
-    effectTransform: {fileID: 622546862248131483}
-    effectExtraTransform: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
   enemyData: {fileID: 2955528926438800407}
   animator: {fileID: 0}
@@ -202,7 +184,6 @@ MonoBehaviour:
   copyUMat: {fileID: 0}
   maxSpawningTime: 3.8
   enemyCollider: {fileID: 0}
-  spawnEffect: {fileID: 0}
   walkDistance: 1
   idleSetTime: 3
   movePercentage: 5
@@ -228,7 +209,11 @@ MonoBehaviour:
       Data3: 648321167
       Data4: 1092868903
     Path: event:/SE/06monster/Minimal/F_S_01_06_hit_minimal
+  isInPlayer: 0
   deathDelay: 2
+  disableEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2955528926438800393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0d8f3730f8c934692f66816b8856df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ec: {fileID: 2955528926438800392}
+  isCharging: 0
 --- !u!114 &2955528926438800394
 MonoBehaviour:
   m_ObjectHideFlags: 0
