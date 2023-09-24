@@ -25,12 +25,12 @@ public class EnemyAttackBaseState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		curTime = 0f;
-		unit.effectManager.HitEffectDeActive(unit.hitEffect.indexNum);
+		/*unit.effectManager.HitEffectDeActive(unit.hitEffect.indexNum);
 		foreach(var i in unit.effects)
 		{
 			if (unit.effectManager.copySpecific[i.indexNum] != null)
 				unit.effectManager.SpecificEffectDeActive(i.indexNum);
-		}
+		}*/
 	}
 
 	public override void OnCollisionEnter(EnemyController unit, Collision collision)

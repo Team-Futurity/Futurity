@@ -1,0 +1,139 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+
+public class TutorialController : MonoBehaviour
+{
+	[SerializeField] private float fadeTime = 1f;
+
+	[SerializeField] private UIPerformBoardHandler performHandler;
+	[SerializeField] private UIDialogController dialogController;
+
+	
+	// Dialog Data Set
+	private List<DialogData> tutorialDialogList = new List<DialogData>();
+	private readonly string dialogPath = "Assets/04Data/Dialog/Tutorial/";
+	private readonly string[] dialogKey =
+	{
+		"TutorialData1",
+		"TutorialData2",
+		"TutorialData3"
+	};
+
+	// Dialog Index
+	private int currentDialogIndex = 0;
+	private int maxDialogIndex = 0;
+	
+	// Only Debug
+	[Space(10), Header("Debug 모드 전용")]
+	public bool isDebugMode = false;
+
+	private void Awake()
+	{
+		if (!isDebugMode)
+		{
+			InputActionManager.Instance.DisableAllInputActionAsset();
+			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
+		}
+
+		LoadTutorialDialogData();
+
+		currentDialogIndex = 0;
+		maxDialogIndex = tutorialDialogList.Count - 1;
+	}
+
+	private void Start()
+	{
+		if (isDebugMode)
+		{
+			StartTutorial();
+		}
+		else
+		{
+			FadeManager.Instance.FadeOut(fadeTime, StartTutorial);
+		}
+	}
+
+	private void StartTutorial()
+	{
+		// First Settings
+		dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
+		performHandler.SetPerfrom();
+		
+		// Event - Dialog Ended
+		dialogController.OnEnded?.AddListener(() =>
+		{
+			switch (currentDialogIndex)
+			{
+				case 0:
+					WindowManager.Instance.ShowWindow("Perform");
+					performHandler.Run();
+					break;
+
+				case 1:
+					performHandler.ChangeToNextBoard();
+					break;
+			}
+		});
+
+		// Event - Perform Changed
+		performHandler.OnChangePerformBoard?.AddListener(() =>
+		{
+			switch (currentDialogIndex)
+			{
+				case 0:
+					currentDialogIndex++;
+					dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
+					
+					dialogController.PlayDialog();
+					break;
+				
+				case 1:
+					performHandler.ChangeToNextBoard();
+					currentDialogIndex++;
+					break;
+			}
+		});
+		
+		// Event - Perform Ended
+		performHandler.OnEnded?.AddListener(() =>
+		{
+			dialogController.SetDialogData(tutorialDialogList[maxDialogIndex]);
+			dialogController.PlayDialog();
+			
+			dialogController.OnEnded?.RemoveAllListeners();
+			dialogController.OnEnded?.AddListener(() =>
+			{
+				if (isDebugMode)
+				{
+					SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+				}
+				else
+				{
+					FadeManager.Instance.FadeIn(fadeTime, () =>
+					{
+						SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+					});
+				}
+			});
+		});
+		
+		// Play
+		dialogController.PlayDialog();
+	}
+
+	private void LoadTutorialDialogData()
+	{
+		Debug.Log("Tutorial Data Load");
+		
+		foreach (var key in dialogKey)
+		{
+			var path = dialogPath + key + ".asset";
+
+			DialogData dialogData = Addressables.LoadAsset<DialogData>(path).WaitForCompletion();
+			tutorialDialogList.Add(dialogData);
+		}
+	}
+}
