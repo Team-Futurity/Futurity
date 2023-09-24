@@ -55,19 +55,6 @@ public partial class UIDialogController : MonoBehaviour
 	
 	#endregion
 	
-	//public void Update()
-	//{
-	//	if (Input.GetKeyDown(KeyCode.Alpha1))
-	//	{
-	//		SetDialogData("TEST");
-	//	}
-		
-	//	if (Input.GetKeyDown(KeyCode.Alpha2))
-	//	{
-	//		PlayDialog();
-	//	}
-	//}
-
 	public void SetDialogData(DialogData data)
 	{
 		currentDialogData = data;
