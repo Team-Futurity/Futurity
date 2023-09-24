@@ -13,7 +13,6 @@ public class TutorialController : MonoBehaviour
 
 	
 	// Dialog Data Set
-	[SerializeField]
 	private List<DialogData> tutorialDialogList = new List<DialogData>();
 	private readonly string dialogPath = "Assets/04Data/Dialog/Tutorial/";
 	private readonly string[] dialogKey =
