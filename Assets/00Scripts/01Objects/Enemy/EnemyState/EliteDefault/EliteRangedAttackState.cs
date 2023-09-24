@@ -4,10 +4,21 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.EliteRangedAttack)]
 public class EliteRangedAttackState : EnemyAttackBaseState
 {
+	private EffectActiveData atk1 = new EffectActiveData();
+
+	public EliteRangedAttackState()
+	{
+		atk1.activationTime = EffectActivationTime.InstanceAttack;
+		atk1.target = EffectTarget.Target;
+		atk1.index = 0;
+	}
+
 	public override void Begin(EnemyController unit)
 	{
 		unit.animator.SetTrigger(unit.ragnedAnimParam);
-
+		atk1.position = unit.transform.position;
+		//atk1.parent = unit.test.gameObject;
+		unit.currentEffectData = atk1;
 		unit.navMesh.enabled = true;
 		unit.rigid.velocity = Vector3.zero;
 		/*unit.atkCollider.transform.position = unit.target.transform.position;

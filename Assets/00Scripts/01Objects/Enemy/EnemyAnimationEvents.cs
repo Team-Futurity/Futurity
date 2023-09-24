@@ -34,7 +34,9 @@ public class EnemyAnimationEvents : MonoBehaviour
 	
 	public void EliteRangedPositioning()
 	{
+		ec.currentEffectData.parent = null;
 		ec.atkCollider.transform.position = ec.target.transform.position;
+		ec.currentEffectData.position = ec.target.transform.position;
 		//ec.effects[1].effectTransform.position = ec.target.transform.position;
 	}
 }
