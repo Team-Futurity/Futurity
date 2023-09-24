@@ -25,19 +25,22 @@ public enum PlayerState : int
 
 public enum PlayerInputEnum : int
 {
-	None,
-	NormalAttack,
-	NormalAttack_J,
+	None = 0,
+	NormalAttack = 1,
+	NormalAttack_J = 10,
 	NormalAttack_JJ,
 	NormalAttack_JJJ,
-	SpecialAttack,
-	Dash,
-	Move,
-	Move_Up,
+	NormalAttack_JJK,
+	NormalAttack_JK,
+	NormalAttack_JKK,
+	SpecialAttack = 2,
+	Dash = 3,
+	Move = 4,
+	Move_Up = 40,
 	Move_Down,
 	Move_Right,
 	Move_Left,
-	SpecialMove
+	SpecialMove = 5
 }
 
 [Serializable]
