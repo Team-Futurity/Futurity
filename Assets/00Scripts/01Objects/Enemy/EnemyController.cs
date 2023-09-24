@@ -59,6 +59,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	//[HideInInspector] public TestHPBar hpBar; //юс╫ц
 
 	public GameObject test;
+	public Vector3 test1;
 
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
