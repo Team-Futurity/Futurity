@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class CSNode : Node

@@ -69,7 +69,6 @@ public class AutoTarget : Singleton<AutoTarget>
 	private GameObject GetObjectInTargetRange(GameObject[] objectList, GameObject origin, float halfAngle)
 	{
 		if(objectList.Length == 0) { return null; }
-		if(objectList.Length == 1) { return objectList[0]; }
 
 		float cos = Mathf.Cos(halfAngle);
 
