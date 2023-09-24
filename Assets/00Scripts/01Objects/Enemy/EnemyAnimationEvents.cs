@@ -6,9 +6,9 @@ using UnityEngine.Events;
 public class EnemyAnimationEvents : MonoBehaviour
 {
 	private EnemyController ec;
+
+	public bool isCharging = false;//
 	
-
-
 	private void Start()
 	{
 		ec = GetComponent<EnemyController>();
@@ -18,6 +18,9 @@ public class EnemyAnimationEvents : MonoBehaviour
 	{
 		EffectActiveData data = ec.currentEffectData;
 		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex);
+
+		if (isCharging && ec.ThisEnemyType == EnemyController.EnemyType.EliteDefault)
+			key.EffectObject.transform.localPosition = Vector3.zero;//
 
 		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
 
@@ -34,6 +37,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 	
 	public void EliteRangedPositioning()
 	{
+		isCharging = false;
 		ec.currentEffectData.parent = null;
 		ec.atkCollider.transform.position = ec.target.transform.position;
 		ec.currentEffectData.position = ec.target.transform.position;

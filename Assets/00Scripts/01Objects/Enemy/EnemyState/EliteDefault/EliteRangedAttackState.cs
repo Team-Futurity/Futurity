@@ -16,14 +16,13 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 	public override void Begin(EnemyController unit)
 	{
 		unit.animator.SetTrigger(unit.ragnedAnimParam);
-		atk1.position = unit.transform.position;
-		//atk1.parent = unit.test.gameObject;
+		unit.animationEvents.isCharging = true; //
+		atk1.position = Vector3.zero;
+		atk1.parent = unit.test.gameObject;
 		unit.currentEffectData = atk1;
 		unit.navMesh.enabled = true;
 		unit.rigid.velocity = Vector3.zero;
-		/*unit.atkCollider.transform.position = unit.target.transform.position;
-		unit.effects[1].effectTransform.position = unit.target.transform.position;*/
-		//unit.atkCollider.enabled = true;
+		
 	}
 
 	public override void Update(EnemyController unit)
