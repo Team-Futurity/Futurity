@@ -5,13 +5,13 @@ using UnityEngine.Events;
 
 public class EnemyAnimationEvents : MonoBehaviour
 {
-	private EnemyController ec;
+	public EnemyController ec;
 
 	public bool isCharging = false;//
 	
 	private void Start()
 	{
-		ec = GetComponent<EnemyController>();
+		
 	}
 
 	public void ActiveEffect(int activeIndex)
