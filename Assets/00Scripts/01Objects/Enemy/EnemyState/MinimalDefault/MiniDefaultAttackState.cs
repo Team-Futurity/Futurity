@@ -5,12 +5,23 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.MiniDefaultAttack)]
 public class MiniDefaultAttackState : EnemyAttackBaseState
 {
+	private EffectActiveData atk1 = new EffectActiveData();
+
+	public MiniDefaultAttackState()
+	{
+		atk1.activationTime = EffectActivationTime.MoveWhileAttack;
+		atk1.target = EffectTarget.Caster;
+		atk1.index = 0;
+	}
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MiniDefault Attack begin");
 		base.Begin(unit);
 		unit.animator.SetTrigger(unit.dashAnimParam);
+		atk1.position = unit.transform.position;
+		atk1.rotation = unit.transform.rotation;
+		unit.currentEffectData = atk1;
 		unit.atkCollider.enabled = true;
 		unit.rigid.AddForce(unit.transform.forward * unit.powerReference1, ForceMode.Impulse);
 	}

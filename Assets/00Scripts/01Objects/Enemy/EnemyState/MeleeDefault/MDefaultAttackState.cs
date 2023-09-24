@@ -1,16 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
 
 [FSMState((int)EnemyController.EnemyState.MDefaultAttack)]
 public class MDefaultAttackState : EnemyAttackBaseState
 {
+	private EffectActiveData atk1 = new EffectActiveData();
+
+	public MDefaultAttackState()
+	{
+		atk1.activationTime = EffectActivationTime.InstanceAttack;
+		atk1.target = EffectTarget.Caster;
+		atk1.index = 0;
+	}
+
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Attack begin");
 		base.Begin(unit);
-
-		//unit.atkCollider.enabled = true;
+		atk1.position = unit.transform.position;
+		atk1.rotation = unit.transform.rotation;
+		unit.currentEffectData = atk1;
 		unit.navMesh.enabled = true;
 	}
 
@@ -25,6 +37,7 @@ public class MDefaultAttackState : EnemyAttackBaseState
 		//FDebug.Log("MDefault Attack End");
 
 		base.End(unit);
+
 		unit.atkCollider.enabled = false;
 	}
 

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static EnemyEffectManager;
 using FMODUnity;
 using System.Linq;
 using UnityEngine.Events;
@@ -59,6 +58,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	//[HideInInspector] public TestHPBar hpBar; //임시
 
+	public GameObject test;
+	public Vector3 test1;
+
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
 	public EnemyType ThisEnemyType => enemyType;
@@ -77,7 +79,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Enemy Management")]
-	[HideInInspector] public EnemyEffectManager effectManager;
+	public EnemyAnimationEvents animationEvents;
+	public EffectController effectController;
+	public EffectDatas effectSO;
+	public EffectActiveData currentEffectData = new EffectActiveData();
+
 
 	//clustering
 	public bool isClusteringObj = false;
@@ -87,17 +93,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public EnemyController clusterTarget;
 	public float clusterDistance = 2.5f;
 
-	//effect
-	public List<EnemyEffectManager.Effect> effects;                           //이펙트 프리팹
-	public EnemyEffectManager.Effect hitEffect;
-	public EnemyEffectManager.Effect hittedEffect;
-
-	/*[HideInInspector] public List<GameObject> initiateEffects;
-	[HideInInspector] public GameObject initiateHitEffect;*/
-
 	[Space(3)]
 	[Header("Reference")]
-	[HideInInspector] public UnitBase target;				//Attack target 지정
+	/*[HideInInspector]*/ public UnitBase target;				//Attack target 지정
 	public Enemy enemyData;									//Enemy status 캐싱
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
@@ -118,7 +116,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Header("Spawn")]
 	public float maxSpawningTime;                           //스폰 최대 시간
 	[HideInInspector] public BoxCollider enemyCollider;     //피격 Collider
-	public GameObject spawnEffect;
 	public float walkDistance = 3.0f;
 	
 	
@@ -172,7 +169,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	
 	private void Start()
 	{
-		effectManager = EnemyEffectManager.Instance;
+		effectController = ECManager.Instance.GetEffectManager(effectSO);
 
 		//hpBar = GetComponent<TestHPBar>(); //임시
 
@@ -181,19 +178,17 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 		navMesh = GetComponent<NavMeshAgent>();
-		
-		if (spawnEffect != null)
-			spawnEffect.transform.parent = null;
 
 		SetMaterial();
 
-		if(chaseRange != null)
+		if (chaseRange != null)
 			chaseRange.enabled = false;
+		if (rangedProjectile != null)
+			rangedProjectile.transform.SetParent(transform);
 
 		unit = this;
 		if (isTutorialDummy)
 		{
-			effectManager.CopyEffect(unit);
 			SetUp(EnemyState.TutorialIdle);
 		}
 		else

@@ -19,7 +19,13 @@ public class EnemySpawnState : UnitState<EnemyController>
 		unit.enemyCollider.enabled = false;
 		unit.copyUMat.color = BeginColor;
 		unit.animator.SetBool(unit.moveAnimParam, true);
-		unit.spawnEffect.SetActive(true);
+
+		unit.currentEffectData.activationTime = EffectActivationTime.Spawn;
+		unit.currentEffectData.target = EffectTarget.Ground;
+		unit.currentEffectData.position = unit.transform.position;
+		unit.currentEffectData.rotation = unit.transform.rotation;
+
+		unit.animationEvents.ActiveEffect(0);
 
 		targetPos = unit.transform.position + unit.transform.forward * unit.walkDistance;
 	}
@@ -47,15 +53,6 @@ public class EnemySpawnState : UnitState<EnemyController>
 		unit.animator.SetBool(unit.moveAnimParam, false);
 		//unit.skinnedMeshRenderer.enabled = true;
 		unit.rigid.velocity = Vector3.zero;
-		
-		// spawnEffect Reset
-		unit.spawnEffect.transform.SetParent(unit.transform);
-		unit.spawnEffect.SetActive(false);
-
-/*		unit.manager = EnemyManager.Instance;
-		unit.effectManager = EnemyEffectManager.Instance;*/
-
-		unit.effectManager.CopyEffect(unit);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

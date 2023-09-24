@@ -7,33 +7,26 @@ public class EnemyAnimationEvents : MonoBehaviour
 {
 	private EnemyController ec;
 
+	public bool isCharging = false;//
+	
 	private void Start()
 	{
 		ec = GetComponent<EnemyController>();
 	}
 
-	public void SpecificEffectActive(int index)
+	public void ActiveEffect(int activeIndex)
 	{
-		if (ec.effectManager.copySpecific[ec.effects[index].indexNum] != null)
-			ec.effectManager.SpecificEffectActive(ec.effects[index].indexNum);
-	}
+		EffectActiveData data = ec.currentEffectData;
+		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex);
 
-	public void HitEffectActive()
-	{
-		if (ec.isAttackSuccess && ec.effectManager.copyHit[ec.hitEffect.indexNum] != null)
-		{
-			ec.hitEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
-			ec.effectManager.HitEffectActive(ec.hitEffect.indexNum);
-			ec.isAttackSuccess = false;
-		}
-	}
+		if (isCharging && ec.ThisEnemyType == EnemyController.EnemyType.EliteDefault)
+			key.EffectObject.transform.localPosition = Vector3.zero;//
 
-	public void HittedEffectActive()
-	{
-		if (ec.effectManager.copyHitted[ec.hittedEffect.indexNum] != null && !ec.isTutorialDummy)
+		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
+
+		if (particles != null)
 		{
-			ec.hittedEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
-			ec.effectManager.HittedEffectActive(ec.hittedEffect.indexNum);
+			particles.Initialize(ec.effectController, key);
 		}
 	}
 
@@ -44,7 +37,10 @@ public class EnemyAnimationEvents : MonoBehaviour
 	
 	public void EliteRangedPositioning()
 	{
+		isCharging = false;
+		ec.currentEffectData.parent = null;
 		ec.atkCollider.transform.position = ec.target.transform.position;
-		ec.effects[1].effectTransform.position = ec.target.transform.position;
+		ec.currentEffectData.position = ec.target.transform.position;
+		//ec.effects[1].effectTransform.position = ec.target.transform.position;
 	}
 }
