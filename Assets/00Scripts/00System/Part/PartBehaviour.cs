@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class PartBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// Activation Percent
+	// Part Code -> 
+	// Part Type -> Active, Passive
 }
