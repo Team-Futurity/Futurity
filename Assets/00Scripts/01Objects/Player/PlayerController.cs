@@ -108,6 +108,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	//public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
+	public PlayerCameraEffect cameraEffect;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	private WaitForSeconds dashCoolTimeWFS;

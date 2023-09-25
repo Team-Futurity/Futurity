@@ -34,6 +34,6 @@ public class UIComboGauge : MonoBehaviour
 			gauge = 100f;
 		}
 
-		Gauge.StartFillGauge(gauge);
+		// Gauge.StartFillGauge(gauge);
 	}
 }

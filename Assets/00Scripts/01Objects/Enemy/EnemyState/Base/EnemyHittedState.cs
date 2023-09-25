@@ -18,7 +18,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		unit.animator.SetTrigger(unit.hitAnimParam);
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
 
-		AudioManager.instance.PlayOneShot(unit.hitSound, unit.transform.position);
+		//AudioManager.instance.PlayOneShot(unit.hitSound, unit.transform.position);
 	}
 	public override void Update(EnemyController unit)
 	{
