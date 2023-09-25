@@ -6,68 +6,70 @@ using UnityEngine.UI;
 
 public class UIGauge : MonoBehaviour
 {
-	[field: SerializeField] public AnimationCurve FillCurve { get; private set; }
+	public bool isEasing = false;
+
+	[Space(10), Range(0.001f, 0.01f)]
+	public float timeWeight = .0f;
 
 	private Image gaugeImage;
 
-	private float currentGaugeValue = .0f;
-	public float targetGauge = .0f;
-	
-	private float timer = .0f;
-	private float maxTIme = .0f;
+	private float currentGauge = .0f;
 
-	private bool isFillig = false;
+	private float targetGauge = .0f;
+	private float maxGauge = .0f;
+
+	private bool isFilling = false;
+
+	private float timer = .0f;
+	private float activeTime = .0f;
+
 
 	private void Awake()
 	{
 		TryGetComponent(out gaugeImage);
 	}
-	public void SetCurrentGauge(float gauge)
-	{
-		currentGaugeValue = gauge;
 
-		gaugeImage.fillAmount = currentGaugeValue / 100f;
+	public void SetGauge(float currentGauge, float maxGauge)
+	{
+		gaugeImage.fillAmount = currentGauge / maxGauge;
 	}
 
-	public void StartFillGauge(float target, float max = 1f)
+	public void StartFillGauge(float targetGaugeValue, float maxGaugeValue)
 	{
-		if(targetGauge >= target)
+		if (isFilling)
 		{
-			return;
+			StopCoroutine("FillGauge");
 		}
 
-		timer = .0f;
-		maxTIme = max;
-		currentGaugeValue = (gaugeImage.fillAmount * 100f);
-		targetGauge = target;
+		isFilling = true;
 
-		if(isFillig)
-		{
-			return;
-		}
+		currentGauge = gaugeImage.fillAmount * maxGaugeValue;
 
-		StartCoroutine(FillGauge(target));
+		activeTime += Mathf.Abs(targetGaugeValue - currentGauge) * timeWeight;
+
+		targetGauge = targetGaugeValue;
+		maxGauge = maxGaugeValue;
+
+		StartCoroutine("FillGauge");
 	}
 
-	private IEnumerator FillGauge(float target)
+	private IEnumerator FillGauge()
 	{
-		isFillig = true;
-
-		while (timer <= maxTIme)
+		while (timer <= activeTime)
 		{
-			var resultEasing = EaseOutExpo(currentGaugeValue, targetGauge, timer / maxTIme);
-			
-			gaugeImage.fillAmount = resultEasing / targetGauge;
+			var resultGauge = isEasing ? EaseOutExpo(currentGauge, targetGauge, timer / activeTime) : Mathf.Lerp(currentGauge, targetGauge, timer / activeTime);
 
-			yield return null;
+			gaugeImage.fillAmount = resultGauge;
+
+			yield return new WaitForSeconds(0.01f);
 
 			timer += Time.deltaTime;
 		}
 
+		activeTime = .0f;
 		timer = .0f;
 
-		currentGaugeValue = targetGauge;
-		isFillig = false;
+		isFilling = false;
 	}
 
 	public static float EaseOutExpo(float start, float end, float value)
