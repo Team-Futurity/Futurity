@@ -293,7 +293,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		SteageMove.Instance.MoveStage(SteageMove.EStageType.STAGE_2);
 
-		playerCamera.m_Follow = originTarget;
+		playerCamera.m_Follow = playerController.transform;
 		playerInput.enabled = true;
 	}
 
