@@ -57,19 +57,26 @@ MonoBehaviour:
   - {fileID: 8304615426564475545}
   spawnerManager: {fileID: 0}
   scriptsList:
-  - scriptsList:
-    - Cause I I I I
-    - Know what you like boy
-    - You're my a a a a
-    - Chemical hype boy
-    - "\uB0B4 \uC9C0\uB09C\uB0A0\uB4E4\uC740 \uB208 \uB728\uBA74 \uC78A\uB294 \uAFC8"
-    - "Hype boy \uB108\uB9CC \uC6D0\uD574"
-    - "Hype boy \uB0B4\uAC00 \uC804\uD574"
-  - scriptsList:
-    - "\uC73C\uC545! \uC5D8\uB9AC\uD2B8 \uBAAC\uC2A4\uD130\uC57C!!"
-    - "\uBE68\uB9AC \uC800 \uC544\uC774\uB97C \uD30C\uAD34\uD574\uC57C \uD574!"
-    - "\uB300\uC0AC\uAC00 \uC798 \uB098\uC624\uB294 \uC9C0 \uD655\uC778\uD558\uB294"
-    - "\uC2A4\uD06C\uB9BD\uD2B8 \uC785\uB2C8\uB2E4"
+  - characterName:
+    - "\uC0AC\uB9AC :"
+    - "\uC0AC\uB9AC :"
+    scriptsList:
+    - "\uC774 \uBC31\uD654\uC810\uC5D0\uC11C \uD06C\uB85C\uB9C8 \uC5D0\uB108\uC9C0\uC758
+      \uBC18\uC751\uC774 \uB290\uAEF4\uC9C0\uACE0 \uC788\uB294\uB370.... 1\uCE35\uC5D0
+      \uAC00\uC7A5 \uD070 \uBC18\uC751\uC774 \uC788\uB294 \uAC83 \uAC19\uC544"
+    - "\uADF8\uB7F0\uB370 \uC774\uACF3..\uB108\uBB34 \uC5B4\uB461\uC9C0 \uC54A\uC544?
+      \uB0B4\uAC00 \uBD88\uC744 \uCF1C\uC904\uAC8C"
+  - characterName:
+    - "\uBBF8\uB798 : "
+    - "\uC0AC\uB9AC :"
+    - "\uBBF8\uB798 : "
+    - "\uBBF8\uB798 : "
+    scriptsList:
+    - "\uC800\uAC74..?"
+    - "\uBBF8\uB798\uC57C!! \uBAAC\uC2A4\uD130\uC57C!!"
+    - "\uC800\uAC78 \uD574\uCE58\uC6CC\uC57C 1\uCE35\uC73C\uB85C \uB0B4\uB824\uAC08
+      \uC218 \uC788\uACA0\uB124. "
+    - "\uACC4\uC18D \uD06C\uB85C\uB9C8 \uC5D0\uB108\uC9C0 \uBC18\uC751\uC744 \uD655\uC778\uD574!"
   intensity: 0.8
   scanLineJitter: 0
   colorDrift: 0
@@ -183,6 +190,8 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 4108549731973310100, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
     value: {fileID: 0}
+  - key: {fileID: -3043397408369457332, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - 4bfa098ad0507c14493b245c0b904289: {fileID: 6336291101057634844}
@@ -265,7 +274,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2324730729824537947}
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: 12.506275, y: 7.000001, z: -4.889211}
+  m_LocalPosition: {x: 6.988866, y: 7.6474676, z: -7.103724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -629,6 +638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   playerInput: {fileID: 0}
+  playerHand: {fileID: 0}
   uiCanvas: {fileID: 0}
   scriptingUI: {fileID: 0}
   character:
@@ -637,6 +647,7 @@ MonoBehaviour:
   - {fileID: 0}
   isEnd: 0
   textInput: {fileID: 0}
+  nameField: {fileID: 0}
   textOutputDelay: 0.05
   timeToSlowMotion: 0.2
   recoveryTime: 0.8

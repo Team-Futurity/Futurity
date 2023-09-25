@@ -22,26 +22,21 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
+	[SerializeField] private GameObject playerHand;
 	public GameObject uiCanvas;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 
 	[Header("스크립트 출력 UI")] 
 	public GameObject scriptingUI;
-	public GameObject[] character;
 	[HideInInspector] public bool isEnd = false;
 	[SerializeField] private TextMeshProUGUI textInput;
+	[SerializeField] private TextMeshProUGUI nameField;
 	[SerializeField] private float textOutputDelay = 0.05f;
 	private bool isInput = false;
 	private AnalogGlitchVolume analogGlitch;
 	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
-	public enum ECharacter
-	{
-		Normal = 0,
-		Angry = 1,
-		Happy = 2
-	}
-	
+
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
@@ -70,7 +65,8 @@ public class TimelineManager : Singleton<TimelineManager>
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
 		playerInput.enabled = false;
-
+		playerHand.SetActive(false);
+		
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		
 		originTarget = playerCamera.m_Follow;
@@ -172,17 +168,20 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	#region ScriptingFunc
 
-	public void StartPrintingScript(List<string> textList)
+	public void StartPrintingScript(List<string> textList, List<string> nameList)
 	{
-		textPrint = PrintingScript(textList);
+		textPrint = PrintingScript(textList, nameList);
 		StartCoroutine(textPrint);
 		StartInputCheck();
 	}
 
-	private IEnumerator PrintingScript(List<string> textList)
+	private IEnumerator PrintingScript(List<string> textList, List<string> nameList)
 	{
+		int index = 0;
 		foreach (string textArr in textList)
 		{
+			nameField.text = nameList[index++];
+			
 			foreach (char text in textArr)
 			{
 				textInput.text += text;
@@ -249,23 +248,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		scriptingUI.gameObject.SetActive(active);
 	}
-
-	public void SetActiveCharacter(string type)
-	{
-		int index = CompareType(type);
-		
-		for (int i = 0; i < character.Length; ++i)
-		{
-			if (i == index)
-			{
-				character[i].SetActive(true);
-				continue;
-			}
-			
-			character[i].SetActive(false);
-		}
-	}
-
+	
 	private int CompareType(string type)
 	{
 		int result = 0;

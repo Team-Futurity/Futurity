@@ -66,7 +66,8 @@ public class Chapter1_Entry : CutSceneBase
 		chapter1Director.Pause();
 
 		StartCoroutine(PrintScripts());
-		manager.StartPrintingScript(scriptsList[curScriptsIndex++].scriptsList);
+		manager.StartPrintingScript(scriptsList[curScriptsIndex].scriptsList, scriptsList[curScriptsIndex].characterName);
+		curScriptsIndex++;
 	}
 
 	private IEnumerator PrintScripts()
@@ -90,5 +91,6 @@ public class Chapter1_Entry : CutSceneBase
 [System.Serializable]
 public struct ScriptsStruct
 {
+	public List<string> characterName;
 	public List<string> scriptsList;
 }
