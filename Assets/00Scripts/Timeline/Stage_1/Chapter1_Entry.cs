@@ -42,10 +42,16 @@ public class Chapter1_Entry : CutSceneBase
 
 	public override void DisableCutScene()
 	{
+	}
+
+	private void OnDisable()
+	{
 		manager.SetActivePlayerInput(true);
 		manager.uiCanvas.SetActive(true);
 		spawnerManager.SpawnEnemy();
 		vignette.color.value = Color.red;
+		
+		gameObject.SetActive(false);
 	}
 
 	private void Update()
