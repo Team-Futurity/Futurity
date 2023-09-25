@@ -69,8 +69,10 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
+		playerInput.enabled = false;
 
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+		
 		originTarget = playerCamera.m_Follow;
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
