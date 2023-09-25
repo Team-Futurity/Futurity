@@ -22,7 +22,6 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
-	[SerializeField] private Transform startPos;
 	public GameObject uiCanvas;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
@@ -70,7 +69,6 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
-		player.transform.position = startPos.position;
 
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		originTarget = playerCamera.m_Follow;
