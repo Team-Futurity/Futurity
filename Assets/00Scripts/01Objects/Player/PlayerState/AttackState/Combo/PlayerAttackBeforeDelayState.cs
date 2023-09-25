@@ -47,6 +47,8 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		targets.Clear();
 
+		pc.playerData.EnableAttackTime();
+
 		// ohter Setting
 		pc.glove.SetActive(true);
 
