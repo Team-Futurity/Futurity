@@ -82,7 +82,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public EnemyAnimationEvents animationEvents;
 	public EffectController effectController;
 	public EffectDatas effectSO;
-	public EffectActiveData currentEffectData = new EffectActiveData();
+	public EffectActiveData currentEffectData;
 
 
 	//clustering
@@ -170,7 +170,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	private void Start()
 	{
 		effectController = ECManager.Instance.GetEffectManager(effectSO);
-
+		currentEffectData = new EffectActiveData();
 		//hpBar = GetComponent<TestHPBar>(); //юс╫ц
 
 		//Basic Set Up

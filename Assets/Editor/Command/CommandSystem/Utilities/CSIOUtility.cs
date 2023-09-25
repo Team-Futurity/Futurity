@@ -10,7 +10,7 @@ public static class CSIOUtility
 {
 	private static CommandGraphView graphView;
 	private static string graphFileName;
-	private const string graphFolderPath = "Assets/06Editor/Command/CommandSystem/Graphs";
+	private const string graphFolderPath = "Assets/Editor/Command/CommandSystem/Graphs";
 	private static string containerFolderPath;
 
 	private static List<CSGroup> groups;

@@ -26,7 +26,7 @@ public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolPare
 		activeObjCount = 0;
 	}
 
-    public PoolingClass ActiveObject(ref AsyncOperationHandle<GameObject> effectObject, Vector3? startPos = null, Quaternion? startRot = null)
+	public PoolingClass ActiveObject(ref AsyncOperationHandle<GameObject> effectObject, Vector3? startPos = null, Quaternion? startRot = null, bool isWorld = true)
     {
 		PoolingClass returnValue = null;
 		startPos = startPos ?? Vector3.zero;
@@ -99,15 +99,35 @@ public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolPare
         if(returnValue != null)
         {
             activeObjCount++;
-			returnValue.gameObject.transform.position = (Vector3)startPos;
-			returnValue.gameObject.transform.rotation = (Quaternion)startRot;
+
+			if(isWorld)
+			{
+				SetObjectTransform(returnValue.gameObject, startPos, startRot);
+			}
+			else
+			{
+				SetObjectLocalTransform(returnValue.gameObject, startPos, startRot);
+			}
+
 			activedPoolingObjects.Add(returnValue);
 		}
 
         return returnValue;
     }
 
-    public void DeactiveObject(PoolingClass target)
+	public void SetObjectTransform(GameObject target, Vector3? pos = null, Quaternion? rot = null)
+	{
+		target.transform.position = (Vector3)pos;
+		target.transform.rotation = (Quaternion)rot;
+	}
+
+	public void SetObjectLocalTransform(GameObject target, Vector3? pos = null, Quaternion? rot = null)
+	{
+		target.transform.localPosition = (Vector3)pos;
+		target.transform.localRotation = (Quaternion)rot;
+	}
+
+	public void DeactiveObject(PoolingClass target)
     {
         activeObjCount--;
 
