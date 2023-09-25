@@ -1,18 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SubAbility : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	private StatusManager statusManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void Awake()
+	{
+		var isGetStatusManager = TryGetComponent(out statusManager);
+
+		if (!isGetStatusManager)
+		{
+			FDebug.Log("StatusManager가 존재하지 않습니다.", GetType());
+		}
+	}
+
+	public void Active()
+	{
+		
+	}
+
+	private void OnSubAbility()
+	{
+		
+	}
 }
