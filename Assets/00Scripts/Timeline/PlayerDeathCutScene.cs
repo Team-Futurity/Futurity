@@ -46,9 +46,11 @@ public class PlayerDeathCutScene : CutSceneBase
 		TimelineManager.Instance.ResetCameraValue();
 		TimelineManager.Instance.ChangeFollowTarget();
 		
-		//gameOverUI.SetActive(true);
+		gameOverUI.SetActive(true);
 		grayScale.amount.value = 0.0f;
 		grayScale.active = false;
+		
+		gameObject.SetActive(false);
 	}
 	
 	private void StartGrayScaleRoutine()

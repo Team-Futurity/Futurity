@@ -15,7 +15,7 @@ public class SpawnerManager : MonoBehaviour
 
 	[Header("Debug 패널")] 
 	[Tooltip("다음 웨이브 조건"), SerializeField] private int nextWaveCondition = 3;
-	[ReadOnly(false), SerializeField] private int curWaveSpawnCount;
+	[ReadOnly(false), SerializeField] private int curWaveSpawnCount = 1;
 	[ReadOnly(false), SerializeField] private int[] totalSpawnCount;
 
 	private readonly List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
@@ -36,7 +36,7 @@ public class SpawnerManager : MonoBehaviour
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.EliteDefault], EnemyController.EnemyType.EliteDefault);
 	}
 
-	private void Start()
+	public void SpawnEnemy()
 	{
 		foreach (var spawner in spawnerList)
 		{

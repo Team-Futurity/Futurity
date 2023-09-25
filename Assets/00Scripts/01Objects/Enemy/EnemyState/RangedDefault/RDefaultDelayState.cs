@@ -6,9 +6,11 @@ using UnityEngine;
 public class RDefaultDelayState : UnitState<EnemyController>
 {
 	private float curTime = .0f;
+
+
 	public override void Begin(EnemyController unit)
 	{
-
+		
 	}
 
 	public override void Update(EnemyController unit)

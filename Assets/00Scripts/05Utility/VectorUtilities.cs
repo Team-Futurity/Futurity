@@ -85,7 +85,6 @@ public static class VectorUtilities
 
 	public static bool TryParseVector3(this string vector, out Vector3 result)
 	{
-		//
 		string[] vecDatas = vector.Replace("(", "").Replace(")", "").RemoveWhitespaces().Split(",");
 		result = Vector3.zero;
 

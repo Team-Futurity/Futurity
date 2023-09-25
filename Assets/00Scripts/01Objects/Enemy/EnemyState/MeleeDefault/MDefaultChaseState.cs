@@ -15,6 +15,7 @@ public class MDefaultChaseState : EnemyChaseBaseState
 
 		base.Begin(unit);
 
+
 		if (unit.isClustering && unit.individualNum > 0)
 			unit.ChangeState(EnemyController.EnemyState.ClusterChase);
 	}

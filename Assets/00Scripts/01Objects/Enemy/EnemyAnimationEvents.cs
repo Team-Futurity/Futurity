@@ -5,35 +5,25 @@ using UnityEngine.Events;
 
 public class EnemyAnimationEvents : MonoBehaviour
 {
-	private EnemyController ec;
+	public EnemyController ec;
 
+	public bool isCharging = false;//
+	
 	private void Start()
 	{
-		ec = GetComponent<EnemyController>();
+		
 	}
 
-	public void SpecificEffectActive(int index)
+	public void ActiveEffect(int activeIndex)
 	{
-		if (ec.effectManager.copySpecific[ec.effects[index].indexNum] != null)
-			ec.effectManager.SpecificEffectActive(ec.effects[index].indexNum);
-	}
+		EffectActiveData data = ec.currentEffectData;
+		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
 
-	public void HitEffectActive()
-	{
-		if (ec.isAttackSuccess && ec.effectManager.copyHit[ec.hitEffect.indexNum] != null)
+		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
+
+		if (particles != null)
 		{
-			ec.hitEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
-			ec.effectManager.HitEffectActive(ec.hitEffect.indexNum);
-			ec.isAttackSuccess = false;
-		}
-	}
-
-	public void HittedEffectActive()
-	{
-		if (ec.effectManager.copyHitted[ec.hittedEffect.indexNum] != null && !ec.isTutorialDummy)
-		{
-			ec.hittedEffect.effectTransform.position = ec.target.transform.position + ec.hitEffect.effectExtraTransform;
-			ec.effectManager.HittedEffectActive(ec.hittedEffect.indexNum);
+			particles.Initialize(ec.effectController, key);
 		}
 	}
 
@@ -41,10 +31,23 @@ public class EnemyAnimationEvents : MonoBehaviour
 	{
 		ec.atkCollider.enabled = true;
 	}
+	public void EndAttack()
+	{
+		ec.atkCollider.enabled = false;
+	}
 	
+	public void MeleeEffectPositioning()
+	{
+		ec.currentEffectData.position = new Vector3(-0.231f, 1.251f, 0.035f);
+		ec.currentEffectData.rotation = Quaternion.Euler(new Vector3(-3.162f, 131.496f, 11.622f));
+	}
+
 	public void EliteRangedPositioning()
 	{
+		isCharging = false;
+		ec.currentEffectData.parent = null;
 		ec.atkCollider.transform.position = ec.target.transform.position;
-		ec.effects[1].effectTransform.position = ec.target.transform.position;
+		ec.currentEffectData.position = ec.target.transform.position;
+		//ec.effects[1].effectTransform.position = ec.target.transform.position;
 	}
 }

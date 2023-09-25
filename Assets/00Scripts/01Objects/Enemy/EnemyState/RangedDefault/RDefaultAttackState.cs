@@ -9,13 +9,27 @@ public class RDefaultAttackState : EnemyAttackBaseState
 	private float attackTime = 0.6f;
 	private bool isAttackDone = false;
 	private float distance = .0f;
-	private Vector3 projectilePos = new Vector3(0f, 0.75f, 0f);
+	private Vector3 projectilePos = new Vector3(0f, 1.05f, 0f);
+
+	private EffectActiveData effectActiveData = new EffectActiveData();
+
+	public RDefaultAttackState()
+	{
+		effectActiveData.activationTime = EffectActivationTime.AttackReady;
+		effectActiveData.target = EffectTarget.Caster;
+		effectActiveData.position = new Vector3(0f, 1.1f, 0.7f);
+		
+		effectActiveData.index = 0;
+	}
 
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("RDefault attack Begin");
 		base.Begin(unit);
+		effectActiveData.parent = unit.gameObject;
+		unit.currentEffectData = effectActiveData;
 		unit.rangedProjectile.transform.position = unit.transform.position + projectilePos;
+		unit.rangedProjectile.transform.rotation = unit.transform.rotation;
 	}
 
 	public override void Update(EnemyController unit)

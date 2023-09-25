@@ -7,9 +7,20 @@ public class MiniDefaultKnockbackState : UnitState<EnemyController>
 {
 	private float curTime = .0f;
 
+	private EffectActiveData atk1 = new EffectActiveData();
+
+	public MiniDefaultKnockbackState()
+	{
+		atk1.activationTime = EffectActivationTime.InstanceAttack;
+		atk1.target = EffectTarget.Target;
+		atk1.index = 0;
+	}
+
 	public override void Begin(EnemyController unit)
 	{
 		unit.animator.SetTrigger(unit.atkAnimParam);
+		atk1.position = unit.target.transform.position + new Vector3(0,1f,0);
+		unit.currentEffectData = atk1;
 		unit.rigid.AddForce(-unit.transform.forward * unit.powerReference2, ForceMode.Impulse);
 	}
 

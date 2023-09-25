@@ -38,6 +38,6 @@ public class UIHPGauge : MonoBehaviour
 			gauge = maxHpElement;
 		}
 
-		Gauge.StartFillGauge(gauge);
+		// Gauge.StartFillGauge(gauge);
 	}
 }
