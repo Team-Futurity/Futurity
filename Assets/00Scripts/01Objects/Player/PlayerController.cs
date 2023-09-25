@@ -355,7 +355,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Special Move
 	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
-		if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+		//if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
 		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
