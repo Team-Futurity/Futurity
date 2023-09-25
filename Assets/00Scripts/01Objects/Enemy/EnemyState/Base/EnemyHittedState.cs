@@ -18,7 +18,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		unit.animator.SetTrigger(unit.hitAnimParam);
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
 
-		AudioManager.instance.PlayOneShot(unit.hitSound, unit.transform.position);
+		//AudioManager.instance.PlayOneShot(unit.hitSound, unit.transform.position);
 	}
 	public override void Update(EnemyController unit)
 	{
@@ -34,7 +34,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		if (unit.isTutorialDummy)
 			unit.DelayChangeState(curTime, 0.5f, unit, EnemyController.EnemyState.TutorialIdle);
 		else
-			unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
+			unit.DelayChangeState(curTime, 0.1f/*unit.hitMaxTime*/, unit, unit.UnitChaseState());
 
 		//Death event
 		if (unit.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
@@ -59,7 +59,6 @@ public class EnemyHittedState : UnitState<EnemyController>
 		unit.rigid.velocity = Vector3.zero;
 		isColorChanged = false;
 		unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
-		unit.effectManager.HittedEffectDeActive(unit.hittedEffect.indexNum);
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

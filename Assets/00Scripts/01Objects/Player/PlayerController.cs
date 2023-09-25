@@ -250,25 +250,25 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
-					return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "SubState");
+					return GetInputData(PlayerInputEnum.Move, true, moveDir.ToString(), "SubState");
 				}
 			}
-			return GetInputData(PlayerInputEnum.Move, false, input.ToString());
+			return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString());
 		}
 
 		if (playerData.isStun || !hitCoolTimeIsEnd)
 		{
-			return GetInputData(PlayerInputEnum.Move, false, input.ToString()); ;
+			return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); ;
 		}
 
 		// 이동 기능
 		if (!IsCurrentState(PlayerState.Move))
 		{
 			ChangeState(PlayerState.Move);
-			return GetInputData(PlayerInputEnum.Move, true, input.ToString(), "State");
+			return GetInputData(PlayerInputEnum.Move, true, moveDir.ToString(), "State");
 		}
 
-		return GetInputData(PlayerInputEnum.Move, false, input.ToString());
+		return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString());
 	}
 
 	public PlayerInputData DashProcess(InputAction.CallbackContext context)
@@ -356,7 +356,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Special Move
 	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
-		if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+		//if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
 		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
