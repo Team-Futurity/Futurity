@@ -29,6 +29,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void MeleeAttack()
 	{
+		ec.enemyData.EnableAttackTiming();
 		ec.atkCollider.enabled = true;
 	}
 	public void EndAttack()
