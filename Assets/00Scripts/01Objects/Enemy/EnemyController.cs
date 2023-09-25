@@ -59,8 +59,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	//[HideInInspector] public TestHPBar hpBar; //юс╫ц
 
 	public GameObject test;
-	public Vector3 test1;
 
+	[Space(3)]
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
 	public EnemyType ThisEnemyType => enemyType;
@@ -184,7 +184,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		if (chaseRange != null)
 			chaseRange.enabled = false;
 		if (rangedProjectile != null)
-			rangedProjectile.transform.SetParent(transform);
+			rangedProjectile.transform.SetParent(null);
 
 		unit = this;
 		if (isTutorialDummy)

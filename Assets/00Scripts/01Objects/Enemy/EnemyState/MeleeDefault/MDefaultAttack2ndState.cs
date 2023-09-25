@@ -5,9 +5,12 @@ using UnityEngine;
 [FSMState((int)EnemyController.EnemyState.MDefaultAttack2nd)]
 public class MDefaultAttack2ndState : EnemyAttackBaseState
 {
+
 	public override void Begin(EnemyController unit)
 	{
 		//FDebug.Log("MDefault Attack2nd begin");
+		/*unit.currentEffectData.position = new Vector3(0.047f, 1.148f, 0.03f);
+		unit.currentEffectData.rotation = Quaternion.Euler(new Vector3(-0.758f, 107.214f, 6.744f));*/
 		unit.atkCollider.enabled = true;
 	}
 

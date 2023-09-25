@@ -16,8 +16,9 @@ public class MDefaultAttackState : EnemyAttackBaseState
 	{
 		//FDebug.Log("MDefault Attack begin");
 		base.Begin(unit);
-		atk1.position = unit.transform.position;
-		atk1.rotation = unit.transform.rotation;
+		atk1.parent = unit.gameObject;
+		unit.currentEffectData.position = new Vector3(0.047f, 0.953f, 0.03f);
+		unit.currentEffectData.rotation = Quaternion.Euler(new Vector3(7.567f, -0.62f, 22.347f));
 		unit.currentEffectData = atk1;
 		unit.navMesh.enabled = true;
 	}
@@ -25,7 +26,7 @@ public class MDefaultAttackState : EnemyAttackBaseState
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, EnemyController.EnemyState.MDefaultAttack2nd);
+		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, unit.UnitChaseState());
 	}
 
 	public override void End(EnemyController unit)
