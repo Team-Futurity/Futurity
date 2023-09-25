@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.Rendering;
+using URPGlitch.Runtime.AnalogGlitch;
 
 public class TimelineManager : Singleton<TimelineManager>
 {
@@ -31,6 +33,8 @@ public class TimelineManager : Singleton<TimelineManager>
 	[SerializeField] private TextMeshProUGUI textInput;
 	[SerializeField] private float textOutputDelay = 0.05f;
 	private bool isInput = false;
+	private AnalogGlitchVolume analogGlitch;
+	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
 	public enum ECharacter
 	{
 		Normal = 0,
@@ -72,6 +76,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 
 		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
+		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
@@ -89,6 +94,8 @@ public class TimelineManager : Singleton<TimelineManager>
 		cameraBody.m_TrackedObjectOffset = originOffset;
 		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
 	}
+
+	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
 
 	public Vector3 GetOffsetVector(float distance, Vector3 forward = default(Vector3))
 	{
@@ -199,10 +206,12 @@ public class TimelineManager : Singleton<TimelineManager>
 				yield return null;
 			}
 
-			textInput.text = String.Empty;
+			textInput.text = "";
 		}
 
 		isEnd = true;
+		StopInputCheck();
+		textInput.text = "";
 	}
 
 	private void StartInputCheck()

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public class Chapter1_Entry : CutSceneBase
@@ -12,16 +11,21 @@ public class Chapter1_Entry : CutSceneBase
 	[SerializeField] private PlayableDirector chapter1Director;
 	[SerializeField] private PlayerCameraEffect cameraEffect;
 	[SerializeField] private Transform[] playerMoveTarget;
-	[SerializeField] private GameObject mapLight;
-	[SerializeField] private float intensity;
+	[SerializeField] private SpawnerManager spawnerManager;
 
-	[Header("텍스트 출력 리스트")] 
-	[SerializeField] private List<string> textList;
+	[Header("텍스트 출력 리스트")]
+	[SerializeField] private ScriptsStruct[] scriptsList;
+	private int curScriptsIndex = 0;
+
+	[Header("Only Use Timeline")] 
+	[SerializeField] private float intensity;
+	[SerializeField] private float scanLineJitter;
+	[SerializeField] private float colorDrift;
 	
 	private TimelineManager manager;
 	private PlayerController playerController;
 	private Vignette vignette;
-	
+
 	protected override void Init()
 	{
 		manager = TimelineManager.Instance;
@@ -32,18 +36,23 @@ public class Chapter1_Entry : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		mapLight.SetActive(false);
+		manager.uiCanvas.SetActive(false);
 		manager.SetActivePlayerInput(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		
+		manager.SetActivePlayerInput(true);
+		manager.uiCanvas.SetActive(true);
+		spawnerManager.SpawnEnemy();
+		vignette.color.value = Color.red;
 	}
 
 	private void Update()
 	{
 		vignette.intensity.value = intensity;
+		manager.AnalogGlitch.scanLineJitter.value = scanLineJitter;
+		manager.AnalogGlitch.colorDrift.value = colorDrift;
 	}
 
 	public void Stage1_PrintScripts()
@@ -51,7 +60,7 @@ public class Chapter1_Entry : CutSceneBase
 		chapter1Director.Pause();
 
 		StartCoroutine(PrintScripts());
-		manager.StartPrintingScript(textList);
+		manager.StartPrintingScript(scriptsList[curScriptsIndex++].scriptsList);
 	}
 
 	private IEnumerator PrintScripts()
@@ -62,6 +71,7 @@ public class Chapter1_Entry : CutSceneBase
 		}
 		
 		chapter1Director.Resume();
+		manager.isEnd = false;
 	}
 	
 	public void MovePlayer()
@@ -69,4 +79,10 @@ public class Chapter1_Entry : CutSceneBase
 		manager.PlayerController.transform.position = playerMoveTarget[0].position;
 		manager.PlayerController.LerpToWorldPosition(playerMoveTarget[1].position, 1.5f);
 	}
+}
+
+[System.Serializable]
+public struct ScriptsStruct
+{
+	public List<string> scriptsList;
 }
