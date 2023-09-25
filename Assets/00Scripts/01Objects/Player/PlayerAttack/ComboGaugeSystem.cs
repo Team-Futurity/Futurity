@@ -24,7 +24,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	public int minComboGauge = 0;
 	public int maxComboGauge = 100;
 	private int comboCount;
-	private int currentGauge;
+	[field : SerializeField] private int currentGauge;
 	private int maxGauge;
 	public List<ComboCountData> comboData;
 	[HideInInspector] public UnityEvent<float> OnGaugeChanged;
