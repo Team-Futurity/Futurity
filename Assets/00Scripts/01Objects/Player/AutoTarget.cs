@@ -10,6 +10,7 @@ public class AutoTarget : Singleton<AutoTarget>
 	private bool isMoving = false;		// 현재 움직임 명령이 내려졌는가
 	private GameObject targetToMove;	// 목표
 	private GameObject movingObject;	// 이동할 오브젝트
+	private Vector3 targetPos;			// 목표의 위치
 	private float margin;				// 멈춰설 거리(m)
 	private float timeSpent;			// 소모 시간
 
@@ -109,10 +110,10 @@ public class AutoTarget : Singleton<AutoTarget>
 	/// <param name="origin">이동할 오브젝트</param>
 	/// <param name="margin">얼마만큼 앞에서 멈출지(cm)</param>
 	/// <param name="time">소모할 시간</param>
-	public void MoveToTarget(GameObject target, GameObject origin, float margin, float time)
+	public void MoveToTarget(Vector3 targetPosition, GameObject origin, float margin, float time)
 	{
-		targetToMove = target;
 		movingObject = origin;
+		targetPos = targetPosition;
 		this.margin = margin * MathPlus.cm2m;
 		timeSpent = time;
 		isMoving = true;
@@ -125,13 +126,13 @@ public class AutoTarget : Singleton<AutoTarget>
 			if (isMoving)
 			{
 				float timeRatio = Time.deltaTime / timeSpent;
-				movingObject.transform.position = Vector3.Lerp(movingObject.transform.position, targetToMove.transform.position, timeRatio);
+				movingObject.transform.position = Vector3.Lerp(movingObject.transform.position, targetPos, timeRatio);
 
-				float distance = Vector3.Distance(movingObject.transform.position, targetToMove.transform.position);
+				float distance = Vector3.Distance(movingObject.transform.position, targetPos);
 				if (distance <= margin)
 				{
-					Vector3 forward = movingObject.transform.forward;
-					movingObject.transform.position = targetToMove.transform.position - forward * margin;
+					Vector3 forward = (movingObject.transform.position - targetPos).normalized;
+					movingObject.transform.position = targetPos - forward * margin;
 					isMoving = false;
 				}
 			}
@@ -191,7 +192,7 @@ public class AutoTarget : Singleton<AutoTarget>
 		if (objectInTargetRange != null)
 		{
 			TurnToTarget(objectInTargetRange, origin);
-			MoveToTarget(objectInTargetRange, origin, margin, time);
+			MoveToTarget(objectInTargetRange.transform.position, origin, margin, time);
 			return true;
 		}
 		else // 조준범위 내에 없는 경우는 코딩 잘못한 거  
