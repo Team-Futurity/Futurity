@@ -68,9 +68,9 @@ public class EffectController
 	/// <param name="index">SO에서 같은 ActivationTime, Target일 경우의 Effect Index</param>
 	/// <param name="effectListIndex">EffectData에 담긴 Effect Index</param>
 	/// <returns>이펙트 데이터가 담긴 키 값 (readonly)</returns>
-	public EffectKey ActiveEffect(EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster, 
+	public EffectKey ActiveEffect(EffectActivationTime activationTime, EffectTarget target = EffectTarget.Caster,
 		Vector3? position = null, Quaternion? rotation = null, GameObject localParent = null,
-		int index = 0, int effectListIndex = 0)
+		int index = 0, int effectListIndex = 0, bool isWorld = true)
 	{
 		
 		localParent = localParent == null ? worldEffectParent : localParent;
@@ -81,7 +81,7 @@ public class EffectController
 		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
 		var poolManager = GetObjectPoolManager(index, activationTime, target, effectListIndex);
 		poolManager.SetManager(effectData.effectList[effectListIndex], localParent);
-		var obj = poolManager.ActiveObject(ref effectObject, position, rotation);
+		var obj = poolManager.ActiveObject(ref effectObject, position, rotation, isWorld);
 		
 		// 키 생성
 		EffectKey key = new EffectKey(effectObject, effectData, effectData.effectList[effectListIndex], poolManager, position, rotation, index);

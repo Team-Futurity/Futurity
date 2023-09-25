@@ -17,7 +17,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 	public void ActiveEffect(int activeIndex)
 	{
 		EffectActiveData data = ec.currentEffectData;
-		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex);
+		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
 
 		if (isCharging && ec.ThisEnemyType == EnemyController.EnemyType.EliteDefault)
 			key.EffectObject.transform.localPosition = Vector3.zero;//
@@ -34,7 +34,17 @@ public class EnemyAnimationEvents : MonoBehaviour
 	{
 		ec.atkCollider.enabled = true;
 	}
+	public void EndAttack()
+	{
+		ec.atkCollider.enabled = false;
+	}
 	
+	public void MeleeEffectPositioning()
+	{
+		ec.currentEffectData.position = new Vector3(-0.231f, 1.251f, 0.035f);
+		ec.currentEffectData.rotation = Quaternion.Euler(new Vector3(-3.162f, 131.496f, 11.622f));
+	}
+
 	public void EliteRangedPositioning()
 	{
 		isCharging = false;
