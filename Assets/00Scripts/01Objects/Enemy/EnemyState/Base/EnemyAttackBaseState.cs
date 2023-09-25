@@ -9,6 +9,7 @@ public class EnemyAttackBaseState : UnitState<EnemyController>
 	public override void Begin(EnemyController unit)
 	{
 		unit.animator.SetTrigger(unit.atkAnimParam);
+		unit.enemyData.EnableAttackTime();
 	}
 
 	public override void Update(EnemyController unit)
@@ -25,6 +26,7 @@ public class EnemyAttackBaseState : UnitState<EnemyController>
 	public override void End(EnemyController unit)
 	{
 		curTime = 0f;
+		unit.enemyData.DisableAttackTime();
 		/*unit.effectManager.HitEffectDeActive(unit.hitEffect.indexNum);
 		foreach(var i in unit.effects)
 		{

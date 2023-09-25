@@ -7,14 +7,12 @@ public class Enemy : UnitBase
 {
 	[SerializeField] private EnemyController ec;
 
-	private void Start()
-	{
-	}
 
-	public override void Attack(UnitBase target)
+
+	protected override void AttackProcess(DamageInfo damageInfo)
 	{
 		ec.isAttackSuccess = true;
-		target.Hit(this, GetDamage(1));
+		damageInfo.Defender.Hit(this, GetDamage(1));
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot = false)

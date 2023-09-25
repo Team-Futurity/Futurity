@@ -14,6 +14,8 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 	public override void End(PlayerController unit)
 	{
 		base.End(unit);
+
+		unit.playerData.DisableAttackTime();
 	}
 
 	public override void FixedUpdate(PlayerController unit)
