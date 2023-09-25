@@ -160,7 +160,7 @@ PlayableDirector:
   m_PlayableAsset: {fileID: 11400000, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
   m_InitialState: 1
   m_WrapMode: 2
-  m_DirectorUpdateMode: 2
+  m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: -4868283184415742675, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
@@ -233,7 +233,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586771802797815678}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -18, y: 0.64746666, z: 0.120000005}
+  m_LocalPosition: {x: -17.5, y: 0.64746666, z: -0.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -335,7 +335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2590259703444395326}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -12.5, y: 0.64746666, z: 0.3}
+  m_LocalPosition: {x: -12.5, y: 0.64746666, z: -0.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -792,6 +792,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6934600568706587798}
+  - component: {fileID: 4944355466140296798}
   - component: {fileID: 6934600568706587793}
   - component: {fileID: 6934600568706587799}
   - component: {fileID: 6934600568706587802}
@@ -819,6 +820,26 @@ Transform:
   m_Father: {fileID: 6934600568556246686}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+--- !u!114 &4944355466140296798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6934600568706587792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f0817d5652a0045b6c1feabe30b477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTf: {fileID: 0}
+  visibleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  colorFieldName: _BaseColor
+  opacity: 0.3
+  calcThreshold: 1
+  decimalCount: 3
 --- !u!114 &6934600568706587793
 MonoBehaviour:
   m_ObjectHideFlags: 0
