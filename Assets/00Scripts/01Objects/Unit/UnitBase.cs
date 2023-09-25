@@ -11,8 +11,8 @@ public abstract class UnitBase : MonoBehaviour
 
 	public bool isGodMode = false;
 	public bool isStun = false;
-	public bool IsAttackTime { get; private set; } // 현재 공격중인지
-	public bool IsAttackTiming { get; private set; } // 공격이 이뤄지는 시점이후인지
+	[field: SerializeField] public bool IsAttackTime { get; private set; } // 현재 공격중인지
+	[field: SerializeField] public bool IsAttackTiming { get; private set; } // 공격이 이뤄지는 시점이후인지
 
 	[Header("런타임 변경 불가."), Tooltip("공격이 시작했는지를 체크할 고정 프레임(Fixed Delta Time) 단위")]
 	public int AttackCheckFrameCount = 3;

@@ -30,6 +30,8 @@ public class PlayerAttackState : PlayerComboAttackState
 			TimeScaleController.Instance.SetTimeScale(attackNode.slowScale, attackNode.slowTime, pc.transform.forward);
 		}
 
+		pc.playerData.EnableAttackTiming();
+
 		pc.SetCollider(true);
 	}
 

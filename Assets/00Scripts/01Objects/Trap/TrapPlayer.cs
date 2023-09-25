@@ -126,9 +126,14 @@ public class TrapPlayer : UnitBase
 		return .0f;
 	}
 
-	public override void Attack(UnitBase target)
+	protected override void AttackProcess(DamageInfo damageInfo)
 	{
+		throw new System.NotImplementedException();
 	}
+
+	/*public override void Attack(UnitBase target)
+	{
+	}*/
 
 	#endregion
 }
