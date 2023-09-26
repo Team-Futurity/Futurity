@@ -12,6 +12,7 @@ public class EnemySpawner : MonoBehaviour
 	
 	[Header("스폰 데이터")] 
 	[SerializeField] private EnemySpawnData spawnData;
+	[SerializeField] private float yRotation = -90.0f;
 	private int totalWaveCount = 0;
 	private int curWaveCount = 0;
 	
@@ -116,7 +117,7 @@ public class EnemySpawner : MonoBehaviour
 				return;
 			}
 			
-			enemy.transform.SetPositionAndRotation(spawnPos, Quaternion.Euler(0, -90f, 0));
+			enemy.transform.SetPositionAndRotation(spawnPos, Quaternion.Euler(0, yRotation, 0));
 			enemy.transform.SetParent(enemyParents);
 			enemy.SetActive(true);
 
