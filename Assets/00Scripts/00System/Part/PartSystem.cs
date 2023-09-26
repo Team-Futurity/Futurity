@@ -53,13 +53,32 @@ public class PartSystem : MonoBehaviour
 		// Active
 		for (int i = 1; i <= ((activePossibleCount > maxPartCount) ? maxPartCount : activePossibleCount); ++i)
 		{
-			AddStatus(equipPartList[i - 1].GetSubAbility());
+			ActivePart(equipPartList[i - 1]);
 		}
 
 		// UnActive
 		for (int i = maxPartCount; i > activePossibleCount; --i)
 		{
+			 UnActivePart(equipPartList[i - 1]);
+		}
+	}
 
+	private void ActivePart(PartBehaviour part)
+	{
+		if (!part.GetPartActive())
+		{
+			part.SetPartActive(true);
+
+			AddStatus(part.GetSubAbility());
+		}
+	}
+
+	private void UnActivePart(PartBehaviour part)
+	{
+		if(part.GetPartActive())
+		{
+			SubStatus(part.GetSubAbility());
+			part.SetPartActive(false);
 		}
 	}
 
@@ -67,17 +86,16 @@ public class PartSystem : MonoBehaviour
 	{
 		foreach (var statusElement in statusData)
 		{
-			var hasStatus = (status.Find((x) => x.type == statusElement.type) is null);
+			var element = status.Find((x) => x.type == statusElement.type);
+			var hasStatus = (element is null);
 
 			if (hasStatus)
 			{
-				var element = status.Find((x) => x.type == statusElement.type);
-				element = statusElement;
+				status.Add(statusElement);
 			}
 			else
 			{
-				Debug.Log("왜 여기로 들어가?");
-				status.Add(statusElement);
+				element.AddValue(statusElement.GetValue());
 			}
 		}
 	}
@@ -86,7 +104,8 @@ public class PartSystem : MonoBehaviour
 	{
 		foreach (var statusElement in statusData)
 		{
-
+			var element = status.Find((x) => x.type == statusElement.type);
+			element.SubValue(statusElement.GetValue());
 		}
 	}
 
