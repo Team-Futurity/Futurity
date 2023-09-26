@@ -20,14 +20,15 @@ public class AttackCore : CoreAbility
 
 	[SerializeField]
 	private LayerMask targetLayer;
-	
+
+	// 직접 데미지를 주는 경우
+	public float attackDamage = .0f;
+	public float attackColliderRadius = .0f;
+
 	// 공격 시, 전이 효과
 	[SerializeField]
 	private bool isStateTransition;
 
-	public float attackDamage = .0f;
-	public float attackColliderRadius = .0f;
-	
 	// 전이 효과가 존재할 경우, 충돌 Circle 사이즈
 	public float transitionColliderRadius = .0f;
 	public float transitionDamage = .0f;
@@ -38,34 +39,44 @@ public class AttackCore : CoreAbility
 	
 	protected override void OnPartAbility(Enemy enemy)
 	{
-		// Attack 시, Buff 적용
-		enemy.TryGetComponent<UnitBase>(out var enemyUnit);
+		switch (attackType)
+		{
+			case AttackCoreType.ADD_DAMAGE:
+				AttackByDamage(enemy);
+				break;
+			
+			case AttackCoreType.ADD_ODD_STATE:
+				AttackByOddState(enemy);
+				break;
+		}
+	}
 
+	private void AttackByDamage(Enemy enemy)
+	{
+		enemy.TryGetComponent<UnitBase>(out var enemyUnit);
+		
 		enemyUnit.Hit(null, attackDamage);
 		hitEnemyList.Add(enemyUnit.GetInstanceID());
 
 		var coll = PartCollider.DrawCircleCollider(transform.position, attackColliderRadius, targetLayer);
 		
-		AttackEnemyInCollider(coll);
+		AddDamageEnemysInCollider(coll);
 	}
 
-	private void AttackEnemyInCollider(Collider[] enemyCollider)
+	private void AttackByOddState(Enemy enemy)
+	{
+		
+	}
+
+	// 범위 안에 있는 몬스터를 공격
+	private void AddDamageEnemysInCollider(Collider[] enemyCollider)
 	{
 		foreach (var enemy in enemyCollider)
 		{
 			enemy.TryGetComponent<UnitBase>(out var enemyUnit);
-			
-			var alreadyHit = hitEnemyList.Contains(enemyUnit.GetInstanceID());
-			
-			if (alreadyHit)
-			{
-				continue;
-			}
-			
 			enemyUnit.Hit(null, attackDamage);
-			hitEnemyList.Add(enemyUnit.GetInstanceID());
 		}
-		
-		hitEnemyList.Clear();
 	}
+	
+	// 범위 안에 있는 몬스터 중, 가장 가까운 몬스터 캐싱
 }
