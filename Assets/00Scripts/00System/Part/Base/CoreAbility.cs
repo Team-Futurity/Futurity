@@ -31,10 +31,10 @@ public abstract class CoreAbility : MonoBehaviour
 	
 	// protected Buff
 
-	public void ExcutePart(EnemyController enemy)
+	public void ExcutePart(Enemy enemy)
 	{
 		OnPartAbility(enemy);
 	}
 
-	protected abstract void OnPartAbility(EnemyController enemy);
+	protected abstract void OnPartAbility(Enemy enemy);
 }
