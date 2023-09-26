@@ -12,7 +12,7 @@ public class SubAbility : MonoBehaviour
 	{
 		if(status.Count == 0)
 		{
-			FDebug.Log("Status Data가 존재하지 않습니다.", GetType());
+			FDebug.Log("Status Data?? ???????? ??????.", GetType());
 		}
 	}
 
