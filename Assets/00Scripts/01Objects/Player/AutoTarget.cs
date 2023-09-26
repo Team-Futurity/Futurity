@@ -151,7 +151,7 @@ public class AutoTarget : Singleton<AutoTarget>
 	/// <param name="margin">이동 시 멈춰설 거리</param>
 	/// <param name="time">이동 시 이동에 소모하는 시간</param>
 	/// <returns>이동을 수행했는가</returns>
-	public bool AutoTargetProcess(List<GameObject> objects, GameObject origin, TruncatedCapsuleCollider attackCollider, float autoTargetAngle, float margin, float time)
+	public bool AutoTargetProcess(List<GameObject> objects, GameObject origin, TruncatedCapsuleCollider attackCollider, float autoTargetAngle, float margin, float time, bool isMovable)
 	{
 		if(objects.Count == 0) { return false; }
 		if(autoTargetAngle > MaxAngle) { autoTargetAngle %= MaxAngle; }
@@ -192,7 +192,11 @@ public class AutoTarget : Singleton<AutoTarget>
 		if (objectInTargetRange != null)
 		{
 			TurnToTarget(objectInTargetRange, origin);
-			MoveToTarget(objectInTargetRange.transform.position, origin, margin, time);
+			if(isMovable)
+			{
+				MoveToTarget(objectInTargetRange.transform.position, origin, margin, time);
+			}
+			
 			return true;
 		}
 		else // 조준범위 내에 없는 경우는 코딩 잘못한 거  

@@ -46,36 +46,37 @@ public class CommandTreeLoader : MonoBehaviour
 	{
 		var node = new AttackNode(CommandEnumConverter.CommandTypeToPlayerInput(commandSO.CommandType));
 
-		node.name				= commandSO.CommandName;
+		node.name							= commandSO.CommandName;
 
-		node.attackLength		= commandSO.AttackLength;
-		node.attackAngle		= commandSO.AttackAngle;
-		node.attackST			= commandSO.AttackST;
-		node.attackLengthMark	= commandSO.AttackLengthMark;
-		node.attackDelay		= commandSO.AttackDelay;
-		node.attackSpeed		= commandSO.AttackSpeed;
-		node.attackAfterDelay	= commandSO.AttackAfterDelay;
-		node.attackKnockback	= commandSO.AttackKnockback;
+		node.attackLength					= commandSO.AttackLength;
+		node.attackAngle					= commandSO.AttackAngle;
+		node.attackST						= commandSO.AttackST;
+		node.attackLengthMark				= commandSO.AttackLengthMark;
+		node.attackDelay					= commandSO.AttackDelay;
+		node.attackSpeed					= commandSO.AttackSpeed;
+		node.attackAfterDelay				= commandSO.AttackAfterDelay;
+		node.attackKnockback				= commandSO.AttackKnockback;
+		node.ignoresAutoTargetMove			= commandSO.IgnoresAutoTargetMove;
 
-		node.effectOffset		= commandSO.EffectOffset;
-		node.effectRotOffset	= new Quaternion();
-		node.effectRotOffset.eulerAngles = commandSO.EffectRotOffset;
-		node.effectPrefab		= commandSO.EffectPrefab;
-		node.effectParent		= GetEffectParent(commandSO.AttackEffectParent);
+		node.effectOffset					= commandSO.EffectOffset;
+		node.effectRotOffset				= new Quaternion();
+		node.effectRotOffset.eulerAngles	= commandSO.EffectRotOffset;
+		node.effectPrefab					= commandSO.EffectPrefab;
+		node.effectParent					= GetEffectParent(commandSO.AttackEffectParent);
 
-		node.hitEffectOffset	= commandSO.HitEffectOffset;
-		node.hitEffectRotOffset	= new Quaternion(); 
+		node.hitEffectOffset				= commandSO.HitEffectOffset;
+		node.hitEffectRotOffset				= new Quaternion(); 
 		node.hitEffectRotOffset.eulerAngles = commandSO.HitEffectRotOffset;
-		node.hitEffectPrefab	= commandSO.HitEffectPrefab;
-		node.hitEffectParent	= GetEffectParent(commandSO.HitEffectParent);
+		node.hitEffectPrefab				= commandSO.HitEffectPrefab;
+		node.hitEffectParent				= GetEffectParent(commandSO.HitEffectParent);
 
-		node.animInteger		= commandSO.AnimInteger;
-		node.shakePower			= commandSO.ShakePower;
-		node.shakeTime			= commandSO.ShakeTime;
-		node.slowTime			= commandSO.SlowTime;
-		node.slowScale			= commandSO.SlowScale;
+		node.animInteger					= commandSO.AnimInteger;
+		node.shakePower						= commandSO.ShakePower;
+		node.shakeTime						= commandSO.ShakeTime;
+		node.slowTime						= commandSO.SlowTime;
+		node.slowScale						= commandSO.SlowScale;
 
-		node.attackSound		= commandSO.AttackSound;
+		node.attackSound					= commandSO.AttackSound;
 
 		node.AddPoolManager();
 		node.childNodes = new List<AttackNode>();

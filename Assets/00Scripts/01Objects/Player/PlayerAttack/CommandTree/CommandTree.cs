@@ -25,6 +25,7 @@ public class AttackNode
 	public float attackAfterDelay;
 	public float attackST;
 	public float attackKnockback;
+	public bool ignoresAutoTargetMove;
 
 	[Header("공격 이펙트")]
 	public Vector3 effectOffset;
