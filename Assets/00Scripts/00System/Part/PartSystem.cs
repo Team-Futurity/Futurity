@@ -33,7 +33,6 @@ public class PartSystem : MonoBehaviour
 
 	public void EquipPart()
 	{
-
 	}
 
 	public void UnEquipPart()
@@ -45,39 +44,51 @@ public class PartSystem : MonoBehaviour
 	private void UpdateComboGauge(float percent)
 	{
 		int activePossibleCount = (int)Math.Floor(percent / 25f);
-		int maxPartCount = equipPartList.Count;
-
-		// 25, 50은 Sub만 실행
-		// 75는 Sub, Core 실행
+		int maxPartCount = equipPartList.Count - 1;
 
 		// Active
-		for (int i = 1; i <= ((activePossibleCount > maxPartCount) ? maxPartCount : activePossibleCount); ++i)
+		for (int i = 0; i < ((activePossibleCount > maxPartCount) ? maxPartCount : activePossibleCount); ++i)
 		{
-			ActivePart(equipPartList[i - 1]);
+			ExecutePart(i);
 		}
 
 		// UnActive
-		for (int i = maxPartCount; i > activePossibleCount; --i)
+		for (int i = maxPartCount; i >= activePossibleCount; --i)
 		{
-			 UnActivePart(equipPartList[i - 1]);
+			StopExecutePart(i);
 		}
 	}
 
-	private void ActivePart(PartBehaviour part)
+	private void ExecutePart(int index)
 	{
+		var part = equipPartList[index];
+
 		if (!part.GetPartActive())
 		{
 			part.SetPartActive(true);
 
 			AddStatus(part.GetSubAbility());
+
+			if (index == 2)
+			{
+				Debug.Log(index + " : CORE ACTIVE");
+			}
 		}
 	}
 
-	private void UnActivePart(PartBehaviour part)
+	private void StopExecutePart(int index)
 	{
-		if(part.GetPartActive())
+		var part = equipPartList[index];
+
+		if (part.GetPartActive())
 		{
 			SubStatus(part.GetSubAbility());
+
+			if(index == 2)
+			{
+				Debug.Log(index + " : CORE UN ACTIVE ");
+			}
+
 			part.SetPartActive(false);
 		}
 	}
