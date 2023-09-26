@@ -4,13 +4,15 @@ using UnityEngine;
 
 public static class PartCollider
 {
-	public static void DrawCircleCollider(Vector3 createPos, float radius)
+	public static Collider[] DrawCircleCollider(Vector3 createPos, float radius, LayerMask targetLayer)
 	{
-		
+		var coll = Physics.OverlapSphere(createPos, radius, targetLayer);
+		return coll;
 	}
 
-	public static void DrawRectCollider(Vector3 startPos, Vector3 endPos)
+	public static Collider[] DrawRectCollider(Vector3 startPos, Vector3 halfSize, LayerMask targetLayer)
 	{
-		
+		var coll = Physics.OverlapBox(startPos, halfSize, Quaternion.identity, targetLayer);
+		return coll;
 	}
 }
