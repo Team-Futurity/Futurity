@@ -28,11 +28,6 @@ public class PartBehaviour : MonoBehaviour
 		isActive = false;
 	}
 
-	public void OnFeature()
-	{
-
-	}
-
 	public void SetPartActive(bool isOn)
 	{
 		isActive = isOn;
@@ -42,12 +37,6 @@ public class PartBehaviour : MonoBehaviour
 	{
 		return isActive;
 	}
-
-	public void GetCoreAbility()
-	{
-
-	}
-
 	public List<StatusData> GetSubAbility()
 	{
 		if (!isActive)
@@ -56,5 +45,19 @@ public class PartBehaviour : MonoBehaviour
 		}
 
 		return subAbility.GetSubAbilityData();
+	}
+	
+	public void AddCoreAbilityToAttackEvent(Enemy enemy)
+	{
+		GetCoreAbility(enemy);
+	}
+
+	public void RemoveCoreAbilityToAttackEvent()
+	{
+		// Update를 통한 제거
+	}
+	private void GetCoreAbility(Enemy enemy)
+	{
+		coreAbility.ExcutePart(enemy);
 	}
 }
