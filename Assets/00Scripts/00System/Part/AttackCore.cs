@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,9 +22,11 @@ public class AttackCore : CoreAbility
 	[SerializeField]
 	private LayerMask targetLayer;
 
+	// Collider 생성 지름
+	public float colliderRadius = .0f;
+	
 	// 직접 데미지를 주는 경우
 	public float attackDamage = .0f;
-	public float attackColliderRadius = .0f;
 
 	// 공격 시, 전이 효과
 	[SerializeField]
@@ -35,7 +38,11 @@ public class AttackCore : CoreAbility
 	public int transitionCount = 0;
 	
 	// Monster Data
-	private List<int> hitEnemyList = new List<int>();
+	private Dictionary<int, UnitBase> hitEnemyDic = new Dictionary<int, UnitBase>();
+	
+	// Debug Mode
+	public bool isDebugMode = false;
+	public float debugColliderRadius = .0f;
 	
 	protected override void OnPartAbility(Enemy enemy)
 	{
@@ -49,23 +56,32 @@ public class AttackCore : CoreAbility
 				AttackByOddState(enemy);
 				break;
 		}
+		
+		hitEnemyDic.Clear();
 	}
 
 	private void AttackByDamage(Enemy enemy)
 	{
+		// 타격한 몬스터를 때린다.
 		enemy.TryGetComponent<UnitBase>(out var enemyUnit);
-		
 		enemyUnit.Hit(null, attackDamage);
-		hitEnemyList.Add(enemyUnit.GetInstanceID());
-
-		var coll = PartCollider.DrawCircleCollider(transform.position, attackColliderRadius, targetLayer);
 		
-		AddDamageEnemysInCollider(coll);
-	}
+		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit);
 
-	private void AttackByOddState(Enemy enemy)
-	{
-		
+		// 주변으로 Collider를 그려준다.
+		var coll = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
+
+		if (isStateTransition)
+		{
+			// 가장 가까운 몬스터 판별
+			var nearEnemy = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList()[0];
+			AttackHitEnemyDic(nearEnemy);
+		}
+		else
+		{
+			// 범위 안에 있는 몬스터를 공격한다.
+			AddDamageEnemysInCollider(coll);
+		}
 	}
 
 	// 범위 안에 있는 몬스터를 공격
@@ -73,10 +89,40 @@ public class AttackCore : CoreAbility
 	{
 		foreach (var enemy in enemyCollider)
 		{
-			enemy.TryGetComponent<UnitBase>(out var enemyUnit);
-			enemyUnit.Hit(null, attackDamage);
+			AttackHitEnemyDic(enemy);
+		}
+	}
+
+	private void AttackHitEnemyDic(Collider enemy)
+	{
+		enemy.TryGetComponent<UnitBase>(out var enemyUnit);
+		enemyUnit.Hit(null, attackDamage);
+		
+		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit);
+	}
+	
+	
+	private void AttackByOddState(Enemy enemy)
+	{
+		
+	}
+	
+	#region Debug
+
+	private void OnDrawGizmos()
+	{
+		if (!isDebugMode)
+		{
+			return;
+		}
+
+		foreach (var hitEnemy in hitEnemyDic)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireSphere(hitEnemy.Value.transform.position, debugColliderRadius);
 		}
 	}
 	
-	// 범위 안에 있는 몬스터 중, 가장 가까운 몬스터 캐싱
+	#endregion
+	
 }
