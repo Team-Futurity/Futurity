@@ -131,7 +131,7 @@ public class AutoTarget : Singleton<AutoTarget>
 				float distance = Vector3.Distance(movingObject.transform.position, targetPos);
 				if (distance <= margin)
 				{
-					Vector3 forward = (movingObject.transform.position - targetPos).normalized;
+					Vector3 forward = -(movingObject.transform.position - targetPos).normalized;
 					movingObject.transform.position = targetPos - forward * margin;
 					isMoving = false;
 				}
