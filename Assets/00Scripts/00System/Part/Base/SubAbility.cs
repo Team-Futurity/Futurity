@@ -5,24 +5,18 @@ using UnityEngine;
 
 public class SubAbility : MonoBehaviour
 {
-	private StatusManager statusManager;
+	[SerializeField]
+	private List<StatusData> status;
 
 	private void Awake()
 	{
-		var isGetStatusManager = TryGetComponent(out statusManager);
-
-		if (!isGetStatusManager)
+		if(status.Count == 0)
 		{
-			FDebug.Log("StatusManager가 존재하지 않습니다.", GetType());
+			FDebug.Log("Status Data가 존재하지 않습니다.", GetType());
 		}
 	}
 
 	public void Active()
-	{
-		
-	}
-
-	private void OnSubAbility()
 	{
 		
 	}
