@@ -12,7 +12,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	[SerializeField] private PlayerCameraEffect cameraEffect;
 	[SerializeField] private Transform playerMoveTarget;
 	[SerializeField] private SpawnerManager spawnerManager;
-	[SerializeField] private Transform newFollowTarget;
+	[SerializeField] private Transform startPos;
 
 	[Header("텍스트 출력 리스트")]
 	[SerializeField] private ScriptsStruct[] scriptsList;
@@ -40,10 +40,15 @@ public class Area3_EntryCutScene : CutSceneBase
 	{
 		manager.uiCanvas.SetActive(false);
 		manager.SetActivePlayerInput(false);
-		manager.ChangeFollowTarget(true, newFollowTarget);
+		manager.ChangeFollowTarget(true, playerMoveTarget);
 
 		vignette.intensity.value = intensity;
 		vignette.color.value = Color.black;
+		
+		manager.PlayerController.transform.position = startPos.transform.position;
+		manager.PlayerController.transform.rotation = Quaternion.identity;
+		
+		Invoke(nameof(PlayCutScene), 0.3f);
 	}
 
 	public override void DisableCutScene()
@@ -92,6 +97,11 @@ public class Area3_EntryCutScene : CutSceneBase
 	public void MovePlayer()
 	{
 		manager.PlayerController.LerpToWorldPosition(playerMoveTarget.position, 1.5f);
+	}
+
+	private void PlayCutScene()
+	{
+		gameObject.GetComponent<PlayableDirector>().Play();
 	}
 }
 

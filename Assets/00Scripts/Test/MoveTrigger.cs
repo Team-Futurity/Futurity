@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MoveTrigger : MonoBehaviour
 {
-	[SerializeField] private Transform player;
-	[SerializeField] private SpawnerManager spawnerManager;
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player"))
@@ -20,6 +18,6 @@ public class MoveTrigger : MonoBehaviour
 	{
 		SteageMove.Instance.MoveStage(SteageMove.EStageType.STAGE_3);
 		FadeManager.Instance.FadeOut();
-		spawnerManager.SpawnEnemy();
+		TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.AREA3_ENTRYCUTSCENE);
 	}
 }
