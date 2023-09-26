@@ -5,6 +5,7 @@ public class EntryCutScene : CutSceneBase
 {
 	[Header("Component")]
 	[SerializeField] private GameObject playerCamera;
+	[SerializeField] private SpawnerManager spawnerManager;
 
 	[Header("진입 컷신에서 활성화할 오브젝트 목록")]
 	[SerializeField] private GameObject[] walls;
@@ -37,5 +38,10 @@ public class EntryCutScene : CutSceneBase
 	public void MovePlayer()
 	{
 		TimelineManager.Instance.PlayerController.LerpToWorldPosition(targetPos.transform.position, duration);
+	}
+
+	public void Area1_SpawnEnemy()
+	{
+		spawnerManager.SpawnEnemy();
 	}
 }

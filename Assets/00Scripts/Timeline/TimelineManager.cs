@@ -13,10 +13,11 @@ public class TimelineManager : Singleton<TimelineManager>
 {
 	public enum ECutScene
 	{
-		STAGE1_ENTRYCUTSCENE = 0,
-		LASTKILLCUTSCENE = 1,
-		PLYAERDEATHCUTSCENE = 2,
-		STAGE1_EXITCUTSCENE = 3
+		AREA1_ENTRYCUTSCENE = 0,
+		AREA1_EXITCUTSCENE = 1,
+		AREA3_ENTRYCUTSCENE = 2,
+		LASTKILLCUTSCENE = 3,
+		PLYAERDEATHCUTSCENE = 4,
 	}
 	
 	[Header("Component")]
@@ -79,7 +80,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	public void EnableCutScene(ECutScene cutScene)
 	{
-		if (cutScene == ECutScene.STAGE1_ENTRYCUTSCENE)
+		if (cutScene == ECutScene.AREA1_ENTRYCUTSCENE)
 		{
 			cutSceneList[(int)cutScene].GetComponent<PlayableDirector>().Play();
 		}
