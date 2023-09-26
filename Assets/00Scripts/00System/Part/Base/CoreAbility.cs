@@ -2,13 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoreAbility : MonoBehaviour
+public enum AttackCoreType
+{
+	NONE = 0,
+	
+	ADD_DAMAGE,
+	ADD_ODD_STATE,
+	
+	MAX
+}
+public abstract class CoreAbility : MonoBehaviour
 {
 	// Core Type : Attack, Collider
 	// Attack Type : Status or Damage
 
 	// 상태 이상 : Buff System 적극 활용
-	// 
 
 	// Attack
 	// 직접 어택, PlayerController Update를 받아서
@@ -20,4 +28,13 @@ public class CoreAbility : MonoBehaviour
 
 	// Collider
 	// - 콜라이더 생성 ( 반지름, 몬스터 피해량, 형태, 시간 ) -? 전이 가능 형태??
+	
+	// protected Buff
+
+	public void ExcutePart(EnemyController enemy)
+	{
+		OnPartAbility(enemy);
+	}
+
+	protected abstract void OnPartAbility(EnemyController enemy);
 }
