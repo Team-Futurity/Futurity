@@ -1,4 +1,5 @@
 using Cinemachine;
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,10 +31,11 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	[Header("스크립트 출력 UI")] 
 	public GameObject scriptingUI;
-	[HideInInspector] public bool isEnd = false;
+	[SerializeField] private SkeletonGraphic miraeAnimation;
 	[SerializeField] private TextMeshProUGUI textInput;
 	[SerializeField] private TextMeshProUGUI nameField;
 	[SerializeField] private float textOutputDelay = 0.05f;
+	[HideInInspector] public bool isEnd = false;
 	private bool isInput = false;
 	private AnalogGlitchVolume analogGlitch;
 	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
@@ -169,27 +171,28 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	#region ScriptingFunc
 
-	public void StartPrintingScript(List<string> textList, List<string> nameList)
+	public void StartPrintingScript(List<ScriptingStruct> scriptsStruct)
 	{
-		textPrint = PrintingScript(textList, nameList);
+		textPrint = PrintingScript(scriptsStruct);
 		StartCoroutine(textPrint);
 		StartInputCheck();
 	}
 
-	private IEnumerator PrintingScript(List<string> textList, List<string> nameList)
+	private IEnumerator PrintingScript(List<ScriptingStruct> scriptsStruct)
 	{
 		int index = 0;
-		foreach (string textArr in textList)
+		foreach (ScriptingStruct scripts in scriptsStruct)
 		{
-			nameField.text = nameList[index++];
-			
-			foreach (char text in textArr)
+			EmotionCheck(scripts.expressionType);
+			nameField.text = scripts.name;
+
+			foreach (char text in scripts.scripts)
 			{
 				textInput.text += text;
 
 				if (isInput == true)
 				{
-					textInput.text = textArr;
+					textInput.text = scripts.scripts;
 					isInput = false;
 					break;
 				}
@@ -214,6 +217,42 @@ public class TimelineManager : Singleton<TimelineManager>
 		isEnd = true;
 		StopInputCheck();
 		textInput.text = "";
+	}
+
+	private void EmotionCheck(ScriptingStruct.EExpressionType type)
+	{
+		switch (type)
+		{
+			case ScriptingStruct.EExpressionType.NONE:
+				break;
+			
+			case ScriptingStruct.EExpressionType.ANGRY:
+				miraeAnimation.AnimationState.SetAnimation(0, "angry", true);
+				break;
+			
+			case ScriptingStruct.EExpressionType.NORMAL:
+				miraeAnimation.AnimationState.SetAnimation(0, "normal", true);
+				break;
+			
+			case ScriptingStruct.EExpressionType.PANIC:
+				miraeAnimation.AnimationState.SetAnimation(0, "panic", true);
+				break;
+			
+			case ScriptingStruct.EExpressionType.SMILE:
+				miraeAnimation.AnimationState.SetAnimation(0, "smile", true);
+				break;
+			
+			case ScriptingStruct.EExpressionType.SURPRISE:
+				miraeAnimation.AnimationState.SetAnimation(0, "surprise", true);
+				break;
+			
+			case ScriptingStruct.EExpressionType.TRUST_ME:
+				miraeAnimation.AnimationState.SetAnimation(0, "trust_me", true);
+				break;
+			
+			default:
+				return;
+		}
 	}
 
 	private void StartInputCheck()

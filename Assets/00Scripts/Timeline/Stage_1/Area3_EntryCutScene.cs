@@ -15,7 +15,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	[SerializeField] private Transform startPos;
 
 	[Header("텍스트 출력 리스트")]
-	[SerializeField] private ScriptsStruct[] scriptsList;
+	[SerializeField] private List<ScriptingList> scriptsList;
 	private int curScriptsIndex = 0;
 
 	[Header("Only Use Timeline")] 
@@ -79,7 +79,7 @@ public class Area3_EntryCutScene : CutSceneBase
 		chapter1Director.Pause();
 
 		StartCoroutine(PrintScripts());
-		manager.StartPrintingScript(scriptsList[curScriptsIndex].scriptsList, scriptsList[curScriptsIndex].characterName);
+		manager.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		curScriptsIndex++;
 	}
 
@@ -103,11 +103,4 @@ public class Area3_EntryCutScene : CutSceneBase
 	{
 		gameObject.GetComponent<PlayableDirector>().Play();
 	}
-}
-
-[System.Serializable]
-public struct ScriptsStruct
-{
-	public List<string> characterName;
-	public List<string> scriptsList;
 }
