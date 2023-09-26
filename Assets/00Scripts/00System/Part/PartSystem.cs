@@ -16,6 +16,8 @@ public class PartSystem : MonoBehaviour
 	[SerializeField, Header("디버그 용")]
 	private List<StatusData> status;
 
+	public Enemy enemy;
+
 	public float debugPercent = .0f;
 
 	private void Awake()
@@ -29,10 +31,16 @@ public class PartSystem : MonoBehaviour
 		{
 			UpdateComboGauge(debugPercent);
 		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			equipPartList[3].AddCoreAbilityToAttackEvent(enemy);
+		}
 	}
 
 	public void EquipPart()
 	{
+		
 	}
 
 	public void UnEquipPart()
@@ -49,17 +57,17 @@ public class PartSystem : MonoBehaviour
 		// Active
 		for (int i = 0; i < ((activePossibleCount > maxPartCount) ? maxPartCount : activePossibleCount); ++i)
 		{
-			ExecutePart(i);
+			ExecuteParts(i);
 		}
 
 		// UnActive
 		for (int i = maxPartCount; i >= activePossibleCount; --i)
 		{
-			StopExecutePart(i);
+			StopExecuteParts(i);
 		}
 	}
 
-	private void ExecutePart(int index)
+	private void ExecuteParts(int index)
 	{
 		var part = equipPartList[index];
 
@@ -76,7 +84,7 @@ public class PartSystem : MonoBehaviour
 		}
 	}
 
-	private void StopExecutePart(int index)
+	private void StopExecuteParts(int index)
 	{
 		var part = equipPartList[index];
 
@@ -92,6 +100,8 @@ public class PartSystem : MonoBehaviour
 			part.SetPartActive(false);
 		}
 	}
+	
+	#region Status Feature
 
 	private void AddStatus(List<StatusData> statusData)
 	{
@@ -124,4 +134,6 @@ public class PartSystem : MonoBehaviour
 	{
 		status.Clear();
 	}
+	
+	#endregion
 }
