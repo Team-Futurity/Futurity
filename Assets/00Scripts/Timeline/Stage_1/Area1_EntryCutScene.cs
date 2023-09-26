@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EntryCutScene : CutSceneBase
+public class Area1_EntryCutScene : CutSceneBase
 {
 	[Header("Component")]
 	[SerializeField] private GameObject playerCamera;

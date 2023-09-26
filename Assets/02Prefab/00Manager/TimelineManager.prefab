@@ -32,7 +32,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 536474974526871868}
   - {fileID: 8304615426564475545}
   - {fileID: 3012372035440923077}
   m_Father: {fileID: 6934600567714598370}
@@ -53,7 +52,7 @@ MonoBehaviour:
   chapter1Director: {fileID: 1654739470262035759}
   cameraEffect: {fileID: 0}
   playerMoveTarget:
-  - {fileID: 536474974526871868}
+  - {fileID: 0}
   - {fileID: 8304615426564475545}
   spawnerManager: {fileID: 0}
   scriptsList:
@@ -117,7 +116,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2983148425860595400}
           m_TargetAssemblyTypeName: Chapter1_Entry, Assembly-CSharp
-          m_MethodName: Stage1_PrintScripts
+          m_MethodName: Area3_PrintScripts
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -218,37 +217,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!1 &1586771802797815678
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 536474974526871868}
-  m_Layer: 0
-  m_Name: StartPos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &536474974526871868
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586771802797815678}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -17.5, y: 0.64746666, z: -0.98}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4906820689806416335}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2324730729824537947
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +248,7 @@ Transform:
   m_Children:
   - {fileID: 6863048251144030540}
   m_Father: {fileID: 4906820689806416335}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
 --- !u!114 &6336291101057634844
 MonoBehaviour:
@@ -349,7 +317,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4906820689806416335}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2978692843247748429
 GameObject:

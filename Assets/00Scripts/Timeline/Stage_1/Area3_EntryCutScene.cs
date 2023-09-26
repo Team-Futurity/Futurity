@@ -5,13 +5,14 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Rendering.Universal;
 
-public class Chapter1_Entry : CutSceneBase
+public class Area3_EntryCutScene : CutSceneBase
 {
 	[Header("컴포넌트")] 
 	[SerializeField] private PlayableDirector chapter1Director;
 	[SerializeField] private PlayerCameraEffect cameraEffect;
-	[SerializeField] private Transform[] playerMoveTarget;
+	[SerializeField] private Transform playerMoveTarget;
 	[SerializeField] private SpawnerManager spawnerManager;
+	[SerializeField] private Transform newFollowTarget;
 
 	[Header("텍스트 출력 리스트")]
 	[SerializeField] private ScriptsStruct[] scriptsList;
@@ -25,19 +26,24 @@ public class Chapter1_Entry : CutSceneBase
 	private TimelineManager manager;
 	private PlayerController playerController;
 	private Vignette vignette;
+	private float originIntensity;
 
 	protected override void Init()
 	{
 		manager = TimelineManager.Instance;
 		
 		vignette = cameraEffect.Vignette;
-		intensity = vignette.intensity.value;
+		originIntensity = vignette.intensity.value;
 	}
 
 	protected override void EnableCutScene()
 	{
 		manager.uiCanvas.SetActive(false);
 		manager.SetActivePlayerInput(false);
+		manager.ChangeFollowTarget(true, newFollowTarget);
+
+		vignette.intensity.value = intensity;
+		vignette.color.value = Color.black;
 	}
 
 	public override void DisableCutScene()
@@ -49,6 +55,8 @@ public class Chapter1_Entry : CutSceneBase
 		manager.SetActivePlayerInput(true);
 		manager.uiCanvas.SetActive(true);
 		spawnerManager.SpawnEnemy();
+
+		vignette.intensity.value = originIntensity;
 		vignette.color.value = Color.red;
 		
 		gameObject.SetActive(false);
@@ -61,7 +69,7 @@ public class Chapter1_Entry : CutSceneBase
 		manager.AnalogGlitch.colorDrift.value = colorDrift;
 	}
 
-	public void Stage1_PrintScripts()
+	public void Area3_PrintScripts()
 	{
 		chapter1Director.Pause();
 
@@ -83,8 +91,7 @@ public class Chapter1_Entry : CutSceneBase
 	
 	public void MovePlayer()
 	{
-		manager.PlayerController.transform.position = playerMoveTarget[0].position;
-		manager.PlayerController.LerpToWorldPosition(playerMoveTarget[1].position, 1.5f);
+		manager.PlayerController.LerpToWorldPosition(playerMoveTarget.position, 1.5f);
 	}
 }
 
