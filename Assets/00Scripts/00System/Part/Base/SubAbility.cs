@@ -16,8 +16,8 @@ public class SubAbility : MonoBehaviour
 		}
 	}
 
-	public void Active()
+	public List<StatusData> GetSubAbilityData()
 	{
-		
+		return status;
 	}
 }
