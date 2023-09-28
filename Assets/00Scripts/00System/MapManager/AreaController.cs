@@ -29,7 +29,7 @@ public class AreaController : MonoBehaviour
 	{
 		if (ControlObserverList == null)
 		{
-			FDebug.Log($"[{GetType()}] ControllerObserverList¿¡ ¾Æ¹« °Íµµ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			FDebug.Log($"[{GetType()}] ControllerObserverListì— ì•„ë¬´ ê²ƒë„ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			FDebug.Break();
 		}
 	}
@@ -49,7 +49,7 @@ public class AreaController : MonoBehaviour
 			command.Init();
 		}
 
-		if(UseDirecting)
+		if(UseDirecting && TimelineManager.Instance.IsDebugMode == false)
 		{
 			TimelineManager.Instance.EnableCutScene(directingType);
 		}
