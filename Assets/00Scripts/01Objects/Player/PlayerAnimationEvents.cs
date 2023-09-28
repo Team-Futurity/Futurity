@@ -134,12 +134,15 @@ public class PlayerAnimationEvents : MonoBehaviour
 	}
 
 	#region HitEffectEvent
+	// 플레이어 피격에 대한 HitStop
 	public void StartHitStop(float duration)
 	{
 		hitStop = HitStop(duration);
 		StartCoroutine(hitStop);
 	}
-	public void SlowMotion(string value)
+	
+	// 플레이어 타격에 대한 HitStop
+	public void AttackHitStop(float duration)
 	{
 		UnitState<PlayerController> state = null;
 		pc.GetState(PlayerState.AttackDelay, ref state);
@@ -154,10 +157,8 @@ public class PlayerAnimationEvents : MonoBehaviour
 		{
 			return;
 		}
-
-		float[] values = ConvertStringToFloatArray(value);
-		cameraEffect.StartTimeScaleTimer(values[0], values[1]);
-		cameraEffect.CameraShake();
+		
+		pc.cameraEffect.StartTimeStop(duration);
 	}
 	
 	private float[] ConvertStringToFloatArray(string input)
