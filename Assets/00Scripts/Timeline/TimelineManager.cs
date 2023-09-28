@@ -21,6 +21,11 @@ public class TimelineManager : Singleton<TimelineManager>
 		PLYAERDEATHCUTSCENE = 4,
 	}
 	
+	[Header("DebugMode")] 
+	[SerializeField] private bool enableDebugMode;
+	[SerializeField] private SpawnerManager spawnerManager;
+	private const float StartPos = -12.5f;
+	
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
@@ -78,6 +83,15 @@ public class TimelineManager : Singleton<TimelineManager>
 
 		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
+
+		if (enableDebugMode == false)
+		{
+			return;
+		}
+		
+		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].GetComponent<Area1_EntryCutScene>().DisableCutScene();
+		playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
+		spawnerManager.SpawnEnemy();
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
