@@ -23,6 +23,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	[Header("DebugMode")] 
 	[SerializeField] private bool enableDebugMode;
+	public bool IsDebugMode => enableDebugMode;
 	[SerializeField] private SpawnerManager spawnerManager;
 	private const float StartPos = -12.5f;
 	
