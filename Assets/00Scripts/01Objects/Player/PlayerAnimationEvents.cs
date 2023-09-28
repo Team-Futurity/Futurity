@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
-	[SerializeField] private PlayerCameraEffect cameraEffect;
 
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
@@ -121,16 +120,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void CameraShake(string str)
 	{
-		if (cameraEffect == null)
-		{
-			return;
-		}
-
 		// 0 : velocity, 1 : Duration
 		float[] value = ConvertStringToFloatArray(str);
 
 		// attackNode = pc.curNode;
-		cameraEffect.CameraShake(value[0], value[1]);
+		pc.cameraEffect.CameraShake(value[0], value[1]);
 	}
 
 	#region HitEffectEvent
