@@ -9,9 +9,8 @@ public class AttackCore : CoreAbility
 {
 	// 감마, 로우, 앱실론, 
 	// 감마 : 플레이어 어택 시, 버프 적용
-	// 로우 : 플레이어 어택 시, 범위 데미지 적용
-	// 앱실론 : 플레이어 어택 시, 최대 6번 전이되는 데미지 적용
-	
+	// 로우 : 플레이어 어택 시, 범위 데미지 적용 -> Collider 사용
+	// 앱실론 : 플레이어 어택 시, 최대 6번 전이되는 데미지 적용 -> Collider 사용
 	
 	// Attack Core Type
 	// 1. 상태 이상 부여
@@ -73,9 +72,15 @@ public class AttackCore : CoreAbility
 
 		if (isStateTransition)
 		{
-			// 가장 가까운 몬스터 판별
-			var nearEnemy = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList()[0];
-			AttackHitEnemyDic(nearEnemy);
+			for (int i = 0; i < coll.Length; ++i)
+			{
+				var nearEnemy = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList()[i];
+				
+				if(AttackHitEnemyDic(nearEnemy))
+				{
+					break;
+				}
+			}
 		}
 		else
 		{
@@ -93,12 +98,20 @@ public class AttackCore : CoreAbility
 		}
 	}
 
-	private void AttackHitEnemyDic(Collider enemy)
+	private bool AttackHitEnemyDic(Collider enemy)
 	{
 		enemy.TryGetComponent<UnitBase>(out var enemyUnit);
+
+		if (hitEnemyDic.ContainsKey(enemyUnit.GetInstanceID()))
+		{
+			return false;
+		}
+
 		enemyUnit.Hit(null, attackDamage);
 		
 		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit);
+
+		return true;
 	}
 	
 	
