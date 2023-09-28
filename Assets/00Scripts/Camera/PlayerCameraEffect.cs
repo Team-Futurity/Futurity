@@ -13,6 +13,10 @@ public class PlayerCameraEffect : MonoBehaviour
 	[ReadOnly(false), SerializeField] private CinemachineFramingTransposer camBody;
 	[ReadOnly(false), SerializeField] private  float originOrthoSize;
 
+	[Space(3)] 
+	[Header("Blur")] 
+	[SerializeField] private GameObject blurUI;
+	
 	[Space(3)]
 	[Header("Shake Camera")] 
 	[SerializeField] private CinemachineImpulseSource impulseSource;
@@ -53,12 +57,14 @@ public class PlayerCameraEffect : MonoBehaviour
 	private IEnumerator TimeStop(float duration)
 	{
 		Time.timeScale = 0.0f;
-		dof.active = true;
+		//dof.active = true;
+		blurUI.SetActive(true);
 
 		yield return new WaitForSecondsRealtime(duration);
 
 		Time.timeScale = 1.0f;
-		dof.active = false;
+		blurUI.SetActive(false);
+		//dof.active = false;
 	}
 	
 	#endregion
