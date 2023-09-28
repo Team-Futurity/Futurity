@@ -36,12 +36,6 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		pc.animator.SetInteger(pc.currentAttackAnimKey, pc.curNode.animInteger);
 		pc.rmController.SetRootMotion("Attack");
 
-		// sound
-		if (isCombo)
-		{
-			AudioManager.instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
-		}
-
 		// autoTargetting
 		float range = isCombo 
 			? pc.autoLength * MathPlus.cm2m 
@@ -53,8 +47,16 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		targets.Clear();
 
+		pc.playerData.EnableAttackTime();
+
 		// ohter Setting
 		pc.glove.SetActive(true);
+
+		// sound
+		if (isCombo)
+		{
+			AudioManager.instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
+		}
 	}
 
 	public override void Update(PlayerController pc)
@@ -63,7 +65,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		if (targets.Count > 0)
 		{
-			bool isMove = AutoTarget.Instance.AutoTargetProcess(targets, pc.gameObject, pc.attackCollider, pc.autoAngle, pc.moveMargin, pc.moveTime);
+			bool isMove = AutoTarget.Instance.AutoTargetProcess(targets, pc.gameObject, pc.attackCollider, pc.autoAngle, pc.moveMargin, pc.moveTime, !pc.curNode.ignoresAutoTargetMove);
 			// 오토타겟 이동 2안) /*if (isMove) { pc.ResetCombo(); pc.StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack); Begin(pc); }*/
 		}
 

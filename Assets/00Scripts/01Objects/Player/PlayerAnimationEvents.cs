@@ -35,7 +35,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		if(playerRot.y > 180f) { playerRot.y -= 360f; }
 		Quaternion rotation = playerRot * attackNode.effectRotOffset;
 
-		Vector3 position = pc.gameObject.transform.position + rotation * attackNode.effectOffset;
+		Vector3 position = pc.gameObject.transform.position + /*rotation */ attackNode.effectOffset;
+
+		FDebug.Log($"{position} = {pc.gameObject.transform.position} + {rotation * attackNode.effectOffset}");
+
+
 		position.y = pc.gameObject.transform.position.y + attackNode.effectOffset.y;
 
 		effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
@@ -130,6 +134,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 	}
 
 	#region HitEffectEvent
+	public void StartHitStop(float duration)
+	{
+		hitStop = HitStop(duration);
+		StartCoroutine(hitStop);
+	}
 	public void SlowMotion(string value)
 	{
 		UnitState<PlayerController> state = null;
@@ -163,6 +172,13 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 		return result;
 	}
+	
+	private IEnumerator HitStop(float duration)
+	{
+		Time.timeScale = 0.0f;
+		yield return new WaitForSecondsRealtime(duration);
+		Time.timeScale = 1.0f;
+	}
 	#endregion
 
 	public void WalkSE()
@@ -175,18 +191,5 @@ public class PlayerAnimationEvents : MonoBehaviour
 		bool isActive = isActiveInteager == 1;
 
 		pc.SetCollider(isActive);
-	}
-	
-	public void StartHitStop(float duration)
-	{
-		hitStop = HitStop(duration);
-		StartCoroutine(hitStop);
-	}
-	
-	private IEnumerator HitStop(float duration)
-	{
-		Time.timeScale = 0.0f;
-		yield return new WaitForSecondsRealtime(duration);
-		Time.timeScale = 1.0f;
 	}
 }

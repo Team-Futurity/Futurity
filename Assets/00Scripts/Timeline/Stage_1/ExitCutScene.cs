@@ -6,6 +6,7 @@ public class ExitCutScene : CutSceneBase
 {
 	[SerializeField] private float moveDistance = 7.0f;
 	[SerializeField] private float duration = 0.0f;
+	[SerializeField] private SpawnerManager enemySpawner;
 	protected override void Init()
 	{
 		
@@ -20,7 +21,7 @@ public class ExitCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-		
+		gameObject.SetActive(false);
 	}
 
 	public void MovePlayer()
@@ -31,5 +32,10 @@ public class ExitCutScene : CutSceneBase
 		
 		var targetPos = TimelineManager.Instance.GetOffsetVector(moveDistance, Vector3.forward);
 		TimelineManager.Instance.PlayerController.LerpToWorldPosition(targetPos, duration);
+	}
+
+	public void SpawnEnemy()
+	{
+		enemySpawner.SpawnEnemy();
 	}
 }

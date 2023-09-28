@@ -24,6 +24,7 @@ public class CSNode : Node
 	public float AttackAfterDelay { get; set; }
 	public float AttackST { get; set; }
 	public float AttackKnockback { get; set; }
+	public bool IgnoresAutoTargetMove { get; set; }
 
 	// Attack Effect
 	public Vector3 EffectOffset { get; set; }
@@ -150,6 +151,7 @@ public class CSNode : Node
 		FloatField afterDelayField				= CreateAndRegistField("Attack After Delay(공격 후 지연 시간)		|", AttackAfterDelay, comboFoldout);
 		FloatField attackSTField				= CreateAndRegistField("Attack ST(데미지 배율)					|", AttackST, comboFoldout);
 		FloatField attackKnockbackField			= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 거리)		|", AttackKnockback, comboFoldout);
+		Toggle ignoreAutoTargetField			= CreateAndRegistField("자동 조준 이동 무시					|", IgnoresAutoTargetMove, comboFoldout);
 
 		// attack effect
 		Foldout attackEffectFoldout	= CSElementUtility.CreateFoldout("Attack Effect");
@@ -393,6 +395,16 @@ public class CSNode : Node
 	private IntegerField CreateAndRegistField(string fieldName, int variable, Foldout category)
 	{
 		IntegerField newField = new IntegerField(fieldName, MaxFieldLength);
+		newField.value = variable;
+
+		category.Add(newField);
+
+		return newField;
+	}
+
+	private Toggle CreateAndRegistField(string fieldName, bool variable, Foldout category)
+	{
+		Toggle newField = new Toggle(fieldName);
 		newField.value = variable;
 
 		category.Add(newField);

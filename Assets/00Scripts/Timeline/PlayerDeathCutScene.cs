@@ -7,6 +7,7 @@ public class PlayerDeathCutScene : CutSceneBase
 	[Header("Component")]
 	[SerializeField] private GameObject[] disableUI;
 	[SerializeField] private GameObject gameOverUI;
+	[SerializeField] private float endPosDistance = 0.0f;
 
 	[Header("흑백 전환 시간")] 
 	[SerializeField] private float grayScaleTime = 0.5f;
@@ -28,10 +29,10 @@ public class PlayerDeathCutScene : CutSceneBase
 	
 	protected override void EnableCutScene()
 	{
-		endPos.position = TimelineManager.Instance.GetOffsetVector(-3.0f);
+		endPos.position = TimelineManager.Instance.GetOffsetVector(endPosDistance);
 		
 		TimelineManager.Instance.ChangeFollowTarget(true, newFollowTarget);
-		GameObject.FindWithTag("Player").GetComponent<Animator>().Play("New State", -1, 0f);
+		//GameObject.FindWithTag("Player").GetComponent<Animator>().Play("New State", -1, 0f);
 		
 		foreach (var ui in disableUI)
 		{
@@ -46,9 +47,11 @@ public class PlayerDeathCutScene : CutSceneBase
 		TimelineManager.Instance.ResetCameraValue();
 		TimelineManager.Instance.ChangeFollowTarget();
 		
-		//gameOverUI.SetActive(true);
+		gameOverUI.SetActive(true);
 		grayScale.amount.value = 0.0f;
 		grayScale.active = false;
+		
+		gameObject.SetActive(false);
 	}
 	
 	private void StartGrayScaleRoutine()

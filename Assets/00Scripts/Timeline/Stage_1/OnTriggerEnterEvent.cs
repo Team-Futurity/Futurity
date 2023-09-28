@@ -10,7 +10,7 @@ public class OnTriggerEnterEvent : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.STAGE1_EXITCUTSCENE);
+			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.AREA1_EXITCUTSCENE);
 		}
 	}
 }

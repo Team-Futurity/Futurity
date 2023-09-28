@@ -108,6 +108,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	//public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
+	public PlayerCameraEffect cameraEffect;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	private WaitForSeconds dashCoolTimeWFS;
@@ -355,7 +356,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Special Move
 	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
-		if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+		//if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
 		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());

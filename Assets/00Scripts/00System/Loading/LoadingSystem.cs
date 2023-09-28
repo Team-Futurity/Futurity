@@ -24,8 +24,6 @@ public class LoadingSystem : MonoBehaviour
 
 	public void SetNextScene(string sceneName)
 	{
-		loadingGauge.SetCurrentGauge(0f);
-
 		nextScene = sceneName;
 
 		FadeManager.Instance.FadeOut(fadeTime, () =>
@@ -37,6 +35,6 @@ public class LoadingSystem : MonoBehaviour
 
 	private void FillLoadingGauge(float targetValue)
 	{
-		loadingGauge.StartFillGauge(targetValue * 100f, 3f);
+		loadingGauge.StartFillGauge(targetValue * 100f, 1f);
 	}
 }

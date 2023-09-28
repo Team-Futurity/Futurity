@@ -79,6 +79,9 @@ MonoBehaviour:
   rigid: {fileID: 4439521067689912938}
   isGodMode: 0
   isStun: 0
+  <IsAttackTime>k__BackingField: 0
+  <IsAttackTiming>k__BackingField: 0
+  AttackCheckFrameCount: 3
   OnAttack:
     m_PersistentCalls:
       m_Calls: []
@@ -96,7 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   test: {fileID: 0}
-  test1: {x: 0, y: 0, z: 0}
   enemyType: 0
   isTutorialDummy: 0
   animationEvents: {fileID: 2396154895953505876}
@@ -128,7 +130,7 @@ MonoBehaviour:
   randMoveDistanceMin: 1.5
   randMoveDistanceMax: 3
   attackRange: 1.5
-  attackChangeDelay: 1
+  attackChangeDelay: 2
   turnSpeed: 150
   isAttackSuccess: 0
   projectileDistance: 0
@@ -287,7 +289,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4439521068934908814
 GameObject:

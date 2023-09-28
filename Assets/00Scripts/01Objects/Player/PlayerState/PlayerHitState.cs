@@ -23,6 +23,7 @@ public class PlayerHitState : UnitState<PlayerController>
 		}
 		else
 		{
+			pc.cameraEffect.StartHitEffectVignette();
 			pc.ChangeState(PlayerState.Idle);
 		}
 	}
@@ -45,7 +46,7 @@ public class PlayerHitState : UnitState<PlayerController>
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		throw new System.NotImplementedException();
+
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
