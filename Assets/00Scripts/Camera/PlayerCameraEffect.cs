@@ -16,6 +16,7 @@ public class PlayerCameraEffect : MonoBehaviour
 	[Space(3)] 
 	[Header("Blur")] 
 	[SerializeField] private GameObject blurUI;
+	[SerializeField] private bool areaBlur;
 	
 	[Space(3)]
 	[Header("Shake Camera")] 
@@ -39,7 +40,7 @@ public class PlayerCameraEffect : MonoBehaviour
 	{
 		Init();
 	}
-
+	
 	#region PlayerAnimationEventFunc
 
 	public void StartTimeStop(float duration)
@@ -57,16 +58,26 @@ public class PlayerCameraEffect : MonoBehaviour
 	private IEnumerator TimeStop(float duration)
 	{
 		Time.timeScale = 0.0f;
-		//dof.active = true;
-		blurUI.SetActive(true);
+		SelectBlur();
 
 		yield return new WaitForSecondsRealtime(duration);
 
 		Time.timeScale = 1.0f;
+		
 		blurUI.SetActive(false);
-		//dof.active = false;
+		dof.active = false;
 	}
-	
+
+	private void SelectBlur()
+	{
+		if (areaBlur == true)
+		{
+			blurUI.SetActive(true);
+			return;
+		}
+
+		dof.active = true;
+	}
 	#endregion
 
 	
