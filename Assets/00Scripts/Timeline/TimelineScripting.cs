@@ -33,7 +33,6 @@ public class TimelineScripting : MonoBehaviour
 
 	private IEnumerator PrintingScript(List<ScriptingStruct> scriptsStruct)
 	{
-		int index = 0;
 		foreach (ScriptingStruct scripts in scriptsStruct)
 		{
 			EmotionCheck(scripts.expressionType);
