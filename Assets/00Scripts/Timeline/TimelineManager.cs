@@ -90,7 +90,7 @@ public class TimelineManager : Singleton<TimelineManager>
 			return;
 		}
 		
-		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].GetComponent<Area1_EntryCutScene>().DisableCutScene();
+		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
 		playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
 		spawnerManager.SpawnEnemy();
 	}
