@@ -17,8 +17,6 @@ public class LastKillCutScene : CutSceneBase
 		TimelineManager.Instance.SetActivePlayerInput(true);
 		disableCollider.enabled = false;
 		enableCollider.enabled = true;
-		
-		gameObject.SetActive(false);
 	}
 }
 

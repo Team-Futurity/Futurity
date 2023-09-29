@@ -53,20 +53,14 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-	}
-
-	private void OnDisable()
-	{
 		manager.SetActivePlayerInput(true);
 		manager.uiCanvas.SetActive(true);
 		spawnerManager.SpawnEnemy();
 
 		vignette.intensity.value = originIntensity;
 		vignette.color.value = Color.red;
-		
-		gameObject.SetActive(false);
 	}
-
+	
 	private void Update()
 	{
 		vignette.intensity.value = intensity;

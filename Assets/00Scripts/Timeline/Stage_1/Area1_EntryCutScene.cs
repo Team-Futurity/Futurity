@@ -32,7 +32,6 @@ public class Area1_EntryCutScene : CutSceneBase
 		TimelineManager.Instance.SetActivePlayerInput(true);
 
 		playerCamera.SetActive(true);
-		gameObject.SetActive(false);
 	}
 	
 	public void MovePlayer()
