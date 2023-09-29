@@ -73,19 +73,19 @@ public class Area3_EntryCutScene : CutSceneBase
 		chapter1Director.Pause();
 
 		StartCoroutine(PrintScripts());
-		manager.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
+		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		curScriptsIndex++;
 	}
 
 	private IEnumerator PrintScripts()
 	{
-		while (manager.isEnd == false)
+		while (manager.scripting.isEnd == false)
 		{
 			yield return null;
 		}
 		
 		chapter1Director.Resume();
-		manager.isEnd = false;
+		manager.scripting.isEnd = false;
 	}
 	
 	public void MovePlayer()

@@ -35,7 +35,7 @@ Transform:
   - {fileID: 8304615426564475545}
   - {fileID: 3012372035440923077}
   m_Father: {fileID: 6934600567714598370}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2983148425860595400
 MonoBehaviour:
@@ -221,6 +221,55 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!1 &1355092889365558939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1342265285109650313}
+  - component: {fileID: 8218081652791174704}
+  m_Layer: 0
+  m_Name: TimelineScripting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1342265285109650313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355092889365558939}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6934600567714598370}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8218081652791174704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355092889365558939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a6d4ba54549c84ea9a0d3c7679db6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miraeAnimation: {fileID: 0}
+  textInput: {fileID: 0}
+  nameField: {fileID: 0}
+  textOutputDelay: 0.05
+  isEnd: 0
 --- !u!1 &2324730729824537947
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,7 +712,7 @@ Transform:
   - {fileID: 5072407532458933257}
   - {fileID: 6640667603499440599}
   m_Father: {fileID: 6934600567714598370}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!320 &9098688550147238442
 PlayableDirector:
@@ -884,7 +933,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6934600567714598370}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!320 &6934600567221907384
 PlayableDirector:
@@ -1043,6 +1092,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1342265285109650313}
   - {fileID: 8816333773564973144}
   - {fileID: 6934600567221907381}
   - {fileID: 4906820689806416335}
@@ -1069,12 +1119,7 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   playerHand: {fileID: 0}
   uiCanvas: {fileID: 0}
-  scriptingUI: {fileID: 0}
-  miraeAnimation: {fileID: 0}
-  textInput: {fileID: 0}
-  nameField: {fileID: 0}
-  textOutputDelay: 0.05
-  isEnd: 0
+  scripting: {fileID: 8218081652791174704}
   timeToSlowMotion: 0.2
   recoveryTime: 0.8
   cutSceneList:
@@ -1117,7 +1162,7 @@ Transform:
   m_Children:
   - {fileID: 6934600568706587798}
   m_Father: {fileID: 6934600567714598370}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!320 &6934600568556246681
 PlayableDirector:
@@ -1781,7 +1826,7 @@ Transform:
   - {fileID: 6934600568798647656}
   - {fileID: 6934600568970262686}
   m_Father: {fileID: 6934600567714598370}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!320 &6934600568923427011
 PlayableDirector:
