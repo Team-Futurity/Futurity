@@ -31,6 +31,11 @@ public class TimelineScripting : MonoBehaviour
 		StartInputCheck();
 	}
 
+	public void InitNameField(string inputName)
+	{
+		nameField.text = inputName;
+	}
+
 	private IEnumerator PrintingScript(List<ScriptingStruct> scriptsStruct)
 	{
 		foreach (ScriptingStruct scripts in scriptsStruct)

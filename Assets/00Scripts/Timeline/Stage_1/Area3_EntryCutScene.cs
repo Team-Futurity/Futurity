@@ -74,7 +74,6 @@ public class Area3_EntryCutScene : CutSceneBase
 
 		StartCoroutine(PrintScripts());
 		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-		curScriptsIndex++;
 	}
 
 	private IEnumerator PrintScripts()
@@ -86,6 +85,17 @@ public class Area3_EntryCutScene : CutSceneBase
 		
 		chapter1Director.Resume();
 		manager.scripting.isEnd = false;
+
+		if (curScriptsIndex + 1 < scriptsList.Count)
+		{
+			curScriptsIndex++;
+			yield return new WaitForSecondsRealtime(0.2f);
+			manager.scripting.InitNameField(scriptsList[curScriptsIndex].scriptList[0].name);
+		}
+		else
+		{
+			curScriptsIndex = 0;
+		}
 	}
 	
 	public void MovePlayer()
