@@ -136,7 +136,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	}
 	
 	// 플레이어 타격에 대한 HitStop
-	public void AttackHitStop(float duration)
+	public void AttackHitStop(string values)
 	{
 		UnitState<PlayerController> state = null;
 		pc.GetState(PlayerState.AttackDelay, ref state);
@@ -152,13 +152,16 @@ public class PlayerAnimationEvents : MonoBehaviour
 			return;
 		}
 		
-		pc.cameraEffect.StartTimeStop(duration);
+		float[] shake = ConvertStringToFloatArray(values);
+		
+		pc.cameraEffect.StartTimeStop(shake[0]);
+		pc.followTarget.StartTargetShake(shake[1], shake[2]);
 	}
 	
 	private float[] ConvertStringToFloatArray(string input)
 	{
 		string[] strResult = input.Split(',');
-		float[] result = new float[2];
+		float[] result = new float[strResult.Length];
 
 		for (int i = 0; i < result.Length; ++i)
 		{
