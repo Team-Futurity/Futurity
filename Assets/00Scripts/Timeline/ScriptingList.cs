@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class ScriptingList
+[CreateAssetMenu(fileName = "Timeline Scripts", menuName = "ScriptableObject/Timeline Scripts", order = int.MaxValue)]
+public class ScriptingList : ScriptableObject
 {
 	public List<ScriptingStruct> scriptList;
 }
