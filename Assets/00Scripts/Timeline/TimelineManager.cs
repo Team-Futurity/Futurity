@@ -1,9 +1,5 @@
 using Cinemachine;
-using Spine.Unity;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -30,7 +26,6 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
-	[SerializeField] private GameObject playerHand;
 	public GameObject uiCanvas;
 	public TimelineScripting scripting;
 	private PlayerController playerController;
@@ -65,8 +60,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
 		playerInput.enabled = false;
-		playerHand.SetActive(false);
-		
+
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		
 		originTarget = playerCamera.m_Follow;
