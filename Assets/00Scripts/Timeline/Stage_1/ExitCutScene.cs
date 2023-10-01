@@ -21,7 +21,7 @@ public class ExitCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-		gameObject.SetActive(false);
+		
 	}
 
 	public void MovePlayer()

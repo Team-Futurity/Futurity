@@ -12,4 +12,9 @@ public abstract class CutSceneBase : MonoBehaviour
 		Init();
 		EnableCutScene();
 	}
+
+	private void OnDisable()
+	{
+		DisableCutScene();
+	}
 }

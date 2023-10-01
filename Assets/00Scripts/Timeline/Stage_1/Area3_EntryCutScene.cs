@@ -15,7 +15,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	[SerializeField] private Transform startPos;
 
 	[Header("텍스트 출력 리스트")]
-	[SerializeField] private ScriptsStruct[] scriptsList;
+	[SerializeField] private List<ScriptingList> scriptsList;
 	private int curScriptsIndex = 0;
 
 	[Header("Only Use Timeline")] 
@@ -53,20 +53,14 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-	}
-
-	private void OnDisable()
-	{
 		manager.SetActivePlayerInput(true);
 		manager.uiCanvas.SetActive(true);
 		spawnerManager.SpawnEnemy();
 
 		vignette.intensity.value = originIntensity;
 		vignette.color.value = Color.red;
-		
-		gameObject.SetActive(false);
 	}
-
+	
 	private void Update()
 	{
 		vignette.intensity.value = intensity;
@@ -79,19 +73,29 @@ public class Area3_EntryCutScene : CutSceneBase
 		chapter1Director.Pause();
 
 		StartCoroutine(PrintScripts());
-		manager.StartPrintingScript(scriptsList[curScriptsIndex].scriptsList, scriptsList[curScriptsIndex].characterName);
-		curScriptsIndex++;
+		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 	}
 
 	private IEnumerator PrintScripts()
 	{
-		while (manager.isEnd == false)
+		while (manager.scripting.isEnd == false)
 		{
 			yield return null;
 		}
 		
 		chapter1Director.Resume();
-		manager.isEnd = false;
+		manager.scripting.isEnd = false;
+
+		if (curScriptsIndex + 1 < scriptsList.Count)
+		{
+			curScriptsIndex++;
+			yield return new WaitForSecondsRealtime(0.2f);
+			manager.scripting.InitNameField(scriptsList[curScriptsIndex].scriptList[0].name);
+		}
+		else
+		{
+			curScriptsIndex = 0;
+		}
 	}
 	
 	public void MovePlayer()
@@ -103,11 +107,4 @@ public class Area3_EntryCutScene : CutSceneBase
 	{
 		gameObject.GetComponent<PlayableDirector>().Play();
 	}
-}
-
-[System.Serializable]
-public struct ScriptsStruct
-{
-	public List<string> characterName;
-	public List<string> scriptsList;
 }

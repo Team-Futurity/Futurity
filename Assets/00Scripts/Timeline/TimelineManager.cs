@@ -1,8 +1,5 @@
 using Cinemachine;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -20,23 +17,19 @@ public class TimelineManager : Singleton<TimelineManager>
 		PLYAERDEATHCUTSCENE = 4,
 	}
 	
+	[Header("DebugMode")] 
+	[SerializeField] private bool enableDebugMode;
+	public bool IsDebugMode => enableDebugMode;
+	[SerializeField] private SpawnerManager spawnerManager;
+	private const float StartPos = -12.5f;
+	
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
-	[SerializeField] private GameObject playerHand;
 	public GameObject uiCanvas;
+	public TimelineScripting scripting;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
-
-	[Header("스크립트 출력 UI")] 
-	public GameObject scriptingUI;
-	[HideInInspector] public bool isEnd = false;
-	[SerializeField] private TextMeshProUGUI textInput;
-	[SerializeField] private TextMeshProUGUI nameField;
-	[SerializeField] private float textOutputDelay = 0.05f;
-	private bool isInput = false;
-	private AnalogGlitchVolume analogGlitch;
-	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
 
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
@@ -57,25 +50,33 @@ public class TimelineManager : Singleton<TimelineManager>
 	private CinemachineFramingTransposer cameraBody;
 	private IEnumerator timeSlow;
 	private IEnumerator lerpTimeScale;
-	private IEnumerator textPrint;
-	private IEnumerator inputCheck;
 	private WaitForSecondsRealtime waitForSecondsRealtime;
+	
+	private AnalogGlitchVolume analogGlitch;
+	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
 	
 	private void Start()
 	{
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
 		playerInput.enabled = false;
-		playerHand.SetActive(false);
-		
+
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		
 		originTarget = playerCamera.m_Follow;
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
-
-		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
+		
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
+
+		if (enableDebugMode == false)
+		{
+			return;
+		}
+		
+		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
+		playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
+		spawnerManager.SpawnEnemy();
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
@@ -113,9 +114,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		playerInput.enabled = active;
 	}
-	
-	#region TimelineSignalFunc
-	
+
 	#region TimeScale
 	public void ResetTimeScale()
 	{
@@ -167,113 +166,6 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	#endregion
 
-	#region ScriptingFunc
-
-	public void StartPrintingScript(List<string> textList, List<string> nameList)
-	{
-		textPrint = PrintingScript(textList, nameList);
-		StartCoroutine(textPrint);
-		StartInputCheck();
-	}
-
-	private IEnumerator PrintingScript(List<string> textList, List<string> nameList)
-	{
-		int index = 0;
-		foreach (string textArr in textList)
-		{
-			nameField.text = nameList[index++];
-			
-			foreach (char text in textArr)
-			{
-				textInput.text += text;
-
-				if (isInput == true)
-				{
-					textInput.text = textArr;
-					isInput = false;
-					break;
-				}
-
-				yield return waitForSecondsRealtime;
-			}
-
-			while (true)
-			{
-				if (isInput == true)
-				{
-					isInput = false;
-					break;
-				}
-
-				yield return null;
-			}
-
-			textInput.text = "";
-		}
-
-		isEnd = true;
-		StopInputCheck();
-		textInput.text = "";
-	}
-
-	private void StartInputCheck()
-	{
-		inputCheck = InputCheck();
-		StartCoroutine(inputCheck);
-	}
-
-	private void StopInputCheck()
-	{
-		if (inputCheck != null)
-		{
-			StopCoroutine(inputCheck);
-		}
-	}
-	
-	private IEnumerator InputCheck()
-	{
-		while (true)
-		{
-			if (Input.GetKeyDown(KeyCode.F))
-			{
-				isInput = true;
-			}
-
-			yield return null;
-		}
-	}
-	
-	#endregion
-	
-	public void SetActiveScriptsUI(bool active)
-	{
-		scriptingUI.gameObject.SetActive(active);
-	}
-	
-	private int CompareType(string type)
-	{
-		int result = 0;
-
-		switch (type)
-		{
-			case "Normal":
-				result = 0;
-				break;
-			
-			case "Angry":
-				result = 1;
-				break;
-			
-			default:
-				result = 2;
-				break;
-		}
-		
-		return result;
-	}
-	
-	#endregion
-	
 	// test signal
 	public void PlayerMoveStage()
 	{

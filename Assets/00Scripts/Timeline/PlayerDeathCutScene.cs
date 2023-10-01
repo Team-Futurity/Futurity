@@ -30,10 +30,8 @@ public class PlayerDeathCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		endPos.position = TimelineManager.Instance.GetOffsetVector(endPosDistance);
-		
 		TimelineManager.Instance.ChangeFollowTarget(true, newFollowTarget);
-		//GameObject.FindWithTag("Player").GetComponent<Animator>().Play("New State", -1, 0f);
-		
+
 		foreach (var ui in disableUI)
 		{
 			ui.gameObject.SetActive(false);		
@@ -50,8 +48,6 @@ public class PlayerDeathCutScene : CutSceneBase
 		gameOverUI.SetActive(true);
 		grayScale.amount.value = 0.0f;
 		grayScale.active = false;
-		
-		gameObject.SetActive(false);
 	}
 	
 	private void StartGrayScaleRoutine()
