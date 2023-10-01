@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PartBehaviour : MonoBehaviour
 {
-	// Gauge를 제어하는 것은 Part System에서 진행한다. -> Part 넣는 위치에 따라서 달라지기 때문
-
 	// Activation Percent
 	public int partCode = 0;
 	public PartType partType = PartType.NONE;

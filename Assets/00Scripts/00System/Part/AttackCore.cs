@@ -15,8 +15,7 @@ public class AttackCore : CoreAbility
 	// Attack Core Type
 	// 1. 상태 이상 부여
 	// 2. 직접 데미지
-	[SerializeField]
-	private AttackCoreType attackType;
+	public AttackCoreType attackType;
 
 	[SerializeField]
 	private LayerMask targetLayer;
@@ -28,8 +27,7 @@ public class AttackCore : CoreAbility
 	public float attackDamage = .0f;
 
 	// 공격 시, 전이 효과
-	[SerializeField]
-	private bool isStateTransition;
+	public bool isStateTransition;
 
 	// 전이 효과가 존재할 경우, 충돌 Circle 사이즈
 	public float transitionColliderRadius = .0f;
@@ -39,10 +37,6 @@ public class AttackCore : CoreAbility
 
 	// Monster Data
 	private Dictionary<int, GameObject> hitEnemyDic = new Dictionary<int, GameObject>();
-
-	// Debug Mode
-	public bool isDebugMode = false;
-	public float debugColliderRadius = .0f;
 
 	protected override void OnPartAbility(Enemy enemy)
 	{
@@ -120,23 +114,6 @@ public class AttackCore : CoreAbility
 
 	private void AttackByOddState(Enemy enemy)
 	{
+		
 	}
-
-	#region Debug
-
-	private void OnDrawGizmos()
-	{
-		if (!isDebugMode)
-		{
-			return;
-		}
-
-		foreach (var hitEnemy in hitEnemyDic)
-		{
-			Gizmos.color = Color.red;
-			Gizmos.DrawWireSphere(hitEnemy.Value.transform.position, debugColliderRadius);
-		}
-	}
-
-	#endregion
 }
