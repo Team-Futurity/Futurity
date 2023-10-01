@@ -69,13 +69,22 @@ public class AttackCore : CoreAbility
 		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit);
 
 		// 주변으로 Collider를 그려준다.
-		var coll = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
+		var coll = PartCollider.DrawCircleCollider(enemyUnit.transform.position, colliderRadius, targetLayer);
 
 		if (isStateTransition)
 		{
 			// 가장 가까운 몬스터 판별
-			var nearEnemy = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList()[0];
-			AttackHitEnemyDic(nearEnemy);
+			var nearEnemy = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList()[1];
+
+			var hasTransitionComponent = nearEnemy.TryGetComponent<TransitionAttackCore>(out var transitionAttackCore);
+
+			if (!hasTransitionComponent)
+			{
+				transitionAttackCore = nearEnemy.AddComponent<TransitionAttackCore>();
+			}
+			
+			transitionAttackCore.SetTransitionData(transitionColliderRadius, transitionCount, transitionDamage, targetLayer);
+			transitionAttackCore.PlayAction(1f);
 		}
 		else
 		{
