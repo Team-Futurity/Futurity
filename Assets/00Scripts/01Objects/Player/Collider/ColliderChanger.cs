@@ -6,20 +6,22 @@ using System;
 public class ColliderChanger : MonoBehaviour
 {
 	public ColliderData[] colliderDatas;
-	private Dictionary<ColliderType, Collider> colliderDictionary;
+	private Dictionary<ColliderType, ColliderData> colliderDictionary;
 
-	private void Awake()
+	private void Start()
 	{
-		colliderDictionary = new Dictionary<ColliderType, Collider>();
+		colliderDictionary = new Dictionary<ColliderType, ColliderData>();
 		foreach(var data in colliderDatas)
 		{
 			if (colliderDictionary.ContainsKey(data.colliderType)) { continue; }
 
-			Collider collider = GetColliderByColliderBase(data.collider);
+			Collider collider = GetColliderByColliderBase(data.colliderScript);
 			if (collider == null) { FDebug.LogWarning("Collider is not Assigned", GetType()); continue; }
 
+			collider.enabled = false;
+			data.collider = collider;
 
-			colliderDictionary.Add(data.colliderType, collider);
+			colliderDictionary.Add(data.colliderType, data);
 		}
 	}
 
@@ -37,48 +39,71 @@ public class ColliderChanger : MonoBehaviour
 		return null;
 	}
 
-	private Collider GetColliderWithDictionary(ColliderType type)
+	private ColliderData GetColliderWithDictionary(ColliderType type)
 	{
-		Collider collider = null;
-		if (!colliderDictionary.TryGetValue(type, out collider)) { FDebug.LogWarning($"This Collider Type not Exist : {type}", GetType()); return null; }
-		if (collider == null) { FDebug.LogWarning("Collider is Null", GetType()); return null; }
+		ColliderData colliderData = null;
+		if (!colliderDictionary.TryGetValue(type, out colliderData)) { FDebug.LogWarning($"This Collider Type is not Exist : {type}", GetType()); return null; }
+		if (colliderData.collider == null) { FDebug.LogWarning("Collider is Null", GetType()); return null; }
 
-		return collider;
+		return colliderData;
+	}
+
+	public ColliderBase GetCollider(ColliderType type)
+	{
+		ColliderData colliderData = null;
+
+		if(!colliderDictionary.TryGetValue(type, out colliderData)) { FDebug.LogWarning($"This Collider Type is not Exist : {type}", GetType()); return null; }
+
+		return colliderData.colliderScript;
 	}
 
 
-	public bool EnableCollider(ColliderType type)
+	public bool EnableCollider(ColliderType type, out ColliderBase collider)
 	{
-		Collider colliderToEnable = GetColliderWithDictionary(type);
+		ColliderData colliderToEnable = GetColliderWithDictionary(type);
+		collider = colliderToEnable.colliderScript;
 
 		if(colliderToEnable == null) { return false; }
 		
-		foreach(var collider in colliderDictionary.Values)
+		foreach(var colliderValue in colliderDictionary.Values)
 		{
-			collider.enabled = false;
+			colliderValue.collider.enabled = false;
 		}
 
-		colliderToEnable.enabled = true;
+		colliderToEnable.collider.enabled = true;
+
+		return true;
+	}
+
+	public bool EnableCollider(ColliderType type)
+	{
+		ColliderBase colliderBase;
+		return EnableCollider(type, out colliderBase);
+	}
+
+	public bool DisableCollider(ColliderType type, out ColliderBase collider)
+	{
+		ColliderData colliderToEnable = GetColliderWithDictionary(type); 
+		collider = colliderToEnable.colliderScript;
+
+		if (colliderToEnable == null) { return false; }
+
+		colliderToEnable.collider.enabled = false;
 
 		return true;
 	}
 
 	public bool DisableCollider(ColliderType type)
 	{
-		Collider colliderToEnable = GetColliderWithDictionary(type);
-
-		if (colliderToEnable == null) { return false; }
-
-		colliderToEnable.enabled = false;
-
-		return true;
+		ColliderBase colliderBase;
+		return DisableCollider(type, out colliderBase);
 	}
 
 	public void DisableAllCollider()
 	{
-		foreach (var collider in colliderDictionary.Values)
+		foreach (var colliderData in colliderDictionary.Values)
 		{
-			collider.enabled = false;
+			colliderData.collider.enabled = false;
 		}
 	}
 }

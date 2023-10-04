@@ -100,8 +100,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public SpecialMoveController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
-	public TruncatedCapsuleCollider attackCollider;
-	public TruncatedCapsuleCollider autoTargetCollider;
+	public ColliderChanger attackColliderChanger;
+	public ColliderChanger autoTargetColliderChanger;
 	public CapsuleCollider basicCollider;
 	public EffectController effectController;
 	public EffectDatas effectSO;
@@ -112,6 +112,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[HideInInspector] public CameraFollowTarget followTarget;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
+	/*[HideInInspector] public TruncatedCapsuleCollider attackCollider;
+	[HideInInspector] public TruncatedCapsuleCollider autoTargetCollider;*/
 	private WaitForSeconds dashCoolTimeWFS;
 	private WaitForSeconds hitCoolTimeWFS;
 
@@ -505,8 +507,17 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public void SetCollider(bool isEnabled)
 	{
 		basicCollider.enabled = isEnabled;
-		attackCollider.enabled = isEnabled;
-		autoTargetCollider.enabled = isEnabled;
+
+		if(isEnabled)
+		{
+			attackColliderChanger.EnableCollider(curNode.attackColliderType);
+			autoTargetColliderChanger.EnableCollider(curNode.attackColliderType);
+		}
+		else
+		{
+			attackColliderChanger.DisableAllCollider();
+			autoTargetColliderChanger.DisableAllCollider();
+		}
 	}
 
 	public bool IsAttackProcess(bool isContainedAfterDelay = false)
@@ -653,8 +664,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (activePartController == null) { msgs.Add("activePartController is Null."); }
 		if (comboGaugeSystem == null) { msgs.Add("comboGaugeSystem is Null."); }
 		if (hitCountSystem == null) { msgs.Add("hitCountSystem is Null."); }
-		if (attackCollider == null) { msgs.Add("attackCollider is Null."); }
-		if (autoTargetCollider == null) { msgs.Add("autoTargetCollider is Null."); }
+		if (attackColliderChanger == null) { msgs.Add("attackColliderChanger is Null."); }
+		if (autoTargetColliderChanger == null) { msgs.Add("autoTargetColliderChanger is Null."); }
 		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
 		if (effectController == null) { msgs.Add("effectManager is Null."); }
 		if (effectSO == null) { msgs.Add("effectSO is Null."); }

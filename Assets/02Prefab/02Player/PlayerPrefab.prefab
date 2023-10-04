@@ -102,7 +102,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 625353276}
+  - component: {fileID: 2092668479919039194}
   - component: {fileID: 3061016113067807086}
+  - component: {fileID: 880271171333867486}
   m_Layer: 0
   m_Name: AutoTargetCollider
   m_TagString: Untagged
@@ -125,6 +127,25 @@ Transform:
   m_Father: {fileID: 5328251835375101389}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2092668479919039194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625353275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4297cdbec2cecc3448579173a6858aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderDatas:
+  - colliderType: 0
+    colliderScript: {fileID: 3061016113067807086}
+    collider: {fileID: 0}
+  - colliderType: 1
+    colliderScript: {fileID: 880271171333867486}
+    collider: {fileID: 0}
 --- !u!114 &3061016113067807086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,10 +158,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65acb2058499920478e25358d6c8f434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle: 0
-  <Radius>k__BackingField: 0
   <IsTrigger>k__BackingField: 1
   colliderColor: {r: 1, g: 0, b: 0, a: 1}
+  angle: 0
+--- !u!114 &880271171333867486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625353275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cbf1364bff0ed48ba1720d64ca7b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsTrigger>k__BackingField: 1
+  colliderColor: {r: 1, g: 0, b: 0, a: 1}
+  angle: 0
+  offset: {x: 0, y: 0}
+  size: {x: 0, y: 0}
 --- !u!1 &1222493725
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,8 +599,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 774150179230461155}
-  - component: {fileID: 675479338}
+  - component: {fileID: 5949228477894162052}
   - component: {fileID: 373066254}
+  - component: {fileID: 675479338}
   m_Layer: 0
   m_Name: AttackCollider
   m_TagString: Untagged
@@ -586,24 +624,25 @@ Transform:
   m_Father: {fileID: 5328251835375101389}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &675479338
+--- !u!114 &5949228477894162052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4068547685948332289}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58cbf1364bff0ed48ba1720d64ca7b7f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4297cdbec2cecc3448579173a6858aae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle: 172.66
-  <Radius>k__BackingField: 4.2
-  <IsTrigger>k__BackingField: 1
-  colliderColor: {r: 1, g: 0, b: 0, a: 1}
-  offset: {x: 0, y: 0}
-  size: {x: 5, y: 5}
+  colliderDatas:
+  - colliderType: 0
+    colliderScript: {fileID: 373066254}
+    collider: {fileID: 0}
+  - colliderType: 1
+    colliderScript: {fileID: 675479338}
+    collider: {fileID: 0}
 --- !u!114 &373066254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,10 +655,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65acb2058499920478e25358d6c8f434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle: 0
-  <Radius>k__BackingField: 0
   <IsTrigger>k__BackingField: 1
   colliderColor: {r: 1, g: 0, b: 0, a: 1}
+  angle: 0
+--- !u!114 &675479338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4068547685948332289}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58cbf1364bff0ed48ba1720d64ca7b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsTrigger>k__BackingField: 1
+  colliderColor: {r: 1, g: 0, b: 0, a: 1}
+  angle: 172.66
+  offset: {x: 0, y: 0}
+  size: {x: 5, y: 5}
 --- !u!1 &4666135625301141412
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,6 +936,7 @@ MonoBehaviour:
       attackST: 0
       attackKnockback: 0
       ignoresAutoTargetMove: 0
+      attackColliderType: 0
       effectOffset: {x: 0, y: 0, z: 0}
       effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       effectPrefab: {fileID: 0}
@@ -939,6 +995,7 @@ MonoBehaviour:
         attackST: 0
         attackKnockback: 0
         ignoresAutoTargetMove: 0
+        attackColliderType: 0
         effectOffset: {x: 0, y: 0, z: 0}
         effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 0}
@@ -968,6 +1025,7 @@ MonoBehaviour:
       attackST: 0
       attackKnockback: 0
       ignoresAutoTargetMove: 0
+      attackColliderType: 0
       effectOffset: {x: 0, y: 0, z: 0}
       effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
@@ -997,6 +1055,7 @@ MonoBehaviour:
     attackST: 0
     attackKnockback: 0
     ignoresAutoTargetMove: 0
+    attackColliderType: 0
     effectOffset: {x: 0, y: 0, z: 0}
     effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
@@ -1030,6 +1089,7 @@ MonoBehaviour:
     attackST: 0
     attackKnockback: 0
     ignoresAutoTargetMove: 0
+    attackColliderType: 0
     effectOffset: {x: 0, y: 0, z: 0}
     effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     effectPrefab: {fileID: 0}
@@ -1060,8 +1120,8 @@ MonoBehaviour:
   activePartController: {fileID: 1921549218}
   comboGaugeSystem: {fileID: 6307489441031809494}
   hitCountSystem: {fileID: 8247117609381097480}
-  attackCollider: {fileID: 373066254}
-  autoTargetCollider: {fileID: 3061016113067807086}
+  attackColliderChanger: {fileID: 5949228477894162052}
+  autoTargetColliderChanger: {fileID: 2092668479919039194}
   basicCollider: {fileID: 1070719927369175189}
   effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
   rmController: {fileID: 484117206}

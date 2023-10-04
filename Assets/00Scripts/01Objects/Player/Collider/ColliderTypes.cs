@@ -12,5 +12,6 @@ public enum ColliderType
 public class ColliderData
 {
 	public ColliderType colliderType;
-	public ColliderBase collider;
+	public ColliderBase colliderScript;
+	[HideInInspector] public Collider collider;
 }
