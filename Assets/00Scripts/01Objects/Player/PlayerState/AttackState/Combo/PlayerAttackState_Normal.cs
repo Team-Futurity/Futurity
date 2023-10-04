@@ -11,7 +11,7 @@ public class PlayerAttackState_Normal : PlayerAttackState
 	{
 		base.Begin(pc);
 
-		pc.attackCollider.truncatedCollider.enabled = true;
+		pc.attackCollider.ColliderReference.enabled = true;
 	}
 
 	public override void End(PlayerController pc)

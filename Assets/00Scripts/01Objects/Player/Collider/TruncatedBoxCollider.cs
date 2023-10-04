@@ -19,13 +19,13 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		this.offset = offset;
 		this.size = size;
 
-		truncatedCollider.center = new Vector3(offset.x, truncatedCollider.center.y, offset.y);
-		truncatedCollider.size = new Vector3(size.x, truncatedCollider.size.y, size.y);
+		ColliderReference.center = new Vector3(offset.x, ColliderReference.center.y, offset.y);
+		ColliderReference.size = new Vector3(size.x, ColliderReference.size.y, size.y);
 	}
 
 	public override bool IsInCollider(GameObject target)
 	{
-		Vector3 targetVec = target.transform.position - truncatedCollider.center;
+		Vector3 targetVec = target.transform.position - ColliderReference.center;
 
 		float absVecX = Mathf.Abs(targetVec.x);
 		float absVecZ = Mathf.Abs(targetVec.z);

@@ -122,7 +122,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 	public void PreAttack()
 	{
-		pc.attackCollider.truncatedCollider.enabled = true;
+		pc.attackCollider.ColliderReference.enabled = true;
 
 		
 

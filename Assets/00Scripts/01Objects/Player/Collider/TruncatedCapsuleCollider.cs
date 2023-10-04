@@ -13,7 +13,7 @@ public class TruncatedCapsuleCollider : TruncatedCollider<CapsuleCollider>
 		Angle = angle;
 		Radius = radius;
 
-		truncatedCollider.radius = radius;
+		ColliderReference.radius = radius;
 	}
 
 	// 원본 콜라이더 내에 들어왔는지 검증하는 메소드

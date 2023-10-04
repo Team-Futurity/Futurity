@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
+public abstract class TruncatedCollider<T> : ColliderBase where T : Collider
 {
 	[SerializeField] protected float angle;
 
@@ -18,15 +18,14 @@ public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
 		}
 	}
 	[field : SerializeField] public float Radius { get; protected set; }
-	[field: SerializeField] public bool IsTrigger { get; protected set; }
-	public T truncatedCollider { get; private set; }
-	[SerializeField] protected Color colliderColor = Color.red;
+	
+	public T ColliderReference { get; private set; }
 
 	protected virtual void Start()
 	{
-		truncatedCollider = gameObject.AddComponent<T>();
-		truncatedCollider.isTrigger = IsTrigger;
-		truncatedCollider.enabled = false;
+		ColliderReference = gameObject.AddComponent<T>();
+		ColliderReference.isTrigger = IsTrigger;
+		ColliderReference.enabled = false;
 	}
 
 	// 콜라이더 기본 설정
@@ -108,9 +107,4 @@ public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
 
 		return vecs;
 	}
-
-	// 공격 범위 표시
-#if UNITY_EDITOR
-	protected abstract void OnDrawGizmos();
-#endif
 }

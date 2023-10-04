@@ -54,7 +54,7 @@ public class PlayerAttackState : PlayerComboAttackState
 
 		unit.rigid.velocity = Vector3.zero;
 
-		unit.attackCollider.truncatedCollider.enabled = false;
+		unit.attackCollider.ColliderReference.enabled = false;
 
 		bool isAttack = hittedEnemyCount > 0;
 		unit.comboGaugeSystem.SetComboGaugeProc(isAttack, hittedEnemyCount);
