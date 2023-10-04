@@ -33,7 +33,7 @@ public class B_SetUpState : UnitState<BossController>
 	public override void Update(BossController unit)
 	{
 		if (unit.isActive)
-			unit.ChangeState(BossController.BossState.Chase);
+			unit.ChangeState(BossController.BossState.Idle);
 	}
 
 	public override void FixedUpdate(BossController unit)

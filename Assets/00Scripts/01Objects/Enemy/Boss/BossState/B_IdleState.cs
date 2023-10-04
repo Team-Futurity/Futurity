@@ -5,17 +5,24 @@ using UnityEngine;
 [FSMState((int)BossController.BossState.Idle)]
 public class B_IdleState : UnitState<BossController>
 {
+	private float curTime = 0f;
+
 	public override void Begin(BossController unit)
 	{
-	}
-
-	public override void End(BossController unit)
-	{
+		unit.curState = BossController.BossState.Idle;
 	}
 
 	public override void Update(BossController unit)
 	{
-		
+		curTime += Time.deltaTime;
+		if (curTime > unit.skillTypeDelay)
+			unit.ChangeState(unit.nextState);
+	}
+
+
+	public override void End(BossController unit)
+	{
+		curTime = 0f;
 	}
 
 	public override void FixedUpdate(BossController unit)

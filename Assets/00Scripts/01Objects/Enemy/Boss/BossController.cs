@@ -23,10 +23,12 @@ public class BossController : UnitFSM<BossController>, IFSM
 		T6_Circle,
 		T7_Trap,
 	}
-
-	[Header("CurrentState")]
-	public BossState curState;
 	public bool isActive = false;
+
+	[Space(8)]
+	[Header("State")]
+	public BossState curState;
+	[HideInInspector] public BossState nextState;
 
 	[Space(8)]
 	[Header("Target ÁöÁ¤")]
@@ -34,7 +36,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 
 	[Space(8)]
 	[Header("Data cashing")]
-	public BossData bossData;
+	public Boss bossData;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	[HideInInspector] public NavMeshAgent navMesh;
@@ -56,6 +58,20 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Header("Spawn Info & Event")]
 	[HideInInspector] public UnityEvent disableEvent;
 
+
+	[Space(8)]
+	[Header("Pattern")]
+	public BossActiveDatas activeDataSO;
+	public BossPhaseDatas phaseDataSO;
+	public int maxTypeCount = 5;
+	[HideInInspector] public int typeCount = 0;
+	[HideInInspector] public float skillTypeDelay;
+	[HideInInspector] public float type467MaxTime;
+	[HideInInspector] public float type5MaxTime;
+
+
+
+
 	private void Start()
 	{
 		unit = this;
@@ -66,6 +82,11 @@ public class BossController : UnitFSM<BossController>, IFSM
 	protected override void Update()
 	{
 		base.Update();
+	}
+
+	protected override void FixedUpdate()
+	{
+		base.FixedUpdate();
 	}
 
 	public void RegisterEvent(UnityAction eventFunc)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossData : UnitBase
+public class Boss : UnitBase
 {
 	[SerializeField] private BossController bc;
 
