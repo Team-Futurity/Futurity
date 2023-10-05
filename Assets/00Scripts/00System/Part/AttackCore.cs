@@ -17,8 +17,7 @@ public class AttackCore : CoreAbility
 	// 2. 직접 데미지
 	public AttackCoreType attackType;
 
-	[SerializeField]
-	private LayerMask targetLayer;
+	public LayerMask targetLayer;
 
 	// Collider 생성 지름
 	public float colliderRadius = .0f;
@@ -38,7 +37,7 @@ public class AttackCore : CoreAbility
 	// Monster Data
 	private Dictionary<int, GameObject> hitEnemyDic = new Dictionary<int, GameObject>();
 
-	protected override void OnPartAbility(Enemy enemy)
+	protected override void OnPartAbility(UnitBase enemy)
 	{
 		switch (attackType)
 		{
@@ -54,9 +53,10 @@ public class AttackCore : CoreAbility
 		hitEnemyDic.Clear();
 	}
 
-	private void AttackByDamage(Enemy enemy)
+	private void AttackByDamage(UnitBase enemy)
 	{
 		var coll = PartCollider.DrawCircleCollider(enemy.transform.position, colliderRadius, targetLayer);
+		Debug.Log(coll.Length);
 
 		if (isStateTransition)
 		{
@@ -92,6 +92,8 @@ public class AttackCore : CoreAbility
 	// 범위 안에 있는 몬스터를 공격
 	private void AttackAllEnemy(Collider[] enemyCollider)
 	{
+		Debug.Log(enemyCollider.Length);
+		
 		foreach (var enemy in enemyCollider)
 		{
 			AttackEnemy(enemy);
@@ -108,12 +110,19 @@ public class AttackCore : CoreAbility
 		}
 
 		enemyUnit.Hit(null, attackDamage);
+		Debug.Log("HIT ENEMY" + enemyUnit.transform.name);
 
 		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit.gameObject);
 	}
 
-	private void AttackByOddState(Enemy enemy)
+	private void AttackByOddState(UnitBase enemy)
 	{
 		// Buff Giver를 통한 상태 처리
+	}
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.green;
+		Gizmos.DrawWireSphere(transform.position, (isStateTransition) ? transitionColliderRadius: colliderRadius);
 	}
 }
