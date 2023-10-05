@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,17 +7,17 @@ using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using URPGlitch.Runtime.AnalogGlitch;
 
+public enum ECutScene
+{
+	AREA1_ENTRYCUTSCENE = 0,
+	AREA1_EXITCUTSCENE = 1,
+	AREA3_ENTRYCUTSCENE = 2,
+	LASTKILLCUTSCENE = 3,
+	PLYAERDEATHCUTSCENE = 4,
+}
+
 public class TimelineManager : Singleton<TimelineManager>
 {
-	public enum ECutScene
-	{
-		AREA1_ENTRYCUTSCENE = 0,
-		AREA1_EXITCUTSCENE = 1,
-		AREA3_ENTRYCUTSCENE = 2,
-		LASTKILLCUTSCENE = 3,
-		PLYAERDEATHCUTSCENE = 4,
-	}
-	
 	[Header("DebugMode")] 
 	[SerializeField] private bool enableDebugMode;
 	public bool IsDebugMode => enableDebugMode;
@@ -26,10 +27,15 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
-	public GameObject uiCanvas;
+	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
+	
+	[Header("다이얼로그")]
+	[SerializeField] private GameObject dialogUI;
+	[SerializeField] private UIDialogController dialogController;
+	public UIDialogController DialogController => dialogController;
 
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
@@ -77,6 +83,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
 		playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
 		spawnerManager.SpawnEnemy();
+		mainUICanvas.SetActive(true);
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
@@ -88,16 +95,8 @@ public class TimelineManager : Singleton<TimelineManager>
 		
 		cutSceneList[(int)cutScene].SetActive(true);
 	}
-
-	public void ResetCameraValue()
-	{
-		cameraBody.m_TrackedObjectOffset = originOffset;
-		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
-	}
-
-	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
-
-	public Vector3 GetOffsetVector(float distance, Vector3 forward = default(Vector3))
+	
+	public Vector3 GetTargetPosition(float distance, Vector3 forward = default(Vector3))
 	{
 		forward = (forward == Vector3.zero) ? playerModelTf.forward : forward;
 		
@@ -105,16 +104,40 @@ public class TimelineManager : Singleton<TimelineManager>
 		return playerModelTf.position + offset;
 	}
 
-	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
-	{
-		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
-	}
-
 	public void SetActivePlayerInput(bool active)
 	{
 		playerInput.enabled = active;
 	}
 
+	public void SetActiveMainUI(bool active)
+	{
+		mainUICanvas.SetActive(active);
+	}
+
+	public void StartDialog(DialogData data)
+	{
+		dialogUI.gameObject.SetActive(true);
+		
+		dialogController.SetDialogData(data);
+		dialogController.PlayDialog();
+	}
+	
+	#region PlayerCamera
+	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
+	
+	public void ResetCameraValue()
+	{
+		cameraBody.m_TrackedObjectOffset = originOffset;
+		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
+	}
+	
+	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
+	{
+		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
+	}
+	
+	#endregion
+	
 	#region TimeScale
 	public void ResetTimeScale()
 	{
@@ -177,6 +200,6 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	public void EnableUI()
 	{
-		uiCanvas.SetActive(true);
+		mainUICanvas.SetActive(true);
 	}
 }

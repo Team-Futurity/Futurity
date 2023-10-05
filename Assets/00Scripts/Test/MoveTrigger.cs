@@ -18,6 +18,6 @@ public class MoveTrigger : MonoBehaviour
 	{
 		SteageMove.Instance.MoveStage(SteageMove.EStageType.STAGE_3);
 		FadeManager.Instance.FadeOut();
-		TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.AREA3_ENTRYCUTSCENE);
+		TimelineManager.Instance.EnableCutScene(ECutScene.AREA3_ENTRYCUTSCENE);
 	}
 }
