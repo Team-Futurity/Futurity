@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class PartSystem : MonoBehaviour
 {
@@ -50,17 +51,31 @@ public class PartSystem : MonoBehaviour
 		}
 	}
 
-	public void EquipPart()
+	
+	public void EquipPart(int index, int partCode)
 	{
-		
+		var part = PartDatabase.GetPart(partCode);
+		equipPartList[index] = part;
 	}
 
-	public void UnEquipPart()
+	public void UnEquipPart(int index)
 	{
-
+		equipPartList[index] = null;
 	}
 
-	// Combo System에서 Update 추가하기.
+	// Select index : 현재 선택된 Index
+	// Change Index : 교체를 희망하고 있는 Index
+	public void SwapPart(int selectIndex, int changeIndex)
+	{
+		var partTemp = equipPartList[changeIndex];
+		partTemp.partCode = 234;
+	}
+
+	public bool IsPartValue(int index)
+	{
+		return (equipPartList[index] != null);
+	}
+
 	private void UpdateComboGauge(float percent)
 	{
 		int activePossibleCount = (int)Math.Floor(percent / 25f);
