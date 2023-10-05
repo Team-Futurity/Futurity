@@ -57,6 +57,7 @@ public class CommandTreeLoader : MonoBehaviour
 		node.attackAfterDelay				= commandSO.AttackAfterDelay;
 		node.attackKnockback				= commandSO.AttackKnockback;
 		node.ignoresAutoTargetMove			= commandSO.IgnoresAutoTargetMove;
+		node.attackColliderType				= commandSO.AttackColliderType;
 
 		node.effectOffset					= commandSO.EffectOffset;
 		node.effectRotOffset				= new Quaternion();

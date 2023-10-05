@@ -1,31 +1,39 @@
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.UI.Image;
+using System.Collections.Generic;
 
 public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 {
+	public override float Angle { get; protected set; }
+	public override float Length { get; protected set; }
+
 	public Vector2 offset;
 	public Vector2 size;
 
 	// 콜라이더 기본 설정
-	public void SetCollider(float angle, float radius, Vector2 offset, Vector2 size)
+	private void SetCollider(Vector2 offset, Vector2 size)
 	{
-		Angle = angle;
-		Radius = radius;
-
 		this.offset = offset;
 		this.size = size;
 
-		truncatedCollider.center = new Vector3(offset.x, truncatedCollider.center.y, offset.y);
-		truncatedCollider.size = new Vector3(size.x, truncatedCollider.size.y, size.y);
+		ColliderReference.center = new Vector3(offset.x, ColliderReference.center.y, offset.y);
+		ColliderReference.size = new Vector3(size.x, ColliderReference.size.y, size.y);
+	}
+
+	public override void SetCollider(float angle, float length)
+	{
+		Angle = angle * MathPlus.cm2m;
+		Length = length;
+
+		offset = new Vector2(0, Length * 0.5f);
+		size = new Vector2(Angle, Length);
+
+		SetCollider(offset, size);
 	}
 
 	public override bool IsInCollider(GameObject target)
 	{
-		Vector3 targetVec = target.transform.position - truncatedCollider.center;
+		Vector3 targetVec = target.transform.position - ColliderReference.center;
 
 		float absVecX = Mathf.Abs(targetVec.x);
 		float absVecZ = Mathf.Abs(targetVec.z);
@@ -33,6 +41,11 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		float halfSizeZ = size.y * 0.5f;
 
 		return absVecX <= halfSizeX && absVecZ <= halfSizeZ;
+	}
+
+	public override void SetColliderActivation(bool isActive)
+	{
+		ColliderReference.enabled = isActive;
 	}
 
 #if UNITY_EDITOR
@@ -168,7 +181,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 	// 1 : leftBottom
 	// 2 : rightBottom
 	// 3 : rightTop
-	private Vector2[] GetRectanglePoints(Vector2 origin, Vector2 forward)
+	private Vector2[] GetRectanglePoints(Vector2 origin, Vector3 forward)
 	{
 		Vector2[] points = new Vector2[4];
 
@@ -182,8 +195,10 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 		for (int i = 0; i < 4; i++)
 		{
-			points[i] += origin;
-			points[i].RotateToDirection(forward);
+			Vector3 vec = new Vector3(points[i].x, 0, points[i].y).RotateToDirection(forward);
+			points[i] = new Vector2(vec.x, vec.z);
+			Vector3 vec2 = new Vector3(origin.x, 0, origin.y).RotateToDirection(forward);
+			points[i] += new Vector2(vec2.x, vec2.z);
 		}
 
 		return points;
@@ -260,11 +275,13 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 	protected override void OnDrawGizmos()
 	{
-		/*float originYPos = transform.position.y; 
+		/*if (ColliderReference == null || !ColliderReference.enabled) { return; }
+
+		float originYPos = transform.position.y;
 		Vector2 originPos = new Vector2(transform.position.x, transform.position.z) + offset;
 		Vector3 originPosVec3 = new Vector3(originPos.x, originYPos, originPos.y);
 		Vector2[] rectanglePoints = GetRectanglePoints(originPos, transform.forward);
-		Vector3[] rangeVectors = GetVectorToCut(originPosVec3);
+		//Vector3[] rangeVectors = GetVectorToCut(originPosVec3);
 
 		// 색상 지정
 		Gizmos.color = Color.red;
@@ -275,7 +292,7 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 		int pointCount = 0;
 		List<Vector3> points = new List<Vector3> { new Vector3(rectanglePoints[pointCount].x, originYPos, rectanglePoints[pointCount].y) };
 
-		while(pointCount++ < rectanglePoints.Length - 1)
+		while (pointCount++ < rectanglePoints.Length - 1)
 		{
 			points.Add(new Vector3(rectanglePoints[pointCount].x, originYPos, rectanglePoints[pointCount].y));
 
@@ -284,14 +301,14 @@ public class TruncatedBoxCollider : TruncatedCollider<BoxCollider>
 
 		Gizmos.DrawLine(points[0], points[pointCount - 1]);
 
-		Handles.DrawSolidRectangleWithOutline(points.ToArray(), colliderColor, Color.blue);
+		Handles.DrawSolidRectangleWithOutline(points.ToArray(), colliderColor, Color.blue);*/
 
 		// 공격 범위 표시
-		*//*Gizmos.DrawLine(originPosVec3, rangeVectors[0]);
-		Gizmos.DrawLine(originPosVec3, rangeVectors[1]);*//*
+		/*Gizmos.DrawLine(originPosVec3, rangeVectors[0]);
+		Gizmos.DrawLine(originPosVec3, rangeVectors[1]);*/
 
 		// 공격 범위 자르기
-		Vector2 intersectionPoint1, intersectionPoint2;
+		/*Vector2 intersectionPoint1, intersectionPoint2;
 		GetIntersectionPoint(rectanglePoints, originPos, rangeVectors[0], out intersectionPoint1);
 		GetIntersectionPoint(rectanglePoints, originPos, rangeVectors[1], out intersectionPoint2);
 

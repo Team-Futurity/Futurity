@@ -67,7 +67,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
-		unit.attackCollider.truncatedCollider.enabled = false;
+		unit.attackColliderChanger.DisableAllCollider();
 		
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
 		attackLengthMark = unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing; // 0 Level Length Mark

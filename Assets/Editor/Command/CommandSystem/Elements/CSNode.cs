@@ -25,6 +25,7 @@ public class CSNode : Node
 	public float AttackST { get; set; }
 	public float AttackKnockback { get; set; }
 	public bool IgnoresAutoTargetMove { get; set; }
+	public ColliderType AttackColliderType { get; set; }
 
 	// Attack Effect
 	public Vector3 EffectOffset { get; set; }
@@ -152,6 +153,7 @@ public class CSNode : Node
 		FloatField attackSTField				= CreateAndRegistField("Attack ST(데미지 배율)					|", AttackST, comboFoldout);
 		FloatField attackKnockbackField			= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 거리)		|", AttackKnockback, comboFoldout);
 		Toggle ignoreAutoTargetField			= CreateAndRegistField("자동 조준 이동 무시					|", IgnoresAutoTargetMove, comboFoldout);
+		EnumField attackColliderTypeField		= CreateAndRegistField("공격 콜라이더 타입					|", AttackColliderType, comboFoldout);	
 
 		// attack effect
 		Foldout attackEffectFoldout	= CSElementUtility.CreateFoldout("Attack Effect");
@@ -192,6 +194,7 @@ public class CSNode : Node
 		attackSTField.RegisterValueChangedCallback((callback) => { AttackST = callback.newValue; });
 		attackKnockbackField.RegisterValueChangedCallback((callback) => { AttackKnockback = callback.newValue; });
 		ignoreAutoTargetField.RegisterValueChangedCallback((callback) => { IgnoresAutoTargetMove = callback.newValue; });
+		attackColliderTypeField.RegisterValueChangedCallback((callback) => { AttackColliderType = (ColliderType)callback.newValue; });
 
 		effectOffsetField.RegisterValueChangedCallback((callback) => { EffectOffset = callback.newValue; });
 		effectRotOffsetField.RegisterValueChangedCallback((callback) => { EffectRotOffset = callback.newValue; });
@@ -334,6 +337,7 @@ public class CSNode : Node
 		AttackKnockback = saveData.AttackKnockback;
 		AttackST = saveData.AttackST;
 		IgnoresAutoTargetMove = saveData.IgnoresAutoTargetMove;
+		AttackColliderType = saveData.AttackColliderType;
 
 		EffectOffset = saveData.EffectOffset;
 		EffectRotOffset = saveData.EffectRotOffset;
@@ -365,6 +369,7 @@ public class CSNode : Node
 		so.AttackKnockback = AttackKnockback;
 		so.AttackST = AttackST;
 		so.IgnoresAutoTargetMove = IgnoresAutoTargetMove;
+		so.AttackColliderType = AttackColliderType;
 
 		so.EffectOffset = EffectOffset;
 		so.EffectRotOffset = EffectRotOffset;

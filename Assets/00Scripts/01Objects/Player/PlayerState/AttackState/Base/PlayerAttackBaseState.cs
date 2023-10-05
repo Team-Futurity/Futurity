@@ -21,8 +21,8 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 
 	public override void End(PlayerController unit)
 	{
-		unit.autoTargetCollider.truncatedCollider.enabled = false;
-		unit.attackCollider.truncatedCollider.enabled = false;
+		unit.autoTargetColliderChanger.DisableAllCollider();
+		unit.attackColliderChanger.DisableAllCollider();
 
 		unit.animator.SetBool(unit.IsAttackingAnimKey, false);
 		unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);

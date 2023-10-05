@@ -20,6 +20,7 @@ public class CSCommandSO : ScriptableObject
 	[field: SerializeField] public float AttackST { get; set; }
 	[field: SerializeField] public float AttackKnockback { get; set; }
 	[field: SerializeField] public bool IgnoresAutoTargetMove { get; set; }
+	[field: SerializeField] public ColliderType AttackColliderType { get; set; }
 
 	// Attack Effect
 	[field: SerializeField] public Vector3 EffectOffset { get; set; }
