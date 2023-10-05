@@ -38,14 +38,14 @@ public class AutoTarget : Singleton<AutoTarget>
 	}
 
 	// 공격 범위 거르기
-	public GameObject[] GetObjectsInAttackRange(GameObject[] objectList, TruncatedCapsuleCollider collider)
+	public GameObject[] GetObjectsInAttackRange(GameObject[] objectList, ColliderBase collider)
 	{
 		if (objectList.Length == 0) { return null; }
 
 		List<GameObject> list = new List<GameObject>();
 		for (int length = 0; length < objectList.Length; length++)
 		{
-			if (collider.IsInCuttedCollider(objectList[length]))
+			if (collider.IsInCuttedCollider(objectList[length], !(collider is TruncatedCapsuleCollider)))
 			{
 				list.Add(objectList[length]);
 			}
@@ -151,7 +151,7 @@ public class AutoTarget : Singleton<AutoTarget>
 	/// <param name="margin">이동 시 멈춰설 거리</param>
 	/// <param name="time">이동 시 이동에 소모하는 시간</param>
 	/// <returns>이동을 수행했는가</returns>
-	public bool AutoTargetProcess(List<GameObject> objects, GameObject origin, TruncatedCapsuleCollider attackCollider, float autoTargetAngle, float margin, float time, bool isMovable)
+	public bool AutoTargetProcess(List<GameObject> objects, GameObject origin, ColliderBase attackCollider, float autoTargetAngle, float margin, float time, bool isMovable)
 	{
 		if(objects.Count == 0) { return false; }
 		if(autoTargetAngle > MaxAngle) { autoTargetAngle %= MaxAngle; }
@@ -174,7 +174,7 @@ public class AutoTarget : Singleton<AutoTarget>
 		ObjectDistanceInCollection[] distances = GetObjectDistance(objectsArray, origin);
 
 		// 공격 사거리에 있는 경우 그 방향으로 회전
-		int nearestIndex = GetObjectsInAttackLength(distances, attackCollider.Radius);
+		int nearestIndex = GetObjectsInAttackLength(distances, attackCollider.Length);
 		if(nearestIndex >= 0)
 		{
 			GameObject objectInAttackLength = objects[nearestIndex];
