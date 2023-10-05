@@ -20,11 +20,12 @@ public class AttackCoreCustomEditor : Editor
 		{
 			return;
 		}
-		
+
 		attackCore.attackType = (AttackCoreType)EditorGUILayout.EnumPopup("공격 타입", attackCore.attackType);
 		
 		EditorGUILayout.Space(10);
 		EditorGUILayout.LabelField("부품 효과 설정");
+		EditorGUILayout.Space(10);
 
 		switch (attackCore.attackType)
 		{
@@ -39,6 +40,7 @@ public class AttackCoreCustomEditor : Editor
 				}
 				break;
 			case AttackCoreType.ADD_ODD_STATE:
+				EditorGUILayout.LabelField("상태 이상은 BuffGiver를 통해서 처리바람");
 				break;
 		}
 		
