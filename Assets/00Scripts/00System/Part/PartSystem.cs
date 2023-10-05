@@ -16,10 +16,8 @@ public class PartSystem : MonoBehaviour
 	[SerializeField, Header("디버그 용")]
 	private List<StatusData> status;
 
-	public Enemy enemy;
-
 	public float debugPercent = .0f;
-
+	
 	private void Awake()
 	{
 		ClearStatus();
@@ -27,14 +25,16 @@ public class PartSystem : MonoBehaviour
 
 	private void Update()
 	{
+		// Percent에 따른 파츠 작동 여부 확인
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			UpdateComboGauge(debugPercent);
 		}
 
+		// 파츠 스킬 작동 여부 확인
 		if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			equipPartList[3].AddCoreAbilityToAttackEvent(enemy);
+			// equipPartList[3].AddCoreAbilityToAttackEvent(enemy);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class PartSystem : MonoBehaviour
 		// UnActive
 		for (int i = maxPartCount; i >= activePossibleCount; --i)
 		{
-			StopExecuteParts(i);
+			StopParts(i);
 		}
 	}
 
@@ -84,7 +84,7 @@ public class PartSystem : MonoBehaviour
 		}
 	}
 
-	private void StopExecuteParts(int index)
+	private void StopParts(int index)
 	{
 		var part = equipPartList[index];
 
