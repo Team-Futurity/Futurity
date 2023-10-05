@@ -8,6 +8,7 @@ using UnityEditor;
 public class AttackCoreCustomEditor : Editor
 {
 	private AttackCore attackCore;
+	private int layerNum = 0;
 
 	private void OnEnable()
 	{
@@ -20,11 +21,15 @@ public class AttackCoreCustomEditor : Editor
 		{
 			return;
 		}
-
+		
 		attackCore.attackType = (AttackCoreType)EditorGUILayout.EnumPopup("공격 타입", attackCore.attackType);
 		
 		EditorGUILayout.Space(10);
 		EditorGUILayout.LabelField("부품 효과 설정");
+		
+		layerNum = EditorGUILayout.LayerField("타겟 레이어", layerNum);
+		attackCore.targetLayer = 1 << layerNum;
+		
 		EditorGUILayout.Space(10);
 
 		switch (attackCore.attackType)
@@ -44,8 +49,6 @@ public class AttackCoreCustomEditor : Editor
 				break;
 		}
 		
-		
-
 		if (attackCore.isStateTransition)
 		{
 			attackCore.transitionColliderRadius =
