@@ -20,6 +20,7 @@ public class EnemyDeathState : UnitState<EnemyController>
 		unit.enemyCollider.enabled = false;
 		
 		unit.OnDisableEvent();
+		unit.onDeathEvent?.Invoke();
 	}
 
 	public override void Update(EnemyController unit)
