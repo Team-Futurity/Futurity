@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -89,15 +90,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		
 		cutSceneList[(int)cutScene].SetActive(true);
 	}
-
-	public void ResetCameraValue()
-	{
-		cameraBody.m_TrackedObjectOffset = originOffset;
-		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
-	}
-
-	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
-
+	
 	public Vector3 GetOffsetVector(float distance, Vector3 forward = default(Vector3))
 	{
 		forward = (forward == Vector3.zero) ? playerModelTf.forward : forward;
@@ -106,16 +99,33 @@ public class TimelineManager : Singleton<TimelineManager>
 		return playerModelTf.position + offset;
 	}
 
-	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
-	{
-		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
-	}
-
 	public void SetActivePlayerInput(bool active)
 	{
 		playerInput.enabled = active;
 	}
 
+	public void StartDialog(DialogData data)
+	{
+		dialogController.SetDialogData(data);
+		dialogController.PlayDialog();
+	}
+	
+	#region PlayerCamera
+	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
+	
+	public void ResetCameraValue()
+	{
+		cameraBody.m_TrackedObjectOffset = originOffset;
+		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
+	}
+	
+	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
+	{
+		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
+	}
+	
+	#endregion
+	
 	#region TimeScale
 	public void ResetTimeScale()
 	{

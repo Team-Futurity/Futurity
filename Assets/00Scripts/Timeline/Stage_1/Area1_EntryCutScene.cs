@@ -31,8 +31,7 @@ public class Area1_EntryCutScene : CutSceneBase
 		}
 		
 		TimelineManager.Instance.uiCanvas.SetActive(true);
-		TimelineManager.Instance.dialogController.SetDialogData(dialogData);
-		TimelineManager.Instance.dialogController.PlayDialog();
+		TimelineManager.Instance.StartDialog(dialogData);
 
 		playerCamera.SetActive(true);
 	}
