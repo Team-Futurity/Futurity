@@ -114,6 +114,6 @@ public class AttackCore : CoreAbility
 
 	private void AttackByOddState(Enemy enemy)
 	{
-		
+		// Buff Giver를 통한 상태 처리
 	}
 }
