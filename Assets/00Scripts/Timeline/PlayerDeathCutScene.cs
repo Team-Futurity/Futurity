@@ -29,7 +29,7 @@ public class PlayerDeathCutScene : CutSceneBase
 	
 	protected override void EnableCutScene()
 	{
-		endPos.position = TimelineManager.Instance.GetOffsetVector(endPosDistance);
+		endPos.position = TimelineManager.Instance.GetTargetPosition(endPosDistance);
 		TimelineManager.Instance.ChangeFollowTarget(true, newFollowTarget);
 
 		foreach (var ui in disableUI)

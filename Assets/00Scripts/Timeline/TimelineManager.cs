@@ -27,7 +27,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
-	public GameObject uiCanvas;
+	[SerializeField] private GameObject uiCanvas;
 	public TimelineScripting scripting;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
@@ -95,7 +95,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		cutSceneList[(int)cutScene].SetActive(true);
 	}
 	
-	public Vector3 GetOffsetVector(float distance, Vector3 forward = default(Vector3))
+	public Vector3 GetTargetPosition(float distance, Vector3 forward = default(Vector3))
 	{
 		forward = (forward == Vector3.zero) ? playerModelTf.forward : forward;
 		
@@ -108,6 +108,11 @@ public class TimelineManager : Singleton<TimelineManager>
 		playerInput.enabled = active;
 	}
 
+	public void SetActiveMainUI(bool active)
+	{
+		uiCanvas.SetActive(active);
+	}
+
 	public void StartDialog(DialogData data)
 	{
 		dialogUI.gameObject.SetActive(true);
@@ -115,12 +120,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		dialogController.SetDialogData(data);
 		dialogController.PlayDialog();
 	}
-
-	public void SetActiveDialogUI(bool active)
-	{
-		dialogUI.gameObject.SetActive(active);
-	}
-
+	
 	#region PlayerCamera
 	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
 	

@@ -25,7 +25,7 @@ public class ExitCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		TimelineManager.Instance.uiCanvas.SetActive(false);
+		TimelineManager.Instance.SetActiveMainUI(false);
 		TimelineManager.Instance.ChangeFollowTarget(true, null);
 		TimelineManager.Instance.SetActivePlayerInput(false);
 	}
@@ -41,7 +41,7 @@ public class ExitCutScene : CutSceneBase
 		var targetRot = Quaternion.LookRotation(Vector3.zero);
 		playerTf.localRotation = targetRot;
 		
-		var targetPos = TimelineManager.Instance.GetOffsetVector(moveDistance, Vector3.forward);
+		var targetPos = TimelineManager.Instance.GetTargetPosition(moveDistance, Vector3.forward);
 		TimelineManager.Instance.PlayerController.LerpToWorldPosition(targetPos, duration);
 	}
 

@@ -27,6 +27,8 @@ public class TimelineScripting : MonoBehaviour
 	public void StartPrintingScript(List<ScriptingStruct> scriptsStruct)
 	{
 		textPrint = PrintingScript(scriptsStruct);
+		isEnd = false;
+		
 		StartCoroutine(textPrint);
 		StartInputCheck();
 	}
