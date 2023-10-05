@@ -28,6 +28,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	[SerializeField] private PlayerInput playerInput;
 	public GameObject uiCanvas;
 	public TimelineScripting scripting;
+	public UIDialogController dialogController;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 
