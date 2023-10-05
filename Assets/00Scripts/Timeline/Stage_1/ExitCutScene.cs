@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +9,14 @@ public class ExitCutScene : CutSceneBase
 	[Header("Component")]
 	[SerializeField] private PlayableDirector exitTimeline;
 	[SerializeField] private DialogData dialogData;
+	[SerializeField] private Vector2 dialogUIOffset;
 	
 	[Header("수치값")]
 	[SerializeField] private float moveDistance = 7.0f;
 	[SerializeField] private float duration = 0.0f;
 	[SerializeField] private SpawnerManager enemySpawner;
+
+	private Vector3 originUIPos = Vector3.zero;
 	
 	protected override void Init()
 	{
@@ -49,11 +53,26 @@ public class ExitCutScene : CutSceneBase
 	public void PlayDialogExitCutScene()
 	{
 		exitTimeline.Pause();
-		TimelineManager.Instance.StartDialog(dialogData);
+		SetDialogUIPosition();
 		
+		TimelineManager.Instance.StartDialog(dialogData);
 		TimelineManager.Instance.DialogController.OnEnded?.AddListener( () =>
 		{
-			exitTimeline.Resume();	
+			exitTimeline.Resume();
+			TimelineManager.Instance.DialogController.transform.position = originUIPos;
 		});
+	}
+
+	private void SetDialogUIPosition()
+	{
+		Vector3 playerPos =
+			Camera.main.WorldToScreenPoint(GameObject.FindWithTag("Player").transform.position);
+
+		Vector2 newPos =
+			new Vector2(playerPos.x + dialogUIOffset.x, playerPos.y + dialogUIOffset.y);
+
+		originUIPos = TimelineManager.Instance.DialogController.transform.position;
+		TimelineManager.Instance.DialogController.transform.position =
+			new Vector3(newPos.x, newPos.y, 0);
 	}
 }
