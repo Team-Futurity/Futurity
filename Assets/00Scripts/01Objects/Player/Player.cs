@@ -16,6 +16,7 @@ public class Player : UnitBase
 	{
 		float criticalConf = GetCritical();
 		info.Defender.Hit(this, GetDamage(info.AttackST) * criticalConf);
+		onAttackEvent?.Invoke(info);
 	}
 
 	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
