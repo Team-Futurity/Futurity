@@ -1,3 +1,4 @@
+using IngameDebugConsole;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ public class PartSystem : MonoBehaviour
 	// 0 ~ 2	: Passive
 	// 3		: Active
 	[SerializeField, Header("장착 부품 목록")]
-	private List<PartBehaviour> equipPartList = new List<PartBehaviour>();
+	private static PartBehaviour[] equipPartList = new PartBehaviour[4];
 
 	[SerializeField, Header("디버그 용")]
 	private List<StatusData> status;
@@ -34,6 +35,8 @@ public class PartSystem : MonoBehaviour
 		
 		// 플레이어 몬스터 추가
 		//player.onAttackEvent.AddListener();
+
+		Debug.Log(equipPartList.Length);
 	}
 
 	private void Update()
@@ -51,24 +54,28 @@ public class PartSystem : MonoBehaviour
 		}
 	}
 
-	
-	public void EquipPart(int index, int partCode)
+	[ConsoleMethod("EquipPart", "Equip Part")]
+	public static void EquipPart(int index, int partCode)
 	{
 		var part = PartDatabase.GetPart(partCode);
 		equipPartList[index] = part;
+		
+		FDebug.Log($"{index +1}번째에 {partCode}에 해당하는 파츠 장착 완료", part.GetType());
 	}
 
+	[ConsoleMethod("RemovePart", "Part Remove")]
 	public void UnEquipPart(int index)
 	{
 		equipPartList[index] = null;
+		FDebug.Log($"{index +1}번째에 해당하는 파츠 장착 완료");
 	}
 
 	// Select index : 현재 선택된 Index
 	// Change Index : 교체를 희망하고 있는 Index
-	public void SwapPart(int selectIndex, int changeIndex)
+	[ConsoleMethod("SwapPart", "Swap")]
+	public static void SwapPart(int selectIndex, int changeIndex)
 	{
-		var partTemp = equipPartList[changeIndex];
-		partTemp.partCode = 234;
+		(equipPartList[selectIndex], equipPartList[changeIndex]) = (equipPartList[changeIndex], equipPartList[selectIndex]);
 	}
 
 	public bool IsPartValue(int index)
@@ -79,7 +86,7 @@ public class PartSystem : MonoBehaviour
 	private void UpdateComboGauge(float percent)
 	{
 		int activePossibleCount = (int)Math.Floor(percent / 25f);
-		int maxPartCount = equipPartList.Count - 1;
+		int maxPartCount = equipPartList.Length - 1;
 
 		// Active
 		for (int i = 0; i < ((activePossibleCount > maxPartCount) ? maxPartCount : activePossibleCount); ++i)
@@ -97,6 +104,11 @@ public class PartSystem : MonoBehaviour
 	private void ExecuteParts(int index)
 	{
 		var part = equipPartList[index];
+		
+		if (part == null)
+		{
+			return;
+		}
 
 		if (!part.GetPartActive())
 		{
