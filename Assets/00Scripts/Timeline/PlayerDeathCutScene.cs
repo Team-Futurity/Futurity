@@ -5,7 +5,6 @@ using UnityEngine.Rendering;
 public class PlayerDeathCutScene : CutSceneBase
 {
 	[Header("Component")]
-	[SerializeField] private GameObject[] disableUI;
 	[SerializeField] private GameObject gameOverUI;
 
 	[Header("흑백 전환 시간")] 
@@ -24,11 +23,7 @@ public class PlayerDeathCutScene : CutSceneBase
 	
 	protected override void EnableCutScene()
 	{
-		foreach (var ui in disableUI)
-		{
-			ui.gameObject.SetActive(false);		
-		}
-		
+		TimelineManager.Instance.SetActiveMainUI(false);
 		StartGrayScaleRoutine();
 	}
 

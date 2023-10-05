@@ -27,7 +27,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
-	[SerializeField] private GameObject uiCanvas;
+	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
@@ -110,7 +110,7 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	public void SetActiveMainUI(bool active)
 	{
-		uiCanvas.SetActive(active);
+		mainUICanvas.SetActive(active);
 	}
 
 	public void StartDialog(DialogData data)
@@ -199,6 +199,6 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	public void EnableUI()
 	{
-		uiCanvas.SetActive(true);
+		mainUICanvas.SetActive(true);
 	}
 }

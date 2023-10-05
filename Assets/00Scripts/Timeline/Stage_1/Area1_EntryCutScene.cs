@@ -30,10 +30,16 @@ public class Area1_EntryCutScene : CutSceneBase
 			wall.SetActive(true);
 		}
 		
+		playerCamera.SetActive(true);
+
+		if (TimelineManager.Instance.IsDebugMode == true)
+		{
+			TimelineManager.Instance.SetActivePlayerInput(true);
+			return;
+		}
+		
 		TimelineManager.Instance.SetActiveMainUI(true);
 		TimelineManager.Instance.StartDialog(dialogData);
-
-		playerCamera.SetActive(true);
 	}
 	
 	public void MovePlayer()
