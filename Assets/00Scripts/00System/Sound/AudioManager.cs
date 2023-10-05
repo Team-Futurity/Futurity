@@ -3,6 +3,7 @@ using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD;
 
 public class AudioManager : Singleton<AudioManager>
 {
@@ -56,6 +57,17 @@ public class AudioManager : Singleton<AudioManager>
 		EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
 		eventInstances.Add(eventInstance);
 		return eventInstance;
+	}
+
+	public float GetVolume(BusType busType)
+	{
+		Bus bus;
+
+		if (busDictionary.TryGetValue(busType, out bus)) { FDebug.LogWarning($"This Bus is not Exist : {busType}", GetType()); return -1; }
+
+		bus.getVolume(out float soundVolume);
+
+		return soundVolume;
 	}
 
 	public void SetVolume(BusType busType, float volume)
