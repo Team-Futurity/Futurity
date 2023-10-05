@@ -11,6 +11,16 @@ public enum AttackCoreType
 	
 	MAX
 }
+
+public enum ColliderCoreType
+{
+	NONE = 0,
+	
+	ON_SCHEDULE_TIME,
+	ENEMY_DEATH,
+	
+	MAX
+}
 public abstract class CoreAbility : MonoBehaviour
 {
 	// Core Type : Attack, Collider
