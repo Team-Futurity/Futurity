@@ -56,7 +56,6 @@ public class AttackCore : CoreAbility
 	private void AttackByDamage(UnitBase enemy)
 	{
 		var coll = PartCollider.DrawCircleCollider(enemy.transform.position, colliderRadius, targetLayer);
-		Debug.Log(coll.Length);
 
 		if (isStateTransition)
 		{
@@ -92,8 +91,6 @@ public class AttackCore : CoreAbility
 	// 범위 안에 있는 몬스터를 공격
 	private void AttackAllEnemy(Collider[] enemyCollider)
 	{
-		Debug.Log(enemyCollider.Length);
-		
 		foreach (var enemy in enemyCollider)
 		{
 			AttackEnemy(enemy);

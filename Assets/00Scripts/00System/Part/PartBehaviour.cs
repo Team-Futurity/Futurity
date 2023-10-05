@@ -35,6 +35,7 @@ public class PartBehaviour : MonoBehaviour
 	{
 		return isActive;
 	}
+	
 	public List<StatusData> GetSubAbility()
 	{
 		if (!isActive)
@@ -45,16 +46,17 @@ public class PartBehaviour : MonoBehaviour
 		return subAbility.GetSubAbilityData();
 	}
 	
-	public void AddCoreAbilityToAttackEvent(Enemy enemy)
+	public void AddCoreAbilityToAttackEvent(DamageInfo info)
 	{
-		GetCoreAbility(enemy);
+		GetPassiveCoreAbility(info.Defender.GetComponent<UnitBase>());
 	}
 
-	public void RemoveCoreAbilityToAttackEvent()
+	public void ExecuteActiveAbility()
 	{
-		// Update를 통한 제거
+		
 	}
-	private void GetCoreAbility(Enemy enemy)
+
+	private void GetPassiveCoreAbility(UnitBase enemy)
 	{
 		coreAbility.ExcutePart(enemy);
 	}

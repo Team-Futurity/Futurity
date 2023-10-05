@@ -19,7 +19,7 @@ public class EtaCore : CoreAbility
 	[SerializeField]
 	private GameObject afterDeathObj;
 
-	protected override void OnPartAbility(Enemy enemy)
+	protected override void OnPartAbility(UnitBase enemy)
 	{
 		var deathObj = Instantiate(afterDeathObj);
 		var execute = deathObj.AddComponent<ExecuteAfterDeath>();

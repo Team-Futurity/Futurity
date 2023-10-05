@@ -19,7 +19,7 @@ public class LambdaCore : CoreAbility
 
 	private float timer = .0f;
 
-	protected override void OnPartAbility(Enemy enemy)
+	protected override void OnPartAbility(UnitBase enemy)
 	{
 		isActive = true;
 	}
@@ -45,7 +45,7 @@ public class LambdaCore : CoreAbility
 	private void ExploreEnemy()
 	{
 		var catchEnemys = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
-		// catchEnemy에게 상태 이상 전달
+		
 	}
 
 	private void OnDrawGizmos()
