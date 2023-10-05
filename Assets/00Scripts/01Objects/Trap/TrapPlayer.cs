@@ -28,18 +28,9 @@ public class TrapPlayer : UnitBase
 		SetupTrapData();
 	}
 
-	private void Start()
+	private new void Start()
 	{
 		behaviour.trapEnd.AddListener(EndProceed);
-	}
-
-	private void Update()
-	{
-		// Trap Test¿ë ÄÚµå
-		if (Input.GetKeyDown(KeyCode.M))
-		{
-			ActiveTrap(objectDetectList);
-		}
 	}
 
 	private void FixedUpdate()
