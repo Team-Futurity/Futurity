@@ -61,9 +61,11 @@ public class AudioManager : Singleton<AudioManager>
 
 	public float GetVolume(BusType busType)
 	{
+		if(busType == BusType.None) { return -1f; }
+
 		Bus bus;
 
-		if (busDictionary.TryGetValue(busType, out bus)) { FDebug.LogWarning($"This Bus is not Exist : {busType}", GetType()); return -1; }
+		if (busDictionary.TryGetValue(busType, out bus)) { FDebug.LogWarning($"This Bus is not Exist : {busType}", GetType()); return -1f; }
 
 		bus.getVolume(out float soundVolume);
 
@@ -72,6 +74,8 @@ public class AudioManager : Singleton<AudioManager>
 
 	public void SetVolume(BusType busType, float volume)
 	{
+		if (busType == BusType.None) { return; }
+
 		float soundVolume = Mathf.Clamp(volume, 0f, 1f);
 		Bus bus;
 
