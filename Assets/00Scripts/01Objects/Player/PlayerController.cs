@@ -109,6 +109,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
 	public PlayerCameraEffect cameraEffect;
+	[HideInInspector] public CameraFollowTarget followTarget;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
 	private WaitForSeconds dashCoolTimeWFS;
@@ -192,6 +193,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
 		StartCoroutine(HitDelayCoroutine());
+
+		followTarget = gameObject.GetComponentInChildren<CameraFollowTarget>();
 	}
 
 	public void SetFSM()

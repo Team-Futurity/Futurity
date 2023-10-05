@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 4
+  m_Time: 5.999999999999998
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 895e728666933af41971d7573e01e03d, type: 2}
@@ -254,6 +254,22 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events: []
+--- !u!114 &-2933964877121683939
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fb794a295e73545af71bcdb7375791, type: 3}
+  m_Name: CinemachineShot
+  m_EditorClassIdentifier: 
+  DisplayName: 
+  VirtualCamera:
+    exposedName: 499313df4a140ba4585a995079cf8ee5
+    defaultValue: {fileID: 0}
 --- !u!114 &-2608878708051040781
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -298,7 +314,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 2
+    m_Start: 4
     m_ClipIn: 0
     m_Asset: {fileID: 645892778844539187}
     m_Duration: 1.5
@@ -364,7 +380,7 @@ MonoBehaviour:
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
     m_PostExtrapolationTime: Infinity
-    m_PreExtrapolationTime: 2
+    m_PreExtrapolationTime: 4
     m_DisplayName: FadeIn
   m_Markers:
     m_Objects: []
@@ -670,7 +686,7 @@ MonoBehaviour:
   - {fileID: -2236532057527220431}
   - {fileID: 6901539502484824388}
   - {fileID: -1361441404900157239}
-  - {fileID: 2406562668379917316}
+  - {fileID: 2801911556887909878}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
@@ -699,7 +715,7 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &2406562668379917316
+--- !u!114 &2801911556887909878
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -708,8 +724,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2e6ab84ba07902498da4807885565cb, type: 3}
-  m_Name: Transform Tween Track
+  m_Script: {fileID: 11500000, guid: 05acc715f855ced458d76ee6f8ac6c61, type: 3}
+  m_Name: Cinemachine Track
   m_EditorClassIdentifier: 
   m_Version: 3
   m_AnimClip: {fileID: 0}
@@ -723,10 +739,10 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: 6503042554665172025}
-    m_Duration: 2.3
+    m_Asset: {fileID: -2933964877121683939}
+    m_Duration: 5.5
     m_TimeScale: 1
-    m_ParentTrack: {fileID: 2406562668379917316}
+    m_ParentTrack: {fileID: 2801911556887909878}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
@@ -788,59 +804,9 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: PlayerPrefab
+    m_DisplayName: DeathCamera
   m_Markers:
     m_Objects: []
---- !u!114 &6503042554665172025
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f28fb04ff66f85e40af453230799042c, type: 3}
-  m_Name: TransformTweenClip
-  m_EditorClassIdentifier: 
-  template:
-    startLocation: {fileID: 0}
-    endLocation: {fileID: 0}
-    tweenPosition: 1
-    tweenRotation: 1
-    tweenType: 0
-    customCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    startingPosition: {x: 0, y: 0, z: 0}
-    startingRotation: {x: 0, y: 0, z: 0, w: 1}
-  startLocation:
-    exposedName: df0d3d416d082c2478b7cfde063c083f
-    defaultValue: {fileID: 0}
-  endLocation:
-    exposedName: 8ae8c8eeaa3e003469e56af1dff734ee
-    defaultValue: {fileID: 0}
 --- !u!114 &6901539502484824388
 MonoBehaviour:
   m_ObjectHideFlags: 1

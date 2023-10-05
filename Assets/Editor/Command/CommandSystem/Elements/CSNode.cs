@@ -191,6 +191,7 @@ public class CSNode : Node
 		afterDelayField.RegisterValueChangedCallback((callback) => { AttackAfterDelay = callback.newValue; });
 		attackSTField.RegisterValueChangedCallback((callback) => { AttackST = callback.newValue; });
 		attackKnockbackField.RegisterValueChangedCallback((callback) => { AttackKnockback = callback.newValue; });
+		ignoreAutoTargetField.RegisterValueChangedCallback((callback) => { IgnoresAutoTargetMove = callback.newValue; });
 
 		effectOffsetField.RegisterValueChangedCallback((callback) => { EffectOffset = callback.newValue; });
 		effectRotOffsetField.RegisterValueChangedCallback((callback) => { EffectRotOffset = callback.newValue; });
@@ -332,6 +333,7 @@ public class CSNode : Node
 		AttackAfterDelay = saveData.AttackAfterDelay;
 		AttackKnockback = saveData.AttackKnockback;
 		AttackST = saveData.AttackST;
+		IgnoresAutoTargetMove = saveData.IgnoresAutoTargetMove;
 
 		EffectOffset = saveData.EffectOffset;
 		EffectRotOffset = saveData.EffectRotOffset;
@@ -362,6 +364,7 @@ public class CSNode : Node
 		so.AttackAfterDelay = AttackAfterDelay;
 		so.AttackKnockback = AttackKnockback;
 		so.AttackST = AttackST;
+		so.IgnoresAutoTargetMove = IgnoresAutoTargetMove;
 
 		so.EffectOffset = EffectOffset;
 		so.EffectRotOffset = EffectRotOffset;

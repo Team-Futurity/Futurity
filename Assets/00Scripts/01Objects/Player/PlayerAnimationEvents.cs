@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
 	private PlayerController pc;
-	[SerializeField] private PlayerCameraEffect cameraEffect;
 
 	[HideInInspector] public Transform effect;
 	private AttackNode attackNode;
@@ -121,25 +120,23 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void CameraShake(string str)
 	{
-		if (cameraEffect == null)
-		{
-			return;
-		}
-
 		// 0 : velocity, 1 : Duration
 		float[] value = ConvertStringToFloatArray(str);
 
 		// attackNode = pc.curNode;
-		cameraEffect.CameraShake(value[0], value[1]);
+		pc.cameraEffect.CameraShake(value[0], value[1]);
 	}
 
 	#region HitEffectEvent
+	// 플레이어 피격에 대한 HitStop
 	public void StartHitStop(float duration)
 	{
 		hitStop = HitStop(duration);
 		StartCoroutine(hitStop);
 	}
-	public void SlowMotion(string value)
+	
+	// 플레이어 타격에 대한 HitStop
+	public void AttackHitStop(string values)
 	{
 		UnitState<PlayerController> state = null;
 		pc.GetState(PlayerState.AttackDelay, ref state);
@@ -154,16 +151,17 @@ public class PlayerAnimationEvents : MonoBehaviour
 		{
 			return;
 		}
-
-		float[] values = ConvertStringToFloatArray(value);
-		cameraEffect.StartTimeScaleTimer(values[0], values[1]);
-		cameraEffect.CameraShake();
+		
+		float[] shake = ConvertStringToFloatArray(values);
+		
+		pc.cameraEffect.StartTimeStop(shake[0]);
+		pc.followTarget.StartTargetShake(shake[1], shake[2]);
 	}
 	
 	private float[] ConvertStringToFloatArray(string input)
 	{
 		string[] strResult = input.Split(',');
-		float[] result = new float[2];
+		float[] result = new float[strResult.Length];
 
 		for (int i = 0; i < result.Length; ++i)
 		{
@@ -180,6 +178,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		Time.timeScale = 1.0f;
 	}
 	#endregion
+
+	public void EnableAttackTiming()
+	{
+		pc.playerData.EnableAttackTiming();
+	}
 
 	public void WalkSE()
 	{

@@ -26,6 +26,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	private TimelineManager manager;
 	private PlayerController playerController;
 	private Vignette vignette;
+	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private float originIntensity;
 
 	protected override void Init()
@@ -34,11 +35,13 @@ public class Area3_EntryCutScene : CutSceneBase
 		
 		vignette = cameraEffect.Vignette;
 		originIntensity = vignette.intensity.value;
+
+		waitForSecondsRealtime = new WaitForSecondsRealtime(0.1f);
 	}
 
 	protected override void EnableCutScene()
 	{
-		manager.uiCanvas.SetActive(false);
+		manager.SetActiveMainUI(false);
 		manager.SetActivePlayerInput(false);
 		manager.ChangeFollowTarget(true, playerMoveTarget);
 
@@ -53,20 +56,14 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-	}
-
-	private void OnDisable()
-	{
 		manager.SetActivePlayerInput(true);
-		manager.uiCanvas.SetActive(true);
+		manager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
 
 		vignette.intensity.value = originIntensity;
 		vignette.color.value = Color.red;
-		
-		gameObject.SetActive(false);
 	}
-
+	
 	private void Update()
 	{
 		vignette.intensity.value = intensity;
@@ -79,19 +76,29 @@ public class Area3_EntryCutScene : CutSceneBase
 		chapter1Director.Pause();
 
 		StartCoroutine(PrintScripts());
-		manager.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-		curScriptsIndex++;
+		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 	}
 
 	private IEnumerator PrintScripts()
 	{
-		while (manager.isEnd == false)
+		while (manager.scripting.isEnd == false)
 		{
 			yield return null;
 		}
 		
 		chapter1Director.Resume();
-		manager.isEnd = false;
+		manager.scripting.isEnd = false;
+
+		if (curScriptsIndex + 1 < scriptsList.Count)
+		{
+			curScriptsIndex++;
+			yield return waitForSecondsRealtime;
+			manager.scripting.InitNameField(scriptsList[curScriptsIndex].scriptList[0].name);
+		}
+		else
+		{
+			curScriptsIndex = 0;
+		}
 	}
 	
 	public void MovePlayer()
