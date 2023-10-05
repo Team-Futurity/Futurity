@@ -177,7 +177,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void WalkSE()
 	{
-		AudioManager.instance.PlayOneShot(walk, transform.position);
+		AudioManager.Instance.PlayOneShot(walk, transform.position);
 	}
 
 	public void SetCollider(int isActiveInteager)

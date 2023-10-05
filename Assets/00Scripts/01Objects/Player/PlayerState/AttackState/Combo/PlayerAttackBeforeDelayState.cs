@@ -62,7 +62,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		// sound
 		if (isCombo)
 		{
-			AudioManager.instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
+			AudioManager.Instance.PlayOneShot(attackNode.attackSound, pc.transform.position);
 		}
 	}
 
