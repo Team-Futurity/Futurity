@@ -19,7 +19,7 @@ public abstract class UnitBase : MonoBehaviour
 	protected WaitForSeconds attackCheckWFS;
 	protected Queue<DamageInfo> damageInfoQueue = new Queue<DamageInfo>();
 
-	public UnityEvent<UnitBase> OnAttack;
+	public UnityEvent<DamageInfo> onAttackEvent;
 
 	protected virtual void Start()
 	{
