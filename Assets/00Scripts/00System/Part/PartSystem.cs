@@ -14,8 +14,7 @@ public class PartSystem : MonoBehaviour
 
 	// 0 ~ 2	: Passive
 	// 3		: Active
-	[SerializeField, Header("장착 부품 목록")]
-	private static PartBehaviour[] equipPartList = new PartBehaviour[4];
+	public static PartBehaviour[] equipPartList = new PartBehaviour[4];
 
 	[SerializeField, Header("디버그 용")]
 	private List<StatusData> status;
@@ -57,6 +56,12 @@ public class PartSystem : MonoBehaviour
 	[ConsoleMethod("EquipPart", "Equip Part")]
 	public static void EquipPart(int index, int partCode)
 	{
+		if (equipPartList[index] != null)
+		{
+			FDebug.Log($"해당하는 Index에 이미 Part가 존재합니다.");
+			return;
+		}
+		
 		var part = PartDatabase.GetPart(partCode);
 		equipPartList[index] = part;
 		
