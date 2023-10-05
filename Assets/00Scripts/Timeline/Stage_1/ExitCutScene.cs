@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class ExitCutScene : CutSceneBase
 {
+	[Header("Component")]
+	[SerializeField] private PlayableDirector exitTimeline;
+	[SerializeField] private DialogData dialogData;
+	
+	[Header("수치값")]
 	[SerializeField] private float moveDistance = 7.0f;
 	[SerializeField] private float duration = 0.0f;
 	[SerializeField] private SpawnerManager enemySpawner;
+	
 	protected override void Init()
 	{
 		
@@ -23,7 +30,7 @@ public class ExitCutScene : CutSceneBase
 	{
 		
 	}
-
+	
 	public void MovePlayer()
 	{
 		Transform playerTf = GameObject.FindWithTag("Player").transform;
@@ -37,5 +44,16 @@ public class ExitCutScene : CutSceneBase
 	public void SpawnEnemy()
 	{
 		enemySpawner.SpawnEnemy();
+	}
+
+	public void PlayDialogExitCutScene()
+	{
+		exitTimeline.Pause();
+		TimelineManager.Instance.StartDialog(dialogData);
+		
+		TimelineManager.Instance.DialogController.OnEnded?.AddListener( () =>
+		{
+			exitTimeline.Resume();	
+		});
 	}
 }

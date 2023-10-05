@@ -29,9 +29,13 @@ public class TimelineManager : Singleton<TimelineManager>
 	[SerializeField] private PlayerInput playerInput;
 	public GameObject uiCanvas;
 	public TimelineScripting scripting;
-	public UIDialogController dialogController;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
+	
+	[Header("다이얼로그")]
+	[SerializeField] private GameObject dialogUI;
+	[SerializeField] private UIDialogController dialogController;
+	public UIDialogController DialogController => dialogController;
 
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
@@ -106,10 +110,17 @@ public class TimelineManager : Singleton<TimelineManager>
 
 	public void StartDialog(DialogData data)
 	{
+		dialogUI.gameObject.SetActive(true);
+		
 		dialogController.SetDialogData(data);
 		dialogController.PlayDialog();
 	}
-	
+
+	public void SetActiveDialogUI(bool active)
+	{
+		dialogUI.gameObject.SetActive(active);
+	}
+
 	#region PlayerCamera
 	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
 	
