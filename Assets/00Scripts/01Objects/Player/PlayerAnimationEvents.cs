@@ -179,6 +179,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 	}
 	#endregion
 
+	public void EnableAttackTiming()
+	{
+		pc.playerData.EnableAttackTiming();
+	}
+
 	public void WalkSE()
 	{
 		AudioManager.instance.PlayOneShot(walk, transform.position);
