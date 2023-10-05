@@ -92,7 +92,7 @@ public class SpawnerManager : MonoBehaviour
 
 		if (curWaveSpawnCount <= 0 && spawnerList.Count <= 0)
 		{
-			TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.LASTKILLCUTSCENE);
+			TimelineManager.Instance.EnableCutScene(ECutScene.LASTKILLCUTSCENE);
 		}
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)

@@ -7,17 +7,17 @@ using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using URPGlitch.Runtime.AnalogGlitch;
 
+public enum ECutScene
+{
+	AREA1_ENTRYCUTSCENE = 0,
+	AREA1_EXITCUTSCENE = 1,
+	AREA3_ENTRYCUTSCENE = 2,
+	LASTKILLCUTSCENE = 3,
+	PLYAERDEATHCUTSCENE = 4,
+}
+
 public class TimelineManager : Singleton<TimelineManager>
 {
-	public enum ECutScene
-	{
-		AREA1_ENTRYCUTSCENE = 0,
-		AREA1_EXITCUTSCENE = 1,
-		AREA3_ENTRYCUTSCENE = 2,
-		LASTKILLCUTSCENE = 3,
-		PLYAERDEATHCUTSCENE = 4,
-	}
-	
 	[Header("DebugMode")] 
 	[SerializeField] private bool enableDebugMode;
 	public bool IsDebugMode => enableDebugMode;
