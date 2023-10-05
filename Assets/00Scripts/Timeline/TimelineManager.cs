@@ -83,6 +83,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
 		playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
 		spawnerManager.SpawnEnemy();
+		mainUICanvas.SetActive(true);
 	}
 	
 	public void EnableCutScene(ECutScene cutScene)
