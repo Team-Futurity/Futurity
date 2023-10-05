@@ -8,6 +8,8 @@ public class PartSystem : MonoBehaviour
 	[SerializeField, Header("Combo 시스템")]
 	private ComboGaugeSystem comboGaugeSystem;
 
+	private Player player;
+
 	// 0 ~ 2	: Passive
 	// 3		: Active
 	[SerializeField, Header("장착 부품 목록")]
@@ -17,10 +19,20 @@ public class PartSystem : MonoBehaviour
 	private List<StatusData> status;
 
 	public float debugPercent = .0f;
+
+	private const int UseCoreAbility = 2;
+	private const int ActivePartIndex = 3;
 	
 	private void Awake()
 	{
 		ClearStatus();
+
+		TryGetComponent(out player);
+		
+		// 콤보 게이지 추가
+		
+		// 플레이어 몬스터 추가
+		//player.onAttackEvent.AddListener();
 	}
 
 	private void Update()
@@ -74,12 +86,17 @@ public class PartSystem : MonoBehaviour
 		if (!part.GetPartActive())
 		{
 			part.SetPartActive(true);
-
+			
 			AddStatus(part.GetSubAbility());
 
-			if (index == 2)
+			if (index == UseCoreAbility)
 			{
-				Debug.Log(index + " : CORE ACTIVE");
+				player.onAttackEvent?.AddListener(part.AddCoreAbilityToAttackEvent);
+			}
+
+			if (index == ActivePartIndex)
+			{
+				
 			}
 		}
 	}
@@ -92,15 +109,20 @@ public class PartSystem : MonoBehaviour
 		{
 			SubStatus(part.GetSubAbility());
 
-			if(index == 2)
+			if(index == UseCoreAbility)
 			{
-				Debug.Log(index + " : CORE UN ACTIVE ");
+				player.onAttackEvent?.RemoveListener(part.AddCoreAbilityToAttackEvent);
+			}
+
+			if (index == ActivePartIndex)
+			{
+				
 			}
 
 			part.SetPartActive(false);
 		}
 	}
-	
+
 	#region Status Feature
 
 	private void AddStatus(List<StatusData> statusData)
