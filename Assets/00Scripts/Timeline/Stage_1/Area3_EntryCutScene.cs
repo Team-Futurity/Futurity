@@ -9,7 +9,6 @@ public class Area3_EntryCutScene : CutSceneBase
 {
 	[Header("컴포넌트")] 
 	[SerializeField] private PlayableDirector chapter1Director;
-	[SerializeField] private PlayerCameraEffect cameraEffect;
 	[SerializeField] private Transform playerMoveTarget;
 	[SerializeField] private SpawnerManager spawnerManager;
 	[SerializeField] private Transform startPos;
@@ -20,23 +19,15 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	[Header("Only Use Timeline")] 
 	[SerializeField] private float intensity;
-	[SerializeField] private float scanLineJitter;
-	[SerializeField] private float colorDrift;
-	
+
 	private TimelineManager manager;
 	private PlayerController playerController;
-	private Vignette vignette;
-	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private float originIntensity;
 
 	protected override void Init()
 	{
 		manager = TimelineManager.Instance;
-		
-		vignette = cameraEffect.Vignette;
-		originIntensity = vignette.intensity.value;
-
-		waitForSecondsRealtime = new WaitForSecondsRealtime(0.1f);
+		originIntensity = manager.Vignette.intensity.value;
 	}
 
 	protected override void EnableCutScene()
@@ -45,8 +36,8 @@ public class Area3_EntryCutScene : CutSceneBase
 		manager.SetActivePlayerInput(false);
 		manager.ChangeFollowTarget(true, playerMoveTarget);
 
-		vignette.intensity.value = intensity;
-		vignette.color.value = Color.black;
+		manager.Vignette.intensity.value = intensity;
+		manager.Vignette.color.value = Color.black;
 		
 		manager.PlayerController.transform.position = startPos.transform.position;
 		manager.PlayerController.transform.rotation = Quaternion.identity;
@@ -60,17 +51,10 @@ public class Area3_EntryCutScene : CutSceneBase
 		manager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
 
-		vignette.intensity.value = originIntensity;
-		vignette.color.value = Color.red;
+		manager.Vignette.intensity.value = originIntensity;
+		manager.Vignette.color.value = Color.red;
 	}
 	
-	private void Update()
-	{
-		vignette.intensity.value = intensity;
-		manager.AnalogGlitch.scanLineJitter.value = scanLineJitter;
-		manager.AnalogGlitch.colorDrift.value = colorDrift;
-	}
-
 	public void Area3_PrintScripts()
 	{
 		chapter1Director.Pause();

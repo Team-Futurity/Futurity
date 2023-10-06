@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using URPGlitch.Runtime.AnalogGlitch;
+using Vignette = UnityEngine.Rendering.Universal.Vignette;
 
 public enum ECutScene
 {
@@ -50,6 +51,15 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
 	private Transform originTarget;
+
+	[Header("Volume Controller(Only use Timeline)")]
+	[SerializeField] private PlayerCameraEffect cameraEffect;
+	[SerializeField] private float intensity;
+	[SerializeField] private float scanLineJitter;
+	[SerializeField] private float colorDrift;
+	[HideInInspector] public bool isCutScenePlay = false;
+	private Vignette vignette;
+	public Vignette Vignette => vignette;
 	
 	// reset offset value
 	private Vector3 originOffset;
@@ -59,10 +69,8 @@ public class TimelineManager : Singleton<TimelineManager>
 	private IEnumerator timeSlow;
 	private IEnumerator lerpTimeScale;
 	private WaitForSecondsRealtime waitForSecondsRealtime;
-	
 	private AnalogGlitchVolume analogGlitch;
-	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
-
+	
 	private void Start()
 	{
 		var player = GameObject.FindWithTag("Player");
@@ -76,6 +84,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
+		vignette = cameraEffect.Vignette;
 
 		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
 
@@ -89,7 +98,19 @@ public class TimelineManager : Singleton<TimelineManager>
 		spawnerManager.SpawnEnemy();
 		mainUICanvas.SetActive(true);
 	}
-	
+
+	private void Update()
+	{
+		if (isCutScenePlay == false)
+		{
+			return;
+		}
+		
+		vignette.intensity.value = intensity;
+		analogGlitch.scanLineJitter.value = scanLineJitter;
+		analogGlitch.colorDrift.value = colorDrift;
+	}
+
 	public void EnableCutScene(ECutScene cutScene)
 	{
 		if (cutScene == ECutScene.AREA1_ENTRYCUTSCENE)

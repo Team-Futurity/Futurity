@@ -19,12 +19,14 @@ public class Area1_RewardCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
+		manager.isCutScenePlay = true;
 		manager.SetActivePlayerInput(false);
 		manager.SetActiveMainUI(false);
 	}
 
 	public override void DisableCutScene()
 	{
+		manager.isCutScenePlay = false;
 		manager.SetActivePlayerInput(true);
 		manager.SetActiveMainUI(true);
 	}
