@@ -33,7 +33,8 @@ public class PlayerAnimationEvents : MonoBehaviour
 		if(playerRot.y > 180f) { playerRot.y -= 360f; }
 		Quaternion rotation = playerRot * attackNode.effectRotOffset;
 
-		Vector3 position = pc.gameObject.transform.position + /*rotation */ attackNode.effectOffset;
+		Vector3 position = pc.gameObject.transform.position;
+		position += attackNode.effectParentType == EffectParent.World ? rotation * attackNode.effectOffset : attackNode.effectOffset;
 
 		position.y = pc.gameObject.transform.position.y + attackNode.effectOffset.y;
 

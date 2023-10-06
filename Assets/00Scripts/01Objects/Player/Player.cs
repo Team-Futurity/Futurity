@@ -14,11 +14,14 @@ public class Player : UnitBase
 
 	protected override void AttackProcess(DamageInfo info)
 	{
+		info.HitEffectPoolManager.ActiveObject();
 		float criticalConf = GetCritical();
-		info.Defender.Hit(this, GetDamage(info.AttackST) * criticalConf);
+		info.SetDamage(GetDamage(info.AttackST) * criticalConf);
+
+		info.Defender.Hit(info);
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	public override void Hit(DamageInfo damageInfo)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{
@@ -30,7 +33,7 @@ public class Player : UnitBase
 		//}
 
 		float remainingDamageRatio = Mathf.Clamp(1 - GetDefensePoint() * 0.01f, 0, 100);
-		float finalDamage = damage * remainingDamageRatio;
+		float finalDamage = damageInfo.Damage * remainingDamageRatio;
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
 

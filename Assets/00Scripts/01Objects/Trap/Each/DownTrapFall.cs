@@ -36,8 +36,10 @@ public class DownTrapFall : MonoBehaviour
 				}
 
 				otherObject.TryGetComponent(out UnitBase objUnit);
-				
-				objUnit.Hit(trapUnit, 0);
+
+				DamageInfo info = new DamageInfo(trapUnit, objUnit, 1);
+				info.SetDamage(0);
+				objUnit.Hit(info);
 			}
 		}
 	}

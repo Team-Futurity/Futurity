@@ -9,7 +9,9 @@ public class ExplosionTrap : TrapBehaviour
 	{
 		foreach(var unit in units)
 		{
-			unit.Hit(trapUnit, TrapData.TrapDamage);
+			DamageInfo info = new DamageInfo(trapUnit, unit, 0);
+			info.SetDamage(TrapData.TrapDamage);
+			unit.Hit(info);
 		}
 
 		DestroyTrap();

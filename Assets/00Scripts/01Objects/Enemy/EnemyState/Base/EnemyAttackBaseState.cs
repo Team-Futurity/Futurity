@@ -43,6 +43,9 @@ public class EnemyAttackBaseState : UnitState<EnemyController>
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
 		if (other.CompareTag(unit.playerTag))
-			unit.enemyData.Attack(unit.target);
+		{
+			DamageInfo info = new DamageInfo(unit.enemyData, unit.target, 1);
+			unit.enemyData.Attack(info);
+		}
 	}
 }
