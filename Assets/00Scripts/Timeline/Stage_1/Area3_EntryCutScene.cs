@@ -20,27 +20,28 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	[Header("Only Use Timeline")] 
 	[SerializeField] private float intensity;
-	[SerializeField] private float scanLineJitter;
-	[SerializeField] private float colorDrift;
-	
+
 	private TimelineManager manager;
 	private PlayerController playerController;
 	private Vignette vignette;
-	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private float originIntensity;
 
 	protected override void Init()
 	{
+		vignette = cameraEffect.Vignette;
 		manager = TimelineManager.Instance;
 		
-		vignette = cameraEffect.Vignette;
 		originIntensity = vignette.intensity.value;
+	}
 
-		waitForSecondsRealtime = new WaitForSecondsRealtime(0.1f);
+	private void Update()
+	{
+		vignette.intensity.value = intensity;
 	}
 
 	protected override void EnableCutScene()
 	{
+		manager.isCutScenePlay = true;
 		manager.SetActiveMainUI(false);
 		manager.SetActivePlayerInput(false);
 		manager.ChangeFollowTarget(true, playerMoveTarget);
@@ -56,6 +57,7 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
+		manager.isCutScenePlay = false;
 		manager.SetActivePlayerInput(true);
 		manager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
@@ -64,41 +66,14 @@ public class Area3_EntryCutScene : CutSceneBase
 		vignette.color.value = Color.red;
 	}
 	
-	private void Update()
-	{
-		vignette.intensity.value = intensity;
-		manager.AnalogGlitch.scanLineJitter.value = scanLineJitter;
-		manager.AnalogGlitch.colorDrift.value = colorDrift;
-	}
-
 	public void Area3_PrintScripts()
 	{
 		chapter1Director.Pause();
 
-		StartCoroutine(PrintScripts());
+		manager.PauseCutSceneUntilScriptsEnd(chapter1Director, scriptsList, curScriptsIndex);
 		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-	}
-
-	private IEnumerator PrintScripts()
-	{
-		while (manager.scripting.isEnd == false)
-		{
-			yield return null;
-		}
-		
-		chapter1Director.Resume();
-		manager.scripting.isEnd = false;
-
-		if (curScriptsIndex + 1 < scriptsList.Count)
-		{
-			curScriptsIndex++;
-			yield return waitForSecondsRealtime;
-			manager.scripting.InitNameField(scriptsList[curScriptsIndex].scriptList[0].name);
-		}
-		else
-		{
-			curScriptsIndex = 0;
-		}
+	
+		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
 	}
 	
 	public void MovePlayer()

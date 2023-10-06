@@ -12,11 +12,6 @@ public class PlayerCameraEffect : MonoBehaviour
 	[SerializeField] private CinemachineVirtualCamera cam;
 	[ReadOnly(false), SerializeField] private CinemachineFramingTransposer camBody;
 	[ReadOnly(false), SerializeField] private  float originOrthoSize;
-
-	[Space(3)] 
-	[Header("Blur")] 
-	[SerializeField] private GameObject blurUI;
-	[SerializeField] private bool areaBlur;
 	
 	[Space(3)]
 	[Header("Shake Camera")] 
@@ -28,7 +23,6 @@ public class PlayerCameraEffect : MonoBehaviour
 	[SerializeField] private float waitTime = 0.2f;
 	private Volume volume;
 	private Vignette vignette;
-	private DepthOfField dof;
 	public Vignette Vignette => vignette;
 
 	// Coroutine
@@ -58,25 +52,8 @@ public class PlayerCameraEffect : MonoBehaviour
 	private IEnumerator TimeStop(float duration)
 	{
 		Time.timeScale = 0.0f;
-		SelectBlur();
-
 		yield return new WaitForSecondsRealtime(duration);
-
 		Time.timeScale = 1.0f;
-		
-		blurUI.SetActive(false);
-		dof.active = false;
-	}
-
-	private void SelectBlur()
-	{
-		if (areaBlur == true)
-		{
-			blurUI.SetActive(true);
-			return;
-		}
-
-		dof.active = true;
 	}
 	#endregion
 
@@ -107,10 +84,7 @@ public class PlayerCameraEffect : MonoBehaviour
 		volume = Camera.main.GetComponent<Volume>();
 		if (volume != null && volume.profile.TryGet(out vignette))
 		{
-			if (volume.profile.TryGet(out dof))
-			{
-				FDebug.Log("Init Success");
-			}
+			FDebug.Log("Init Success");
 		}
 	}
 	
