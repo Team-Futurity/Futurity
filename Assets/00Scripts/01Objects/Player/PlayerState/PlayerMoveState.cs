@@ -17,7 +17,7 @@ public class PlayerMoveState : UnitState<PlayerController>
 
 	public override void Update(PlayerController pc)
 	{
-		if(pc.moveDir == Vector3.zero)
+		if(!pc.moveIsPressed)
 		{
 			if(pc.IsCurrentState(PlayerState.Move))
 			{

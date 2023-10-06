@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : UnitBase
@@ -12,13 +11,14 @@ public class Enemy : UnitBase
 	protected override void AttackProcess(DamageInfo damageInfo)
 	{
 		ec.isAttackSuccess = true;
-		damageInfo.Defender.Hit(this, GetDamage(1));
+		damageInfo.SetDamage(GetDamage(1));
+		damageInfo.Defender.Hit(damageInfo);
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	public override void Hit(DamageInfo damageInfo)
 	{
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
-		status.GetStatus(StatusType.CURRENT_HP).SubValue(damage);
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
 	}
 
 	protected override float GetAttackPoint()

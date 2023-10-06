@@ -89,12 +89,16 @@ public class TimelineScripting : MonoBehaviour
 				miraeAnimation.AnimationState.SetAnimation(0, "angry", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.NORMAL:
-				miraeAnimation.AnimationState.SetAnimation(0, "normal", true);
+			case ScriptingStruct.EExpressionType.IDLE:
+				miraeAnimation.AnimationState.SetAnimation(0, "idle", true);
 				break;
 			
 			case ScriptingStruct.EExpressionType.PANIC:
 				miraeAnimation.AnimationState.SetAnimation(0, "panic", true);
+				break;
+			
+			case ScriptingStruct.EExpressionType.SHORT_SURPRISE:
+				miraeAnimation.AnimationState.SetAnimation(0, "short_surprise", true);
 				break;
 			
 			case ScriptingStruct.EExpressionType.SMILE:

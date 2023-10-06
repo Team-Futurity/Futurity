@@ -28,8 +28,9 @@ public class TrapPlayer : UnitBase
 		SetupTrapData();
 	}
 
-	private void Start()
+	protected override void Start()
 	{
+		base.Start();
 		behaviour.trapEnd.AddListener(EndProceed);
 	}
 
@@ -69,7 +70,7 @@ public class TrapPlayer : UnitBase
 		ActiveTrap(objectDetectList);
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	public override void Hit(DamageInfo damageInfo)
 	{
 		if (isTrapActive && trapData.TrapCondition == TrapCondition.ATTACK)
 		{

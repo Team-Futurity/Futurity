@@ -15,8 +15,9 @@ public struct ScriptingStruct
 	{
 		NONE,	// Not Change prev expression
 		ANGRY,
-		NORMAL,
+		IDLE,
 		PANIC,
+		SHORT_SURPRISE,
 		SMILE,
 		SURPRISE,
 		TRUST_ME
