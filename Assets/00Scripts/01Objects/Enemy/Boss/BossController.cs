@@ -31,6 +31,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public BossState curState;
 	public Phase curPhase;
 	[HideInInspector] public BossState nextPattern;
+	[HideInInspector] public BossState afterType467Pattern;
 
 	[Space(8)]
 	[Header("Target ÁöÁ¤")]
@@ -77,10 +78,32 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public bool isActivateType467 = false;
 	public bool isActivateType5 = false;
 
+	[HideInInspector] public float type4Percentage;
+	[HideInInspector] public float type6Percentage;
+	[HideInInspector] public float type7Percentage;
+
 	//current value
 	[HideInInspector] public int typeCount = 0;
 	[HideInInspector] public float cur467Time;
 	[HideInInspector] public float cur5Time = 0;
+
+	//Animator Parameter
+	public readonly string moveAnim = "Move";
+	public readonly string hitAnim = "Hit";
+	public readonly string deathAnim = "Death";
+	public readonly string type1Anim = "Type1";
+	public readonly string type2Anim = "Type2";
+	public readonly string type3Anim = "Type3";
+	public readonly string type4Anim = "Type4";
+	public readonly string type5Anim = "Type5";
+	public readonly string type6Anim = "Type6";
+	public readonly string type7Anim = "Type7";
+
+	[Space(8)]
+	[Header("Attack Collider")]
+	public GameObject Type1Collider;
+	public GameObject Type2Collider;
+	public GameObject Type3Collider;
 
 
 

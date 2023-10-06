@@ -33,7 +33,11 @@ public class BossActiveData
 public class BossPhaseData
 {
 	public Phase phase;
-	public float percentage;
+	public float hpPercentage;
 	public float type467MaxTime;
 	public float type5MaxTime;
+
+	public int type4Percentage;
+	public int type6Percentage;
+	public int type7Percentage;
 }

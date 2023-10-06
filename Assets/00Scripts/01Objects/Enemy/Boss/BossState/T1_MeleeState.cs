@@ -14,6 +14,8 @@ public class T1_MeleeState : B_PatternBase
 			unit.nextPattern = BossController.BossState.T3_Laser;
 		else
 			unit.nextPattern = BossController.BossState.Chase;
+
+		unit.animator.SetTrigger(unit.type1Anim);
 	}
 	public override void Update(BossController unit)
 	{
@@ -23,5 +25,7 @@ public class T1_MeleeState : B_PatternBase
 	public override void End(BossController unit)
 	{
 		base.End(unit);
+		if (unit.Type1Collider)
+			unit.Type1Collider.SetActive(false);
 	}
 }

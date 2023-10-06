@@ -14,14 +14,18 @@ public class T2_RangedState : B_PatternBase
 			unit.nextPattern = BossController.BossState.T3_Laser;
 		else
 			unit.nextPattern = BossController.BossState.Chase;
+
+		unit.animator.SetTrigger(unit.type2Anim);
 	}
 	public override void Update(BossController unit)
 	{
-
+		base.Update(unit);
 	}
 
 	public override void End(BossController unit)
 	{
-
+		base.End(unit);
+		if (unit.Type2Collider)
+			unit.Type2Collider.SetActive(false);
 	}
 }

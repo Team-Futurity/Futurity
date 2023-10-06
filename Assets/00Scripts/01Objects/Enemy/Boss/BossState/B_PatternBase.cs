@@ -6,7 +6,6 @@ public class B_PatternBase : UnitState<BossController>
 {
 	public float curTime = 0f;
 
-
 	public override void Begin(BossController unit)
 	{
 		unit.bossData.EnableAttackTime();
@@ -19,7 +18,15 @@ public class B_PatternBase : UnitState<BossController>
 
 	public override void End(BossController unit)
 	{
+		curTime = 0f;
 		unit.skillAfterDelay = unit.activeDataSO.GetAfterDelayValue(unit.curPhase, unit.curState);
+		if (unit.isActivateType467)
+		{
+			unit.afterType467Pattern = unit.nextPattern;
+			unit.nextPattern = unit.phaseDataSO.RandomState(unit.curPhase);
+			unit.isActivateType467 = false;
+			unit.cur467Time = 0f;
+		}
 		unit.bossData.DisableAttackTime();
 	}
 
