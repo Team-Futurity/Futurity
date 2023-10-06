@@ -45,6 +45,5 @@ public class OriginStatus : ScriptableObject
 		}
 
 		return status.Find((x) => x.type == type);
-
 	}
 }
