@@ -77,7 +77,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 
-		waitForSecondsRealtime = new WaitForSecondsRealtime(0.1f);
+		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
 
 		if (enableDebugMode == false)
 		{
