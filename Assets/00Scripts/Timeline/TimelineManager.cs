@@ -1,19 +1,22 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using URPGlitch.Runtime.AnalogGlitch;
+using Vignette = UnityEngine.Rendering.Universal.Vignette;
 
 public enum ECutScene
 {
 	AREA1_ENTRYCUTSCENE = 0,
-	AREA1_EXITCUTSCENE = 1,
-	AREA3_ENTRYCUTSCENE = 2,
-	LASTKILLCUTSCENE = 3,
-	PLYAERDEATHCUTSCENE = 4,
+	AREA1_REWARDCUTSCENE = 1,
+	AREA1_EXITCUTSCENE = 2,
+	AREA3_ENTRYCUTSCENE = 3,
+	LASTKILLCUTSCENE = 4,
+	PLYAERDEATHCUTSCENE = 5,
 }
 
 public class TimelineManager : Singleton<TimelineManager>
@@ -48,7 +51,12 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
 	private Transform originTarget;
-	
+
+	[Header("Volume Controller(Only use Timeline)")]
+	[SerializeField] private float scanLineJitter;
+	[SerializeField] private float colorDrift;
+	[HideInInspector] public bool isCutScenePlay = false;
+
 	// reset offset value
 	private Vector3 originOffset;
 	private float originOrthoSize;
@@ -57,9 +65,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	private IEnumerator timeSlow;
 	private IEnumerator lerpTimeScale;
 	private WaitForSecondsRealtime waitForSecondsRealtime;
-	
 	private AnalogGlitchVolume analogGlitch;
-	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
 	
 	private void Start()
 	{
@@ -75,6 +81,8 @@ public class TimelineManager : Singleton<TimelineManager>
 		
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 
+		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
+
 		if (enableDebugMode == false)
 		{
 			return;
@@ -85,7 +93,18 @@ public class TimelineManager : Singleton<TimelineManager>
 		spawnerManager.SpawnEnemy();
 		mainUICanvas.SetActive(true);
 	}
-	
+
+	private void Update()
+	{
+		if (isCutScenePlay == false)
+		{
+			return;
+		}
+		
+		analogGlitch.scanLineJitter.value = scanLineJitter;
+		analogGlitch.colorDrift.value = colorDrift;
+	}
+
 	public void EnableCutScene(ECutScene cutScene)
 	{
 		if (cutScene == ECutScene.AREA1_ENTRYCUTSCENE)
@@ -121,6 +140,34 @@ public class TimelineManager : Singleton<TimelineManager>
 		dialogController.SetDialogData(data);
 		dialogController.PlayDialog();
 	}
+
+	#region StandingScripts
+	
+	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
+	{
+		cutScene.Pause();
+		StartCoroutine(WaitScriptsEnd(cutScene, list, scriptsIndex));
+	}
+
+	private IEnumerator WaitScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
+	{
+		while (scripting.isEnd == false)
+		{
+			yield return null;
+		}
+		
+		cutScene.Resume();
+		scripting.isEnd = false;
+
+		if (scriptsIndex + 1 < list.Count)
+		{
+			scriptsIndex++;
+			yield return waitForSecondsRealtime;
+			scripting.InitNameField(list[scriptsIndex].scriptList[0].name);
+		}
+	}
+
+	#endregion
 	
 	#region PlayerCamera
 	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
