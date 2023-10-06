@@ -7,9 +7,11 @@ public class Area1_RewardCutScene : CutSceneBase
 {
 	[Header("Component")] 
 	[SerializeField] private PlayableDirector rewardCutScene;
-	[SerializeField] private List<ScriptingList> scriptingLists;
+	[SerializeField] private List<ScriptingList> scriptsList;
 
 	private TimelineManager manager;
+	private int curScriptsIndex;
+	
 	protected override void Init()
 	{
 		manager = TimelineManager.Instance;
@@ -17,16 +19,23 @@ public class Area1_RewardCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		base.EnableCutScene();
+		manager.SetActivePlayerInput(false);
+		manager.SetActiveMainUI(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		
+		manager.SetActivePlayerInput(true);
+		manager.SetActiveMainUI(true);
 	}
 
 	public void Reward_PrintScripts()
 	{
+		rewardCutScene.Pause();
 		
+		manager.PauseCutSceneUntilScriptsEnd(rewardCutScene, scriptsList, curScriptsIndex);
+		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
+		
+		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
 	}
 }
