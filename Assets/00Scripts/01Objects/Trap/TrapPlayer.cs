@@ -15,7 +15,7 @@ public class TrapPlayer : UnitBase
 
 	private bool isTrapActive = true;
 
-	[Header("Æ®·¦ µ¥ÀÌÅÍ")]
+	[Header("Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
 	[SerializeField] private LayerMask searchLayer;
 
 	private void Awake()
@@ -32,15 +32,6 @@ public class TrapPlayer : UnitBase
 	{
 		base.Start();
 		behaviour.trapEnd.AddListener(EndProceed);
-	}
-
-	private void Update()
-	{
-		// Trap Test¿ë ÄÚµå
-		if (Input.GetKeyDown(KeyCode.M))
-		{
-			ActiveTrap(objectDetectList);
-		}
 	}
 
 	private void FixedUpdate()
