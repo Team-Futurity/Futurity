@@ -73,8 +73,10 @@ public class PlayerAttackState : PlayerComboAttackState
 				var enemy = other.gameObject.GetComponent<UnitBase>();
 				var enemyController = other.gameObject.GetComponent<EnemyController>();
 
-				unit.playerData.Attack(enemy, attackNode.attackST);
-				HitEffectPooling(unit, enemy.transform);
+				DamageInfo info = new DamageInfo(unit.playerData, enemy, attackNode.attackST);
+				info.SetHitEffect(attackNode.hitEffectPoolManager, attackNode.effectOffset);
+				unit.playerData.Attack(info);
+				//HitEffectPooling(unit, enemy.transform);
 				if(!enemyController.isTutorialDummy)
 				{
 					enemy.Knockback(unit.transform.forward, enemyController.hitPower);
@@ -93,22 +95,5 @@ public class PlayerAttackState : PlayerComboAttackState
 	public override void OnCollisionStay(PlayerController unit, Collision collision)
 	{
 
-	}
-
-	public void HitEffectPooling(PlayerController unit, Transform target)
-	{
-		attackNode = unit.curNode;
-
-		if (attackNode.hitEffectPoolManager == null) { return; }
-
-		Vector3 rot = target.rotation.eulerAngles;
-		rot.y *= -1;
-		effect = attackNode.hitEffectPoolManager.ActiveObject(target.position + attackNode.hitEffectOffset, Quaternion.Euler(rot));
-		var particles = effect.GetComponent<ParticleController>();
-
-		if(particles != null) 
-		{
-			particles.Initialize(attackNode.hitEffectPoolManager);
-		}
 	}
 }
