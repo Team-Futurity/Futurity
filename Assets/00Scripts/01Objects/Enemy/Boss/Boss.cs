@@ -6,8 +6,7 @@ public class Boss : UnitBase
 {
 	[SerializeField] private BossController bc;
 
-
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	public override void Hit(DamageInfo damageInfo)
 	{
 		throw new System.NotImplementedException();
 	}

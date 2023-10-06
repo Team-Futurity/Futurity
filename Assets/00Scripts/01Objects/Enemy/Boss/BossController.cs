@@ -104,7 +104,10 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public GameObject Type1Collider;
 	public GameObject Type2Collider;
 	public GameObject Type3Collider;
-
+	public GameObject Type4Collider;
+	public List<SpawnerManager> Type5Manager;
+	public List<GameObject> Type6Colliders;
+	public GameObject Type7Collider;
 
 
 

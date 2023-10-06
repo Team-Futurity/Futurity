@@ -9,6 +9,11 @@ public class T3_LaserState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossController.BossState.T3_Laser;
+		if (unit.curPhase == Phase.Phase2 || unit.curPhase == Phase.Phase4)
+			if(unit.isActivateType5)
+				unit.nextPattern = BossController.BossState.T5_EnemySpawn;
+			else
+			unit.nextPattern = BossController.BossState.Chase;
 		unit.animator.SetTrigger(unit.type3Anim);
 	}
 	public override void Update(BossController unit)

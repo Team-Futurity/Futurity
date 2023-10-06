@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class B_DeathState : MonoBehaviour
+[FSMState((int)BossController.BossState.Death)]
+public class B_DeathState : UnitState<BossController>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public override void Begin(BossController unit)
+	{
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public override void End(BossController unit)
+	{
+	}
+
+	public override void FixedUpdate(BossController unit)
+	{
+	}
+
+	public override void OnCollisionEnter(BossController unit, Collision collision)
+	{
+	}
+
+	public override void OnTriggerEnter(BossController unit, Collider other)
+	{
+	}
+
+	public override void Update(BossController unit)
+	{
+	}
 }

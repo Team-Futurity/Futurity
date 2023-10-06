@@ -24,7 +24,6 @@ public class B_PatternBase : UnitState<BossController>
 		{
 			unit.afterType467Pattern = unit.nextPattern;
 			unit.nextPattern = unit.phaseDataSO.RandomState(unit.curPhase);
-			unit.isActivateType467 = false;
 			unit.cur467Time = 0f;
 		}
 		unit.bossData.DisableAttackTime();
@@ -40,7 +39,7 @@ public class B_PatternBase : UnitState<BossController>
 
 	public override void OnTriggerEnter(BossController unit, Collider other)
 	{
-		if (other.CompareTag("Player"))
-			unit.bossData.Attack(unit.target);
+		/*if (other.CompareTag("Player"))
+			unit.bossData.Attack(unit.target);*/
 	}
 }

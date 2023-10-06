@@ -11,9 +11,9 @@ public class BossActiveDatas : ScriptableObject
 	{
 		float value = 0f;
 
-		foreach (var delayValue in activeDatas)
-			if (delayValue.phase == phase && delayValue.skillType == skillType)
-				value = delayValue.skillAfterDelay;
+		foreach (var data in activeDatas)
+			if (data.phase == phase && data.skillType == skillType)
+				value = data.skillAfterDelay;
 
 		return value;
 	}
@@ -22,9 +22,9 @@ public class BossActiveDatas : ScriptableObject
 	{
 		float value = 0f;
 
-		foreach (var delayValue in activeDatas)
-			if (delayValue.skillType == skillType)
-				value = delayValue.skillActivateDelay;
+		foreach (var data in activeDatas)
+			if (data.skillType == skillType)
+				value = data.skillActivateDelay;
 
 		return value;
 	}
