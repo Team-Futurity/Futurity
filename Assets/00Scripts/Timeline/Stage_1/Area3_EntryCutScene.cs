@@ -9,6 +9,7 @@ public class Area3_EntryCutScene : CutSceneBase
 {
 	[Header("컴포넌트")] 
 	[SerializeField] private PlayableDirector chapter1Director;
+	[SerializeField] private PlayerCameraEffect cameraEffect;
 	[SerializeField] private Transform playerMoveTarget;
 	[SerializeField] private SpawnerManager spawnerManager;
 	[SerializeField] private Transform startPos;
@@ -22,22 +23,31 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	private TimelineManager manager;
 	private PlayerController playerController;
+	private Vignette vignette;
 	private float originIntensity;
 
 	protected override void Init()
 	{
+		vignette = cameraEffect.Vignette;
 		manager = TimelineManager.Instance;
-		originIntensity = manager.Vignette.intensity.value;
+		
+		originIntensity = vignette.intensity.value;
+	}
+
+	private void Update()
+	{
+		vignette.intensity.value = intensity;
 	}
 
 	protected override void EnableCutScene()
 	{
+		manager.isCutScenePlay = true;
 		manager.SetActiveMainUI(false);
 		manager.SetActivePlayerInput(false);
 		manager.ChangeFollowTarget(true, playerMoveTarget);
 
-		manager.Vignette.intensity.value = intensity;
-		manager.Vignette.color.value = Color.black;
+		vignette.intensity.value = intensity;
+		vignette.color.value = Color.black;
 		
 		manager.PlayerController.transform.position = startPos.transform.position;
 		manager.PlayerController.transform.rotation = Quaternion.identity;
@@ -47,12 +57,13 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
+		manager.isCutScenePlay = false;
 		manager.SetActivePlayerInput(true);
 		manager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
 
-		manager.Vignette.intensity.value = originIntensity;
-		manager.Vignette.color.value = Color.red;
+		vignette.intensity.value = originIntensity;
+		vignette.color.value = Color.red;
 	}
 	
 	public void Area3_PrintScripts()

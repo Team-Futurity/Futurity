@@ -53,14 +53,10 @@ public class TimelineManager : Singleton<TimelineManager>
 	private Transform originTarget;
 
 	[Header("Volume Controller(Only use Timeline)")]
-	[SerializeField] private PlayerCameraEffect cameraEffect;
-	[SerializeField] private float intensity;
 	[SerializeField] private float scanLineJitter;
 	[SerializeField] private float colorDrift;
 	[HideInInspector] public bool isCutScenePlay = false;
-	private Vignette vignette;
-	public Vignette Vignette => vignette;
-	
+
 	// reset offset value
 	private Vector3 originOffset;
 	private float originOrthoSize;
@@ -84,7 +80,6 @@ public class TimelineManager : Singleton<TimelineManager>
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
-		vignette = cameraEffect.Vignette;
 
 		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
 
@@ -106,7 +101,6 @@ public class TimelineManager : Singleton<TimelineManager>
 			return;
 		}
 		
-		vignette.intensity.value = intensity;
 		analogGlitch.scanLineJitter.value = scanLineJitter;
 		analogGlitch.colorDrift.value = colorDrift;
 	}

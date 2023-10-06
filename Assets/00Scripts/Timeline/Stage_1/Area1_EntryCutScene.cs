@@ -12,6 +12,7 @@ public class Area1_EntryCutScene : CutSceneBase
 
 	[Header("진입 컷신에서 활성화할 오브젝트 목록")]
 	[SerializeField] private GameObject[] walls;
+	[SerializeField] private GameObject eliteEnemy;
 
 	[Header("플레이어 이동값")] 
 	[SerializeField] private GameObject targetPos;
@@ -40,6 +41,7 @@ public class Area1_EntryCutScene : CutSceneBase
 		}
 		
 		playerCamera.SetActive(true);
+		eliteEnemy.SetActive(false);
 
 		if (TimelineManager.Instance.IsDebugMode == true)
 		{
@@ -49,7 +51,7 @@ public class Area1_EntryCutScene : CutSceneBase
 		
 		TimelineManager.Instance.SetActiveMainUI(true);
 		TimelineManager.Instance.SetActivePlayerInput(true);
-		TimelineManager.Instance.isCutScenePlay = true;
+		TimelineManager.Instance.isCutScenePlay = false;
 	}
 
 	public void Area1_Scripting()

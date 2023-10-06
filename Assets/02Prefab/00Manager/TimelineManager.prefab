@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chapter1Director: {fileID: 1654739470262035759}
+  cameraEffect: {fileID: 0}
   playerMoveTarget: {fileID: 8304615426564475545}
   spawnerManager: {fileID: 0}
   startPos: {fileID: 0}
@@ -305,6 +306,8 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -1718978550177736083, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
     value: {fileID: 1920035324}
+  - key: {fileID: -8797699215154089008, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
+    value: {fileID: 663285022489695849}
   m_ExposedReferences:
     m_References:
     - 4bfa098ad0507c14493b245c0b904289: {fileID: 6336291101057634844}
@@ -1114,6 +1117,7 @@ MonoBehaviour:
   walls:
   - {fileID: 0}
   - {fileID: 0}
+  eliteEnemy: {fileID: 0}
   targetPos: {fileID: 7769804699476980681}
   duration: 1
   scriptsList:
@@ -1495,7 +1499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57ac7e3df33b3d43ba69f7bac2512f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableDebugMode: 1
+  enableDebugMode: 0
   spawnerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerInput: {fileID: 0}
@@ -1513,8 +1517,6 @@ MonoBehaviour:
   - {fileID: 6934600568556246682}
   - {fileID: 6934600568923427036}
   playerModelTf: {fileID: 0}
-  cameraEffect: {fileID: 0}
-  intensity: 0
   scanLineJitter: 0
   colorDrift: 0
   isCutScenePlay: 0
