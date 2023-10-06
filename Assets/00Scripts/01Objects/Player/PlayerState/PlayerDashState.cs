@@ -29,7 +29,7 @@ public class PlayerDashState : UnitState<PlayerController>
 
 		pc.glove.SetActive(false);
 
-		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);
+		AudioManager.Instance.PlayOneShot(pc.dash, pc.transform.position);
 	}
 
 	public override void Update(PlayerController pc)

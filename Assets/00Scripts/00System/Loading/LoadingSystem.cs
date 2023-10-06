@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,8 @@ public class LoadingSystem : MonoBehaviour
 
 		FadeManager.Instance.FadeOut(fadeTime, () =>
 		{
+			AudioManager.Instance.CleanUp();
+
 			SceneLoader.Instance.LoadSceneAsync(nextScene);
 			isFillGaugeStart = true;
 		});

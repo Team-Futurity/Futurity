@@ -30,7 +30,7 @@ public class PlayerAttackState : PlayerComboAttackState
 			TimeScaleController.Instance.SetTimeScale(attackNode.slowScale, attackNode.slowTime, pc.transform.forward);
 		}
 
-		pc.playerData.EnableAttackTiming();
+		//pc.playerData.EnableAttackTiming();
 
 		pc.SetCollider(true);
 	}
@@ -54,7 +54,7 @@ public class PlayerAttackState : PlayerComboAttackState
 
 		unit.rigid.velocity = Vector3.zero;
 
-		unit.attackCollider.truncatedCollider.enabled = false;
+		unit.attackColliderChanger.DisableAllCollider();
 
 		bool isAttack = hittedEnemyCount > 0;
 		unit.comboGaugeSystem.SetComboGaugeProc(isAttack, hittedEnemyCount);
@@ -68,7 +68,7 @@ public class PlayerAttackState : PlayerComboAttackState
 	{
 		if (other.CompareTag(unit.EnemyTag))
 		{
-			if (unit.attackCollider.IsInCuttedCollider(other.gameObject))
+			if (unit.attackColliderChanger.GetCollider(attackNode.attackColliderType).IsInCuttedCollider(other.gameObject, attackNode.attackColliderType != ColliderType.Capsule))
 			{
 				var enemy = other.gameObject.GetComponent<UnitBase>();
 				var enemyController = other.gameObject.GetComponent<EnemyController>();

@@ -7,7 +7,7 @@ public class AreaController : MonoBehaviour
 {
 	[field: SerializeField]
 	public bool UseDirecting { get; private set; }
-	public TimelineManager.ECutScene directingType;
+	public ECutScene directingType;
 	
 	[field:Space(10)]
 

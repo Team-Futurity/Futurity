@@ -55,8 +55,10 @@ public static class VectorUtilities
 		return over180Degree ? MathPlus.MaxAngle - angle : angle;
 	}
 
-	public static void RotateToDirection(this Vector2 originPoint, Vector2 direction)
+	public static Vector3 RotateToDirection(this Vector3 originPoint, Vector3 direction)
 	{
+		/*Vector2 returnValue;
+
 		float rotationAngle = Vector2.SignedAngle(originPoint, direction) * Mathf.Deg2Rad;
 
 		float cosAngle = Mathf.Cos(rotationAngle);
@@ -65,8 +67,12 @@ public static class VectorUtilities
 		float x = originPoint.x;
 		float y = originPoint.y;
 
-		originPoint.x = x * cosAngle - y * sinAngle;
-		originPoint.y = x * sinAngle + y * cosAngle;
+		returnValue.x = x * cosAngle - y * sinAngle;
+		returnValue.y = x * sinAngle + y * cosAngle;*/
+
+		float rotationAngle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
+
+		return Quaternion.AngleAxis(rotationAngle, Vector3.up) * originPoint;
 	}
 
 	public static bool GetIntersectionPoint(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4, out Vector2 vec)

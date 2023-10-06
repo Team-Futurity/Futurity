@@ -5,16 +5,10 @@ using UnityEngine.Rendering;
 public class PlayerDeathCutScene : CutSceneBase
 {
 	[Header("Component")]
-	[SerializeField] private GameObject[] disableUI;
 	[SerializeField] private GameObject gameOverUI;
-	[SerializeField] private float endPosDistance = 0.0f;
 
 	[Header("흑백 전환 시간")] 
 	[SerializeField] private float grayScaleTime = 0.5f;
-
-	[Header("사망 거리 저장")]
-	[SerializeField] private Transform endPos;
-	[SerializeField] private Transform newFollowTarget;
 	
 	private GrayScale grayScale = null;
 	private IEnumerator enableGrayScale;
@@ -29,14 +23,7 @@ public class PlayerDeathCutScene : CutSceneBase
 	
 	protected override void EnableCutScene()
 	{
-		endPos.position = TimelineManager.Instance.GetOffsetVector(endPosDistance);
-		TimelineManager.Instance.ChangeFollowTarget(true, newFollowTarget);
-
-		foreach (var ui in disableUI)
-		{
-			ui.gameObject.SetActive(false);		
-		}
-		
+		TimelineManager.Instance.SetActiveMainUI(false);
 		StartGrayScaleRoutine();
 	}
 

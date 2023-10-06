@@ -6,6 +6,7 @@ public class Area1_EntryCutScene : CutSceneBase
 	[Header("Component")]
 	[SerializeField] private GameObject playerCamera;
 	[SerializeField] private SpawnerManager spawnerManager;
+	[SerializeField] private DialogData dialogData;
 
 	[Header("진입 컷신에서 활성화할 오브젝트 목록")]
 	[SerializeField] private GameObject[] walls;
@@ -16,7 +17,7 @@ public class Area1_EntryCutScene : CutSceneBase
 	
 	protected override void Init()
 	{
-		TimelineManager.Instance.uiCanvas.SetActive(false);
+		TimelineManager.Instance.SetActiveMainUI(false);
 		TimelineManager.Instance.SetActivePlayerInput(false);
 	}
 
@@ -28,10 +29,17 @@ public class Area1_EntryCutScene : CutSceneBase
 		{
 			wall.SetActive(true);
 		}
-		TimelineManager.Instance.uiCanvas.SetActive(true);
-		TimelineManager.Instance.SetActivePlayerInput(true);
-
+		
 		playerCamera.SetActive(true);
+
+		if (TimelineManager.Instance.IsDebugMode == true)
+		{
+			TimelineManager.Instance.SetActivePlayerInput(true);
+			return;
+		}
+		
+		TimelineManager.Instance.SetActiveMainUI(true);
+		TimelineManager.Instance.StartDialog(dialogData);
 	}
 	
 	public void MovePlayer()

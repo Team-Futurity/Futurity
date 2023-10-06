@@ -26,6 +26,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	private TimelineManager manager;
 	private PlayerController playerController;
 	private Vignette vignette;
+	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private float originIntensity;
 
 	protected override void Init()
@@ -34,11 +35,13 @@ public class Area3_EntryCutScene : CutSceneBase
 		
 		vignette = cameraEffect.Vignette;
 		originIntensity = vignette.intensity.value;
+
+		waitForSecondsRealtime = new WaitForSecondsRealtime(0.1f);
 	}
 
 	protected override void EnableCutScene()
 	{
-		manager.uiCanvas.SetActive(false);
+		manager.SetActiveMainUI(false);
 		manager.SetActivePlayerInput(false);
 		manager.ChangeFollowTarget(true, playerMoveTarget);
 
@@ -54,7 +57,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	public override void DisableCutScene()
 	{
 		manager.SetActivePlayerInput(true);
-		manager.uiCanvas.SetActive(true);
+		manager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
 
 		vignette.intensity.value = originIntensity;
@@ -89,7 +92,7 @@ public class Area3_EntryCutScene : CutSceneBase
 		if (curScriptsIndex + 1 < scriptsList.Count)
 		{
 			curScriptsIndex++;
-			yield return new WaitForSecondsRealtime(0.2f);
+			yield return waitForSecondsRealtime;
 			manager.scripting.InitNameField(scriptsList[curScriptsIndex].scriptList[0].name);
 		}
 		else
