@@ -31,26 +31,7 @@ public class PartSystem : MonoBehaviour
 		TryGetComponent(out player);
 		
 		// 콤보 게이지 추가
-		
-		// 플레이어 몬스터 추가
-		//player.onAttackEvent.AddListener();
-
-		Debug.Log(equipPartList.Length);
-	}
-
-	private void Update()
-	{
-		// Percent에 따른 파츠 작동 여부 확인
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			UpdateComboGauge(debugPercent);
-		}
-
-		// 파츠 스킬 작동 여부 확인
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			// equipPartList[3].AddCoreAbilityToAttackEvent(enemy);
-		}
+		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdateComboGauge);
 	}
 
 	[ConsoleMethod("EquipPart", "Equip Part")]
