@@ -75,32 +75,34 @@ public class Area3_EntryCutScene : CutSceneBase
 	{
 		chapter1Director.Pause();
 
-		StartCoroutine(PrintScripts());
+		manager.PauseCutSceneUntilScriptsEnd(chapter1Director, scriptsList, curScriptsIndex);
 		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-	}
-
-	private IEnumerator PrintScripts()
-	{
-		while (manager.scripting.isEnd == false)
-		{
-			yield return null;
-		}
-		
-		chapter1Director.Resume();
-		manager.scripting.isEnd = false;
-
-		if (curScriptsIndex + 1 < scriptsList.Count)
-		{
-			curScriptsIndex++;
-			yield return waitForSecondsRealtime;
-			manager.scripting.InitNameField(scriptsList[curScriptsIndex].scriptList[0].name);
-		}
-		else
-		{
-			curScriptsIndex = 0;
-		}
-	}
 	
+		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
+	}
+
+	// private IEnumerator PrintScripts()
+	// {
+	// 	while (manager.scripting.isEnd == false)
+	// 	{
+	// 		yield return null;
+	// 	}
+	// 	
+	// 	chapter1Director.Resume();
+	// 	manager.scripting.isEnd = false;
+	//
+	// 	if (curScriptsIndex + 1 < scriptsList.Count)
+	// 	{
+	// 		curScriptsIndex++;
+	// 		yield return waitForSecondsRealtime;
+	// 		manager.scripting.InitNameField(scriptsList[curScriptsIndex].scriptList[0].name);
+	// 	}
+	// 	else
+	// 	{
+	// 		curScriptsIndex = 0;
+	// 	}
+	// }
+	//
 	public void MovePlayer()
 	{
 		manager.PlayerController.LerpToWorldPosition(playerMoveTarget.position, 1.5f);

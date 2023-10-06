@@ -1,6 +1,7 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -60,7 +61,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	private AnalogGlitchVolume analogGlitch;
 	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
-	
+
 	private void Start()
 	{
 		var player = GameObject.FindWithTag("Player");
@@ -74,6 +75,8 @@ public class TimelineManager : Singleton<TimelineManager>
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
+
+		waitForSecondsRealtime = new WaitForSecondsRealtime(0.1f);
 
 		if (enableDebugMode == false)
 		{
@@ -121,6 +124,34 @@ public class TimelineManager : Singleton<TimelineManager>
 		dialogController.SetDialogData(data);
 		dialogController.PlayDialog();
 	}
+
+	#region StandingScripts
+	
+	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
+	{
+		cutScene.Pause();
+		StartCoroutine(WaitScriptsEnd(cutScene, list, scriptsIndex));
+	}
+
+	private IEnumerator WaitScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
+	{
+		while (scripting.isEnd == false)
+		{
+			yield return null;
+		}
+		
+		cutScene.Resume();
+		scripting.isEnd = false;
+
+		if (scriptsIndex + 1 < list.Count)
+		{
+			scriptsIndex++;
+			yield return waitForSecondsRealtime;
+			scripting.InitNameField(list[scriptsIndex].scriptList[0].name);
+		}
+	}
+
+	#endregion
 	
 	#region PlayerCamera
 	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
