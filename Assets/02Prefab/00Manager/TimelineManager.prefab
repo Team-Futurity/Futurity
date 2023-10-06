@@ -84,6 +84,8 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 7579522598843418532, guid: a2498a6c3376af04080b4e873fb6e217, type: 2}
     value: {fileID: 0}
+  - key: {fileID: 6340687392727885861, guid: a2498a6c3376af04080b4e873fb6e217, type: 2}
+    value: {fileID: 1920035324}
   m_ExposedReferences:
     m_References:
     - f7851a862d350604aad1d55daa8fcc80: {fileID: 0}
@@ -184,7 +186,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chapter1Director: {fileID: 1654739470262035759}
-  cameraEffect: {fileID: 0}
   playerMoveTarget: {fileID: 8304615426564475545}
   spawnerManager: {fileID: 0}
   startPos: {fileID: 0}
@@ -192,8 +193,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3daef1e6e9a117f43b8de5a2d1b43018, type: 2}
   - {fileID: 11400000, guid: 3d7aa724d1777a446b134f47a30e6a42, type: 2}
   intensity: 0.8
-  scanLineJitter: 0
-  colorDrift: 0
 --- !u!114 &1949004248031579910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,8 +283,6 @@ PlayableDirector:
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
-  - key: {fileID: -4868283184415742675, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
-    value: {fileID: 663285022489695849}
   - key: {fileID: -1017999927186212496, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
     value: {fileID: 1949004248031579910}
   - key: {fileID: -8897301089580762745, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
@@ -306,6 +303,8 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -3043397408369457332, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
     value: {fileID: 0}
+  - key: {fileID: -1718978550177736083, guid: 2f6ed348c92328d44baf2ac52a2ed885, type: 2}
+    value: {fileID: 1920035324}
   m_ExposedReferences:
     m_References:
     - 4bfa098ad0507c14493b245c0b904289: {fileID: 6336291101057634844}
@@ -1067,6 +1066,22 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 0}
     value: {fileID: 0}
+  - key: {fileID: -6822482636220749940, guid: 1fffa699ec677994c82d94f405190f4b, type: 2}
+    value: {fileID: 1920035324}
+  - key: {fileID: 5110566002625162878, guid: 1fffa699ec677994c82d94f405190f4b, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 6134478088604621172, guid: 1fffa699ec677994c82d94f405190f4b, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 3728872843093736709, guid: 1fffa699ec677994c82d94f405190f4b, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 308787434550597012, guid: 1fffa699ec677994c82d94f405190f4b, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 230513205721518324, guid: 1fffa699ec677994c82d94f405190f4b, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 1952131291734837335, guid: 1fffa699ec677994c82d94f405190f4b, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 8963422245301548541, guid: 1fffa699ec677994c82d94f405190f4b, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - d1815501fb45b7346a97fcf80657a0a4: {fileID: 2290549852741204980}
@@ -1095,12 +1110,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   spawnerManager: {fileID: 0}
-  dialogData: {fileID: 11400000, guid: 2db5cc6adb62f144ebaebcf6f4068cf5, type: 2}
+  entryCutScene: {fileID: 9098688550147238442}
   walls:
   - {fileID: 0}
   - {fileID: 0}
   targetPos: {fileID: 7769804699476980681}
   duration: 1
+  scriptsList:
+  - {fileID: 11400000, guid: 864574c8cea362d4cb2f1115d739985e, type: 2}
 --- !u!114 &3766134130625884753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1118,6 +1135,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: c4e6d43a9db4bfb49b91d0dafb2a29ec, type: 2}
     - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
     - {fileID: 11400000, guid: f2cdc6b09606299448e2b85dd904b297, type: 2}
+    - {fileID: 11400000, guid: f263dc5bc612ac94ca37f2dfa51f6c2e, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -1152,6 +1170,20 @@ MonoBehaviour:
         - m_Target: {fileID: 4348952146051911532}
           m_TargetAssemblyTypeName: EntryCutScene, Assembly-CSharp
           m_MethodName: Area1_SpawnEnemy
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4348952146051911532}
+          m_TargetAssemblyTypeName: Area1_EntryCutScene, Assembly-CSharp
+          m_MethodName: Area1_Scripting
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1302,7 +1334,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitTimeline: {fileID: 6934600567221907384}
-  dialogData: {fileID: 11400000, guid: cf4c328b37933b345b4bd25beecd1eeb, type: 2}
   dialogUIOffset: {x: 10, y: 220}
   moveDistance: 7
   duration: 2
@@ -1422,6 +1453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6934600567714598370}
   - component: {fileID: 6934600567714598397}
+  - component: {fileID: 1920035324}
   m_Layer: 0
   m_Name: TimelineManager
   m_TagString: Untagged
@@ -1481,6 +1513,31 @@ MonoBehaviour:
   - {fileID: 6934600568556246682}
   - {fileID: 6934600568923427036}
   playerModelTf: {fileID: 0}
+  cameraEffect: {fileID: 0}
+  intensity: 0
+  scanLineJitter: 0
+  colorDrift: 0
+  isCutScenePlay: 0
+--- !u!95 &1920035324
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6934600567714598396}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &6934600568556246682
 GameObject:
   m_ObjectHideFlags: 0
