@@ -16,7 +16,7 @@ public class EnemySpawnState : UnitState<EnemyController>
 
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
-		unit.enemyCollider.enabled = false;
+		// unit.enemyCollider.enabled = false;
 		unit.copyUMat.color = BeginColor;
 		unit.animator.SetBool(unit.moveAnimParam, true);
 
@@ -32,6 +32,9 @@ public class EnemySpawnState : UnitState<EnemyController>
 
 	public override void Update(EnemyController unit)
 	{
+		if (true)
+			return;
+		
 		curTime += Time.deltaTime;
 
 		if (refColor.a > 0f)

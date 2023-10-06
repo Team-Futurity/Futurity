@@ -162,6 +162,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Death")]
 	public float deathDelay = 2.0f;
+	[HideInInspector]
+	public UnityEvent onDeathEvent;
 
 	[Space(3)] 
 	[Header("Spawn Info & Event")]
