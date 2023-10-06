@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor.U2D.Path;
 using UnityEngine;
 
 public class TransitionAttackCore : MonoBehaviour
@@ -37,16 +36,16 @@ public class TransitionAttackCore : MonoBehaviour
 
 	private bool AddTransitionComponent(Collider enemy)
 	{
-		// ´ÙÀ½ enemy
+		// ï¿½ï¿½ï¿½ï¿½ enemy
 		var hasTransitionComponent = enemy.TryGetComponent(out TransitionAttackCore transition);
 			
-		// °¡Áö°í ÀÖÁö ¾ÊÀ» °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		if (!hasTransitionComponent)
 		{
 			transition = enemy.AddComponent<TransitionAttackCore>();
 		}
 
-		// µ¿ÀÏÇÏ´Ù´Â °ÍÀº ´ÙÀ½ °ÍÀ» ºÒ·¯¿Í¾ß ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½Í¾ï¿½ ï¿½Ñ´ï¿½.
 		if (transition.CompareID(protocol.transitionID))
 		{
 			return false;
@@ -69,13 +68,13 @@ public class TransitionAttackCore : MonoBehaviour
 			return;
 		}
 
-		// ¸ó½ºÅÍ¸¦ Á¤·ÄÇÑ´Ù.
+		// ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		var nearEnemyColliders = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList();
 
-		// ¼øÈ¸ÇÑ´Ù.
+		// ï¿½ï¿½È¸ï¿½Ñ´ï¿½.
 		foreach (var nearEnemy in nearEnemyColliders)
 		{
-			// nearEnemy¸¦ ³Ñ°Ü¼­ Á¶°Ç¿¡ ºÎÇÕÇÑÁö È®ÀÎÇÑ´Ù.
+			// nearEnemyï¿½ï¿½ ï¿½Ñ°Ü¼ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½.
 			var isFindNearEnemy = AddTransitionComponent(nearEnemy);
 
 			if (isFindNearEnemy)
