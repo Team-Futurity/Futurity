@@ -30,8 +30,8 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Header("State")]
 	public BossState curState;
 	public Phase curPhase;
-	[HideInInspector] public BossState nextPattern;
-	[HideInInspector] public BossState afterType467Pattern;
+	/*[HideInInspector]*/ public BossState nextPattern;
+	/*[HideInInspector]*/ public BossState afterType467Pattern;
 
 	[Space(8)]
 	[Header("Target ÁöÁ¤")]
@@ -40,22 +40,22 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Space(8)]
 	[Header("Data cashing")]
 	public Boss bossData;
-	[HideInInspector] public Animator animator;
-	[HideInInspector] public Rigidbody rigid;
-	[HideInInspector] public NavMeshAgent navMesh;
+	/*[HideInInspector]*/ public Animator animator;
+	/*[HideInInspector]*/ public Rigidbody rigid;
+	/*[HideInInspector]*/ public NavMeshAgent navMesh;
 
 	[Space(8)]
 	[Header("Material cashing")]
 	public SkinnedMeshRenderer meshRenderer;
 	public Material material;
 	public Material unlitMaterial;
-	[HideInInspector] public Material copyUMat;
+	/*[HideInInspector]*/ public Material copyUMat;
 
 	[Space(8)]
 	[Header("Effect cashing")]
-	[HideInInspector] public EffectController effectController;
+	/*[HideInInspector]*/ public EffectController effectController;
 	public EffectDatas effectSO;
-	[HideInInspector] public EffectActiveData currentEffectData;
+	/*[HideInInspector]*/ public EffectActiveData currentEffectData;
 
 	[Space(8)]
 	[Header("Spawn Info & Event")]
@@ -71,21 +71,21 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public float targetDistance = 9f;
 	public float meleeDistance = 4f;
 	public int maxTypeCount = 5;
-	[HideInInspector] public float skillAfterDelay;
-	[HideInInspector] public float type467MaxTime;
-	[HideInInspector] public float type5MaxTime;
+	/*[HideInInspector]*/ public float skillAfterDelay;
+	/*[HideInInspector]*/ public float type467MaxTime;
+	/*[HideInInspector]*/ public float type5MaxTime;
 
 	public bool isActivateType467 = false;
 	public bool isActivateType5 = false;
 
-	[HideInInspector] public float type4Percentage;
-	[HideInInspector] public float type6Percentage;
-	[HideInInspector] public float type7Percentage;
+	/*[HideInInspector]*/ public float type4Percentage;
+	/*[HideInInspector]*/ public float type6Percentage;
+	/*[HideInInspector]*/ public float type7Percentage;
 
 	//current value
-	[HideInInspector] public int typeCount = 0;
-	[HideInInspector] public float cur467Time;
-	[HideInInspector] public float cur5Time = 0;
+	/*[HideInInspector]*/ public int typeCount = 0;
+	/*[HideInInspector]*/ public float cur467Time;
+	/*[HideInInspector]*/ public float cur5Time = 0;
 
 	//Animator Parameter
 	public readonly string moveAnim = "Move";

@@ -12,9 +12,15 @@ public class B_SetUpState : UnitState<BossController>
 
 		//Basic
 		unit.target = GameObject.FindWithTag("Player").GetComponent<UnitBase>();
-		unit.animator = unit.GetComponent<Animator>();
+		unit.animator = unit.GetComponentInChildren<Animator>();
 		unit.rigid = unit.GetComponent<Rigidbody>();
 		unit.navMesh = unit.GetComponent<NavMeshAgent>();
+		unit.nextPattern = BossController.BossState.Chase;
+
+		unit.type467MaxTime = unit.phaseDataSO.GetType467TImerValue(Phase.Phase1);
+		unit.type5MaxTime = unit.phaseDataSO.GetType5TImerValue(Phase.Phase1);
+		unit.skillAfterDelay = 3f;
+		unit.navMesh.enabled = false;
 
 		//Material
 		unit.copyUMat = new Material(unit.unlitMaterial);

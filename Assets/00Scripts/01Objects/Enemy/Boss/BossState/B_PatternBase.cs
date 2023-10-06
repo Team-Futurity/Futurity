@@ -25,6 +25,7 @@ public class B_PatternBase : UnitState<BossController>
 			unit.afterType467Pattern = unit.nextPattern;
 			unit.nextPattern = unit.phaseDataSO.RandomState(unit.curPhase);
 			unit.cur467Time = 0f;
+			unit.isActivateType467 = false;
 		}
 		unit.bossData.DisableAttackTime();
 	}
