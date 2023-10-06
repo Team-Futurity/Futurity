@@ -43,7 +43,9 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 		if (other.CompareTag(unit.playerTag))
 		{
 			//FDebug.Log("MiniDefault Attack Trigger");
-			unit.enemyData.Attack(unit.target);
+			DamageInfo info = new DamageInfo(unit.enemyData, unit.target, 1);
+			unit.enemyData.Attack(info);
+
 			unit.ChangeState(EnemyController.EnemyState.MiniDefaultKnockback);
 		}
 	}
