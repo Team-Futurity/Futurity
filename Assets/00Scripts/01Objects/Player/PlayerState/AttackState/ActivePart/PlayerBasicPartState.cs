@@ -124,7 +124,9 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 		foreach(var enemy in enemies)
 		{
-			enemy.Hit(unit.playerData, proccessor.damage);
+			DamageInfo info = new DamageInfo(unit.playerData, enemy, 1);
+			info.SetDamage(proccessor.damage);
+			enemy.Hit(info);
 		}
 	}
 
