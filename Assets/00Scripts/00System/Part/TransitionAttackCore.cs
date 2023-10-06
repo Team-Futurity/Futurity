@@ -88,8 +88,12 @@ public class TransitionAttackCore : MonoBehaviour
 	private void AddDamage()
 	{
 		TryGetComponent(out Enemy enemyUnit);
-		enemyUnit.Hit(null, protocol.attackDamage);
-		Debug.Log($"ATTACK + " + transform.name);
+		
+		enemyUnit.Hit(new DamageInfo(
+			attacker: null,
+			defender: enemyUnit,
+			attackST: protocol.attackDamage
+		));
 	}
 
 	private void OnDrawGizmos()

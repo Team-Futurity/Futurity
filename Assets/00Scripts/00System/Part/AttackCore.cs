@@ -106,7 +106,12 @@ public class AttackCore : CoreAbility
 			return;
 		}
 
-		enemyUnit.Hit(null, attackDamage);
+		enemyUnit.Hit(new DamageInfo(
+			attacker: null,
+			defender: enemyUnit,
+			attackST: attackDamage
+			));
+		
 		Debug.Log("HIT ENEMY" + enemyUnit.transform.name);
 
 		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit.gameObject);
