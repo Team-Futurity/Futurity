@@ -2,27 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)BossController.BossState.Idle)]
-public class B_IdleState : UnitState<BossController>
+public class B_PatternBase : UnitState<BossController>
 {
-	private float curTime = 0f;
+	public float curTime = 0f;
+
 
 	public override void Begin(BossController unit)
 	{
-		
-		unit.curState = BossController.BossState.Idle;
+		unit.bossData.EnableAttackTime();
 	}
-
 	public override void Update(BossController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.skillAfterDelay, unit.nextPattern);
+		unit.DelayChangeState(curTime, unit.activeDataSO.GetActivateDelayValue(unit.curState), BossController.BossState.Idle);
 	}
-
 
 	public override void End(BossController unit)
 	{
-		curTime = 0f;
+		unit.skillAfterDelay = unit.activeDataSO.GetAfterDelayValue(unit.curPhase, unit.curState);
+		unit.bossData.DisableAttackTime();
 	}
 
 	public override void FixedUpdate(BossController unit)
@@ -35,5 +33,7 @@ public class B_IdleState : UnitState<BossController>
 
 	public override void OnTriggerEnter(BossController unit, Collider other)
 	{
+		if (other.CompareTag("Player"))
+			unit.bossData.Attack(unit.target);
 	}
 }

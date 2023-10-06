@@ -13,6 +13,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 
 		Idle,
 		Chase,
+		Hit,
 		Death,
 
 		T1_Melee,
@@ -28,7 +29,8 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Space(8)]
 	[Header("State")]
 	public BossState curState;
-	[HideInInspector] public BossState nextState;
+	public Phase curPhase;
+	[HideInInspector] public BossState nextPattern;
 
 	[Space(8)]
 	[Header("Target ÁöÁ¤")]
@@ -63,11 +65,22 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Header("Pattern")]
 	public BossActiveDatas activeDataSO;
 	public BossPhaseDatas phaseDataSO;
+
+	//setting value
+	public float targetDistance = 9f;
+	public float meleeDistance = 4f;
 	public int maxTypeCount = 5;
-	[HideInInspector] public int typeCount = 0;
-	[HideInInspector] public float skillTypeDelay;
+	[HideInInspector] public float skillAfterDelay;
 	[HideInInspector] public float type467MaxTime;
 	[HideInInspector] public float type5MaxTime;
+
+	public bool isActivateType467 = false;
+	public bool isActivateType5 = false;
+
+	//current value
+	[HideInInspector] public int typeCount = 0;
+	[HideInInspector] public float cur467Time;
+	[HideInInspector] public float cur5Time = 0;
 
 
 
@@ -82,11 +95,28 @@ public class BossController : UnitFSM<BossController>, IFSM
 	protected override void Update()
 	{
 		base.Update();
+
+		if(isActive)
+		{
+			if (!isActivateType467)
+			{
+				cur467Time += Time.deltaTime;
+				if (cur467Time > type467MaxTime)
+					isActivateType467 = true;
+			}
+			if (!isActivateType5)
+			{
+				cur5Time += Time.deltaTime;
+				if (cur5Time > type5MaxTime)
+					isActivateType5 = true;
+			}
+		}
 	}
 
-	protected override void FixedUpdate()
+	public void DelayChangeState(float curTime, float maxTime, BossController.BossState nextState)
 	{
-		base.FixedUpdate();
+		if(curTime > maxTime)
+			unit.ChangeState(nextState);
 	}
 
 	public void RegisterEvent(UnityAction eventFunc)

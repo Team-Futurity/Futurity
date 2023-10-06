@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum SkillType
+/*public enum SkillType
 {
 	Type1_Melee,
 	Type2_Ranged,
@@ -10,7 +10,7 @@ public enum SkillType
 	Type5_EnemySpawn,
 	Type6_Circle,
 	Type7_Trap,
-}
+}*/
 
 public enum Phase
 {
@@ -24,8 +24,9 @@ public enum Phase
 public class BossActiveData
 {
 	public Phase phase;
-	public SkillType skillType;
-	public float skillTypeDelay;
+	public BossController.BossState skillType;
+	public float skillActivateDelay;
+	public float skillAfterDelay;
 }
 
 [Serializable]

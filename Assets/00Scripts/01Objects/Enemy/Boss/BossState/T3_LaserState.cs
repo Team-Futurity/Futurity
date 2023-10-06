@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class T3_LaserState : MonoBehaviour
+[FSMState((int)BossController.BossState.T3_Laser)]
+public class T3_LaserState : B_PatternBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public override void Begin(BossController unit)
+	{
+	}
+	public override void Update(BossController unit)
+	{
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	}
+
+	public override void End(BossController unit)
+	{
+		base.End(unit);
+		unit.typeCount = 0;
+	}
 }
