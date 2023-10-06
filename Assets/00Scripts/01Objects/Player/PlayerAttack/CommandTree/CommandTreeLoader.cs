@@ -57,18 +57,21 @@ public class CommandTreeLoader : MonoBehaviour
 		node.attackAfterDelay				= commandSO.AttackAfterDelay;
 		node.attackKnockback				= commandSO.AttackKnockback;
 		node.ignoresAutoTargetMove			= commandSO.IgnoresAutoTargetMove;
+		node.attackColliderType				= commandSO.AttackColliderType;
 
 		node.effectOffset					= commandSO.EffectOffset;
 		node.effectRotOffset				= new Quaternion();
 		node.effectRotOffset.eulerAngles	= commandSO.EffectRotOffset;
 		node.effectPrefab					= commandSO.EffectPrefab;
 		node.effectParent					= GetEffectParent(commandSO.AttackEffectParent);
+		node.effectParentType				= commandSO.AttackEffectParent;
 
 		node.hitEffectOffset				= commandSO.HitEffectOffset;
 		node.hitEffectRotOffset				= new Quaternion(); 
 		node.hitEffectRotOffset.eulerAngles = commandSO.HitEffectRotOffset;
 		node.hitEffectPrefab				= commandSO.HitEffectPrefab;
 		node.hitEffectParent				= GetEffectParent(commandSO.HitEffectParent);
+		node.hitEffectParentType			= commandSO.HitEffectParent;
 
 		node.animInteger					= commandSO.AnimInteger;
 		node.shakePower						= commandSO.ShakePower;

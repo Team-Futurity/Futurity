@@ -39,11 +39,11 @@ public abstract class UnitBase : MonoBehaviour
 	#endregion
 
 	#region Attack/Hit
-	public abstract void Hit(UnitBase attacker, float damage, bool isDot = false); // Unit이 피격 됐을 때 호출
+	public abstract void Hit(DamageInfo damageInfo); // Unit이 피격 됐을 때 호출
 
-	public void Attack(UnitBase target, float attackST = 1)
+	public void Attack(DamageInfo damageInfo)
 	{
-		DamageInfo info = new DamageInfo(this, target, attackST);
+		DamageInfo info = new DamageInfo(damageInfo);
 		damageInfoQueue.Enqueue(info);
 	}
 
@@ -75,6 +75,22 @@ public abstract class UnitBase : MonoBehaviour
 			}
 
 			yield return eof;
+		}
+	}
+
+	public void HitEffectPooling(DamageInfo info)
+	{
+		if(info.HitEffectPoolManager == null) { return; }
+
+		Transform effect;
+		Vector3 rot = info.Defender.transform.rotation.eulerAngles;
+		rot.y *= -1;
+		effect = info.HitEffectPoolManager.ActiveObject(info.Defender.transform.position + info.HitEffectOffset, Quaternion.Euler(rot));
+		var particles = effect.GetComponent<ParticleController>();
+
+		if (particles != null)
+		{
+			particles.Initialize(info.HitEffectPoolManager);
 		}
 	}
 	#endregion

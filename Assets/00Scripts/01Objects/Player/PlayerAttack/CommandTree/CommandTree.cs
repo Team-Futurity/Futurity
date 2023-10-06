@@ -26,12 +26,14 @@ public class AttackNode
 	public float attackST;
 	public float attackKnockback;
 	public bool ignoresAutoTargetMove;
+	public ColliderType attackColliderType;
 
 	[Header("공격 이펙트")]
 	public Vector3 effectOffset;
 	public Quaternion effectRotOffset;
 	public GameObject effectPrefab;
 	public GameObject effectParent;
+	public EffectParent effectParentType;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
 	[Header("적 피격 이펙트")]
@@ -39,6 +41,7 @@ public class AttackNode
 	public Quaternion hitEffectRotOffset;
 	public GameObject hitEffectPrefab;
 	public GameObject hitEffectParent;
+	public EffectParent hitEffectParentType;
 	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
 
 	[Header("연출용 데이터")]

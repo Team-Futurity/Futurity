@@ -56,7 +56,9 @@ public class UpTrap : TrapBehaviour
 
 	private void ProceedWithMonster(UnitBase unit)
 	{
-		unit.Hit(trapUnit, 0);
+		DamageInfo info = new DamageInfo(trapUnit, unit, 1);
+		info.SetDamage(0);
+		unit.Hit(info);
 		buffProvider.SetBuff(unit, 1001);
 	}
 

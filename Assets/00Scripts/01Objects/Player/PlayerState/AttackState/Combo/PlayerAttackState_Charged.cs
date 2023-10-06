@@ -67,7 +67,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
-		unit.attackCollider.truncatedCollider.enabled = false;
+		unit.attackColliderChanger.DisableAllCollider();
 		
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
 		attackLengthMark = unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing; // 0 Level Length Mark
@@ -235,12 +235,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				unit.basicCollider.radius = originScale + 2 * halfSize;
 
 				// 충돌 데미지 처리
-				unit.playerData.Attack(firstEnemyData, attackNode.attackST);
+				DamageInfo info = new DamageInfo(unit.playerData, firstEnemyData, attackNode.attackST);
+				unit.playerData.Attack(info);
 			}
 			else if(collision.body != firstEnemy) // 적과 충돌했고, 그게 처음 부딪친 적이 아니라면
 			{
 				var unitData = collision.transform.GetComponent<UnitBase>();
-				unit.playerData.Attack(unitData, attackNode.attackST);
+				DamageInfo info = new DamageInfo(unit.playerData, unitData, attackNode.attackST);
+				unit.playerData.Attack(info);
 
 				Vector3 targetDir = (collision.transform.position - unit.transform.position).normalized;
 				Vector3 knockbackDir = Vector3.Dot(Vector3.Cross(unit.transform.forward, targetDir), Vector3.up) > 0 ? unit.transform.right : -unit.transform.right;
@@ -337,7 +339,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		if (firstEnemy != null)
 		{
-			firstEnemyData.Hit(unit.playerData, WallCollisionDamage);
+			DamageInfo info = new DamageInfo(unit.playerData, firstEnemyData, 1);
+			info.SetDamage(WallCollisionDamage);
+			firstEnemyData.Hit(info);
 		}
 
 		if (currentLevel > 0)
@@ -426,7 +430,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		firstEnemy.transform.position = groundPos;
 
 		// 데미지 처리
-		pc.playerData.Attack(firstEnemyData, attackST);
+		DamageInfo info = new DamageInfo(pc.playerData, firstEnemyData, attackST);
+		pc.playerData.Attack(info);
 
 		// State Change
 		NextAttackState(pc, PlayerState.AttackAfterDelay);
