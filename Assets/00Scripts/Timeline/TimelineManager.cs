@@ -234,16 +234,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	
 	#endregion
-
-	// test signal
-	public void PlayerMoveStage()
-	{
-		SteageMove.Instance.MoveStage(SteageMove.EStageType.STAGE_2);
-
-		playerCamera.m_Follow = playerController.transform;
-		playerInput.enabled = true;
-	}
-
+	
 	public void EnableUI()
 	{
 		mainUICanvas.SetActive(true);
