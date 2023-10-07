@@ -54,30 +54,4 @@ public class ExitCutScene : CutSceneBase
 	{
 		enemySpawner.SpawnEnemy();
 	}
-
-	// public void PlayDialogExitCutScene()
-	// {
-	// 	exitTimeline.Pause();
-	// 	SetDialogUIPosition();
-	// 	
-	// 	TimelineManager.Instance.StartDialog(dialogData);
-	// 	TimelineManager.Instance.DialogController.OnEnded?.AddListener( () =>
-	// 	{
-	// 		exitTimeline.Resume();
-	// 		TimelineManager.Instance.DialogController.transform.position = originUIPos;
-	// 	});
-	// }
-	//
-	// private void SetDialogUIPosition()
-	// {
-	// 	Vector3 playerPos =
-	// 		Camera.main.WorldToScreenPoint(GameObject.FindWithTag("Player").transform.position);
-	//
-	// 	Vector2 newPos =
-	// 		new Vector2(playerPos.x + dialogUIOffset.x, playerPos.y + dialogUIOffset.y);
-	//
-	// 	originUIPos = TimelineManager.Instance.DialogController.transform.position;
-	// 	TimelineManager.Instance.DialogController.transform.position =
-	// 		new Vector3(newPos.x, newPos.y, 0);
-	// }
 }

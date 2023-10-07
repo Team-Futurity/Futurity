@@ -85,4 +85,22 @@ public class StageMoveManager : Singleton<StageMoveManager>
 		}
 	}
 	
+#if UNITY_EDITOR
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F1))
+		{
+			playerTf.SetPositionAndRotation(startingPos[0].position, startingPos[0].rotation);
+		}
+		if (Input.GetKeyDown(KeyCode.F2))
+		{
+			playerTf.SetPositionAndRotation(startingPos[1].position, startingPos[1].rotation);
+		}
+		if (Input.GetKeyDown(KeyCode.F3))
+		{
+			playerTf.SetPositionAndRotation(startingPos[2].position, startingPos[2].rotation);
+		}
+	}
+#endif
+	
 }
