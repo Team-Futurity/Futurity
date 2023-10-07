@@ -12,7 +12,6 @@ public class Area3_EntryCutScene : CutSceneBase
 	[SerializeField] private PlayerCameraEffect cameraEffect;
 	[SerializeField] private Transform playerMoveTarget;
 	[SerializeField] private SpawnerManager spawnerManager;
-	[SerializeField] private Transform startPos;
 
 	[Header("텍스트 출력 리스트")]
 	[SerializeField] private List<ScriptingList> scriptsList;
@@ -48,9 +47,6 @@ public class Area3_EntryCutScene : CutSceneBase
 
 		vignette.intensity.value = intensity;
 		vignette.color.value = Color.black;
-		
-		manager.PlayerController.transform.position = startPos.transform.position;
-		manager.PlayerController.transform.rotation = Quaternion.identity;
 		
 		Invoke(nameof(PlayCutScene), 0.3f);
 	}
