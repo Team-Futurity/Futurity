@@ -1,13 +1,11 @@
 using Cinemachine;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering; 
 using URPGlitch.Runtime.AnalogGlitch;
-using Vignette = UnityEngine.Rendering.Universal.Vignette;
 
 public enum ECutScene
 {
