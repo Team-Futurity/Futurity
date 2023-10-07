@@ -12,6 +12,9 @@ public class SpawnerEvent : MonoBehaviour
 {
 	[Header("진행중 다이얼로그 출현 조건")] 
 	[SerializeField] private List<int> dialogConditions;
+
+	[Header("활성화 콜라이더")] 
+	[SerializeField] private Collider enableCollider;
 	
 	public void InterimEvent(SpawnerManager manager, EAreaType areaType)
 	{
@@ -45,14 +48,22 @@ public class SpawnerEvent : MonoBehaviour
 		{
 			return;
 		}
-		
-		if (areaType == EAreaType.Area3)
+
+		switch (areaType)
 		{
-			TimelineManager.Instance.EnableCutScene(ECutScene.AREA3_LASTKILL);
-			return;
-		}
+			case EAreaType.Area1:
+				enableCollider.enabled = true;
+				TimelineManager.Instance.EnableCutScene(ECutScene.LASTKILLCUTSCENE);
+				return;
 			
+			case EAreaType.Area3:
+				TimelineManager.Instance.EnableCutScene(ECutScene.AREA3_LASTKILL);
+				StageMoveManager.Instance.EnableExitCollider();
+				return;
+		}
+		
 		TimelineManager.Instance.EnableCutScene(ECutScene.LASTKILLCUTSCENE);
+		StageMoveManager.Instance.EnableExitCollider();
 	}
 
 }

@@ -31,7 +31,8 @@ public class ExitCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-		
+		TimelineManager.Instance.SetActiveMainUI(true);
+		TimelineManager.Instance.SetActivePlayerInput(true);
 	}
 	
 	public void MovePlayer()
@@ -44,6 +45,11 @@ public class ExitCutScene : CutSceneBase
 		TimelineManager.Instance.PlayerController.LerpToWorldPosition(targetPos, duration);
 	}
 
+	public void ResetCameraTarget()
+	{
+		TimelineManager.Instance.ChangeFollowTarget();	
+	}
+	
 	public void SpawnEnemy()
 	{
 		enemySpawner.SpawnEnemy();
