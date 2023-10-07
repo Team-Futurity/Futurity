@@ -15,7 +15,7 @@ public class SpawnerManager : MonoBehaviour
 
 	[Header("Event")] 
 	[SerializeField] private EAreaType areaType;
-	[SerializeField] private UnityEvent<SpawnerManager> spawnEndEvent;
+	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> spawnEndEvent;
 	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
 
@@ -100,7 +100,7 @@ public class SpawnerManager : MonoBehaviour
 	{
 		curWaveSpawnCount--;
 	
-		spawnEndEvent?.Invoke(this);
+		spawnEndEvent?.Invoke(this, areaType);
 		interimEvent?.Invoke(this, areaType);
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)

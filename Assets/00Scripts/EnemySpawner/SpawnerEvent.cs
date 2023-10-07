@@ -39,12 +39,20 @@ public class SpawnerEvent : MonoBehaviour
 		}
 	}
 
-	public void AreaEndEvent(SpawnerManager manager)
+	public void AreaEndEvent(SpawnerManager manager, EAreaType areaType)
 	{
-		if (manager.CurWaveSpawnCount <= 0 && manager.SpawnerListCount <= 0)
+		if (manager.CurWaveSpawnCount > 0 || manager.SpawnerListCount > 0)
 		{
-			TimelineManager.Instance.EnableCutScene(ECutScene.LASTKILLCUTSCENE);
+			return;
 		}
+		
+		if (areaType == EAreaType.Area3)
+		{
+			TimelineManager.Instance.EnableCutScene(ECutScene.AREA3_LASTKILL);
+			return;
+		}
+			
+		TimelineManager.Instance.EnableCutScene(ECutScene.LASTKILLCUTSCENE);
 	}
 
 }
