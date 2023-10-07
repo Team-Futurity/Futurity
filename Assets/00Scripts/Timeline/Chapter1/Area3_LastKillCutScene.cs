@@ -23,13 +23,16 @@ public class Area3_LastKillCutScene : CutSceneBase
 	{
 		manager.SetActiveMainUI(false);
 		manager.SetActivePlayerInput(false);
+
+		manager.isCutScenePlay = true;
 	}
 
 	public override void DisableCutScene()
 	{
 		manager.SetActiveMainUI(true);
 		manager.SetActivePlayerInput(true);
-		
+
+		manager.isCutScenePlay = false;
 		// TODO : 3챕터 이동 트리거 발동
 	}
 
