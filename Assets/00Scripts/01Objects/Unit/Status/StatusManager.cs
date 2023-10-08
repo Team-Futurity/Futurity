@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StatusManager : MonoBehaviour
 {
 	[SerializeField] private OriginStatus status;
 	[SerializeField] private List<StatusData> copyStatus;
 
-
+	public UnityEvent<float, float> updateHPEvent;
+	
 	#region Private
 
 	private void OnEnable()
 	{
 		CopyOrigin();
+	}
+
+	private void Start()
+	{
+		var hpElement = copyStatus.Find((x) => x.type == StatusType.CURRENT_HP);
+		var maxHpElement = copyStatus.Find((x) => x.type == StatusType.MAX_HP);
+
+		updateHPEvent?.Invoke(hpElement.GetValue(), maxHpElement.GetValue());
 	}
 
 	#endregion
@@ -94,6 +104,8 @@ public class StatusManager : MonoBehaviour
 				if (HasStatus(data.type))
 				{
 					GetStatus(data.type).SubValue(data.GetValue());
+					
+					
 				}
 			}
 		}

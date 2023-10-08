@@ -37,6 +37,10 @@ public class Player : UnitBase
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
 
+		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
+		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
+		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
+
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
 		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
