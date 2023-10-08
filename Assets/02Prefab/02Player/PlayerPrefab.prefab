@@ -799,14 +799,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6544570711493734300}
-  m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
+  m_LocalRotation: {x: 0.70710677, y: 0, z: 0, w: -0.70710677}
   m_LocalPosition: {x: 0, y: 0.6, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3806605646931967196}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
+  m_LocalEulerAnglesHint: {x: -90, y: 90, z: 270}
 --- !u!1 &9185847719282900268
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,7 +870,6 @@ GameObject:
   - component: {fileID: 8996021751070515556}
   - component: {fileID: 507041425030904175}
   - component: {fileID: 484117206}
-  - component: {fileID: 484117190}
   - component: {fileID: 484117207}
   - component: {fileID: 8335321450642112346}
   - component: {fileID: 7039203949321405940}
@@ -941,10 +940,12 @@ MonoBehaviour:
       effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       effectPrefab: {fileID: 0}
       effectParent: {fileID: 0}
+      effectParentType: 0
       hitEffectOffset: {x: 0, y: 0, z: 0}
       hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       hitEffectPrefab: {fileID: 0}
       hitEffectParent: {fileID: 0}
+      hitEffectParentType: 0
       animInteger: 0
       shakePower: 0
       shakeTime: 0
@@ -963,7 +964,7 @@ MonoBehaviour:
   moveMargin: 100
   rotatePower: 18
   dashCoolTime: 0.8
-  dashEffect: {fileID: 308051857588389, guid: c10bf3382be3d8c448ab0ac0e01127e7, type: 3}
+  dashEffect: {fileID: 6896061726418441343, guid: 7e59af500395e6a4a9650ef3fc3b14a0, type: 3}
   dashPos: {fileID: 9054446365584314615}
   maxDashCount: 2
   hitCoolTime: 0.533
@@ -1000,10 +1001,12 @@ MonoBehaviour:
         effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         effectPrefab: {fileID: 0}
         effectParent: {fileID: 0}
+        effectParentType: 0
         hitEffectOffset: {x: 0, y: 0, z: 0}
         hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
         hitEffectPrefab: {fileID: 0}
         hitEffectParent: {fileID: 0}
+        hitEffectParentType: 0
         animInteger: 0
         shakePower: 0
         shakeTime: 0
@@ -1030,10 +1033,12 @@ MonoBehaviour:
       effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
       effectParent: {fileID: 0}
+      effectParentType: 0
       hitEffectOffset: {x: 0, y: 0, z: 0}
       hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
       hitEffectPrefab: {fileID: 0}
       hitEffectParent: {fileID: 0}
+      hitEffectParentType: 0
       animInteger: 0
       shakePower: 0
       shakeTime: 0
@@ -1060,10 +1065,12 @@ MonoBehaviour:
     effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     effectPrefab: {fileID: 2089924942745950491, guid: 87e3552f54ccd4445a6ada0ad9a26a52, type: 3}
     effectParent: {fileID: 0}
+    effectParentType: 0
     hitEffectOffset: {x: 0, y: 0, z: 0}
     hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     hitEffectPrefab: {fileID: 0}
     hitEffectParent: {fileID: 0}
+    hitEffectParentType: 0
     animInteger: 0
     shakePower: 0
     shakeTime: 0
@@ -1094,10 +1101,12 @@ MonoBehaviour:
     effectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     effectPrefab: {fileID: 0}
     effectParent: {fileID: 0}
+    effectParentType: 0
     hitEffectOffset: {x: 0, y: 0, z: 0}
     hitEffectRotOffset: {x: 0, y: 0, z: 0, w: 0}
     hitEffectPrefab: {fileID: 0}
     hitEffectParent: {fileID: 0}
+    hitEffectParentType: 0
     animInteger: 0
     shakePower: 0
     shakeTime: 0
@@ -1223,7 +1232,7 @@ MonoBehaviour:
   <IsAttackTime>k__BackingField: 0
   <IsAttackTiming>k__BackingField: 0
   AttackCheckFrameCount: 3
-  OnAttack:
+  onAttackEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1921549218
@@ -1373,24 +1382,6 @@ MonoBehaviour:
     isRootMotion: 1
   - animationName: Death
     isRootMotion: 1
---- !u!114 &484117190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd033acb7f030d44945225742a1d92f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  equipPart:
-  - {fileID: -5430023778132832448, guid: 46a1f6df602ad944b9d7854a02d68f21, type: 3}
-  - {fileID: 1906155753934975866, guid: d23193cd5df231749b628278d18c4311, type: 3}
-  - {fileID: 1906155753934975866, guid: 0578915934534ef41b2227faef173308, type: 3}
-  - {fileID: 1906155753934975866, guid: df5626256856d91498d3adf942a76955, type: 3}
-  testPart: []
 --- !u!114 &484117207
 MonoBehaviour:
   m_ObjectHideFlags: 0
