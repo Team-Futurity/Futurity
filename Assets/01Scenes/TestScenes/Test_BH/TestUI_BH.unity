@@ -1315,6 +1315,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 804402513}
     m_Modifications:
+    - target: {fileID: 2114983090, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
+      propertyPath: timeWeight
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 986204959377054847, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1439,18 +1443,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4693403522270919519, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
+      propertyPath: gaugeOffset
+      value: 0.567
+      objectReference: {fileID: 0}
     - target: {fileID: 4693403522270919520, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: maxData
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4693403522270919520, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: currentData
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4693403522270919520, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: <StatusManager>k__BackingField
       value: 
       objectReference: {fileID: 1920257178}
+    - target: {fileID: 4693403522270919520, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
+      propertyPath: <playerUnitBase>k__BackingField
+      value: 
+      objectReference: {fileID: 1920257192}
     - target: {fileID: 4693403522270919521, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: <ComboSystem>k__BackingField
       value: 
@@ -2199,21 +2211,24 @@ MonoBehaviour:
   status: {fileID: 11400000, guid: bbdf7818a879f6f49b05ea841d9b4d76, type: 2}
   copyStatus:
   - type: 1
-    value: -50
+    value: 230
   - type: 2
-    value: 100
+    value: 230
   - type: 3
     value: 7.5
   - type: 4
-    value: 35
+    value: 20
   - type: 5
     value: 10
   - type: 6
-    value: 0.4
+    value: 0.05
   - type: 7
     value: 2
   - type: 8
     value: 35
+  updateHPEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1920257179
 MonoBehaviour:
   m_ObjectHideFlags: 0
