@@ -40,6 +40,12 @@ public class SectorMoveTriggerEvent : MonoBehaviour
 				return;
 			}
 			
+			if (sectorCollider == EStageType.CHAPTER1_AREA3)
+			{
+				StageMoveManager.Instance.MoveNextChapter();
+				return;
+			}
+			
 			StageMoveManager.Instance.SetActiveInteractionUI(false);
 			StageMoveManager.Instance.MoveNextSector();
 			gameObject.SetActive(false);
