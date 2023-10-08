@@ -5,11 +5,23 @@ using UnityEngine;
 [FSMState((int)BossController.BossState.T1_Melee)]
 public class T1_MeleeState : B_PatternBase
 {
+	private EffectActiveData effectData = new EffectActiveData();
+	public T1_MeleeState()
+	{
+		effectData.activationTime = EffectActivationTime.InstanceAttack;
+		effectData.target = EffectTarget.Caster;
+		effectData.index = 0;
+		effectData.position = new Vector3(0f, 0f, 0f);
+		effectData.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+	}
+
 	public override void Begin(BossController unit)
 	{
 		base.Begin(unit);
 		unit.typeCount++;
 		unit.curState = BossController.BossState.T1_Melee;
+		effectData.parent = unit.gameObject;
+		unit.currentEffectData = effectData;
 		if (unit.typeCount >= 5)
 			unit.nextPattern = BossController.BossState.T3_Laser;
 		else

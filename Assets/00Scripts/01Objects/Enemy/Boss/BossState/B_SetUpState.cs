@@ -9,6 +9,16 @@ public class B_SetUpState : UnitState<BossController>
 	public override void Begin(BossController unit)
 	{
 		unit.curState = BossController.BossState.SetUp;
+		
+		//Effect
+		unit.effectController = ECManager.Instance.GetEffectManager(unit.effectSO);
+		unit.currentEffectData = new EffectActiveData();
+		unit.listEffectData = new List<EffectActiveData>();
+
+		//Material
+		unit.copyUMat = new Material(unit.unlitMaterial);
+		unit.copyUMat.SetColor("_BaseColor", new Color(1.0f, 1.0f, 1.0f, 0f));
+		unit.meshRenderer.material = unit.copyUMat;
 
 		//Basic
 		unit.target = GameObject.FindWithTag("Player").GetComponent<UnitBase>();
@@ -22,14 +32,12 @@ public class B_SetUpState : UnitState<BossController>
 		unit.skillAfterDelay = 3f;
 		unit.navMesh.enabled = false;
 
-		//Material
-		unit.copyUMat = new Material(unit.unlitMaterial);
-		unit.copyUMat.SetColor("_BaseColor", new Color(1.0f, 1.0f, 1.0f, 0f));
-		unit.meshRenderer.material = unit.copyUMat;
-
-		//Effect
-		unit.effectController = ECManager.Instance.GetEffectManager(unit.effectSO);
-		unit.currentEffectData = new EffectActiveData();
+		unit.Type1Collider.SetActive(false);
+		unit.Type2Collider.SetActive(false);
+		unit.DeActiveAttacks(unit.Type3Colliders);
+		unit.DeActiveAttacks(unit.Type4Colliders);
+		unit.DeActiveAttacks(unit.Type6Colliders);
+		unit.DeActiveAttacks(unit.Type7Colliders);
 	}
 
 	public override void End(BossController unit)

@@ -20,6 +20,5 @@ public class T6_CircleState : B_PatternBase
 	public override void End(BossController unit)
 	{
 		base.End(unit);
-		unit.isActivateType467 = false;
 	}
 }

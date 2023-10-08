@@ -27,6 +27,10 @@ public class B_PatternBase : UnitState<BossController>
 			unit.cur467Time = 0f;
 			unit.isActivateType467 = false;
 		}
+		if(unit.curState == BossController.BossState.T4_Laser 
+			|| unit.curState == BossController.BossState.T6_Circle 
+			|| unit.curState == BossController.BossState.T7_Trap)
+			unit.cur467Time = 0f;
 		unit.bossData.DisableAttackTime();
 	}
 
