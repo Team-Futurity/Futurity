@@ -54,6 +54,29 @@ public class UIGauge : MonoBehaviour
 		StartCoroutine("FillGauge");
 	}
 
+	public void StartLoadingGauge(float targetGaugeValue, float maxGaugeValue)
+	{
+		targetGauge = targetGaugeValue;
+		maxGauge = maxGaugeValue;
+		activeTime = 3f;
+
+		StartCoroutine(FillLoadGauge());
+	}
+
+	private IEnumerator FillLoadGauge()
+	{
+		while (currentGauge <= targetGauge)
+		{
+			timer += Time.deltaTime;
+			
+			yield return gaugeFillTime;
+
+			progressGauge = Mathf.Lerp(currentGauge, targetGauge, timer / activeTime);
+
+			gaugeImage.fillAmount = progressGauge / maxGauge;
+		}
+	}
+
 	private IEnumerator FillGauge()
 	{
 		while (timer <= activeTime)
