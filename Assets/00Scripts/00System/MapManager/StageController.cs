@@ -7,12 +7,13 @@ using UnityEngine.Events;
 
 public class StageController : MonoBehaviour
 {
-	// Stage Controller°¡ ½ÇÇàÁßÀÎ°¡?
+	// Stage Controllerê°€ ì‹¤í–‰ì¤‘ì¸ê°€?
 	private bool isRunning = false;
 
 	[field: SerializeField] public List<AreaController> areaControllerList;
 
 	[field: SerializeField] public int currentAreaIndex = 0;
+	[SerializeField] private float fadeTime = 1.0f;
 	private int maxAreaIndex = 0;
 
 	[HideInInspector] public UnityEvent OnStageStart;
@@ -25,7 +26,7 @@ public class StageController : MonoBehaviour
 
 		SetUp();
 		
-		FadeManager.Instance.FadeOut(3f, new UnityAction( () =>
+		FadeManager.Instance.FadeOut(fadeTime, new UnityAction( () =>
 		{
 			InitStage();
 		}));
@@ -81,7 +82,7 @@ public class StageController : MonoBehaviour
 	{
 		if (!isRunning)
 		{
-			FDebug.Log($"[{GetType()}] ÇöÀç Active »óÅÂ°¡ ¾Æ´Õ´Ï´Ù.");
+			FDebug.Log($"[{GetType()}] í˜„ì¬ Active ìƒíƒœê°€ ì•„ë‹™ë‹ˆë‹¤.");
 			FDebug.Break();
 
 			return;
