@@ -1,13 +1,11 @@
 using Cinemachine;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering; 
 using URPGlitch.Runtime.AnalogGlitch;
-using Vignette = UnityEngine.Rendering.Universal.Vignette;
 
 public enum ECutScene
 {
@@ -15,8 +13,9 @@ public enum ECutScene
 	AREA1_REWARDCUTSCENE = 1,
 	AREA1_EXITCUTSCENE = 2,
 	AREA3_ENTRYCUTSCENE = 3,
-	LASTKILLCUTSCENE = 4,
-	PLYAERDEATHCUTSCENE = 5,
+	AREA3_LASTKILL = 4,
+	LASTKILLCUTSCENE = 5,
+	PLYAERDEATHCUTSCENE = 6
 }
 
 public class TimelineManager : Singleton<TimelineManager>
@@ -235,16 +234,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	
 	#endregion
-
-	// test signal
-	public void PlayerMoveStage()
-	{
-		SteageMove.Instance.MoveStage(SteageMove.EStageType.STAGE_2);
-
-		playerCamera.m_Follow = playerController.transform;
-		playerInput.enabled = true;
-	}
-
+	
 	public void EnableUI()
 	{
 		mainUICanvas.SetActive(true);

@@ -5,16 +5,19 @@ using UnityEngine;
 
 public class RewardBox : MonoBehaviour
 {
-	[HideInInspector] public bool isCutScenePlayed = false;
-	[HideInInspector] public bool isInteraction = false;
-
+	[HideInInspector] public bool isEnable = false;
 	private void OnTriggerStay(Collider other)
 	{
+		if (isEnable == false)
+		{
+			return;
+		}
+		
 		if (other.CompareTag("Player"))
 		{
-			if (Input.GetKeyDown(KeyCode.F) && isCutScenePlayed == true)
+			if (Input.GetKeyDown(KeyCode.F))
 			{
-				isInteraction = true;
+				StageMoveManager.Instance.EnableExitCollider();
 				gameObject.SetActive(false);
 			}
 		}
