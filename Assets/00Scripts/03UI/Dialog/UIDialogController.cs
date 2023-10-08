@@ -41,7 +41,12 @@ public partial class UIDialogController : MonoBehaviour
 	private PlayerInputManager inputManager;
 
 	private DialogData nextDialogData;
-	
+
+	[SerializeField]
+	private Transform openPos;
+	[SerializeField]
+	private Vector3 openPosOffset;
+
 	#region Dialog Events
 	
 	[HideInInspector]
@@ -67,6 +72,13 @@ public partial class UIDialogController : MonoBehaviour
 
 		currentDialogData.Init();
 		
+		if (openPos == null)
+		{
+			openPos = GameObject.Find("Dialog Open Pos").transform;
+		}
+
+		transform.position = Camera.main.WorldToScreenPoint(openPos.position + openPosOffset);
+
 		gameObject.SetActive(true);
 		
 		DialogText.OnEnd.AddListener(GetNextDialog);
