@@ -49,19 +49,24 @@ public class BossAnimationEvents : MonoBehaviour
 	#region Activate Attack
 	public void ActivateType1Attack()
 	{
+		bc.bossData.EnableAttackTiming();
 		bc.Type1Collider.SetActive(true);
 	}
 	public void ActivateType2Attack()
 	{
+		bc.bossData.EnableAttackTiming();
 		bc.Type2Collider.SetActive(true);
+
 	}
 	public void ActivateType3Attack()
 	{
+		bc.bossData.EnableAttackTiming();
 		bc.ActiveAttacks(bc.Type3Colliders);
 	}
 
 	public void ActiveType4Attack()
 	{
+		bc.bossData.EnableAttackTiming();
 		bc.ActiveAttacks(bc.Type4Colliders);
 	}
 	public void DeActiveType4Attacks()
@@ -70,6 +75,7 @@ public class BossAnimationEvents : MonoBehaviour
 	}
 	public void ActiveType6Attack()
 	{
+		bc.bossData.EnableAttackTiming();
 		bc.ActiveAttacks(bc.Type6Colliders);
 	}
 	public void DeActiveType6Attacks()
@@ -78,6 +84,7 @@ public class BossAnimationEvents : MonoBehaviour
 	}
 	public void ActiveType7Attack()
 	{
+		bc.bossData.EnableAttackTiming();
 		bc.ActiveAttacks(bc.Type7Colliders);
 	}
 

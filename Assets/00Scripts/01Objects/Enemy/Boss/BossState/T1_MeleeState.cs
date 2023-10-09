@@ -20,6 +20,7 @@ public class T1_MeleeState : B_PatternBase
 		base.Begin(unit);
 		unit.typeCount++;
 		unit.curState = BossController.BossState.T1_Melee;
+		unit.extraAttackValue = unit.bossData.status.GetStatus(StatusType.Type1_Attack_Point).GetValue();
 		effectData.parent = unit.gameObject;
 		unit.currentEffectData = effectData;
 		if (unit.typeCount >= 5)
