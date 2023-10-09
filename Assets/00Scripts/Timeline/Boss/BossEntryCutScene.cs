@@ -29,12 +29,14 @@ public class BossEntryCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		
+		manager.SetActivePlayerInput(false);
+		manager.SetActiveMainUI(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		
+		manager.SetActivePlayerInput(true);
+		manager.SetActiveMainUI(true);
 	}
 
 	public void BossEntry_PrintScripts()
