@@ -57,7 +57,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		pc.playerData.EnableAttackTime();
 
 		// ohter Setting
-		pc.glove.SetActive(true);
+		pc.SetGauntlet(true);
 
 		// sound
 		if (isCombo)
