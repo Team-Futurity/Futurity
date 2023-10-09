@@ -32,7 +32,7 @@ public class B_HitState : UnitState<BossController>
 			}
 
 
-		unit.DelayChangeState(curTime, unit.hitMaxTime, );
+		//unit.DelayChangeState(curTime, unit.hitMaxTime, );
 
 		//Death event
 		if (unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
