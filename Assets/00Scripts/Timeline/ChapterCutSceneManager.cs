@@ -45,6 +45,11 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
 	private Transform originTarget;
+	
+	[Header("GrayScale")]
+	private GrayScale grayScale = null;
+	public GrayScale GrayScale => grayScale;
+	
 
 	[Header("Volume Controller(Only use Timeline)")]
 	[SerializeField] private float scanLineJitter;
@@ -77,6 +82,8 @@ public class ChapterCutSceneManager : MonoBehaviour
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
+		Camera.main.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
+		
 		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
 
 		if (enableDebugMode == false)

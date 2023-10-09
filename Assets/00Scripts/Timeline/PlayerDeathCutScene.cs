@@ -10,15 +10,11 @@ public class PlayerDeathCutScene : CutSceneBase
 	[Header("흑백 전환 시간")] 
 	[SerializeField] private float grayScaleTime = 0.5f;
 	
-	private GrayScale grayScale = null;
 	private IEnumerator enableGrayScale;
 
 	protected override void Init()
 	{
-		if (grayScale == null && Camera.main != null)
-		{
-			Camera.main.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
-		}
+		
 	}
 	
 	protected override void EnableCutScene()
@@ -33,13 +29,13 @@ public class PlayerDeathCutScene : CutSceneBase
 		chapterManager.ChangeFollowTarget();
 		
 		gameOverUI.SetActive(true);
-		grayScale.amount.value = 0.0f;
-		grayScale.active = false;
+		chapterManager.GrayScale.amount.value = 0.0f;
+		chapterManager.GrayScale.active = false;
 	}
 	
 	private void StartGrayScaleRoutine()
 	{
-		grayScale.active = true;
+		chapterManager.GrayScale.active = true;
 		
 		enableGrayScale = EnableGrayScale();
 		StartCoroutine(enableGrayScale);
@@ -51,12 +47,12 @@ public class PlayerDeathCutScene : CutSceneBase
 
 		while (time < grayScaleTime)
 		{
-			grayScale.amount.value = Mathf.Lerp(grayScale.amount.value, 1.0f, time / grayScaleTime);
+			chapterManager.GrayScale.amount.value = Mathf.Lerp(chapterManager.GrayScale.amount.value, 1.0f, time / grayScaleTime);
 			time += Time.unscaledDeltaTime;
 			
 			yield return null;
 		}
 
-		grayScale.amount.value = 1.0f;
+		chapterManager.GrayScale.amount.value = 1.0f;
 	}
 }
