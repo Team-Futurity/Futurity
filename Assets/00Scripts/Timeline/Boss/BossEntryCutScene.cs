@@ -40,7 +40,7 @@ public class BossEntryCutScene : CutSceneBase
 		boss.isActive = true;
 		
 		TimelineManager.Instance.PlayerController.playerData.status.updateHPEvent
-			.Invoke(230f, 230f);
+			?.Invoke(230f, 230f);
 	}
 
 	public void BossEntry_PrintScripts()
