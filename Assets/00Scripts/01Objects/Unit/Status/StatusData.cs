@@ -22,7 +22,6 @@ public class StatusData
 	public StatusType type;
 	[SerializeField] private float value;
 
-	[HideInInspector]
 	public UnityAction<float> UpdateStatus;
 
 	public float GetValue()
