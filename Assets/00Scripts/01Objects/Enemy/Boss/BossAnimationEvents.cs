@@ -33,6 +33,19 @@ public class BossAnimationEvents : MonoBehaviour
 		}
 	}
 
+	public void Type6RandomVector()
+	{
+		int randx;
+		int randz;
+		for (int i = 0; i < bc.Type6Colliders.Count; i++)
+		{
+			randx = Random.Range(-6, 6);
+			randz = Random.Range(-6, 6);
+			bc.Type6Colliders[i].transform.position = new Vector3(randx, bc.transform.position.y, randz);
+		}
+		bc.SetEffectData(bc.Type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, true);
+	}
+
 	#region Activate Attack
 	public void ActivateType1Attack()
 	{
@@ -44,33 +57,29 @@ public class BossAnimationEvents : MonoBehaviour
 	}
 	public void ActivateType3Attack()
 	{
-		ActiveAttacks(bc.Type3Colliders);
+		bc.ActiveAttacks(bc.Type3Colliders);
 	}
 
 	public void ActiveType4Attack()
 	{
-		ActiveAttacks(bc.Type4Colliders);
+		bc.ActiveAttacks(bc.Type4Colliders);
 	}
 	public void DeActiveType4Attacks()
 	{
-		DeActiveAttacks(bc.Type4Colliders);
+		bc.DeActiveAttacks(bc.Type4Colliders);
+	}
+	public void ActiveType6Attack()
+	{
+		bc.ActiveAttacks(bc.Type6Colliders);
+	}
+	public void DeActiveType6Attacks()
+	{
+		bc.DeActiveAttacks(bc.Type6Colliders);
+	}
+	public void ActiveType7Attack()
+	{
+		bc.ActiveAttacks(bc.Type7Colliders);
 	}
 
-
-	public void ActiveAttacks(List<GameObject> list)
-	{
-		for (int i= 0; i<list.Count; i++)
-		{
-			list[i].SetActive(true);
-		}
-	}
-
-	public void DeActiveAttacks(List<GameObject> list)
-	{
-		for (int i = 0; i < list.Count; i++)
-		{
-			list[i].SetActive(false);
-		}
-	}	
 	#endregion
 }

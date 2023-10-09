@@ -10,6 +10,7 @@ public class T7_TrapState : B_PatternBase
 		base.Begin(unit);
 		unit.curState = BossController.BossState.T7_Trap;
 		unit.nextPattern = unit.afterType467Pattern;
+		unit.SetEffectData(unit.Type7Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Ground, false);
 		unit.animator.SetTrigger(unit.type7Anim);
 	}
 	public override void Update(BossController unit)
@@ -20,5 +21,6 @@ public class T7_TrapState : B_PatternBase
 	public override void End(BossController unit)
 	{
 		base.End(unit);
+		unit.DeActiveAttacks(unit.Type7Colliders);
 	}
 }

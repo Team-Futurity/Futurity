@@ -26,6 +26,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 		T7_Trap,
 	}
 	public bool isActive = false;
+	[HideInInspector] public bool isDead = false;
 
 	[Space(8)]
 	[Header("State")]
@@ -108,9 +109,17 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public List<GameObject> Type3Colliders;
 	public Transform type3StartPos;
 	public List<GameObject> Type4Colliders;
-	public List<SpawnerManager> Type5Manager;
+	public SpawnerManager Type5Manager;
 	public List<GameObject> Type6Colliders;
 	public List<GameObject> Type7Colliders;
+
+
+	[Space(8)]
+	[Header("Hit info")]
+	public float hitMaxTime = 0.1f;
+	public float hitColorChangeTime = 0.2f;
+	public float hitPower = 450f;
+	public Color damagedColor;
 
 
 
@@ -148,18 +157,24 @@ public class BossController : UnitFSM<BossController>, IFSM
 			unit.ChangeState(nextState);
 	}
 
+	public void ActiveAttacks(List<GameObject> list)
+	{
+		for (int i = 0; i < list.Count; i++)
+		{
+			list[i].SetActive(true);
+		}
+	}
+
 	public void DeActiveAttacks(List<GameObject> list)
 	{
 		listEffectData.Clear();
-		if (list.Count > 0)
-			for (int i = 0; i < list.Count; i++)
-			{
-				list[i].transform.SetParent(null, true);
-				list[i].SetActive(false);
-			}
+		for (int i = 0; i < list.Count; i++)
+		{
+			list[i].SetActive(false);
+		}
 	}
 
-	public void SetEffectData(List<GameObject> list, EffectActivationTime activationTime, EffectTarget target)
+	public void SetEffectData(List<GameObject> list, EffectActivationTime activationTime, EffectTarget target, bool isParent)
 	{
 		for (int i = 0; i < list.Count; i++)
 		{
@@ -168,7 +183,10 @@ public class BossController : UnitFSM<BossController>, IFSM
 			data.target = target;
 			data.position = list[i].transform.position;
 			data.rotation = list[i].transform.rotation;
-			data.parent = null;
+			if (isParent)
+				data.parent = list[i].gameObject;
+			else
+				data.parent = null;
 			data.index = 0;
 			listEffectData.Add(data);
 		}

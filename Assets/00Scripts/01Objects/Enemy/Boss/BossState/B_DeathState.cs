@@ -7,6 +7,8 @@ public class B_DeathState : UnitState<BossController>
 {
 	public override void Begin(BossController unit)
 	{
+		unit.animator.SetTrigger(unit.deathAnim);
+		unit.isDead = true;
 	}
 
 	public override void End(BossController unit)

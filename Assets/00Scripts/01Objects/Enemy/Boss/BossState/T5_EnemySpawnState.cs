@@ -11,6 +11,8 @@ public class T5_EnemySpawnState : B_PatternBase
 		unit.curState = BossController.BossState.T5_EnemySpawn;
 		unit.nextPattern = BossController.BossState.Chase;
 		unit.animator.SetTrigger(unit.type5Anim);
+
+		unit.Type5Manager.SpawnEnemy();
 	}
 	public override void Update(BossController unit)
 	{

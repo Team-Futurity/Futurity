@@ -9,7 +9,7 @@ public class T3_LaserState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossController.BossState.T3_Laser;
-		unit.SetEffectData(unit.Type3Colliders, EffectActivationTime.InstanceAttack, EffectTarget.Ground);
+		unit.SetEffectData(unit.Type3Colliders, EffectActivationTime.InstanceAttack, EffectTarget.Ground, false);
 
 		if (unit.curPhase == Phase.Phase2 || unit.curPhase == Phase.Phase4)
 		{

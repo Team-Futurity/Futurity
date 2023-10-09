@@ -26,6 +26,7 @@ public class B_SetUpState : UnitState<BossController>
 		unit.rigid = unit.GetComponent<Rigidbody>();
 		unit.navMesh = unit.GetComponent<NavMeshAgent>();
 		unit.nextPattern = BossController.BossState.Chase;
+		unit.afterType467Pattern = BossController.BossState.Chase;
 
 		unit.type467MaxTime = unit.phaseDataSO.GetType467TImerValue(Phase.Phase1);
 		unit.type5MaxTime = unit.phaseDataSO.GetType5TImerValue(Phase.Phase1);
@@ -36,10 +37,10 @@ public class B_SetUpState : UnitState<BossController>
 
 		unit.Type1Collider.SetActive(false);
 		unit.Type2Collider.SetActive(false);
-		unit.DeActiveAttacks(unit.Type3Colliders);
-		unit.DeActiveAttacks(unit.Type4Colliders);
-		unit.DeActiveAttacks(unit.Type6Colliders);
-		unit.DeActiveAttacks(unit.Type7Colliders);
+		AttackSetting(unit.Type3Colliders);
+		AttackSetting(unit.Type4Colliders);
+		AttackSetting(unit.Type6Colliders);
+		AttackSetting(unit.Type7Colliders);
 	}
 
 	public override void End(BossController unit)
@@ -62,5 +63,15 @@ public class B_SetUpState : UnitState<BossController>
 
 	public override void OnTriggerEnter(BossController unit, Collider other)
 	{
+	}
+
+	public void AttackSetting(List<GameObject> list)
+	{
+		if (list.Count > 0)
+			for (int i = 0; i < list.Count; i++)
+			{
+				list[i].transform.SetParent(null, true);
+				list[i].SetActive(false);
+			}
 	}
 }

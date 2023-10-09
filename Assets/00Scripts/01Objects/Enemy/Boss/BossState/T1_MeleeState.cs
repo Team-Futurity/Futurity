@@ -11,7 +11,7 @@ public class T1_MeleeState : B_PatternBase
 		effectData.activationTime = EffectActivationTime.InstanceAttack;
 		effectData.target = EffectTarget.Caster;
 		effectData.index = 0;
-		effectData.position = new Vector3(0f, 0f, 0f);
+		effectData.position = new Vector3(0f, 1f, 0f);
 		effectData.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
 	}
 

@@ -11,7 +11,7 @@ public class T2_RangedState : B_PatternBase
 		effectData.activationTime = EffectActivationTime.InstanceAttack;
 		effectData.target = EffectTarget.Target;
 		effectData.index = 0;
-		effectData.position = new Vector3(0f, 0f, 0f);
+		effectData.position = new Vector3(0f, 1.4f, 0f);
 		effectData.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
 	}
 	public override void Begin(BossController unit)
