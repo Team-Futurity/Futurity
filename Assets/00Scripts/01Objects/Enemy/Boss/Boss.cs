@@ -6,24 +6,34 @@ public class Boss : UnitBase
 {
 	[SerializeField] private BossController bc;
 
+
+
 	public override void Hit(DamageInfo damageInfo)
 	{
-		throw new System.NotImplementedException();
+		if (bc.curState == BossController.BossState.Chase)
+			bc.ChangeState(BossController.BossState.Hit);
+		else
+			bc.AddSubState(BossController.BossState.Hit);
+		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
 	}
 
 	protected override void AttackProcess(DamageInfo damageInfo)
 	{
-		throw new System.NotImplementedException();
+		damageInfo.SetDamage(GetDamage(damageInfo.AttackST));
+		damageInfo.Defender.Hit(damageInfo);
 	}
 
 	protected override float GetAttackPoint()
 	{
-		throw new System.NotImplementedException();
+		return status.GetStatus(StatusType.ATTACK_POINT).GetValue();
 	}
 
 	protected override float GetDamage(float damageValue)
 	{
-		throw new System.NotImplementedException();
+		float rand = Random.Range(-0.1f, 0.1f);
+		float value = (GetAttackPoint() + damageValue) / (1 + rand);
+
+		return value;
 	}
 
 	protected override float GetDefensePoint()

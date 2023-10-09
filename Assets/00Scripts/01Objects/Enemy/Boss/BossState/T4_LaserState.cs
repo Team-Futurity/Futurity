@@ -9,7 +9,7 @@ public class T4_LaserState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossController.BossState.T4_Laser;
-		unit.SetEffectData(unit.Type4Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Caster, true);
+		unit.SetEffectData(unit.Type4Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Caster, false);
 
 		unit.nextPattern = unit.afterType467Pattern;
 		unit.animator.SetTrigger(unit.type4Anim);

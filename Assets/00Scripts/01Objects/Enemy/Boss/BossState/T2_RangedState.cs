@@ -19,6 +19,7 @@ public class T2_RangedState : B_PatternBase
 		base.Begin(unit);
 		unit.typeCount++;
 		unit.curState = BossController.BossState.T2_Ranged;
+		unit.extraAttackValue = unit.bossData.status.GetStatus(StatusType.Type2_Attack_Point).GetValue();
 		effectData.parent = unit.gameObject;
 		unit.currentEffectData = effectData;
 		if (unit.typeCount >= 5)

@@ -171,7 +171,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	
 	private void Start()
 	{
-		effectController = ECManager.Instance.GetEffectManager(effectSO);
+		if(effectSO)
+			effectController = ECManager.Instance.GetEffectManager(effectSO);
 		currentEffectData = new EffectActiveData();
 		//hpBar = GetComponent<TestHPBar>(); //юс╫ц
 

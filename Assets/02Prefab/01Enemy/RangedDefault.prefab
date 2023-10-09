@@ -70,7 +70,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &732466587148635621
 Transform:
   m_ObjectHideFlags: 0
@@ -125,7 +125,10 @@ MonoBehaviour:
   rigid: {fileID: 732466587148635616}
   isGodMode: 0
   isStun: 0
-  OnAttack:
+  <IsAttackTime>k__BackingField: 0
+  <IsAttackTiming>k__BackingField: 0
+  AttackCheckFrameCount: 3
+  onAttackEvent:
     m_PersistentCalls:
       m_Calls: []
   ec: {fileID: 732466587148635423}
@@ -142,7 +145,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   test: {fileID: 0}
-  test1: {x: 0, y: 0, z: 0}
   enemyType: 1
   isTutorialDummy: 0
   animationEvents: {fileID: 732466587148635422}
@@ -195,6 +197,9 @@ MonoBehaviour:
     Path: event:/SE/06monster/Ranged/F_S_01_06_hit_ranged
   isInPlayer: 0
   deathDelay: 2
+  onDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   disableEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -226,6 +231,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 11400000, guid: 89d402e272b6b16439a9c6d47ac9f6aa, type: 2}
   copyStatus: []
+  updateHPEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &732466587148635616
 Rigidbody:
   m_ObjectHideFlags: 0
