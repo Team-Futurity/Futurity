@@ -6,6 +6,9 @@ using UnityEngine.Events;
 
 public class SectorMoveTriggerEvent : MonoBehaviour
 {
+	[Header("Component")] 
+	[SerializeField] private StageMoveManager stageMoveManager;
+	
 	[Header("Trigger Info")] 
 	public EStageType sectorCollider;
 	[ReadOnly(false)] public UnityEvent enterEvent;
@@ -20,7 +23,7 @@ public class SectorMoveTriggerEvent : MonoBehaviour
 		}
 		
 		enterEvent?.Invoke();
-		StageMoveManager.Instance.SetActiveInteractionUI(true);
+		stageMoveManager.SetActiveInteractionUI(true);
 	}
 
 	private void OnTriggerStay(Collider other)
@@ -35,19 +38,19 @@ public class SectorMoveTriggerEvent : MonoBehaviour
 			if (sectorCollider == EStageType.CHAPTER1_AREA1)
 			{
 				TimelineManager.Instance.EnableCutScene(ECutScene.AREA1_EXITCUTSCENE);
-				StageMoveManager.Instance.SetActiveInteractionUI(false);
+				stageMoveManager.SetActiveInteractionUI(false);
 				gameObject.SetActive(false);
 				return;
 			}
 			
 			if (sectorCollider == EStageType.CHAPTER1_AREA3)
 			{
-				StageMoveManager.Instance.MoveNextChapter();
+				stageMoveManager.MoveNextChapter();
 				return;
 			}
 			
-			StageMoveManager.Instance.SetActiveInteractionUI(false);
-			StageMoveManager.Instance.MoveNextSector();
+			stageMoveManager.SetActiveInteractionUI(false);
+			stageMoveManager.MoveNextSector();
 			gameObject.SetActive(false);
 		}
 	}
@@ -60,6 +63,6 @@ public class SectorMoveTriggerEvent : MonoBehaviour
 		}
 		
 		exitEvent?.Invoke();
-		StageMoveManager.Instance.SetActiveInteractionUI(false);
+		stageMoveManager.SetActiveInteractionUI(false);
 	}
 }

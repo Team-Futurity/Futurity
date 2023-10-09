@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public enum EStageType
 {
@@ -12,7 +11,7 @@ public enum EStageType
 	BOSS_STAGE
 }
 
-public class StageMoveManager : Singleton<StageMoveManager>
+public class StageMoveManager : MonoBehaviour
 {
 	[Header("Component")] 
 	[SerializeField] private GameObject interactionUI;

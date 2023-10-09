@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RewardBox : MonoBehaviour
 {
+	[SerializeField] private StageMoveManager manager;
 	[HideInInspector] public bool isEnable = false;
 	private void OnTriggerStay(Collider other)
 	{
@@ -17,7 +18,7 @@ public class RewardBox : MonoBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.F))
 			{
-				StageMoveManager.Instance.EnableExitCollider();
+				manager.EnableExitCollider();
 				gameObject.SetActive(false);
 			}
 		}

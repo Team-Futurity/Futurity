@@ -10,6 +10,9 @@ public enum EAreaType
 }
 public class SpawnerEvent : MonoBehaviour
 {
+	[Header("Component")] 
+	[SerializeField] private StageMoveManager stageMoveManager;
+	
 	[Header("진행중 다이얼로그 출현 조건")] 
 	[SerializeField] private List<int> dialogConditions;
 
@@ -58,12 +61,12 @@ public class SpawnerEvent : MonoBehaviour
 			
 			case EAreaType.Area3:
 				TimelineManager.Instance.EnableCutScene(ECutScene.AREA3_LASTKILL);
-				StageMoveManager.Instance.EnableExitCollider();
+				stageMoveManager.EnableExitCollider();
 				return;
 		}
 		
 		TimelineManager.Instance.EnableCutScene(ECutScene.LASTKILLCUTSCENE);
-		StageMoveManager.Instance.EnableExitCollider();
+		stageMoveManager.EnableExitCollider();
 	}
 
 }
