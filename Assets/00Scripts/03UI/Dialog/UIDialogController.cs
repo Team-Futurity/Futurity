@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -157,11 +158,12 @@ public partial class UIDialogController : MonoBehaviour
 
 	private void SetDialogTransform()
 	{
+		// Forced Rot
+		var player = inputManager.transform.rotation;
+		var forcedRot = Quaternion.Euler(new Vector3(player.x, 90f, player.z));
+		inputManager.transform.rotation = forcedRot;
+		
 		// Pos
 		transform.position = Camera.main.WorldToScreenPoint(openPos.position + openPosOffset);
-		
-		// Rot
-		var hologramRotation = Quaternion.Euler(new Vector3(inputManager.transform.rotation.x,inputManager.transform.rotation.y, inputManager.transform.rotation.z ));
-		hologramImage.transform.rotation = hologramRotation;
 	}
 }
