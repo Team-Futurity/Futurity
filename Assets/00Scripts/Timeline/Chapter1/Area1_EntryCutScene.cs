@@ -52,6 +52,9 @@ public class Area1_EntryCutScene : CutSceneBase
 		TimelineManager.Instance.SetActiveMainUI(true);
 		TimelineManager.Instance.SetActivePlayerInput(true);
 		TimelineManager.Instance.isCutScenePlay = false;
+		
+		TimelineManager.Instance.PlayerController.playerData.status.updateHPEvent
+			.Invoke(230f, 230f);
 	}
 
 	public void Area1_Scripting()

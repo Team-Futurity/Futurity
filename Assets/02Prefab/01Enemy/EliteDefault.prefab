@@ -79,7 +79,7 @@ Transform:
   m_GameObject: {fileID: 3319673298915680796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2998095787108955900}
@@ -124,7 +124,10 @@ MonoBehaviour:
   rigid: {fileID: 3319673298915680773}
   isGodMode: 0
   isStun: 0
-  OnAttack:
+  <IsAttackTime>k__BackingField: 0
+  <IsAttackTiming>k__BackingField: 0
+  AttackCheckFrameCount: 3
+  onAttackEvent:
     m_PersistentCalls:
       m_Calls: []
   ec: {fileID: 3319673298915680772}
@@ -193,6 +196,9 @@ MonoBehaviour:
     Path: 
   isInPlayer: 0
   deathDelay: 2
+  onDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   disableEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -253,6 +259,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 11400000, guid: 03312e920fdc1d94f97b5d591508fc33, type: 2}
   copyStatus: []
+  updateHPEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!195 &3319673298915680793
 NavMeshAgent:
   m_ObjectHideFlags: 0

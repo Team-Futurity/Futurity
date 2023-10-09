@@ -38,7 +38,7 @@ public class StatusManager : MonoBehaviour
 			{
 				if(HasStatus(stat.type))
 				{
-					FDebug.Log("Áßº¹µÇ´Â Key°¡ Á¸ÀçÇÕ´Ï´Ù!");
+					FDebug.Log("ì¤‘ë³µë˜ëŠ” Keyê°€ ì¡´ì¬í•©ë‹ˆë‹¤!");
 					return;
 				}
 

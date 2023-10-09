@@ -44,7 +44,6 @@ public class B_PatternBase : UnitState<BossController>
 
 	public override void OnTriggerEnter(BossController unit, Collider other)
 	{
-		FDebug.Log("ggg");
 		if (other.CompareTag("Player"))
 		{
 			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.extraAttackValue);

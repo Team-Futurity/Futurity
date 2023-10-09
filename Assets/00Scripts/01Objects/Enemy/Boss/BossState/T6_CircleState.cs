@@ -1,8 +1,6 @@
-using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [FSMState((int)BossController.BossState.T6_Circle)]
 public class T6_CircleState : B_PatternBase

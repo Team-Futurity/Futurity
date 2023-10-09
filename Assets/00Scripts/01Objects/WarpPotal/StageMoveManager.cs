@@ -96,7 +96,6 @@ public class StageMoveManager : Singleton<StageMoveManager>
 		}
 	}
 	
-#if UNITY_EDITOR
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.F1))
@@ -116,6 +115,4 @@ public class StageMoveManager : Singleton<StageMoveManager>
 			FadeManager.Instance.FadeIn(1.0f, (() => SceneLoader.Instance.LoadScene("BossChapter")));
 		}
 	}
-#endif
-	
 }
