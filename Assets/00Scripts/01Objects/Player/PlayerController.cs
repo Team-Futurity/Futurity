@@ -595,7 +595,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if(!comboIsLock)
 		{
 			// 마지막 콤보에서 입력 씹는 코드
-			if(curNode.childNodes.Count == 0 && !IsCurrentState(PlayerState.AttackAfterDelay)) { return; }
+			//if(curNode.childNodes.Count == 0 && !IsCurrentState(PlayerState.AttackAfterDelay)) { return; }
 
 			nextCombo = nextCommand;
 		}

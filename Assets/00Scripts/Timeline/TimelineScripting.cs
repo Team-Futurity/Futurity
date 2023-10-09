@@ -44,6 +44,7 @@ public class TimelineScripting : MonoBehaviour
 		{
 			EmotionCheck(scripts.expressionType);
 			nameField.text = scripts.name;
+			textInput.text = "";
 
 			foreach (char text in scripts.scripts)
 			{
@@ -69,13 +70,10 @@ public class TimelineScripting : MonoBehaviour
 
 				yield return null;
 			}
-
-			textInput.text = "";
 		}
 
 		isEnd = true;
 		StopInputCheck();
-		textInput.text = "";
 	}
 	
 	private void EmotionCheck(ScriptingStruct.EExpressionType type)

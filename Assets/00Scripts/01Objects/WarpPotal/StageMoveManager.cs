@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum EStageType
 {
@@ -44,6 +45,16 @@ public class StageMoveManager : Singleton<StageMoveManager>
 		interactionUI.SetActive(enable);
 	}
 
+	public void MoveNextChapter()
+	{
+		currentSector++;
+
+		if (currentSector == EStageType.BOSS_STAGE)
+		{
+			FadeManager.Instance.FadeIn(1.0f, (() => SceneLoader.Instance.LoadScene("BossChapter")));
+		}
+	}
+	
 	public void NonFadeOutMoveSector()
 	{
 		playerTf.SetPositionAndRotation(startingPos[(int)currentSector + 1].position, startingPos[(int)currentSector + 1].rotation);
@@ -54,7 +65,7 @@ public class StageMoveManager : Singleton<StageMoveManager>
 	{
 		StartCoroutine(WaitForFadeEnd());
 	}
-
+	
 	private IEnumerator WaitForFadeEnd()
 	{
 		FadeManager.Instance.FadeIn(1.0f, (() => isFadeDone = true));
@@ -99,6 +110,10 @@ public class StageMoveManager : Singleton<StageMoveManager>
 		if (Input.GetKeyDown(KeyCode.F3))
 		{
 			playerTf.SetPositionAndRotation(startingPos[2].position, startingPos[2].rotation);
+		}
+		if(Input.GetKeyDown(KeyCode.F4))
+		{
+			FadeManager.Instance.FadeIn(1.0f, (() => SceneLoader.Instance.LoadScene("BossChapter")));
 		}
 	}
 #endif

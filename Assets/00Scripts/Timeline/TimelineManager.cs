@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -31,6 +32,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
+	[SerializeField] private TextMeshProUGUI scriptingName;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 	
@@ -141,6 +143,11 @@ public class TimelineManager : Singleton<TimelineManager>
 	}
 
 	#region StandingScripts
+
+	public void InitNameField(string talkName)
+	{
+		scriptingName.text = talkName;
+	}
 	
 	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
 	{

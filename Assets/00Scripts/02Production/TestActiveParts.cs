@@ -13,13 +13,13 @@ public class TestActiveParts : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Q))
+		if (Input.GetKeyDown(KeyCode.F8))
 		{
 			TestActive();
 			activeZone.SetActiveZone(playerTf, enemies);
 		}
 
-		if (Input.GetKeyDown(KeyCode.E))
+		if (Input.GetKeyDown(KeyCode.F9))
 		{
 			activeZone.DisableActiveZone();
 		}
