@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public enum DialogSystemState
 {
@@ -47,6 +48,9 @@ public partial class UIDialogController : MonoBehaviour
 	[SerializeField]
 	private Vector3 openPosOffset;
 
+	[SerializeField]
+	private Image hologramImage;
+
 	#region Dialog Events
 	
 	[HideInInspector]
@@ -77,7 +81,7 @@ public partial class UIDialogController : MonoBehaviour
 			openPos = GameObject.Find("Dialog Open Pos").transform;
 		}
 
-		transform.position = Camera.main.WorldToScreenPoint(openPos.position + openPosOffset);
+		SetDialogTransform();
 
 		gameObject.SetActive(true);
 		
@@ -139,11 +143,6 @@ public partial class UIDialogController : MonoBehaviour
 		DialogText.Pass();
 	}
 
-	public void OnDialogSkip()
-	{
-		
-	}
-
 	public void StopDialog()
 	{
 		DialogText.Stop();
@@ -154,5 +153,15 @@ public partial class UIDialogController : MonoBehaviour
 	private void ChangeState(DialogSystemState state)
 	{
 		currentState = state;
+	}
+
+	private void SetDialogTransform()
+	{
+		// Pos
+		transform.position = Camera.main.WorldToScreenPoint(openPos.position + openPosOffset);
+		
+		// Rot
+		var hologramRotation = Quaternion.Euler(new Vector3(inputManager.transform.rotation.x,inputManager.transform.rotation.y, inputManager.transform.rotation.z ));
+		hologramImage.transform.rotation = hologramRotation;
 	}
 }

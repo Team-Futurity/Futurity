@@ -69,7 +69,7 @@ public class PartSystem : MonoBehaviour
 		return (equipPartList[index] != null);
 	}
 
-	private void UpdateComboGauge(float percent)
+	private void UpdateComboGauge(float percent, float max)
 	{
 		int activePossibleCount = (int)Math.Floor(percent / 25f);
 		int maxPartCount = equipPartList.Length - 1;

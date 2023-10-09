@@ -38,6 +38,6 @@ public class LoadingSystem : MonoBehaviour
 
 	private void FillLoadingGauge(float targetValue)
 	{
-		loadingGauge.StartFillGauge(targetValue * 100f, 1f);
+		loadingGauge.StartLoadingGauge(targetValue, 1f);
 	}
 }

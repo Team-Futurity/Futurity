@@ -8,13 +8,12 @@ public class UIGauge : MonoBehaviour
 {
 	public bool isEasing = false;
 
-	[Space(10), Range(0.001f, 0.01f)]
-	public float timeWeight = .0f;
-
 	private Image gaugeImage;
 
-	private float currentGauge = .0f;
+	[Range(0.5f, 1f), SerializeField]
+	private float gaugeOffset = 0.5f;
 
+	private float currentGauge = .0f;
 	private float targetGauge = .0f;
 	private float maxGauge = .0f;
 
@@ -22,16 +21,14 @@ public class UIGauge : MonoBehaviour
 
 	private float timer = .0f;
 	private float activeTime = .0f;
+	
+	private float progressGauge = .0f;
 
+	private WaitForSeconds gaugeFillTime = new WaitForSeconds(0.01f);
 
 	private void Awake()
 	{
 		TryGetComponent(out gaugeImage);
-	}
-
-	public void SetGauge(float currentGauge, float maxGauge)
-	{
-		gaugeImage.fillAmount = currentGauge / maxGauge;
 	}
 
 	public void StartFillGauge(float targetGaugeValue, float maxGaugeValue)
@@ -39,40 +36,70 @@ public class UIGauge : MonoBehaviour
 		if (isFilling)
 		{
 			StopCoroutine("FillGauge");
+			currentGauge = progressGauge;
 		}
 
 		isFilling = true;
 
-		currentGauge = gaugeImage.fillAmount * maxGaugeValue;
-
-		activeTime += Mathf.Abs(targetGaugeValue - currentGauge) * timeWeight;
-
 		targetGauge = targetGaugeValue;
 		maxGauge = maxGaugeValue;
 
+		activeTime += Mathf.Abs((targetGauge / maxGauge) - (currentGauge / maxGauge)) * gaugeOffset;
+		
+		if (activeTime <= 0f)
+		{
+			return;
+		}
+		
 		StartCoroutine("FillGauge");
+	}
+
+	public void StartLoadingGauge(float targetGaugeValue, float maxGaugeValue)
+	{
+		targetGauge = targetGaugeValue;
+		maxGauge = maxGaugeValue;
+		activeTime = 3f;
+
+		StartCoroutine(FillLoadGauge());
+	}
+
+	private IEnumerator FillLoadGauge()
+	{
+		while (currentGauge <= targetGauge)
+		{
+			timer += Time.deltaTime;
+			
+			yield return gaugeFillTime;
+
+			progressGauge = Mathf.Lerp(currentGauge, targetGauge, timer / activeTime);
+
+			gaugeImage.fillAmount = progressGauge / maxGauge;
+		}
 	}
 
 	private IEnumerator FillGauge()
 	{
 		while (timer <= activeTime)
 		{
-			var resultGauge = isEasing ? EaseOutExpo(currentGauge, targetGauge, timer / activeTime) : Mathf.Lerp(currentGauge, targetGauge, timer / activeTime);
-
-			gaugeImage.fillAmount = resultGauge;
-
-			yield return new WaitForSeconds(0.01f);
-
 			timer += Time.deltaTime;
-		}
 
+			yield return gaugeFillTime;
+
+			progressGauge = isEasing ? 
+				EaseOutExpo(currentGauge, targetGauge, timer / activeTime) 
+				: Mathf.Lerp(currentGauge, targetGauge, timer / activeTime);
+			
+			gaugeImage.fillAmount = progressGauge / maxGauge;
+		}
+		
 		activeTime = .0f;
 		timer = .0f;
+		currentGauge = targetGauge;
 
 		isFilling = false;
 	}
 
-	public static float EaseOutExpo(float start, float end, float value)
+	private float EaseOutExpo(float start, float end, float value)
 	{
 		end -= start;
 		return end * (-Mathf.Pow(2, -10 * value) + 1) + start;
