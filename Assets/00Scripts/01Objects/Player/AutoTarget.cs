@@ -90,7 +90,13 @@ public class AutoTarget : Singleton<AutoTarget>
 					closestObject = obj;
 				}
 			}
+			/*else if (objectList.Length == 1)
+			{
+				FDebug.LogWarning($"Distnace:{(objectList[0].transform.position - origin.transform.position).normalized}, Dot: {dot}");
+			}*/
 		}
+
+		
 
 		return closestObject;
 	}
@@ -199,10 +205,11 @@ public class AutoTarget : Singleton<AutoTarget>
 			
 			return true;
 		}
-		else // 조준범위 내에 없는 경우는 코딩 잘못한 거  
+		/*else // 조준범위 내에 없는 경우는 코딩 잘못한 거  
 		{
+			FDebug.LogWarning($"objects : {objects.Count}, array : {objectsArray.Length}");
 			FDebug.LogWarning("[AutoTarget]Target Is NULL");
-		}
+		}*/
 
 		return false;
 	}

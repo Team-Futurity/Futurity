@@ -27,7 +27,7 @@ public class PlayerDashState : UnitState<PlayerController>
 
 		pc.currentDashCount--;
 
-		pc.glove.SetActive(false);
+		pc.SetGauntlet(false);
 
 		AudioManager.Instance.PlayOneShot(pc.dash, pc.transform.position);
 	}

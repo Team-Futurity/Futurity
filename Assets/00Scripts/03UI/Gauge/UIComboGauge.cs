@@ -20,20 +20,20 @@ public class UIComboGauge : MonoBehaviour
 
 			return;
 		}
-	}
 
-	private void Start()
-	{
-		ComboSystem.OnGaugeChanged?.AddListener(UpdateComboGauge);
-	}
-
-	private void UpdateComboGauge(float gauge)
-	{
-		if(gauge > 100f)
+		ComboSystem.OnGaugeChanged?.AddListener((current, max) =>
 		{
-			gauge = 100f;
+			UpdateComboGauge(current, max);
+		});
+	}
+
+	private void UpdateComboGauge(float currentGauge, float maxGauge)
+	{
+		if(currentGauge > maxGauge)
+		{
+			currentGauge = maxGauge;
 		}
 
-		// Gauge.StartFillGauge(gauge);
+		Gauge.StartFillGauge(currentGauge, maxGauge);
 	}
 }

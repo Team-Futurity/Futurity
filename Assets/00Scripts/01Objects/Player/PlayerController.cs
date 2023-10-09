@@ -184,7 +184,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		//comboTree.SetTree(comboTree.top, null);
 
 		// Glove Init
-		glove.SetActive(false);
+		SetGauntlet(false);
 
 		// dash
 		dashPoolManager = new ObjectPoolManager<Transform>(dashEffect, gameObject);
@@ -502,6 +502,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 
 		return node;
+	}
+
+	public void SetGauntlet(bool isEnabled)
+	{
+		glove.SetActive(isEnabled);
+		rushGlove.SetActive(isEnabled);
 	}
 
 	public void SetCollider(bool isEnabled)

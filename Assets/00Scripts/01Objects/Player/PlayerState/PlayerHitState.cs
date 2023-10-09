@@ -14,8 +14,8 @@ public class PlayerHitState : UnitState<PlayerController>
 		pc.rmController.SetRootMotion("Hit");
 		pc.specialIsReleased = false;
 		pc.curNode = pc.commandTree.Top;
-		
-		pc.glove.SetActive(false);
+
+		pc.SetGauntlet(false);
 
 		if(pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
 		{

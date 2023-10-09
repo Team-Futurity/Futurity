@@ -14,7 +14,8 @@ public class Player : UnitBase
 
 	protected override void AttackProcess(DamageInfo info)
 	{
-		info.HitEffectPoolManager.ActiveObject();
+		if(info.HitEffectPoolManager != null) { info.HitEffectPoolManager.ActiveObject(); }
+		
 		float criticalConf = GetCritical();
 		info.SetDamage(GetDamage(info.AttackST) * criticalConf);
 
@@ -36,6 +37,10 @@ public class Player : UnitBase
 		float finalDamage = damageInfo.Damage * remainingDamageRatio;
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
+
+		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
+		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
+		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
 
 		if(!pc.hitCoolTimeIsEnd) { return; }
 
