@@ -75,7 +75,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		currentTime = 0;
 		currentLevel = 0;
 
-		unit.rushGlove.SetActive(true);
 		pc = unit;
 	}
 
@@ -103,8 +102,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		isEnd = false;
 		isLanding = false;
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed);
-
-		unit.rushGlove.SetActive(false);
 
 		RemoveEffects(unit);
 
