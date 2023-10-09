@@ -69,6 +69,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Header("Pattern")]
 	public BossActiveDatas activeDataSO;
 	public BossPhaseDatas phaseDataSO;
+	public float extraAttackValue;
 
 	//setting value
 	public float targetDistance = 9f;
@@ -161,6 +162,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	{
 		for (int i = 0; i < list.Count; i++)
 		{
+			list[i].transform.SetParent(this.gameObject.transform);
 			list[i].SetActive(true);
 		}
 	}
@@ -170,6 +172,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 		listEffectData.Clear();
 		for (int i = 0; i < list.Count; i++)
 		{
+			list[i].transform.SetParent(null, true);
 			list[i].SetActive(false);
 		}
 	}

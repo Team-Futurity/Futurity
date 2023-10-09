@@ -17,7 +17,8 @@ public class B_HitState : UnitState<BossController>
 		unit.curState = BossController.BossState.Hit;
 
 		curTime = 0;
-		unit.animator.SetTrigger(unit.hitAnim);
+		if(unit.curState == BossController.BossState.Chase)
+			unit.animator.SetTrigger(unit.hitAnim);
 		unit.copyUMat.SetColor("_BaseColor", unit.damagedColor);
 	}
 	public override void Update(BossController unit)
@@ -32,7 +33,7 @@ public class B_HitState : UnitState<BossController>
 			}
 
 
-		//unit.DelayChangeState(curTime, unit.hitMaxTime, );
+		unit.DelayChangeState(curTime, unit.hitMaxTime, BossController.BossState.Chase);
 
 		//Death event
 		if (unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)

@@ -33,7 +33,8 @@ public class B_SetUpState : UnitState<BossController>
 		unit.skillAfterDelay = 3f;
 		unit.navMesh.enabled = false;
 
-		unit.type3StartPos.SetParent(null);
+		unit.type3StartPos.SetParent(null, true);
+		unit.Type5Manager.gameObject.transform.SetParent(null, true);
 
 		unit.Type1Collider.SetActive(false);
 		unit.Type2Collider.SetActive(false);
@@ -41,6 +42,10 @@ public class B_SetUpState : UnitState<BossController>
 		AttackSetting(unit.Type4Colliders);
 		AttackSetting(unit.Type6Colliders);
 		AttackSetting(unit.Type7Colliders);
+		/*unit.DeActiveAttacks(unit.Type3Colliders);
+		unit.DeActiveAttacks(unit.Type4Colliders);
+		unit.DeActiveAttacks(unit.Type6Colliders);
+		unit.DeActiveAttacks(unit.Type7Colliders);*/
 	}
 
 	public override void End(BossController unit)
@@ -50,7 +55,7 @@ public class B_SetUpState : UnitState<BossController>
 	public override void Update(BossController unit)
 	{
 		if (unit.isActive)
-			unit.ChangeState(BossController.BossState.Idle);
+			unit.ChangeState(BossController.BossState.T3_Move);
 	}
 
 	public override void FixedUpdate(BossController unit)
