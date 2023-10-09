@@ -56,16 +56,16 @@ public class SpawnerEvent : MonoBehaviour
 		{
 			case EAreaType.Area1:
 				enableCollider.enabled = true;
-				TimelineManager.Instance.EnableCutScene(ECutScene.LASTKILLCUTSCENE);
+				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
 			
 			case EAreaType.Area3:
-				TimelineManager.Instance.EnableCutScene(ECutScene.AREA3_LASTKILL);
+				TimelineManager.Instance.Chapter1_EnableCutScene(EChapter1CutScene.AREA3_LASTKILL);
 				stageMoveManager.EnableExitCollider();
 				return;
 		}
 		
-		TimelineManager.Instance.EnableCutScene(ECutScene.LASTKILLCUTSCENE);
+		TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 		stageMoveManager.EnableExitCollider();
 	}
 

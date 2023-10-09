@@ -87,7 +87,7 @@ public class StageMoveManager : MonoBehaviour
 		switch (currentSector)
 		{
 			case EStageType.CHAPTER1_AREA3:
-				TimelineManager.Instance.EnableCutScene(ECutScene.AREA3_ENTRYCUTSCENE);
+				TimelineManager.Instance.Chapter1_EnableCutScene(EChapter1CutScene.AREA3_ENTRYCUTSCENE);
 				break;
 			
 			default:

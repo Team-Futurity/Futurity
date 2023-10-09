@@ -8,27 +8,22 @@ using UnityEngine.Playables;
 using UnityEngine.Rendering; 
 using URPGlitch.Runtime.AnalogGlitch;
 
-public enum ECutScene
+public enum ECurChapter
 {
-	AREA1_ENTRYCUTSCENE = 0,
-	AREA1_REWARDCUTSCENE = 1,
-	AREA1_EXITCUTSCENE = 2,
-	AREA3_ENTRYCUTSCENE = 3,
-	AREA3_LASTKILL = 4,
-	BOSS_ENTRYCUTSCENE = 5,
-	LASTKILLCUTSCENE = 6,
-	PLYAERDEATHCUTSCENE = 7
+	Chapter1 = 0,
+	Boss
 }
 
-public class TimelineManager : Singleton<TimelineManager>
+public class ChapterCutSceneManager : MonoBehaviour
 {
 	[Header("DebugMode")] 
 	[SerializeField] private bool enableDebugMode;
 	public bool IsDebugMode => enableDebugMode;
 	[SerializeField] private SpawnerManager spawnerManager;
 	private const float StartPos = -12.5f;
-	
-	[Header("Component")]
+
+	[Header("Component")] 
+	[SerializeField] private ECurChapter curChapter;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject mainUICanvas;
@@ -36,11 +31,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	[SerializeField] private TextMeshProUGUI scriptingName;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
-	
-	[Header("다이얼로그")]
-	[SerializeField] private GameObject dialogUI;
-	[SerializeField] private UIDialogController dialogController;
-	public UIDialogController DialogController => dialogController;
+	[HideInInspector] public TimelineManager timelineManager;
 
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
@@ -48,8 +39,9 @@ public class TimelineManager : Singleton<TimelineManager>
 	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
 
 	[Header("컷신 목록")] 
-	[SerializeField] private GameObject[] cutSceneList;
-
+	[SerializeField] private List<GameObject> cutSceneList;
+	[SerializeField] private List<GameObject> publicSceneList;
+ 
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
 	private Transform originTarget;
@@ -71,6 +63,9 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	private void Start()
 	{
+		timelineManager = TimelineManager.Instance;
+		timelineManager.InitTimelineManager(cutSceneList, publicSceneList);
+		
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
 		playerInput.enabled = false;
@@ -82,17 +77,19 @@ public class TimelineManager : Singleton<TimelineManager>
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
 		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
-
 		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
 
 		if (enableDebugMode == false)
 		{
 			return;
 		}
-		
-		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
-		playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
-		mainUICanvas.SetActive(true);
+
+		if (curChapter == ECurChapter.Chapter1)
+		{
+			timelineManager.CutSceneList[(int)EChapter1CutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
+			playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
+			mainUICanvas.SetActive(true);
+		}
 
 		if (spawnerManager != null)
 		{
@@ -109,16 +106,6 @@ public class TimelineManager : Singleton<TimelineManager>
 		
 		analogGlitch.scanLineJitter.value = scanLineJitter;
 		analogGlitch.colorDrift.value = colorDrift;
-	}
-
-	public void EnableCutScene(ECutScene cutScene)
-	{
-		if (cutScene == ECutScene.AREA1_ENTRYCUTSCENE)
-		{
-			cutSceneList[(int)cutScene].GetComponent<PlayableDirector>().Play();
-		}
-		
-		cutSceneList[(int)cutScene].SetActive(true);
 	}
 	
 	public Vector3 GetTargetPosition(float distance, Vector3 forward = default(Vector3))
@@ -138,15 +125,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	{
 		mainUICanvas.SetActive(active);
 	}
-
-	public void StartDialog(DialogData data)
-	{
-		dialogUI.gameObject.SetActive(true);
-		
-		dialogController.SetDialogData(data);
-		dialogController.PlayDialog();
-	}
-
+	
 	#region StandingScripts
 
 	public void InitNameField(string talkName)

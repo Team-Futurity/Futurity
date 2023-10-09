@@ -23,14 +23,14 @@ public class PlayerDeathCutScene : CutSceneBase
 	
 	protected override void EnableCutScene()
 	{
-		TimelineManager.Instance.SetActiveMainUI(false);
+		chapterManager.SetActiveMainUI(false);
 		StartGrayScaleRoutine();
 	}
 
 	public override void DisableCutScene()
 	{
-		TimelineManager.Instance.ResetCameraValue();
-		TimelineManager.Instance.ChangeFollowTarget();
+		chapterManager.ResetCameraValue();
+		chapterManager.ChangeFollowTarget();
 		
 		gameOverUI.SetActive(true);
 		grayScale.amount.value = 0.0f;

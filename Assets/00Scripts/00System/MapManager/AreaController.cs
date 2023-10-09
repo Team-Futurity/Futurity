@@ -7,8 +7,9 @@ public class AreaController : MonoBehaviour
 {
 	[field: SerializeField]
 	public bool UseDirecting { get; private set; }
-	public ECutScene directingType;
-	
+	public EChapter1CutScene directingType;
+	[HideInInspector] public ChapterCutSceneManager cutSceneManager;
+
 	[field:Space(10)]
 
 	[field: SerializeField]
@@ -32,6 +33,14 @@ public class AreaController : MonoBehaviour
 			FDebug.Log($"[{GetType()}] ControllerObserverList에 아무 것도 존재하지 않습니다.");
 			FDebug.Break();
 		}
+
+		cutSceneManager = GameObject.FindWithTag("CutScene").GetComponent<ChapterCutSceneManager>();
+
+		if (cutSceneManager == null)
+		{
+			FDebug.Log("CutSceneManager를 찾을 수 없습니다!");
+			FDebug.Break();
+		}
 	}
 	
 	public void InitArea()
@@ -49,9 +58,9 @@ public class AreaController : MonoBehaviour
 			command.Init();
 		}
 
-		if(UseDirecting && TimelineManager.Instance.IsDebugMode == false)
+		if(UseDirecting && cutSceneManager.IsDebugMode == false)
 		{
-			TimelineManager.Instance.EnableCutScene(directingType);
+			TimelineManager.Instance.Chapter1_EnableCutScene(directingType);
 		}
 	}
 

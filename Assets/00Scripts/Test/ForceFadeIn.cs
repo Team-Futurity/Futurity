@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ForceFadeIn : MonoBehaviour
 {
-	[SerializeField] private GameObject cutScene;
 	private void Start()
 	{
 		FadeManager.Instance.FadeOut(1.0f);
@@ -13,8 +12,7 @@ public class ForceFadeIn : MonoBehaviour
 	}
 
 	private void PlayCutScene()
-	{
-		//TimelineManager.Instance.EnableCutScene(ECutScene.BOSS_ENTRYCUTSCENE);
-		cutScene.SetActive(true);
+	{		
+		TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
 	}
 }

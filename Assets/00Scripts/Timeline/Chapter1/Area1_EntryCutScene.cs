@@ -24,13 +24,13 @@ public class Area1_EntryCutScene : CutSceneBase
 
 	protected override void Init()
 	{
-		TimelineManager.Instance.SetActiveMainUI(false);
-		TimelineManager.Instance.SetActivePlayerInput(false);
+		chapterManager.SetActiveMainUI(false);
+		chapterManager.SetActivePlayerInput(false);
 	}
 
 	protected override void EnableCutScene()
 	{
-		TimelineManager.Instance.isCutScenePlay = true;
+		chapterManager.isCutScenePlay = true;
 	}
 	
 	public override void DisableCutScene()
@@ -43,17 +43,17 @@ public class Area1_EntryCutScene : CutSceneBase
 		playerCamera.SetActive(true);
 		eliteEnemy.SetActive(false);
 
-		if (TimelineManager.Instance.IsDebugMode == true)
+		if (chapterManager.IsDebugMode == true)
 		{
-			TimelineManager.Instance.SetActivePlayerInput(true);
+			chapterManager.SetActivePlayerInput(true);
 			return;
 		}
 		
-		TimelineManager.Instance.SetActiveMainUI(true);
-		TimelineManager.Instance.SetActivePlayerInput(true);
-		TimelineManager.Instance.isCutScenePlay = false;
+		chapterManager.SetActiveMainUI(true);
+		chapterManager.SetActivePlayerInput(true);
+		chapterManager.isCutScenePlay = false;
 		
-		TimelineManager.Instance.PlayerController.playerData.status.updateHPEvent
+		chapterManager.PlayerController.playerData.status.updateHPEvent
 			.Invoke(230f, 230f);
 	}
 
@@ -61,15 +61,15 @@ public class Area1_EntryCutScene : CutSceneBase
 	{
 		entryCutScene.Pause();
 		
-		TimelineManager.Instance.PauseCutSceneUntilScriptsEnd(entryCutScene, scriptsList, curScriptsIndex);
-		TimelineManager.Instance.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
+		chapterManager.PauseCutSceneUntilScriptsEnd(entryCutScene, scriptsList, curScriptsIndex);
+		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
 	}
 	
 	public void MovePlayer()
 	{
-		TimelineManager.Instance.PlayerController.LerpToWorldPosition(targetPos.transform.position, duration);
+		chapterManager.PlayerController.LerpToWorldPosition(targetPos.transform.position, duration);
 	}
 
 	public void Area1_SpawnEnemy()
