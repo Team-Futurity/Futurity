@@ -23,7 +23,7 @@ public class T1_MeleeState : B_PatternBase
 		effectData.parent = unit.gameObject;
 		unit.currentEffectData = effectData;
 		if (unit.typeCount >= 5)
-			unit.nextPattern = BossController.BossState.T3_Laser;
+			unit.nextPattern = BossController.BossState.T3_Move;
 		else
 			unit.nextPattern = BossController.BossState.Chase;
 
@@ -32,6 +32,7 @@ public class T1_MeleeState : B_PatternBase
 	public override void Update(BossController unit)
 	{
 		base.Update(unit);
+
 	}
 
 	public override void End(BossController unit)

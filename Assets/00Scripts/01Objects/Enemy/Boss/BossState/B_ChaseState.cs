@@ -20,11 +20,13 @@ public class B_ChaseState : UnitState<BossController>
 		if (distance < unit.meleeDistance)
 		{
 			unit.rigid.velocity = Vector3.zero;
+			unit.transform.LookAt(unit.target.transform);
 			unit.ChangeState(BossController.BossState.T1_Melee);
 		}
 		else if (distance < unit.targetDistance)
 		{
 			unit.rigid.velocity = Vector3.zero;
+			unit.transform.LookAt(unit.target.transform);
 			unit.ChangeState(BossController.BossState.T2_Ranged);
 		}
 		else if (distance > unit.targetDistance)

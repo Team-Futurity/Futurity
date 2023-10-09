@@ -18,6 +18,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 
 		T1_Melee,
 		T2_Ranged,
+		T3_Move,
 		T3_Laser,
 		T4_Laser,
 		T5_EnemySpawn,
@@ -105,6 +106,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public GameObject Type1Collider;
 	public GameObject Type2Collider;
 	public List<GameObject> Type3Colliders;
+	public Transform type3StartPos;
 	public List<GameObject> Type4Colliders;
 	public List<SpawnerManager> Type5Manager;
 	public List<GameObject> Type6Colliders;
@@ -151,7 +153,10 @@ public class BossController : UnitFSM<BossController>, IFSM
 		listEffectData.Clear();
 		if (list.Count > 0)
 			for (int i = 0; i < list.Count; i++)
+			{
+				list[i].transform.SetParent(null, true);
 				list[i].SetActive(false);
+			}
 	}
 
 	public void SetEffectData(List<GameObject> list, EffectActivationTime activationTime, EffectTarget target)

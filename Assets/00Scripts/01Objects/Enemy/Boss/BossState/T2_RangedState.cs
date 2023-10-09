@@ -22,7 +22,7 @@ public class T2_RangedState : B_PatternBase
 		effectData.parent = unit.gameObject;
 		unit.currentEffectData = effectData;
 		if (unit.typeCount >= 5)
-			unit.nextPattern = BossController.BossState.T3_Laser;
+			unit.nextPattern = BossController.BossState.T3_Move;
 		else
 			unit.nextPattern = BossController.BossState.Chase;
 

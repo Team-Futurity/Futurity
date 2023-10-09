@@ -42,5 +42,35 @@ public class BossAnimationEvents : MonoBehaviour
 	{
 		bc.Type2Collider.SetActive(true);
 	}
+	public void ActivateType3Attack()
+	{
+		ActiveAttacks(bc.Type3Colliders);
+	}
+
+	public void ActiveType4Attack()
+	{
+		ActiveAttacks(bc.Type4Colliders);
+	}
+	public void DeActiveType4Attacks()
+	{
+		DeActiveAttacks(bc.Type4Colliders);
+	}
+
+
+	public void ActiveAttacks(List<GameObject> list)
+	{
+		for (int i= 0; i<list.Count; i++)
+		{
+			list[i].SetActive(true);
+		}
+	}
+
+	public void DeActiveAttacks(List<GameObject> list)
+	{
+		for (int i = 0; i < list.Count; i++)
+		{
+			list[i].SetActive(false);
+		}
+	}	
 	#endregion
 }

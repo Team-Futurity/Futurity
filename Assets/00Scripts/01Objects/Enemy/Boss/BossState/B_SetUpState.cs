@@ -32,6 +32,8 @@ public class B_SetUpState : UnitState<BossController>
 		unit.skillAfterDelay = 3f;
 		unit.navMesh.enabled = false;
 
+		unit.type3StartPos.SetParent(null);
+
 		unit.Type1Collider.SetActive(false);
 		unit.Type2Collider.SetActive(false);
 		unit.DeActiveAttacks(unit.Type3Colliders);
