@@ -870,7 +870,6 @@ GameObject:
   - component: {fileID: 8996021751070515556}
   - component: {fileID: 507041425030904175}
   - component: {fileID: 484117206}
-  - component: {fileID: 484117207}
   - component: {fileID: 8335321450642112346}
   - component: {fileID: 7039203949321405940}
   - component: {fileID: 1070719927369175189}
@@ -1382,80 +1381,6 @@ MonoBehaviour:
     isRootMotion: 1
   - animationName: Death
     isRootMotion: 1
---- !u!114 &484117207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9ac8d30c6a0d9642a11e5be4c440740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Root: {fileID: 4238543804949600352}
-  m_Roots: []
-  m_UpdateRate: 30
-  m_UpdateMode: 3
-  m_Damping: 0.342
-  m_DampingDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Elasticity: 0.337
-  m_ElasticityDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Stiffness: 0.137
-  m_StiffnessDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Inert: 0.04
-  m_InertDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Friction: 0
-  m_FrictionDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Radius: 0
-  m_RadiusDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_EndLength: 0
-  m_EndOffset: {x: 0, y: 0, z: 0}
-  m_Gravity: {x: 0, y: -0.01, z: 0}
-  m_Force: {x: 0, y: 0, z: 0}
-  m_BlendWeight: 1
-  m_Colliders:
-  - {fileID: 554506920}
-  - {fileID: 784210943}
-  - {fileID: 2073663799}
-  - {fileID: 377857337}
-  m_Exclusions: []
-  m_FreezeAxis: 0
-  m_DistantDisable: 0
-  m_ReferenceObject: {fileID: 0}
-  m_DistanceToObject: 20
-  m_Multithread: 1
 --- !u!114 &8335321450642112346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1486,7 +1411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 11aa6f002b33dff4e8c16b53af510d4f, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -1827,6 +1752,11 @@ MonoBehaviour:
   m_Radius: 0.005
   m_Height: 0
   m_Radius2: 0
+--- !u!4 &123119833030706048 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8258207187370398090, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+  m_PrefabInstance: {fileID: 923691493022789110}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &818289511444318749 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 38533b871cd808b4594f1765969c915b, type: 3}
@@ -1860,6 +1790,81 @@ MonoBehaviour:
   m_Radius: 0.1
   m_Height: 0
   m_Radius2: 0
+--- !u!114 &331632725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559161003877100945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ac8d30c6a0d9642a11e5be4c440740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Root: {fileID: 4238543804949600352}
+  m_Roots: []
+  m_UpdateRate: 30
+  m_UpdateMode: 3
+  m_Damping: 0.1
+  m_DampingDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Elasticity: 0.23
+  m_ElasticityDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Stiffness: 0.97
+  m_StiffnessDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Inert: 0.04
+  m_InertDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Friction: 0
+  m_FrictionDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Radius: 0
+  m_RadiusDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_EndLength: 0
+  m_EndOffset: {x: 0, y: 0, z: 0}
+  m_Gravity: {x: 0, y: -0.01, z: 0}
+  m_Force: {x: 0, y: 0, z: 0}
+  m_BlendWeight: 1
+  m_Colliders:
+  - {fileID: 554506920}
+  - {fileID: 784210943}
+  - {fileID: 2073663799}
+  - {fileID: 377857337}
+  m_Exclusions:
+  - {fileID: 4871126114528077244}
+  m_FreezeAxis: 0
+  m_DistantDisable: 0
+  m_ReferenceObject: {fileID: 0}
+  m_DistanceToObject: 20
+  m_Multithread: 1
 --- !u!1 &3991635001043652542 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4921099145943096760, guid: 38533b871cd808b4594f1765969c915b, type: 3}
@@ -1893,11 +1898,167 @@ MonoBehaviour:
   m_Radius: 0.005
   m_Height: 0
   m_Radius2: 0
+--- !u!4 &4871126114528077244 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5712864369654581322, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+  m_PrefabInstance: {fileID: 923691493022789110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5775728668445207193 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6698574599927039855, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+  m_PrefabInstance: {fileID: 923691493022789110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1355890415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5775728668445207193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ac8d30c6a0d9642a11e5be4c440740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Root: {fileID: 123119833030706048}
+  m_Roots: []
+  m_UpdateRate: 30
+  m_UpdateMode: 3
+  m_Damping: 0.85
+  m_DampingDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Elasticity: 0
+  m_ElasticityDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Stiffness: 0.9
+  m_StiffnessDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Inert: 0.61
+  m_InertDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Friction: 0
+  m_FrictionDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Radius: 0
+  m_RadiusDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_EndLength: 0
+  m_EndOffset: {x: 0, y: 0, z: 0}
+  m_Gravity: {x: 0, y: -0.005, z: 0}
+  m_Force: {x: 0, y: 0, z: 0}
+  m_BlendWeight: 1
+  m_Colliders: []
+  m_Exclusions: []
+  m_FreezeAxis: 0
+  m_DistantDisable: 0
+  m_ReferenceObject: {fileID: 0}
+  m_DistanceToObject: 20
+  m_Multithread: 1
 --- !u!1 &7454313875711942796 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7755926973875948922, guid: 38533b871cd808b4594f1765969c915b, type: 3}
   m_PrefabInstance: {fileID: 923691493022789110}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8503616600819529569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -372823801456878953, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+  m_PrefabInstance: {fileID: 923691493022789110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &368283599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8503616600819529569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ac8d30c6a0d9642a11e5be4c440740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Root: {fileID: 4871126114528077244}
+  m_Roots: []
+  m_UpdateRate: 30
+  m_UpdateMode: 3
+  m_Damping: 0.85
+  m_DampingDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Elasticity: 0
+  m_ElasticityDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Stiffness: 0.9
+  m_StiffnessDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Inert: 0.61
+  m_InertDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Friction: 0
+  m_FrictionDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Radius: 0
+  m_RadiusDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_EndLength: 0
+  m_EndOffset: {x: 0, y: 0, z: 0}
+  m_Gravity: {x: 0, y: -0.005, z: 0}
+  m_Force: {x: 0, y: 0, z: 0}
+  m_BlendWeight: 1
+  m_Colliders:
+  - {fileID: 554506920}
+  m_Exclusions: []
+  m_FreezeAxis: 0
+  m_DistantDisable: 0
+  m_ReferenceObject: {fileID: 0}
+  m_DistanceToObject: 20
+  m_Multithread: 1
 --- !u!4 &8708889439928331920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -860842523877686426, guid: 38533b871cd808b4594f1765969c915b, type: 3}
