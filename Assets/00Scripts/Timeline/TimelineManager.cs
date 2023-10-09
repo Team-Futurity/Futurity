@@ -15,8 +15,9 @@ public enum ECutScene
 	AREA1_EXITCUTSCENE = 2,
 	AREA3_ENTRYCUTSCENE = 3,
 	AREA3_LASTKILL = 4,
-	LASTKILLCUTSCENE = 5,
-	PLYAERDEATHCUTSCENE = 6
+	BOSS_ENTRYCUTSCENE = 5,
+	LASTKILLCUTSCENE = 6,
+	PLYAERDEATHCUTSCENE = 7
 }
 
 public class TimelineManager : Singleton<TimelineManager>
@@ -91,8 +92,12 @@ public class TimelineManager : Singleton<TimelineManager>
 		
 		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
 		playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
-		spawnerManager.SpawnEnemy();
 		mainUICanvas.SetActive(true);
+
+		if (spawnerManager != null)
+		{
+			spawnerManager.SpawnEnemy();
+		}
 	}
 
 	private void Update()
