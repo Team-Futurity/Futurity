@@ -89,10 +89,17 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 		if (enableDebugMode == false)
 		{
-			// 임시 코드
-			timelineManager.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
-			FadeManager.Instance.FadeOut(0.5f, () => timelineManager.CutSceneList[(int)EChapter1_2.AREA2_ENTRYSCENE].
-				GetComponent<PlayableDirector>().Play());
+			if (curChapter == ECurChapter.CHAPTER1_2)
+			{
+				timelineManager.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
+				FadeManager.Instance.FadeOut(0.5f, () => timelineManager.CutSceneList[(int)EChapter1_2.AREA2_ENTRYSCENE]
+						.GetComponent<PlayableDirector>().Play());
+			}
+			else
+			{
+				
+			}
+			
 			return;
 		}
 
