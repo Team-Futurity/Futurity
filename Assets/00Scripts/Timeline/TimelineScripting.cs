@@ -4,11 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TimelineScripting : MonoBehaviour
 {
 	[Header("스크립트 출력 UI")]
 	[SerializeField] private SkeletonGraphic miraeAnimation;
+	[SerializeField] private SkeletonGraphic sariAnimation;
 	[SerializeField] private TextMeshProUGUI textInput;
 	[SerializeField] private TextMeshProUGUI nameField;
 	[SerializeField] private float textOutputDelay = 0.05f;
@@ -18,7 +20,7 @@ public class TimelineScripting : MonoBehaviour
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private IEnumerator textPrint;
 	private IEnumerator inputCheck;
-
+	
 	private void Start()
 	{
 		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
@@ -28,7 +30,7 @@ public class TimelineScripting : MonoBehaviour
 	{
 		textPrint = PrintingScript(scriptsStruct);
 		isEnd = false;
-		
+
 		StartCoroutine(textPrint);
 		StartInputCheck();
 	}
@@ -42,7 +44,13 @@ public class TimelineScripting : MonoBehaviour
 	{
 		foreach (ScriptingStruct scripts in scriptsStruct)
 		{
-			EmotionCheck(scripts.expressionType);
+			MiraeEmotionCheck(scripts.miraeExpression);
+
+			if (sariAnimation.gameObject.activeSelf == true)
+			{
+				SariEmotionCheck(scripts.sariExpression);
+			}
+
 			nameField.text = scripts.name;
 			textInput.text = "";
 
@@ -76,39 +84,67 @@ public class TimelineScripting : MonoBehaviour
 		StopInputCheck();
 	}
 	
-	private void EmotionCheck(ScriptingStruct.EExpressionType type)
+	private void MiraeEmotionCheck(ScriptingStruct.EMiraeExpression type)
 	{
 		switch (type)
 		{
-			case ScriptingStruct.EExpressionType.NONE:
+			case ScriptingStruct.EMiraeExpression.NONE:
 				break;
 			
-			case ScriptingStruct.EExpressionType.ANGRY:
+			case ScriptingStruct.EMiraeExpression.ANGRY:
 				miraeAnimation.AnimationState.SetAnimation(0, "angry", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.IDLE:
+			case ScriptingStruct.EMiraeExpression.IDLE:
 				miraeAnimation.AnimationState.SetAnimation(0, "idle", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.PANIC:
+			case ScriptingStruct.EMiraeExpression.PANIC:
 				miraeAnimation.AnimationState.SetAnimation(0, "panic", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.SHORT_SURPRISE:
+			case ScriptingStruct.EMiraeExpression.SHORT_SURPRISE:
 				miraeAnimation.AnimationState.SetAnimation(0, "short_surprise", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.SMILE:
+			case ScriptingStruct.EMiraeExpression.SMILE:
 				miraeAnimation.AnimationState.SetAnimation(0, "smile", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.SURPRISE:
+			case ScriptingStruct.EMiraeExpression.SURPRISE:
 				miraeAnimation.AnimationState.SetAnimation(0, "surprise", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.TRUST_ME:
+			case ScriptingStruct.EMiraeExpression.TRUST_ME:
 				miraeAnimation.AnimationState.SetAnimation(0, "trust_me", true);
+				break;
+			
+			default:
+				return;
+		}
+	}
+
+	public void SariEmotionCheck(ScriptingStruct.ESariExpression type)
+	{
+		switch (type)
+		{
+			case ScriptingStruct.ESariExpression.NONE:
+				break;
+			
+			case ScriptingStruct.ESariExpression.ANGRY:
+				sariAnimation.AnimationState.SetAnimation(0, "angry", true);
+				break;
+			
+			case ScriptingStruct.ESariExpression.EMBARRASSED:
+				sariAnimation.AnimationState.SetAnimation(0, "embarrassed", true);
+				break;
+			
+			case ScriptingStruct.ESariExpression.IDLE:
+				sariAnimation.AnimationState.SetAnimation(0, "idle", true);
+				break;
+			
+			case ScriptingStruct.ESariExpression.SURPRISE:
+				sariAnimation.AnimationState.SetAnimation(0, "surprise", true);
 				break;
 			
 			default:
