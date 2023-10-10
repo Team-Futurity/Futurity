@@ -152,6 +152,7 @@ public class SpawnerManager : MonoBehaviour
 		{
 			enemyInfo.enemyObj.GetComponent<EnemyController>().RegisterEvent(MonsterDisableEvent);
 			enemyPool[(int)enemyInfo.enemyType].Enqueue(enemyInfo.enemyObj);
+			curWaveSpawnCount++;
 		}
 	}
 	
