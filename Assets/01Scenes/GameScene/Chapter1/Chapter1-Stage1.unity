@@ -11178,7 +11178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3319673298915680799, guid: f6ab631b0dbd1824dbc49ca8b57765f4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 312.32
+      value: 314.78
       objectReference: {fileID: 0}
     - target: {fileID: 3319673298915680799, guid: f6ab631b0dbd1824dbc49ca8b57765f4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12198,6 +12198,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: placeEnemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: spawnerList.Array.data[0]
       value: 
       objectReference: {fileID: 2036484081}
@@ -12209,6 +12213,14 @@ PrefabInstance:
       propertyPath: spawnerList.Array.data[2]
       value: 
       objectReference: {fileID: 1240983970}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: placeEnemies.Array.data[0].enemyObj
+      value: 
+      objectReference: {fileID: 483364572}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: placeEnemies.Array.data[0].enemyType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: interimEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -18388,6 +18400,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 831682341081499025, guid: 64b214b10bc891740bc0ec021205dac9, type: 3}
   m_PrefabInstance: {fileID: 138970558}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1744860006 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1935212984, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 8310523119457941642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1744860007 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 610219209, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 8310523119457941642}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1746337037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22829,6 +22857,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miraeAnimation: {fileID: 53218966}
+  sariAnimation: {fileID: 1744860007}
+  bossAnimation: {fileID: 1744860006}
   textInput: {fileID: 8310523119457941650}
   nameField: {fileID: 1192245684}
   textOutputDelay: 0.05
@@ -38358,6 +38388,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 610219207, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935212984, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4179370577985715342, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
       propertyPath: inputManager
       value: 
