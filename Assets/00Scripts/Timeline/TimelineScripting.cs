@@ -11,6 +11,7 @@ public class TimelineScripting : MonoBehaviour
 	[Header("스크립트 출력 UI")]
 	[SerializeField] private SkeletonGraphic miraeAnimation;
 	[SerializeField] private SkeletonGraphic sariAnimation;
+	[SerializeField] private GameObject bossAnimation;
 	[SerializeField] private TextMeshProUGUI textInput;
 	[SerializeField] private TextMeshProUGUI nameField;
 	[SerializeField] private float textOutputDelay = 0.05f;
@@ -30,7 +31,7 @@ public class TimelineScripting : MonoBehaviour
 	{
 		textPrint = PrintingScript(scriptsStruct);
 		isEnd = false;
-
+		
 		StartCoroutine(textPrint);
 		StartInputCheck();
 	}
@@ -38,6 +39,22 @@ public class TimelineScripting : MonoBehaviour
 	public void InitNameField(string inputName)
 	{
 		nameField.text = inputName;
+	}
+
+	public void EnableStandingImg(string imgName)
+	{
+		switch (imgName)
+		{
+			case "SARI":
+				sariAnimation.gameObject.SetActive(true);
+				bossAnimation.SetActive(false);
+				break;
+			
+			case "BOSS":
+				sariAnimation.gameObject.SetActive(false);
+				bossAnimation.SetActive(true);
+				break;
+		}
 	}
 
 	private IEnumerator PrintingScript(List<ScriptingStruct> scriptsStruct)
@@ -124,7 +141,7 @@ public class TimelineScripting : MonoBehaviour
 		}
 	}
 
-	public void SariEmotionCheck(ScriptingStruct.ESariExpression type)
+	private void SariEmotionCheck(ScriptingStruct.ESariExpression type)
 	{
 		switch (type)
 		{

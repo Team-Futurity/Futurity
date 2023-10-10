@@ -31,7 +31,7 @@ public struct ScriptingStruct
 		IDLE,
 		SURPRISE
 	}
-	
+
 	public EMiraeExpression miraeExpression;
 	public ESariExpression sariExpression;
 	public string name;
