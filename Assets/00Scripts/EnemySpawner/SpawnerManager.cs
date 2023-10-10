@@ -20,6 +20,9 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
 
+	[Header("이미 배치된 적이 있다면 사용")] 
+	[SerializeField] private List<PlaceEnemy> placeEnemies = null;
+
 	[Header("Debug 패널")] 
 	[Tooltip("다음 웨이브 조건"), SerializeField] private int nextWaveCondition = 3;
 	[SerializeField] private int curWaveSpawnCount = 0;
@@ -45,6 +48,13 @@ public class SpawnerManager : MonoBehaviour
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.RangedDefault], EnemyController.EnemyType.RangedDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MinimalDefault], EnemyController.EnemyType.MinimalDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.EliteDefault], EnemyController.EnemyType.EliteDefault);
+
+		if (placeEnemies.Count == 0)
+		{
+			return;
+		}
+
+		AddAlreadyPlaceEnemy();
 	}
 
 	public void SpawnEnemy()
@@ -135,9 +145,25 @@ public class SpawnerManager : MonoBehaviour
 			spawnerList[index].gameObject.SetActive(false);		
 		}
 	}
+
+	private void AddAlreadyPlaceEnemy()
+	{
+		foreach (PlaceEnemy enemyInfo in placeEnemies)
+		{
+			enemyInfo.enemyObj.GetComponent<EnemyController>().RegisterEvent(MonsterDisableEvent);
+			enemyPool[(int)enemyInfo.enemyType].Enqueue(enemyInfo.enemyObj);
+		}
+	}
 	
 	private void SpawnerDisableEvent(EnemySpawner spawner)
 	{
 		spawnerList.Remove(spawner);
 	}
+}
+
+[Serializable]
+public struct PlaceEnemy
+{
+	public EnemyController.EnemyType enemyType;
+	public GameObject enemyObj;
 }
