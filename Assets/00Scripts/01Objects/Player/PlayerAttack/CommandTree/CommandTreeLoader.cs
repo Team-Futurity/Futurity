@@ -60,11 +60,12 @@ public class CommandTreeLoader : MonoBehaviour
 		node.attackColliderType				= commandSO.AttackColliderType;
 
 		node.effectOffset					= commandSO.EffectOffset;
-		node.effectRotOffset				= new Quaternion();
-		node.effectRotOffset.eulerAngles	= commandSO.EffectRotOffset;
+		node.effectRotOffset				= Quaternion.Euler(commandSO.EffectRotOffset);
 		node.effectPrefab					= commandSO.EffectPrefab;
 		node.effectParent					= GetEffectParent(commandSO.AttackEffectParent);
 		node.effectParentType				= commandSO.AttackEffectParent;
+
+		FDebug.Log($"Name : {node.name}, Effect RotationOffset : {node.effectRotOffset.eulerAngles}");
 
 		node.hitEffectOffset				= commandSO.HitEffectOffset;
 		node.hitEffectRotOffset				= new Quaternion(); 

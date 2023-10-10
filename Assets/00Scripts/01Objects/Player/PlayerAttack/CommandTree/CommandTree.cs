@@ -34,7 +34,7 @@ public class AttackNode
 	public GameObject effectPrefab;
 	public GameObject effectParent;
 	public EffectParent effectParentType;
-	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
+	[HideInInspector] public ObjectAddressablePoolManager<Transform> effectPoolManager;
 
 	[Header("적 피격 이펙트")]
 	public Vector3 hitEffectOffset;
@@ -42,7 +42,7 @@ public class AttackNode
 	public GameObject hitEffectPrefab;
 	public GameObject hitEffectParent;
 	public EffectParent hitEffectParentType;
-	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
+	[HideInInspector] public ObjectAddressablePoolManager<Transform> hitEffectPoolManager;
 
 	[Header("연출용 데이터")]
 	public int animInteger;
