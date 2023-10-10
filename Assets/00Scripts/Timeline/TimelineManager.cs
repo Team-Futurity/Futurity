@@ -8,8 +8,12 @@ public enum EChapter1CutScene
 	AREA1_ENTRYCUTSCENE = 0,
 	AREA1_REWARDCUTSCENE = 1,
 	AREA1_EXITCUTSCENE = 2,
-	AREA3_ENTRYCUTSCENE = 3,
-	AREA3_LASTKILL = 4,
+}
+
+public enum EChapter1_2
+{
+	AREA2_ENTRYSCENE,
+	AREA2_LASTKILL
 }
 
 public enum EBossCutScene
@@ -60,6 +64,11 @@ public class TimelineManager : Singleton<TimelineManager>
 		}
 		
 		cutSceneList[(int)cutScene].SetActive(true);
+	}
+
+	public void Chapter1_Area2_EnableCutScene(EChapter1_2 type)
+	{
+		cutSceneList[(int)type].SetActive(true);
 	}
 
 	public void BossStage_EnableCutScene(EBossCutScene cutScene)

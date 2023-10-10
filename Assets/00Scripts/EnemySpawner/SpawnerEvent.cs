@@ -6,7 +6,7 @@ public enum EAreaType
 {
 	NONEEVENT = -1,
 	AREA1 = 0,
-	AREA3,
+	AREA2,
 	BOSS
 }
 public class SpawnerEvent : MonoBehaviour
@@ -36,9 +36,9 @@ public class SpawnerEvent : MonoBehaviour
 				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.AREA1]}");
 				break;
 			
-			case EAreaType.AREA3:
+			case EAreaType.AREA2:
 				manager.isEventEnable = true;
-				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.AREA3]}");
+				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.AREA2]}");
 				break;
 			
 			default:
@@ -60,8 +60,8 @@ public class SpawnerEvent : MonoBehaviour
 				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
 			
-			case EAreaType.AREA3:
-				TimelineManager.Instance.Chapter1_EnableCutScene(EChapter1CutScene.AREA3_LASTKILL);
+			case EAreaType.AREA2:
+				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_LASTKILL);
 				stageMoveManager.EnableExitCollider();
 				return;
 		}
