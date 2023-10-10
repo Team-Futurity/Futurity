@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
-	// Window Dic -> 모든 Window
 	private Dictionary<WindowList, UIWindow> windowDic;
-	// 활성화된 Window List Name
 	private List<WindowList> activeWindowList;
 	
 	protected override void Awake()
@@ -35,19 +33,19 @@ public class UIManager : Singleton<UIManager>
 		{
 			FDebug.Log($"{type}에 해당하는 Window가 존재하지 않거나, 잘못되었습니다.", GetType());
 		}
+		
+		windowDic[type].RemoveWindow();
 	}
 
 	public void OpenWindow(WindowList type)
 	{
 		activeWindowList?.Add(type);
-
 		windowDic[type].OpenWindow();
 	}
 
 	public void CloseWindow(WindowList type)
 	{
 		activeWindowList?.Remove(type);
-		
 		windowDic[type].CloseWindow();
 	}
 
