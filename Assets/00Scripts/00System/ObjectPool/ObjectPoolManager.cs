@@ -80,8 +80,8 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
         if(returnValue != null)
         {
             activeObjCount++;
-			returnValue.gameObject.transform.position = (Vector3)startPos;
 			returnValue.gameObject.transform.rotation = (Quaternion)startRot;
+			returnValue.gameObject.transform.position = (Vector3)startPos;
 			activedPoolingObjects.Add(returnValue);
 		}
         return returnValue;
