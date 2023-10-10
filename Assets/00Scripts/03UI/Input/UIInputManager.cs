@@ -38,20 +38,6 @@ public class UIInputManager : Singleton<UIInputManager>
 		playerInput.actions = null;
 	}
 
-	private void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.R))
-		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
-		}
-		if (Input.GetKeyDown(KeyCode.T))
-		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.UI);
-		}
-	}
-
 	public void SetInputAction(InputActionAsset asset)
 	{
 		playerInput.actions = asset;
