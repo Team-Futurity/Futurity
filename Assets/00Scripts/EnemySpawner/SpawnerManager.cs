@@ -15,6 +15,7 @@ public class SpawnerManager : MonoBehaviour
 
 	[Header("Event")] 
 	[SerializeField] private EAreaType areaType;
+	public EAreaType AreaType => areaType;
 	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> spawnEndEvent;
 	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;

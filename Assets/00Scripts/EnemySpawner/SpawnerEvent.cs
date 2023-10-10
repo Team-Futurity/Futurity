@@ -5,8 +5,9 @@ using UnityEngine;
 public enum EAreaType
 {
 	NONEEVENT = -1,
-	Area1 = 0,
-	Area3
+	AREA1 = 0,
+	AREA3,
+	BOSS
 }
 public class SpawnerEvent : MonoBehaviour
 {
@@ -30,14 +31,14 @@ public class SpawnerEvent : MonoBehaviour
 		// TODO : 각 조건에 맞는 다이얼로그 실행
 		switch (areaType)
 		{
-			case EAreaType.Area1:
+			case EAreaType.AREA1:
 				manager.isEventEnable = true;
-				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.Area1]}");
+				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.AREA1]}");
 				break;
 			
-			case EAreaType.Area3:
+			case EAreaType.AREA3:
 				manager.isEventEnable = true;
-				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.Area3]}");
+				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.AREA3]}");
 				break;
 			
 			default:
@@ -47,19 +48,19 @@ public class SpawnerEvent : MonoBehaviour
 
 	public void AreaEndEvent(SpawnerManager manager, EAreaType areaType)
 	{
-		if (manager.CurWaveSpawnCount > 0 || manager.SpawnerListCount > 0)
+		if (manager.CurWaveSpawnCount > 0 || manager.SpawnerListCount > 0 || manager.AreaType == EAreaType.BOSS)
 		{
 			return;
 		}
 
 		switch (areaType)
 		{
-			case EAreaType.Area1:
+			case EAreaType.AREA1:
 				enableCollider.enabled = true;
 				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
 			
-			case EAreaType.Area3:
+			case EAreaType.AREA3:
 				TimelineManager.Instance.Chapter1_EnableCutScene(EChapter1CutScene.AREA3_LASTKILL);
 				stageMoveManager.EnableExitCollider();
 				return;
