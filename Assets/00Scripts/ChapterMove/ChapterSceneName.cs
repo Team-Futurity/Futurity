@@ -1,6 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+public enum EChapterType
+{
+	CHAPTER1_1,
+	CHAPTER1_2,
+	CHAPTER_BOSS
+}
 
 public static class ChapterSceneName
 {
