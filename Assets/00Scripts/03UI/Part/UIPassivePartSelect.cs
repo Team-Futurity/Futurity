@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class UIPassivePartSelect : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public List<UIPartSelectButton> partSelectButtons;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// Part Item Code를 받아서 ChangeResources를 시킨다.
+	// ChangeResources()
+
 }
