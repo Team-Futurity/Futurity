@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 		Quaternion rotation = Quaternion.identity;
 		Vector3 position = Vector3.zero;
+		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
 
 		if (attackNode.effectParentType == EffectParent.World)
 		{
@@ -52,11 +54,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 			position = pc.gameObject.transform.localPosition + attackNode.effectOffset;
 			position.y = pc.gameObject.transform.localPosition.y + attackNode.effectOffset.y;
-			effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
+			effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectOffset, attackNode.effectRotOffset, false);
 		}
 
-		
-		effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
+
 		var particles = effect.GetComponent<ParticleController>();
 
 		if(particles != null )
