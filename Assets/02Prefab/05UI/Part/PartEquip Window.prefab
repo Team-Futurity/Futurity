@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 6568185538347863868}
   - component: {fileID: 6568185538347863810}
   - component: {fileID: 6568185538347863869}
+  - component: {fileID: 6568185538406424681}
   m_Layer: 5
   m_Name: Top Part Group
   m_TagString: Untagged
@@ -222,7 +223,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5dee8c27c1d9171458157ed69c79ec26, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f3d16cfe0b5275f4a97a655daf729550, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -232,6 +233,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6568185538406424681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568185538347863871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f440a35a8dc9d42a2eedf5bfa3aeb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <swapList>k__BackingField:
+  - spriteObject: {fileID: 6568185538347863869}
+    normalSpr: {fileID: 21300000, guid: f3d16cfe0b5275f4a97a655daf729550, type: 3}
+    swapSpr: {fileID: 21300000, guid: 5dee8c27c1d9171458157ed69c79ec26, type: 3}
 --- !u!1 &6568185538440655005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,11 +1031,11 @@ RectTransform:
   m_Father: {fileID: 6568185539127675463}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -51, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -51, y: 101.3}
   m_SizeDelta: {x: 871, y: 808.7}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!1 &6568185539713459310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,6 +1045,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6568185539713459311}
+  - component: {fileID: 6568185538406424682}
   m_Layer: 5
   m_Name: PartEquip Window
   m_TagString: Untagged
@@ -1056,6 +1074,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6568185538406424682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568185539713459310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2631c988c57de7b4baa33790baec7383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CurrentState>k__BackingField: 0
+  <WindowType>k__BackingField: 4
+  <PlayOnStart>k__BackingField: 1
+  <CurrentWIndowButtons>k__BackingField:
+  - {fileID: 6568185538406424681}
+  - {fileID: 6568185538406424680}
+  - {fileID: 6568185538406424679}
 --- !u!1 &6568185539920674937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,6 +1104,7 @@ GameObject:
   - component: {fileID: 6568185539920674942}
   - component: {fileID: 6568185539920674940}
   - component: {fileID: 6568185539920674943}
+  - component: {fileID: 6568185538406424679}
   m_Layer: 5
   m_Name: Bottom Part Group
   m_TagString: Untagged
@@ -1134,6 +1172,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6568185538406424679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568185539920674937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f440a35a8dc9d42a2eedf5bfa3aeb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <swapList>k__BackingField:
+  - spriteObject: {fileID: 6568185539920674943}
+    normalSpr: {fileID: 21300000, guid: 520f4c359ecc22b41b129afbf930924d, type: 3}
+    swapSpr: {fileID: 21300000, guid: f6dc24fa2cfcee54c85e7c9f0122f5c1, type: 3}
 --- !u!1 &6568185539994107770
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,6 +1410,7 @@ GameObject:
   - component: {fileID: 6568185540113747251}
   - component: {fileID: 6568185540113747249}
   - component: {fileID: 6568185540113747248}
+  - component: {fileID: 6568185538406424680}
   m_Layer: 5
   m_Name: Center Part Group
   m_TagString: Untagged
@@ -1423,6 +1478,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6568185538406424680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568185540113747250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f440a35a8dc9d42a2eedf5bfa3aeb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <swapList>k__BackingField:
+  - spriteObject: {fileID: 6568185540113747248}
+    normalSpr: {fileID: 21300000, guid: 0b5b9fa4e96fcbd41a7873f43f7393be, type: 3}
+    swapSpr: {fileID: 21300000, guid: 8deaa4d78ca8e9c44be55ec9c743b325, type: 3}
 --- !u!1 &6568185540222418504
 GameObject:
   m_ObjectHideFlags: 0

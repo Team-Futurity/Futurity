@@ -718,6 +718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1494377536453197448}
+  - component: {fileID: 1083241106}
   m_Layer: 5
   m_Name: Bottom Part Group
   m_TagString: Untagged
@@ -747,6 +748,22 @@ RectTransform:
   m_AnchoredPosition: {x: 22, y: 0}
   m_SizeDelta: {x: 1009.5, y: 314}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1083241106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494377536453197455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f440a35a8dc9d42a2eedf5bfa3aeb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <swapList>k__BackingField:
+  - spriteObject: {fileID: 1494377536830137526}
+    normalSpr: {fileID: 21300000, guid: b2f0dc815e8d07e4db3b36d55fbbb5a8, type: 3}
+    swapSpr: {fileID: 21300000, guid: 638fe14c54466b64fb514cb3f5217480, type: 3}
 --- !u!1 &1494377536576016469
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +849,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1494377536633137053}
+  - component: {fileID: 1083241100}
   m_Layer: 5
   m_Name: Passive Part Select Window
   m_TagString: Untagged
@@ -860,6 +878,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1083241100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494377536633137052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2631c988c57de7b4baa33790baec7383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CurrentState>k__BackingField: 0
+  <WindowType>k__BackingField: 0
+  <PlayOnStart>k__BackingField: 1
+  <CurrentWIndowButtons>k__BackingField:
+  - {fileID: 1083241108}
+  - {fileID: 1083241107}
+  - {fileID: 1083241106}
 --- !u!1 &1494377536676704440
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,7 +1010,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0}
   m_SizeDelta: {x: 635, y: 669}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &1494377536761908415
@@ -1275,6 +1312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1494377537024250102}
+  - component: {fileID: 1083241108}
   m_Layer: 5
   m_Name: Top Part Group
   m_TagString: Untagged
@@ -1304,6 +1342,22 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 1096, y: 288}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1083241108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494377537024250101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f440a35a8dc9d42a2eedf5bfa3aeb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <swapList>k__BackingField:
+  - spriteObject: {fileID: 1494377535967832108}
+    normalSpr: {fileID: 21300000, guid: 24a5bc57398d72a4788d49c1d856f9fe, type: 3}
+    swapSpr: {fileID: 21300000, guid: beb1cab8cf1e12442806c1b1350958ee, type: 3}
 --- !u!1 &1494377537203016187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,6 +1634,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1494377537694721518}
+  - component: {fileID: 1083241107}
   m_Layer: 5
   m_Name: Middle Part Group
   m_TagString: Untagged
@@ -1609,6 +1664,19 @@ RectTransform:
   m_AnchoredPosition: {x: 2, y: 0}
   m_SizeDelta: {x: 1062, y: 306}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &1083241107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494377537694721517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f440a35a8dc9d42a2eedf5bfa3aeb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <swapList>k__BackingField: []
 --- !u!1 &1494377537774044416
 GameObject:
   m_ObjectHideFlags: 0
