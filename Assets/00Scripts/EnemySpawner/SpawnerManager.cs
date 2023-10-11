@@ -14,10 +14,10 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private Transform enemyContainer;
 
 	[Header("Event")] 
-	[SerializeField] private EAreaType areaType;
-	public EAreaType AreaType => areaType;
-	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> spawnEndEvent;
-	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> interimEvent;
+	[SerializeField] private EChapterType chapterType;
+	public EChapterType AreaType => chapterType;
+	[SerializeField] private UnityEvent<SpawnerManager, EChapterType> spawnEndEvent;
+	[SerializeField] private UnityEvent<SpawnerManager, EChapterType> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
 
 	[Header("이미 배치된 적이 있다면 사용")] 
@@ -111,8 +111,8 @@ public class SpawnerManager : MonoBehaviour
 	{
 		curWaveSpawnCount--;
 	
-		spawnEndEvent?.Invoke(this, areaType);
-		interimEvent?.Invoke(this, areaType);
+		spawnEndEvent?.Invoke(this, chapterType);
+		interimEvent?.Invoke(this, chapterType);
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{
