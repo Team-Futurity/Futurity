@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,6 +26,14 @@ public class ChapterMoveController : MonoBehaviour
 		Init();
 		CheckDebugMode();
 		EnableEntryCutScene();
+	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F7))
+		{
+			MoveNextChapter();
+		}
 	}
 
 	public void MoveNextChapter()
