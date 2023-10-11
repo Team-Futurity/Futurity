@@ -143,10 +143,9 @@ public class PlayerAnimationEvents : MonoBehaviour
 			return;
 		}
 		
-		float[] shake = ConvertStringToFloatArray(values);
-		
-		pc.cameraEffect.StartTimeStop(shake[0]);
-		pc.followTarget.StartTargetShake(shake[1], shake[2]);
+		float[] value = ConvertStringToFloatArray(values);
+		hitStopCamShake = HitStopWithCamShake(value[0], value[1], value[2]);
+		StartCoroutine(hitStopCamShake);
 	}
 
 	public void HitStopNonShake(float duration)
@@ -154,6 +153,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 		hitStopNonShake = HitStop(duration);
 		StartCoroutine(hitStopNonShake);
 	}
+	
 	private IEnumerator HitStopWithCamShake(float hitStopTime, float velocity, float duration)
 	{
 		Time.timeScale = 0.0f;
