@@ -68,7 +68,7 @@ public class TutorialController : MonoBehaviour
 			switch (currentDialogIndex)
 			{
 				case 0:
-					WindowManager.Instance.ShowWindow("Perform");
+					// WindowManager.Instance.ShowWindow("Perform");
 					performHandler.Run();
 					break;
 
