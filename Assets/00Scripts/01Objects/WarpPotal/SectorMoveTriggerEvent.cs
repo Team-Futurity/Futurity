@@ -37,7 +37,7 @@ public class SectorMoveTriggerEvent : MonoBehaviour
 		{
 			if (sectorCollider == EStageType.CHAPTER1_AREA1)
 			{
-				TimelineManager.Instance.Chapter1_EnableCutScene(EChapter1CutScene.AREA1_EXITCUTSCENE);
+				TimelineManager.Instance.Chapter1_Area1_EnableCutScene(EChapter1CutScene.AREA1_EXITCUTSCENE);
 				stageMoveManager.SetActiveInteractionUI(false);
 				gameObject.SetActive(false);
 				return;
