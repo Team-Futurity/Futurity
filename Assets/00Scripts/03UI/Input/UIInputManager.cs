@@ -5,9 +5,12 @@ using UnityEngine.InputSystem;
 
 public class UIInputManager : Singleton<UIInputManager>
 {
-	private Dictionary<int, UIButton> buttonDic = new Dictionary<int, UIButton>();
+	// Button List
+	private Dictionary<int, UIButton> currentActiveButtons = new Dictionary<int, UIButton>();
+
 	private PlayerInput playerInput;
 
+	// Button Index
 	private int currentIndex = 0;
 
 	protected override void Awake()
@@ -30,45 +33,51 @@ public class UIInputManager : Singleton<UIInputManager>
 		if (actionData.actionType == InputActionType.UI)
 		{
 			playerInput.actions = actionData.actionAsset;
+			playerInput.actions.Enable();
 		}
 	}
 
 	private void RemoveInputActionAsset()
 	{
-		playerInput.actions = null;
+		playerInput.actions.Disable();
 	}
 
-	public void SetInputAction(InputActionAsset asset)
+	#region Button
+
+	public void SetButtonList(List<UIButton> buttons)
 	{
-		playerInput.actions = asset;
-	}
+		for (int i = 0; i < buttons.Count; ++i)
+		{
+			currentActiveButtons?.Add(i, buttons[i]);
+		}
 
-	public void AddButton(int order, UIButton button)
-	{
-		buttonDic?.Add(order, button);
+		currentIndex = 0;
+		SelectUI();
 	}
-
 	public void ClearAll()
 	{
-		buttonDic.Clear();
+		currentActiveButtons.Clear();
 	}
 
 	public void SelectUI()
 	{
-		buttonDic[currentIndex].Select();
+		currentActiveButtons[currentIndex].Select(true);
 	}
 
 	private void ChangeToIndex(int num)
 	{
 		var result = currentIndex + num;
 
-		if (result < 0 || result >= buttonDic.Count)
+		if (result < 0 || result >= currentActiveButtons.Count)
 		{
 			return;
 		}
 
+		currentActiveButtons[currentIndex].Select(false);
 		currentIndex = result;
 	}
+
+	#endregion
 
 	#region Input Action
 
@@ -88,12 +97,12 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnClickUI()
 	{
-		if (buttonDic == null)
+		if (currentActiveButtons == null)
 		{
 			return;
 		}
 
-		buttonDic[currentIndex].Active();
+		currentActiveButtons[currentIndex].Active();
 	}
 	#endregion
 }

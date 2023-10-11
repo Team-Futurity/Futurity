@@ -7,7 +7,7 @@ public class UIManager : Singleton<UIManager>
 {
 	private Dictionary<WindowList, UIWindow> windowDic;
 	private List<WindowList> activeWindowList;
-	
+
 	protected override void Awake()
 	{
 		base.Awake();
