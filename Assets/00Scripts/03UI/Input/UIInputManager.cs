@@ -24,8 +24,8 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	private void Start()
 	{
-		InputActionManager.Instance.OnEnableEvent.AddListener(SetInputActionAsset);
-		InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);
+		//InputActionManager.Instance.OnEnableEvent.AddListener(SetInputActionAsset);
+		//InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);
 	}
 
 	private void SetInputActionAsset(InputActionData actionData)
@@ -61,6 +61,11 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void SelectUI()
 	{
+		if(!currentActiveButtons.ContainsKey(currentIndex))
+		{
+			FDebug.Log($"버튼이 없다.", GetType());
+			return;
+		}
 		currentActiveButtons[currentIndex].Select(true);
 	}
 
