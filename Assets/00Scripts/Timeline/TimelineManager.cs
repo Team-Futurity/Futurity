@@ -55,7 +55,7 @@ public class TimelineManager : Singleton<TimelineManager>
 		publicCutScene[(int)cutScene].SetActive(true);
 	}
 	
-	public void Chapter1_EnableCutScene(EChapter1CutScene cutScene)
+	public void Chapter1_Area1_EnableCutScene(EChapter1CutScene cutScene)
 	{
 		if (cutScene == EChapter1CutScene.AREA1_ENTRYCUTSCENE)
 		{

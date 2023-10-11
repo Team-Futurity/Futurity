@@ -27,7 +27,6 @@ public class PlayerCameraEffect : MonoBehaviour
 
 	// Coroutine
 	private IEnumerator playerHitEffect;
-	private IEnumerator timeStop;
 	private WaitForSeconds waitForSeconds;
 	
 	public void Awake()
@@ -36,25 +35,13 @@ public class PlayerCameraEffect : MonoBehaviour
 	}
 	
 	#region PlayerAnimationEventFunc
-
-	public void StartTimeStop(float duration)
-	{
-		timeStop = TimeStop(duration);
-		StartCoroutine(timeStop);
-	}
 	
 	public void CameraShake(float velocity = 0.4f, float duration = 0.2f)
 	{
 		impulseSource.m_ImpulseDefinition.m_ImpulseDuration = duration;
 		impulseSource.GenerateImpulseWithForce(velocity);
 	}
-
-	private IEnumerator TimeStop(float duration)
-	{
-		Time.timeScale = 0.0f;
-		yield return new WaitForSecondsRealtime(duration);
-		Time.timeScale = 1.0f;
-	}
+	
 	#endregion
 
 	
