@@ -33,7 +33,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 		Quaternion rotation = Quaternion.identity;
 		Vector3 position = Vector3.zero;
-		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
 
 		if (attackNode.effectParentType == EffectParent.World)
 		{
