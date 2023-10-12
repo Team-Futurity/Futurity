@@ -186,8 +186,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		if (chaseRange != null)
 			chaseRange.enabled = false;
-		if (rangedProjectile != null)
-			rangedProjectile.transform.SetParent(null);
+		/*if (rangedProjectile != null)
+			rangedProjectile.transform.SetParent(null);*/
 
 		unit = this;
 		if (isTutorialDummy)

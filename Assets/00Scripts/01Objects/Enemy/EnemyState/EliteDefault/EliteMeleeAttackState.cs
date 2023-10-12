@@ -22,7 +22,7 @@ public class EliteMeleeAttackState : EnemyAttackBaseState
 		unit.currentEffectData = atk1;
 		unit.rigid.velocity = Vector3.zero;
 		unit.navMesh.enabled = true;
-		unit.atkCollider.enabled = true;
+		/*unit.atkCollider.enabled = true;*/
 	}
 
 	public override void Update(EnemyController unit)
