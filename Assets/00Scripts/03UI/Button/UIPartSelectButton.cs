@@ -14,7 +14,8 @@ public class UIPartSelectButton : UIButton
 	[SerializeField]
 	private bool isSelectMode = false;
 
-	private int buttonIndex = 0;
+	
+	#region Resource
 	
 	[field: SerializeField]
 	public Image PartIconImage { get; private set; }
@@ -27,9 +28,15 @@ public class UIPartSelectButton : UIButton
 
 	[field: SerializeField]
 	public TMP_Text SubInfoText { get; private set; }
+	
+	#endregion
 
+	// PartCode, Index
 	[HideInInspector]
 	public UnityEvent<int, int> onActive;
+	
+	[SerializeField]
+	private int buttonIndex = 0;
 
 	protected override void ActiveFunc()
 	{
@@ -40,12 +47,6 @@ public class UIPartSelectButton : UIButton
 	public void SetButtonData(int code, int index)
 	{
 		ChangeResource(LoadPartData(code));
-		SetIndex(index);
-	}
-
-	private void SetIndex(int index)
-	{
-		buttonIndex = index;
 	}
 
 	private UIPassiveSelectData LoadPartData(int code)

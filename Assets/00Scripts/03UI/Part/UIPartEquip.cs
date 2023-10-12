@@ -57,17 +57,19 @@ public class UIPartEquip : MonoBehaviour
 		}
 	}
 
-	private void SelectButton(int partCode, int index)
+	private void SelectButton(int partCode, int selectIndex)
 	{
 		// 선택되어 있는 파츠가 존재하지 않음
-		if (partCode == 0)
+		var emptyPart = PartEquipSystem.IsPartEmpty(selectIndex);
+
+		if (emptyPart)
 		{
-			PartEquipSystem.EquipPart(index, partCode);
+			PartEquipSystem.EquipPart(selectIndex, partCode);
 			UpdatePartData();
 		}
 		else
 		{
-			// 존재할 경우, 모달창 띄우기
+			
 		}
 	}
 }

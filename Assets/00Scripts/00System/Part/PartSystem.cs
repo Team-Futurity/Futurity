@@ -44,6 +44,7 @@ public class PartSystem : MonoBehaviour
 			if (equipPartList[index].partCode != 0)
 			{
 				FDebug.Log($"해당하는 Index에 이미 Part가 존재합니다.");
+				
 				return;
 			}
 		}
@@ -67,9 +68,9 @@ public class PartSystem : MonoBehaviour
 		(equipPartList[selectIndex], equipPartList[changeIndex]) = (equipPartList[changeIndex], equipPartList[selectIndex]);
 	}
 
-	public bool IsPartValue(int index)
+	public bool IsPartEmpty(int index)
 	{
-		return (equipPartList[index] != null);
+		return (equipPartList[index] == null);
 	}
 
 	private void UpdateComboGauge(float percent, float max)
