@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UIWindow : MonoBehaviour
 {
@@ -15,9 +16,16 @@ public class UIWindow : MonoBehaviour
 
 	private UIManager uiManager;
 
+	[HideInInspector]
+	public UnityEvent<bool> onOpen;
+
 	// 현재 Window가 가지게 되는 Button List
 	[field: SerializeField, Space(10)]
 	public List<UIButton> CurrentWindowButtons { get; private set; }
+	
+	// 현재 Window가 가지는 Group
+	[field: SerializeField, Space(10)]
+	public List<GameObject> CurrentWindowObjects { get; private set; }
 
 	private void Awake()
 	{
@@ -62,14 +70,35 @@ public class UIWindow : MonoBehaviour
 		// Set this CurrentButton -> UIInputManager
 		UIInputManager.Instance.SetButtonList(CurrentWindowButtons);
 
-		gameObject.SetActive(true);
+		onOpen?.Invoke(true);
+
+		for (int i = 0; i < CurrentWindowObjects.Count; ++i)
+		{
+			CurrentWindowObjects[i].SetActive(true);
+		}
+	}
+
+	public void RefreshWindow()
+	{
+		ChangeState(WindowState.ACTIVE);
+
+		// Button Clear
+		UIInputManager.Instance.ClearAll();
+		
+		// Set this CurrentButton -> UIInputManager
+		UIInputManager.Instance.SetButtonList(CurrentWindowButtons);
 	}
 
 	public void CloseWindow()
 	{
 		ChangeState(WindowState.ASSIGN);
 
-		gameObject.SetActive(false);
+		for (int i = 0; i < CurrentWindowObjects.Count; ++i)
+		{
+			CurrentWindowObjects[i].SetActive(false);
+		}
+		
+		//onOpen?.Invoke(false);
 	}
 
 	public void RemoveWindow()

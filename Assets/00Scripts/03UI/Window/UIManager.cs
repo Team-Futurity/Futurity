@@ -49,6 +49,11 @@ public class UIManager : Singleton<UIManager>
 		windowDic[type].CloseWindow();
 	}
 
+	public void RefreshWindow(WindowList type)
+	{
+		windowDic[type].RefreshWindow();
+	}
+	
 	public void OpenWindowAllClose()
 	{
 		CloseOtherWindow(WindowList.MAX);
