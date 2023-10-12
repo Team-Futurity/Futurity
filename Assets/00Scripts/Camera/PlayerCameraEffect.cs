@@ -43,7 +43,6 @@ public class PlayerCameraEffect : MonoBehaviour
 	}
 	
 	#endregion
-
 	
 	#region Vignette
 	public void StartHitEffectVignette()

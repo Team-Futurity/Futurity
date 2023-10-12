@@ -39,24 +39,27 @@ public class SpawnerEvent : MonoBehaviour
 		}
 	}
 
-	public void SpawnerEndEvent(SpawnerManager manager, EChapterType chapterType)
+	public void SpawnerEndEvent(SpawnerManager manager, ESpawnerType spawnerType)
 	{
-		if (manager.CurWaveSpawnCount > 0 || manager.SpawnerListCount > 0 || manager.AreaType == EChapterType.CHAPTER_BOSS)
+		if (manager.CurWaveSpawnCount > 0 || manager.SpawnerListCount > 0 || manager.SpawnerType == ESpawnerType.CHAPTER_BOSS)
 		{
 			return;
 		}
 
-		switch (chapterType)
+		switch (spawnerType)
 		{
-			case EChapterType.CHAPTER1_1:
+			case ESpawnerType.CHAPTER1_AREA1:
 				enableCollider.enabled = true;
 				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
 			
-			case EChapterType.CHAPTER1_2:
+			case ESpawnerType.CHAPTER1_AREA2:
 				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_LASTKILL);
 				chapterMove.EnableExitCollider();
 				return;
+			
+			case ESpawnerType.CHPATER1_AREA3:
+				break;
 		}
 		
 		TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
