@@ -39,7 +39,7 @@ public class SpawnerEvent : MonoBehaviour
 		}
 	}
 
-	public void AreaEndEvent(SpawnerManager manager, EChapterType chapterType)
+	public void SpawnerEndEvent(SpawnerManager manager, EChapterType chapterType)
 	{
 		if (manager.CurWaveSpawnCount > 0 || manager.SpawnerListCount > 0 || manager.AreaType == EChapterType.CHAPTER_BOSS)
 		{
