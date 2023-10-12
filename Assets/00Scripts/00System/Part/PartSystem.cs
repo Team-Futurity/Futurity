@@ -14,7 +14,7 @@ public class PartSystem : MonoBehaviour
 
 	// 0 ~ 2	: Passive
 	// 3		: Active
-	public static PartBehaviour[] equipPartList = new PartBehaviour[4];
+	public PartBehaviour[] equipPartList = new PartBehaviour[4];
 
 	[SerializeField, Header("디버그 용")]
 	private List<StatusData> status;
@@ -32,15 +32,20 @@ public class PartSystem : MonoBehaviour
 		
 		// 콤보 게이지 추가
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdateComboGauge);
+		
+		EquipPart(0, 2103);
+		EquipPart(1, 2102);
 	}
 
-	[ConsoleMethod("EquipPart", "Equip Part")]
-	public static void EquipPart(int index, int partCode)
+	public void EquipPart(int index, int partCode)
 	{
 		if (equipPartList[index] != null)
 		{
-			FDebug.Log($"해당하는 Index에 이미 Part가 존재합니다.");
-			return;
+			if (equipPartList[index].partCode != 0)
+			{
+				FDebug.Log($"해당하는 Index에 이미 Part가 존재합니다.");
+				return;
+			}
 		}
 		
 		var part = PartDatabase.GetPart(partCode);
@@ -48,8 +53,7 @@ public class PartSystem : MonoBehaviour
 		
 		FDebug.Log($"{index +1}번째에 {partCode}에 해당하는 파츠 장착 완료", part.GetType());
 	}
-
-	[ConsoleMethod("RemovePart", "Part Remove")]
+	
 	public void UnEquipPart(int index)
 	{
 		equipPartList[index] = null;
@@ -58,8 +62,7 @@ public class PartSystem : MonoBehaviour
 
 	// Select index : 현재 선택된 Index
 	// Change Index : 교체를 희망하고 있는 Index
-	[ConsoleMethod("SwapPart", "Swap")]
-	public static void SwapPart(int selectIndex, int changeIndex)
+	public void SwapPart(int selectIndex, int changeIndex)
 	{
 		(equipPartList[selectIndex], equipPartList[changeIndex]) = (equipPartList[changeIndex], equipPartList[selectIndex]);
 	}
