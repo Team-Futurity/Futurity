@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -55,15 +56,17 @@ public class ChapterCutSceneManager : MonoBehaviour
 	private IEnumerator lerpTimeScale;
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private AnalogGlitchVolume analogGlitch;
-	
-	public void InitManager()
+
+	public void Start()
 	{
 		if (isIntroScene == true)
 		{
 			cutSceneList[0].SetActive(true);
-			return;
 		}
-		
+	}
+
+	public void InitManager()
+	{
 		timelineManager = TimelineManager.Instance;
 		timelineManager.InitTimelineManager(cutSceneList, publicSceneList);
 
