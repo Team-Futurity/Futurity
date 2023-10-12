@@ -6372,9 +6372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57ac7e3df33b3d43ba69f7bac2512f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableDebugMode: 0
-  spawnerManager: {fileID: 714857376}
-  curChapter: 1
+  isIntroScene: 0
   playerCamera: {fileID: 821468369}
   playerInput: {fileID: 608499568}
   mainUICanvas: {fileID: 1124304062}
@@ -23242,15 +23240,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 70.8
+      value: -23.423723
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.647
+      value: 6.447467
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13
+      value: -7.103724
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23258,7 +23256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.23911764
+      value: 0.23911765
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalRotation.y
@@ -23266,7 +23264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.099045776
+      value: -0.09904577
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -23597,7 +23595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &3514938728912771729
 GameObject:
   m_ObjectHideFlags: 0
@@ -28095,27 +28093,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5986842733770439424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5986842733770439426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 502c36a123f60dc47b090c13757087ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <UseDirecting>k__BackingField: 0
-  directingType: 0
-  cutSceneManager: {fileID: 0}
-  <ControlObserverList>k__BackingField: []
-  startPortalTrans: {fileID: 0}
-  endPortalTrans: {fileID: 0}
-  OnAreaClear:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5986842733770439426
 GameObject:
   m_ObjectHideFlags: 0
@@ -28125,7 +28102,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5986842733770439427}
-  - component: {fileID: 5986842733770439424}
   m_Layer: 0
   m_Name: Area - 3
   m_TagString: Untagged
@@ -28306,27 +28282,6 @@ Transform:
   m_Father: {fileID: 5986842734192980899}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5986842733791622477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5986842733791622479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 502c36a123f60dc47b090c13757087ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <UseDirecting>k__BackingField: 1
-  directingType: 0
-  cutSceneManager: {fileID: 0}
-  <ControlObserverList>k__BackingField: []
-  startPortalTrans: {fileID: 0}
-  endPortalTrans: {fileID: 0}
-  OnAreaClear:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5986842733791622479
 GameObject:
   m_ObjectHideFlags: 0
@@ -28336,7 +28291,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5986842733791622476}
-  - component: {fileID: 5986842733791622477}
   m_Layer: 0
   m_Name: Area - 2
   m_TagString: Untagged
@@ -30773,30 +30727,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5986842734192980896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5986842734192980898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1511b9d41ad167743b7d74f4605f1504, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaControllerList:
-  - {fileID: 5986842733791622477}
-  - {fileID: 5986842734566681035}
-  - {fileID: 5986842733770439424}
-  currentAreaIndex: 0
-  fadeTime: 1
-  OnStageStart:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStageEnd:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5986842734192980898
 GameObject:
   m_ObjectHideFlags: 0
@@ -30806,7 +30736,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5986842734192980899}
-  - component: {fileID: 5986842734192980896}
   m_Layer: 0
   m_Name: Stage
   m_TagString: Untagged
@@ -32883,27 +32812,6 @@ Transform:
   m_Father: {fileID: 5986842734192980899}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5986842734566681035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5986842734566681037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 502c36a123f60dc47b090c13757087ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <UseDirecting>k__BackingField: 0
-  directingType: 0
-  cutSceneManager: {fileID: 0}
-  <ControlObserverList>k__BackingField: []
-  startPortalTrans: {fileID: 0}
-  endPortalTrans: {fileID: 0}
-  OnAreaClear:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5986842734566681037
 GameObject:
   m_ObjectHideFlags: 0
@@ -32913,7 +32821,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5986842734566681034}
-  - component: {fileID: 5986842734566681035}
   m_Layer: 0
   m_Name: Area - 1
   m_TagString: Untagged
