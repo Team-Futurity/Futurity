@@ -17,7 +17,7 @@ public class UIWindow : MonoBehaviour
 
 	// 현재 Window가 가지게 되는 Button List
 	[field: SerializeField, Space(10)]
-	public List<UIButton> CurrentWIndowButtons { get; private set; }
+	public List<UIButton> CurrentWindowButtons { get; private set; }
 
 	private void Awake()
 	{
@@ -60,7 +60,7 @@ public class UIWindow : MonoBehaviour
 		UIInputManager.Instance.ClearAll();
 		
 		// Set this CurrentButton -> UIInputManager
-		UIInputManager.Instance.SetButtonList(CurrentWIndowButtons);
+		UIInputManager.Instance.SetButtonList(CurrentWindowButtons);
 
 		gameObject.SetActive(true);
 	}
