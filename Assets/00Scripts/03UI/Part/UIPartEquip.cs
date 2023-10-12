@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,22 +8,66 @@ public class UIPartEquip : MonoBehaviour
 	// 0, 1, 2 -> Top, Middle, Bottom
 	public List<UIPartSelectButton> passiveButton;
 
-	public UIPassiveSelectData dummyData1;
-	public UIPassiveSelectData dummyData2;
-	public UIPassiveSelectData dummyData3;
+	[field: SerializeField]
+	public PartSystem PartEquipSystem { get; private set; }
+	
+	// Select Modal 창
 
-	public void Update()
+	private int selectPartCode = 0;
+
+	private void Awake()
 	{
-		if(Input.GetKeyDown(KeyCode.Alpha1))
+		for (int i = 0; i < passiveButton.Count; ++i)
 		{
-			passiveButton[0].ChangeResource(dummyData1);
-			passiveButton[1].ChangeResource(dummyData2);
-			passiveButton[2].ChangeResource(dummyData3);
+			passiveButton[i].onActive?.AddListener(SelectButton);
 		}
 	}
 
-	public void SetPartData()
+	private void Start()
 	{
+		UpdatePartData();
+	}
 
+	private void UpdatePartData()
+	{
+		var partDatas = PartEquipSystem.equipPartList;
+			
+		List<int> partCodes = new List<int>();
+		
+		for (int i = 0; i < partDatas.Length; ++i)
+		{
+			if (partDatas[i] != null)
+			{
+				partCodes.Add(partDatas[i].partCode);
+			}
+		}
+		SetPartData(partCodes);
+	}
+
+	public void SetSelectPart(int code)
+	{
+		selectPartCode = code;
+	}
+
+	private void SetPartData(List<int> partCodes)
+	{
+		for (int i = 0; i < partCodes.Count; ++i)
+		{
+			passiveButton[i].SetButtonData(partCodes[i], i);
+		}
+	}
+
+	private void SelectButton(int partCode, int index)
+	{
+		// 선택되어 있는 파츠가 존재하지 않음
+		if (partCode == 0)
+		{
+			PartEquipSystem.EquipPart(index, partCode);
+			UpdatePartData();
+		}
+		else
+		{
+			// 존재할 경우, 모달창 띄우기
+		}
 	}
 }
