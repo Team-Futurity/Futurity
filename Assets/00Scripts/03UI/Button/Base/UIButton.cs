@@ -21,6 +21,14 @@ public abstract class UIButton : MonoBehaviour
 		SwapResources(isOn);
 	}
 
+	public void SetDefault()
+	{
+		for (int i = 0; i < swapList.Count; ++i)
+		{
+			swapList[i].SetDefaultImage();
+		}
+	}
+
 	private void SwapResources(bool isOn)
 	{
 		for(int i= 0;i < swapList.Count; ++i)
@@ -28,4 +36,5 @@ public abstract class UIButton : MonoBehaviour
 			swapList[i].Swap(isOn);
 		}
 	}
+	
 }

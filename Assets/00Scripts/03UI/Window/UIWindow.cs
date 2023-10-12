@@ -86,7 +86,7 @@ public class UIWindow : MonoBehaviour
 		UIInputManager.Instance.ClearAll();
 		
 		// Set this CurrentButton -> UIInputManager
-		UIInputManager.Instance.SetButtonList(CurrentWindowButtons);
+		UIInputManager.Instance.SetButtonList(CurrentWindowButtons, false);
 	}
 
 	public void CloseWindow()
@@ -96,6 +96,11 @@ public class UIWindow : MonoBehaviour
 		for (int i = 0; i < CurrentWindowObjects.Count; ++i)
 		{
 			CurrentWindowObjects[i].SetActive(false);
+		}
+
+		for (int i = 0; i < CurrentWindowButtons.Count; ++i)
+		{
+			CurrentWindowButtons[i].SetDefault();
 		}
 		
 		//onOpen?.Invoke(false);

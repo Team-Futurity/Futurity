@@ -20,4 +20,9 @@ public class UISwap
 
 		spriteObject.sprite = (isSwap == false) ? normalSpr : swapSpr;
 	}
+
+	public void SetDefaultImage()
+	{
+		spriteObject.sprite = normalSpr;
+	}
 }
