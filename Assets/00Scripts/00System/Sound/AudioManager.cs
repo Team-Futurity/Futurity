@@ -9,13 +9,6 @@ public class AudioManager : Singleton<AudioManager>
 {
 	[SerializeField] private Transform playerTransform;
 
-	[Header("Volume")]
-	[SerializeField, ReadOnly] private float masterVolume = 1f;
-	[SerializeField, ReadOnly] private float bcakgroundMusicolume = 1f;
-	[SerializeField, ReadOnly] private float ambientVolume = 1f;
-	[SerializeField, ReadOnly] private float objectVolume = 1f;
-	[SerializeField, ReadOnly] private float userInterfaceVolume = 1f;
-
 	private Dictionary<BusType, Bus> busDictionary = new Dictionary<BusType, Bus>();
 
 	private Bus masterBus;
@@ -64,8 +57,7 @@ public class AudioManager : Singleton<AudioManager>
 		if(busType == BusType.None) { return -1f; }
 
 		Bus bus;
-
-		if (busDictionary.TryGetValue(busType, out bus)) { FDebug.LogWarning($"This Bus is not Exist : {busType}", GetType()); return -1f; }
+		if (!busDictionary.TryGetValue(busType, out bus)) { FDebug.LogWarning($"This Bus is not Exist : {busType}", GetType()); return -1f; }
 
 		bus.getVolume(out float soundVolume);
 
@@ -77,9 +69,9 @@ public class AudioManager : Singleton<AudioManager>
 		if (busType == BusType.None) { return; }
 
 		float soundVolume = Mathf.Clamp(volume, 0f, 1f);
+		
 		Bus bus;
-
-		if(busDictionary.TryGetValue(busType, out bus)) { FDebug.LogWarning($"This Bus is not Exist : {busType}", GetType()); return; }
+		if(!busDictionary.TryGetValue(busType, out bus)) { FDebug.LogWarning($"This Bus is not Exist : {busType}", GetType()); return; }
 
 		bus.setVolume(soundVolume);
 	}

@@ -30,8 +30,7 @@ public class Boss : UnitBase
 
 	protected override float GetDamage(float damageValue)
 	{
-		float rand = Random.Range(-0.1f, 0.1f);
-		float value = (GetAttackPoint() + damageValue) / (1 + rand);
+		float value = (GetAttackPoint() + damageValue) / (1 + Random.Range(-0.1f, 0.1f));
 
 		return value;
 	}

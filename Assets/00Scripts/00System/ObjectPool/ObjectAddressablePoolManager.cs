@@ -117,14 +117,20 @@ public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolPare
 
 	public void SetObjectTransform(GameObject target, Vector3? pos = null, Quaternion? rot = null)
 	{
-		target.transform.position = (Vector3)pos;
-		target.transform.rotation = (Quaternion)rot;
+		Vector3 startPosistion = pos ?? Vector3.zero;
+		Quaternion startRotation = rot ?? Quaternion.identity;
+
+		target.transform.position = startPosistion;
+		target.transform.rotation = startRotation;
 	}
 
 	public void SetObjectLocalTransform(GameObject target, Vector3? pos = null, Quaternion? rot = null)
 	{
-		target.transform.localPosition = (Vector3)pos;
-		target.transform.localRotation = (Quaternion)rot;
+		Vector3 startPosistion = pos ?? Vector3.zero;
+		Quaternion startRotation = rot ?? Quaternion.identity;
+
+		target.transform.localPosition = startPosistion;
+		target.transform.localRotation = startRotation;
 	}
 
 	public void DeactiveObject(PoolingClass target)

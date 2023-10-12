@@ -58,7 +58,7 @@ public class AreaController : MonoBehaviour
 			command.Init();
 		}
 
-		if(UseDirecting && cutSceneManager.IsDebugMode == false)
+		if(UseDirecting)
 		{
 			TimelineManager.Instance.Chapter1_Area1_EnableCutScene(directingType);
 		}

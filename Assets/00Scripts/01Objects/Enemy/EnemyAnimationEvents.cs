@@ -32,6 +32,11 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.enemyData.EnableAttackTiming();
 		ec.atkCollider.enabled = true;
 	}
+	public void RangedAttack()
+	{
+		ec.enemyData.EnableAttackTiming();
+		ec.atkCollider.enabled = true;
+	}
 	public void EndAttack()
 	{
 		ec.atkCollider.enabled = false;
