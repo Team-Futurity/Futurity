@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class PlayerAnimationEvents : MonoBehaviour
 	private EffectActivationTime effectType;
 	private EffectTarget EffectTarget;
 	private Transform effectPos;
-	private IEnumerator hitStop;
+	private IEnumerator hitStopCamShake;
+	private IEnumerator hitStopNonShake;
 
 	public FMODUnity.EventReference walk;
 
@@ -31,6 +33,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 		Quaternion rotation = Quaternion.identity;
 		Vector3 position = Vector3.zero;
+		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
 
 		if (attackNode.effectParentType == EffectParent.World)
 		{
@@ -52,11 +55,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 			position = pc.gameObject.transform.localPosition + attackNode.effectOffset;
 			position.y = pc.gameObject.transform.localPosition.y + attackNode.effectOffset.y;
-			effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
+			effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectOffset, attackNode.effectRotOffset, false);
 		}
 
-		
-		effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
+
 		var particles = effect.GetComponent<ParticleController>();
 
 		if(particles != null )
@@ -132,7 +134,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 				break;
 		}
 	}
+	
 
+	#region HitEffectEvent
+	// 카메라 쉐이크
 	public void CameraShake(string str)
 	{
 		// 0 : velocity, 1 : Duration
@@ -141,36 +146,47 @@ public class PlayerAnimationEvents : MonoBehaviour
 		// attackNode = pc.curNode;
 		pc.cameraEffect.CameraShake(value[0], value[1]);
 	}
-
-	#region HitEffectEvent
+	
 	// 플레이어 피격에 대한 HitStop
 	public void StartHitStop(float duration)
 	{
-		hitStop = HitStop(duration);
-		StartCoroutine(hitStop);
+		hitStopNonShake = HitStop(duration);
+		StartCoroutine(hitStopNonShake);
 	}
 	
 	// 플레이어 타격에 대한 HitStop
-	public void AttackHitStop(string values)
+	public void HitStopCamShake(string values)
 	{
-		UnitState<PlayerController> state = null;
-		pc.GetState(PlayerState.AttackDelay, ref state);
-		int count = 0;
-
-		if (state != null)
-		{
-			count = ((PlayerAttackBeforeDelayState)state).GetTargetCount();
-		}
-
-		if (count <= 0)
+		if (CheckEnemyInAttackRange() == false)
 		{
 			return;
 		}
 		
-		float[] shake = ConvertStringToFloatArray(values);
+		float[] value = ConvertStringToFloatArray(values);
+		hitStopCamShake = HitStopWithCamShake(value[0], value[1], value[2]);
+		StartCoroutine(hitStopCamShake);
+	}
+
+	public void HitStopNonShake(float duration)
+	{
+		hitStopNonShake = HitStop(duration);
+		StartCoroutine(hitStopNonShake);
+	}
+	
+	private IEnumerator HitStopWithCamShake(float hitStopTime, float velocity, float duration)
+	{
+		Time.timeScale = 0.0f;
+		yield return new WaitForSecondsRealtime(hitStopTime);
 		
-		pc.cameraEffect.StartTimeStop(shake[0]);
-		pc.followTarget.StartTargetShake(shake[1], shake[2]);
+		Time.timeScale = 1.0f;
+		pc.cameraEffect.CameraShake(velocity, duration);
+	}
+
+	private IEnumerator HitStop(float duration)
+	{
+		Time.timeScale = 0.0f;
+		yield return new WaitForSecondsRealtime(duration);
+		Time.timeScale = 1.0f;
 	}
 	
 	private float[] ConvertStringToFloatArray(string input)
@@ -185,12 +201,24 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 		return result;
 	}
-	
-	private IEnumerator HitStop(float duration)
+
+	private bool CheckEnemyInAttackRange()
 	{
-		Time.timeScale = 0.0f;
-		yield return new WaitForSecondsRealtime(duration);
-		Time.timeScale = 1.0f;
+		UnitState<PlayerController> state = null;
+		pc.GetState(PlayerState.AttackDelay, ref state);
+		int count = 0;
+
+		if (state != null)
+		{
+			count = ((PlayerAttackBeforeDelayState)state).GetTargetCount();
+		}
+
+		if (count <= 0)
+		{
+			return false;
+		}
+
+		return true;
 	}
 	#endregion
 
