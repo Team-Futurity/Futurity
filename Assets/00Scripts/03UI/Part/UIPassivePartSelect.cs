@@ -14,7 +14,6 @@ public class UIPassivePartSelect : MonoBehaviour
 		for (int i = 0; i < partSelectButtons.Count; ++i)
 		{
 			partSelectButtons[i].onActive?.AddListener(OpenEquipWindow);
-			Debug.Log("ADD");
 		}
 	}
 
