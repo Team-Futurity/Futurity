@@ -10,8 +10,9 @@ using URPGlitch.Runtime.AnalogGlitch;
 
 public enum ECurChapter
 {
-	Chapter1 = 0,
-	Boss
+	CHAPTER1_1 = 0,
+	CHAPTER1_2 = 1,
+	BOSS
 }
 
 public class ChapterCutSceneManager : MonoBehaviour
@@ -88,10 +89,21 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 		if (enableDebugMode == false)
 		{
+			if (curChapter == ECurChapter.CHAPTER1_2)
+			{
+				timelineManager.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
+				FadeManager.Instance.FadeOut(0.5f, () => timelineManager.CutSceneList[(int)EChapter1_2.AREA2_ENTRYSCENE]
+						.GetComponent<PlayableDirector>().Play());
+			}
+			else
+			{
+				
+			}
+			
 			return;
 		}
 
-		if (curChapter == ECurChapter.Chapter1)
+		if (curChapter == ECurChapter.CHAPTER1_1)
 		{
 			timelineManager.CutSceneList[(int)EChapter1CutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
 			playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);

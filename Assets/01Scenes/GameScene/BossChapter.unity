@@ -1664,6 +1664,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 53189751119722205, guid: 600df2b89b94fea48899a892139891a4, type: 3}
+      propertyPath: areaType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6949875964783629124, guid: 600df2b89b94fea48899a892139891a4, type: 3}
       propertyPath: m_Name
       value: Boss
@@ -1747,7 +1751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.603725
+      value: -11.463724
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1755,7 +1759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.6637241
+      value: -1.6637238
       objectReference: {fileID: 0}
     - target: {fileID: 2136977446462511486, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3354,6 +3358,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miraeAnimation: {fileID: 1698532528}
+  sariAnimation: {fileID: 1954244405}
+  bossAnimation: {fileID: 1198809150}
   textInput: {fileID: 1698532525}
   nameField: {fileID: 1698532533}
   textOutputDelay: 0.05
@@ -4350,6 +4356,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1198809150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1935212984, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 1698532519}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1260853985
 GameObject:
   m_ObjectHideFlags: 0
@@ -5091,6 +5102,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 610219207, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935212984, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 693757723749138536, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6405,6 +6424,17 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1954244405 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 610219209, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 1698532519}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1968691558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7172,6 +7202,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8c3e4429bdf7505469444b3aff502d8d, type: 2}
     - {fileID: 11400000, guid: 8c71a74bdb4f1634eb6aba765e746830, type: 2}
     - {fileID: 11400000, guid: be23276e742a81143b620dbc25e7f382, type: 2}
+    - {fileID: 11400000, guid: c259011e3695ad9419160437b4ffd6f4, type: 2}
+    - {fileID: 11400000, guid: fca822ba9882912489976142dac3cb3b, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -7283,6 +7315,34 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: "\uC0AC\uB9AC :"
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 869694111}
+          m_TargetAssemblyTypeName: TimelineScripting, Assembly-CSharp
+          m_MethodName: EnableStandingImg
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: BOSS
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 869694111}
+          m_TargetAssemblyTypeName: TimelineScripting, Assembly-CSharp
+          m_MethodName: EnableStandingImg
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SARI
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!4 &1545032532588996458
@@ -7708,7 +7768,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1001 &2954011077138237445
 PrefabInstance:
   m_ObjectHideFlags: 0

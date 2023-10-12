@@ -2,16 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EAreaType
-{
-	NONEEVENT = -1,
-	Area1 = 0,
-	Area3
-}
 public class SpawnerEvent : MonoBehaviour
 {
 	[Header("Component")] 
-	[SerializeField] private StageMoveManager stageMoveManager;
+	[SerializeField] private ChapterMoveController chapterMove;
 	
 	[Header("진행중 다이얼로그 출현 조건")] 
 	[SerializeField] private List<int> dialogConditions;
@@ -19,25 +13,25 @@ public class SpawnerEvent : MonoBehaviour
 	[Header("활성화 콜라이더")] 
 	[SerializeField] private Collider enableCollider;
 	
-	public void InterimEvent(SpawnerManager manager, EAreaType areaType)
+	public void InterimEvent(SpawnerManager manager, EChapterType chapterType)
 	{
-		if (areaType == EAreaType.NONEEVENT || manager.isEventEnable == true || 
-		    manager.CurWaveSpawnCount > dialogConditions[(int)areaType])
+		if (chapterType == EChapterType.NONEVENTCHAPTER || manager.isEventEnable == true || 
+		    manager.CurWaveSpawnCount > dialogConditions[(int)chapterType])
 		{
 			return;
 		}
 		
 		// TODO : 각 조건에 맞는 다이얼로그 실행
-		switch (areaType)
+		switch (chapterType)
 		{
-			case EAreaType.Area1:
+			case EChapterType.CHAPTER1_1:
 				manager.isEventEnable = true;
-				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.Area1]}");
+				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EChapterType.CHAPTER1_1]}");
 				break;
 			
-			case EAreaType.Area3:
+			case EChapterType.CHAPTER1_2:
 				manager.isEventEnable = true;
-				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EAreaType.Area3]}");
+				Debug.Log($"조건 만족 : {manager.CurWaveSpawnCount} / {dialogConditions[(int)EChapterType.CHAPTER1_2]}");
 				break;
 			
 			default:
@@ -45,28 +39,31 @@ public class SpawnerEvent : MonoBehaviour
 		}
 	}
 
-	public void AreaEndEvent(SpawnerManager manager, EAreaType areaType)
+	public void SpawnerEndEvent(SpawnerManager manager, ESpawnerType spawnerType)
 	{
-		if (manager.CurWaveSpawnCount > 0 || manager.SpawnerListCount > 0)
+		if (manager.CurWaveSpawnCount > 0 || manager.SpawnerListCount > 0 || manager.SpawnerType == ESpawnerType.CHAPTER_BOSS)
 		{
 			return;
 		}
 
-		switch (areaType)
+		switch (spawnerType)
 		{
-			case EAreaType.Area1:
+			case ESpawnerType.CHAPTER1_AREA1:
 				enableCollider.enabled = true;
 				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
 			
-			case EAreaType.Area3:
-				TimelineManager.Instance.Chapter1_EnableCutScene(EChapter1CutScene.AREA3_LASTKILL);
-				stageMoveManager.EnableExitCollider();
+			case ESpawnerType.CHAPTER1_AREA2:
+				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_LASTKILL);
+				chapterMove.EnableExitCollider();
 				return;
+			
+			case ESpawnerType.CHPATER1_AREA3:
+				break;
 		}
 		
 		TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
-		stageMoveManager.EnableExitCollider();
+		chapterMove.EnableExitCollider();
 	}
 
 }
