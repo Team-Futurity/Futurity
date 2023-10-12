@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public enum EChapter1CutScene
 {
@@ -57,12 +55,6 @@ public class TimelineManager : Singleton<TimelineManager>
 	
 	public void Chapter1_Area1_EnableCutScene(EChapter1CutScene cutScene)
 	{
-		if (cutScene == EChapter1CutScene.AREA1_ENTRYCUTSCENE)
-		{
-			cutSceneList[(int)cutScene].GetComponent<PlayableDirector>().Play();
-			return;
-		}
-		
 		cutSceneList[(int)cutScene].SetActive(true);
 	}
 
