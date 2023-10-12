@@ -152,6 +152,11 @@ public class ChapterCutSceneManager : MonoBehaviour
 		mainUICanvas.SetActive(active);
 	}
 	
+	public void EnableUI()
+	{
+		mainUICanvas.SetActive(true);
+	}
+	
 	#region StandingScripts
 
 	public void InitNameField(string talkName)
@@ -251,9 +256,4 @@ public class ChapterCutSceneManager : MonoBehaviour
 	
 	
 	#endregion
-	
-	public void EnableUI()
-	{
-		mainUICanvas.SetActive(true);
-	}
 }
