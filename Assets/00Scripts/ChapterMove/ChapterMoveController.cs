@@ -5,13 +5,22 @@ using UnityEngine.InputSystem;
 
 public class ChapterMoveController : MonoBehaviour
 {
+	[Header("Component")] 
+	[SerializeField] private GameObject interactionUI;
+	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
+	
 	[Header("챕터 정보")] 
 	[SerializeField] private EChapterType currentChapter;
 	[SerializeField] private EChapterType nextChapter;
+	public EChapterType CurrentChapter => currentChapter;
 
 	[Header("Fade Out 시간")] 
 	[SerializeField] private float fadeOutTime = 0.5f;
 	[SerializeField] private float fadeInTime = 1.0f;
+
+	[Header("다음 씬으로 넘어갈 콜라이더")] 
+	[SerializeField] private GameObject chapterMoveTrigger;
+	public void EnableExitCollider() => chapterMoveTrigger.SetActive(true);
 
 	[Header("디버그용 패널")] 
 	[SerializeField] private bool isDebugMode;
@@ -55,7 +64,7 @@ public class ChapterMoveController : MonoBehaviour
 				return;
 		}
 	}
-
+	
 	private void ChangeChapter(string sceneName)
 	{
 		playerInput.enabled = false;
