@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 30220970674858346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.24, z: 0}
+  m_LocalPosition: {x: 0, y: 0.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4652280886673565783}
   m_Father: {fileID: 732466587148635621}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &732466586947889356
 GameObject:
@@ -115,8 +115,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 732466586947889357}
-  - {fileID: 4571311513104610026}
   - {fileID: 3881962845268420493}
+  - {fileID: 4571311513104610026}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   randMoveDistanceMin: 1.5
   randMoveDistanceMax: 3
   attackRange: 7
-  attackChangeDelay: 2
+  attackChangeDelay: 3
   turnSpeed: 150
   isAttackSuccess: 0
   projectileDistance: 10
@@ -420,6 +420,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 732466587148635621}
     m_Modifications:
+    - target: {fileID: 1812276875904883620, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4608799634614410596, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}
       propertyPath: m_Name
       value: Projectile
@@ -430,7 +434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4608799634614410597, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4608799634614410597, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}
       propertyPath: m_LocalPosition.x
