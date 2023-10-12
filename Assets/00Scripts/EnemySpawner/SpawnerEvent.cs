@@ -49,7 +49,10 @@ public class SpawnerEvent : MonoBehaviour
 		switch (spawnerType)
 		{
 			case ESpawnerType.CHAPTER1_AREA1:
-				enableCollider.enabled = true;
+				if (enableCollider != null)
+				{
+					enableCollider.enabled = true;	
+				}
 				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
 			
@@ -59,6 +62,12 @@ public class SpawnerEvent : MonoBehaviour
 				return;
 			
 			case ESpawnerType.CHPATER1_AREA3:
+				break;
+			
+			case ESpawnerType.CHAPTER_BOSS:
+				break;
+			
+			default:
 				break;
 		}
 		
