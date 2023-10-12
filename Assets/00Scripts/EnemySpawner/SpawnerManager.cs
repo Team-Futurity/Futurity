@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum ESpawnerType
+{
+	CHAPTER1_AREA1,
+	CHAPTER1_AREA2,
+	CHPATER1_AREA3,
+	CHAPTER_BOSS
+}
+
 public class SpawnerManager : MonoBehaviour
 {
 	public readonly static int MAX_ENEMY_TYPE = 4;
@@ -14,10 +22,14 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private Transform enemyContainer;
 
 	[Header("Event")] 
-	[SerializeField] private EAreaType areaType;
-	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> spawnEndEvent;
-	[SerializeField] private UnityEvent<SpawnerManager, EAreaType> interimEvent;
+	[SerializeField] private ESpawnerType spawnerType;
+	public ESpawnerType SpawnerType => spawnerType;
+	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> spawnEndEvent;
+	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
+
+	[Header("이미 배치된 적이 있다면 사용")] 
+	[SerializeField] private List<PlaceEnemy> placeEnemies = null;
 
 	[Header("Debug 패널")] 
 	[Tooltip("다음 웨이브 조건"), SerializeField] private int nextWaveCondition = 3;
@@ -44,6 +56,13 @@ public class SpawnerManager : MonoBehaviour
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.RangedDefault], EnemyController.EnemyType.RangedDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MinimalDefault], EnemyController.EnemyType.MinimalDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.EliteDefault], EnemyController.EnemyType.EliteDefault);
+
+		if (placeEnemies.Count == 0)
+		{
+			return;
+		}
+
+		AddAlreadyPlaceEnemy();
 	}
 
 	public void SpawnEnemy()
@@ -100,8 +119,8 @@ public class SpawnerManager : MonoBehaviour
 	{
 		curWaveSpawnCount--;
 	
-		spawnEndEvent?.Invoke(this, areaType);
-		interimEvent?.Invoke(this, areaType);
+		spawnEndEvent?.Invoke(this, spawnerType);
+		interimEvent?.Invoke(this, spawnerType);
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{
@@ -134,9 +153,26 @@ public class SpawnerManager : MonoBehaviour
 			spawnerList[index].gameObject.SetActive(false);		
 		}
 	}
+
+	private void AddAlreadyPlaceEnemy()
+	{
+		foreach (PlaceEnemy enemyInfo in placeEnemies)
+		{
+			enemyInfo.enemyObj.GetComponent<EnemyController>().RegisterEvent(MonsterDisableEvent);
+			enemyPool[(int)enemyInfo.enemyType].Enqueue(enemyInfo.enemyObj);
+			curWaveSpawnCount++;
+		}
+	}
 	
 	private void SpawnerDisableEvent(EnemySpawner spawner)
 	{
 		spawnerList.Remove(spawner);
 	}
+}
+
+[Serializable]
+public struct PlaceEnemy
+{
+	public EnemyController.EnemyType enemyType;
+	public GameObject enemyObj;
 }

@@ -17,7 +17,6 @@ public class RewardBox : MonoBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.F))
 			{
-				StageMoveManager.Instance.EnableExitCollider();
 				gameObject.SetActive(false);
 			}
 		}

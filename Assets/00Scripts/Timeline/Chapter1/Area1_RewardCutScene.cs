@@ -8,35 +8,33 @@ public class Area1_RewardCutScene : CutSceneBase
 	[Header("Component")] 
 	[SerializeField] private PlayableDirector rewardCutScene;
 	[SerializeField] private List<ScriptingList> scriptsList;
-
-	private TimelineManager manager;
 	private int curScriptsIndex;
 	
 	protected override void Init()
 	{
-		manager = TimelineManager.Instance;
+		
 	}
 
 	protected override void EnableCutScene()
 	{
-		manager.isCutScenePlay = true;
-		manager.SetActivePlayerInput(false);
-		manager.SetActiveMainUI(false);
+		chapterManager.isCutScenePlay = true;
+		chapterManager.SetActivePlayerInput(false);
+		chapterManager.SetActiveMainUI(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		manager.isCutScenePlay = false;
-		manager.SetActivePlayerInput(true);
-		manager.SetActiveMainUI(true);
+		chapterManager.isCutScenePlay = false;
+		chapterManager.SetActivePlayerInput(true);
+		chapterManager.SetActiveMainUI(true);
 	}
 
 	public void Reward_PrintScripts()
 	{
 		rewardCutScene.Pause();
 		
-		manager.PauseCutSceneUntilScriptsEnd(rewardCutScene, scriptsList, curScriptsIndex);
-		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
+		chapterManager.PauseCutSceneUntilScriptsEnd(rewardCutScene, scriptsList, curScriptsIndex);
+		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
 	}

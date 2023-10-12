@@ -19,15 +19,15 @@ public class PlayerCameraEffect : MonoBehaviour
 
 	[Space(3)] 
 	[Header("Vignette")]
-	[SerializeField] private float intensity = 0.6f;
-	[SerializeField] private float waitTime = 0.2f;
+	[SerializeField] private float maxIntensity = 0.6f;
+	[SerializeField] private float changeSpeed = 1.5f;
+	[SerializeField, ReadOnly(false)] private bool isVignetteActive = false; 
 	private Volume volume;
 	private Vignette vignette;
 	public Vignette Vignette => vignette;
 
 	// Coroutine
 	private IEnumerator playerHitEffect;
-	private IEnumerator timeStop;
 	private WaitForSeconds waitForSeconds;
 	
 	public void Awake()
@@ -36,40 +36,61 @@ public class PlayerCameraEffect : MonoBehaviour
 	}
 	
 	#region PlayerAnimationEventFunc
-
-	public void StartTimeStop(float duration)
-	{
-		timeStop = TimeStop(duration);
-		StartCoroutine(timeStop);
-	}
 	
 	public void CameraShake(float velocity = 0.4f, float duration = 0.2f)
 	{
 		impulseSource.m_ImpulseDefinition.m_ImpulseDuration = duration;
 		impulseSource.GenerateImpulseWithForce(velocity);
 	}
-
-	private IEnumerator TimeStop(float duration)
-	{
-		Time.timeScale = 0.0f;
-		yield return new WaitForSecondsRealtime(duration);
-		Time.timeScale = 1.0f;
-	}
+	
 	#endregion
-
 	
 	#region Vignette
 	public void StartHitEffectVignette()
 	{
+		if (isVignetteActive == true)
+		{
+			StopHitVignette();
+		}
+		
 		playerHitEffect = HitVignette();
 		StartCoroutine(playerHitEffect);
+	}
+
+	private void StopHitVignette()
+	{
+		if (playerHitEffect == null)
+		{
+			return;
+		}
+		
+		StopCoroutine(playerHitEffect);
+		isVignetteActive = false;
+		vignette.intensity.value = 0;
 	}
 	
 	private IEnumerator HitVignette()
 	{
-		vignette.intensity.value = intensity;
-		yield return waitForSeconds;
-		vignette.intensity.value = 0.0f;
+		isVignetteActive = true;
+		
+		while (vignette.intensity.value < maxIntensity)
+		{
+			vignette.intensity.value = Mathf.MoveTowards(vignette.intensity.value, maxIntensity,
+				Time.deltaTime * changeSpeed);
+
+			yield return null;
+		}
+
+		while (vignette.intensity.value > 0)
+		{
+			vignette.intensity.value = Mathf.MoveTowards(vignette.intensity.value, 0,
+				Time.deltaTime * changeSpeed);
+
+			yield return null;
+		}
+
+		vignette.intensity.value = 0;
+		isVignetteActive = false;
 	}
 	#endregion
 
@@ -77,8 +98,6 @@ public class PlayerCameraEffect : MonoBehaviour
 	{
 		camBody = cam.GetCinemachineComponent<CinemachineFramingTransposer>();
 		originOrthoSize = cam.m_Lens.OrthographicSize;
-
-		waitForSeconds = new WaitForSeconds(waitTime);
 		
 		// vignette
 		volume = Camera.main.GetComponent<Volume>();

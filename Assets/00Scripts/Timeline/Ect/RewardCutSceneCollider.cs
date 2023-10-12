@@ -14,7 +14,7 @@ public class RewardCutSceneCollider : MonoBehaviour
 			return;
 		}
 		
-		TimelineManager.Instance.EnableCutScene(ECutScene.AREA1_REWARDCUTSCENE);
+		TimelineManager.Instance.Chapter1_Area1_EnableCutScene(EChapter1CutScene.AREA1_REWARDCUTSCENE);
 		rewardBox.isEnable = true;
 		gameObject.SetActive(false);
 	}

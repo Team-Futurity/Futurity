@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using FMODUnity;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using UnityEngine.AddressableAssets;
 
 [Serializable]
 public class AttackNode

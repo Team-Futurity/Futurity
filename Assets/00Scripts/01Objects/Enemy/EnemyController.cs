@@ -177,7 +177,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		//hpBar = GetComponent<TestHPBar>(); //юс╫ц
 
 		//Basic Set Up
-		animator = GetComponent<Animator>();
+		if (enemyType == EnemyType.RangedDefault)
+			animator = GetComponentInChildren<Animator>();
+		else
+			animator = GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 		navMesh = GetComponent<NavMeshAgent>();
@@ -186,8 +189,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 		if (chaseRange != null)
 			chaseRange.enabled = false;
-		if (rangedProjectile != null)
-			rangedProjectile.transform.SetParent(null);
+		/*if (rangedProjectile != null)
+			rangedProjectile.transform.SetParent(null);*/
 
 		unit = this;
 		if (isTutorialDummy)

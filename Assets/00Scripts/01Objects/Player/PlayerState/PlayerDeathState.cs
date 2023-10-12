@@ -9,7 +9,7 @@ public class PlayerDeathState : UnitState<PlayerController>
 
 	public override void Begin(PlayerController pc)
 	{
-		TimelineManager.Instance.EnableCutScene(ECutScene.PLYAERDEATHCUTSCENE);
+		TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.PLYAERDEATHCUTSCENE);
 		
 		pc.animator.SetBool(DeathAnimKey, true);
 		pc.rmController.SetRootMotion("Death");

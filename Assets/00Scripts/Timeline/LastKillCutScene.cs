@@ -6,12 +6,12 @@ public class LastKillCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		TimelineManager.Instance.SetActivePlayerInput(false);
+		chapterManager.SetActivePlayerInput(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		TimelineManager.Instance.SetActivePlayerInput(true);
+		chapterManager.SetActivePlayerInput(true);
 	}
 }
 

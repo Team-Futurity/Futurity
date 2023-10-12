@@ -19,8 +19,7 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	[Header("Only Use Timeline")] 
 	[SerializeField] private float intensity;
-
-	private TimelineManager manager;
+	
 	private PlayerController playerController;
 	private Vignette vignette;
 	private float originIntensity;
@@ -28,8 +27,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	protected override void Init()
 	{
 		vignette = cameraEffect.Vignette;
-		manager = TimelineManager.Instance;
-		
+
 		originIntensity = vignette.intensity.value;
 	}
 
@@ -40,10 +38,11 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		manager.isCutScenePlay = true;
-		manager.SetActiveMainUI(false);
-		manager.SetActivePlayerInput(false);
-		manager.ChangeFollowTarget(true, playerMoveTarget);
+		chapterManager.isCutScenePlay = true;
+		chapterManager.InitNameField("미래 :");
+		chapterManager.SetActiveMainUI(false);
+		chapterManager.SetActivePlayerInput(false);
+		chapterManager.ChangeFollowTarget(true, playerMoveTarget);
 
 		vignette.intensity.value = intensity;
 		vignette.color.value = Color.black;
@@ -53,9 +52,9 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-		manager.isCutScenePlay = false;
-		manager.SetActivePlayerInput(true);
-		manager.SetActiveMainUI(true);
+		chapterManager.isCutScenePlay = false;
+		chapterManager.SetActivePlayerInput(true);
+		chapterManager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
 
 		vignette.intensity.value = originIntensity;
@@ -66,15 +65,15 @@ public class Area3_EntryCutScene : CutSceneBase
 	{
 		chapter1Director.Pause();
 
-		manager.PauseCutSceneUntilScriptsEnd(chapter1Director, scriptsList, curScriptsIndex);
-		manager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
+		chapterManager.PauseCutSceneUntilScriptsEnd(chapter1Director, scriptsList, curScriptsIndex);
+		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 	
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
 	}
 	
 	public void MovePlayer()
 	{
-		manager.PlayerController.LerpToWorldPosition(playerMoveTarget.position, 1.5f);
+		chapterManager.PlayerController.LerpToWorldPosition(playerMoveTarget.position, 1.5f);
 	}
 
 	private void PlayCutScene()

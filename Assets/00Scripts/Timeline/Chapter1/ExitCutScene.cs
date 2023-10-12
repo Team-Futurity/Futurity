@@ -6,10 +6,6 @@ using UnityEngine.Playables;
 
 public class ExitCutScene : CutSceneBase
 {
-	[Header("Component")]
-	[SerializeField] private PlayableDirector exitTimeline;
-	[SerializeField] private Vector2 dialogUIOffset;
-	
 	[Header("수치값")]
 	[SerializeField] private float moveDistance = 7.0f;
 	[SerializeField] private float duration = 0.0f;
@@ -24,15 +20,15 @@ public class ExitCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		TimelineManager.Instance.SetActiveMainUI(false);
-		TimelineManager.Instance.ChangeFollowTarget(true, null);
-		TimelineManager.Instance.SetActivePlayerInput(false);
+		chapterManager.SetActiveMainUI(false);
+		chapterManager.ChangeFollowTarget(true, null);
+		chapterManager.SetActivePlayerInput(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		TimelineManager.Instance.SetActiveMainUI(true);
-		TimelineManager.Instance.SetActivePlayerInput(true);
+		chapterManager.SetActiveMainUI(true);
+		chapterManager.SetActivePlayerInput(true);
 	}
 	
 	public void MovePlayer()
@@ -41,13 +37,13 @@ public class ExitCutScene : CutSceneBase
 		var targetRot = Quaternion.LookRotation(Vector3.zero);
 		playerTf.localRotation = targetRot;
 		
-		var targetPos = TimelineManager.Instance.GetTargetPosition(moveDistance, Vector3.forward);
-		TimelineManager.Instance.PlayerController.LerpToWorldPosition(targetPos, duration);
+		var targetPos = chapterManager.GetTargetPosition(moveDistance, Vector3.forward);
+		chapterManager.PlayerController.LerpToWorldPosition(targetPos, duration);
 	}
 
 	public void ResetCameraTarget()
 	{
-		TimelineManager.Instance.ChangeFollowTarget();	
+		chapterManager.ChangeFollowTarget();	
 	}
 	
 	public void SpawnEnemy()
