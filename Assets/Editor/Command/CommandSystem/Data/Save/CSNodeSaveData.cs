@@ -73,7 +73,7 @@ public class CSNodeSaveData
 		IgnoresAutoTargetMove = node.IgnoresAutoTargetMove;
 		AttackColliderType = node.AttackColliderType;
 
-		EffectOffset = node.EffectOffset;
+		/*EffectOffset = node.EffectOffset;
 		EffectRotOffset = node.EffectRotOffset;
 		EffectPrefab = node.EffectPrefab;
 		AttackEffectParent = node.AttackEffectParent;
@@ -81,7 +81,7 @@ public class CSNodeSaveData
 		HitEffectOffset = node.HitEffectOffset;
 		HitEffectRotOffset = node.HitEffectRotOffset;
 		HitEffectPrefab = node.HitEffectPrefab;
-		HitEffectParent = node.HitEffectParent;
+		HitEffectParent = node.HitEffectParent;*/
 
 		AnimInteger = node.AnimInteger;
 		ShakePower = node.ShakePower;
