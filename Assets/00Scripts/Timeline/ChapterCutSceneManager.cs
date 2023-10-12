@@ -72,6 +72,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 	{
 		if (curChapter == ECurChapter.INTRO)
 		{
+			cutSceneList[0].SetActive(true);
 			return;
 		}
 		
