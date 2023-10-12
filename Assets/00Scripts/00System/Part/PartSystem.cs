@@ -37,9 +37,9 @@ public class PartSystem : MonoBehaviour
 		EquipPart(1, 2102);
 	}
 
-	public void EquipPart(int index, int partCode)
+	public void EquipPart(int index, int partCode, bool isForced = false)
 	{
-		if (equipPartList[index] != null)
+		if (equipPartList[index] != null && !isForced)
 		{
 			if (equipPartList[index].partCode != 0)
 			{
