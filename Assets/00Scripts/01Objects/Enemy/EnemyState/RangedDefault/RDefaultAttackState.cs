@@ -40,6 +40,7 @@ public class RDefaultAttackState : EnemyAttackBaseState
 		if(curTime > attackTime && !isAttackDone)
 		{
 			unit.rangedProjectile.SetActive(true);
+			unit.enemyData.EnableAttackTiming();
 			isAttackDone = true;
 		}
 

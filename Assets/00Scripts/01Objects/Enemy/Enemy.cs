@@ -11,7 +11,7 @@ public class Enemy : UnitBase
 	protected override void AttackProcess(DamageInfo damageInfo)
 	{
 		ec.isAttackSuccess = true;
-		damageInfo.SetDamage(GetDamage(1));
+		damageInfo.SetDamage(GetDamage(damageInfo.AttackST));
 		damageInfo.Defender.Hit(damageInfo);
 	}
 
@@ -23,12 +23,12 @@ public class Enemy : UnitBase
 
 	protected override float GetAttackPoint()
 	{
-		throw new System.NotImplementedException();
+		return status.GetStatus(StatusType.ATTACK_POINT).GetValue();
 	}
 
 	protected override float GetDamage(float attackCount)
 	{
-		float value = status.GetStatus(StatusType.ATTACK_POINT).GetValue() * attackCount *
+		float value = GetAttackPoint() * attackCount *
 		              (1 + Random.Range(-0.1f, 0.1f));
 		return value;
 	}
