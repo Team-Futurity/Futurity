@@ -8,24 +8,12 @@ using UnityEngine.Playables;
 using UnityEngine.Rendering; 
 using URPGlitch.Runtime.AnalogGlitch;
 
-public enum ECurChapter
-{
-	INTRO = 0,
-	CHAPTER1_1 = 1,
-	CHAPTER1_2 = 2,
-	BOSS
-}
-
 public class ChapterCutSceneManager : MonoBehaviour
 {
-	[Header("DebugMode")] 
-	[SerializeField] private bool enableDebugMode;
-	public bool IsDebugMode => enableDebugMode;
-	[SerializeField] private SpawnerManager spawnerManager;
-	private const float StartPos = -12.5f;
-
-	[Header("Component")] 
-	[SerializeField] private ECurChapter curChapter;
+	[Header("Intro씬이라면 체크")] 
+	[SerializeField] private bool isIntroScene = false;
+	
+	[Header("Component")]
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject mainUICanvas;
@@ -40,7 +28,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
 	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
 
-	[Header("컷신 목록")] 
+	[Header("컷신 목록")]
 	[SerializeField] private List<GameObject> cutSceneList;
 	[SerializeField] private List<GameObject> publicSceneList;
  
@@ -68,9 +56,9 @@ public class ChapterCutSceneManager : MonoBehaviour
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private AnalogGlitchVolume analogGlitch;
 	
-	private void Start()
+	public void InitManager()
 	{
-		if (curChapter == ECurChapter.INTRO)
+		if (isIntroScene == true)
 		{
 			cutSceneList[0].SetActive(true);
 			return;
@@ -78,7 +66,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		timelineManager = TimelineManager.Instance;
 		timelineManager.InitTimelineManager(cutSceneList, publicSceneList);
-		
+
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
 		playerInput.enabled = false;
@@ -93,34 +81,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 		Camera.main.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
 		
 		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
-
-		if (enableDebugMode == false)
-		{
-			if (curChapter == ECurChapter.CHAPTER1_2)
-			{
-				timelineManager.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
-				FadeManager.Instance.FadeOut(0.5f, () => timelineManager.CutSceneList[(int)EChapter1_2.AREA2_ENTRYSCENE]
-						.GetComponent<PlayableDirector>().Play());
-			}
-			else
-			{
-				
-			}
-			
-			return;
-		}
-
-		if (curChapter == ECurChapter.CHAPTER1_1)
-		{
-			timelineManager.CutSceneList[(int)EChapter1CutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
-			playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
-			mainUICanvas.SetActive(true);
-		}
-
-		if (spawnerManager != null)
-		{
-			spawnerManager.SpawnEnemy();
-		}
 	}
 
 	private void Update()

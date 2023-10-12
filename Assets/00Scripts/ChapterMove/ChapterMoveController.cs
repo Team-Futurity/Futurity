@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 public class ChapterMoveController : MonoBehaviour
 {
 	[Header("Component")] 
 	[SerializeField] private GameObject interactionUI;
 	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
+	[SerializeField] private ChapterCutSceneManager cutSceneManager;
 	
 	[Header("챕터 정보")] 
 	[SerializeField] private EChapterType currentChapter;
@@ -81,36 +83,57 @@ public class ChapterMoveController : MonoBehaviour
 		{
 			return;
 		}
+
+		Action cutSceneEvent = null;
 		
 		switch (currentChapter)
 		{
 			case EChapterType.CHAPTER1_1:
-				// TODO : 새로운 인트로 컷신 결정 나면 거기서 제어
+				TimelineManager.Instance.Chapter1_Area1_EnableCutScene(EChapter1CutScene.AREA1_ENTRYCUTSCENE);
+				cutSceneEvent = () =>
+				{
+					TimelineManager.Instance.CutSceneList[(int)EChapter1CutScene.AREA1_ENTRYCUTSCENE].
+						GetComponent<PlayableDirector>().Play();
+				};
 				break;
 			
 			case EChapterType.CHAPTER1_2:
-				FadeManager.Instance.FadeOut(fadeOutTime, () =>
+				cutSceneEvent = () =>
 				{
 					TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
-				});
+				};
 				break;
 			
 			case EChapterType.CHAPTER_BOSS:
-				FadeManager.Instance.FadeOut(fadeOutTime, () =>
+				cutSceneEvent = () =>
 				{
 					TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
-				});
+				};
+				break;
+			
+			case EChapterType.NONEVENTCHAPTER:
 				break;
 			
 			default:
 				return;
 		}
+
+		FadeManager.Instance.FadeOut(fadeOutTime, () => cutSceneEvent?.Invoke());
 	}
 
 	private void Init()
 	{
 		player = GameObject.FindWithTag("Player");
 		playerInput = player.GetComponent<PlayerInput>();
+
+		if (GameObject.FindWithTag("CutScene").TryGetComponent(out cutSceneManager) == true)
+		{
+			cutSceneManager.InitManager();
+			return;
+		}
+		
+		FDebug.Log("ChapterManager 초기화 실패!!");
+		FDebug.Break();
 	}
 
 	#region OnlyUseEditor
