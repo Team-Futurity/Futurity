@@ -24,7 +24,7 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
 		activeObjCount = 0;
 	}
 
-    public PoolingClass ActiveObject(Vector3? startPos = null, Quaternion? startRot = null)
+    public PoolingClass ActiveObject(Vector3? startPos = null, Quaternion? startRot = null, bool isWorld = true)
     {
 		PoolingClass returnValue = null;
 		startPos = startPos ?? Vector3.zero;
@@ -80,14 +80,40 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
         if(returnValue != null)
         {
             activeObjCount++;
-			returnValue.gameObject.transform.rotation = (Quaternion)startRot;
-			returnValue.gameObject.transform.position = (Vector3)startPos;
+
+			if (isWorld)
+			{
+				SetObjectTransform(returnValue.gameObject, startPos, startRot);
+			}
+			else
+			{
+				SetObjectLocalTransform(returnValue.gameObject, startPos, startRot);
+			}
+
 			activedPoolingObjects.Add(returnValue);
 		}
         return returnValue;
     }
 
-    public void DeactiveObject(PoolingClass target)
+	public void SetObjectTransform(GameObject target, Vector3? pos = null, Quaternion? rot = null)
+	{
+		Vector3 startPosistion = pos ?? Vector3.zero;
+		Quaternion startRotation = rot ?? Quaternion.identity;
+
+		target.transform.position = startPosistion;
+		target.transform.rotation = startRotation;
+	}
+
+	public void SetObjectLocalTransform(GameObject target, Vector3? pos = null, Quaternion? rot = null)
+	{
+		Vector3 startPosistion = pos ?? Vector3.zero;
+		Quaternion startRotation = rot ?? Quaternion.identity;
+
+		target.transform.localPosition = startPosistion;
+		target.transform.localRotation = startRotation;
+	}
+
+	public void DeactiveObject(PoolingClass target)
     {
         activeObjCount--;
 

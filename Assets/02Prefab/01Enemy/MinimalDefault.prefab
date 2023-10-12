@@ -173,7 +173,7 @@ MonoBehaviour:
   <IsAttackTime>k__BackingField: 0
   <IsAttackTiming>k__BackingField: 0
   AttackCheckFrameCount: 3
-  OnAttack:
+  onAttackEvent:
     m_PersistentCalls:
       m_Calls: []
   ec: {fileID: 2955528926438800392}
@@ -231,7 +231,7 @@ MonoBehaviour:
   powerReference2: 340
   hitMaxTime: 2
   hitColorChangeTime: 0.2
-  hitPower: 150
+  hitPower: 280
   damagedColor: {r: 0.8679245, g: 0, b: 0.0152767645, a: 1}
   hitSound:
     Guid:
@@ -242,6 +242,9 @@ MonoBehaviour:
     Path: event:/SE/06monster/Minimal/F_S_01_06_hit_minimal
   isInPlayer: 0
   deathDelay: 2
+  onDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   disableEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -273,6 +276,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 11400000, guid: 543cdd32d0d9f9e4c8d2414bc68aae93, type: 2}
   copyStatus: []
+  updateHPEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &2955528926438800395
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -281,7 +287,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2955528926438800399}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 18
   m_Drag: 10
   m_AngularDrag: 0.05
   m_UseGravity: 1

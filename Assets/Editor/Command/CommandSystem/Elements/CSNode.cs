@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
 public class CSNode : Node
@@ -140,47 +141,47 @@ public class CSNode : Node
 		// Element Initialize
 		// default
 		Foldout textFoldout = CSElementUtility.CreateFoldout("Command Type");
-		EnumField commandTypeField				= CreateAndRegistField("커맨드 타입				|", CommandType, textFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+		EnumField commandTypeField						= CreateAndRegistField("커맨드 타입				|", CommandType, textFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
 		// combo
 		Foldout comboFoldout = CSElementUtility.CreateFoldout("Combo Data");
-		FloatField lengthField					= CreateAndRegistField("Attack Length(공격 사거리)				|", AttackLength, comboFoldout);
-		FloatField angleField					= CreateAndRegistField("Attack Angle(공격 각도)					|", AttackAngle, comboFoldout);
-		FloatField lengthMarkField				= CreateAndRegistField("Attack Length Mark(공격 시전지)			|", AttackLengthMark, comboFoldout);
-		FloatField delayField					= CreateAndRegistField("Attack Delay(공격 지연 시간)				|", AttackDelay, comboFoldout);
-		FloatField speedField					= CreateAndRegistField("Attack Speed(공격 속도)				|", AttackSpeed, comboFoldout);
-		FloatField afterDelayField				= CreateAndRegistField("Attack After Delay(공격 후 지연 시간)		|", AttackAfterDelay, comboFoldout);
-		FloatField attackSTField				= CreateAndRegistField("Attack ST(데미지 배율)					|", AttackST, comboFoldout);
-		FloatField attackKnockbackField			= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 거리)		|", AttackKnockback, comboFoldout);
-		Toggle ignoreAutoTargetField			= CreateAndRegistField("자동 조준 이동 무시					|", IgnoresAutoTargetMove, comboFoldout);
-		EnumField attackColliderTypeField		= CreateAndRegistField("공격 콜라이더 타입					|", AttackColliderType, comboFoldout);	
+		FloatField lengthField							= CreateAndRegistField("Attack Length(공격 사거리)				|", AttackLength, comboFoldout);
+		FloatField angleField							= CreateAndRegistField("Attack Angle(공격 각도)					|", AttackAngle, comboFoldout);
+		FloatField lengthMarkField						= CreateAndRegistField("Attack Length Mark(공격 시전지)			|", AttackLengthMark, comboFoldout);
+		FloatField delayField							= CreateAndRegistField("Attack Delay(공격 지연 시간)				|", AttackDelay, comboFoldout);
+		FloatField speedField							= CreateAndRegistField("Attack Speed(공격 속도)				|", AttackSpeed, comboFoldout);
+		FloatField afterDelayField						= CreateAndRegistField("Attack After Delay(공격 후 지연 시간)		|", AttackAfterDelay, comboFoldout);
+		FloatField attackSTField						= CreateAndRegistField("Attack ST(데미지 배율)					|", AttackST, comboFoldout);
+		FloatField attackKnockbackField					= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 거리)		|", AttackKnockback, comboFoldout);
+		Toggle ignoreAutoTargetField					= CreateAndRegistField("자동 조준 이동 무시					|", IgnoresAutoTargetMove, comboFoldout);
+		EnumField attackColliderTypeField				= CreateAndRegistField("공격 콜라이더 타입					|", AttackColliderType, comboFoldout);	
 
 		// attack effect
 		Foldout attackEffectFoldout	= CSElementUtility.CreateFoldout("Attack Effect");
-		Vector3Field effectOffsetField			= CreateAndRegistField("이펙트 위치 오프셋		|", EffectOffset, attackEffectFoldout);
-		Vector3Field effectRotOffsetField		= CreateAndRegistField("이펙트 회전 오프셋		|", EffectRotOffset, attackEffectFoldout);
-		ObjectField effectPrefabField			= CreateAndRegistField("이펙트 프리팹			|", EffectPrefab, typeof(GameObject), attackEffectFoldout);
-		EnumField effectParentField				= CreateAndRegistField("이펙트 부모 설정			|", AttackEffectParent, attackEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+		Vector3Field effectOffsetField					= CreateAndRegistField("이펙트 위치 오프셋		|", EffectOffset, attackEffectFoldout);
+		Vector3Field effectRotOffsetField				= CreateAndRegistField("이펙트 회전 오프셋		|", EffectRotOffset, attackEffectFoldout);
+		ObjectField effectPrefabField					= CreateAndRegistField("이펙트 프리팹			|", EffectPrefab, typeof(GameObject), attackEffectFoldout);
+		EnumField effectParentField						= CreateAndRegistField("이펙트 부모 설정			|", AttackEffectParent, attackEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
 		// enemy hit efffect
 		Foldout enemyHitEffectFoldout = CSElementUtility.CreateFoldout("Enemy Hit Effect");
-		Vector3Field enemyHitEffectOffsetField	= CreateAndRegistField("적 피격 이펙트 위치 오프셋	|", HitEffectOffset, enemyHitEffectFoldout);
-		Vector3Field enemyHitEffectRotOffsetField	= CreateAndRegistField("적 피격 이펙트 회전 오프셋	|", HitEffectRotOffset, enemyHitEffectFoldout);
-		ObjectField enemyHitEffectPrefabField	= CreateAndRegistField("적 피격 이펙트 프리팹		|", HitEffectPrefab, typeof(GameObject), enemyHitEffectFoldout);
-		EnumField enemyHitEffectField			= CreateAndRegistField("적 피격 이펙트 부모 설정	|", HitEffectParent, enemyHitEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+		Vector3Field enemyHitEffectOffsetField			= CreateAndRegistField("적 피격 이펙트 위치 오프셋	|", HitEffectOffset, enemyHitEffectFoldout);
+		Vector3Field enemyHitEffectRotOffsetField		= CreateAndRegistField("적 피격 이펙트 회전 오프셋	|", HitEffectRotOffset, enemyHitEffectFoldout);
+		ObjectField enemyHitEffectPrefabField			= CreateAndRegistField("적 피격 이펙트 프리팹		|", HitEffectPrefab, typeof(GameObject), enemyHitEffectFoldout);
+		EnumField enemyHitEffectField					= CreateAndRegistField("적 피격 이펙트 부모 설정	|", HitEffectParent, enemyHitEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
 
 		// production
 		Foldout productionFoldout = CSElementUtility.CreateFoldout("Production");
-		IntegerField animInteagerField			= CreateAndRegistField("애니메이션 전환값			|", AnimInteger, productionFoldout);
+		IntegerField animInteagerField					= CreateAndRegistField("애니메이션 전환값			|", AnimInteger, productionFoldout);
 
-		FloatField shakeField				= CreateAndRegistField("커브로 흔드는 세기		|", ShakePower, productionFoldout);
-		FloatField shakeTimeField				= CreateAndRegistField("흔드는 시간				|", ShakeTime, productionFoldout);
-		FloatField slowTimeField				= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
-		FloatField slowScaleField				= CreateAndRegistField("슬로우를 거는 세기		|", SlowScale, productionFoldout);
+		FloatField shakeField							= CreateAndRegistField("커브로 흔드는 세기		|", ShakePower, productionFoldout);
+		FloatField shakeTimeField						= CreateAndRegistField("흔드는 시간				|", ShakeTime, productionFoldout);
+		FloatField slowTimeField						= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
+		FloatField slowScaleField						= CreateAndRegistField("슬로우를 거는 세기		|", SlowScale, productionFoldout);
 
 		// sound
 		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
-		TextField attackSoundField				= CreateAndRegistField("공격 SE				|", AttackSound.Path, soundFoldout);	
+		TextField attackSoundField						= CreateAndRegistField("공격 SE				|", AttackSound.Path, soundFoldout);	
 
 		// Callbacks
 		commandTypeField.RegisterValueChangedCallback((callback) => { CommandType = (CSCommandType)callback.newValue; });

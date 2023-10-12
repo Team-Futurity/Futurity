@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum ESpawnerType
+{
+	CHAPTER1_AREA1,
+	CHAPTER1_AREA2,
+	CHPATER1_AREA3,
+	CHAPTER_BOSS
+}
+
 public class SpawnerManager : MonoBehaviour
 {
 	public readonly static int MAX_ENEMY_TYPE = 4;
@@ -14,10 +22,10 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private Transform enemyContainer;
 
 	[Header("Event")] 
-	[SerializeField] private EChapterType chapterType;
-	public EChapterType AreaType => chapterType;
-	[SerializeField] private UnityEvent<SpawnerManager, EChapterType> spawnEndEvent;
-	[SerializeField] private UnityEvent<SpawnerManager, EChapterType> interimEvent;
+	[SerializeField] private ESpawnerType spawnerType;
+	public ESpawnerType SpawnerType => spawnerType;
+	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> spawnEndEvent;
+	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
 
 	[Header("이미 배치된 적이 있다면 사용")] 
@@ -111,8 +119,8 @@ public class SpawnerManager : MonoBehaviour
 	{
 		curWaveSpawnCount--;
 	
-		spawnEndEvent?.Invoke(this, chapterType);
-		interimEvent?.Invoke(this, chapterType);
+		spawnEndEvent?.Invoke(this, spawnerType);
+		interimEvent?.Invoke(this, spawnerType);
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{

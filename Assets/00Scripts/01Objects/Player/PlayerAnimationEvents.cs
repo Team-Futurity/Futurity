@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
@@ -30,16 +31,34 @@ public class PlayerAnimationEvents : MonoBehaviour
 		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
 		if(attackNode.effectPoolManager == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode.effectPoolManager is Null. Please Check to Command Graph or Script"); return; }
 
-		Quaternion playerRot = pc.gameObject.transform.localRotation;
-		if(playerRot.y > 180f) { playerRot.y -= 360f; }
-		Quaternion rotation = playerRot * attackNode.effectRotOffset;
+		Quaternion rotation = Quaternion.identity;
+		Vector3 position = Vector3.zero;
+		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
 
-		Vector3 position = pc.gameObject.transform.position;
-		position += attackNode.effectParentType == EffectParent.World ? rotation * attackNode.effectOffset : attackNode.effectOffset;
+		if (attackNode.effectParentType == EffectParent.World)
+		{
+			Quaternion playerRot = pc.gameObject.transform.rotation;
+			if (playerRot.y > 180f) { playerRot.y -= 360f; }
+			rotation = playerRot * attackNode.effectRotOffset;
+			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
 
-		position.y = pc.gameObject.transform.position.y + attackNode.effectOffset.y;
+			position = pc.gameObject.transform.position + rotation * attackNode.effectOffset;
+			position.y = pc.gameObject.transform.position.y + attackNode.effectOffset.y;
+			effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
+		}
+		else
+		{
+			Quaternion playerRot = pc.gameObject.transform.localRotation;
+			if (playerRot.y > 180f) { playerRot.y -= 360f; }
+			rotation = attackNode.effectRotOffset;
+			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
 
-		effect = attackNode.effectPoolManager.ActiveObject(position, rotation);
+			position = pc.gameObject.transform.localPosition + attackNode.effectOffset;
+			position.y = pc.gameObject.transform.localPosition.y + attackNode.effectOffset.y;
+			effect = attackNode.effectPoolManager.ActiveObject(attackNode.effectOffset, attackNode.effectRotOffset, false);
+		}
+
+
 		var particles = effect.GetComponent<ParticleController>();
 
 		if(particles != null )
