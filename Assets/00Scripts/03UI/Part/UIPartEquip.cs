@@ -11,21 +11,33 @@ public class UIPartEquip : MonoBehaviour
 	[field: SerializeField]
 	public PartSystem PartEquipSystem { get; private set; }
 	
-	// Select Modal 창
-
+	[field: SerializeField]
+	public UIPartEquipSelect SelectModal { get; private set; }
+	
 	private int selectPartCode = 0;
+	private int selectButtonIndex = 0;
 
-	private void Awake()
-	{
-		for (int i = 0; i < passiveButton.Count; ++i)
-		{
-			passiveButton[i].onActive?.AddListener(SelectButton);
-		}
-	}
+	private bool isSelect = false;
 
 	private void Start()
 	{
 		UpdatePartData();
+	}
+
+	private void OnEnable()
+	{
+		AddButtonEvent();
+	}
+
+	private void OnDisable()
+	{
+		RemoveButtonEvent();
+	}
+	
+	public void SetSelectPart(int code)
+	{
+		selectPartCode = code;
+		isSelect = true;
 	}
 
 	private void UpdatePartData()
@@ -41,12 +53,8 @@ public class UIPartEquip : MonoBehaviour
 				partCodes.Add(partDatas[i].partCode);
 			}
 		}
+		
 		SetPartData(partCodes);
-	}
-
-	public void SetSelectPart(int code)
-	{
-		selectPartCode = code;
 	}
 
 	private void SetPartData(List<int> partCodes)
@@ -59,17 +67,59 @@ public class UIPartEquip : MonoBehaviour
 
 	private void SelectButton(int partCode, int selectIndex)
 	{
-		// 선택되어 있는 파츠가 존재하지 않음
 		var emptyPart = PartEquipSystem.IsPartEmpty(selectIndex);
 
+		selectPartCode = partCode;
+		selectButtonIndex = selectIndex;
+
+		if (!isSelect)
+		{
+			return;
+		}
+
+		// 비어있을 경우 즉시 착용
 		if (emptyPart)
 		{
-			PartEquipSystem.EquipPart(selectIndex, partCode);
-			UpdatePartData();
+			ChangePart(false);
 		}
 		else
 		{
+			//비어있지 않을 경우를 대비한 Modal.
+			SelectModal.onClose?.AddListener(ChangePart);
+			UIManager.Instance.OpenWindow(WindowList.PART_EQUIP_SELECT);
+		}
+	}
+
+	private void ChangePart(bool isNo)
+	{
+		if (isNo)
+		{
+			PartEquipSystem.EquipPart(selectButtonIndex, selectPartCode, true);
+			UpdatePartData();
 			
+			isSelect = false;
+		}
+		
+		UIManager.Instance.RefreshWindow(WindowList.PART_EQUIP);
+	}
+
+	private void AddButtonEvent()
+	{
+		Debug.Log("Enable");
+
+		for (int i = 0; i < passiveButton.Count; ++i)
+		{
+			passiveButton[i].onActive?.AddListener(SelectButton);
+		}
+	}
+
+	private void RemoveButtonEvent()
+	{
+		Debug.Log("Disable");
+		
+		for (int i = 0; i < passiveButton.Count; ++i)
+		{
+			passiveButton[i].onActive?.RemoveAllListeners();
 		}
 	}
 }
