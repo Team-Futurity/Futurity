@@ -10,8 +10,9 @@ using URPGlitch.Runtime.AnalogGlitch;
 
 public enum ECurChapter
 {
-	CHAPTER1_1 = 0,
-	CHAPTER1_2 = 1,
+	INTRO = 0,
+	CHAPTER1_1 = 1,
+	CHAPTER1_2 = 2,
 	BOSS
 }
 
@@ -69,6 +70,11 @@ public class ChapterCutSceneManager : MonoBehaviour
 	
 	private void Start()
 	{
+		if (curChapter == ECurChapter.INTRO)
+		{
+			return;
+		}
+		
 		timelineManager = TimelineManager.Instance;
 		timelineManager.InitTimelineManager(cutSceneList, publicSceneList);
 		
