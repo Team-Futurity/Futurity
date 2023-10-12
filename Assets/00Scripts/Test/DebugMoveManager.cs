@@ -27,6 +27,11 @@ public class DebugMoveManager : MonoBehaviour
 		{
 			MovePlayer(2);
 		}
+
+		if (Input.GetKeyDown(KeyCode.F4))
+		{
+			SceneLoader.Instance.LoadScene(ChapterSceneName.BOSS_CHAPTER);
+		}
 	}
 
 	private void MovePlayer(int index)
