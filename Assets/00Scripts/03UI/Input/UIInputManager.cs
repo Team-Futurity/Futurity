@@ -12,6 +12,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	// Button Index
 	private int currentIndex = 0;
+	private int saveIndex = 0;
 
 	protected override void Awake()
 	{
@@ -44,16 +45,26 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	#region Button
 
-	public void SetButtonList(List<UIButton> buttons)
+	public void SetButtonList(List<UIButton> buttons, bool isDefaultFocus = true)
 	{
 		for (int i = 0; i < buttons.Count; ++i)
 		{
 			currentActiveButtons?.Add(i, buttons[i]);
+			Debug.Log(buttons[i].transform.name);
 		}
 
+		if (isDefaultFocus)
+		{
+			DefaultFocus();
+		}
+	}
+
+	public void DefaultFocus()
+	{
 		currentIndex = 0;
 		SelectUI();
 	}
+	
 	public void ClearAll()
 	{
 		currentActiveButtons.Clear();
@@ -67,6 +78,22 @@ public class UIInputManager : Singleton<UIInputManager>
 			return;
 		}
 		currentActiveButtons[currentIndex].Select(true);
+	}
+
+	public void SaveIndex()
+	{
+		saveIndex = currentIndex;
+	}
+
+	public void SetSaveIndexToCurrentIndex()
+	{
+		if (saveIndex < 0)
+		{
+			FDebug.Log("Save처리 된 Index가 존재하지 않음.");
+		}
+		
+		currentIndex = saveIndex;
+		saveIndex = -1;
 	}
 
 	private void ChangeToIndex(int num)

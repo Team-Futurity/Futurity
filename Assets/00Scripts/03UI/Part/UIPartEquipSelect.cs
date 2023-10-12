@@ -22,6 +22,7 @@ public class UIPartEquipSelect : MonoBehaviour
 	private void OnActiveButton(bool isNo)
 	{
 		UIManager.Instance.CloseWindow(WindowList.PART_EQUIP_SELECT);
+		
 		onClose?.Invoke(isNo);
 	}
 }

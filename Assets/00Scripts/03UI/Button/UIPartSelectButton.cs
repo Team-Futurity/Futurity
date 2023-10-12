@@ -44,17 +44,19 @@ public class UIPartSelectButton : UIButton
 		onActive?.Invoke(partCode, buttonIndex);
 	}
 
-	public void SetButtonData(int code, int index)
+	public void SetButtonData(int code, int index = 0)
 	{
 		ChangeResource(LoadPartData(code));
 	}
 
+	// Addressable¿ª ≈Î«— Data Load
 	private UIPassiveSelectData LoadPartData(int code)
 	{
 		UIPassiveSelectData data = Addressables.LoadAssetAsync<UIPassiveSelectData>(code.ToString()).WaitForCompletion();
 		return data;
 	}
 
+	// Resource Change
 	private void ChangeResource(UIPassiveSelectData selectData)
 	{
 		PartIconImage.sprite = selectData.partIconSpr;

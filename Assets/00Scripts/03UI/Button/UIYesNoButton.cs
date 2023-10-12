@@ -13,6 +13,6 @@ public class UIYesNoButton : UIButton
 
 	protected override void ActiveFunc()
 	{
-		onActive?.Invoke(!isNo);
+		onActive?.Invoke(isNo);
 	}
 }
