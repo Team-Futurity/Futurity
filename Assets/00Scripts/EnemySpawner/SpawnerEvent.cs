@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnerEvent : MonoBehaviour
 {
 	[Header("Component")] 
-	[SerializeField] private StageMoveManager stageMoveManager;
+	[SerializeField] private ChapterMoveController chapterMove;
 	
 	[Header("진행중 다이얼로그 출현 조건")] 
 	[SerializeField] private List<int> dialogConditions;
@@ -55,12 +55,12 @@ public class SpawnerEvent : MonoBehaviour
 			
 			case EChapterType.CHAPTER1_2:
 				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_LASTKILL);
-				stageMoveManager.EnableExitCollider();
+				chapterMove.EnableExitCollider();
 				return;
 		}
 		
 		TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
-		stageMoveManager.EnableExitCollider();
+		chapterMove.EnableExitCollider();
 	}
 
 }

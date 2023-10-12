@@ -20,7 +20,7 @@ public class ChapterMoveController : MonoBehaviour
 
 	[Header("다음 씬으로 넘어갈 콜라이더")] 
 	[SerializeField] private GameObject chapterMoveTrigger;
-	public void SetActiveNextStageTrigger(bool isActive) => chapterMoveTrigger.SetActive(isActive);
+	public void EnableExitCollider() => chapterMoveTrigger.SetActive(true);
 
 	[Header("디버그용 패널")] 
 	[SerializeField] private bool isDebugMode;
