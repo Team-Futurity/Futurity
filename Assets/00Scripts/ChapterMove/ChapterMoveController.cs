@@ -22,7 +22,6 @@ public class ChapterMoveController : MonoBehaviour
 
 	[Header("다음 씬으로 넘어갈 콜라이더")] 
 	[SerializeField] private GameObject chapterMoveTrigger;
-	public void EnableExitCollider() => chapterMoveTrigger.SetActive(true);
 
 	[Header("디버그용 패널")] 
 	[SerializeField] private bool isDebugMode;
@@ -45,6 +44,15 @@ public class ChapterMoveController : MonoBehaviour
 		{
 			MoveNextChapter();
 		}
+	}
+	
+	public void EnableExitCollider()
+	{
+		if (chapterMoveTrigger == null)
+		{
+			return;
+		}
+		chapterMoveTrigger.SetActive(true);
 	}
 
 	public void MoveNextChapter()
