@@ -17,27 +17,27 @@ public class EnemySpawnState : UnitState<EnemyController>
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
 		// unit.enemyCollider.enabled = false;
-		unit.copyUMat.color = BeginColor;
-		unit.animator.SetBool(unit.moveAnimParam, true);
+		//unit.copyUMat.color = BeginColor;
+		//unit.animator.SetBool(unit.moveAnimParam, true);
 
-		unit.currentEffectData.activationTime = EffectActivationTime.Spawn;
+		/*unit.currentEffectData.activationTime = EffectActivationTime.Spawn;
 		unit.currentEffectData.target = EffectTarget.Ground;
 		unit.currentEffectData.position = unit.transform.position;
 		unit.currentEffectData.rotation = unit.transform.rotation;
 
-		unit.animationEvents.ActiveEffect(0);
+		unit.animationEvents.ActiveEffect(0);*/
 
-		targetPos = unit.transform.position + unit.transform.forward * unit.walkDistance;
+		//targetPos = unit.transform.position + unit.transform.forward * unit.walkDistance;
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
 
-		if (refColor.a > 0f)
+		/*if (refColor.a > 0f)
 			refColor.a -= curTime * 0.005f;
-		unit.copyUMat.SetColor(unit.matColorProperty, refColor);
-		unit.navMesh.SetDestination(targetPos);
+		unit.copyUMat.SetColor(unit.matColorProperty, refColor);*/
+		//unit.navMesh.SetDestination(targetPos);
 		unit.DelayChangeState(curTime, unit.maxSpawningTime, unit, EnemyController.EnemyState.Idle);
 	}
 
