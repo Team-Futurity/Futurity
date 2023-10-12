@@ -20,12 +20,12 @@ public class DebugMoveManager : MonoBehaviour
 		{
 			MovePlayer(0);
 		}
-		if (Input.GetKeyDown(KeyCode.F2))
+		else if (Input.GetKeyDown(KeyCode.F2))
 		{
 			MovePlayer(1);
 			spawnerManagers[0].SpawnEnemy();
 		}
-		if (Input.GetKeyDown(KeyCode.F3))
+		else if (Input.GetKeyDown(KeyCode.F3))
 		{
 			MovePlayer(2);
 			spawnerManagers[1].SpawnEnemy();
