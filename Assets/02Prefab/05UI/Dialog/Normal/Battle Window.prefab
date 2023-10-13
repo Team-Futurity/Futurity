@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 538067449226629368}
   - component: {fileID: 1910054086}
   - component: {fileID: 649777878907785328}
+  - component: {fileID: 1910054084}
   m_Layer: 5
   m_Name: Battle System Group
   m_TagString: Untagged
@@ -233,6 +234,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <NpcNameTextField>k__BackingField: {fileID: 0}
+--- !u!114 &1910054084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538067449226629367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a8e5cde6a11e245a208a4eb56871c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PassButton>k__BackingField: {fileID: 6580860258557039960}
+  passKey:
+    m_Name: Pass Key
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 76fce0a8-763e-4826-91a6-185dfd224230
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 741919d2-d29a-4faf-91d3-ddb52199111f
+      m_Path: <Keyboard>/f
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pass Key
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1 &538067449369176858
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentState>k__BackingField: 0
-  <WindowType>k__BackingField: 4
+  <WindowType>k__BackingField: 7
   <PlayOnStart>k__BackingField: 0
   onOpen:
     m_PersistentCalls:

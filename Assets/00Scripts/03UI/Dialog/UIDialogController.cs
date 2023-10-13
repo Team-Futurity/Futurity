@@ -52,6 +52,8 @@ public partial class UIDialogController : MonoBehaviour
 
 	[HideInInspector]
 	public UnityEvent OnEnded;
+
+	public bool isNext = false;
 	
 	#endregion
 	
@@ -68,10 +70,13 @@ public partial class UIDialogController : MonoBehaviour
 		currentDialogData.Init();
 		
 		gameObject.SetActive(true);
-		
-		DialogText.OnEnd.AddListener(GetNextDialog);
 
-		inputManager.SetPlayerInput(false);
+		if (DialogType == UIDialogType.NORMAL)
+		{
+			DialogText.OnEnd.AddListener(GetNextDialog);
+			inputManager.SetPlayerInput(false);
+		}
+
 		OnStarted?.Invoke();
 	}
 	
@@ -96,15 +101,22 @@ public partial class UIDialogController : MonoBehaviour
 		ChangeState(DialogSystemState.PRINTING_END);
 		currentDialogData.NextDialog();
 
-		EnterNextInteraction();
+		if (isNext)
+		{
+			EnterNextInteraction();
+		}
 	}
 
-	private void CloseDialog()
+	public void CloseDialog()
 	{
 		ChangeState(DialogSystemState.NONE);
 		gameObject.SetActive(false);
-		DialogText.OnEnd.RemoveListener(GetNextDialog);
-		inputManager.SetPlayerInput(true);
+		
+		if (DialogType == UIDialogType.NORMAL)
+		{
+			DialogText.OnEnd.RemoveListener(GetNextDialog);
+			inputManager.SetPlayerInput(true);
+		}
 
 		OnEnded?.Invoke();
 	}
