@@ -10,6 +10,16 @@ public enum WindowList
 	TITLE,
 	LOADING,
 	SETTING,
+	PLAYER_INFO,
+	LOADING_1,
+	LOADING_2,
+
+
+	// Dialog
+	DIALOG_NORMAL,
+
+	// Perform
+	PERFORM,
 	
 	// Part
 	PART_EQUIP,

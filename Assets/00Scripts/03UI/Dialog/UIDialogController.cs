@@ -42,16 +42,6 @@ public partial class UIDialogController : MonoBehaviour
 	[SerializeField]
 	private PlayerInputManager inputManager;
 
-	private DialogData nextDialogData;
-
-	[SerializeField]
-	private Transform openPos;
-	[SerializeField]
-	private Vector3 openPosOffset;
-
-	[SerializeField]
-	private Image hologramImage;
-
 	#region Dialog Events
 	
 	[HideInInspector]
@@ -62,6 +52,8 @@ public partial class UIDialogController : MonoBehaviour
 
 	[HideInInspector]
 	public UnityEvent OnEnded;
+
+	public bool isNext = false;
 	
 	#endregion
 	
@@ -77,18 +69,14 @@ public partial class UIDialogController : MonoBehaviour
 
 		currentDialogData.Init();
 		
-		if (openPos == null)
+		gameObject.SetActive(true);
+
+		if (DialogType == UIDialogType.NORMAL)
 		{
-			openPos = GameObject.Find("Dialog Open Pos").transform;
+			DialogText.OnEnd.AddListener(GetNextDialog);
+			inputManager.SetPlayerInput(false);
 		}
 
-		SetDialogTransform();
-
-		gameObject.SetActive(true);
-		
-		DialogText.OnEnd.AddListener(GetNextDialog);
-
-		inputManager.SetPlayerInput(false);
 		OnStarted?.Invoke();
 	}
 	
@@ -112,14 +100,23 @@ public partial class UIDialogController : MonoBehaviour
 	{
 		ChangeState(DialogSystemState.PRINTING_END);
 		currentDialogData.NextDialog();
+
+		if (isNext)
+		{
+			EnterNextInteraction();
+		}
 	}
 
-	private void CloseDialog()
+	public void CloseDialog()
 	{
 		ChangeState(DialogSystemState.NONE);
 		gameObject.SetActive(false);
-		DialogText.OnEnd.RemoveListener(GetNextDialog);
-		inputManager.SetPlayerInput(true);
+		
+		if (DialogType == UIDialogType.NORMAL)
+		{
+			DialogText.OnEnd.RemoveListener(GetNextDialog);
+			inputManager.SetPlayerInput(true);
+		}
 
 		OnEnded?.Invoke();
 	}
@@ -154,16 +151,5 @@ public partial class UIDialogController : MonoBehaviour
 	private void ChangeState(DialogSystemState state)
 	{
 		currentState = state;
-	}
-
-	private void SetDialogTransform()
-	{
-		// Forced Rot
-		var player = inputManager.transform.rotation;
-		var forcedRot = Quaternion.Euler(new Vector3(player.x, 90f, player.z));
-		inputManager.transform.rotation = forcedRot;
-		
-		// Pos
-		transform.position = Camera.main.WorldToScreenPoint(openPos.position + openPosOffset);
 	}
 }

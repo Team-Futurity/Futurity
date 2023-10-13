@@ -23,7 +23,7 @@ public class UIPassivePartSelect : MonoBehaviour
 	}
 
 	// 해당 메서드를  통해서 Passive Select Part 정리.
-	public void SetPartData(int[] partCodes)
+	public void SetPartData(params int[] partCodes)
 	{
 		for (int i = 0; i < partSelectButtons.Count; ++i)
 		{
