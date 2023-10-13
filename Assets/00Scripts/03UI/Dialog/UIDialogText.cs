@@ -16,7 +16,7 @@ public class UIDialogText : MonoBehaviour
 
 	private bool isRunning = false;
 	
-	private TMP_Text dialogText;
+	public TMP_Text dialogText;
 	private WaitForSeconds typingPrintSpeed;
 
 	[HideInInspector]
@@ -29,7 +29,7 @@ public class UIDialogText : MonoBehaviour
 		typingPrintSpeed = new WaitForSeconds(0.1f);
 		isRunning = false;
 
-		ClearText();
+		//ClearText();
 	}
 
 	public void Show(string text)
@@ -40,6 +40,7 @@ public class UIDialogText : MonoBehaviour
 		}
 
 		ClearText();
+
 		copyText = text;
 		isRunning = true;
 		
@@ -50,6 +51,7 @@ public class UIDialogText : MonoBehaviour
 			return;
 		}
 
+		Debug.Log("PASS ½ÇÇà");
 		Pass();
 	}
 
@@ -66,6 +68,7 @@ public class UIDialogText : MonoBehaviour
 		}
 
 		dialogText.text = copyText;
+		Debug.Log(copyText);
 		
 		ResetData();
 	}
@@ -92,6 +95,7 @@ public class UIDialogText : MonoBehaviour
 
 	public void ClearText()
 	{
+		Debug.Log("CALL");
 		dialogText.text = "";
 	}
 

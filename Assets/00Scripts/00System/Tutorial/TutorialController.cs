@@ -60,7 +60,6 @@ public class TutorialController : MonoBehaviour
 	{
 		// First Settings
 		dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
-		performHandler.SetPerfrom();
 		
 		// Event - Dialog Ended
 		dialogController.OnEnded?.AddListener(() =>
@@ -68,7 +67,7 @@ public class TutorialController : MonoBehaviour
 			switch (currentDialogIndex)
 			{
 				case 0:
-					// WindowManager.Instance.ShowWindow("Perform");
+					performHandler.SetPerfrom();
 					performHandler.Run();
 					break;
 
