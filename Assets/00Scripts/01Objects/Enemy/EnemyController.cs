@@ -177,10 +177,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		//hpBar = GetComponent<TestHPBar>(); //юс╫ц
 
 		//Basic Set Up
-		if (enemyType == EnemyType.RangedDefault)
-			animator = GetComponentInChildren<Animator>();
-		else
-			animator = GetComponent<Animator>();
+
+		animator = GetComponentInChildren<Animator>();
 		rigid = GetComponent<Rigidbody>();
 		enemyCollider = GetComponent<BoxCollider>();
 		navMesh = GetComponent<NavMeshAgent>();
