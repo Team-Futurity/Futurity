@@ -27,7 +27,7 @@ public class CSNodeSaveData
 
 	[field: SerializeField] public List<CSAttackAssetSaveData> AttackAssets { get; set;}
 
-	// Attack Effect
+	/*// Attack Effect
 	[field: SerializeField] public Vector3 EffectOffset { get; set; }
 	[field: SerializeField] public Vector3 EffectRotOffset { get; set; }
 	[field: SerializeField] public GameObject EffectPrefab { get; set; }
@@ -37,7 +37,7 @@ public class CSNodeSaveData
 	[field: SerializeField] public Vector3 HitEffectOffset { get; set; }
 	[field: SerializeField] public Vector3 HitEffectRotOffset { get; set; }
 	[field: SerializeField] public GameObject HitEffectPrefab { get; set; }
-	[field: SerializeField] public EffectParent HitEffectParent { get; set; }
+	[field: SerializeField] public EffectParent HitEffectParent { get; set; }*/
 
 	// Production
 	[field: SerializeField] public int AnimInteger { get; set; }
@@ -46,8 +46,8 @@ public class CSNodeSaveData
 	[field: SerializeField] public float SlowTime { get; set; }
 	[field: SerializeField] public float SlowScale { get; set; }
 
-	// Sound
-	[field: SerializeField] public EventReference AttackSound { get; set; }
+	/*// Sound
+	[field: SerializeField] public EventReference AttackSound { get; set; }*/
 
 	// ETC
 
@@ -75,7 +75,25 @@ public class CSNodeSaveData
 		IgnoresAutoTargetMove = node.IgnoresAutoTargetMove;
 		AttackColliderType = node.AttackColliderType;
 
-		AttackAssets = node.AttackAssets;
+		foreach (var asset in node.AttackAssets)
+		{
+			CSAttackAssetSaveData data = new CSAttackAssetSaveData();
+
+			data.EffectOffset = asset.AttackEffectAsset.EffectOffset;
+			data.EffectRotOffset = asset.AttackEffectAsset.EffectRotOffset;
+			data.EffectPrefab = asset.AttackEffectAsset.EffectPrefab;
+			data.AttackEffectParent = asset.AttackEffectAsset.AttackEffectParent;
+
+			data.HitEffectOffset = asset.HitEffectAsset.EffectOffset;
+			data.HitEffectRotOffset = asset.HitEffectAsset.EffectRotOffset;
+			data.HitEffectPrefab = asset.HitEffectAsset.EffectPrefab;
+			data.HitEffectParent = asset.HitEffectAsset.AttackEffectParent;
+
+			data.AttackSound = asset.AttackSound;
+
+			AttackAssets.Add(data);
+		}
+
 		/*EffectOffset = node.EffectOffset;
 		EffectRotOffset = node.EffectRotOffset;
 		EffectPrefab = node.EffectPrefab;
@@ -92,7 +110,7 @@ public class CSNodeSaveData
 		SlowTime = node.SlowTime;
 		SlowScale = node.SlowScale;
 
-		AttackSound = node.AttackSound;
+		/*AttackSound = node.AttackSound;*/
 
 		IsStartingNode = node.IsStartingNode();
 	}

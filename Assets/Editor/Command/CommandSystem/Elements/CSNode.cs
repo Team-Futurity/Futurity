@@ -418,7 +418,16 @@ public class CSNode : Node
 		IgnoresAutoTargetMove = saveData.IgnoresAutoTargetMove;
 		AttackColliderType = saveData.AttackColliderType;
 
-		AttackAssets = saveData.AttackAssets;
+		foreach(var asset in saveData.AttackAssets)
+		{
+			EffectAsset attack = new EffectAsset(asset.EffectOffset, asset.EffectRotOffset, asset.EffectPrefab, asset.AttackEffectParent);
+			EffectAsset hit = new EffectAsset(asset.HitEffectOffset, asset.HitEffectRotOffset, asset.HitEffectPrefab, asset.HitEffectParent);
+
+			AttackAsset attackAsset = new AttackAsset(attack, hit, asset.AttackSound);
+
+			AttackAssets.Add(attackAsset);
+		}
+		
 		/*EffectOffset = saveData.EffectOffset;
 		EffectRotOffset = saveData.EffectRotOffset;
 		EffectPrefab = saveData.EffectPrefab;
@@ -450,6 +459,25 @@ public class CSNode : Node
 		so.AttackST = AttackST;
 		so.IgnoresAutoTargetMove = IgnoresAutoTargetMove;
 		so.AttackColliderType = AttackColliderType;
+
+		foreach (var asset in AttackAssets)
+		{
+			CSCommandAssetData data = new CSCommandAssetData();
+
+			data.EffectOffset = asset.AttackEffectAsset.EffectOffset;
+			data.EffectRotOffset = asset.AttackEffectAsset.EffectRotOffset;
+			data.EffectPrefab = asset.AttackEffectAsset.EffectPrefab;
+			data.AttackEffectParent = asset.AttackEffectAsset.AttackEffectParent;
+
+			data.HitEffectOffset = asset.HitEffectAsset.EffectOffset;
+			data.HitEffectRotOffset = asset.HitEffectAsset.EffectRotOffset;
+			data.HitEffectPrefab = asset.HitEffectAsset.EffectPrefab;
+			data.HitEffectParent = asset.HitEffectAsset.AttackEffectParent;
+
+			data.AttackSound = asset.AttackSound;
+
+			so.AttackAssets.Add(data);
+		}
 
 		/*so.EffectOffset = EffectOffset;
 		so.EffectRotOffset = EffectRotOffset;
