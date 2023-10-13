@@ -6,9 +6,10 @@ using UnityEngine.Events;
 
 public enum ESpawnerType
 {
+	NONEVENT = -1,
 	CHAPTER1_AREA1,
 	CHAPTER1_AREA2,
-	CHPATER1_AREA3,
+	CHAPTER1_AREA3,
 	CHAPTER_BOSS
 }
 
@@ -20,6 +21,8 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private List<EnemySpawner> spawnerList;
 	[SerializeField] private GameObject[] enemyPrefabs;
 	[SerializeField] private Transform enemyContainer;
+	[SerializeField] private DialogData dialogData;
+	public DialogData DialogData => dialogData;
 
 	[Header("Event")] 
 	[SerializeField] private ESpawnerType spawnerType;

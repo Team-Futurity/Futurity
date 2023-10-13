@@ -6,7 +6,6 @@ using UnityEngine;
 public class DebugMoveManager : MonoBehaviour
 {
 	[SerializeField] private Transform[] movePosition;
-	[SerializeField] private SpawnerManager[] spawnerManagers;
 	private Transform player;
 
 	private void Start()
@@ -23,12 +22,10 @@ public class DebugMoveManager : MonoBehaviour
 		else if (Input.GetKeyDown(KeyCode.F2))
 		{
 			MovePlayer(1);
-			spawnerManagers[0].SpawnEnemy();
 		}
 		else if (Input.GetKeyDown(KeyCode.F3))
 		{
 			MovePlayer(2);
-			spawnerManagers[1].SpawnEnemy();
 		}
 
 		if (Input.GetKeyDown(KeyCode.F4))

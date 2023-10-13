@@ -74,7 +74,7 @@ public partial class UIDialogController : MonoBehaviour
 		if (DialogType == UIDialogType.NORMAL)
 		{
 			DialogText.OnEnd.AddListener(GetNextDialog);
-			inputManager.SetPlayerInput(false);
+			//inputManager.SetPlayerInput(false);
 		}
 
 		OnStarted?.Invoke();
