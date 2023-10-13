@@ -15,6 +15,10 @@ public class Boss : UnitBase
 		else
 			bc.AddSubState(BossController.BossState.Hit);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
+
+		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
+		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
+		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
 	}
 
 	protected override void AttackProcess(DamageInfo damageInfo)
