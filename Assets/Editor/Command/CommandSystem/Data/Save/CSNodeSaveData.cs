@@ -25,6 +25,8 @@ public class CSNodeSaveData
 	[field: SerializeField] public bool IgnoresAutoTargetMove { get; set; }
 	[field: SerializeField] public ColliderType AttackColliderType { get; set; }
 
+	[field: SerializeField] public List<CSAttackAssetSaveData> AttackAssets { get; set;}
+
 	// Attack Effect
 	[field: SerializeField] public Vector3 EffectOffset { get; set; }
 	[field: SerializeField] public Vector3 EffectRotOffset { get; set; }
@@ -73,6 +75,7 @@ public class CSNodeSaveData
 		IgnoresAutoTargetMove = node.IgnoresAutoTargetMove;
 		AttackColliderType = node.AttackColliderType;
 
+		AttackAssets = node.AttackAssets;
 		/*EffectOffset = node.EffectOffset;
 		EffectRotOffset = node.EffectRotOffset;
 		EffectPrefab = node.EffectPrefab;

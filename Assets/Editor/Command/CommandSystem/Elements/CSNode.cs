@@ -80,7 +80,7 @@ public class CSNode : Node
 	public float SlowScale { get; set; }
 
 	// Attack Sound
-	public EventReference AttackSound { get; set; }
+	//public EventReference AttackSound { get; set; }
 
 	private Color defaultBackgroundColor;
 
@@ -418,6 +418,7 @@ public class CSNode : Node
 		IgnoresAutoTargetMove = saveData.IgnoresAutoTargetMove;
 		AttackColliderType = saveData.AttackColliderType;
 
+		AttackAssets = saveData.AttackAssets;
 		/*EffectOffset = saveData.EffectOffset;
 		EffectRotOffset = saveData.EffectRotOffset;
 		EffectPrefab = saveData.EffectPrefab;
@@ -434,7 +435,7 @@ public class CSNode : Node
 		SlowTime = saveData.SlowTime;
 		SlowScale = saveData.SlowScale;
 
-		AttackSound = saveData.AttackSound;
+		//AttackSound = saveData.AttackSound;
 	}
 
 	public void SaveToCommandSO(ref CSCommandSO so)
@@ -466,7 +467,7 @@ public class CSNode : Node
 		so.SlowTime = SlowTime;
 		so.SlowScale = SlowScale;
 
-		so.AttackSound = AttackSound;
+		//so.AttackSound = AttackSound;
 	}
 
 	private FloatField CreateAndRegistField(string fieldName, float variable, Foldout category)
