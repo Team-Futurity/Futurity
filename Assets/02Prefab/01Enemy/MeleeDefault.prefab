@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4439521067689912933}
   - component: {fileID: 4439521067689912938}
   - component: {fileID: 4439521067689912939}
-  - component: {fileID: 2396154895953505876}
   - component: {fileID: 3867396437893702998}
   - component: {fileID: 7664875056306253619}
   - component: {fileID: 96197000385174355}
@@ -80,7 +79,7 @@ MonoBehaviour:
   test: {fileID: 0}
   enemyType: 0
   isTutorialDummy: 0
-  animationEvents: {fileID: 2396154895953505876}
+  animationEvents: {fileID: 0}
   effectSO: {fileID: 11400000, guid: a122abf1cddf7094bb1cf47d2a43f66c, type: 2}
   isClusteringObj: 0
   isClustering: 0
@@ -165,20 +164,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2, z: 0.8}
   m_Center: {x: 0, y: 1, z: 0.1}
---- !u!114 &2396154895953505876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4439521067689912937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd0d8f3730f8c934692f66816b8856df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ec: {fileID: 4439521067689912933}
-  isCharging: 0
 --- !u!114 &3867396437893702998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,6 +441,25 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1442477315262443259, guid: 89d7b7848b4af584784ca46213014782, type: 3}
   m_PrefabInstance: {fileID: 4439521066951061027}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5673891173294700330 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 89d7b7848b4af584784ca46213014782, type: 3}
+  m_PrefabInstance: {fileID: 4439521066951061027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &170215241620926688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5673891173294700330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0d8f3730f8c934692f66816b8856df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ec: {fileID: 4439521067689912933}
+  isCharging: 0
 --- !u!4 &8711910207378326841 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 89d7b7848b4af584784ca46213014782, type: 3}

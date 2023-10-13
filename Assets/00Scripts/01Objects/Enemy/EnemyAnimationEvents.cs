@@ -54,16 +54,13 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void EliteFlooring()
 	{
-		EffectActiveData data = new EffectActiveData();
-		
-		data.activationTime = EffectActivationTime.AttackReady;
-		data.target = EffectTarget.Ground;
-		data.index = 0;
-		data.position = ec.target.transform.position;
-		data.parent = null;
+		ec.currentEffectData.activationTime = EffectActivationTime.AttackReady;
+		ec.currentEffectData.target = EffectTarget.Ground;
+		ec.currentEffectData.index = 0;
+		ec.currentEffectData.position = ec.target.transform.position;
+		ec.currentEffectData.parent = null;
 
-		ec.currentEffectData = data;
-		ec.atkCollider.transform.position = ec.target.transform.position;
+		ec.atkCollider.transform.position = ec.currentEffectData.position;
 	}
 
 	public void EliteRangedPositioning()

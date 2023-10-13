@@ -58,7 +58,6 @@ GameObject:
   - component: {fileID: 3319673298915680772}
   - component: {fileID: 3319673298915680773}
   - component: {fileID: 3319673298915680794}
-  - component: {fileID: 3319673298915680795}
   - component: {fileID: 3319673298915680792}
   - component: {fileID: 3319673298915680793}
   - component: {fileID: 3319673298915680798}
@@ -125,7 +124,7 @@ MonoBehaviour:
   test: {fileID: 3943168383430316033}
   enemyType: 3
   isTutorialDummy: 0
-  animationEvents: {fileID: 3319673298915680795}
+  animationEvents: {fileID: 0}
   effectSO: {fileID: 11400000, guid: c8b9145509aaf3a4f875003ca36da342, type: 2}
   isClusteringObj: 0
   isClustering: 0
@@ -210,20 +209,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 3, z: 1}
   m_Center: {x: 0, y: 1.5, z: 0}
---- !u!114 &3319673298915680795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3319673298915680796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd0d8f3730f8c934692f66816b8856df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ec: {fileID: 3319673298915680772}
-  isCharging: 0
 --- !u!114 &3319673298915680792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +412,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
+--- !u!1 &2508699156164979782 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
+  m_PrefabInstance: {fileID: 3319673297830154519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2071674119357288261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508699156164979782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0d8f3730f8c934692f66816b8856df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ec: {fileID: 3319673298915680772}
+  isCharging: 0
 --- !u!4 &2998095787108955900 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
