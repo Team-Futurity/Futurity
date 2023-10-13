@@ -100,7 +100,7 @@ public class ChapterMoveController : MonoBehaviour
 				TimelineManager.Instance.Chapter1_Area1_EnableCutScene(EChapter1CutScene.AREA1_ENTRYCUTSCENE);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.CutSceneList[(int)EChapter1CutScene.AREA1_ENTRYCUTSCENE].
+					TimelineManager.Instance.ChapterScene[(int)EChapter1CutScene.AREA1_ENTRYCUTSCENE].
 						GetComponent<PlayableDirector>().Play();
 				};
 				break;

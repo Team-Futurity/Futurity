@@ -29,10 +29,9 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
 	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
 
-	[Header("컷신 목록")]
-	[SerializeField] private List<GameObject> cutSceneList;
-	[SerializeField] private List<GameObject> publicSceneList;
- 
+	[Header("컷신 목록")] 
+	[SerializeField] private CutSceneStruct cutSceneList;
+  
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
 	private Transform originTarget;
@@ -61,14 +60,14 @@ public class ChapterCutSceneManager : MonoBehaviour
 	{
 		if (isIntroScene == true)
 		{
-			cutSceneList[0].SetActive(true);
+			cutSceneList.chapterScene[0].SetActive(true);
 		}
 	}
 
 	public void InitManager()
 	{
 		timelineManager = TimelineManager.Instance;
-		timelineManager.InitTimelineManager(cutSceneList, publicSceneList);
+		timelineManager.InitTimelineManager(cutSceneList);
 
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
