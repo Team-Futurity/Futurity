@@ -5,11 +5,10 @@ using UnityEngine;
 public class UIObjectOpenerButton : UIButton
 {
 	[field: SerializeField]
-	public GameObject OpenPrefab { get; private set; }
+	public GameObject OpenObject { get; private set; }
 
-	protected override void ActiveAction()
+	protected override void ActiveFunc()
 	{
-		Debug.Log("SELECT" + GetType());
-
+		OpenObject.SetActive(true);
 	}
 }
