@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIDialogDistance : UIDialogFeatureBase
 {
@@ -18,6 +19,10 @@ public class UIDialogDistance : UIDialogFeatureBase
 	private bool isInCollider;
 
 	private bool isOpen;
+
+	public List<DialogData> dialogs = new List<DialogData>();
+
+	public Image textImage;
 	
 	
 	protected override void Awake()
@@ -33,24 +38,39 @@ public class UIDialogDistance : UIDialogFeatureBase
 		if (isInCollider && !isOpen)
 		{
 			isOpen = true;
-			
-			// controller.ShowDialog();
+
+			controller.SetDialogData(GetDialogData());
 			controller.PlayDialog();
+			textImage.gameObject.SetActive(isOpen);
 		}
 
 		if (!isInCollider)
 		{
 			isOpen = false;
-			
-			// controller.OnPass();
+
+			textImage.gameObject.SetActive(isOpen);
 		}
+
+		
 	}
 
-	private void FixedUpdate()
+	private void LateUpdate()
 	{
 		var targetArray = Physics.OverlapSphere(TargetPos.position, OpenDist, TargetLayer);
 
-		isInCollider = (targetArray == null);
+		if (targetArray.Length <= 0)
+		{
+			isInCollider = false;
+			return;
+		}
+
+		isInCollider = (targetArray[0].transform.name.Contains("PlayerPrefab"));
+	}
+
+	private DialogData GetDialogData()
+	{
+		int selectIndex = UnityEngine.Random.Range(0, dialogs.Count);
+		return dialogs[selectIndex];
 	}
 
 	private void OnDrawGizmos()

@@ -40,7 +40,11 @@ public class DialogData : ScriptableObject
 		onLastData = false;
 		
 		currentData = dataList[currentIndex];
-		nextData = dataList[nextIndex];
+
+		if (nextIndex < dataList.Count)
+		{
+			nextData = dataList[nextIndex];
+		}
 	}
 
 	// Index, Dialog Data
