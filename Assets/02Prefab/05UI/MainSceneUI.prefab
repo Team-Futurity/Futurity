@@ -120,7 +120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &610219208
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1007,7 +1007,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1935212985
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1530,8 +1530,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentState>k__BackingField: 0
-  <WindowName>k__BackingField: Dialog
+  <WindowType>k__BackingField: 0
   <PlayOnStart>k__BackingField: 1
+  onOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  <CurrentWindowButtons>k__BackingField: []
+  <CurrentWindowObjects>k__BackingField: []
 --- !u!1 &3452174042876023280
 GameObject:
   m_ObjectHideFlags: 0
@@ -2754,27 +2759,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 986204959377054847, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 986204959377054847, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 986204959377054847, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 567.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 986204959377054847, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -95
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4300307460824769669, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4300307460824769669, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4311055692271479435, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_Name
@@ -2870,15 +2875,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4311635777792508859, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4311635777792508859, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4311635777792508859, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -95
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4693403522270919520, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: <StatusManager>k__BackingField
@@ -2890,15 +2895,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5765484288103577232, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5765484288103577232, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5765484288103577232, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -190
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7251127174717326233, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_IsActive
@@ -2906,11 +2911,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7466283715878968963, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 567.89996
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7466283715878968963, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 190
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 004a8bf6a5040e345b5800ec6144ee4f, type: 3}
@@ -3350,12 +3355,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4794361749481616652, guid: ee6de2da7010d4147b64a31b7b6bd541, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee6de2da7010d4147b64a31b7b6bd541, type: 3}
+--- !u!1 &3592770943206343848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4794361749481616652, guid: ee6de2da7010d4147b64a31b7b6bd541, type: 3}
+  m_PrefabInstance: {fileID: 8310523120511005092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8175775804253050047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3592770943206343848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 388d29b3f5fc7634788aded2c6cf5db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Gauge>k__BackingField: {fileID: 5483550284174260889}
+  <playerUnitBase>k__BackingField: {fileID: 0}
 --- !u!224 &3592770943206343855 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4794361749481616651, guid: ee6de2da7010d4147b64a31b7b6bd541, type: 3}
   m_PrefabInstance: {fileID: 8310523120511005092}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5483550284174260889 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4561463974025513789, guid: ee6de2da7010d4147b64a31b7b6bd541, type: 3}
+  m_PrefabInstance: {fileID: 8310523120511005092}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3c55c395da66b4d85420d3c79323b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
