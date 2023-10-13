@@ -79,6 +79,11 @@ public class TimelineManager : Singleton<TimelineManager>
 		cutSceneList.chapterScene[(int)cutScene].SetActive(true);
 	}
 
+	public void EnableActiveCutScene(EActiveCutScene cutScene)
+	{
+		cutSceneList.activeScene[(int)cutScene].SetActive(true);
+	}
+
 	private void ClearAllCutSceneList()
 	{
 		cutSceneList.chapterScene.Clear();
