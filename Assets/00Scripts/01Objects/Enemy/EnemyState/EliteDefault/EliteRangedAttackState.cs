@@ -20,6 +20,7 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 		atk1.position = new Vector3(-0.1f, -0.3f, -0.015f);
 		atk1.parent = unit.test.gameObject;
 		unit.currentEffectData = atk1;
+		unit.atkCollider.radius = 1.6f;
 		unit.navMesh.enabled = true;
 		unit.rigid.velocity = Vector3.zero;
 		
@@ -35,7 +36,7 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 	{
 		unit.atkCollider.transform.position = unit.transform.position;
 		//unit.effects[1].effectTransform.position = unit.transform.position;
-		unit.atkCollider.enabled = false;
+		//unit.atkCollider.enabled = false;
 		base.End(unit);
 
 	}
