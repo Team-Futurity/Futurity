@@ -35,7 +35,7 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 	{
 		unit.atkCollider.transform.position = unit.transform.position;
 		//unit.effects[1].effectTransform.position = unit.transform.position;
-		unit.atkCollider.enabled = false;
+		//unit.atkCollider.enabled = false;
 		base.End(unit);
 
 	}

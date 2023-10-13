@@ -37,6 +37,10 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.enemyData.EnableAttackTiming();
 		ec.atkCollider.enabled = true;
 	}
+	public void EndRangedAttack()
+	{
+		ec.atkCollider.enabled = false;
+	}
 	public void EndAttack()
 	{
 		ec.atkCollider.enabled = false;
@@ -48,12 +52,25 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.currentEffectData.rotation = Quaternion.Euler(new Vector3(-3.162f, 131.496f, 11.622f));
 	}
 
+	public void EliteFlooring()
+	{
+		EffectActiveData data = new EffectActiveData();
+		
+		data.activationTime = EffectActivationTime.AttackReady;
+		data.target = EffectTarget.Ground;
+		data.index = 0;
+		data.position = ec.target.transform.position;
+		data.parent = null;
+
+		ec.currentEffectData = data;
+		ec.atkCollider.transform.position = ec.target.transform.position;
+	}
+
 	public void EliteRangedPositioning()
 	{
 		isCharging = false;
-		ec.currentEffectData.parent = null;
-		ec.atkCollider.transform.position = ec.target.transform.position;
-		ec.currentEffectData.position = ec.target.transform.position;
-		//ec.effects[1].effectTransform.position = ec.target.transform.position;
+
+		ec.currentEffectData.activationTime = EffectActivationTime.InstanceAttack;
+		ec.currentEffectData.target = EffectTarget.Target;
 	}
 }
