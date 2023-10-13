@@ -19,6 +19,10 @@ public class Enemy : UnitBase
 	{
 		ec.ChangeState(EnemyController.EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
+
+		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
+		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
+		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
 	}
 
 	protected override float GetAttackPoint()
