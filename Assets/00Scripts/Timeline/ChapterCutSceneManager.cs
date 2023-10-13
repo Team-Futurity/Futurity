@@ -13,8 +13,9 @@ public class ChapterCutSceneManager : MonoBehaviour
 {
 	[Header("Intro씬이라면 체크")] 
 	[SerializeField] private bool isIntroScene = false;
-	
-	[Header("Component")]
+
+	[Header("Component")] 
+	[SerializeField] private Camera mainCamera;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject mainUICanvas;
@@ -56,12 +57,17 @@ public class ChapterCutSceneManager : MonoBehaviour
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private AnalogGlitchVolume analogGlitch;
 
+	// test
+	private bool isInit = false;
+	
 	public void Start()
 	{
 		if (isIntroScene == true)
 		{
 			cutSceneList.chapterScene[0].SetActive(true);
 		}
+		
+		InitManager();
 	}
 
 	public void InitManager()
@@ -71,7 +77,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
-		playerInput.enabled = false;
+		//playerInput.enabled = false;
 
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		
@@ -79,10 +85,12 @@ public class ChapterCutSceneManager : MonoBehaviour
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
-		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
-		Camera.main.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
+		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
+		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
 		
 		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
+
+		isInit = true;
 	}
 
 	private void Update()
