@@ -8,11 +8,8 @@ public class SceneLoader : Singleton<SceneLoader>
 {
 	public float sceneProgress = .0f;
 
-
-	// Only Title
-	private readonly string LoadingScene1 = "LoadingScene 1";
-
-	private readonly string LoadingScene2 = "LoadingScene 2";
+	// Loading Scene
+	private const string loadScene = "LoadingScene";
 
 	private string nextSceneName = "";
 
@@ -40,14 +37,14 @@ public class SceneLoader : Singleton<SceneLoader>
 	{
 		nextSceneName = sceneName;
 
-		SceneManager.LoadScene((sceneName == "TutorialScene") ? LoadingScene1 : LoadingScene2);
+		// SceneManager.LoadScene(() ? LoadingScene1 : LoadingScene2);
 	}
 
 	public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
 	{
 		nextSceneName = sceneName;
 
-		SceneManager.LoadScene((sceneName == "TutorialScene") ? LoadingScene1 : LoadingScene2, mode);
+		// SceneManager.LoadScene(, mode);
 
 		endAction?.Invoke();
 	}
@@ -75,7 +72,6 @@ public class SceneLoader : Singleton<SceneLoader>
 
 			yield return null;
 
-			// SceneProgress가 95% 이상 Load되고, Time이 2초 이상 지났을 경우 Scene Load
 			if (sceneProgress > 0.95f && timer >= 2f)
 			{
 				FadeManager.Instance.FadeIn(1f, () =>
