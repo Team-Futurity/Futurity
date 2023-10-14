@@ -20,13 +20,19 @@ public class UIInputManager : Singleton<UIInputManager>
 
 		TryGetComponent(out playerInput);
 
-		playerInput.ActivateInput();
+		//playerInput.ActivateInput();
 	}
 
 	private void Start()
 	{
-		//InputActionManager.Instance.OnEnableEvent.AddListener(SetInputActionAsset);
-		//InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);
+		/*InputActionManager.Instance.OnEnableEvent.AddListener(SetInputActionAsset);
+		InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);*/
+
+		CombinedInputActions.UIBehaviourActions map = InputActionManager.Instance.InputActions.UIBehaviour;
+		InputActionManager.Instance.ToggleActionMap(map);
+		InputActionManager.Instance.RegisterCallback(map.MoveToPreviousUI, (context) => OnMoveToPreviousUI(context), true);
+		InputActionManager.Instance.RegisterCallback(map.MoveToNextUI, (context) => OnMoveToNextUI(context), true);
+		InputActionManager.Instance.RegisterCallback(map.ClickUI, (context) => OnClickUI(context), true);
 	}
 
 	private void SetInputActionAsset(InputActionData actionData)
@@ -113,21 +119,21 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	#region Input Action
 
-	public void OnMoveToNextUI()
+	public void OnMoveToNextUI(InputAction.CallbackContext context)
 	{
 		ChangeToIndex(1);
 
 		SelectUI();
 	}
 
-	public void OnMoveToPreviousUI()
+	public void OnMoveToPreviousUI(InputAction.CallbackContext context)
 	{
 		ChangeToIndex(-1);
 
 		SelectUI();
 	}
 
-	public void OnClickUI()
+	public void OnClickUI(InputAction.CallbackContext context)
 	{
 		if (currentActiveButtons == null)
 		{

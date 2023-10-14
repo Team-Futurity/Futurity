@@ -14,6 +14,26 @@ public class PlayerInputManager : MonoBehaviour
 	[HideInInspector]
 	public UnityEvent<PlayerInputEnum> onChangeStateEvent;
 
+	private void OnEnable()
+	{
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Move, OnMove);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Dash, OnDash);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.BasicAttack, OnNormalAttack);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.SpecialAttack, OnSpecialAttack);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.ActiveSkill, OnSpecialMove);
+	}
+
+	private void OnDisable()
+	{
+		if(InputActionManager.Instance == null) { return; }
+
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Move, OnMove);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Dash, OnDash);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.BasicAttack, OnNormalAttack);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.SpecialAttack, OnSpecialAttack);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.ActiveSkill, OnSpecialMove);
+	}
+
 	private void Start()
 	{
 		PlayerInputData data;
