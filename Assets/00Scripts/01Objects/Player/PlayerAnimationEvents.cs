@@ -222,6 +222,12 @@ public class PlayerAnimationEvents : MonoBehaviour
 	}
 	#endregion
 
+	#region SetActiveScene
+	public void StartAlphaCutScene()
+	{
+		//TimelineManager.Instance.EnableActiveCutScene(EActiveCutScene.ACITVE_ALPHA);
+	}
+	#endregion
 	public void EnableAttackTiming()
 	{
 		pc.playerData.EnableAttackTiming();

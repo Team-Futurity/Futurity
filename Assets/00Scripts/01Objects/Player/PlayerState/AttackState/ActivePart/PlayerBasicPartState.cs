@@ -34,7 +34,8 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		enemies.Clear();
 		minSize = proccessor.minRange * MathPlus.cm2m;
 		maxSize = proccessor.maxRange * MathPlus.cm2m;
-		unit.animator.SetBool(IsActivePartAnimKey, true);
+		TimelineManager.Instance.EnableActiveCutScene(EActiveCutScene.ACITVE_ALPHA);
+		//unit.animator.SetBool(IsActivePartAnimKey, true);
 
 		pc = unit;
 		

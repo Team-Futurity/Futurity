@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
 {
 	[Header("컴포넌트")] 
 	[SerializeField] private Transform enemyParents;
-	
+
 	[Header("스폰 데이터")] 
 	[SerializeField] private EnemySpawnData spawnData;
 	[SerializeField] private float yRotation = -90.0f;

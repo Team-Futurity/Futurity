@@ -13,8 +13,9 @@ public class ChapterCutSceneManager : MonoBehaviour
 {
 	[Header("Intro씬이라면 체크")] 
 	[SerializeField] private bool isIntroScene = false;
-	
-	[Header("Component")]
+
+	[Header("Component")] 
+	[SerializeField] private Camera mainCamera;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject mainUICanvas;
@@ -29,10 +30,9 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
 	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
 
-	[Header("컷신 목록")]
-	[SerializeField] private List<GameObject> cutSceneList;
-	[SerializeField] private List<GameObject> publicSceneList;
- 
+	[Header("컷신 목록")] 
+	[SerializeField] private CutSceneStruct cutSceneList;
+  
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
 	private Transform originTarget;
@@ -57,22 +57,28 @@ public class ChapterCutSceneManager : MonoBehaviour
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private AnalogGlitchVolume analogGlitch;
 
+	// test
+	private bool isInit = false;
+	
 	public void Start()
 	{
 		if (isIntroScene == true)
 		{
-			cutSceneList[0].SetActive(true);
+			cutSceneList.chapterScene[0].SetActive(true);
+			return;
 		}
+		
+		InitManager();
 	}
 
 	public void InitManager()
 	{
 		timelineManager = TimelineManager.Instance;
-		timelineManager.InitTimelineManager(cutSceneList, publicSceneList);
+		timelineManager.InitTimelineManager(cutSceneList);
 
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
-		playerInput.enabled = false;
+		//playerInput.enabled = false;
 
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		
@@ -80,14 +86,27 @@ public class ChapterCutSceneManager : MonoBehaviour
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
-		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
-		Camera.main.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
+		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
+		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
 		
 		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
+
+		isInit = true;
 	}
 
 	private void Update()
 	{
+		// Test Code
+		if (Input.GetKeyDown(KeyCode.Z))
+		{
+			timelineManager.EnablePublicCutScene(EPublicCutScene.PLYAERDEATHCUTSCENE);
+		}
+
+		if (Input.GetKeyDown(KeyCode.X))
+		{
+			timelineManager.Chapter1_Area1_EnableCutScene(EChapter1CutScene.AREA1_ENTRYCUTSCENE);
+		}
+		
 		if (isCutScenePlay == false)
 		{
 			return;
