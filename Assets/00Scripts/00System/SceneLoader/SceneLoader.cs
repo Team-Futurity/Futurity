@@ -67,6 +67,8 @@ public class SceneLoader : Singleton<SceneLoader>
 		StartCoroutine(StartAsyncSceneLoad(sceneName, mode, endAction));
 	}
 
+	public UnityEvent<float> updateProgress;
+
 	private IEnumerator StartAsyncSceneLoad(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
 	{
 		var operation = SceneManager.LoadSceneAsync(sceneName, mode);
@@ -81,8 +83,9 @@ public class SceneLoader : Singleton<SceneLoader>
 			timer += Time.deltaTime;
 
 			sceneProgress = operation.progress / 0.9f;
+			updateProgress?.Invoke(sceneProgress);
 
-			yield return null;
+			yield return new WaitForSeconds(0.1f);
 
 			if (sceneProgress > 0.95f && timer >= 2f)
 			{
@@ -93,7 +96,6 @@ public class SceneLoader : Singleton<SceneLoader>
 
 				break;
 			}
-
 		}
 
 		endAction?.Invoke();
