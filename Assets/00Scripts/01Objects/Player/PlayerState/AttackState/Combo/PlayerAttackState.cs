@@ -80,7 +80,7 @@ public class PlayerAttackState : PlayerComboAttackState
 				if(!enemyController.isTutorialDummy)
 				{
 					Vector3 direction = enemy.transform.position - unit.transform.position;
-					enemy.Knockback(direction.normalized, enemyController.hitPower);
+					enemy.Knockback(direction.normalized, attackNode.attackKnockback);
 				}
 					
 				hittedEnemyCount++;
