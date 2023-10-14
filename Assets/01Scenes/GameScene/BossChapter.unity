@@ -520,6 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isIntroScene: 0
+  mainCamera: {fileID: 927087377}
   playerCamera: {fileID: 2109404573}
   playerInput: {fileID: 1929316834}
   mainUICanvas: {fileID: 1698532534}
@@ -529,10 +530,13 @@ MonoBehaviour:
   timeToSlowMotion: 0
   recoveryTime: 0
   cutSceneList:
-  - {fileID: 2698428251991339142}
-  publicSceneList:
-  - {fileID: 6934600567661861072}
-  - {fileID: 6934600567202668182}
+    chapterScene:
+    - {fileID: 2698428251991339142}
+    publicScene:
+    - {fileID: 6934600567661861072}
+    - {fileID: 6934600567202668182}
+    activeScene:
+    - {fileID: 0}
   playerModelTf: {fileID: 2109404575}
   scanLineJitter: 0
   colorDrift: 0
@@ -702,6 +706,11 @@ MonoBehaviour:
   nameField: {fileID: 1698532533}
   textOutputDelay: 0.05
   isEnd: 0
+--- !u!20 &927087377 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2136977446462511487, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
+  m_PrefabInstance: {fileID: 376407831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &948618597
 PrefabInstance:
   m_ObjectHideFlags: 0
