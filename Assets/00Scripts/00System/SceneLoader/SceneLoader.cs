@@ -8,16 +8,23 @@ public class SceneLoader : Singleton<SceneLoader>
 {
 	public float sceneProgress = .0f;
 
-	// Loading Scene
-	private const string loadScene = "LoadingScene";
+	private const string loadSceneName = "LoadingScene";
 
 	private string nextSceneName = "";
 
 	protected override void Awake()
 	{
 		base.Awake();
+	}
 
+	private void EnableSceneLoadEvent()
+	{
 		SceneManager.sceneLoaded += SetLoadSystemData;
+	}
+
+	private void DisableSceneLoadEvent()
+	{
+		SceneManager.sceneLoaded -= SetLoadSystemData;
 	}
 
 	private void SetLoadSystemData(Scene scene, LoadSceneMode mode)
@@ -31,20 +38,26 @@ public class SceneLoader : Singleton<SceneLoader>
 
 		loadSystemObject.TryGetComponent<LoadingSystem>(out var loadSystem);
 		loadSystem.SetNextScene(nextSceneName);
+
+		DisableSceneLoadEvent();
 	}
 
 	public void LoadScene(string sceneName)
 	{
 		nextSceneName = sceneName;
 
-		// SceneManager.LoadScene(() ? LoadingScene1 : LoadingScene2);
+		EnableSceneLoadEvent();
+		SceneManager.LoadScene(loadSceneName);
 	}
 
-	public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
+	public void LoadScene(string sceneName, bool usedLoadScene = true, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
 	{
 		nextSceneName = sceneName;
 
-		// SceneManager.LoadScene(, mode);
+		SceneManager.LoadScene( 
+			(usedLoadScene == true) ? loadSceneName : nextSceneName, 
+			mode
+			);
 
 		endAction?.Invoke();
 	}
@@ -58,7 +71,6 @@ public class SceneLoader : Singleton<SceneLoader>
 	{
 		var operation = SceneManager.LoadSceneAsync(sceneName, mode);
 
-		// 씬 즉시 이동 해제
 		operation.allowSceneActivation = false;
 
 		var timer = .0f;
