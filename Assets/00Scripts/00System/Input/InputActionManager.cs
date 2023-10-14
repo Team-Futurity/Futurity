@@ -1,25 +1,33 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class InputActionManager : Singleton<InputActionManager>
 {
 	public UnityEvent<InputActionType> OnInputActionEnabled;
 	public UnityEvent<InputActionData> OnEnableEvent;
 	public UnityEvent OnDisableEvent;
+	public UnityEvent<InputActionMap> OnActionMapChange; 
 
 	public bool ProcessesDefaulting { get; private set; }
+
+	public CombinedInputActions InputActions { get; private set; }
 
 	[SerializeField] private List<InputActionData> actionDatas = new List<InputActionData>();
 	private List<InputActionData> activatedAssets = new List<InputActionData>();
 
 	private InputActionData GetActionData(InputActionType type) => actionDatas.First(data => data.actionType == type);
 
+
 	protected override void Awake()
 	{
 		base.Awake();
 
+		InputActions = new CombinedInputActions();
 		ProcessesDefaulting = false;
 
 		SetDefault();
@@ -43,6 +51,29 @@ public class InputActionManager : Singleton<InputActionManager>
 		}
 
 		ProcessesDefaulting = true;
+	}
+
+	public void ToggleACtionMap(InputActionMap map)
+	{
+		if (map.enabled) { return; }
+
+		InputActions.Disable(); // ¸ðµç ActionMap Disable
+		OnActionMapChange?.Invoke(map);
+		map.Enable();
+	}
+
+	public void RegisterCallback(InputAction action, Action<InputAction.CallbackContext> callback)
+	{
+		action.started += callback;
+		action.performed += callback;
+		action.canceled += callback;
+	}
+
+	public void RemoveCallback(InputAction action, Action<InputAction.CallbackContext> callback)
+	{
+		action.started -= callback;
+		action.performed -= callback;
+		action.canceled -= callback;
 	}
 
 	public void EnableInputActionAsset(InputActionType type)
