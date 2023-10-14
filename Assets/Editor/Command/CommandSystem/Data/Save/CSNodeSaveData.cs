@@ -75,19 +75,20 @@ public class CSNodeSaveData
 		IgnoresAutoTargetMove = node.IgnoresAutoTargetMove;
 		AttackColliderType = node.AttackColliderType;
 
+		AttackAssets = new List<CSAttackAssetSaveData>();
 		foreach (var asset in node.AttackAssets)
 		{
 			CSAttackAssetSaveData data = new CSAttackAssetSaveData();
 
-			data.EffectOffset = asset.AttackEffectAsset.EffectOffset;
-			data.EffectRotOffset = asset.AttackEffectAsset.EffectRotOffset;
-			data.EffectPrefab = asset.AttackEffectAsset.EffectPrefab;
-			data.AttackEffectParent = asset.AttackEffectAsset.AttackEffectParent;
+			data.EffectOffset = asset.EffectOffset;
+			data.EffectRotOffset = asset.EffectRotOffset;
+			data.EffectPrefab = asset.EffectPrefab;
+			data.AttackEffectParent = asset.AttackEffectParent;
 
-			data.HitEffectOffset = asset.HitEffectAsset.EffectOffset;
-			data.HitEffectRotOffset = asset.HitEffectAsset.EffectRotOffset;
-			data.HitEffectPrefab = asset.HitEffectAsset.EffectPrefab;
-			data.HitEffectParent = asset.HitEffectAsset.AttackEffectParent;
+			data.HitEffectOffset = asset.EffectOffset;
+			data.HitEffectRotOffset = asset.EffectRotOffset;
+			data.HitEffectPrefab = asset.EffectPrefab;
+			data.HitEffectParent = asset.AttackEffectParent;
 
 			data.AttackSound = asset.AttackSound;
 
