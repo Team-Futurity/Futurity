@@ -238,6 +238,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5013756388442423158}
+  - component: {fileID: 180621673368637743}
   m_Layer: 5
   m_Name: Loading System Group
   m_TagString: Untagged
@@ -271,6 +272,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &180621673368637743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013756388442423159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a910fe4131bcb744b9b49fbf8a8426ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingGauge: {fileID: 0}
+  fadeTime: 1
 --- !u!1 &5013756388555690136
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,11 +360,11 @@ RectTransform:
   m_Father: {fileID: 5013756388442423158}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -250, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -79, y: 30}
   m_SizeDelta: {x: 79, y: 54}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!222 &5013756388737000949
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -900,6 +915,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5013756389672353391}
+  - component: {fileID: 8568123492756404986}
   m_Layer: 5
   m_Name: Loading Window
   m_TagString: Untagged
@@ -928,6 +944,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8568123492756404986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013756389672353376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2631c988c57de7b4baa33790baec7383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CurrentState>k__BackingField: 0
+  <WindowType>k__BackingField: 0
+  <PlayOnStart>k__BackingField: 0
+  onOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  <CurrentWindowButtons>k__BackingField: []
+  <CurrentWindowObjects>k__BackingField: []
 --- !u!1 &5013756389686706222
 GameObject:
   m_ObjectHideFlags: 0
