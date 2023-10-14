@@ -19,15 +19,10 @@ public class UIInputManager : Singleton<UIInputManager>
 		base.Awake();
 
 		TryGetComponent(out playerInput);
-
-		//playerInput.ActivateInput();
 	}
 
 	private void Start()
 	{
-		/*InputActionManager.Instance.OnEnableEvent.AddListener(SetInputActionAsset);
-		InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);*/
-
 		CombinedInputActions.UIBehaviourActions map = InputActionManager.Instance.InputActions.UIBehaviour;
 		InputActionManager.Instance.ToggleActionMap(map);
 		InputActionManager.Instance.RegisterCallback(map.MoveToPreviousUI, (context) => OnMoveToPreviousUI(context), true);

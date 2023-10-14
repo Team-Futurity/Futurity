@@ -8,19 +8,23 @@ public class SceneLoader : Singleton<SceneLoader>
 {
 	public float sceneProgress = .0f;
 
-
-	// Only Title
-	private readonly string LoadingScene1 = "LoadingScene 1";
-
-	private readonly string LoadingScene2 = "LoadingScene 2";
+	private const string loadSceneName = "LoadingScene";
 
 	private string nextSceneName = "";
 
 	protected override void Awake()
 	{
 		base.Awake();
+	}
 
+	private void EnableSceneLoadEvent()
+	{
 		SceneManager.sceneLoaded += SetLoadSystemData;
+	}
+
+	private void DisableSceneLoadEvent()
+	{
+		SceneManager.sceneLoaded -= SetLoadSystemData;
 	}
 
 	private void SetLoadSystemData(Scene scene, LoadSceneMode mode)
@@ -34,20 +38,26 @@ public class SceneLoader : Singleton<SceneLoader>
 
 		loadSystemObject.TryGetComponent<LoadingSystem>(out var loadSystem);
 		loadSystem.SetNextScene(nextSceneName);
+
+		DisableSceneLoadEvent();
 	}
 
 	public void LoadScene(string sceneName)
 	{
 		nextSceneName = sceneName;
 
-		SceneManager.LoadScene((sceneName == "TutorialScene") ? LoadingScene1 : LoadingScene2);
+		EnableSceneLoadEvent();
+		SceneManager.LoadScene(loadSceneName);
 	}
 
-	public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
+	public void LoadScene(string sceneName, bool usedLoadScene = true, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
 	{
 		nextSceneName = sceneName;
 
-		SceneManager.LoadScene((sceneName == "TutorialScene") ? LoadingScene1 : LoadingScene2, mode);
+		SceneManager.LoadScene( 
+			(usedLoadScene == true) ? loadSceneName : nextSceneName, 
+			mode
+			);
 
 		endAction?.Invoke();
 	}
@@ -57,11 +67,12 @@ public class SceneLoader : Singleton<SceneLoader>
 		StartCoroutine(StartAsyncSceneLoad(sceneName, mode, endAction));
 	}
 
+	public UnityEvent<float> updateProgress;
+
 	private IEnumerator StartAsyncSceneLoad(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
 	{
 		var operation = SceneManager.LoadSceneAsync(sceneName, mode);
 
-		// 씬 즉시 이동 해제
 		operation.allowSceneActivation = false;
 
 		var timer = .0f;
@@ -72,10 +83,10 @@ public class SceneLoader : Singleton<SceneLoader>
 			timer += Time.deltaTime;
 
 			sceneProgress = operation.progress / 0.9f;
+			updateProgress?.Invoke(sceneProgress);
 
-			yield return null;
+			yield return new WaitForSeconds(0.1f);
 
-			// SceneProgress가 95% 이상 Load되고, Time이 2초 이상 지났을 경우 Scene Load
 			if (sceneProgress > 0.95f && timer >= 2f)
 			{
 				FadeManager.Instance.FadeIn(1f, () =>
@@ -85,7 +96,6 @@ public class SceneLoader : Singleton<SceneLoader>
 
 				break;
 			}
-
 		}
 
 		endAction?.Invoke();
