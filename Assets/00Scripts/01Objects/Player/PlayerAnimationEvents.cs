@@ -21,7 +21,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	private void Start()
 	{
-		pc = GetComponent<PlayerController>();
+		pc = transform.parent.GetComponent<PlayerController>();
 	}
 
 	public void EffectPooling()
