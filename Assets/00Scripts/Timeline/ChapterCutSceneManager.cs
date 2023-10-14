@@ -93,17 +93,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	private void Update()
 	{
-		// Test Code
-		if (Input.GetKeyDown(KeyCode.Z))
-		{
-			timelineManager.EnablePublicCutScene(EPublicCutScene.PLYAERDEATHCUTSCENE);
-		}
-
-		if (Input.GetKeyDown(KeyCode.X))
-		{
-			timelineManager.Chapter1_Area1_EnableCutScene(EChapter1CutScene.AREA1_ENTRYCUTSCENE);
-		}
-		
 		if (isCutScenePlay == false)
 		{
 			return;
