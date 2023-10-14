@@ -24,7 +24,7 @@ public class RewardBox : MonoBehaviour
 				passivePartSelect.SetPartData(2101, 2102, 2103);
 				UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
 
-				InputActionManager.Instance.EnableInputActionAsset(InputActionType.UI);
+				InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 			}
 		}
 	}

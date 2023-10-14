@@ -349,22 +349,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375ff23ad7681214d8cad33810de55a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnInputActionEnabled:
+  OnActionMapChange:
     m_PersistentCalls:
       m_Calls: []
-  OnEnableEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDisableEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  actionDatas:
-  - actionType: 1
-    actionAsset: {fileID: -944628639613478452, guid: 681efb196068c11498affea30c7d5f6e, type: 3}
-    canRunDefault: 0
-  - actionType: 2
-    actionAsset: {fileID: -944628639613478452, guid: 69867c00c4b4e43478576e0e49da1562, type: 3}
-    canRunDefault: 1
 --- !u!4 &566776024
 Transform:
   m_ObjectHideFlags: 0
@@ -378,7 +365,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &616259645
 GameObject:
@@ -1088,7 +1075,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1591514708}
   - component: {fileID: 1591514707}
-  - component: {fileID: 1591514706}
   m_Layer: 0
   m_Name: UIInputManager
   m_TagString: Untagged
@@ -1096,36 +1082,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1591514706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591514705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 69867c00c4b4e43478576e0e49da1562, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &1591514707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,7 +1107,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1661056300
 GameObject:
