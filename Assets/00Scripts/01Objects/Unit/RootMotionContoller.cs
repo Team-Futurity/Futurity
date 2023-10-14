@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RootMotionContoller : MonoBehaviour
 {
+	[SerializeField] private GameObject parent;
+	[SerializeField] private GameObject model;
 	[SerializeField] private Animator animator;
 	[SerializeField] private List<AnimationType> animations;
 	private Dictionary<string, AnimationType> animationDic;
@@ -15,6 +17,8 @@ public class RootMotionContoller : MonoBehaviour
 		{
 			animationDic.Add(anim.animationName, anim);
 		}
+
+		StartCoroutine(RefreshRootMotionCoroutine());
 	}
 
 	// 애니메이션 전환 시 실행
@@ -28,5 +32,16 @@ public class RootMotionContoller : MonoBehaviour
 		animator.applyRootMotion = type.isRootMotion;
 		
 		return true;
+	}
+
+	private IEnumerator RefreshRootMotionCoroutine()
+	{
+		while (true)
+		{
+			transform.position = model.transform.position;
+			model.transform.localPosition = Vector3.zero;
+
+			yield return null;
+		}
 	}
 }
