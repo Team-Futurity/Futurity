@@ -28,7 +28,7 @@ public static class CSIOUtility
 		graphView.OnGraphViewChanged();
 
 		graphFileName = graphName;
-		containerFolderPath = $"Assets/Data/CommandSystem/Commands/{graphFileName}";
+		containerFolderPath = $"Assets/04Data/CommandSystem/Commands/{graphFileName}";
 
 		groups = new List<CSGroup>();
 		nodes = new List<CSNode>();
@@ -365,9 +365,9 @@ public static class CSIOUtility
 	#region Creation Methods
 	private static void CreateStaticFolders()
 	{
-		CreateFolder("Assets/Editor/Command/CommandSystem", "Graphs");
+		CreateFolder("Assets/06Editor/Command/CommandSystem", "Graphs");
 
-		string commandSystemPath = CreateFolder("Assets/Data", "CommandSystem");
+		string commandSystemPath = CreateFolder("Assets/04Data", "CommandSystem");
 		string commandsPath = CreateFolder(commandSystemPath, "Commands");
 
 		CreateFolder(commandsPath, graphFileName);

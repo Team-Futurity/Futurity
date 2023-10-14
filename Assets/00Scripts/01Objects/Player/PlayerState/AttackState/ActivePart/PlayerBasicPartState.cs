@@ -1,0 +1,178 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[FSMState((int)PlayerState.BasicSM)]
+public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
+{
+	private const float explosionEffectUnitSize = 0.1f;
+	private const float maxAngle = 360;
+	private readonly string IsActivePartAnimKey = "IsActivePart";
+	private List<UnitBase> enemies = new List<UnitBase>();
+
+	// effects
+	private Transform chargeEffect;
+	private Transform explosionEffect;
+
+	private bool isExplosion;
+
+	private float minSize;
+	private float maxSize;
+
+	private PlayerController pc;
+	private Transform colliderOriginParent;
+	private float initialYPosition;
+
+	private float lastFrameTime;
+
+	// collider
+	private TruncatedCapsuleCollider currentCollider;
+
+	public override void Begin(PlayerController unit)
+	{
+		base.Begin(unit);
+		enemies.Clear();
+		minSize = proccessor.minRange * MathPlus.cm2m;
+		maxSize = proccessor.maxRange * MathPlus.cm2m;
+		TimelineManager.Instance.EnableActiveCutScene(EActiveCutScene.ACITVE_ALPHA);
+		//unit.animator.SetBool(IsActivePartAnimKey, true);
+
+		pc = unit;
+		
+		if(unit.attackColliderChanger.GetCollider(ColliderType.Capsule) is TruncatedCapsuleCollider capsuleCollider)
+		{
+			currentCollider = capsuleCollider;
+			currentCollider.SetCollider(maxAngle, minSize);
+		}
+		else
+		{
+			FDebug.LogWarning("Collider could not Type Conversion.", GetType());
+			return;
+		}
+	}
+
+	public override void Update(PlayerController unit)
+	{
+		base.Update(unit);
+		
+		if(currentTime == Time.deltaTime) { return; }
+
+		if(isExplosion)
+		{
+			float radius = Mathf.Lerp(currentCollider.Length, maxSize, proccessor.duration / Time.deltaTime);
+			float effectRadius = 2 * radius * explosionEffectUnitSize;
+			currentCollider.SetCollider(maxAngle, radius);
+			
+			explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
+			currentCollider.transform.position = explosionEffect.transform.position;
+
+			if (currentTime >= proccessor.duration)
+			{
+				effectRadius = 2 * maxSize * explosionEffectUnitSize;
+
+				currentCollider.SetCollider(maxAngle, maxSize);
+				explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
+
+				isExplosion = false;
+				lastFrameTime = Time.deltaTime;
+			}
+			else if(currentTime >= proccessor.duration + lastFrameTime)
+			{
+				//EndExtension(unit);
+			}
+		}
+	}
+
+	public override void FixedUpdate(PlayerController unit)
+	{
+		base.FixedUpdate(unit);
+	}
+
+	public override void End(PlayerController unit)
+	{
+		base.End(unit);
+		unit.animator.SetBool(IsActivePartAnimKey, false);
+	}
+
+	public override void OnTriggerEnter(PlayerController unit, Collider other)
+	{
+		base.OnTriggerEnter(unit, other);
+
+		if(other.CompareTag(unit.EnemyTag))
+		{
+			var enemy = other.GetComponent<UnitBase>();
+
+			if(enemy == null) { return; }
+
+			enemies.Add(enemy);
+			//unit.buffProvider.SetBuff(enemy, proccessor.buffCode, proccessor.duration - currentTime);
+		}
+	}
+
+	public override void OnCollisionEnter(PlayerController unit, Collision collision)
+	{
+		base.OnCollisionEnter(unit, collision);
+	}
+
+	public override void OnCollisionStay(PlayerController unit, Collision collision)
+	{
+		base.OnCollisionStay(unit, collision);
+	}
+
+	private void EndExtension(PlayerController unit)
+	{
+		currentCollider.SetCollider(maxAngle, proccessor.maxRange * MathPlus.cm2m);
+
+		foreach(var enemy in enemies)
+		{
+			DamageInfo info = new DamageInfo(unit.playerData, enemy, 1);
+			info.SetDamage(proccessor.damage);
+			enemy.Hit(info);
+		}
+	}
+
+	public void Charging()
+	{
+		chargeEffect = proccessor.chargeEffectObjectPool.ActiveObject(proccessor.chargeEffectPos.position, proccessor.chargeEffectPos.rotation);
+	}
+
+	public void PreAttack()
+	{
+		currentCollider.ColliderReference.enabled = true;
+
+		FDebug.Log("Pre : " + currentTime);
+	}
+
+	public void Attack()
+	{
+		FDebug.Log("Attack : " + currentTime);
+
+		Vector3 vec = new Vector3(proccessor.explosionEffectPos.position.x, initialYPosition, proccessor.explosionEffectPos.position.z);
+
+		explosionEffect = proccessor.explosionEffectObjectPool.ActiveObject(vec, Quaternion.identity);
+		explosionEffect.GetComponent<ParticleController>().Initialize(proccessor.explosionEffectObjectPool);
+		proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
+
+		float diameter = 2 * minSize * explosionEffectUnitSize;
+		explosionEffect.localScale = new Vector3(diameter, diameter, diameter);
+		currentTime = 0;
+
+		currentCollider.transform.position = explosionEffect.transform.position;
+
+		isExplosion = true;
+	}
+
+	public void Landing()
+	{
+		proccessor.landingEffectObjectPool.ActiveObject(proccessor.landingEffectPos.position, proccessor.landingEffectPos.rotation).
+			GetComponent<ParticleController>().Initialize(proccessor.landingEffectObjectPool);
+		currentCollider.transform.localPosition = Vector3.zero;
+		EndExtension(pc);
+	}
+
+	public void AttackEnd()
+	{
+		currentCollider.transform.localPosition = Vector3.zero;
+		pc.ChangeState(PlayerState.Idle);
+	}
+}

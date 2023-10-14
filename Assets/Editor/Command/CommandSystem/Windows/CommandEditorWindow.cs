@@ -94,6 +94,8 @@ public class CommandEditorWindow : EditorWindow
 	{
 		graphView.ClearGraph();
 
+		SetEnableSaving(true);
+
 		graphView.startNode = graphView.CreateStartNode();
 	}
 
