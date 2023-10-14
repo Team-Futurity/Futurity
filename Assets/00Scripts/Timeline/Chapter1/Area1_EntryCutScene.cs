@@ -24,13 +24,13 @@ public class Area1_EntryCutScene : CutSceneBase
 
 	protected override void Init()
 	{
-		chapterManager.SetActiveMainUI(false);
-		chapterManager.SetActivePlayerInput(false);
+		
 	}
 
 	protected override void EnableCutScene()
 	{
 		chapterManager.isCutScenePlay = true;
+		chapterManager.SetActiveMainUI(false);
 	}
 	
 	public override void DisableCutScene()
