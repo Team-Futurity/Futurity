@@ -56,10 +56,10 @@ public class UIDialogDistance : UIDialogFeatureBase
 
 	private void LateUpdate()
 	{
-		if(TargetPos == null)
+		/*if(TargetPos == null)
 		{
 			return;
-		}
+		}*/
 
 		var targetArray = Physics.OverlapSphere(TargetPos.position, OpenDist, TargetLayer);
 

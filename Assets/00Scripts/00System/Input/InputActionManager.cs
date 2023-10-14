@@ -4,8 +4,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using UnityEditor.PackageManager;
 
 public class InputActionManager : Singleton<InputActionManager>
 {
@@ -56,11 +54,16 @@ public class InputActionManager : Singleton<InputActionManager>
 
 	public void RegisterCallback(InputAction action, Action<InputAction.CallbackContext> callback, bool isButton = false)
 	{
+		// 빼고 넣는 건 callback이 중복으로 들어가는 걸 방지하기 위함!
+		action.started -= callback;
 		action.started += callback;
 
 		if(!isButton)
 		{
+			action.performed -= callback;
 			action.performed += callback;
+
+			action.canceled -= callback;
 			action.canceled += callback;
 		}
 	}
