@@ -34,8 +34,9 @@ public class TutorialController : MonoBehaviour
 	{
 		if (!isDebugMode)
 		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+			/*InputActionManager.Instance.DisableAllInputActionAsset();
+			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);*/
 		}
 
 		LoadTutorialDialogData();

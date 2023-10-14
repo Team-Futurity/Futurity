@@ -5,22 +5,25 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEditor.PackageManager;
 
 public class InputActionManager : Singleton<InputActionManager>
 {
-	public UnityEvent<InputActionType> OnInputActionEnabled;
+	/*public UnityEvent<InputActionType> OnInputActionEnabled;
 	public UnityEvent<InputActionData> OnEnableEvent;
-	public UnityEvent OnDisableEvent;
+	public UnityEvent OnDisableEvent;*/
 	public UnityEvent<InputActionMap> OnActionMapChange; 
 
-	public bool ProcessesDefaulting { get; private set; }
+	//public bool ProcessesDefaulting { get; private set; }
 
 	public CombinedInputActions InputActions { get; private set; }
 
-	[SerializeField] private List<InputActionData> actionDatas = new List<InputActionData>();
+	private InputActionMap currentActionMap;
+
+	/*[SerializeField] private List<InputActionData> actionDatas = new List<InputActionData>();
 	private List<InputActionData> activatedAssets = new List<InputActionData>();
 
-	private InputActionData GetActionData(InputActionType type) => actionDatas.First(data => data.actionType == type);
+	private InputActionData GetActionData(InputActionType type) => actionDatas.First(data => data.actionType == type);*/
 
 
 	protected override void Awake()
@@ -28,12 +31,52 @@ public class InputActionManager : Singleton<InputActionManager>
 		base.Awake();
 
 		InputActions = new CombinedInputActions();
-		ProcessesDefaulting = false;
+		//ProcessesDefaulting = false;
 
-		SetDefault();
+		//SetDefault();
 	}
 
-	public void SetDefault()
+	public void ToggleActionMap(InputActionMap map)
+	{
+		if (map.enabled) { return; }
+
+		currentActionMap = map;
+
+		InputActions.Disable(); // 모든 ActionMap Disable
+		OnActionMapChange?.Invoke(map);
+		map.Enable();
+	}
+
+	public void DisableActionMap()
+	{
+		if (!currentActionMap.enabled) { return; }
+
+		InputActions.Disable(); // 모든 ActionMap Disable
+	}
+
+	public void RegisterCallback(InputAction action, Action<InputAction.CallbackContext> callback, bool isButton = false)
+	{
+		action.started += callback;
+
+		if(!isButton)
+		{
+			action.performed += callback;
+			action.canceled += callback;
+		}
+	}
+
+	public void RemoveCallback(InputAction action, Action<InputAction.CallbackContext> callback, bool isButton = false)
+	{
+		action.started -= callback;
+
+		if(!isButton)
+		{
+			action.performed -= callback;
+			action.canceled -= callback;
+		}
+	}
+
+	/*public void SetDefault()
 	{
 		activatedAssets.Clear();
 
@@ -51,29 +94,6 @@ public class InputActionManager : Singleton<InputActionManager>
 		}
 
 		ProcessesDefaulting = true;
-	}
-
-	public void ToggleACtionMap(InputActionMap map)
-	{
-		if (map.enabled) { return; }
-
-		InputActions.Disable(); // 모든 ActionMap Disable
-		OnActionMapChange?.Invoke(map);
-		map.Enable();
-	}
-
-	public void RegisterCallback(InputAction action, Action<InputAction.CallbackContext> callback)
-	{
-		action.started += callback;
-		action.performed += callback;
-		action.canceled += callback;
-	}
-
-	public void RemoveCallback(InputAction action, Action<InputAction.CallbackContext> callback)
-	{
-		action.started -= callback;
-		action.performed -= callback;
-		action.canceled -= callback;
 	}
 
 	public void EnableInputActionAsset(InputActionType type)
@@ -129,5 +149,5 @@ public class InputActionManager : Singleton<InputActionManager>
 	public UnityEngine.InputSystem.InputActionAsset GetByType(InputActionType type)
 	{
 		return GetActionData(type).actionAsset;
-	}
+	}*/
 }
