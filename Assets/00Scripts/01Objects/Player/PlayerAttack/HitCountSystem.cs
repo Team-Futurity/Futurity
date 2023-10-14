@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HitCountSystem : MonoBehaviour
 {
@@ -10,10 +11,7 @@ public class HitCountSystem : MonoBehaviour
 	private float currentTime = 0;
  	[field: SerializeField] public int hitCount { get; private set; }
 
-	private void Start()
-	{
-		//hitCountUI.SetNumber(0);
-	}
+	[HideInInspector] public UnityEvent<int> updateHitCount;
 
 	public void AddHitCount(int count)
 	{
@@ -26,10 +24,9 @@ public class HitCountSystem : MonoBehaviour
 	{
 		hitCount = Mathf.Clamp(number, 0, maxHitCount);
 
-		//if (hitCount != 0 && hitCountUI != null)
-		//{
-		//	hitCountUI.SetNumber(hitCount);
-		//}
+		if (number == 0) return;
+
+		updateHitCount?.Invoke(hitCount);
 	}
 
 	private void Update()
