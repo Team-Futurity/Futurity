@@ -22,27 +22,16 @@ public class SpawnerEvent : MonoBehaviour
 		{
 			return;
 		}
-		
-		// TODO : 각 조건에 맞는 다이얼로그 실행
-		switch (chapterType)
+
+		if (manager.DialogData == null)
 		{
-			case ESpawnerType.CHAPTER1_AREA1:
-				manager.isEventEnable = true;
-				dialogWindow.SetActive(true);
-				dialogController.SetDialogData(manager.DialogData);
-				dialogController.PlayDialog();
-				break;
-			
-			case ESpawnerType.CHAPTER1_AREA3:
-				manager.isEventEnable = true;
-				dialogWindow.SetActive(true);
-				dialogController.SetDialogData(manager.DialogData);
-				dialogController.PlayDialog();
-				break;
-			
-			default:
-				return;
+			return;
 		}
+		
+		manager.isEventEnable = true;
+		dialogWindow.SetActive(true);
+		dialogController.SetDialogData(manager.DialogData);
+		dialogController.PlayDialog();
 	}
 
 	public void SpawnerEndEvent(SpawnerManager manager, ESpawnerType spawnerType)
@@ -80,5 +69,4 @@ public class SpawnerEvent : MonoBehaviour
 		TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 		chapterMove.EnableExitCollider();
 	}
-
 }
