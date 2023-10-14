@@ -29,6 +29,8 @@ public enum WindowList
 	
 	// Pause
 	PAUSE,
+
+	GAME_OVER,
 	
 	MAX
 }

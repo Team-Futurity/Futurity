@@ -6,22 +6,13 @@ using UnityEngine.UI;
 
 public class LoadingSystem : MonoBehaviour
 {
-	[SerializeField]
-	private UIGauge loadingGauge;
-
-	[SerializeField]
+	[SerializeField, Header("씬 Fade 시간")]
 	private float fadeTime = 1f;
 
-	private bool isFillGaugeStart = false;
+	[SerializeField, Header("로딩 아이콘")]
+	private LoadingIconMove loadIcon;
 
 	private string nextScene = "";
-	private void Update()
-	{
-		if (!isFillGaugeStart)
-			return;
-
-		FillLoadingGauge(SceneLoader.Instance.sceneProgress);
-	}
 
 	public void SetNextScene(string sceneName)
 	{
@@ -31,13 +22,10 @@ public class LoadingSystem : MonoBehaviour
 		{
 			AudioManager.Instance.CleanUp();
 
-			SceneLoader.Instance.LoadSceneAsync(nextScene);
-			isFillGaugeStart = true;
-		});
-	}
+			SceneLoader.Instance.updateProgress?.AddListener(loadIcon.MoveIcon);
 
-	private void FillLoadingGauge(float targetValue)
-	{
-		loadingGauge.StartLoadingGauge(targetValue, 1f);
+			// 해당 메서드의 호출 타이밍을 Load Icon이 목적지에 도착했을 경우, 작동해야 함.
+			SceneLoader.Instance.LoadSceneAsync(nextScene);
+		});
 	}
 }
