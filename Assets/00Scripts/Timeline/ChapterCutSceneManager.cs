@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Rendering; 
 using URPGlitch.Runtime.AnalogGlitch;
@@ -17,7 +16,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[Header("Component")] 
 	[SerializeField] private Camera mainCamera;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
 	[SerializeField] private TextMeshProUGUI scriptingName;
@@ -78,7 +76,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
-		//playerInput.enabled = false;
 
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		
@@ -96,17 +93,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	private void Update()
 	{
-		// Test Code
-		if (Input.GetKeyDown(KeyCode.Z))
-		{
-			timelineManager.EnablePublicCutScene(EPublicCutScene.PLYAERDEATHCUTSCENE);
-		}
-
-		if (Input.GetKeyDown(KeyCode.X))
-		{
-			timelineManager.Chapter1_Area1_EnableCutScene(EChapter1CutScene.AREA1_ENTRYCUTSCENE);
-		}
-		
 		if (isCutScenePlay == false)
 		{
 			return;
@@ -126,7 +112,13 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	public void SetActivePlayerInput(bool active)
 	{
-		playerInput.enabled = active;
+		if (active == false)
+		{
+			InputActionManager.Instance.DisableActionMap();	
+			return;
+		}
+		
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 
 	public void SetActiveMainUI(bool active)
