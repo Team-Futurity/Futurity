@@ -21,6 +21,7 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 		atk1.parent = unit.test.gameObject;
 		unit.currentEffectData = atk1;
 		unit.atkCollider.radius = 1.6f;
+		unit.enemyData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(55);
 		unit.navMesh.enabled = true;
 		unit.rigid.velocity = Vector3.zero;
 		

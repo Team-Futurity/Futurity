@@ -22,6 +22,7 @@ public class EliteMeleeAttackState : EnemyAttackBaseState
 		unit.currentEffectData = atk1;
 		unit.atkCollider.radius = 3.27f;
 		unit.rigid.velocity = Vector3.zero;
+		unit.enemyData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(38);
 		unit.navMesh.enabled = true;
 		/*unit.atkCollider.enabled = true;*/
 	}
