@@ -34,9 +34,14 @@ public class PlayerMoveState : UnitState<PlayerController>
 	{
 		var rotVec = pc.RotatePlayer(pc.moveDir, true);
 
-		if (Physics.RaycastAll(pc.transform.position, pc.transform.forward, pc.stopDistance, 1 << 6).Length > 0)
+		if (Physics.Raycast(pc.transform.position, pc.transform.forward, out RaycastHit hit, pc.stopDistance, 1 << 6))
 		{
-			pc.animator.SetBool(MoveAnimKey, false);
+			Vector3 cross = Vector3.Cross(pc.transform.forward, hit.transform.forward);
+			float dot = Mathf.Abs(Vector3.Dot(pc.transform.forward, hit.transform.forward));
+			if (dot < 0.1e-5 || dot == 1)
+			{
+				pc.animator.SetBool(MoveAnimKey, false);
+			}
 		}
 		else
 		{
