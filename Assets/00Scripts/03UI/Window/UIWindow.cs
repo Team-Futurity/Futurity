@@ -66,6 +66,10 @@ public class UIWindow : MonoBehaviour
 	{
 		ChangeState(WindowState.ACTIVE);
 
+		if (isOpen) return;
+
+		isOpen = true;
+
 		// Button Clear
 		UIInputManager.Instance.ClearAll();
 
@@ -76,7 +80,6 @@ public class UIWindow : MonoBehaviour
 		}
 
 		onOpen?.Invoke(true);
-		isOpen = true;
 
 		for (int i = 0; i < CurrentWindowObjects.Count; ++i)
 		{
