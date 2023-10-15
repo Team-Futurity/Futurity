@@ -20,6 +20,7 @@ public class Player : UnitBase
 		info.SetDamage(GetDamage(info.AttackST) * criticalConf);
 
 		info.Defender.Hit(info);
+		onAttackEvent?.Invoke(info);
 	}
 
 	public override void Hit(DamageInfo damageInfo)

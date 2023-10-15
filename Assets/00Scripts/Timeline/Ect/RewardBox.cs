@@ -5,23 +5,22 @@ using UnityEngine;
 
 public class RewardBox : MonoBehaviour
 {
-	public bool isEnable = false;
-
 	public UIPassivePartSelect passivePartSelect;
+
+	public int[] partCodes;
+
+	private void Start()
+	{
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+	}
+
 	private void OnTriggerStay(Collider other)
 	{
-		if (isEnable == false)
-		{
-			return;
-		}
-		
 		if (other.CompareTag("Player"))
 		{
-			if (Input.GetKeyDown(KeyCode.F))
+			if (Input.GetKeyDown(KeyCode.T) && !UIManager.Instance.IsOpenWindow(WindowList.PASSIVE_PART))
 			{
-				Debug.Log("??");
-
-				passivePartSelect.SetPartData(2101, 2102, 2103);
+				passivePartSelect.SetPartData(partCodes);
 				UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
 
 				InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
