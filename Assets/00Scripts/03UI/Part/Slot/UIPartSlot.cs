@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public class UIPartSlot : MonoBehaviour
@@ -8,14 +9,19 @@ public class UIPartSlot : MonoBehaviour
 	[SerializeField]
 	private PartSystem partSystem;
 
-
 	public UIPassiveSlot[] passiveSlots;
 	public UIActiveSlot activeSlot;
 
+	// 파츠 String -> ID를 가져오면 Addressable로 Item Data를 가져온다.
+
 	private void Awake()
 	{
-		// Part Slot과 Sync 맞추기
-		SyncSlots();
+		// Part Equip
+		partSystem.onPartEquip?.AddListener((x, y) =>
+	   {
+		   var image = LoadPartIconImage(x);
+		   SetPassiveSlot(y, image);
+	   });
 	}
 
 	public void SetPassiveSlot(int index, Sprite partIcon) => passiveSlots[index].SetSlot(partIcon);
@@ -34,6 +40,12 @@ public class UIPartSlot : MonoBehaviour
 		}
 
 		activeSlot.ClearSlot();
+	}
+
+	private Sprite LoadPartIconImage(int code)
+	{
+		var spriteImage = Addressables.LoadAssetAsync<Sprite>(code).WaitForCompletion();
+		return spriteImage;
 	}
 	
 }
