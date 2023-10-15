@@ -1,6 +1,8 @@
 using UnityEngine;
 using FMODUnity;
+using System;
 
+[Serializable]
 public class CSCommandAssetData
 {
 	// Part Code

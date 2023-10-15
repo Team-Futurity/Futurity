@@ -5,20 +5,20 @@ using FMODUnity;
 public class CSAttackAssetSaveData
 {
 	// Part Code
-	public int PartCode { get; set; }
+	[field: SerializeField] public int PartCode { get; set; }
 
 	// Attack Effect
-	public Vector3 EffectOffset { get; set; }
-	public Vector3 EffectRotOffset { get; set; }
-	public GameObject EffectPrefab { get; set; }
-	public EffectParent AttackEffectParent { get; set; }
+	[field: SerializeField] public Vector3 EffectOffset { get; set; }
+	[field: SerializeField] public Vector3 EffectRotOffset { get; set; }
+	[field: SerializeField] public GameObject EffectPrefab { get; set; }
+	[field: SerializeField] public EffectParent AttackEffectParent { get; set; }
 
 	// Enemy Hit Effect
-	public Vector3 HitEffectOffset { get; set; }
-	public Vector3 HitEffectRotOffset { get; set; }
-	public GameObject HitEffectPrefab { get; set; }
-	public EffectParent HitEffectParent { get; set; }
+	[field: SerializeField] public Vector3 HitEffectOffset { get; set; }
+	[field: SerializeField] public Vector3 HitEffectRotOffset { get; set; }
+	[field: SerializeField] public GameObject HitEffectPrefab { get; set; }
+	[field: SerializeField] public EffectParent HitEffectParent { get; set; }
 
 	// Attack Sound
-	public EventReference AttackSound { get; set; }
+	[field: SerializeField] public EventReference AttackSound { get; set; }
 }

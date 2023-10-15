@@ -85,10 +85,10 @@ public class CSNodeSaveData
 			data.EffectPrefab = asset.EffectPrefab;
 			data.AttackEffectParent = asset.AttackEffectParent;
 
-			data.HitEffectOffset = asset.EffectOffset;
-			data.HitEffectRotOffset = asset.EffectRotOffset;
-			data.HitEffectPrefab = asset.EffectPrefab;
-			data.HitEffectParent = asset.AttackEffectParent;
+			data.HitEffectOffset = asset.HitEffectOffset;
+			data.HitEffectRotOffset = asset.HitEffectRotOffset;
+			data.HitEffectPrefab = asset.HitEffectPrefab;
+			data.HitEffectParent = asset.HitEffectParent;
 
 			data.AttackSound = asset.AttackSound;
 

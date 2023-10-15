@@ -1,4 +1,7 @@
+using FMOD;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CommandTreeLoader : MonoBehaviour
@@ -59,6 +62,7 @@ public class CommandTreeLoader : MonoBehaviour
 		node.ignoresAutoTargetMove			= commandSO.IgnoresAutoTargetMove;
 		node.attackColliderType				= commandSO.AttackColliderType;
 
+		node.attackAssetsByPart				= ListToDictionary(commandSO.AttackAssets);
 		/*node.effectOffset					= commandSO.EffectOffset;
 		node.effectRotOffset				= Quaternion.Euler(commandSO.EffectRotOffset);
 		node.effectPrefab					= commandSO.EffectPrefab;
@@ -82,7 +86,6 @@ public class CommandTreeLoader : MonoBehaviour
 
 		/*node.attackSound					= commandSO.AttackSound;*/
 
-		node.AddPoolManager();
 		node.childNodes = new List<AttackNode>();
 		foreach(var nextSO in commandSO.NextCommands)
 		{
@@ -96,7 +99,6 @@ public class CommandTreeLoader : MonoBehaviour
 	{
 		switch(effectParent)
 		{
-			
 			case EffectParent.Local:
 				return localParent;
 			case EffectParent.World:
@@ -105,5 +107,41 @@ public class CommandTreeLoader : MonoBehaviour
 				FDebug.LogError("[CommandTreeLoader] Effect Parent is None or Invalid. Please Set Valid Effect Parent");
 				return null;
 		}
+	}
+
+	private Dictionary<int, AttackAsset>ListToDictionary(List<CSCommandAssetData> list)
+	{
+		Dictionary<int, AttackAsset> dictionary = new Dictionary<int, AttackAsset>();
+		foreach (var data in list)
+		{
+			if (dictionary.ContainsKey(data.PartCode)) { continue; }
+
+			dictionary.Add(data.PartCode, CommandAssetDataToAttackAsset(data));
+		}
+
+		return dictionary;
+	}
+
+	private AttackAsset CommandAssetDataToAttackAsset(CSCommandAssetData data)
+	{
+		AttackAsset asset = new AttackAsset();
+
+		asset.effectOffset = data.EffectOffset;
+		asset.effectRotOffset = Quaternion.Euler(data.EffectRotOffset);
+		asset.effectPrefab = data.EffectPrefab;
+		asset.effectParent = GetEffectParent(data.AttackEffectParent);
+		asset.effectParentType = data.AttackEffectParent;
+
+		asset.hitEffectOffset = data.HitEffectOffset;
+		asset.hitEffectRotOffset = Quaternion.Euler(data.HitEffectRotOffset);
+		asset.hitEffectPrefab = data.HitEffectPrefab;
+		asset.hitEffectParent = GetEffectParent(data.HitEffectParent);
+		asset.hitEffectParentType = data.HitEffectParent;
+
+		asset.attackSound = data.AttackSound;
+
+		asset.AddPoolManager();
+
+		return asset;
 	}
 }

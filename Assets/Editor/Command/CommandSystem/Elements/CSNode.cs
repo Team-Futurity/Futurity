@@ -163,17 +163,16 @@ public class CSNode : Node
 		Foldout assetByPassiveFoldout = CSElementUtility.CreateFoldout("Assets by Passive");
 		Button addAssets = CSElementUtility.CreateButton("패시브 별 에셋 추가", () =>
 		{
-			Foldout foldout = CreateAttackAssetSaveDatas(null);
-
-			assetByPassiveFoldout.Add(foldout);
+			Foldout foldout = CreateAttackAssetSaveDatas(null, assetByPassiveFoldout);
 		});
 
-		foreach(var asset in AttackAssets)
+		CSAttackAssetSaveData[] attackAssetDatas = AttackAssets.ToArray();
+		foreach(var data in attackAssetDatas)
 		{
-			Foldout foldout = CreateAttackAssetSaveDatas(asset);
-
-			assetByPassiveFoldout.Add(foldout);
+			Foldout foldout = CreateAttackAssetSaveDatas(data, assetByPassiveFoldout);
 		}
+
+		if(AttackAssets.Count == 0) { CreateAttackAssetSaveDatas(null, assetByPassiveFoldout); }
 
 		assetByPassiveFoldout.Add(addAssets);
 		
@@ -181,7 +180,6 @@ public class CSNode : Node
 		// production
 		Foldout productionFoldout = CSElementUtility.CreateFoldout("Production");
 		IntegerField animInteagerField					= CreateAndRegistField("애니메이션 전환값			|", AnimInteger, productionFoldout);
-
 		FloatField shakeField							= CreateAndRegistField("커브로 흔드는 세기		|", ShakePower, productionFoldout);
 		FloatField shakeTimeField						= CreateAndRegistField("흔드는 시간				|", ShakeTime, productionFoldout);
 		FloatField slowTimeField						= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
@@ -235,20 +233,18 @@ public class CSNode : Node
 		Port nextCommandsPort = this.CreatePort("다음 커맨드", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
 		nextCommandsPort.userData = this;
 		outputContainer.Add(nextCommandsPort);
+
+		RefreshExpandedState();
 	}
 
 	#region Creation
-	private Foldout CreateAttackAssetSaveDatas(CSAttackAssetSaveData saveData)
+	private Foldout CreateAttackAssetSaveDatas(CSAttackAssetSaveData saveData, Foldout parent)
 	{
-		Button deleteButton = CSElementUtility.CreateButton("X");
-		Foldout foldout = CSElementUtility.CreateFoldout(AttackAssets.Count.ToString());
-		foldout.Add(deleteButton);
-
 		CSAttackAssetSaveData newSaveData = saveData;
 		if (saveData == null)
 		{
 			newSaveData = new CSAttackAssetSaveData();
-			newSaveData.PartCode = AttackAssets.Count;
+			newSaveData.PartCode = AttackAssets.Count == 0 ? 0 : AttackAssets[AttackAssets.Count-1].PartCode+1;
 			newSaveData.EffectOffset = Vector3.zero;
 			newSaveData.EffectRotOffset = Vector3.zero;
 			newSaveData.EffectPrefab = null;
@@ -259,6 +255,17 @@ public class CSNode : Node
 			newSaveData.HitEffectParent = EffectParent.None;
 			newSaveData.AttackSound = new EventReference();
 		}
+
+		Foldout foldout = CSElementUtility.CreateFoldout(newSaveData.PartCode.ToString());
+
+		Button deleteButton = CSElementUtility.CreateButton("X", () =>
+		{
+			if(AttackAssets.Count == 1) { return; }
+
+			AttackAssets.Remove(saveData);
+			parent.Remove(foldout);
+		});
+		foldout.Add(deleteButton);
 
 		// Fields
 		// partCode
@@ -282,12 +289,26 @@ public class CSNode : Node
 		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
 		TextField attackSoundField = CreateAndRegistField("공격 SE				|", newSaveData.AttackSound.ToString(), soundFoldout);
 
+		// Set Foldout
 		foldout.Add(attackEffectFoldout);
 		foldout.Add(enemyHitEffectFoldout);
 		foldout.Add(soundFoldout);
+		parent.Add(foldout);
 
 		// Callbacks
 		partCodeField.RegisterValueChangedCallback((callback) => { foldout.text = callback.newValue.ToString(); });
+
+		effectOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.EffectOffset = callback.newValue; });
+		effectRotOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.EffectRotOffset = callback.newValue; });
+		effectPrefabField.RegisterValueChangedCallback((callback) => { newSaveData.EffectPrefab = (GameObject)callback.newValue; });
+		effectParentField.RegisterValueChangedCallback((callback) => { newSaveData.AttackEffectParent = (EffectParent)callback.newValue; });
+
+		enemyHitEffectOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.HitEffectOffset = callback.newValue; });
+		enemyHitEffectRotOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.HitEffectRotOffset = callback.newValue; });
+		enemyHitEffectPrefabField.RegisterValueChangedCallback((callback) => { newSaveData.HitEffectPrefab = (GameObject)callback.newValue; });
+		enemyHitEffectField.RegisterValueChangedCallback((callback) => { newSaveData.HitEffectParent = (EffectParent)callback.newValue; });
+
+		attackSoundField.RegisterValueChangedCallback((callback) => { newSaveData.AttackSound = EventReference.Find(callback.newValue); });
 
 		saveData = newSaveData;
 		AttackAssets.Add(newSaveData);
@@ -413,10 +434,12 @@ public class CSNode : Node
 			newSaveData.EffectRotOffset = asset.EffectRotOffset;
 			newSaveData.EffectPrefab = asset.EffectPrefab;
 			newSaveData.AttackEffectParent = asset.AttackEffectParent;
+
 			newSaveData.HitEffectOffset = asset.HitEffectOffset;
 			newSaveData.HitEffectRotOffset = asset.HitEffectRotOffset;
 			newSaveData.HitEffectPrefab = asset.HitEffectPrefab;
 			newSaveData.HitEffectParent = asset.HitEffectParent;
+
 			newSaveData.AttackSound = asset.AttackSound;
 
 			AttackAssets.Add(newSaveData);
@@ -454,6 +477,7 @@ public class CSNode : Node
 		so.IgnoresAutoTargetMove = IgnoresAutoTargetMove;
 		so.AttackColliderType = AttackColliderType;
 
+		so.AttackAssets.Clear();
 		foreach (var asset in AttackAssets)
 		{
 			CSCommandAssetData data = new CSCommandAssetData();
@@ -463,10 +487,10 @@ public class CSNode : Node
 			data.EffectPrefab = asset.EffectPrefab;
 			data.AttackEffectParent = asset.AttackEffectParent;
 
-			data.HitEffectOffset = asset.EffectOffset;
-			data.HitEffectRotOffset = asset.EffectRotOffset;
-			data.HitEffectPrefab = asset.EffectPrefab;
-			data.HitEffectParent = asset.AttackEffectParent;
+			data.HitEffectOffset = asset.HitEffectOffset;
+			data.HitEffectRotOffset = asset.HitEffectRotOffset;
+			data.HitEffectPrefab = asset.HitEffectPrefab;
+			data.HitEffectParent = asset.HitEffectParent;
 
 			data.AttackSound = asset.AttackSound;
 
