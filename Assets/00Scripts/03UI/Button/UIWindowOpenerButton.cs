@@ -7,8 +7,17 @@ public class UIWindowOpenerButton : UIButton
 	[field: SerializeField]
 	public WindowList OpenWindowType { get; private set; }
 
+	public bool isClose = false;
+
 	protected override void ActiveFunc()
 	{
-		UIManager.Instance.OpenWindow(OpenWindowType);
+		if (isClose)
+		{
+			UIManager.Instance.CloseWindow(OpenWindowType);
+		}
+		else
+		{
+			UIManager.Instance.OpenWindow(OpenWindowType);
+		}
 	}
 }
