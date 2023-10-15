@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class PartSystem : MonoBehaviour
 {
-	[SerializeField, Header("Combo ½Ã½ºÅÛ")]
+	[SerializeField, Header("Combo ï¿½Ã½ï¿½ï¿½ï¿½")]
 	private ComboGaugeSystem comboGaugeSystem;
 
 	private Player player;
@@ -17,7 +17,7 @@ public class PartSystem : MonoBehaviour
 	// 3		: Active
 	public PartBehaviour[] equipPartList = new PartBehaviour[4];
 
-	[SerializeField, Header("µð¹ö±× ¿ë")]
+	[SerializeField, Header("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½")]
 	private List<StatusData> status;
 
 	public float debugPercent = .0f;
@@ -25,12 +25,12 @@ public class PartSystem : MonoBehaviour
 	private const int UseCoreAbility = 2;
 	private const int ActivePartIndex = 3;
 
-	// Part°¡ ÀåÂøµÇ¾úÀ» ¶§. È¤Àº ÀåÂø ÇØÁ¦ µÇ¾úÀ» ¶§.
+	// Partï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½. È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½.
 	// Index, PartCode
 	[HideInInspector] public UnityEvent<int, int> onPartEquip;
 	[HideInInspector] public UnityEvent<int, int> onPartUnEquip;
 
-	// Part°¡ È°¼ºÈ­, ºñÈ°¼ºÈ­ µÇ¾úÀ» ¶§.
+	// Partï¿½ï¿½ È°ï¿½ï¿½È­, ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½.
 	// PartCode
 	[HideInInspector] public UnityEvent<int> onPartActive;
 	[HideInInspector] public UnityEvent<int> onPartDeactive;
@@ -50,7 +50,7 @@ public class PartSystem : MonoBehaviour
 		{
 			if (equipPartList[index].partCode != 0)
 			{
-				FDebug.Log($"ÇØ´çÇÏ´Â Index¿¡ ÀÌ¹Ì Part°¡ Á¸ÀçÇÕ´Ï´Ù.");
+				FDebug.Log($"ï¿½Ø´ï¿½ï¿½Ï´ï¿½ Indexï¿½ï¿½ ï¿½Ì¹ï¿½ Partï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
 				return;
 			}
 		}
@@ -59,7 +59,7 @@ public class PartSystem : MonoBehaviour
 		equipPartList[index] = part;
 		// Index, Code
 		onPartEquip?.Invoke(index, partCode);
-		FDebug.Log($"{index +1}¹øÂ°¿¡ {partCode}¿¡ ÇØ´çÇÏ´Â ÆÄÃ÷ ÀåÂø ¿Ï·á", part.GetType());
+		FDebug.Log($"{index +1}ï¿½ï¿½Â°ï¿½ï¿½ {partCode}ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½", part.GetType());
 	}
 	
 	public void UnEquipPart(int index)
@@ -68,11 +68,11 @@ public class PartSystem : MonoBehaviour
 		onPartUnEquip?.Invoke(index, partCode);
 
 		equipPartList[index] = null;
-		FDebug.Log($"{index +1}¹øÂ°¿¡ ÇØ´çÇÏ´Â ÆÄÃ÷ ÀåÂø ÇØÁ¦");
+		FDebug.Log($"{index +1}ï¿½ï¿½Â°ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 	}
 
-	// Select index : ÇöÀç ¼±ÅÃµÈ Index
-	// Change Index : ±³Ã¼¸¦ Èñ¸ÁÇÏ°í ÀÖ´Â Index
+	// Select index : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ Index
+	// Change Index : ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ Index
 	public void SwapPart(int selectIndex, int changeIndex)
 	{
 		(equipPartList[selectIndex], equipPartList[changeIndex]) = (equipPartList[changeIndex], equipPartList[selectIndex]);
@@ -130,7 +130,7 @@ public class PartSystem : MonoBehaviour
 
 			var partCode = part.partCode;
 
-			onPartEquip?.Invoke(partCode);
+			//onPartEquip?.Invoke(partCode);
 		}
 	}
 
@@ -156,7 +156,7 @@ public class PartSystem : MonoBehaviour
 
 			var partCode = part.partCode;
 
-			onPartUnEquip?.Invoke(partCode);
+			//onPartUnEquip?.Invoke(partCode);
 		}
 	}
 	#endregion
