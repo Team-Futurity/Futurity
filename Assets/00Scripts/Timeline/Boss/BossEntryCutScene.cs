@@ -42,7 +42,7 @@ public class BossEntryCutScene : CutSceneBase
 	{
 		bossEntry.Pause();
 		
-		chapterManager.PauseCutSceneUntilScriptsEnd(bossEntry, scriptsList, curScriptsIndex);
+		chapterManager.PauseCutSceneUntilScriptsEnd(bossEntry);
 		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;

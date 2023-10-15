@@ -5,7 +5,7 @@ using UnityEngine;
 public class Active_Alpha : CutSceneBase
 {
 	private Animator playerAnimator;
-	
+
 	protected override void Init()
 	{
 		base.Init();
@@ -14,12 +14,14 @@ public class Active_Alpha : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		
+		chapterManager.SetActivePlayerInfoUI(false);
+		chapterManager.SetActiveComboUI(false);
 	}
 
 	public override void DisableCutScene()
 	{
 		Time.timeScale = 1.0f;
+		chapterManager.SetActivePlayerInfoUI(true);
 	}
 
 	public void TimeStop()

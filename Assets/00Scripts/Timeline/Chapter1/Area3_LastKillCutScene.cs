@@ -38,7 +38,7 @@ public class Area3_LastKillCutScene : CutSceneBase
 	{
 		area3LastKill.Pause();
 		
-		chapterManager.PauseCutSceneUntilScriptsEnd(area3LastKill, scriptsList, curScriptsIndex);
+		chapterManager.PauseCutSceneUntilScriptsEnd(area3LastKill);
 		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;

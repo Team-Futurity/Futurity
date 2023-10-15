@@ -33,7 +33,7 @@ public class Area1_RewardCutScene : CutSceneBase
 	{
 		rewardCutScene.Pause();
 		
-		chapterManager.PauseCutSceneUntilScriptsEnd(rewardCutScene, scriptsList, curScriptsIndex);
+		chapterManager.PauseCutSceneUntilScriptsEnd(rewardCutScene);
 		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
