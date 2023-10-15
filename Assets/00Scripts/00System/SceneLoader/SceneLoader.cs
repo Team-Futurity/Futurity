@@ -19,6 +19,7 @@ public class SceneLoader : Singleton<SceneLoader>
 
 	private void EnableSceneLoadEvent()
 	{
+		Debug.Log(" Enable ");
 		SceneManager.sceneLoaded += SetLoadSystemData;
 	}
 
@@ -59,11 +60,14 @@ public class SceneLoader : Singleton<SceneLoader>
 			mode
 			);
 
+		if (usedLoadScene){ EnableSceneLoadEvent();}
+
 		endAction?.Invoke();
 	}
 
 	public void LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
 	{
+		Debug.Log(" SCENE CALL ");
 		StartCoroutine(StartAsyncSceneLoad(sceneName, mode, endAction));
 	}
 
@@ -78,16 +82,26 @@ public class SceneLoader : Singleton<SceneLoader>
 		var timer = .0f;
 		sceneProgress = .0f;
 
+		Debug.Log("Scene Load");
+
 		while (!operation.isDone)
 		{
-			timer += Time.deltaTime;
+			timer += 0.1f;
 
 			sceneProgress = operation.progress / 0.9f;
 			updateProgress?.Invoke(sceneProgress);
 
 			yield return new WaitForSeconds(0.1f);
 
-			if (sceneProgress > 0.95f && timer >= 2f)
+			//if (sceneProgress > 0.95f)
+			//{
+			//	operation.allowSceneActivation = true;
+			//	break;
+			//}
+
+			Debug.Log(sceneProgress +  " : " + timer);
+
+			if (sceneProgress > 0.95f && timer >= 1f)
 			{
 				FadeManager.Instance.FadeIn(1f, () =>
 				{

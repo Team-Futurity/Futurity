@@ -19,6 +19,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		base.Awake();
 
 		TryGetComponent(out playerInput);
+
 	}
 
 	private void Start()
