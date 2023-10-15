@@ -6,21 +6,22 @@ using UnityEngine.UI;
 public class UIPassiveSlot : MonoBehaviour
 {
 	public Image iconImage;
-	public GameObject activateObj;
+	public Image activateImage;
 
 	public void SetSlot(Sprite partIcon)
 	{
 		iconImage.sprite = partIcon;
+		iconImage.enabled = true;
 	}
 
-	public void ActivateSlot(bool isOn)
+	public void SetActivateImage(bool isOn)
 	{
-		activateObj.SetActive(isOn);
+		activateImage.enabled = isOn;
 	}
 
 	public void ClearSlot()
 	{
-		iconImage.sprite = null;
+		iconImage.enabled = false;
+		SetActivateImage(false);
 	}
-
 }
