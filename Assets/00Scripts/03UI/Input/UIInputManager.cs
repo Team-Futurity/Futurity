@@ -19,6 +19,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		base.Awake();
 
 		TryGetComponent(out playerInput);
+
 	}
 
 	private void Start()
@@ -28,6 +29,10 @@ public class UIInputManager : Singleton<UIInputManager>
 		InputActionManager.Instance.RegisterCallback(map.MoveToPreviousUI, (context) => OnMoveToPreviousUI(context), true);
 		InputActionManager.Instance.RegisterCallback(map.MoveToNextUI, (context) => OnMoveToNextUI(context), true);
 		InputActionManager.Instance.RegisterCallback(map.ClickUI, (context) => OnClickUI(context), true);
+		
+		// Left & Right
+		InputActionManager.Instance.RegisterCallback(map.LeftKey, (context) => OnLeftKey(context), true);
+		InputActionManager.Instance.RegisterCallback(map.RightKey, (context) => OnRightKey(context), true);
 	}
 
 	private void SetInputActionAsset(InputActionData actionData)
@@ -126,6 +131,22 @@ public class UIInputManager : Singleton<UIInputManager>
 		ChangeToIndex(-1);
 
 		SelectUI();
+	}
+
+	public void OnLeftKey(InputAction.CallbackContext context)
+	{
+		if (!currentActiveButtons[currentIndex].usedLeftRight)
+			return;
+
+		currentActiveButtons[currentIndex].OnLeft();
+	}
+
+	public void OnRightKey(InputAction.CallbackContext context)
+	{
+		if (!currentActiveButtons[currentIndex].usedLeftRight)
+			return;
+
+		currentActiveButtons[currentIndex].OnRight();
 	}
 
 	public void OnClickUI(InputAction.CallbackContext context)

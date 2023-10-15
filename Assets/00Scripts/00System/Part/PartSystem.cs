@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
 
 public class PartSystem : MonoBehaviour
 {
@@ -23,6 +24,16 @@ public class PartSystem : MonoBehaviour
 
 	private const int UseCoreAbility = 2;
 	private const int ActivePartIndex = 3;
+
+	// Part가 장착되었을 때. 혹은 장착 해제 되었을 때.
+	// Index, PartCode
+	[HideInInspector] public UnityEvent<int, int> onPartEquip;
+	[HideInInspector] public UnityEvent<int, int> onPartUnEquip;
+
+	// Part가 활성화, 비활성화 되었을 때.
+	// PartCode
+	[HideInInspector] public UnityEvent<int> onPartActive;
+	[HideInInspector] public UnityEvent<int> onPartDeactive;
 	
 	private void Awake()
 	{
@@ -30,11 +41,7 @@ public class PartSystem : MonoBehaviour
 
 		TryGetComponent(out player);
 		
-		// 콤보 게이지 추가
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdateComboGauge);
-		
-		EquipPart(0, 2103);
-		EquipPart(1, 2102);
 	}
 
 	public void EquipPart(int index, int partCode, bool isForced = false)
@@ -44,21 +51,24 @@ public class PartSystem : MonoBehaviour
 			if (equipPartList[index].partCode != 0)
 			{
 				FDebug.Log($"해당하는 Index에 이미 Part가 존재합니다.");
-				
 				return;
 			}
 		}
 		
 		var part = PartDatabase.GetPart(partCode);
 		equipPartList[index] = part;
-		
+		// Index, Code
+		onPartEquip?.Invoke(index, partCode);
 		FDebug.Log($"{index +1}번째에 {partCode}에 해당하는 파츠 장착 완료", part.GetType());
 	}
 	
 	public void UnEquipPart(int index)
 	{
+		var partCode = equipPartList[index].partCode;
+		onPartUnEquip?.Invoke(index, partCode);
+
 		equipPartList[index] = null;
-		FDebug.Log($"{index +1}번째에 해당하는 파츠 장착 완료");
+		FDebug.Log($"{index +1}번째에 해당하는 파츠 장착 해제");
 	}
 
 	// Select index : 현재 선택된 Index
@@ -73,6 +83,8 @@ public class PartSystem : MonoBehaviour
 		return (equipPartList[index] == null);
 	}
 
+
+	#region Part Activate
 	private void UpdateComboGauge(float percent, float max)
 	{
 		int activePossibleCount = (int)Math.Floor(percent / 25f);
@@ -115,6 +127,10 @@ public class PartSystem : MonoBehaviour
 			{
 				
 			}
+
+			var partCode = part.partCode;
+
+			onPartEquip?.Invoke(partCode);
 		}
 	}
 
@@ -137,8 +153,13 @@ public class PartSystem : MonoBehaviour
 			}
 
 			part.SetPartActive(false);
+
+			var partCode = part.partCode;
+
+			onPartUnEquip?.Invoke(partCode);
 		}
 	}
+	#endregion
 
 	#region Status Feature
 
