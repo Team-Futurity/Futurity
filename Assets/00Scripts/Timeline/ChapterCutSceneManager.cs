@@ -17,8 +17,9 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[SerializeField] private Camera mainCamera;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private GameObject mainUICanvas;
+	[SerializeField] private GameObject comboUI;
+	[SerializeField] private GameObject playerInfoUI;
 	public TimelineScripting scripting;
-	[SerializeField] private TextMeshProUGUI scriptingName;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 	[HideInInspector] public TimelineManager timelineManager;
@@ -121,30 +122,23 @@ public class ChapterCutSceneManager : MonoBehaviour
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 
-	public void SetActiveMainUI(bool active)
-	{
-		mainUICanvas.SetActive(active);
-	}
+	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);
 	
-	public void EnableUI()
-	{
-		mainUICanvas.SetActive(true);
-	}
+	public void SetActiveComboUI(bool active) => comboUI.SetActive(active);
+
+	public void SetActivePlayerInfoUI(bool active) => playerInfoUI.SetActive(active);
+
+	public void EnableUI() => mainUICanvas.SetActive(true);
 	
 	#region StandingScripts
-
-	public void InitNameField(string talkName)
-	{
-		scriptingName.text = talkName;
-	}
 	
-	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
+	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene)
 	{
 		cutScene.Pause();
-		StartCoroutine(WaitScriptsEnd(cutScene, list, scriptsIndex));
+		StartCoroutine(WaitScriptsEnd(cutScene));
 	}
 
-	private IEnumerator WaitScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
+	private IEnumerator WaitScriptsEnd(PlayableDirector cutScene)
 	{
 		while (scripting.isEnd == false)
 		{
@@ -153,13 +147,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		cutScene.Resume();
 		scripting.isEnd = false;
-
-		if (scriptsIndex + 1 < list.Count)
-		{
-			scriptsIndex++;
-			yield return waitForSecondsRealtime;
-			scripting.InitNameField(list[scriptsIndex].scriptList[0].name);
-		}
 	}
 
 	#endregion

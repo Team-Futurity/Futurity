@@ -13,7 +13,7 @@ public class TimelineScripting : MonoBehaviour
 	[SerializeField] private SkeletonGraphic sariAnimation;
 	[SerializeField] private GameObject bossAnimation;
 	[SerializeField] private TextMeshProUGUI textInput;
-	[SerializeField] private TextMeshProUGUI nameField;
+	[SerializeField] private GameObject[] nameText;
 	[SerializeField] private float textOutputDelay = 0.05f;
 	[HideInInspector] public bool isEnd = false;
 	private bool isInput = false;
@@ -31,16 +31,25 @@ public class TimelineScripting : MonoBehaviour
 	{
 		textPrint = PrintingScript(scriptsStruct);
 		isEnd = false;
-		
+
 		StartCoroutine(textPrint);
 		StartInputCheck();
 	}
 
-	public void InitNameField(string inputName)
+	public void EnableNameText(int index)
 	{
-		nameField.text = inputName;
+		for (int i = 0; i < nameText.Length; ++i)
+		{
+			if (index == i)
+			{
+				nameText[i].SetActive(true);
+				continue;
+			}
+			
+			nameText[i].SetActive(false);
+		}
 	}
-
+	
 	public void EnableStandingImg(string imgName)
 	{
 		switch (imgName)
@@ -68,7 +77,7 @@ public class TimelineScripting : MonoBehaviour
 				SariEmotionCheck(scripts.sariExpression);
 			}
 
-			nameField.text = scripts.name;
+			EnableNameText((int)scripts.nameType);
 			textInput.text = "";
 
 			foreach (char text in scripts.scripts)

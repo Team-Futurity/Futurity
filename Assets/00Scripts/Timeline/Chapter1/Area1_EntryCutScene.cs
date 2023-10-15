@@ -55,7 +55,7 @@ public class Area1_EntryCutScene : CutSceneBase
 	{
 		entryCutScene.Pause();
 		
-		chapterManager.PauseCutSceneUntilScriptsEnd(entryCutScene, scriptsList, curScriptsIndex);
+		chapterManager.PauseCutSceneUntilScriptsEnd(entryCutScene);
 		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;

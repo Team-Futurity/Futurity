@@ -9,43 +9,86 @@ public class UIPartSlot : MonoBehaviour
 	[SerializeField]
 	private PartSystem partSystem;
 
+	[Space(10), Header("Part 슬롯")]
 	public UIPassiveSlot[] passiveSlots;
 	public UIActiveSlot activeSlot;
 
-	// 파츠 String -> ID를 가져오면 Addressable로 Item Data를 가져온다.
-
 	private void Awake()
 	{
-		// Part Equip
-		partSystem.onPartEquip?.AddListener((x, y) =>
+		partSystem.onPartActive?.AddListener((index, code) =>
 	   {
-		   var image = LoadPartIconImage(x);
-		   SetPassiveSlot(y, image);
+		   if(index == 3)
+		   {
+			   activeSlot.SetSlot();
+			   return;
+		   }
+
+		   passiveSlots[index].SetActivateImage(true);
 	   });
-	}
 
-	public void SetPassiveSlot(int index, Sprite partIcon) => passiveSlots[index].SetSlot(partIcon);
-
-	public void SetActiveSlot(Sprite partIcon) => activeSlot.SetSlot(partIcon);
-
-	public void SyncSlots()
-	{
-	}
-
-	public void ClearSlots()
-	{
-		foreach(var slot in passiveSlots)
+		partSystem.onPartDeactive?.AddListener((index, code) =>
 		{
-			slot.ClearSlot();
+			if(index == 3)
+			{
+				activeSlot.ClearSlot();
+				return;
+			}
+
+			passiveSlots[index].SetActivateImage(false);
+		});
+
+		partSystem.onPartEquip?.AddListener((index, code) =>
+		{
+			AddPartIcon(index, code);
+		});
+	}
+
+	private void Start()
+	{
+		SyncToPartSystem();
+	}
+
+	public void AddPartIcon(int index, int partCode)
+	{
+		if(index == 3)
+		{
+			return;
 		}
 
-		activeSlot.ClearSlot();
+		passiveSlots[index].SetSlot(LoadPassivePartIconImage(partCode));
 	}
 
-	private Sprite LoadPartIconImage(int code)
+	public void SyncToPartSystem()
 	{
-		var spriteImage = Addressables.LoadAssetAsync<Sprite>(code).WaitForCompletion();
-		return spriteImage;
+		for(int i = 0; i <= 3; ++i)
+		{
+			if (!partSystem.IsIndexPartEmpty(i)) continue;
+
+			if(i == 3)
+			{
+				activeSlot.ClearSlot();
+
+				return;
+			}
+
+			passiveSlots[i].ClearSlot();
+		}
 	}
-	
+
+
+	#region Data Load
+
+	private Sprite LoadPassivePartIconImage(int code)
+	{
+		var passiveData = Addressables.LoadAssetAsync<UIPassiveSelectData>(code.ToString()).WaitForCompletion();
+		return passiveData.partIconSpr;
+	}
+
+	private Sprite LoadActivePartIconImage(int code)
+	{
+		return null;
+	}
+
+	#endregion
+
 }

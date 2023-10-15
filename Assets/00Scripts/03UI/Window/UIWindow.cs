@@ -27,6 +27,8 @@ public class UIWindow : MonoBehaviour
 	[field: SerializeField, Space(10)]
 	public List<GameObject> CurrentWindowObjects { get; private set; }
 
+	public bool isOpen = false;
+
 	private void Awake()
 	{
 		if (WindowType == WindowList.NONE)
@@ -64,6 +66,10 @@ public class UIWindow : MonoBehaviour
 	{
 		ChangeState(WindowState.ACTIVE);
 
+		if (isOpen) return;
+
+		isOpen = true;
+
 		// Button Clear
 		UIInputManager.Instance.ClearAll();
 
@@ -100,6 +106,8 @@ public class UIWindow : MonoBehaviour
 		{
 			CurrentWindowObjects[i].SetActive(false);
 		}
+
+		isOpen = false;
 
 		for (int i = 0; i < CurrentWindowButtons.Count; ++i)
 		{
