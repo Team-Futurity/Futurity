@@ -5,10 +5,10 @@ using UnityEngine;
 public class UIWindowOpenerButton : UIButton
 {
 	[field: SerializeField]
-	public WindowList windowType { get; private set; }
+	public WindowList OpenWindowType { get; private set; }
 
 	protected override void ActiveFunc()
 	{
-		UIManager.Instance.OpenWindow(windowType);
+		UIManager.Instance.OpenWindow(OpenWindowType);
 	}
 }
