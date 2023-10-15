@@ -18,7 +18,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
-	[SerializeField] private TextMeshProUGUI scriptingName;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 	[HideInInspector] public TimelineManager timelineManager;
@@ -132,11 +131,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 	}
 	
 	#region StandingScripts
-
-	public void InitNameField(string talkName)
-	{
-		scriptingName.text = talkName;
-	}
 	
 	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
 	{
@@ -158,7 +152,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 		{
 			scriptsIndex++;
 			yield return waitForSecondsRealtime;
-			scripting.InitNameField(list[scriptsIndex].scriptList[0].name);
+			//scripting.InitNameField(list[scriptsIndex].scriptList[0].name);
 		}
 	}
 
