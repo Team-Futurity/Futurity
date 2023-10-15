@@ -31,4 +31,9 @@ public class VolumeSlider : MonoBehaviour
 
 		AudioManager.Instance.SetVolume(busType, ratio);
 	}
+
+	public float GetCurrentVolume()
+	{
+		return AudioManager.Instance.GetVolume(busType);
+	}
 }
