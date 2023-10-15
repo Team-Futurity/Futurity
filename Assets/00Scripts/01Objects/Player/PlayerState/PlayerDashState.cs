@@ -34,6 +34,9 @@ public class PlayerDashState : UnitState<PlayerController>
 
 	public override void Update(PlayerController pc)
 	{
+		FDebug.Log(pc.transform.position + " " + pc.rigid.velocity + "__" + pc.animator.applyRootMotion);
+
+
 		if (currentTime > dashTime)
 		{
 			pc.currentDashCount = 0;

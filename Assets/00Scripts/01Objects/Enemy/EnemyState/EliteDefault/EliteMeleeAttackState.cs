@@ -20,9 +20,11 @@ public class EliteMeleeAttackState : EnemyAttackBaseState
 		atk1.position = new Vector3(0, 1.5f, 0);
 		atk1.parent = unit.gameObject;
 		unit.currentEffectData = atk1;
+		unit.atkCollider.radius = 3.27f;
 		unit.rigid.velocity = Vector3.zero;
+		unit.enemyData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(38);
 		unit.navMesh.enabled = true;
-		unit.atkCollider.enabled = true;
+		/*unit.atkCollider.enabled = true;*/
 	}
 
 	public override void Update(EnemyController unit)

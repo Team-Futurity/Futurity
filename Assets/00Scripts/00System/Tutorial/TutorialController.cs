@@ -34,8 +34,9 @@ public class TutorialController : MonoBehaviour
 	{
 		if (!isDebugMode)
 		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+			/*InputActionManager.Instance.DisableAllInputActionAsset();
+			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);*/
 		}
 
 		LoadTutorialDialogData();
@@ -58,9 +59,13 @@ public class TutorialController : MonoBehaviour
 
 	private void StartTutorial()
 	{
+		FadeManager.Instance.FadeIn(fadeTime, () =>
+		{
+			SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+		});
+
 		// First Settings
 		dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
-		performHandler.SetPerfrom();
 		
 		// Event - Dialog Ended
 		dialogController.OnEnded?.AddListener(() =>
@@ -68,7 +73,7 @@ public class TutorialController : MonoBehaviour
 			switch (currentDialogIndex)
 			{
 				case 0:
-					WindowManager.Instance.ShowWindow("Perform");
+					performHandler.SetPerfrom();
 					performHandler.Run();
 					break;
 

@@ -7,14 +7,15 @@ public class UISceneLoadButton : UIButton
 	public float fadeTime = .0f;
 	public string sceneName = "";
 
-	protected override void ActiveAction()
+	public bool isLoadingScene = true;
+
+	protected override void ActiveFunc()
 	{
 		UIInputManager.Instance.ClearAll();
-		InputActionManager.Instance.DisableAllInputActionAsset();
 
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
-			SceneLoader.Instance.LoadScene(sceneName);
+			SceneLoader.Instance.LoadScene(sceneName, isLoadingScene);
 		});
 	}
 }

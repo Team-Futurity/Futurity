@@ -6,44 +6,35 @@ using UnityEngine.UI;
 
 public abstract class UIButton : MonoBehaviour
 {
-	private Button button;
+	[field: SerializeField]
+	public List<UISwap> swapList { get; private set; }
 
-	public int layerOrder = 0;
-	protected abstract void ActiveAction();
-
-	protected virtual void Awake()
-	{
-		TryGetComponent(out button);
-
-		button.onClick.AddListener(() =>
-		{
-			Select();
-			ActiveAction();
-		});
-	}
-
-	private void Start()
-	{
-		UIInputManager.Instance.AddButton(layerOrder, this);
-
-		if(layerOrder == 0)
-		{
-			UIInputManager.Instance.SelectUI();
-		}
-	}
+	protected abstract void ActiveFunc();
 
 	public void Active()
 	{
-		ActiveAction();
+		ActiveFunc();
 	}
 
-	public void Select()
+	public void Select(bool isOn)
 	{
-		button.Select();
+		SwapResources(isOn);
 	}
 
-	public Button GetButton()
+	public void SetDefault()
 	{
-		return button;
+		for (int i = 0; i < swapList.Count; ++i)
+		{
+			swapList[i].SetDefaultImage();
+		}
 	}
+
+	private void SwapResources(bool isOn)
+	{
+		for(int i= 0;i < swapList.Count; ++i)
+		{
+			swapList[i].Swap(isOn);
+		}
+	}
+	
 }

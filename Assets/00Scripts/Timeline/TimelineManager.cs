@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public enum EChapter1CutScene
 {
@@ -27,52 +25,69 @@ public enum EPublicCutScene
 	PLYAERDEATHCUTSCENE,
 }
 
+public enum EActiveCutScene
+{
+	ACITVE_ALPHA = 0,	
+}
+
 public class TimelineManager : Singleton<TimelineManager>
 {
-	[Header("Component")] 
-	[SerializeField] private List<GameObject> cutSceneList = new List<GameObject>();
-	[SerializeField] private List<GameObject> publicCutScene = new List<GameObject>();
-	public List<GameObject> CutSceneList => cutSceneList;
-
-	public void InitTimelineManager(List<GameObject> initCutScene, List<GameObject> publicScene)
+	[Header("런타임 자동 초기화")] 
+	[SerializeField] private CutSceneStruct cutSceneList = new CutSceneStruct();
+	
+	public List<GameObject> ChapterScene => cutSceneList.chapterScene;
+	public List<GameObject> PublicScene => cutSceneList.publicScene;
+	public List<GameObject> ActiveScene => cutSceneList.activeScene;
+ 
+	public void InitTimelineManager(CutSceneStruct cutSceneStruct)
 	{
-		cutSceneList.Clear();
-		publicCutScene.Clear();
+		ClearAllCutSceneList();
 
-		foreach (GameObject cutScene in initCutScene)
+		foreach (GameObject cutScene in cutSceneStruct.chapterScene)
 		{
-			cutSceneList.Add(cutScene);
+			cutSceneList.chapterScene.Add(cutScene);
 		}
 
-		foreach (GameObject cutScene in publicScene)
+		foreach (GameObject cutScene in cutSceneStruct.publicScene)
 		{
-			publicCutScene.Add(cutScene);
+			cutSceneList.publicScene.Add(cutScene);
+		}
+
+		foreach (GameObject cutScene in cutSceneStruct.activeScene)
+		{
+			cutSceneList.activeScene.Add(cutScene);
 		}
 	}
 
 	public void EnablePublicCutScene(EPublicCutScene cutScene)
 	{
-		publicCutScene[(int)cutScene].SetActive(true);
+		cutSceneList.publicScene[(int)cutScene].SetActive(true);
 	}
 	
 	public void Chapter1_Area1_EnableCutScene(EChapter1CutScene cutScene)
 	{
-		if (cutScene == EChapter1CutScene.AREA1_ENTRYCUTSCENE)
-		{
-			cutSceneList[(int)cutScene].GetComponent<PlayableDirector>().Play();
-			return;
-		}
-		
-		cutSceneList[(int)cutScene].SetActive(true);
+		cutSceneList.chapterScene[(int)cutScene].SetActive(true);
 	}
 
 	public void Chapter1_Area2_EnableCutScene(EChapter1_2 type)
 	{
-		cutSceneList[(int)type].SetActive(true);
+		cutSceneList.chapterScene[(int)type].SetActive(true);
 	}
 
 	public void BossStage_EnableCutScene(EBossCutScene cutScene)
 	{
-		cutSceneList[(int)cutScene].SetActive(true);
+		cutSceneList.chapterScene[(int)cutScene].SetActive(true);
+	}
+
+	public void EnableActiveCutScene(EActiveCutScene cutScene)
+	{
+		cutSceneList.activeScene[(int)cutScene].SetActive(true);
+	}
+
+	private void ClearAllCutSceneList()
+	{
+		cutSceneList.chapterScene.Clear();
+		cutSceneList.publicScene.Clear();
+		cutSceneList.activeScene.Clear();
 	}
 }

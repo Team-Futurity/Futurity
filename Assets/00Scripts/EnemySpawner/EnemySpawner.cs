@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
 {
 	[Header("컴포넌트")] 
 	[SerializeField] private Transform enemyParents;
-	
+
 	[Header("스폰 데이터")] 
 	[SerializeField] private EnemySpawnData spawnData;
 	[SerializeField] private float yRotation = -90.0f;
@@ -89,7 +89,8 @@ public class EnemySpawner : MonoBehaviour
 		for (int i = 0; i < count; ++i)
 		{
 			Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
-			Vector3 spawnPos = new Vector3(randomPos.x, yOffset, randomPos.y) + spawnArea.position;
+			Vector3 spawnPos = new Vector3(randomPos.x, 0, randomPos.y) + spawnArea.position;
+			spawnPos.y = yOffset;
 
 			Collider[] colliders = Physics.OverlapSphere(spawnPos, inspectionRange);
 			bool isEnemyFound = false;
@@ -120,7 +121,7 @@ public class EnemySpawner : MonoBehaviour
 			enemy.transform.SetPositionAndRotation(spawnPos, Quaternion.Euler(0, yRotation, 0));
 			enemy.transform.SetParent(enemyParents);
 			enemy.SetActive(true);
-
+			
 			curWaveEnemyCount[spawnIndex]++;
 		}
 		spawnIndex++;

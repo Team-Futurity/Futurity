@@ -16,12 +16,18 @@ public class PlayerAnimationEvents : MonoBehaviour
 	private IEnumerator hitStopCamShake;
 	private IEnumerator hitStopNonShake;
 
+	private ObjectPoolManager<Transform> walkEffectPoolManager;
+
 	public FMODUnity.EventReference walk;
+	public GameObject worldEffectParent;
+	public GameObject walkEffectPrefab;
+	public Transform walkEffectTransform;
 
 
 	private void Start()
 	{
-		pc = GetComponent<PlayerController>();
+		pc = transform.parent.GetComponent<PlayerController>();
+		walkEffectPoolManager = new ObjectPoolManager<Transform>(walkEffectPrefab, worldEffectParent);
 	}
 
 	public void EffectPooling()
@@ -134,6 +140,17 @@ public class PlayerAnimationEvents : MonoBehaviour
 		}
 	}
 	
+	public void WalkEffect()
+	{
+		if(walkEffectPoolManager == null) { return; }
+		GameObject obj = walkEffectPoolManager.ActiveObject(walkEffectTransform.position, walkEffectTransform.rotation).gameObject;
+
+		var particle = obj.GetComponent<ParticleController>();
+		if(particle != null)
+		{
+			particle.Initialize(walkEffectPoolManager);
+		}
+	}
 
 	#region HitEffectEvent
 	// 카메라 쉐이크
@@ -221,6 +238,12 @@ public class PlayerAnimationEvents : MonoBehaviour
 	}
 	#endregion
 
+	#region SetActiveScene
+	public void StartAlphaCutScene()
+	{
+		//TimelineManager.Instance.EnableActiveCutScene(EActiveCutScene.ACITVE_ALPHA);
+	}
+	#endregion
 	public void EnableAttackTiming()
 	{
 		pc.playerData.EnableAttackTiming();

@@ -5,24 +5,29 @@ using UnityEngine.InputSystem;
 
 public class UIInputManager : Singleton<UIInputManager>
 {
-	private Dictionary<int, UIButton> buttonDic = new Dictionary<int, UIButton>();
+	// Button List
+	private Dictionary<int, UIButton> currentActiveButtons = new Dictionary<int, UIButton>();
+
 	private PlayerInput playerInput;
 
+	// Button Index
 	private int currentIndex = 0;
+	private int saveIndex = 0;
 
 	protected override void Awake()
 	{
 		base.Awake();
 
 		TryGetComponent(out playerInput);
-
-		playerInput.ActivateInput();
 	}
 
 	private void Start()
 	{
-		InputActionManager.Instance.OnEnableEvent.AddListener(SetInputActionAsset);
-		InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);
+		CombinedInputActions.UIBehaviourActions map = InputActionManager.Instance.InputActions.UIBehaviour;
+		InputActionManager.Instance.ToggleActionMap(map);
+		InputActionManager.Instance.RegisterCallback(map.MoveToPreviousUI, (context) => OnMoveToPreviousUI(context), true);
+		InputActionManager.Instance.RegisterCallback(map.MoveToNextUI, (context) => OnMoveToNextUI(context), true);
+		InputActionManager.Instance.RegisterCallback(map.ClickUI, (context) => OnClickUI(context), true);
 	}
 
 	private void SetInputActionAsset(InputActionData actionData)
@@ -30,84 +35,107 @@ public class UIInputManager : Singleton<UIInputManager>
 		if (actionData.actionType == InputActionType.UI)
 		{
 			playerInput.actions = actionData.actionAsset;
+			playerInput.actions.Enable();
 		}
 	}
 
 	private void RemoveInputActionAsset()
 	{
-		playerInput.actions = null;
+		playerInput.actions.Disable();
 	}
 
-	private void Update()
+	#region Button
+
+	public void SetButtonList(List<UIButton> buttons, bool isDefaultFocus = true)
 	{
-		if(Input.GetKeyDown(KeyCode.R))
+		for (int i = 0; i < buttons.Count; ++i)
 		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
+			currentActiveButtons?.Add(i, buttons[i]);
+			Debug.Log(buttons[i].transform.name);
 		}
-		if (Input.GetKeyDown(KeyCode.T))
+
+		if (isDefaultFocus)
 		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.UI);
+			DefaultFocus();
 		}
 	}
 
-	public void SetInputAction(InputActionAsset asset)
+	public void DefaultFocus()
 	{
-		playerInput.actions = asset;
+		currentIndex = 0;
+		SelectUI();
 	}
-
-	public void AddButton(int order, UIButton button)
-	{
-		buttonDic?.Add(order, button);
-	}
-
+	
 	public void ClearAll()
 	{
-		buttonDic.Clear();
+		currentActiveButtons.Clear();
 	}
 
 	public void SelectUI()
 	{
-		buttonDic[currentIndex].Select();
+		if(!currentActiveButtons.ContainsKey(currentIndex))
+		{
+			FDebug.Log($"버튼이 없다.", GetType());
+			return;
+		}
+		currentActiveButtons[currentIndex].Select(true);
+	}
+
+	public void SaveIndex()
+	{
+		saveIndex = currentIndex;
+	}
+
+	public void SetSaveIndexToCurrentIndex()
+	{
+		if (saveIndex < 0)
+		{
+			FDebug.Log("Save처리 된 Index가 존재하지 않음.");
+		}
+		
+		currentIndex = saveIndex;
+		saveIndex = -1;
 	}
 
 	private void ChangeToIndex(int num)
 	{
 		var result = currentIndex + num;
 
-		if (result < 0 || result >= buttonDic.Count)
+		if (result < 0 || result >= currentActiveButtons.Count)
 		{
 			return;
 		}
 
+		currentActiveButtons[currentIndex].Select(false);
 		currentIndex = result;
 	}
 
+	#endregion
+
 	#region Input Action
 
-	public void OnMoveToNextUI()
+	public void OnMoveToNextUI(InputAction.CallbackContext context)
 	{
 		ChangeToIndex(1);
 
 		SelectUI();
 	}
 
-	public void OnMoveToPreviousUI()
+	public void OnMoveToPreviousUI(InputAction.CallbackContext context)
 	{
 		ChangeToIndex(-1);
 
 		SelectUI();
 	}
 
-	public void OnClickUI()
+	public void OnClickUI(InputAction.CallbackContext context)
 	{
-		if (buttonDic == null)
+		if (currentActiveButtons == null)
 		{
 			return;
 		}
 
-		buttonDic[currentIndex].Active();
+		currentActiveButtons[currentIndex].Active();
 	}
 	#endregion
 }

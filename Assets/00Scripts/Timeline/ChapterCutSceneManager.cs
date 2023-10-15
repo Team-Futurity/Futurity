@@ -1,32 +1,21 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Rendering; 
 using URPGlitch.Runtime.AnalogGlitch;
 
-public enum ECurChapter
-{
-	CHAPTER1_1 = 0,
-	CHAPTER1_2 = 1,
-	BOSS
-}
-
 public class ChapterCutSceneManager : MonoBehaviour
 {
-	[Header("DebugMode")] 
-	[SerializeField] private bool enableDebugMode;
-	public bool IsDebugMode => enableDebugMode;
-	[SerializeField] private SpawnerManager spawnerManager;
-	private const float StartPos = -12.5f;
+	[Header("Intro씬이라면 체크")] 
+	[SerializeField] private bool isIntroScene = false;
 
 	[Header("Component")] 
-	[SerializeField] private ECurChapter curChapter;
+	[SerializeField] private Camera mainCamera;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
 	[SerializeField] private TextMeshProUGUI scriptingName;
@@ -40,9 +29,8 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
 
 	[Header("컷신 목록")] 
-	[SerializeField] private List<GameObject> cutSceneList;
-	[SerializeField] private List<GameObject> publicSceneList;
- 
+	[SerializeField] private CutSceneStruct cutSceneList;
+  
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
 	private Transform originTarget;
@@ -66,15 +54,28 @@ public class ChapterCutSceneManager : MonoBehaviour
 	private IEnumerator lerpTimeScale;
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private AnalogGlitchVolume analogGlitch;
+
+	// test
+	private bool isInit = false;
 	
-	private void Start()
+	public void Start()
+	{
+		if (isIntroScene == true)
+		{
+			cutSceneList.chapterScene[0].SetActive(true);
+			return;
+		}
+		
+		InitManager();
+	}
+
+	public void InitManager()
 	{
 		timelineManager = TimelineManager.Instance;
-		timelineManager.InitTimelineManager(cutSceneList, publicSceneList);
-		
+		timelineManager.InitTimelineManager(cutSceneList);
+
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
-		playerInput.enabled = false;
 
 		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 		
@@ -82,38 +83,12 @@ public class ChapterCutSceneManager : MonoBehaviour
 		originOffset = cameraBody.m_TrackedObjectOffset;
 		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
-		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
-		Camera.main.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
+		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
+		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
 		
 		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
 
-		if (enableDebugMode == false)
-		{
-			if (curChapter == ECurChapter.CHAPTER1_2)
-			{
-				timelineManager.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
-				FadeManager.Instance.FadeOut(0.5f, () => timelineManager.CutSceneList[(int)EChapter1_2.AREA2_ENTRYSCENE]
-						.GetComponent<PlayableDirector>().Play());
-			}
-			else
-			{
-				
-			}
-			
-			return;
-		}
-
-		if (curChapter == ECurChapter.CHAPTER1_1)
-		{
-			timelineManager.CutSceneList[(int)EChapter1CutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
-			playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
-			mainUICanvas.SetActive(true);
-		}
-
-		if (spawnerManager != null)
-		{
-			spawnerManager.SpawnEnemy();
-		}
+		isInit = true;
 	}
 
 	private void Update()
@@ -137,12 +112,23 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	public void SetActivePlayerInput(bool active)
 	{
-		playerInput.enabled = active;
+		if (active == false)
+		{
+			InputActionManager.Instance.DisableActionMap();	
+			return;
+		}
+		
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 
 	public void SetActiveMainUI(bool active)
 	{
 		mainUICanvas.SetActive(active);
+	}
+	
+	public void EnableUI()
+	{
+		mainUICanvas.SetActive(true);
 	}
 	
 	#region StandingScripts
@@ -244,9 +230,4 @@ public class ChapterCutSceneManager : MonoBehaviour
 	
 	
 	#endregion
-	
-	public void EnableUI()
-	{
-		mainUICanvas.SetActive(true);
-	}
 }

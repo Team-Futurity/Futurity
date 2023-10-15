@@ -34,7 +34,7 @@ public class EnemyHittedState : UnitState<EnemyController>
 		if (unit.isTutorialDummy)
 			unit.DelayChangeState(curTime, 0.5f, unit, EnemyController.EnemyState.TutorialIdle);
 		else
-			unit.DelayChangeState(curTime, 0.1f/*unit.hitMaxTime*/, unit, unit.UnitChaseState());
+			unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
 
 		//Death event
 		if (unit.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)

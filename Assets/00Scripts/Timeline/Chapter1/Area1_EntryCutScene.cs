@@ -24,13 +24,13 @@ public class Area1_EntryCutScene : CutSceneBase
 
 	protected override void Init()
 	{
-		chapterManager.SetActiveMainUI(false);
-		chapterManager.SetActivePlayerInput(false);
+		
 	}
 
 	protected override void EnableCutScene()
 	{
 		chapterManager.isCutScenePlay = true;
+		chapterManager.SetActiveMainUI(false);
 	}
 	
 	public override void DisableCutScene()
@@ -42,12 +42,6 @@ public class Area1_EntryCutScene : CutSceneBase
 		
 		playerCamera.SetActive(true);
 		eliteEnemy.SetActive(false);
-
-		if (chapterManager.IsDebugMode == true)
-		{
-			chapterManager.SetActivePlayerInput(true);
-			return;
-		}
 		
 		chapterManager.SetActiveMainUI(true);
 		chapterManager.SetActivePlayerInput(true);
