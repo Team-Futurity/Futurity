@@ -47,13 +47,6 @@ public class PartSystem : MonoBehaviour
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdatePartActivate);
 	}
 
-	private void Start()
-	{
-		EquipPassivePart(0, 2103);
-		EquipPassivePart(1, 2102);
-		EquipPassivePart(2, 2101);
-	}
-
 	#region Equip & UnEquip
 
 	public void EquipPassivePart(int index, int partCode)
