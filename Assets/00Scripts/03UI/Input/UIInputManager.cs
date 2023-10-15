@@ -128,6 +128,24 @@ public class UIInputManager : Singleton<UIInputManager>
 		SelectUI();
 	}
 
+	public void OnLeftKey()
+	{
+		if (!currentActiveButtons[currentIndex].usedLeftRight)
+			return;
+
+		Debug.Log("ON LEFT");
+		currentActiveButtons[currentIndex].OnLeft();
+	}
+
+	public void OnRightKey()
+	{
+		if (!currentActiveButtons[currentIndex].usedLeftRight)
+			return;
+
+		Debug.Log("ON RIGHT");
+		currentActiveButtons[currentIndex].OnRight();
+	}
+
 	public void OnClickUI(InputAction.CallbackContext context)
 	{
 		if (currentActiveButtons == null)

@@ -9,11 +9,26 @@ public abstract class UIButton : MonoBehaviour
 	[field: SerializeField]
 	public List<UISwap> swapList { get; private set; }
 
+
+	public bool usedLeftRight = false;
+
 	protected abstract void ActiveFunc();
+	protected virtual void OnLeftActive() {}
+	protected virtual void OnRightActive() {}
 
 	public void Active()
 	{
 		ActiveFunc();
+	}
+
+	public void OnLeft()
+	{
+		OnLeftActive();
+	}
+
+	public void OnRight()
+	{
+		OnRightActive();
 	}
 
 	public void Select(bool isOn)
