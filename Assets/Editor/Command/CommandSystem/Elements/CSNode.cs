@@ -1,13 +1,13 @@
 ﻿using FMODUnity;
+using PlasticGui.WorkspaceWindow.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
+using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
-
 public class CSNode : Node
 {
 	public string ID { get; set; }
@@ -28,7 +28,8 @@ public class CSNode : Node
 	public bool IgnoresAutoTargetMove { get; set; }
 	public ColliderType AttackColliderType { get; set; }
 
-	// Attack Effect
+	public List<CSAttackAssetSaveData> AttackAssets { get; set; }
+	/*// Attack Effect
 	public Vector3 EffectOffset { get; set; }
 	public Vector3 EffectRotOffset { get; set; }
 	public GameObject EffectPrefab { get; set; }
@@ -38,7 +39,7 @@ public class CSNode : Node
 	public Vector3 HitEffectOffset { get; set; }
 	public Vector3 HitEffectRotOffset { get; set; }
 	public GameObject HitEffectPrefab { get; set; }
-	public EffectParent HitEffectParent { get; set; }
+	public EffectParent HitEffectParent { get; set; }*/
 
 	// Production
 	public int AnimInteger { get; set; }
@@ -50,7 +51,7 @@ public class CSNode : Node
 	public float SlowScale { get; set; }
 
 	// Attack Sound
-	public EventReference AttackSound { get; set; }
+	//public EventReference AttackSound { get; set; }
 
 	private Color defaultBackgroundColor;
 
@@ -74,6 +75,8 @@ public class CSNode : Node
 
 		mainContainer.AddToClassList("ds-node__main-container");
 		extensionContainer.AddToClassList("ds-node__extension-container");
+
+		AttackAssets = new List<CSAttackAssetSaveData>();
 	}
 
 	public virtual void Draw()
@@ -154,34 +157,34 @@ public class CSNode : Node
 		FloatField attackSTField						= CreateAndRegistField("Attack ST(데미지 배율)					|", AttackST, comboFoldout);
 		FloatField attackKnockbackField					= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 거리)		|", AttackKnockback, comboFoldout);
 		Toggle ignoreAutoTargetField					= CreateAndRegistField("자동 조준 이동 무시					|", IgnoresAutoTargetMove, comboFoldout);
-		EnumField attackColliderTypeField				= CreateAndRegistField("공격 콜라이더 타입					|", AttackColliderType, comboFoldout);	
+		EnumField attackColliderTypeField				= CreateAndRegistField("공격 콜라이더 타입					|", AttackColliderType, comboFoldout);
 
-		// attack effect
-		Foldout attackEffectFoldout	= CSElementUtility.CreateFoldout("Attack Effect");
-		Vector3Field effectOffsetField					= CreateAndRegistField("이펙트 위치 오프셋		|", EffectOffset, attackEffectFoldout);
-		Vector3Field effectRotOffsetField				= CreateAndRegistField("이펙트 회전 오프셋		|", EffectRotOffset, attackEffectFoldout);
-		ObjectField effectPrefabField					= CreateAndRegistField("이펙트 프리팹			|", EffectPrefab, typeof(GameObject), attackEffectFoldout);
-		EnumField effectParentField						= CreateAndRegistField("이펙트 부모 설정			|", AttackEffectParent, attackEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+		// Attack Asset
+		Foldout assetByPassiveFoldout = CSElementUtility.CreateFoldout("Assets by Passive");
+		Button addAssets = CSElementUtility.CreateButton("패시브 별 에셋 추가", () =>
+		{
+			Foldout foldout = CreateAttackAssetSaveDatas(null, assetByPassiveFoldout);
+		});
 
-		// enemy hit efffect
-		Foldout enemyHitEffectFoldout = CSElementUtility.CreateFoldout("Enemy Hit Effect");
-		Vector3Field enemyHitEffectOffsetField			= CreateAndRegistField("적 피격 이펙트 위치 오프셋	|", HitEffectOffset, enemyHitEffectFoldout);
-		Vector3Field enemyHitEffectRotOffsetField		= CreateAndRegistField("적 피격 이펙트 회전 오프셋	|", HitEffectRotOffset, enemyHitEffectFoldout);
-		ObjectField enemyHitEffectPrefabField			= CreateAndRegistField("적 피격 이펙트 프리팹		|", HitEffectPrefab, typeof(GameObject), enemyHitEffectFoldout);
-		EnumField enemyHitEffectField					= CreateAndRegistField("적 피격 이펙트 부모 설정	|", HitEffectParent, enemyHitEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+		CSAttackAssetSaveData[] attackAssetDatas = AttackAssets.ToArray();
+		foreach(var data in attackAssetDatas)
+		{
+			Foldout foldout = CreateAttackAssetSaveDatas(data, assetByPassiveFoldout);
+		}
+
+		if(AttackAssets.Count == 0) { CreateAttackAssetSaveDatas(null, assetByPassiveFoldout); }
+
+		assetByPassiveFoldout.Add(addAssets);
+		
 
 		// production
 		Foldout productionFoldout = CSElementUtility.CreateFoldout("Production");
 		IntegerField animInteagerField					= CreateAndRegistField("애니메이션 전환값			|", AnimInteger, productionFoldout);
-
 		FloatField shakeField							= CreateAndRegistField("커브로 흔드는 세기		|", ShakePower, productionFoldout);
 		FloatField shakeTimeField						= CreateAndRegistField("흔드는 시간				|", ShakeTime, productionFoldout);
 		FloatField slowTimeField						= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
 		FloatField slowScaleField						= CreateAndRegistField("슬로우를 거는 세기		|", SlowScale, productionFoldout);
 
-		// sound
-		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
-		TextField attackSoundField						= CreateAndRegistField("공격 SE				|", AttackSound.Path, soundFoldout);	
 
 		// Callbacks
 		commandTypeField.RegisterValueChangedCallback((callback) => { CommandType = (CSCommandType)callback.newValue; });
@@ -197,7 +200,7 @@ public class CSNode : Node
 		ignoreAutoTargetField.RegisterValueChangedCallback((callback) => { IgnoresAutoTargetMove = callback.newValue; });
 		attackColliderTypeField.RegisterValueChangedCallback((callback) => { AttackColliderType = (ColliderType)callback.newValue; });
 
-		effectOffsetField.RegisterValueChangedCallback((callback) => { EffectOffset = callback.newValue; });
+		/*effectOffsetField.RegisterValueChangedCallback((callback) => { EffectOffset = callback.newValue; });
 		effectRotOffsetField.RegisterValueChangedCallback((callback) => { EffectRotOffset = callback.newValue; });
 		effectPrefabField.RegisterValueChangedCallback((callback) => { EffectPrefab = callback.newValue as GameObject; });
 		effectParentField.RegisterValueChangedCallback((callback) => { AttackEffectParent = (EffectParent)callback.newValue; });
@@ -205,7 +208,7 @@ public class CSNode : Node
 		enemyHitEffectOffsetField.RegisterValueChangedCallback((callback) => { HitEffectOffset = callback.newValue; });
 		enemyHitEffectRotOffsetField.RegisterValueChangedCallback((callback) => { HitEffectRotOffset = callback.newValue; });
 		enemyHitEffectPrefabField.RegisterValueChangedCallback((callback) => { HitEffectPrefab = callback.newValue as GameObject; });
-		enemyHitEffectField.RegisterValueChangedCallback((callback) => { HitEffectParent = (EffectParent)callback.newValue; });
+		enemyHitEffectField.RegisterValueChangedCallback((callback) => { HitEffectParent = (EffectParent)callback.newValue; });*/
 
 		animInteagerField.RegisterValueChangedCallback((callback) => { AnimInteger = callback.newValue; });
 		shakeField.RegisterValueChangedCallback((callback) => { ShakePower = callback.newValue; });
@@ -213,15 +216,16 @@ public class CSNode : Node
 		slowTimeField.RegisterValueChangedCallback((callback) => { SlowTime = callback.newValue; });
 		slowScaleField.RegisterValueChangedCallback((callback) => { SlowScale = callback.newValue; });
 
-		attackSoundField.RegisterValueChangedCallback((callback) => { AttackSound = EventReference.Find(callback.newValue); });
+		/*attackSoundField.RegisterValueChangedCallback((callback) => { AttackSound = EventReference.Find(callback.newValue); });*/
 
 		// Add
 		customDataContainer.Add(textFoldout);
 		customDataContainer.Add(comboFoldout);
-		customDataContainer.Add(attackEffectFoldout);
-		customDataContainer.Add(enemyHitEffectFoldout);
+		customDataContainer.Add(assetByPassiveFoldout);
+		/*customDataContainer.Add(attackEffectFoldout);
+		customDataContainer.Add(enemyHitEffectFoldout);*/
 		customDataContainer.Add(productionFoldout);
-		customDataContainer.Add(soundFoldout);
+		/*customDataContainer.Add(soundFoldout);*/
 
 		extensionContainer.Add(customDataContainer);
 
@@ -229,7 +233,89 @@ public class CSNode : Node
 		Port nextCommandsPort = this.CreatePort("다음 커맨드", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
 		nextCommandsPort.userData = this;
 		outputContainer.Add(nextCommandsPort);
+
+		RefreshExpandedState();
 	}
+
+	#region Creation
+	private Foldout CreateAttackAssetSaveDatas(CSAttackAssetSaveData saveData, Foldout parent)
+	{
+		CSAttackAssetSaveData newSaveData = saveData;
+		if (saveData == null)
+		{
+			newSaveData = new CSAttackAssetSaveData();
+			newSaveData.PartCode = AttackAssets.Count == 0 ? 0 : AttackAssets[AttackAssets.Count-1].PartCode+1;
+			newSaveData.EffectOffset = Vector3.zero;
+			newSaveData.EffectRotOffset = Vector3.zero;
+			newSaveData.EffectPrefab = null;
+			newSaveData.AttackEffectParent = EffectParent.None;
+			newSaveData.HitEffectOffset = Vector3.zero;
+			newSaveData.HitEffectRotOffset = Vector3.zero;
+			newSaveData.HitEffectPrefab = null;
+			newSaveData.HitEffectParent = EffectParent.None;
+			newSaveData.AttackSound = new EventReference();
+		}
+
+		Foldout foldout = CSElementUtility.CreateFoldout(newSaveData.PartCode.ToString());
+
+		Button deleteButton = CSElementUtility.CreateButton("X", () =>
+		{
+			if(AttackAssets.Count == 1) { return; }
+
+			AttackAssets.Remove(saveData);
+			parent.Remove(foldout);
+		});
+		foldout.Add(deleteButton);
+
+		// Fields
+		// partCode
+		IntegerField partCodeField = CreateAndRegistField("PartCode", newSaveData.PartCode, foldout);
+
+		// attack effect
+		Foldout attackEffectFoldout = CSElementUtility.CreateFoldout("Attack Effect");
+		Vector3Field effectOffsetField = CreateAndRegistField("이펙트 위치 오프셋		|", newSaveData.EffectOffset, attackEffectFoldout);
+		Vector3Field effectRotOffsetField = CreateAndRegistField("이펙트 회전 오프셋		|", newSaveData.EffectRotOffset, attackEffectFoldout);
+		ObjectField effectPrefabField = CreateAndRegistField("이펙트 프리팹			|", newSaveData.EffectPrefab, typeof(GameObject), attackEffectFoldout);
+		EnumField effectParentField = CreateAndRegistField("이펙트 부모 설정			|", newSaveData.AttackEffectParent, attackEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+
+		// enemy hit efffect
+		Foldout enemyHitEffectFoldout = CSElementUtility.CreateFoldout("Enemy Hit Effect");
+		Vector3Field enemyHitEffectOffsetField = CreateAndRegistField("적 피격 이펙트 위치 오프셋	|", newSaveData.HitEffectOffset, enemyHitEffectFoldout);
+		Vector3Field enemyHitEffectRotOffsetField = CreateAndRegistField("적 피격 이펙트 회전 오프셋	|", newSaveData.HitEffectRotOffset, enemyHitEffectFoldout);
+		ObjectField enemyHitEffectPrefabField = CreateAndRegistField("적 피격 이펙트 프리팹		|", newSaveData.HitEffectPrefab, typeof(GameObject), enemyHitEffectFoldout);
+		EnumField enemyHitEffectField = CreateAndRegistField("적 피격 이펙트 부모 설정	|", newSaveData.HitEffectParent, enemyHitEffectFoldout, "ds-node__textfield", "ds-node__quote-textfield");
+
+		// sound
+		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
+		TextField attackSoundField = CreateAndRegistField("공격 SE				|", newSaveData.AttackSound.ToString(), soundFoldout);
+
+		// Set Foldout
+		foldout.Add(attackEffectFoldout);
+		foldout.Add(enemyHitEffectFoldout);
+		foldout.Add(soundFoldout);
+		parent.Add(foldout);
+
+		// Callbacks
+		partCodeField.RegisterValueChangedCallback((callback) => { foldout.text = callback.newValue.ToString(); });
+
+		effectOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.EffectOffset = callback.newValue; });
+		effectRotOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.EffectRotOffset = callback.newValue; });
+		effectPrefabField.RegisterValueChangedCallback((callback) => { newSaveData.EffectPrefab = (GameObject)callback.newValue; });
+		effectParentField.RegisterValueChangedCallback((callback) => { newSaveData.AttackEffectParent = (EffectParent)callback.newValue; });
+
+		enemyHitEffectOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.HitEffectOffset = callback.newValue; });
+		enemyHitEffectRotOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.HitEffectRotOffset = callback.newValue; });
+		enemyHitEffectPrefabField.RegisterValueChangedCallback((callback) => { newSaveData.HitEffectPrefab = (GameObject)callback.newValue; });
+		enemyHitEffectField.RegisterValueChangedCallback((callback) => { newSaveData.HitEffectParent = (EffectParent)callback.newValue; });
+
+		attackSoundField.RegisterValueChangedCallback((callback) => { newSaveData.AttackSound = EventReference.Find(callback.newValue); });
+
+		saveData = newSaveData;
+		AttackAssets.Add(newSaveData);
+
+		return foldout;
+	}
+	#endregion
 
 	#region Overrided
 	public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -340,7 +426,26 @@ public class CSNode : Node
 		IgnoresAutoTargetMove = saveData.IgnoresAutoTargetMove;
 		AttackColliderType = saveData.AttackColliderType;
 
-		EffectOffset = saveData.EffectOffset;
+		AttackAssets.Clear();
+		foreach (var asset in saveData.AttackAssets)
+		{
+			CSAttackAssetSaveData newSaveData = new CSAttackAssetSaveData();
+			newSaveData.EffectOffset = asset.EffectOffset;
+			newSaveData.EffectRotOffset = asset.EffectRotOffset;
+			newSaveData.EffectPrefab = asset.EffectPrefab;
+			newSaveData.AttackEffectParent = asset.AttackEffectParent;
+
+			newSaveData.HitEffectOffset = asset.HitEffectOffset;
+			newSaveData.HitEffectRotOffset = asset.HitEffectRotOffset;
+			newSaveData.HitEffectPrefab = asset.HitEffectPrefab;
+			newSaveData.HitEffectParent = asset.HitEffectParent;
+
+			newSaveData.AttackSound = asset.AttackSound;
+
+			AttackAssets.Add(newSaveData);
+		}
+		
+		/*EffectOffset = saveData.EffectOffset;
 		EffectRotOffset = saveData.EffectRotOffset;
 		EffectPrefab = saveData.EffectPrefab;
 		AttackEffectParent = saveData.AttackEffectParent;
@@ -348,7 +453,7 @@ public class CSNode : Node
 		HitEffectOffset = saveData.HitEffectOffset;
 		HitEffectRotOffset = saveData.HitEffectOffset;
 		HitEffectPrefab = saveData.HitEffectPrefab;
-		HitEffectParent = saveData.HitEffectParent;
+		HitEffectParent = saveData.HitEffectParent;*/
 
 		AnimInteger = saveData.AnimInteger;
 		ShakePower = saveData.ShakePower;
@@ -356,7 +461,7 @@ public class CSNode : Node
 		SlowTime = saveData.SlowTime;
 		SlowScale = saveData.SlowScale;
 
-		AttackSound = saveData.AttackSound;
+		//AttackSound = saveData.AttackSound;
 	}
 
 	public void SaveToCommandSO(ref CSCommandSO so)
@@ -372,7 +477,27 @@ public class CSNode : Node
 		so.IgnoresAutoTargetMove = IgnoresAutoTargetMove;
 		so.AttackColliderType = AttackColliderType;
 
-		so.EffectOffset = EffectOffset;
+		so.AttackAssets.Clear();
+		foreach (var asset in AttackAssets)
+		{
+			CSCommandAssetData data = new CSCommandAssetData();
+
+			data.EffectOffset = asset.EffectOffset;
+			data.EffectRotOffset = asset.EffectRotOffset;
+			data.EffectPrefab = asset.EffectPrefab;
+			data.AttackEffectParent = asset.AttackEffectParent;
+
+			data.HitEffectOffset = asset.HitEffectOffset;
+			data.HitEffectRotOffset = asset.HitEffectRotOffset;
+			data.HitEffectPrefab = asset.HitEffectPrefab;
+			data.HitEffectParent = asset.HitEffectParent;
+
+			data.AttackSound = asset.AttackSound;
+
+			so.AttackAssets.Add(data);
+		}
+
+		/*so.EffectOffset = EffectOffset;
 		so.EffectRotOffset = EffectRotOffset;
 		so.EffectPrefab = EffectPrefab;
 		so.AttackEffectParent = AttackEffectParent;
@@ -380,7 +505,7 @@ public class CSNode : Node
 		so.HitEffectOffset = HitEffectOffset;
 		so.HitEffectRotOffset = HitEffectRotOffset;
 		so.HitEffectPrefab = HitEffectPrefab;
-		so.HitEffectParent = HitEffectParent;
+		so.HitEffectParent = HitEffectParent;*/
 
 		so.AnimInteger = AnimInteger;
 		so.ShakePower = ShakePower;
@@ -388,7 +513,7 @@ public class CSNode : Node
 		so.SlowTime = SlowTime;
 		so.SlowScale = SlowScale;
 
-		so.AttackSound = AttackSound;
+		//so.AttackSound = AttackSound;
 	}
 
 	private FloatField CreateAndRegistField(string fieldName, float variable, Foldout category)

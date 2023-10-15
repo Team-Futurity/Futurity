@@ -2,8 +2,43 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using FMODUnity;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using UnityEngine.AddressableAssets;
+
+[Serializable]
+public class AttackAsset
+{
+	[Header("공격 이펙트")]
+	public Vector3 effectOffset;
+	public Quaternion effectRotOffset;
+	public GameObject effectPrefab;
+	public GameObject effectParent;
+	public EffectParent effectParentType;
+	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
+
+	[Header("적 피격 이펙트")]
+	public Vector3 hitEffectOffset;
+	public Quaternion hitEffectRotOffset;
+	public GameObject hitEffectPrefab;
+	public GameObject hitEffectParent;
+	public EffectParent hitEffectParentType;
+	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
+
+	[Header("공격 사운드")]
+	public EventReference attackSound;
+
+	public void AddPoolManager()
+	{
+		if (effectPrefab != null)
+		{
+			effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
+		}
+
+		if (hitEffectPrefab != null)
+		{
+			hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
+		}
+	}
+}
+
 
 [Serializable]
 public class AttackNode
@@ -29,21 +64,7 @@ public class AttackNode
 	public bool ignoresAutoTargetMove;
 	public ColliderType attackColliderType;
 
-	[Header("공격 이펙트")]
-	public Vector3 effectOffset;
-	public Quaternion effectRotOffset;
-	public GameObject effectPrefab;
-	public GameObject effectParent;
-	public EffectParent effectParentType;
-	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
-
-	[Header("적 피격 이펙트")]
-	public Vector3 hitEffectOffset;
-	public Quaternion hitEffectRotOffset;
-	public GameObject hitEffectPrefab;
-	public GameObject hitEffectParent;
-	public EffectParent hitEffectParentType;
-	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
+	public Dictionary<int, AttackAsset> attackAssetsByPart; 
 
 	[Header("연출용 데이터")]
 	public int animInteger;
@@ -53,26 +74,19 @@ public class AttackNode
 	public float slowTime;
 	public float slowScale;
 
-	[Header("공격 사운드")]
-	public EventReference attackSound;
-
 	public AttackNode(PlayerInputEnum command)
 	{
 		this.command = command;
 		childNodes = new List<AttackNode>();
+		attackAssetsByPart = new Dictionary<int, AttackAsset>();
 	}
 
-	public void AddPoolManager()
+	public AttackAsset GetAttackAsset(int partCode)
 	{
-		if(effectPrefab != null)
-		{
-			effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
-		}
-		
-		if(hitEffectPrefab != null)
-		{
-			hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
-		}
+		AttackAsset asset;
+		if (!attackAssetsByPart.TryGetValue(partCode, out asset)) { return null; }
+
+		return asset;
 	}
 }
 
@@ -91,7 +105,7 @@ public class CommandTree
 		if (!IsNodeInTree(parent)) { FDebug.LogError("[CommandTree] This Node is not Node in This Tree"); return; }
 
 		newNode.parent = parent;
-		newNode.AddPoolManager();
+		newNode.GetAttackAsset(0).AddPoolManager();
 		parent.childNodes.Add(newNode);
 	}
 
