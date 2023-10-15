@@ -155,7 +155,7 @@ public class CSNode : Node
 		FloatField speedField							= CreateAndRegistField("Attack Speed(공격 속도)				|", AttackSpeed, comboFoldout);
 		FloatField afterDelayField						= CreateAndRegistField("Attack After Delay(공격 후 지연 시간)		|", AttackAfterDelay, comboFoldout);
 		FloatField attackSTField						= CreateAndRegistField("Attack ST(데미지 배율)					|", AttackST, comboFoldout);
-		FloatField attackKnockbackField					= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 거리)		|", AttackKnockback, comboFoldout);
+		FloatField attackKnockbackField					= CreateAndRegistField("Attack Knockback(몬스터를 밀치는 힘)		|", AttackKnockback, comboFoldout);
 		Toggle ignoreAutoTargetField					= CreateAndRegistField("자동 조준 이동 무시					|", IgnoresAutoTargetMove, comboFoldout);
 		EnumField attackColliderTypeField				= CreateAndRegistField("공격 콜라이더 타입					|", AttackColliderType, comboFoldout);
 
@@ -163,19 +163,18 @@ public class CSNode : Node
 		Foldout assetByPassiveFoldout = CSElementUtility.CreateFoldout("Assets by Passive");
 		Button addAssets = CSElementUtility.CreateButton("패시브 별 에셋 추가", () =>
 		{
-			Foldout foldout = CreateAttackAssetSaveDatas(null, assetByPassiveFoldout);
+			Foldout foldout = CreateAttackAssetSaveDatas(null, assetByPassiveFoldout, false);
 		});
+		assetByPassiveFoldout.Add(addAssets);
 
 		CSAttackAssetSaveData[] attackAssetDatas = AttackAssets.ToArray();
 		foreach(var data in attackAssetDatas)
 		{
-			Foldout foldout = CreateAttackAssetSaveDatas(data, assetByPassiveFoldout);
+			Foldout foldout = CreateAttackAssetSaveDatas(data, assetByPassiveFoldout, true);
 		}
 
-		if(AttackAssets.Count == 0) { CreateAttackAssetSaveDatas(null, assetByPassiveFoldout); }
+		if(AttackAssets.Count == 0) { CreateAttackAssetSaveDatas(null, assetByPassiveFoldout, false); }
 
-		assetByPassiveFoldout.Add(addAssets);
-		
 
 		// production
 		Foldout productionFoldout = CSElementUtility.CreateFoldout("Production");
@@ -238,7 +237,7 @@ public class CSNode : Node
 	}
 
 	#region Creation
-	private Foldout CreateAttackAssetSaveDatas(CSAttackAssetSaveData saveData, Foldout parent)
+	private Foldout CreateAttackAssetSaveDatas(CSAttackAssetSaveData saveData, Foldout parent, bool isReadMode)
 	{
 		CSAttackAssetSaveData newSaveData = saveData;
 		if (saveData == null)
@@ -296,7 +295,7 @@ public class CSNode : Node
 		parent.Add(foldout);
 
 		// Callbacks
-		partCodeField.RegisterValueChangedCallback((callback) => { foldout.text = callback.newValue.ToString(); });
+		partCodeField.RegisterValueChangedCallback((callback) => { foldout.text = callback.newValue.ToString(); newSaveData.PartCode = callback.newValue; });
 
 		effectOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.EffectOffset = callback.newValue; });
 		effectRotOffsetField.RegisterValueChangedCallback((callback) => { newSaveData.EffectRotOffset = callback.newValue; });
@@ -311,7 +310,12 @@ public class CSNode : Node
 		attackSoundField.RegisterValueChangedCallback((callback) => { newSaveData.AttackSound = EventReference.Find(callback.newValue); });
 
 		saveData = newSaveData;
-		AttackAssets.Add(newSaveData);
+
+		if(!isReadMode)
+		{
+			AttackAssets.Add(newSaveData);
+		}
+		
 
 		return foldout;
 	}
@@ -430,6 +434,9 @@ public class CSNode : Node
 		foreach (var asset in saveData.AttackAssets)
 		{
 			CSAttackAssetSaveData newSaveData = new CSAttackAssetSaveData();
+
+			newSaveData.PartCode = asset.PartCode;
+
 			newSaveData.EffectOffset = asset.EffectOffset;
 			newSaveData.EffectRotOffset = asset.EffectRotOffset;
 			newSaveData.EffectPrefab = asset.EffectPrefab;
@@ -481,6 +488,8 @@ public class CSNode : Node
 		foreach (var asset in AttackAssets)
 		{
 			CSCommandAssetData data = new CSCommandAssetData();
+
+			data.PartCode =	asset.PartCode;
 
 			data.EffectOffset = asset.EffectOffset;
 			data.EffectRotOffset = asset.EffectRotOffset;
