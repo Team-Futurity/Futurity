@@ -78,6 +78,11 @@ public class UIManager : Singleton<UIManager>
 	{
 		return windowDic.ContainsKey(type);
 	}
+
+	public bool IsOpenWindow(WindowList type)
+	{
+		return windowDic[type].isOpen;
+	}
 	
 	#endregion
 
