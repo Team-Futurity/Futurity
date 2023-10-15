@@ -147,7 +147,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	private void Start()
 	{
-		animator = GetComponent<Animator>();
+		animator = GetComponentInChildren<Animator>();
 		rigid = GetComponent<Rigidbody>();
 
 		// effect
