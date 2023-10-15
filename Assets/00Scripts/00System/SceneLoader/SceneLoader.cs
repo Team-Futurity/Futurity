@@ -19,7 +19,6 @@ public class SceneLoader : Singleton<SceneLoader>
 
 	private void EnableSceneLoadEvent()
 	{
-		Debug.Log(" Enable ");
 		SceneManager.sceneLoaded += SetLoadSystemData;
 	}
 
@@ -67,7 +66,6 @@ public class SceneLoader : Singleton<SceneLoader>
 
 	public void LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single, UnityAction endAction = null)
 	{
-		Debug.Log(" SCENE CALL ");
 		StartCoroutine(StartAsyncSceneLoad(sceneName, mode, endAction));
 	}
 
@@ -92,14 +90,6 @@ public class SceneLoader : Singleton<SceneLoader>
 			updateProgress?.Invoke(sceneProgress);
 
 			yield return new WaitForSeconds(0.1f);
-
-			//if (sceneProgress > 0.95f)
-			//{
-			//	operation.allowSceneActivation = true;
-			//	break;
-			//}
-
-			Debug.Log(sceneProgress +  " : " + timer);
 
 			if (sceneProgress > 0.95f && timer >= 1f)
 			{
