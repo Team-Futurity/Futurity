@@ -7,6 +7,10 @@ public class UIGameExitButton : UIButton
 {
 	protected override void ActiveFunc()
 	{
+#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+#else
 		Application.Quit();
+#endif
 	}
 }
