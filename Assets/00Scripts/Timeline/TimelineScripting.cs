@@ -31,7 +31,7 @@ public class TimelineScripting : MonoBehaviour
 	{
 		textPrint = PrintingScript(scriptsStruct);
 		isEnd = false;
-		
+
 		StartCoroutine(textPrint);
 		StartInputCheck();
 	}
