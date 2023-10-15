@@ -33,8 +33,8 @@ public class PartSystem : MonoBehaviour
 
 	// Part가 활성화, 비활성화 되었을 때.
 	// PartCode
-	[HideInInspector] public UnityEvent<int> onPartActive;
-	[HideInInspector] public UnityEvent<int> onPartDeactive;
+	[HideInInspector] public UnityEvent<int, int> onPartActive;
+	[HideInInspector] public UnityEvent<int, int> onPartDeactive;
 	#endregion
 
 	private void Awake()
@@ -43,6 +43,15 @@ public class PartSystem : MonoBehaviour
 		calcStatus = new List<StatusData>();
 
 		TryGetComponent(out player);
+
+		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdatePartActivate);
+	}
+
+	private void Start()
+	{
+		EquipPassivePart(0, 2103);
+		EquipPassivePart(1, 2102);
+		EquipPassivePart(2, 2101);
 	}
 
 	#region Equip & UnEquip
@@ -66,16 +75,6 @@ public class PartSystem : MonoBehaviour
 
 	#region Part Activate
 
-	public int debug = 0;
-
-	private void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			UpdatePartActivate(debug, 1f);
-		}
-	}
-
 	private void UpdatePartActivate(float currentGauge, float maxGauge)
 	{
 		int activePartCount = (int)Math.Floor(currentGauge / 25f);
@@ -94,7 +93,7 @@ public class PartSystem : MonoBehaviour
 	private void ActivatePart(int index)
 	{
 		// 존재하지 않는 Part Return
-		if (IsIndexPartEmpty(index)) return;
+		if (IsIndexPartEmpty(index - 1)) return;
 		// 실행중인 Part Return
 		if (IsIndexPartActivate(index)) return;
 
@@ -106,6 +105,7 @@ public class PartSystem : MonoBehaviour
 		else
 		{
 			var passivePart = passiveParts[index - 1];
+			passivePart.SetPartActive(true);
 
 			// 1. Sub Ability
 			AddStatus(passivePart.GetSubAbility());
@@ -115,16 +115,14 @@ public class PartSystem : MonoBehaviour
 			{
 				player.onAttackEvent?.AddListener(passivePart.AddCoreAbilityToAttackEvent);
 			}
-
-			passivePart.SetPartActive(true);
 		}
 
-		onPartActive?.Invoke(index);
+		onPartActive?.Invoke(index - 1, passiveParts[index -1].partCode);
 	}
 
 	private void DeactivatePart(int index)
 	{
-		if (IsIndexPartEmpty(index)) return;
+		if (IsIndexPartEmpty(index - 1)) return;
 		if (!IsIndexPartActivate(index)) return;
 
 		if (index == ACTIVE_PART_INDEX)
@@ -147,18 +145,18 @@ public class PartSystem : MonoBehaviour
 			passivePart.SetPartActive(false);
 		}
 
-		onPartDeactive?.Invoke(index);
+		onPartDeactive?.Invoke(index - 1, passiveParts[index - 1].partCode);
 	}
 
-	private bool IsIndexPartEmpty(int index)
+	public bool IsIndexPartEmpty(int index)
 	{
-		if(index == ACTIVE_PART_INDEX)
+		if(index == ACTIVE_PART_INDEX - 1)
 		{
 			return (activePart == null);
 		}
 		else
 		{
-			return (passiveParts[index - 1] == null);
+			return (passiveParts[index] == null);
 		}
 	}
 
