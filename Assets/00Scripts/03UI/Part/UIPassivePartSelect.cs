@@ -28,8 +28,6 @@ public class UIPassivePartSelect : MonoBehaviour
 
 	private void OpenEquipWindow(int code, int index)
 	{
-		Debug.Log("Equip Window Open " + code + " : " + index);
-
 		Equip.SetSelectPart(code);
 
 		DisableSelectEvent();
