@@ -28,6 +28,10 @@ public class UIInputManager : Singleton<UIInputManager>
 		InputActionManager.Instance.RegisterCallback(map.MoveToPreviousUI, (context) => OnMoveToPreviousUI(context), true);
 		InputActionManager.Instance.RegisterCallback(map.MoveToNextUI, (context) => OnMoveToNextUI(context), true);
 		InputActionManager.Instance.RegisterCallback(map.ClickUI, (context) => OnClickUI(context), true);
+		
+		// Left & Right
+		InputActionManager.Instance.RegisterCallback(map.LeftKey, (context) => OnLeftKey(context), true);
+		InputActionManager.Instance.RegisterCallback(map.RightKey, (context) => OnRightKey(context), true);
 	}
 
 	private void SetInputActionAsset(InputActionData actionData)
@@ -128,21 +132,19 @@ public class UIInputManager : Singleton<UIInputManager>
 		SelectUI();
 	}
 
-	public void OnLeftKey()
+	public void OnLeftKey(InputAction.CallbackContext context)
 	{
 		if (!currentActiveButtons[currentIndex].usedLeftRight)
 			return;
 
-		Debug.Log("ON LEFT");
 		currentActiveButtons[currentIndex].OnLeft();
 	}
 
-	public void OnRightKey()
+	public void OnRightKey(InputAction.CallbackContext context)
 	{
 		if (!currentActiveButtons[currentIndex].usedLeftRight)
 			return;
 
-		Debug.Log("ON RIGHT");
 		currentActiveButtons[currentIndex].OnRight();
 	}
 
