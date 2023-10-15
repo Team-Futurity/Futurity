@@ -28,9 +28,10 @@ public class UIPassivePartSelect : MonoBehaviour
 
 	private void OpenEquipWindow(int code, int index)
 	{
-		Equip.SetSelectPart(code);
-
 		DisableSelectEvent();
+
+		Equip.SetSelectPart(code);
+		Equip.SyncPartDataToPartSystem();
 
 		// ´Ý±â -> Passive Part Window
 		UIManager.Instance.CloseWindow(WindowList.PASSIVE_PART);
