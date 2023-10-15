@@ -105,7 +105,7 @@ public class CommandTree
 		if (!IsNodeInTree(parent)) { FDebug.LogError("[CommandTree] This Node is not Node in This Tree"); return; }
 
 		newNode.parent = parent;
-		newNode.GetAttackAsset(0).AddPoolManager();
+		newNode.GetAttackAsset(404).AddPoolManager();
 		parent.childNodes.Add(newNode);
 	}
 

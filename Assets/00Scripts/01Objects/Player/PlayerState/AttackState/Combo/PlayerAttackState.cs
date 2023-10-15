@@ -33,6 +33,7 @@ public class PlayerAttackState : PlayerComboAttackState
 		//pc.playerData.EnableAttackTiming();
 
 		pc.SetCollider(true);
+		pc.autoTargetColliderChanger.DisableAllCollider();
 	}
 
 	public override void Update(PlayerController pc)
@@ -74,7 +75,7 @@ public class PlayerAttackState : PlayerComboAttackState
 				var enemyController = other.gameObject.GetComponent<EnemyController>();
 
 				DamageInfo info = new DamageInfo(unit.playerData, enemy, attackNode.attackST);
-				AttackAsset asset = attackNode.GetAttackAsset(0);
+				AttackAsset asset = attackNode.GetAttackAsset(404);
 				info.SetHitEffect(asset.hitEffectPoolManager, asset.effectOffset);
 				unit.playerData.Attack(info);
 				//HitEffectPooling(unit, enemy.transform);
