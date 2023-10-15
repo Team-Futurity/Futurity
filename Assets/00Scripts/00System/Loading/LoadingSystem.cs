@@ -23,8 +23,6 @@ public class LoadingSystem : MonoBehaviour
 			AudioManager.Instance.CleanUp();
 
 			SceneLoader.Instance.updateProgress?.AddListener(loadIcon.MoveIcon);
-
-			// 해당 메서드의 호출 타이밍을 Load Icon이 목적지에 도착했을 경우, 작동해야 함.
 			SceneLoader.Instance.LoadSceneAsync(nextScene);
 		});
 	}

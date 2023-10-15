@@ -33,8 +33,17 @@ public class PlayerMoveState : UnitState<PlayerController>
 	public override void FixedUpdate(PlayerController pc)
 	{
 		var rotVec = pc.RotatePlayer(pc.moveDir, true);
-		//pc.transform.rotation = Quaternion.LookRotation(rotVec);
-		pc.transform.position += pc.playerData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime * rotVec.normalized;
+
+		if (Physics.RaycastAll(pc.transform.position, pc.transform.forward, pc.stopDistance, 1 << 6).Length > 0)
+		{
+			pc.animator.SetBool(MoveAnimKey, false);
+		}
+		else
+		{
+			pc.animator.SetBool(MoveAnimKey, true);
+			pc.transform.position += pc.playerData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime * rotVec.normalized;
+		}
+		
 	}
 
 	public override void End(PlayerController pc)
