@@ -7,6 +7,8 @@ public class RewardBox : MonoBehaviour
 {
 	public UIPassivePartSelect passivePartSelect;
 
+	public int[] partCodes;
+
 	private void Start()
 	{
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
@@ -18,7 +20,7 @@ public class RewardBox : MonoBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.T) && !UIManager.Instance.IsOpenWindow(WindowList.PASSIVE_PART))
 			{
-				passivePartSelect.SetPartData(2101, 2102, 2103);
+				passivePartSelect.SetPartData(partCodes);
 				UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
 
 				InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);

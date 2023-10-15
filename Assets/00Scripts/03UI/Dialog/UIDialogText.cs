@@ -51,7 +51,6 @@ public class UIDialogText : MonoBehaviour
 			return;
 		}
 
-		Debug.Log("PASS ½ÇÇà");
 		Pass();
 	}
 
@@ -68,7 +67,6 @@ public class UIDialogText : MonoBehaviour
 		}
 
 		dialogText.text = copyText;
-		Debug.Log(copyText);
 		
 		ResetData();
 	}
@@ -95,7 +93,6 @@ public class UIDialogText : MonoBehaviour
 
 	public void ClearText()
 	{
-		Debug.Log("CALL");
 		dialogText.text = "";
 	}
 
