@@ -333,6 +333,24 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""fbb317d2-62a9-4177-a8ee-21fcd85c7f7c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""95354754-51de-47e7-811a-ece0b2795050"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -366,6 +384,28 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Click UI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a615ca70-88a7-4969-8999-617e7244eb5e"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cde3c13c-f7b1-49a1-a0e0-63c4eaeef600"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -448,6 +488,8 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         m_UIBehaviour_ClickUI = m_UIBehaviour.FindAction("Click UI", throwIfNotFound: true);
         m_UIBehaviour_MoveToPreviousUI = m_UIBehaviour.FindAction("Move To Previous UI", throwIfNotFound: true);
         m_UIBehaviour_MoveToNextUI = m_UIBehaviour.FindAction("Move To Next UI", throwIfNotFound: true);
+        m_UIBehaviour_LeftKey = m_UIBehaviour.FindAction("LeftKey", throwIfNotFound: true);
+        m_UIBehaviour_RightKey = m_UIBehaviour.FindAction("RightKey", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Return = m_Debug.FindAction("Return", throwIfNotFound: true);
@@ -595,6 +637,8 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
     private readonly InputAction m_UIBehaviour_ClickUI;
     private readonly InputAction m_UIBehaviour_MoveToPreviousUI;
     private readonly InputAction m_UIBehaviour_MoveToNextUI;
+    private readonly InputAction m_UIBehaviour_LeftKey;
+    private readonly InputAction m_UIBehaviour_RightKey;
     public struct UIBehaviourActions
     {
         private @CombinedInputActions m_Wrapper;
@@ -602,6 +646,8 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         public InputAction @ClickUI => m_Wrapper.m_UIBehaviour_ClickUI;
         public InputAction @MoveToPreviousUI => m_Wrapper.m_UIBehaviour_MoveToPreviousUI;
         public InputAction @MoveToNextUI => m_Wrapper.m_UIBehaviour_MoveToNextUI;
+        public InputAction @LeftKey => m_Wrapper.m_UIBehaviour_LeftKey;
+        public InputAction @RightKey => m_Wrapper.m_UIBehaviour_RightKey;
         public InputActionMap Get() { return m_Wrapper.m_UIBehaviour; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -620,6 +666,12 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                 @MoveToNextUI.started -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnMoveToNextUI;
                 @MoveToNextUI.performed -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnMoveToNextUI;
                 @MoveToNextUI.canceled -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnMoveToNextUI;
+                @LeftKey.started -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnLeftKey;
+                @LeftKey.performed -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnLeftKey;
+                @LeftKey.canceled -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnLeftKey;
+                @RightKey.started -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnRightKey;
+                @RightKey.performed -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnRightKey;
+                @RightKey.canceled -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnRightKey;
             }
             m_Wrapper.m_UIBehaviourActionsCallbackInterface = instance;
             if (instance != null)
@@ -633,6 +685,12 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                 @MoveToNextUI.started += instance.OnMoveToNextUI;
                 @MoveToNextUI.performed += instance.OnMoveToNextUI;
                 @MoveToNextUI.canceled += instance.OnMoveToNextUI;
+                @LeftKey.started += instance.OnLeftKey;
+                @LeftKey.performed += instance.OnLeftKey;
+                @LeftKey.canceled += instance.OnLeftKey;
+                @RightKey.started += instance.OnRightKey;
+                @RightKey.performed += instance.OnRightKey;
+                @RightKey.canceled += instance.OnRightKey;
             }
         }
     }
@@ -702,6 +760,8 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         void OnClickUI(InputAction.CallbackContext context);
         void OnMoveToPreviousUI(InputAction.CallbackContext context);
         void OnMoveToNextUI(InputAction.CallbackContext context);
+        void OnLeftKey(InputAction.CallbackContext context);
+        void OnRightKey(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {

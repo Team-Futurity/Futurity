@@ -14,8 +14,6 @@ public class VolumeSlider : MonoBehaviour
 			volumeSlider = GetComponent<Slider>();
 		}
 
-		volumeSlider.onValueChanged.AddListener(OnSliderChanged);
-
 		float currentVolume = AudioManager.Instance.GetVolume(busType);
 		if (currentVolume < 0) { FDebug.LogWarning("This Bus is not Exist", GetType()); return; }
 
@@ -30,5 +28,11 @@ public class VolumeSlider : MonoBehaviour
 		if(currentVolume < 0) { FDebug.LogWarning("This Bus is not Exist", GetType()); return; }
 
 		AudioManager.Instance.SetVolume(busType, ratio);
+		volumeSlider.value = ratio;
+	}
+
+	public float GetCurrentVolume()
+	{
+		return AudioManager.Instance.GetVolume(busType);
 	}
 }

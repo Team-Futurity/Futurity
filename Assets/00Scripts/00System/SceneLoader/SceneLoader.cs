@@ -59,6 +59,8 @@ public class SceneLoader : Singleton<SceneLoader>
 			mode
 			);
 
+		if (usedLoadScene){ EnableSceneLoadEvent();}
+
 		endAction?.Invoke();
 	}
 
@@ -78,16 +80,18 @@ public class SceneLoader : Singleton<SceneLoader>
 		var timer = .0f;
 		sceneProgress = .0f;
 
+		Debug.Log("Scene Load");
+
 		while (!operation.isDone)
 		{
-			timer += Time.deltaTime;
+			timer += 0.1f;
 
 			sceneProgress = operation.progress / 0.9f;
 			updateProgress?.Invoke(sceneProgress);
 
 			yield return new WaitForSeconds(0.1f);
 
-			if (sceneProgress > 0.95f && timer >= 2f)
+			if (sceneProgress > 0.95f && timer >= 1f)
 			{
 				FadeManager.Instance.FadeIn(1f, () =>
 				{
