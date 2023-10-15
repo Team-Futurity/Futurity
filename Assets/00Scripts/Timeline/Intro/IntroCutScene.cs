@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,10 @@ public class IntroCutScene : CutSceneBase
 
 	[Header("다음으로 이동할 씬 이름")] 
 	[SerializeField] private string nextSceneName;
+
+	private bool isInputCheck = false;
+	private bool isPause = false;
+	
 	
 	protected override void Init()
 	{
@@ -28,14 +33,41 @@ public class IntroCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
+		Time.timeScale = 1.0f;
 		FadeManager.Instance.FadeIn(fadeOutTime, () =>
 		{
 			SceneLoader.Instance.LoadScene(nextSceneName);
 		});
 	}
 	
-	public void Intro_PrintScripts()
+	private void Update()
 	{
-		
+		if (isInputCheck == false)
+		{
+			return;
+		}
+
+		if (Input.GetKeyDown(KeyCode.F) && isPause == true)
+		{
+			Time.timeScale = 1.0f;
+			introCutScene.Resume();
+			isPause = false;
+		}
+		else if (Input.GetKeyDown(KeyCode.F) && isPause == false)
+		{
+			SkipToNextImg();
+		}
+	}
+
+	public void ToggleInputCheck() => isInputCheck = !isInputCheck;
+	public void PauseTimeline()
+	{
+		introCutScene.Pause();
+		isPause = true;
+	}
+
+	private void SkipToNextImg()
+	{
+		Time.timeScale = 3.0f;
 	}
 }
