@@ -7,13 +7,16 @@ public class UIActiveSlot : MonoBehaviour
 {
 	public Image iconImage;
 
-	public void SetSlot(Sprite partIcon)
+	public Sprite normalSpr;
+	public Sprite swapSpr;
+
+	public void SetSlot()
 	{
-		iconImage.sprite = partIcon;
+		iconImage.sprite = swapSpr;
 	}
 
 	public void ClearSlot()
 	{
-		iconImage.sprite = null;
+		iconImage.sprite = normalSpr;
 	}
 }

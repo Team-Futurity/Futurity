@@ -6,13 +6,13 @@ using UnityEngine.Events;
 public class UIYesNoButton : UIButton
 {
 	[SerializeField]
-	private bool isNo;
+	private bool isEquip;
 
 	[HideInInspector]
-	public UnityEvent<bool> onActive;
+	public UnityEvent<bool> onSelected;
 
 	protected override void ActiveFunc()
 	{
-		onActive?.Invoke(isNo);
+		onSelected?.Invoke(isEquip);
 	}
 }
