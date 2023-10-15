@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 [CreateAssetMenu(fileName = "EffectDatas", menuName = "ScriptableObject/Effect/EffectDatas")]
 public class EffectDatas : ScriptableObject
 {

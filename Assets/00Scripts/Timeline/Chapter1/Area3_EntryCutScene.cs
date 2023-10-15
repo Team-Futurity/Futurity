@@ -39,7 +39,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.isCutScenePlay = true;
-		chapterManager.InitNameField("미래 :");
+		chapterManager.scripting.EnableNameText((int)ScriptingStruct.ENameType.MIRAE);
 		chapterManager.SetActiveMainUI(false);
 		chapterManager.SetActivePlayerInput(false);
 		chapterManager.ChangeFollowTarget(true, playerMoveTarget);

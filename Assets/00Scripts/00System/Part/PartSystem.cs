@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
 
 public class PartSystem : MonoBehaviour
 {
@@ -12,132 +13,178 @@ public class PartSystem : MonoBehaviour
 
 	private Player player;
 
-	// 0 ~ 2	: Passive
-	// 3		: Active
-	public PartBehaviour[] equipPartList = new PartBehaviour[4];
+	// Passive Part Variable
+	[SerializeField, Header("패시브 파츠")]
+	private PartBehaviour[] passiveParts = new PartBehaviour[3];
+	private const int CORE_ACTIVE_INDEX = 3;
+	private const int ACTIVE_PART_INDEX = 4;
 
-	[SerializeField, Header("디버그 용")]
-	private List<StatusData> status;
+	// Active Part Variable
+	[SerializeField, Header("액티브 파츠")]
+	private PartBehaviour activePart = new PartBehaviour();
 
-	public float debugPercent = .0f;
+	// Part가 계산된 Status
+	private List<StatusData> calcStatus;
 
-	private const int UseCoreAbility = 2;
-	private const int ActivePartIndex = 3;
-	
+	#region UnityEvents
+	// Part가 장착되었을 때. 혹은 장착 해제 되었을 때.
+	// Index, PartCode
+	[HideInInspector] public UnityEvent<int, int> onPartEquip;
+
+	// Part가 활성화, 비활성화 되었을 때.
+	// PartCode
+	[HideInInspector] public UnityEvent<int> onPartActive;
+	[HideInInspector] public UnityEvent<int> onPartDeactive;
+	#endregion
+
 	private void Awake()
 	{
-		ClearStatus();
+		// [Create] - Status Instance 
+		calcStatus = new List<StatusData>();
 
 		TryGetComponent(out player);
-		
-		// 콤보 게이지 추가
-		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdateComboGauge);
-		
-		EquipPart(0, 2103);
-		EquipPart(1, 2102);
 	}
 
-	public void EquipPart(int index, int partCode, bool isForced = false)
+	#region Equip & UnEquip
+
+	public void EquipPassivePart(int index, int partCode)
 	{
-		if (equipPartList[index] != null && !isForced)
+		passiveParts[index] = PartDatabase.GetPart(partCode);
+
+		onPartEquip?.Invoke(index, partCode);
+		FDebug.Log($"{index + 1}번째에 {partCode}에 해당하는 파츠 장착 완료", GetType());
+	}
+
+	public void EquipActivePart(int partCode)
+	{
+		activePart = PartDatabase.GetPart(partCode);
+
+		onPartEquip?.Invoke(999, partCode);
+	}
+
+	#endregion
+
+	#region Part Activate
+
+	public int debug = 0;
+
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			if (equipPartList[index].partCode != 0)
-			{
-				FDebug.Log($"해당하는 Index에 이미 Part가 존재합니다.");
-				
-				return;
-			}
+			UpdatePartActivate(debug, 1f);
 		}
-		
-		var part = PartDatabase.GetPart(partCode);
-		equipPartList[index] = part;
-		
-		FDebug.Log($"{index +1}번째에 {partCode}에 해당하는 파츠 장착 완료", part.GetType());
+	}
+
+	private void UpdatePartActivate(float currentGauge, float maxGauge)
+	{
+		int activePartCount = (int)Math.Floor(currentGauge / 25f);
+
+		for (int i = 1; i <= activePartCount; ++i)
+		{
+			ActivatePart(i);
+		}
+
+		for(int i = 4; i > activePartCount; --i)
+		{
+			DeactivatePart(i);
+		}
+	}
+
+	private void ActivatePart(int index)
+	{
+		// 존재하지 않는 Part Return
+		if (IsIndexPartEmpty(index)) return;
+		// 실행중인 Part Return
+		if (IsIndexPartActivate(index)) return;
+
+		if(index == ACTIVE_PART_INDEX)
+		{
+			// Active
+			FDebug.Log($"Active Part 활성화");
+		}
+		else
+		{
+			var passivePart = passiveParts[index - 1];
+
+			// 1. Sub Ability
+			AddStatus(passivePart.GetSubAbility());
+
+			// 2. Core Ability
+			if(index == CORE_ACTIVE_INDEX)
+			{
+				player.onAttackEvent?.AddListener(passivePart.AddCoreAbilityToAttackEvent);
+			}
+
+			passivePart.SetPartActive(true);
+		}
+
+		onPartActive?.Invoke(index);
+	}
+
+	private void DeactivatePart(int index)
+	{
+		if (IsIndexPartEmpty(index)) return;
+		if (!IsIndexPartActivate(index)) return;
+
+		if (index == ACTIVE_PART_INDEX)
+		{
+			FDebug.Log($"Active Part 비활성화");
+		}
+		else
+		{
+			var passivePart = passiveParts[index - 1];
+
+			// 1. Sub Ability
+			SubStatus(passivePart.GetSubAbility());
+
+			// 2. Core Ability
+			if (index == CORE_ACTIVE_INDEX)
+			{
+				player.onAttackEvent?.RemoveListener(passivePart.AddCoreAbilityToAttackEvent);
+			}
+
+			passivePart.SetPartActive(false);
+		}
+
+		onPartDeactive?.Invoke(index);
+	}
+
+	private bool IsIndexPartEmpty(int index)
+	{
+		if(index == ACTIVE_PART_INDEX)
+		{
+			return (activePart == null);
+		}
+		else
+		{
+			return (passiveParts[index - 1] == null);
+		}
+	}
+
+	// Part가 실행중인가?
+	private bool IsIndexPartActivate(int index)
+	{
+		if (index == ACTIVE_PART_INDEX)
+		{
+			return activePart.GetPartActive();
+		}
+		else
+		{
+			return passiveParts[index - 1].GetPartActive();
+		}
 	}
 	
-	public void UnEquipPart(int index)
+	#endregion
+
+	private int GetEquipPassivePartCode(int index)
 	{
-		equipPartList[index] = null;
-		FDebug.Log($"{index +1}번째에 해당하는 파츠 장착 완료");
+		return passiveParts[index].partCode;
 	}
 
-	// Select index : 현재 선택된 Index
-	// Change Index : 교체를 희망하고 있는 Index
-	public void SwapPart(int selectIndex, int changeIndex)
+	private int GetEquipActivePartCode()
 	{
-		(equipPartList[selectIndex], equipPartList[changeIndex]) = (equipPartList[changeIndex], equipPartList[selectIndex]);
-	}
-
-	public bool IsPartEmpty(int index)
-	{
-		return (equipPartList[index] == null);
-	}
-
-	private void UpdateComboGauge(float percent, float max)
-	{
-		int activePossibleCount = (int)Math.Floor(percent / 25f);
-		int maxPartCount = equipPartList.Length - 1;
-
-		// Active
-		for (int i = 0; i < ((activePossibleCount > maxPartCount) ? maxPartCount : activePossibleCount); ++i)
-		{
-			ExecuteParts(i);
-		}
-
-		// UnActive
-		for (int i = maxPartCount; i >= activePossibleCount; --i)
-		{
-			StopParts(i);
-		}
-	}
-
-	private void ExecuteParts(int index)
-	{
-		var part = equipPartList[index];
-		
-		if (part == null)
-		{
-			return;
-		}
-
-		if (!part.GetPartActive())
-		{
-			part.SetPartActive(true);
-			
-			AddStatus(part.GetSubAbility());
-
-			if (index == UseCoreAbility)
-			{
-				player.onAttackEvent?.AddListener(part.AddCoreAbilityToAttackEvent);
-			}
-
-			if (index == ActivePartIndex)
-			{
-				
-			}
-		}
-	}
-
-	private void StopParts(int index)
-	{
-		var part = equipPartList[index];
-
-		if (part.GetPartActive())
-		{
-			SubStatus(part.GetSubAbility());
-
-			if(index == UseCoreAbility)
-			{
-				player.onAttackEvent?.RemoveListener(part.AddCoreAbilityToAttackEvent);
-			}
-
-			if (index == ActivePartIndex)
-			{
-				
-			}
-
-			part.SetPartActive(false);
-		}
+		return activePart.partCode;
 	}
 
 	#region Status Feature
@@ -146,12 +193,12 @@ public class PartSystem : MonoBehaviour
 	{
 		foreach (var statusElement in statusData)
 		{
-			var element = status.Find((x) => x.type == statusElement.type);
+			var element = calcStatus.Find((x) => x.type == statusElement.type);
 			var hasStatus = (element is null);
 
 			if (hasStatus)
 			{
-				status.Add(statusElement);
+				calcStatus.Add(statusElement);
 			}
 			else
 			{
@@ -164,14 +211,14 @@ public class PartSystem : MonoBehaviour
 	{
 		foreach (var statusElement in statusData)
 		{
-			var element = status.Find((x) => x.type == statusElement.type);
+			var element = calcStatus.Find((x) => x.type == statusElement.type);
 			element.SubValue(statusElement.GetValue());
 		}
 	}
 
 	private void ClearStatus()
 	{
-		status.Clear();
+		calcStatus.Clear();
 	}
 	
 	#endregion
