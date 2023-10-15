@@ -164,6 +164,7 @@ public static class CSIOUtility
 
 		command.Initialize(
 			node.CommandName,
+			ConvertAttackAssetSaveDataToCommandAssetData(node.AttackAssets),
 			ConvertNodeSaveDataToCommandData(node.NextCommands),
 			node.CommandType,
 			node.IsStartingNode()
@@ -188,6 +189,32 @@ public static class CSIOUtility
 		}
 
 		return nextCommandList;
+	}
+
+	private static List<CSCommandAssetData> ConvertAttackAssetSaveDataToCommandAssetData(List<CSAttackAssetSaveData> attackAssets)
+	{
+		var attackAssetsList = new List<CSCommandAssetData>();
+
+		foreach (var asset in attackAssets)
+		{
+			var assetData = new CSCommandAssetData();
+
+			assetData.EffectOffset = asset.EffectOffset;
+			assetData.EffectRotOffset = asset.EffectRotOffset;
+			assetData.EffectPrefab = asset.EffectPrefab;
+			assetData.AttackEffectParent = asset.AttackEffectParent;
+
+			assetData.HitEffectOffset = asset.HitEffectOffset;
+			assetData.HitEffectRotOffset = asset.HitEffectRotOffset;
+			assetData.HitEffectPrefab = asset.HitEffectPrefab;
+			assetData.HitEffectParent = asset.HitEffectParent;
+
+			assetData.AttackSound = asset.AttackSound;
+
+			attackAssetsList.Add(assetData);
+		}
+
+		return attackAssetsList;
 	}
 
 	private static void SaveNodeToGraph(CSNode node, CSGraphSaveDataSO graphData)

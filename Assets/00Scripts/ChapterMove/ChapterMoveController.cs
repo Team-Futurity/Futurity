@@ -137,11 +137,7 @@ public class ChapterMoveController : MonoBehaviour
 		if (GameObject.FindWithTag("CutScene").TryGetComponent(out cutSceneManager) == true)
 		{
 			cutSceneManager.InitManager();
-			return;
 		}
-		
-		FDebug.Log("ChapterManager 초기화 실패!!");
-		FDebug.Break();
 	}
 
 	#region OnlyUseEditor

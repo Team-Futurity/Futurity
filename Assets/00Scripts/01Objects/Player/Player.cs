@@ -14,7 +14,7 @@ public class Player : UnitBase
 
 	protected override void AttackProcess(DamageInfo info)
 	{
-		if(info.HitEffectPoolManager != null) { info.HitEffectPoolManager.ActiveObject(); }
+		//if(info.HitEffectPoolManager != null) { info.HitEffectPoolManager.ActiveObject(); }
 		
 		float criticalConf = GetCritical();
 		info.SetDamage(GetDamage(info.AttackST) * criticalConf);

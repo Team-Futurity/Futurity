@@ -31,10 +31,18 @@ public struct ScriptingStruct
 		IDLE,
 		SURPRISE
 	}
+	
+	public enum ENameType
+	{
+		MIRAE,
+		SONGSARI,
+		BOSS,
+		SUNKYOUNG
+	}
 
 	public EMiraeExpression miraeExpression;
 	public ESariExpression sariExpression;
-	public string name;
+	public ENameType nameType;
 	public string scripts;
 }
 
