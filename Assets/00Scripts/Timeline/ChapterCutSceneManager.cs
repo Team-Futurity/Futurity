@@ -132,13 +132,13 @@ public class ChapterCutSceneManager : MonoBehaviour
 	
 	#region StandingScripts
 	
-	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
+	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene)
 	{
 		cutScene.Pause();
-		StartCoroutine(WaitScriptsEnd(cutScene, list, scriptsIndex));
+		StartCoroutine(WaitScriptsEnd(cutScene));
 	}
 
-	private IEnumerator WaitScriptsEnd(PlayableDirector cutScene, List<ScriptingList> list, int scriptsIndex)
+	private IEnumerator WaitScriptsEnd(PlayableDirector cutScene)
 	{
 		while (scripting.isEnd == false)
 		{
@@ -147,13 +147,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		cutScene.Resume();
 		scripting.isEnd = false;
-
-		if (scriptsIndex + 1 < list.Count)
-		{
-			scriptsIndex++;
-			yield return waitForSecondsRealtime;
-			//scripting.InitNameField(list[scriptsIndex].scriptList[0].name);
-		}
 	}
 
 	#endregion

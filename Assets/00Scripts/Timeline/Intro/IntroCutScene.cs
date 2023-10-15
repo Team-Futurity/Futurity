@@ -43,7 +43,7 @@ public class IntroCutScene : CutSceneBase
 	{
 		introCurScene.Pause();
 
-		chapterManager.PauseCutSceneUntilScriptsEnd(introCurScene, scriptsList, curScriptsIndex);
+		chapterManager.PauseCutSceneUntilScriptsEnd(introCurScene);
 		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 	
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
