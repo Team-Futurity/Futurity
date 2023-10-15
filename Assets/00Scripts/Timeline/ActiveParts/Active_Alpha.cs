@@ -5,7 +5,9 @@ using UnityEngine;
 public class Active_Alpha : CutSceneBase
 {
 	private Animator playerAnimator;
-	
+	[SerializeField] private GameObject playerInfoUI;
+	[SerializeField] private GameObject comboUI;
+
 	protected override void Init()
 	{
 		base.Init();
@@ -14,12 +16,14 @@ public class Active_Alpha : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		
+		playerInfoUI.SetActive(false);
+		comboUI.SetActive(false);
 	}
 
 	public override void DisableCutScene()
 	{
 		Time.timeScale = 1.0f;
+		playerInfoUI.SetActive(true);
 	}
 
 	public void TimeStop()
