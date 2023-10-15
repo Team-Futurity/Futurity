@@ -39,7 +39,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 		Quaternion rotation = Quaternion.identity;
 		Vector3 position = Vector3.zero;
-		AsyncOperationHandle<GameObject> effectObject = new AsyncOperationHandle<GameObject>();
 
 		if (attackNode.effectParentType == EffectParent.World)
 		{
@@ -143,7 +142,14 @@ public class PlayerAnimationEvents : MonoBehaviour
 	
 	public void WalkEffect()
 	{
-		//walkEffectPoolManager.ActiveObject(walkEffectTransform.position);
+		if(walkEffectPoolManager == null) { return; }
+		GameObject obj = walkEffectPoolManager.ActiveObject(walkEffectTransform.position, walkEffectTransform.rotation).gameObject;
+
+		var particle = obj.GetComponent<ParticleController>();
+		if(particle != null)
+		{
+			particle.Initialize(walkEffectPoolManager);
+		}
 	}
 
 	#region HitEffectEvent
