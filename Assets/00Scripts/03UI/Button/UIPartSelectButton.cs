@@ -46,13 +46,16 @@ public class UIPartSelectButton : UIButton
 	public void SetButtonData(int code)
 	{
 		PartIconImage.enabled = PartNameImage.enabled = true;
+
 		ChangeResource(LoadPartData(code));
+		partCode = code;
 	}
 
 	// Addressable¿ª ≈Î«— Data Load
 	private UIPassiveSelectData LoadPartData(int code)
 	{
 		UIPassiveSelectData data = Addressables.LoadAssetAsync<UIPassiveSelectData>(code.ToString()).WaitForCompletion();
+
 		return data;
 	}
 
@@ -64,7 +67,7 @@ public class UIPartSelectButton : UIButton
 		SubInfoText.text = selectData.subInfoText;
 	}
 
-	private void InitResource()
+	public void InitResource()
 	{
 		PartIconImage.enabled = PartNameImage.enabled = false;
 		CoreInfoText.text = SubInfoText.text = "";
