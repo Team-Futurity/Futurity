@@ -8,158 +8,184 @@ using UnityEngine.Events;
 
 public class PartSystem : MonoBehaviour
 {
-	[SerializeField, Header("Combo ï¿½Ã½ï¿½ï¿½ï¿½")]
+	[SerializeField, Header("Combo ½Ã½ºÅÛ")]
 	private ComboGaugeSystem comboGaugeSystem;
 
 	private Player player;
 
-	// 0 ~ 2	: Passive
-	// 3		: Active
-	public PartBehaviour[] equipPartList = new PartBehaviour[4];
+	// Passive Part Variable
+	[SerializeField, Header("ÆÐ½Ãºê ÆÄÃ÷")]
+	private PartBehaviour[] passiveParts = new PartBehaviour[3];
+	private const int CORE_ACTIVE_INDEX = 3;
+	private const int ACTIVE_PART_INDEX = 4;
 
-	[SerializeField, Header("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½")]
-	private List<StatusData> status;
+	// Active Part Variable
+	[SerializeField, Header("¾×Æ¼ºê ÆÄÃ÷")]
+	private PartBehaviour activePart = new PartBehaviour();
 
-	public float debugPercent = .0f;
+	// Part°¡ °è»êµÈ Status
+	private List<StatusData> calcStatus;
 
-	private const int UseCoreAbility = 2;
-	private const int ActivePartIndex = 3;
-
-	// Partï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½. È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½.
+	#region UnityEvents
+	// Part°¡ ÀåÂøµÇ¾úÀ» ¶§. È¤Àº ÀåÂø ÇØÁ¦ µÇ¾úÀ» ¶§.
 	// Index, PartCode
 	[HideInInspector] public UnityEvent<int, int> onPartEquip;
-	[HideInInspector] public UnityEvent<int, int> onPartUnEquip;
 
-	// Partï¿½ï¿½ È°ï¿½ï¿½È­, ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½.
+	// Part°¡ È°¼ºÈ­, ºñÈ°¼ºÈ­ µÇ¾úÀ» ¶§.
 	// PartCode
 	[HideInInspector] public UnityEvent<int> onPartActive;
 	[HideInInspector] public UnityEvent<int> onPartDeactive;
-	
+	#endregion
+
 	private void Awake()
 	{
-		ClearStatus();
+		// [Create] - Status Instance 
+		calcStatus = new List<StatusData>();
 
 		TryGetComponent(out player);
-		
-		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdateComboGauge);
 	}
 
-	public void EquipPart(int index, int partCode, bool isForced = false)
+	#region Equip & UnEquip
+
+	public void EquipPassivePart(int index, int partCode)
 	{
-		if (equipPartList[index] != null && !isForced)
-		{
-			if (equipPartList[index].partCode != 0)
-			{
-				FDebug.Log($"ï¿½Ø´ï¿½ï¿½Ï´ï¿½ Indexï¿½ï¿½ ï¿½Ì¹ï¿½ Partï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
-				return;
-			}
-		}
-		
-		var part = PartDatabase.GetPart(partCode);
-		equipPartList[index] = part;
-		// Index, Code
+		passiveParts[index] = PartDatabase.GetPart(partCode);
+
 		onPartEquip?.Invoke(index, partCode);
-		FDebug.Log($"{index +1}ï¿½ï¿½Â°ï¿½ï¿½ {partCode}ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½", part.GetType());
+		FDebug.Log($"{index + 1}¹øÂ°¿¡ {partCode}¿¡ ÇØ´çÇÏ´Â ÆÄÃ÷ ÀåÂø ¿Ï·á", GetType());
 	}
-	
-	public void UnEquipPart(int index)
+
+	public void EquipActivePart(int partCode)
 	{
-		var partCode = equipPartList[index].partCode;
-		onPartUnEquip?.Invoke(index, partCode);
+		activePart = PartDatabase.GetPart(partCode);
 
-		equipPartList[index] = null;
-		FDebug.Log($"{index +1}ï¿½ï¿½Â°ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+		onPartEquip?.Invoke(999, partCode);
 	}
 
-	// Select index : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ Index
-	// Change Index : ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ Index
-	public void SwapPart(int selectIndex, int changeIndex)
-	{
-		(equipPartList[selectIndex], equipPartList[changeIndex]) = (equipPartList[changeIndex], equipPartList[selectIndex]);
-	}
-
-	public bool IsPartEmpty(int index)
-	{
-		return (equipPartList[index] == null);
-	}
-
+	#endregion
 
 	#region Part Activate
-	private void UpdateComboGauge(float percent, float max)
+
+	public int debug = 0;
+
+	private void Update()
 	{
-		int activePossibleCount = (int)Math.Floor(percent / 25f);
-		int maxPartCount = equipPartList.Length - 1;
-
-		// Active
-		for (int i = 0; i < ((activePossibleCount > maxPartCount) ? maxPartCount : activePossibleCount); ++i)
+		if(Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			ExecuteParts(i);
-		}
-
-		// UnActive
-		for (int i = maxPartCount; i >= activePossibleCount; --i)
-		{
-			StopParts(i);
+			UpdatePartActivate(debug, 1f);
 		}
 	}
 
-	private void ExecuteParts(int index)
+	private void UpdatePartActivate(float currentGauge, float maxGauge)
 	{
-		var part = equipPartList[index];
-		
-		if (part == null)
+		int activePartCount = (int)Math.Floor(currentGauge / 25f);
+
+		for (int i = 1; i <= activePartCount; ++i)
 		{
-			return;
+			ActivatePart(i);
 		}
 
-		if (!part.GetPartActive())
+		for(int i = 4; i > activePartCount; --i)
 		{
-			part.SetPartActive(true);
-			
-			AddStatus(part.GetSubAbility());
-
-			if (index == UseCoreAbility)
-			{
-				player.onAttackEvent?.AddListener(part.AddCoreAbilityToAttackEvent);
-			}
-
-			if (index == ActivePartIndex)
-			{
-				
-			}
-
-			var partCode = part.partCode;
-
-			//onPartEquip?.Invoke(partCode);
+			DeactivatePart(i);
 		}
 	}
 
-	private void StopParts(int index)
+	private void ActivatePart(int index)
 	{
-		var part = equipPartList[index];
+		// Á¸ÀçÇÏÁö ¾Ê´Â Part Return
+		if (IsIndexPartEmpty(index)) return;
+		// ½ÇÇàÁßÀÎ Part Return
+		if (IsIndexPartActivate(index)) return;
 
-		if (part.GetPartActive())
+		if(index == ACTIVE_PART_INDEX)
 		{
-			SubStatus(part.GetSubAbility());
+			// Active
+			FDebug.Log($"Active Part È°¼ºÈ­");
+		}
+		else
+		{
+			var passivePart = passiveParts[index - 1];
 
-			if(index == UseCoreAbility)
+			// 1. Sub Ability
+			AddStatus(passivePart.GetSubAbility());
+
+			// 2. Core Ability
+			if(index == CORE_ACTIVE_INDEX)
 			{
-				player.onAttackEvent?.RemoveListener(part.AddCoreAbilityToAttackEvent);
+				player.onAttackEvent?.AddListener(passivePart.AddCoreAbilityToAttackEvent);
 			}
 
-			if (index == ActivePartIndex)
+			passivePart.SetPartActive(true);
+		}
+
+		onPartActive?.Invoke(index);
+	}
+
+	private void DeactivatePart(int index)
+	{
+		if (IsIndexPartEmpty(index)) return;
+		if (!IsIndexPartActivate(index)) return;
+
+		if (index == ACTIVE_PART_INDEX)
+		{
+			FDebug.Log($"Active Part ºñÈ°¼ºÈ­");
+		}
+		else
+		{
+			var passivePart = passiveParts[index - 1];
+
+			// 1. Sub Ability
+			SubStatus(passivePart.GetSubAbility());
+
+			// 2. Core Ability
+			if (index == CORE_ACTIVE_INDEX)
 			{
-				
+				player.onAttackEvent?.RemoveListener(passivePart.AddCoreAbilityToAttackEvent);
 			}
 
-			part.SetPartActive(false);
+			passivePart.SetPartActive(false);
+		}
 
-			var partCode = part.partCode;
+		onPartDeactive?.Invoke(index);
+	}
 
-			//onPartUnEquip?.Invoke(partCode);
+	private bool IsIndexPartEmpty(int index)
+	{
+		if(index == ACTIVE_PART_INDEX)
+		{
+			return (activePart == null);
+		}
+		else
+		{
+			return (passiveParts[index - 1] == null);
 		}
 	}
+
+	// Part°¡ ½ÇÇàÁßÀÎ°¡?
+	private bool IsIndexPartActivate(int index)
+	{
+		if (index == ACTIVE_PART_INDEX)
+		{
+			return activePart.GetPartActive();
+		}
+		else
+		{
+			return passiveParts[index - 1].GetPartActive();
+		}
+	}
+	
 	#endregion
+
+	private int GetEquipPassivePartCode(int index)
+	{
+		return passiveParts[index].partCode;
+	}
+
+	private int GetEquipActivePartCode()
+	{
+		return activePart.partCode;
+	}
 
 	#region Status Feature
 
@@ -167,12 +193,12 @@ public class PartSystem : MonoBehaviour
 	{
 		foreach (var statusElement in statusData)
 		{
-			var element = status.Find((x) => x.type == statusElement.type);
+			var element = calcStatus.Find((x) => x.type == statusElement.type);
 			var hasStatus = (element is null);
 
 			if (hasStatus)
 			{
-				status.Add(statusElement);
+				calcStatus.Add(statusElement);
 			}
 			else
 			{
@@ -185,14 +211,14 @@ public class PartSystem : MonoBehaviour
 	{
 		foreach (var statusElement in statusData)
 		{
-			var element = status.Find((x) => x.type == statusElement.type);
+			var element = calcStatus.Find((x) => x.type == statusElement.type);
 			element.SubValue(statusElement.GetValue());
 		}
 	}
 
 	private void ClearStatus()
 	{
-		status.Clear();
+		calcStatus.Clear();
 	}
 	
 	#endregion
