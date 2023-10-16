@@ -91,6 +91,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 	public override void End(PlayerController unit)
 	{
 		base.End(unit);
+		unit.rigid.velocity = Vector3.zero;
 		unit.animator.SetBool(IsActivePartAnimKey, false);
 	}
 

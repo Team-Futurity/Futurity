@@ -38,7 +38,13 @@ public class RootMotionContoller : MonoBehaviour
 	{
 		while (true)
 		{
-			transform.position = model.transform.position;
+			Vector3 vector = model.transform.position;
+			/*if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.5f))
+			{
+				vector -= transform.forward * (hit.distance - 0.25f);
+			}*/
+
+			transform.position = vector;
 			model.transform.localPosition = Vector3.zero;
 
 			yield return null;
