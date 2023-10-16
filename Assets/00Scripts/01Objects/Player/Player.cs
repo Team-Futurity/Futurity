@@ -34,6 +34,9 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
+		if (pc.IsCurrentState(PlayerState.Death)) { return; }
+
+
 		float remainingDamageRatio = Mathf.Clamp(1 - GetDefensePoint() * 0.01f, 0, 100);
 		float finalDamage = damageInfo.Damage * remainingDamageRatio;
 
