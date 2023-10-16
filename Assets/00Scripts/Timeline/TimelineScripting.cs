@@ -11,7 +11,7 @@ public class TimelineScripting : MonoBehaviour
 	[Header("스크립트 출력 UI")]
 	[SerializeField] private SkeletonGraphic miraeAnimation;
 	[SerializeField] private SkeletonGraphic sariAnimation;
-	[SerializeField] private GameObject bossAnimation;
+	[SerializeField] private SkeletonGraphic bossAnimation;
 	[SerializeField] private TextMeshProUGUI textInput;
 	[SerializeField] private GameObject[] nameText;
 	[SerializeField] private float textOutputDelay = 0.05f;
@@ -56,12 +56,12 @@ public class TimelineScripting : MonoBehaviour
 		{
 			case "SARI":
 				sariAnimation.gameObject.SetActive(true);
-				bossAnimation.SetActive(false);
+				bossAnimation.gameObject.SetActive(false);
 				break;
 			
 			case "BOSS":
 				sariAnimation.gameObject.SetActive(false);
-				bossAnimation.SetActive(true);
+				bossAnimation.gameObject.SetActive(true);
 				break;
 		}
 	}
