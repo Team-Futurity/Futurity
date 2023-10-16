@@ -9,6 +9,7 @@ public class Area1_RewardCutScene : CutSceneBase
 	[SerializeField] private PlayableDirector rewardCutScene;
 	[SerializeField] private SpawnerManager spawnerManager;
 	[SerializeField] private List<ScriptingList> scriptsList;
+	
 	private int curScriptsIndex;
 	
 	protected override void Init()
