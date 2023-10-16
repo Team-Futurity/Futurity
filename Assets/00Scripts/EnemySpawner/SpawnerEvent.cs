@@ -45,11 +45,7 @@ public class SpawnerEvent : MonoBehaviour
 		switch (spawnerType)
 		{
 			case ESpawnerType.CHAPTER1_AREA1:
-				if (enableCollider != null && disableCollider != null)
-				{
-					enableCollider.enabled = true;
-					disableCollider.enabled = false;
-				}
+				CheckEndEventCollider();
 				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
 			
@@ -57,6 +53,7 @@ public class SpawnerEvent : MonoBehaviour
 				break;
 			
 			case ESpawnerType.CHAPTER1_AREA3:
+				CheckEndEventCollider();
 				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_LASTKILL);
 				chapterMove.EnableExitCollider();
 				return;
@@ -71,4 +68,19 @@ public class SpawnerEvent : MonoBehaviour
 		TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 		chapterMove.EnableExitCollider();
 	}
+
+	private void CheckEndEventCollider()
+	{
+		if (enableCollider != null)
+		{
+			enableCollider.enabled = true;
+		}
+
+		if (disableCollider != null)
+		{
+			disableCollider.enabled = false;
+		}
+	}
 }
+
+
