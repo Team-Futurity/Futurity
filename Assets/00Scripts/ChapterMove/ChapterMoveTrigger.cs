@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class ChapterMoveTrigger : MonoBehaviour
 {
@@ -39,10 +35,10 @@ public class ChapterMoveTrigger : MonoBehaviour
 					break;
 					
 				case EChapterType.CHAPTER1_1:
+					chapterMoveController.MoveNextChapter();
 					break;
 				
 				case EChapterType.CHAPTER1_2:
-					chapterMoveController.MoveNextChapter();
 					break;
 				
 				case EChapterType.CHAPTER_BOSS:

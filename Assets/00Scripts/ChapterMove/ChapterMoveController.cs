@@ -77,7 +77,7 @@ public class ChapterMoveController : MonoBehaviour
 	
 	private void ChangeChapter(string sceneName)
 	{
-		playerInput.enabled = false;
+		InputActionManager.Instance.DisableActionMap();
 		
 		FadeManager.Instance.FadeIn(fadeInTime, () =>
 		{
