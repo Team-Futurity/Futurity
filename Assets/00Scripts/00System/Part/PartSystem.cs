@@ -39,12 +39,22 @@ public class PartSystem : MonoBehaviour
 
 	private void Awake()
 	{
-		// [Create] - Status Instance 
 		calcStatus = new List<StatusData>();
 
 		TryGetComponent(out player);
 
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdatePartActivate);
+
+		if (PlayerPrefs.HasKey("Index"))
+		{
+			var getIndex = PlayerPrefs.GetInt("Index");
+
+			for (int i = 0; i <= getIndex; ++i)
+			{
+				var getPartCode = PlayerPrefs.GetInt("Index" + getIndex);
+				EquipPassivePart(i, getPartCode);
+			}
+		}
 	}
 
 	public PartBehaviour[] GetPassiveParts()
@@ -64,6 +74,10 @@ public class PartSystem : MonoBehaviour
 		passiveParts[index] = PartDatabase.GetPart(partCode);
 
 		onPartEquip?.Invoke(index, partCode);
+		
+		PlayerPrefs.SetInt("Index" + index, partCode);
+		PlayerPrefs.SetInt("Index", index);
+		
 		FDebug.Log($"{index + 1}번째에 {partCode}에 해당하는 파츠 장착 완료", GetType());
 	}
 
