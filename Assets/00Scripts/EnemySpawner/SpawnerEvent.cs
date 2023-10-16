@@ -12,8 +12,9 @@ public class SpawnerEvent : MonoBehaviour
 	[SerializeField] private UIDialogController dialogController;
 	[SerializeField] private List<int> dialogConditions;
 
-	[Header("활성화 콜라이더")] 
+	[Header("콜라이더 이벤트")] 
 	[SerializeField] private Collider enableCollider;
+	[SerializeField] private Collider disableCollider;
 	
 	public void InterimEvent(SpawnerManager manager, ESpawnerType chapterType)
 	{
@@ -44,9 +45,10 @@ public class SpawnerEvent : MonoBehaviour
 		switch (spawnerType)
 		{
 			case ESpawnerType.CHAPTER1_AREA1:
-				if (enableCollider != null)
+				if (enableCollider != null && disableCollider != null)
 				{
-					enableCollider.enabled = true;	
+					enableCollider.enabled = true;
+					disableCollider.enabled = false;
 				}
 				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
