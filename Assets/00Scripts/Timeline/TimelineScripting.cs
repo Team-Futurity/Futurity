@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class TimelineScripting : MonoBehaviour
 {
@@ -32,8 +33,10 @@ public class TimelineScripting : MonoBehaviour
 		textPrint = PrintingScript(scriptsStruct);
 		isEnd = false;
 
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange);
+		
 		StartCoroutine(textPrint);
-		StartInputCheck();
 	}
 
 	public void EnableNameText(int index)
@@ -111,8 +114,9 @@ public class TimelineScripting : MonoBehaviour
 		}
 
 		isEnd = true;
-		StopInputCheck();
 		DisableAllNameObject();
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange);
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 	
 	private void MiraeEmotionCheck(ScriptingStruct.EMiraeExpression type)
@@ -206,32 +210,10 @@ public class TimelineScripting : MonoBehaviour
 				return;
 		}
 	}
-	
-	private void StartInputCheck()
-	{
-		inputCheck = InputCheck();
-		StartCoroutine(inputCheck);
-	}
 
-	private void StopInputCheck()
+	public void InputChange(InputAction.CallbackContext context)
 	{
-		if (inputCheck != null)
-		{
-			StopCoroutine(inputCheck);
-		}
-	}
-	
-	private IEnumerator InputCheck()
-	{
-		while (true)
-		{
-			if (Input.GetKeyDown(KeyCode.F))
-			{
-				isInput = true;
-			}
-
-			yield return null;
-		}
+		isInput = true;
 	}
 
 	private void DisableAllNameObject()
