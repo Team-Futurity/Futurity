@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMoveState : UnitState<PlayerController>
 {
 	private readonly string MoveAnimKey = "Move";
-
+	private const float Root2 = 1.4142135623f;
 	public override void Begin(PlayerController pc)
 	{
 		//base.Begin(pc);
@@ -33,14 +33,27 @@ public class PlayerMoveState : UnitState<PlayerController>
 	public override void FixedUpdate(PlayerController pc)
 	{
 		var rotVec = pc.RotatePlayer(pc.moveDir, true);
+		float angleCos = Mathf.Abs(Mathf.Cos(pc.stopAngle));
+		float halfAngle = pc.stopAngle > 45 ? 90 - pc.stopAngle: pc.stopAngle;
+		float angleRatio = halfAngle / 45;
 
-		if (Physics.Raycast(pc.transform.position, pc.transform.forward, out RaycastHit hit, pc.stopDistance, 1 << 6))
+		if (Physics.Raycast(pc.transform.position, pc.transform.forward, out RaycastHit hit, pc.stopDistance + (angleRatio * Root2), 1 << 6))
 		{
 			Vector3 cross = Vector3.Cross(pc.transform.forward, hit.transform.forward);
 			float dot = Mathf.Abs(Vector3.Dot(pc.transform.forward, hit.transform.forward));
-			if (dot < 0.1e-5 || dot == 1)
-			{
+			float angleCut = angleCos * 2;
+
+			float cutValue = 0.1e-5f + angleCut;
+
+			FDebug.Log(cutValue + "__" + dot + "__" + (dot < cutValue || dot >= 1 - cutValue));
+			if (dot < cutValue || dot >= 1 - cutValue)
+			{			
 				pc.animator.SetBool(MoveAnimKey, false);
+			}
+			else
+			{
+				pc.animator.SetBool(MoveAnimKey, true);
+				pc.transform.position += pc.playerData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime * rotVec.normalized;
 			}
 		}
 		else
@@ -48,6 +61,7 @@ public class PlayerMoveState : UnitState<PlayerController>
 			pc.animator.SetBool(MoveAnimKey, true);
 			pc.transform.position += pc.playerData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime * rotVec.normalized;
 		}
+		
 		
 	}
 

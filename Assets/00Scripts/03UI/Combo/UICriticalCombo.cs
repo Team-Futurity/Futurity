@@ -118,8 +118,6 @@ public class UICriticalCombo : MonoBehaviour
 			yield return null;
 
 			timer += Time.deltaTime;
-
-			Debug.Log(timer);
 		}
 
 		numberGroup.gameObject.SetActive(false);
