@@ -116,7 +116,7 @@ public class TimelineScripting : MonoBehaviour
 		isEnd = true;
 		DisableAllNameObject();
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		//InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 	
 	private void MiraeEmotionCheck(ScriptingStruct.EMiraeExpression type)
