@@ -25,6 +25,7 @@ public class BossEntryCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.SetActiveMainUI(false);
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 	}
 
 	public override void DisableCutScene()

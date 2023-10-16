@@ -20,7 +20,8 @@ public class Area3_LastKillCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.SetActiveMainUI(false);
-		chapterManager.SetActivePlayerInput(false);
+		//chapterManager.SetActivePlayerInput(false);
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 
 		chapterManager.isCutScenePlay = true;
 	}
@@ -28,7 +29,8 @@ public class Area3_LastKillCutScene : CutSceneBase
 	public override void DisableCutScene()
 	{
 		chapterManager.SetActiveMainUI(true);
-		chapterManager.SetActivePlayerInput(true);
+		//chapterManager.SetActivePlayerInput(true);
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 
 		chapterManager.isCutScenePlay = false;
 		// TODO : 3챕터 이동 트리거 발동
