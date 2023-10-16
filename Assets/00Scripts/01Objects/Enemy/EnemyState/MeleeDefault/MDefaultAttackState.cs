@@ -20,6 +20,8 @@ public class MDefaultAttackState : EnemyAttackBaseState
 		unit.currentEffectData.position = new Vector3(0.047f, 0.953f, 0.03f);
 		unit.currentEffectData.rotation = Quaternion.Euler(new Vector3(7.567f, -0.62f, 22.347f));
 		unit.currentEffectData = atk1;
+
+		AudioManager.Instance.PlayOneShot(unit.attackSound1, unit.transform.position);
 		unit.navMesh.enabled = true;
 	}
 

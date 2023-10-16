@@ -36,6 +36,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public float rotatePower;
 	[Tooltip("멈춰설 벽과의 거리")]
 	public float stopDistance;
+	[Range(0, 90)] public float stopAngle;
 
 	// dash
 	[Space(5)]
