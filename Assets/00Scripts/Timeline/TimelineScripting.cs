@@ -76,6 +76,10 @@ public class TimelineScripting : MonoBehaviour
 			{
 				SariEmotionCheck(scripts.sariExpression);
 			}
+			else
+			{
+				BossEmotionCheck(scripts.bossExpression);
+			}
 
 			EnableNameText((int)scripts.nameType);
 			textInput.text = "";
@@ -174,6 +178,30 @@ public class TimelineScripting : MonoBehaviour
 				sariAnimation.AnimationState.SetAnimation(0, "surprise", true);
 				break;
 			
+			default:
+				return;
+		}
+	}
+	
+	private void BossEmotionCheck(ScriptingStruct.EBossExpression type)
+	{
+		switch (type)
+		{
+			case ScriptingStruct.EBossExpression.NONE:
+				break;
+			
+			case ScriptingStruct.EBossExpression.ANGRY:
+				bossAnimation.AnimationState.SetAnimation(0, "angry", true);
+				break;
+			
+			case ScriptingStruct.EBossExpression.IDLE:
+				bossAnimation.AnimationState.SetAnimation(0, "idle", true);
+				break;
+			
+			case ScriptingStruct.EBossExpression.LAUGH:
+				bossAnimation.AnimationState.SetAnimation(0, "laugh", true);
+				break;
+
 			default:
 				return;
 		}
