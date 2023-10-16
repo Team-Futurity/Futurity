@@ -7,7 +7,9 @@ public class Area1_RewardCutScene : CutSceneBase
 {
 	[Header("Component")] 
 	[SerializeField] private PlayableDirector rewardCutScene;
+	[SerializeField] private SpawnerManager spawnerManager;
 	[SerializeField] private List<ScriptingList> scriptsList;
+	
 	private int curScriptsIndex;
 	
 	protected override void Init()
@@ -27,6 +29,8 @@ public class Area1_RewardCutScene : CutSceneBase
 		chapterManager.isCutScenePlay = false;
 		chapterManager.SetActivePlayerInput(true);
 		chapterManager.SetActiveMainUI(true);
+		
+		spawnerManager.SpawnEnemy();
 	}
 
 	public void Reward_PrintScripts()
