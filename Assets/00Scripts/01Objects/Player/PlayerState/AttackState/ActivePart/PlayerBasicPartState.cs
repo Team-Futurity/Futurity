@@ -21,7 +21,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 	private PlayerController pc;
 	private Transform colliderOriginParent;
-	private float initialYPosition;
+	private float initialYPosition = 0.001f;
 
 	private float lastFrameTime;
 
