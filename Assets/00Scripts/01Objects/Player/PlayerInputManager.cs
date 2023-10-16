@@ -115,7 +115,7 @@ public class PlayerInputManager : MonoBehaviour
 
 	public void OnSpecialAttack(InputAction.CallbackContext context)
 	{
-		//QueueingProcess(pc.SAProcess(context));
+		QueueingProcess(pc.SAProcess(context));
 	}
 	#endregion
 

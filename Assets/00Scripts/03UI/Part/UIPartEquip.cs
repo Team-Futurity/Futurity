@@ -9,109 +9,103 @@ public class UIPartEquip : MonoBehaviour
 	public List<UIPartSelectButton> passiveButton;
 
 	[field: SerializeField]
-	public PartSystem PartEquipSystem { get; private set; }
-	
+	public PartSystem PartSystem { get; private set; }
+
 	[field: SerializeField]
 	public UIPartEquipSelect SelectModal { get; private set; }
-	
+
 	private int selectPartCode = 0;
 	private int selectButtonIndex = 0;
 
 	private bool isSelect = false;
 
-	private void Start()
-	{
-		UpdatePartData();
-		AddButtonEvent();
-	}
-
 	public void SetSelectPart(int code)
 	{
 		selectPartCode = code;
-		
 		isSelect = true;
 	}
-	
-	private void UpdatePartData()
+
+	// PartSystem과 현재 장착 UI의 싱크를 맞춘다.
+	public void SyncPartDataToPartSystem()
 	{
-		var partDatas = PartEquipSystem.equipPartList;
-		
-		for (int i = 0; i < partDatas.Length; ++i)
+		EnableSelectEvent();
+
+		var passivePartDatas = PartSystem.GetPassiveParts();
+		var activePartData = PartSystem.GetActivePart();
+
+		// Passive Sync
+		for (int i = 0; i < passivePartDatas.Length; ++i)
 		{
-			if (partDatas[i] != null)
+			if (PartSystem.IsIndexPartEmpty(i))
 			{
-				SetPartData(i, partDatas[i].partCode);
+				passiveButton[i].InitResource();
+			}
+			else
+			{
+				passiveButton[i].SetButtonData(passivePartDatas[i].partCode);
 			}
 		}
 	}
 
-	private void SetPartData(int index, int partCodes)
-	{
-		passiveButton[index].SetButtonData(partCodes);
-	}
-
-	private void AddButtonEvent()
-	{
-		Debug.Log("Enable");
-
-		for (int i = 0; i < passiveButton.Count; ++i)
-		{
-			passiveButton[i].onActive?.AddListener(SelectButton);
-		}
-	}
-
-	private void RemoveButtonEvent()
-	{
-		Debug.Log("Disable");
-		
-		for (int i = 0; i < passiveButton.Count; ++i)
-		{
-			passiveButton[i].onActive?.RemoveAllListeners();
-		}
-	}
-	
+	// 버튼을 눌렀다는 것은 해당 Index에 부품을 장착하겠다는 소리임.
 	private void SelectButton(int partCode, int selectIndex)
 	{
-		// PartCode : 선택한 Part Code
-		// SelectIndex : 선택한 Button의 Index
-		var emptyPart = PartEquipSystem.IsPartEmpty(selectIndex);
+		// 해당 인덱스의 파츠의 Empty 여부
+		var emptyPart = PartSystem.IsIndexPartEmpty(selectIndex);
 
-		selectPartCode = partCode;
+		// 선택된 Index를 확인한다.
 		selectButtonIndex = selectIndex;
 
+		// Button의 현재 UI를 저장한다.
 		UIInputManager.Instance.SaveIndex();
 
-		if (!isSelect)
-		{
-			return;
-		}
-
+		// 없을 경우
 		if (emptyPart)
 		{
-			ChangePart(false);
+			EquipSelectPart(true);
 		}
 		else
 		{
 			UIManager.Instance.OpenWindow(WindowList.PART_EQUIP_SELECT);
-			SelectModal.onClose?.AddListener(ChangePart);
+			SelectModal.onClose?.AddListener(EquipSelectPart);
 		}
-		
 	}
-	
-	// 부품을 변경하는 메서드
-	private void ChangePart(bool isNo)
+
+	// Part Close 버튼 클릭 시 나타남.
+	private void EquipSelectPart(bool isEquip)
 	{
+		// Listener 제거
 		SelectModal.onClose?.RemoveAllListeners();
-		
-		if (isNo == false)
+
+		// Yes
+		if (isEquip)
 		{
-			PartEquipSystem.EquipPart(selectButtonIndex, selectPartCode, true);
-			UpdatePartData();
-			
-			isSelect = false;
+			PartSystem.EquipPassivePart(selectButtonIndex, selectPartCode);
+
+			DisableSelectEvent();
+			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
+
 		}
-		
-		UIManager.Instance.RefreshWindow(WindowList.PART_EQUIP);
-		UIInputManager.Instance.SetSaveIndexToCurrentIndex();
+		else // 다시 선택할 경우
+		{
+			UIManager.Instance.RefreshWindow(WindowList.PART_EQUIP);
+			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
+		}
+	}
+
+	private void EnableSelectEvent()
+	{
+		for (int i = 0; i < passiveButton.Count; ++i)
+		{
+			passiveButton[i].onSelected?.AddListener(SelectButton);
+		}
+	}
+
+	private void DisableSelectEvent()
+	{
+		for (int i = 0; i < passiveButton.Count; ++i)
+		{
+			passiveButton[i].onSelected?.RemoveAllListeners();
+		}
 	}
 }

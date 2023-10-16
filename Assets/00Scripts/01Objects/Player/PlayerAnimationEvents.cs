@@ -33,7 +33,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public void EffectPooling()
 	{
 		attackNode = pc.curNode;
-		AttackAsset attackAsset = attackNode.GetAttackAsset(0);
+		AttackAsset attackAsset = attackNode.GetAttackAsset(404);
 
 		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
 		if(attackAsset == null || attackAsset.effectPoolManager == null ) { FDebug.LogError("[PlayerAnimationEvents] attackAsset or attackAsset.effectPoolManager is Null. Please Check to Command Graph or Script"); return; }

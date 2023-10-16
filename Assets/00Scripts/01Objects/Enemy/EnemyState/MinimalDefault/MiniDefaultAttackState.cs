@@ -6,7 +6,7 @@ using UnityEngine;
 public class MiniDefaultAttackState : EnemyAttackBaseState
 {
 	private EffectActiveData atk1 = new EffectActiveData();
-
+	private const float PlayerDistance = 0.5f;
 	public MiniDefaultAttackState()
 	{
 		atk1.activationTime = EffectActivationTime.MoveWhileAttack;
@@ -51,6 +51,10 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 			DamageInfo info = new DamageInfo(unit.enemyData, unit.target, 1);
 			unit.enemyData.Attack(info);
 			KnockBack(unit);
+
+			other.attachedRigidbody.velocity = Vector3.zero;
+			unit.transform.position += (unit.transform.position - other.transform.position).normalized * PlayerDistance;
+
 			//unit.ChangeState(EnemyController.EnemyState.MiniDefaultKnockback);
 		}
 	}

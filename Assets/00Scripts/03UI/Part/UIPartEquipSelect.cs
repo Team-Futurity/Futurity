@@ -15,14 +15,13 @@ public class UIPartEquipSelect : MonoBehaviour
 	{
 		for (int i = 0; i < buttons.Length; ++i)
 		{
-			buttons[i].onActive?.AddListener(OnActiveButton);
+			buttons[i].onSelected?.AddListener(OnActiveButton);
 		}
 	}
 
-	private void OnActiveButton(bool isNo)
+	private void OnActiveButton(bool isEquip)
 	{
 		UIManager.Instance.CloseWindow(WindowList.PART_EQUIP_SELECT);
-		
-		onClose?.Invoke(isNo);
+		onClose?.Invoke(isEquip);
 	}
 }

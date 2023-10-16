@@ -80,6 +80,8 @@ public class CSNodeSaveData
 		{
 			CSAttackAssetSaveData data = new CSAttackAssetSaveData();
 
+			data.PartCode = asset.PartCode;
+
 			data.EffectOffset = asset.EffectOffset;
 			data.EffectRotOffset = asset.EffectRotOffset;
 			data.EffectPrefab = asset.EffectPrefab;

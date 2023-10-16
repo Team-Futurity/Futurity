@@ -363,7 +363,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Special Move
 	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
-		if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+		//if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+		if (comboGaugeSystem.CurrentGauge < 100) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 		if (IsCurrentState(PlayerState.Death)) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);

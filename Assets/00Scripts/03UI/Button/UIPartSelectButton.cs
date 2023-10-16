@@ -11,10 +11,6 @@ public class UIPartSelectButton : UIButton
 	[SerializeField]
 	private int partCode;
 
-	[SerializeField]
-	private bool isSelectMode = false;
-
-	
 	#region Resource
 	
 	[field: SerializeField]
@@ -31,37 +27,49 @@ public class UIPartSelectButton : UIButton
 	
 	#endregion
 
-	// PartCode, Index
 	[HideInInspector]
-	public UnityEvent<int, int> onActive;
+	public UnityEvent<int, int> onSelected;
 	
 	[SerializeField]
 	private int buttonIndex = 0;
 
-	protected override void ActiveFunc()
+	private void Awake()
 	{
-		// 선택이 되었을 때
-		onActive?.Invoke(partCode, buttonIndex);
+		InitResource();
 	}
 
-	public void SetButtonData(int code, int index = 0)
+	protected override void ActiveFunc()
 	{
+		onSelected?.Invoke(partCode, buttonIndex);
+	}
+
+	public void SetButtonData(int code)
+	{
+		PartIconImage.enabled = PartNameImage.enabled = true;
+
 		ChangeResource(LoadPartData(code));
+		partCode = code;
 	}
 
 	// Addressable을 통한 Data Load
 	private UIPassiveSelectData LoadPartData(int code)
 	{
 		UIPassiveSelectData data = Addressables.LoadAssetAsync<UIPassiveSelectData>(code.ToString()).WaitForCompletion();
+
 		return data;
 	}
 
-	// Resource Change
 	private void ChangeResource(UIPassiveSelectData selectData)
 	{
 		PartIconImage.sprite = selectData.partIconSpr;
 		PartNameImage.sprite = selectData.partNameSpr;
 		CoreInfoText.text = selectData.coreInfoText;
 		SubInfoText.text = selectData.subInfoText;
+	}
+
+	public void InitResource()
+	{
+		PartIconImage.enabled = PartNameImage.enabled = false;
+		CoreInfoText.text = SubInfoText.text = "";
 	}
 }
