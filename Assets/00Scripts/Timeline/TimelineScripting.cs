@@ -108,6 +108,7 @@ public class TimelineScripting : MonoBehaviour
 
 		isEnd = true;
 		StopInputCheck();
+		DisableAllNameObject();
 	}
 	
 	private void MiraeEmotionCheck(ScriptingStruct.EMiraeExpression type)
@@ -202,6 +203,14 @@ public class TimelineScripting : MonoBehaviour
 			}
 
 			yield return null;
+		}
+	}
+
+	private void DisableAllNameObject()
+	{
+		foreach (GameObject names in nameText)
+		{
+			names.SetActive(false);
 		}
 	}
 }
