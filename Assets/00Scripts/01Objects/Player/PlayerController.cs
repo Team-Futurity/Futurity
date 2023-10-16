@@ -112,6 +112,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
 	public PlayerCameraEffect cameraEffect;
+	public PartSystem partSystem;
 	[HideInInspector] public CameraFollowTarget followTarget;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
@@ -686,6 +687,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (animator == null) { msgs.Add("animator is Null."); }
 		if (rigid == null) { msgs.Add("rigid is Null."); }
 		if (rmController == null) { msgs.Add("rmController is Null."); }
+		if(partSystem == null){msgs.Add("partSystem is Null");}
 
 		isClear = msgs.Count == 0;
 		if (isClear)

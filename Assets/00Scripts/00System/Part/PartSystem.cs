@@ -8,30 +8,30 @@ using UnityEngine.Events;
 
 public class PartSystem : MonoBehaviour
 {
-	[SerializeField, Header("Combo ½Ã½ºÅÛ")]
+	[SerializeField, Header("Combo ì‹œìŠ¤í…œ")]
 	private ComboGaugeSystem comboGaugeSystem;
 
 	private Player player;
 
 	// Passive Part Variable
-	[SerializeField, Header("ÆĞ½Ãºê ÆÄÃ÷")]
+	[SerializeField, Header("íŒ¨ì‹œë¸Œ íŒŒì¸ ")]
 	private PartBehaviour[] passiveParts = new PartBehaviour[3];
 	private const int CORE_ACTIVE_INDEX = 3;
 	private const int ACTIVE_PART_INDEX = 4;
 
 	// Active Part Variable
-	[SerializeField, Header("¾×Æ¼ºê ÆÄÃ÷")]
+	[SerializeField, Header("ì•¡í‹°ë¸Œ íŒŒì¸ ")]
 	private PartBehaviour activePart = new PartBehaviour();
 
-	// Part°¡ °è»êµÈ Status
+	// Partê°€ ê³„ì‚°ëœ Status
 	private List<StatusData> calcStatus;
 
 	#region UnityEvents
-	// Part°¡ ÀåÂøµÇ¾úÀ» ¶§. È¤Àº ÀåÂø ÇØÁ¦ µÇ¾úÀ» ¶§.
+	// Partê°€ ì¥ì°©ë˜ì—ˆì„ ë•Œ. í˜¹ì€ ì¥ì°© í•´ì œ ë˜ì—ˆì„ ë•Œ.
 	// Index, PartCode
 	[HideInInspector] public UnityEvent<int, int> onPartEquip;
 
-	// Part°¡ È°¼ºÈ­, ºñÈ°¼ºÈ­ µÇ¾úÀ» ¶§.
+	// Partê°€ í™œì„±í™”, ë¹„í™œì„±í™” ë˜ì—ˆì„ ë•Œ.
 	// PartCode
 	[HideInInspector] public UnityEvent<int, int> onPartActive;
 	[HideInInspector] public UnityEvent<int, int> onPartDeactive;
@@ -64,7 +64,7 @@ public class PartSystem : MonoBehaviour
 		passiveParts[index] = PartDatabase.GetPart(partCode);
 
 		onPartEquip?.Invoke(index, partCode);
-		FDebug.Log($"{index + 1}¹øÂ°¿¡ {partCode}¿¡ ÇØ´çÇÏ´Â ÆÄÃ÷ ÀåÂø ¿Ï·á", GetType());
+		FDebug.Log($"{index + 1}ë²ˆì§¸ì— {partCode}ì— í•´ë‹¹í•˜ëŠ” íŒŒì¸  ì¥ì°© ì™„ë£Œ", GetType());
 	}
 
 	public void EquipActivePart(int partCode)
@@ -95,15 +95,15 @@ public class PartSystem : MonoBehaviour
 
 	private void ActivatePart(int index)
 	{
-		// Á¸ÀçÇÏÁö ¾Ê´Â Part Return
+		// ì¡´ì¬í•˜ì§€ ì•ŠëŠ” Part Return
 		if (IsIndexPartEmpty(index - 1)) return;
-		// ½ÇÇàÁßÀÎ Part Return
+		// ì‹¤í–‰ì¤‘ì¸ Part Return
 		if (IsIndexPartActivate(index)) return;
 
 		if(index == ACTIVE_PART_INDEX)
 		{
 			// Active
-			FDebug.Log($"Active Part È°¼ºÈ­");
+			FDebug.Log($"Active Part í™œì„±í™”");
 		}
 		else
 		{
@@ -130,7 +130,7 @@ public class PartSystem : MonoBehaviour
 
 		if (index == ACTIVE_PART_INDEX)
 		{
-			FDebug.Log($"Active Part ºñÈ°¼ºÈ­");
+			FDebug.Log($"Active Part ë¹„í™œì„±í™”");
 		}
 		else
 		{
@@ -163,7 +163,7 @@ public class PartSystem : MonoBehaviour
 		}
 	}
 
-	// Part°¡ ½ÇÇàÁßÀÎ°¡?
+	// Partê°€ ì‹¤í–‰ì¤‘ì¸ê°€?
 	private bool IsIndexPartActivate(int index)
 	{
 		if (index == ACTIVE_PART_INDEX)
@@ -178,6 +178,13 @@ public class PartSystem : MonoBehaviour
 	
 	#endregion
 
+	public int GetEquiped75PercentPointPartCode()
+	{
+		if (passiveParts[2] == null || !passiveParts[2].GetPartActive()) { return 404; }
+
+		return passiveParts[2].partCode;
+	}
+	
 	private int GetEquipPassivePartCode(int index)
 	{
 		return passiveParts[index].partCode;

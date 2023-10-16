@@ -14,14 +14,15 @@ public class Area1_RewardCutScene : CutSceneBase
 	
 	protected override void Init()
 	{
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		
 	}
 
 	protected override void EnableCutScene()
 	{
 		chapterManager.isCutScenePlay = true;
-		chapterManager.SetActivePlayerInput(false);
+		//chapterManager.SetActivePlayerInput(false);
 		chapterManager.SetActiveMainUI(false);
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 	}
 
 	public override void DisableCutScene()
