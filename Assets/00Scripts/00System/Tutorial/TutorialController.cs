@@ -124,8 +124,6 @@ public class TutorialController : MonoBehaviour
 
 	private void LoadTutorialDialogData()
 	{
-		Debug.Log("Tutorial Data Load");
-		
 		foreach (var key in dialogKey)
 		{
 			var path = dialogPath + key + ".asset";

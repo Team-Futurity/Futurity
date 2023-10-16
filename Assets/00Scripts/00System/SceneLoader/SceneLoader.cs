@@ -80,8 +80,6 @@ public class SceneLoader : Singleton<SceneLoader>
 		var timer = .0f;
 		sceneProgress = .0f;
 
-		Debug.Log("Scene Load");
-
 		while (!operation.isDone)
 		{
 			timer += 0.1f;
