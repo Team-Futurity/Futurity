@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class TimelineScripting : MonoBehaviour
 {
 	[Header("스크립트 출력 UI")]
 	[SerializeField] private SkeletonGraphic miraeAnimation;
 	[SerializeField] private SkeletonGraphic sariAnimation;
-	[SerializeField] private GameObject bossAnimation;
+	[SerializeField] private SkeletonGraphic bossAnimation;
 	[SerializeField] private TextMeshProUGUI textInput;
 	[SerializeField] private GameObject[] nameText;
 	[SerializeField] private float textOutputDelay = 0.05f;
@@ -32,8 +33,10 @@ public class TimelineScripting : MonoBehaviour
 		textPrint = PrintingScript(scriptsStruct);
 		isEnd = false;
 
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange);
+		
 		StartCoroutine(textPrint);
-		StartInputCheck();
 	}
 
 	public void EnableNameText(int index)
@@ -56,12 +59,12 @@ public class TimelineScripting : MonoBehaviour
 		{
 			case "SARI":
 				sariAnimation.gameObject.SetActive(true);
-				bossAnimation.SetActive(false);
+				bossAnimation.gameObject.SetActive(false);
 				break;
 			
 			case "BOSS":
 				sariAnimation.gameObject.SetActive(false);
-				bossAnimation.SetActive(true);
+				bossAnimation.gameObject.SetActive(true);
 				break;
 		}
 	}
@@ -75,6 +78,10 @@ public class TimelineScripting : MonoBehaviour
 			if (sariAnimation.gameObject.activeSelf == true)
 			{
 				SariEmotionCheck(scripts.sariExpression);
+			}
+			else
+			{
+				BossEmotionCheck(scripts.bossExpression);
 			}
 
 			EnableNameText((int)scripts.nameType);
@@ -107,7 +114,9 @@ public class TimelineScripting : MonoBehaviour
 		}
 
 		isEnd = true;
-		StopInputCheck();
+		DisableAllNameObject();
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange);
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 	
 	private void MiraeEmotionCheck(ScriptingStruct.EMiraeExpression type)
@@ -178,30 +187,40 @@ public class TimelineScripting : MonoBehaviour
 		}
 	}
 	
-	private void StartInputCheck()
+	private void BossEmotionCheck(ScriptingStruct.EBossExpression type)
 	{
-		inputCheck = InputCheck();
-		StartCoroutine(inputCheck);
-	}
-
-	private void StopInputCheck()
-	{
-		if (inputCheck != null)
+		switch (type)
 		{
-			StopCoroutine(inputCheck);
+			case ScriptingStruct.EBossExpression.NONE:
+				break;
+			
+			case ScriptingStruct.EBossExpression.ANGRY:
+				bossAnimation.AnimationState.SetAnimation(0, "angry", true);
+				break;
+			
+			case ScriptingStruct.EBossExpression.IDLE:
+				bossAnimation.AnimationState.SetAnimation(0, "idle", true);
+				break;
+			
+			case ScriptingStruct.EBossExpression.LAUGH:
+				bossAnimation.AnimationState.SetAnimation(0, "laugh", true);
+				break;
+
+			default:
+				return;
 		}
 	}
-	
-	private IEnumerator InputCheck()
-	{
-		while (true)
-		{
-			if (Input.GetKeyDown(KeyCode.F))
-			{
-				isInput = true;
-			}
 
-			yield return null;
+	public void InputChange(InputAction.CallbackContext context)
+	{
+		isInput = true;
+	}
+
+	private void DisableAllNameObject()
+	{
+		foreach (GameObject names in nameText)
+		{
+			names.SetActive(false);
 		}
 	}
 }

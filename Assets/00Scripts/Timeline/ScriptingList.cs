@@ -32,6 +32,13 @@ public struct ScriptingStruct
 		SURPRISE
 	}
 	
+	public enum EBossExpression
+	{
+		NONE,
+		ANGRY,
+		IDLE,
+		LAUGH
+	}
 	public enum ENameType
 	{
 		MIRAE,
@@ -42,6 +49,7 @@ public struct ScriptingStruct
 
 	public EMiraeExpression miraeExpression;
 	public ESariExpression sariExpression;
+	public EBossExpression bossExpression;
 	public ENameType nameType;
 	public string scripts;
 }

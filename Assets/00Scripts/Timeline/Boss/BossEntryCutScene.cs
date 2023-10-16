@@ -24,18 +24,19 @@ public class BossEntryCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		chapterManager.SetActivePlayerInput(false);
 		chapterManager.SetActiveMainUI(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		chapterManager.SetActivePlayerInput(true);
-		chapterManager.SetActiveMainUI(true);
-		boss.isActive = true;
+		// chapterManager.SetActivePlayerInput(true);
+		// chapterManager.SetActiveMainUI(true);
+		// boss.isActive = true;
+		//
+		// chapterManager.PlayerController.playerData.status.updateHPEvent
+		// 	?.Invoke(230f, 230f);
 		
-		chapterManager.PlayerController.playerData.status.updateHPEvent
-			?.Invoke(230f, 230f);
+		SceneLoader.Instance.LoadScene("TitleScene");
 	}
 
 	public void BossEntry_PrintScripts()

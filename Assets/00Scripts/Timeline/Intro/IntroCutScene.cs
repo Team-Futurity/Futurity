@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 
 public class IntroCutScene : CutSceneBase
@@ -29,10 +30,16 @@ public class IntroCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		FadeManager.Instance.FadeOut(fadeInTime);
+		
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
 	}
 
 	public override void DisableCutScene()
 	{
+		InputActionManager.Instance.DisableActionMap();
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
+		
 		Time.timeScale = 1.0f;
 		FadeManager.Instance.FadeIn(fadeOutTime, () =>
 		{
@@ -59,6 +66,19 @@ public class IntroCutScene : CutSceneBase
 		}
 	}
 
+	private void InputCheck(InputAction.CallbackContext context)
+	{
+		if (isPause == true)
+		{
+			Time.timeScale = 1.0f;
+			introCutScene.Resume();
+			isPause = false;
+		}
+		else 
+		{
+			SkipToNextImg();
+		}
+	}
 	public void ToggleInputCheck() => isInputCheck = !isInputCheck;
 	public void PauseTimeline()
 	{
