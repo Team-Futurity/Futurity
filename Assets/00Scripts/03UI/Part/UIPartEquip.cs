@@ -31,8 +31,19 @@ public class UIPartEquip : MonoBehaviour
 		EnableSelectEvent();
 
 		var passivePartDatas = PartSystem.GetPassiveParts();
+		
 		var activePartData = PartSystem.GetActivePart();
 
+		if (passivePartDatas == null)
+		{
+			for (int i = 0; i < passiveButton.Count; ++i)
+			{
+				passiveButton[i].InitResource();
+			}
+
+			return;
+		}
+		
 		// Passive Sync
 		for (int i = 0; i < passivePartDatas.Length; ++i)
 		{
