@@ -29,7 +29,6 @@ public class ChapterMoveController : MonoBehaviour
 	[SerializeField] private List<SpawnerManager> spawnerManager;
 
 	private GameObject player;
-	private PlayerInput playerInput;
 
 	private void Start()
 	{
@@ -134,7 +133,6 @@ public class ChapterMoveController : MonoBehaviour
 	private void Init()
 	{
 		player = GameObject.FindWithTag("Player");
-		playerInput = player.GetComponent<PlayerInput>();
 
 		if (GameObject.FindWithTag("CutScene").TryGetComponent(out cutSceneManager) == true)
 		{
@@ -150,9 +148,7 @@ public class ChapterMoveController : MonoBehaviour
 		{
 			return;
 		}
-
-		playerInput.enabled = true;
-
+		
 		if (enableSpawner == false)
 		{
 			return;

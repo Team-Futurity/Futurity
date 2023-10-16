@@ -39,6 +39,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 					break;
 				
 				case EChapterType.CHAPTER1_2:
+					chapterMoveController.MoveNextChapter();
 					break;
 				
 				case EChapterType.CHAPTER_BOSS:
