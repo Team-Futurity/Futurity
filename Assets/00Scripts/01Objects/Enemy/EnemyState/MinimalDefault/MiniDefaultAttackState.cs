@@ -27,6 +27,7 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 		atk1.rotation = unit.transform.rotation;
 		unit.currentEffectData = atk1;
 		unit.atkCollider.enabled = true;
+		AudioManager.Instance.PlayOneShot(unit.attackSound1, unit.transform.position);
 		unit.rigid.AddForce(unit.transform.forward * unit.powerReference1, ForceMode.Impulse);
 	}
 
@@ -50,6 +51,7 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 			//FDebug.Log("MiniDefault Attack Trigger");
 			DamageInfo info = new DamageInfo(unit.enemyData, unit.target, 1);
 			unit.enemyData.Attack(info);
+			AudioManager.Instance.PlayOneShot(unit.attackSound2, unit.transform.position);
 			KnockBack(unit);
 
 			other.attachedRigidbody.velocity = Vector3.zero;
@@ -66,6 +68,7 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 		unit.currentEffectData.position = unit.target.transform.position + new Vector3(0, 1f, 0);
 
 		unit.animator.SetTrigger(unit.atkAnimParam);
+		AudioManager.Instance.PlayOneShot(unit.attackSound3, unit.transform.position);
 		unit.rigid.AddForce(-unit.transform.forward * unit.powerReference2, ForceMode.Impulse);
 
 	}

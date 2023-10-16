@@ -30,6 +30,8 @@ public class RDefaultAttackState : EnemyAttackBaseState
 		unit.currentEffectData = effectActiveData;
 		unit.rangedProjectile.transform.position = unit.transform.position + projectilePos;
 		unit.rangedProjectile.transform.rotation = unit.transform.rotation;
+
+		AudioManager.Instance.PlayOneShot(unit.attackSound1, unit.transform.position);
 	}
 
 	public override void Update(EnemyController unit)
