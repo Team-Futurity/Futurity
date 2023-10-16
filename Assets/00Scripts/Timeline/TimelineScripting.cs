@@ -34,7 +34,7 @@ public class TimelineScripting : MonoBehaviour
 		isEnd = false;
 
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 		
 		StartCoroutine(textPrint);
 	}
@@ -115,7 +115,7 @@ public class TimelineScripting : MonoBehaviour
 
 		isEnd = true;
 		DisableAllNameObject();
-		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 	
