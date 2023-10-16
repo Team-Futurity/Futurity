@@ -138,6 +138,9 @@ public class AutoTarget : Singleton<AutoTarget>
 				if (distance <= margin)
 				{
 					Vector3 forward = (targetPos - movingObject.transform.position).normalized;
+
+					if(forward == Vector3.zero) { forward = -movingObject.transform.forward; }
+
 					movingObject.transform.position = targetPos - forward * margin;
 					isMoving = false;
 				}
