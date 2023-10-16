@@ -7,8 +7,7 @@ public class SpawnerEvent : MonoBehaviour
 	[Header("Component")] 
 	[SerializeField] private ChapterMoveController chapterMove;
 
-	[Header("진행중 다이얼로그 출현 조건")] 
-	[SerializeField] private GameObject dialogWindow;
+	[Header("진행중 다이얼로그 출현 조건")]
 	[SerializeField] private UIDialogController dialogController;
 	[SerializeField] private List<int> dialogConditions;
 
@@ -30,7 +29,7 @@ public class SpawnerEvent : MonoBehaviour
 		}
 		
 		manager.isEventEnable = true;
-		dialogWindow.SetActive(true);
+		dialogController.gameObject.SetActive(true);
 		dialogController.SetDialogData(manager.DialogData);
 		dialogController.PlayDialog();
 	}
