@@ -59,7 +59,7 @@ public class SpawnerEvent : MonoBehaviour
 			case ESpawnerType.CHAPTER1_AREA3:
 				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_LASTKILL);
 				chapterMove.EnableExitCollider();
-				break;
+				return;
 			
 			case ESpawnerType.CHAPTER_BOSS:
 				break;

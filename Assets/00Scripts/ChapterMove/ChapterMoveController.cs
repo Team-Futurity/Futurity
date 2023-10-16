@@ -22,7 +22,7 @@ public class ChapterMoveController : MonoBehaviour
 
 	[Header("다음 씬으로 넘어갈 콜라이더")] 
 	[SerializeField] private GameObject chapterMoveTrigger;
-
+	
 	[Header("디버그용 패널")] 
 	[SerializeField] private bool isDebugMode;
 	[SerializeField] private bool enableSpawner;
@@ -106,9 +106,11 @@ public class ChapterMoveController : MonoBehaviour
 				break;
 			
 			case EChapterType.CHAPTER1_2:
+				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
+					TimelineManager.Instance.ChapterScene[(int)EChapter1_2.AREA2_ENTRYSCENE].
+						GetComponent<PlayableDirector>().Play();
 				};
 				break;
 			
