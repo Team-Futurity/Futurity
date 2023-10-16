@@ -5146,6 +5146,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1612703978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1612703979}
+  m_Layer: 0
+  m_Name: EffectTransfrom_Alpha_Explosion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1612703979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612703978}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3806605646931967196}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1941853246
 GameObject:
   m_ObjectHideFlags: 0
@@ -5766,6 +5797,7 @@ Transform:
   - {fileID: 423453156}
   - {fileID: 9054446365584314615}
   - {fileID: 6056033157355613526}
+  - {fileID: 1612703979}
   m_Father: {fileID: 5328251835375101389}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5943,7 +5975,7 @@ MonoBehaviour:
   dashEffect: {fileID: 6896061726418441343, guid: 7e59af500395e6a4a9650ef3fc3b14a0, type: 3}
   dashPos: {fileID: 9054446365584314615}
   maxDashCount: 1
-  hitCoolTime: 0.01
+  hitCoolTime: 0.001
   moveDir: {x: 0, y: 0, z: 0}
   lastMoveDir: {x: 0, y: 0, z: 0}
   dashCoolTimeIsEnd: 0
@@ -6178,7 +6210,7 @@ MonoBehaviour:
         duration: 5
         buffCode: 1003
         chargeEffectPos: {fileID: 0}
-        explosionEffectPos: {fileID: 0}
+        explosionEffectPos: {fileID: 1612703979}
         landingEffectPos: {fileID: 5328251835375101389}
         chargeEffect: {fileID: 5653102041688409914, guid: 7c4a404f1628f7e40b71f4da4ccfb643, type: 3}
         explosionEffect: {fileID: 7882521244870677114, guid: f6b57a94088577e4ea0eeacecf8e7227, type: 3}
@@ -6206,7 +6238,7 @@ MonoBehaviour:
   maxComboCount: 3
   minComboGauge: 0
   maxComboGauge: 100
-  currentGauge: 0
+  currentGauge: 100
   comboData:
   - <ComboCount>k__BackingField: 0
     <AddedGauge>k__BackingField: 7
