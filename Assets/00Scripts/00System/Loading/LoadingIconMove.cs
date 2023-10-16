@@ -20,10 +20,9 @@ public class LoadingIconMove : MonoBehaviour
 	{
 		TryGetComponent(out rectTransform);
 
-		screenMaxWidth = Screen.width;
-
+		screenMaxWidth = 2000f;
 		moveDistance = screenMaxWidth - Mathf.Abs(rectTransform.anchoredPosition.x);
-
+		
 		startPos = rectTransform.anchoredPosition;
 		endPos = new Vector2(
 			rectTransform.anchoredPosition.x + (moveDistance),
@@ -45,7 +44,7 @@ public class LoadingIconMove : MonoBehaviour
 	{
 		while (Vector2.Distance(startPos, targetPos) > 0.1f && isActive)
 		{
-			timer += 0.1f;
+			timer += 0.01f;
 
 			var resultPos = Vector2.Lerp(startPos, targetPos, timer);
 
