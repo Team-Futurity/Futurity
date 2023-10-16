@@ -32,7 +32,7 @@ public class IntroCutScene : CutSceneBase
 		FadeManager.Instance.FadeOut(fadeInTime);
 		
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck, true);
 	}
 
 	public override void DisableCutScene()
@@ -54,16 +54,16 @@ public class IntroCutScene : CutSceneBase
 			return;
 		}
 
-		if (Input.GetKeyDown(KeyCode.F) && isPause == true)
-		{
-			Time.timeScale = 1.0f;
-			introCutScene.Resume();
-			isPause = false;
-		}
-		else if (Input.GetKeyDown(KeyCode.F) && isPause == false)
-		{
-			SkipToNextImg();
-		}
+		// if (Input.GetKeyDown(KeyCode.F) && isPause == true)
+		// {
+		// 	Time.timeScale = 1.0f;
+		// 	introCutScene.Resume();
+		// 	isPause = false;
+		// }
+		// else if (Input.GetKeyDown(KeyCode.F) && isPause == false)
+		// {
+		// 	SkipToNextImg();
+		// }
 	}
 
 	private void InputCheck(InputAction.CallbackContext context)
@@ -74,10 +74,10 @@ public class IntroCutScene : CutSceneBase
 			introCutScene.Resume();
 			isPause = false;
 		}
-		else 
-		{
-			SkipToNextImg();
-		}
+		// else 
+		// {
+		// 	SkipToNextImg();
+		// }
 	}
 	public void ToggleInputCheck() => isInputCheck = !isInputCheck;
 	public void PauseTimeline()
