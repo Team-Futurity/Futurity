@@ -152,7 +152,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 		explosionEffect = proccessor.explosionEffectObjectPool.ActiveObject(vec, Quaternion.identity);
 		explosionEffect.GetComponent<ParticleController>().Initialize(proccessor.explosionEffectObjectPool);
-		proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
+		//proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
 
 		float diameter = 2 * minSize * explosionEffectUnitSize;
 		explosionEffect.localScale = new Vector3(diameter, diameter, diameter);
