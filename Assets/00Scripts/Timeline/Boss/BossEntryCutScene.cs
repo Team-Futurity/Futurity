@@ -38,7 +38,7 @@ public class BossEntryCutScene : CutSceneBase
 		
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();
-		
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		SceneLoader.Instance.LoadScene("TitleScene");
 	}
 
