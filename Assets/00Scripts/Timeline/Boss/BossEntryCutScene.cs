@@ -25,7 +25,6 @@ public class BossEntryCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.SetActiveMainUI(false);
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 	}
 
 	public override void DisableCutScene()
@@ -46,7 +45,6 @@ public class BossEntryCutScene : CutSceneBase
 		
 		chapterManager.PauseCutSceneUntilScriptsEnd(bossEntry);
 		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-		
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
 	}
 
