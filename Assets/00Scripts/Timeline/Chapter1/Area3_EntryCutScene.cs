@@ -33,7 +33,6 @@ public class Area3_EntryCutScene : CutSceneBase
 	private void Update()
 	{
 		vignette.intensity.value = intensity;
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 	}
 
 	protected override void EnableCutScene()
@@ -53,9 +52,6 @@ public class Area3_EntryCutScene : CutSceneBase
 
 		vignette.intensity.value = originIntensity;
 		vignette.color.value = Color.red;
-		
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
-		//chapterManager.SetActivePlayerInput(true);
 	}
 
 	private void SetCameraVignette()
