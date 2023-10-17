@@ -36,6 +36,7 @@ public class ChapterMoveController : MonoBehaviour
 		CheckDebugMode();
 		EnableEntryCutScene();
 
+		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status.updateHPEvent.Invoke(230f, 230f);
 		Time.timeScale = 1.0f;
 	}
 
