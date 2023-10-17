@@ -45,15 +45,22 @@ public class PartSystem : MonoBehaviour
 
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdatePartActivate);
 
-		if (PlayerPrefs.HasKey("Index"))
+		if(PlayerPrefs.HasKey("Index0"))
 		{
-			var getIndex = PlayerPrefs.GetInt("Index");
+			var key = PlayerPrefs.GetInt("Index0");
+			EquipPassivePart(0, key);
+		}
 
-			for (int i = 0; i <= getIndex; ++i)
-			{
-				var getPartCode = PlayerPrefs.GetInt("Index" + getIndex);
-				EquipPassivePart(i, getPartCode);
-			}
+		if (PlayerPrefs.HasKey("Index1"))
+		{
+			var key = PlayerPrefs.GetInt("Index0");
+			EquipPassivePart(1, key);
+		}
+
+		if (PlayerPrefs.HasKey("Index2"))
+		{
+			var key = PlayerPrefs.GetInt("Index0");
+			EquipPassivePart(2, key);
 		}
 	}
 
@@ -74,9 +81,19 @@ public class PartSystem : MonoBehaviour
 		passiveParts[index] = PartDatabase.GetPart(partCode);
 
 		onPartEquip?.Invoke(index, partCode);
-		
-		PlayerPrefs.SetInt("Index" + index, partCode);
-		PlayerPrefs.SetInt("Index", index);
+
+		switch(index)
+		{
+			case 0:
+				PlayerPrefs.SetInt("Index0", partCode);
+				break;
+			case 1:
+				PlayerPrefs.SetInt("Index1", partCode);
+				break;
+			case 2:
+				PlayerPrefs.SetInt("Index2", partCode);
+				break;
+		}
 		
 		FDebug.Log($"{index + 1}번째에 {partCode}에 해당하는 파츠 장착 완료", GetType());
 	}
