@@ -9,7 +9,12 @@ public class RewardBox : MonoBehaviour
 	public UIPassivePartSelect passivePartSelect;
 	public int[] partCodes;
 	private bool isEnter;
-	
+
+	private void OnDisable()
+	{
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
+	}
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player") == false)
@@ -18,8 +23,7 @@ public class RewardBox : MonoBehaviour
 		}
 		
 		isEnter = true;
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, 
-			OnInteractRewardBox, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 
 	private void OnTriggerExit(Collider other)
@@ -30,8 +34,7 @@ public class RewardBox : MonoBehaviour
 		}
 		
 		isEnter = false;
-		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, 
-			OnInteractRewardBox, true);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 
 	private void OnInteractRewardBox(InputAction.CallbackContext context)
