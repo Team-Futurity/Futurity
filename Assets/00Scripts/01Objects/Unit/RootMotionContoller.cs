@@ -39,15 +39,39 @@ public class RootMotionContoller : MonoBehaviour
 		while (true)
 		{
 			Vector3 vector = model.transform.position;
-			/*if (Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out RaycastHit hit, 0.4f))
-			{
-				vector -= transform.forward * (hit.distance - 0.2f);
-			}*/
+			/*string currentAnimName = GetName();
 
-			transform.position = vector;
+			if (currentAnimName == "") { FDebug.LogError("Animation Name is not Matched", GetType()); yield return null; continue; }
+
+			FDebug.Log(transform.position + "_" + (transform.position + transform.forward * 0.3f));
+
+			if (Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out RaycastHit hit, 0.3f))
+			{
+				FDebug.Log(vector + "__" + (vector - transform.forward * (hit.distance - 0.2f)));
+
+				vector -= transform.forward * (hit.distance - 0.2f);
+			}
+
+			transform.position += new Vector3(vector.x * animationDic[currentAnimName].applyX, vector.y * animationDic[currentAnimName].applyY, vector.z * animationDic[currentAnimName].applyZ);*/
+			transform.position += vector;
 			model.transform.localPosition = Vector3.zero;
 
 			yield return null;
 		}
+	}
+
+	private string GetName()
+	{
+		string animationName = "";
+		foreach(var animName in animationDic.Keys)
+		{
+			if(animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
+			{
+				animationName = animName;
+				break;
+			}
+		}
+
+		return animationName;
 	}
 }
