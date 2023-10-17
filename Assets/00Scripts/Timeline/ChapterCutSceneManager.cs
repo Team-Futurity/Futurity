@@ -104,18 +104,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 		var offset = distance * forward;
 		return playerModelTf.position + offset;
 	}
-
-	public void SetActivePlayerInput(bool active)
-	{
-		if (active == false)
-		{
-			InputActionManager.Instance.DisableActionMap();	
-			return;
-		}
-		
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
-	}
-
+	
 	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);
 	
 	public void SetActiveComboUI(bool active) => comboUI.SetActive(active);
