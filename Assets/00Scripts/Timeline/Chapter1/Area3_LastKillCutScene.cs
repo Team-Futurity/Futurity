@@ -25,6 +25,9 @@ public class Area3_LastKillCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
+		chapterManager.scripting.ResetEmotion();
+		chapterManager.scripting.DisableAllNameObject();
+		
 		chapterManager.SetActiveMainUI(true);
 		chapterManager.isCutScenePlay = false;
 	}

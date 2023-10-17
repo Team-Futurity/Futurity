@@ -36,6 +36,9 @@ public class BossEntryCutScene : CutSceneBase
 		// chapterManager.PlayerController.playerData.status.updateHPEvent
 		// 	?.Invoke(230f, 230f);
 		
+		chapterManager.scripting.ResetEmotion();
+		chapterManager.scripting.DisableAllNameObject();
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		SceneLoader.Instance.LoadScene("TitleScene");
 	}
 

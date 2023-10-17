@@ -36,6 +36,7 @@ public class ChapterMoveController : MonoBehaviour
 		CheckDebugMode();
 		EnableEntryCutScene();
 
+		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status.updateHPEvent.Invoke(230f, 230f);
 		Time.timeScale = 1.0f;
 	}
 
@@ -116,9 +117,11 @@ public class ChapterMoveController : MonoBehaviour
 				break;
 			
 			case EChapterType.CHAPTER_BOSS:
+				TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
+					TimelineManager.Instance.ChapterScene[(int)EBossCutScene.BOSS_ENTRYCUTSCENE]
+						.GetComponent<PlayableDirector>().Play();
 				};
 				break;
 			
