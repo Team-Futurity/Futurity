@@ -46,6 +46,7 @@ public class SceneLoader : Singleton<SceneLoader>
 	{
 		nextSceneName = sceneName;
 
+		UIManager.Instance.RemoveAllWindow();
 		EnableSceneLoadEvent();
 		SceneManager.LoadScene(loadSceneName);
 	}
@@ -91,6 +92,7 @@ public class SceneLoader : Singleton<SceneLoader>
 
 			if (sceneProgress > 0.95f && timer >= 1f)
 			{
+
 				FadeManager.Instance.FadeIn(1f, () =>
 				{
 					operation.allowSceneActivation = true;
@@ -102,4 +104,7 @@ public class SceneLoader : Singleton<SceneLoader>
 
 		endAction?.Invoke();
 	}
+
+
 }
+

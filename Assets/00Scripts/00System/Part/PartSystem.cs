@@ -45,24 +45,32 @@ public class PartSystem : MonoBehaviour
 
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdatePartActivate);
 
-		if(PlayerPrefs.HasKey("Index0"))
+		if(PlayerPrefs.HasKey("1"))
 		{
-			var key = PlayerPrefs.GetInt("Index0");
+			var key = PlayerPrefs.GetInt("1");
 			EquipPassivePart(0, key);
 		}
 
-		if (PlayerPrefs.HasKey("Index1"))
+		if (PlayerPrefs.HasKey("2"))
 		{
-			var key = PlayerPrefs.GetInt("Index0");
+			var key = PlayerPrefs.GetInt("2");
 			EquipPassivePart(1, key);
 		}
 
-		if (PlayerPrefs.HasKey("Index2"))
+		if (PlayerPrefs.HasKey("3"))
 		{
-			var key = PlayerPrefs.GetInt("Index0");
+			var key = PlayerPrefs.GetInt("3");
 			EquipPassivePart(2, key);
 		}
 	}
+
+	private void OnApplicationQuit()
+	{
+		PlayerPrefs.DeleteKey("1");
+		PlayerPrefs.DeleteKey("2");
+		PlayerPrefs.DeleteKey("3");
+	}
+
 
 	public PartBehaviour[] GetPassiveParts()
 	{
@@ -85,17 +93,18 @@ public class PartSystem : MonoBehaviour
 		switch(index)
 		{
 			case 0:
-				PlayerPrefs.SetInt("Index0", partCode);
+				PlayerPrefs.SetInt("1", partCode);
 				break;
 			case 1:
-				PlayerPrefs.SetInt("Index1", partCode);
+				PlayerPrefs.SetInt("2", partCode);
 				break;
 			case 2:
-				PlayerPrefs.SetInt("Index2", partCode);
+				PlayerPrefs.SetInt("3", partCode);
 				break;
 		}
 		
 		FDebug.Log($"{index + 1}번째에 {partCode}에 해당하는 파츠 장착 완료", GetType());
+		UpdatePartActivate(comboGaugeSystem.CurrentGauge, comboGaugeSystem.maxComboGauge);
 	}
 
 	public void EquipActivePart(int partCode)
