@@ -53,15 +53,22 @@ public class PartSystem : MonoBehaviour
 
 		if (PlayerPrefs.HasKey("Index1"))
 		{
-			var key = PlayerPrefs.GetInt("Index0");
+			var key = PlayerPrefs.GetInt("Index1");
 			EquipPassivePart(1, key);
 		}
 
 		if (PlayerPrefs.HasKey("Index2"))
 		{
-			var key = PlayerPrefs.GetInt("Index0");
+			var key = PlayerPrefs.GetInt("Index2");
 			EquipPassivePart(2, key);
 		}
+	}
+
+	private void OnDisable()
+	{
+		PlayerPrefs.DeleteKey("Index0");
+		PlayerPrefs.DeleteKey("Index1");
+		PlayerPrefs.DeleteKey("Index2");
 	}
 
 	public PartBehaviour[] GetPassiveParts()
@@ -96,6 +103,7 @@ public class PartSystem : MonoBehaviour
 		}
 		
 		FDebug.Log($"{index + 1}번째에 {partCode}에 해당하는 파츠 장착 완료", GetType());
+		UpdatePartActivate(comboGaugeSystem.CurrentGauge, comboGaugeSystem.maxComboGauge);
 	}
 
 	public void EquipActivePart(int partCode)
