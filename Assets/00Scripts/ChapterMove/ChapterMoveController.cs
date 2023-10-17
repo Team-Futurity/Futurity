@@ -117,9 +117,11 @@ public class ChapterMoveController : MonoBehaviour
 				break;
 			
 			case EChapterType.CHAPTER_BOSS:
+				TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
+					TimelineManager.Instance.ChapterScene[(int)EBossCutScene.BOSS_ENTRYCUTSCENE]
+						.GetComponent<PlayableDirector>().Play();
 				};
 				break;
 			
