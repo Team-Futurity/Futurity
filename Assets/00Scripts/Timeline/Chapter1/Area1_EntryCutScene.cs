@@ -45,9 +45,6 @@ public class Area1_EntryCutScene : CutSceneBase
 		
 		chapterManager.SetActiveMainUI(true);
 		chapterManager.isCutScenePlay = false;
-
-		chapterManager.PlayerController.playerData.status.updateHPEvent
-			.Invoke(230f, 230f);
 	}
 
 	public void Area1_Scripting()

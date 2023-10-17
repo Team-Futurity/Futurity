@@ -82,6 +82,8 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
+		
+		playerController.playerData.status.updateHPEvent.Invoke(230f, 230f);
 	}
 
 	private void Update()
