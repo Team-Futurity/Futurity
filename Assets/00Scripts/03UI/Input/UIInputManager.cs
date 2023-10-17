@@ -134,7 +134,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnLeftKey(InputAction.CallbackContext context)
 	{
-		if (!currentActiveButtons[currentIndex].usedLeftRight)
+		if (!currentActiveButtons[currentIndex].usedLeftRight || !currentActiveButtons.ContainsKey(currentIndex))
 			return;
 
 		currentActiveButtons[currentIndex].OnLeft();
@@ -142,7 +142,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnRightKey(InputAction.CallbackContext context)
 	{
-		if (!currentActiveButtons[currentIndex].usedLeftRight)
+		if (!currentActiveButtons[currentIndex].usedLeftRight || !currentActiveButtons.ContainsKey(currentIndex))
 			return;
 
 		currentActiveButtons[currentIndex].OnRight();
@@ -150,7 +150,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnClickUI(InputAction.CallbackContext context)
 	{
-		if (currentActiveButtons == null)
+		if (currentActiveButtons == null || !currentActiveButtons.ContainsKey(currentIndex))
 		{
 			return;
 		}
