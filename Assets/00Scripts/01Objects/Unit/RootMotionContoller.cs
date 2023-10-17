@@ -53,7 +53,7 @@ public class RootMotionContoller : MonoBehaviour
 			}
 
 			transform.position += new Vector3(vector.x * animationDic[currentAnimName].applyX, vector.y * animationDic[currentAnimName].applyY, vector.z * animationDic[currentAnimName].applyZ);*/
-			transform.position += vector;
+			transform.position = vector;
 			model.transform.localPosition = Vector3.zero;
 
 			yield return null;
