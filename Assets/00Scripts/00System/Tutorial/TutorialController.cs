@@ -57,6 +57,12 @@ public class TutorialController : MonoBehaviour
 
 	private void StartTutorial()
 	{
+
+		FadeManager.Instance.FadeIn(fadeTime, () =>
+		{
+			SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+		});
+		return;
 		// First Settings
 		dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
 		
