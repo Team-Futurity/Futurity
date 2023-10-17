@@ -67,6 +67,29 @@ public class TimelineScripting : MonoBehaviour
 		}
 	}
 
+	public void ResetEmotion()
+	{
+		MiraeEmotionCheck(ScriptingStruct.EMiraeExpression.IDLE);
+
+		if (sariAnimation.gameObject.activeSelf == true)
+		{
+			SariEmotionCheck(ScriptingStruct.ESariExpression.IDLE);
+		}
+
+		if (bossAnimation.gameObject.activeSelf == true)
+		{
+			SariEmotionCheck(ScriptingStruct.ESariExpression.IDLE);
+		}
+	}
+	
+	public void DisableAllNameObject()
+	{
+		foreach (GameObject names in nameText)
+		{
+			names.SetActive(false);
+		}
+	}
+
 	private IEnumerator PrintingScript(List<ScriptingStruct> scriptsStruct)
 	{
 		foreach (ScriptingStruct scripts in scriptsStruct)
@@ -112,7 +135,6 @@ public class TimelineScripting : MonoBehaviour
 		}
 
 		isEnd = true;
-		DisableAllNameObject();
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 	}
 	
@@ -211,13 +233,5 @@ public class TimelineScripting : MonoBehaviour
 	private void InputChange(InputAction.CallbackContext context)
 	{
 		isInput = true;
-	}
-
-	private void DisableAllNameObject()
-	{
-		foreach (GameObject names in nameText)
-		{
-			names.SetActive(false);
-		}
 	}
 }

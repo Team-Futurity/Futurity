@@ -6,14 +6,9 @@ using UnityEngine.Playables;
 public class Area1_EntryCutScene : CutSceneBase
 {
 	[Header("Component")]
-	[SerializeField] private GameObject playerCamera;
 	[SerializeField] private SpawnerManager spawnerManager;
 	[SerializeField] private PlayableDirector entryCutScene;
-
-	[Header("진입 컷신에서 활성화할 오브젝트 목록")]
-	[SerializeField] private GameObject[] walls;
-	[SerializeField] private GameObject eliteEnemy;
-
+	
 	[Header("플레이어 이동값")] 
 	[SerializeField] private GameObject targetPos;
 	[SerializeField] private float duration;
@@ -35,13 +30,8 @@ public class Area1_EntryCutScene : CutSceneBase
 	
 	public override void DisableCutScene()
 	{
-		foreach (var wall in walls)
-		{
-			wall.SetActive(true);
-		}
-		
-		playerCamera.SetActive(true);
-		eliteEnemy.SetActive(false);
+		chapterManager.scripting.DisableAllNameObject();
+		chapterManager.scripting.ResetEmotion();
 		
 		chapterManager.SetActiveMainUI(true);
 		chapterManager.isCutScenePlay = false;
