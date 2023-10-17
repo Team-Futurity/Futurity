@@ -11,6 +11,7 @@ public abstract class CutSceneBase : MonoBehaviour
 	private void OnEnable()
 	{
 		chapterManager = gameObject.GetComponentInParent<ChapterCutSceneManager>();
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		
 		Init();
 		EnableCutScene();
@@ -18,6 +19,7 @@ public abstract class CutSceneBase : MonoBehaviour
 
 	private void OnDisable()
 	{
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 		DisableCutScene();
 	}
 }

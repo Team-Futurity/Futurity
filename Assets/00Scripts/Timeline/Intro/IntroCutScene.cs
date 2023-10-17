@@ -17,10 +17,7 @@ public class IntroCutScene : CutSceneBase
 
 	[Header("다음으로 이동할 씬 이름")] 
 	[SerializeField] private string nextSceneName;
-
-	private bool isInputCheck = false;
 	private bool isPause = false;
-	
 	
 	protected override void Init()
 	{
@@ -30,14 +27,11 @@ public class IntroCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		FadeManager.Instance.FadeOut(fadeInTime);
-		
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck, true);
 	}
 
 	public override void DisableCutScene()
 	{
-		InputActionManager.Instance.DisableActionMap();
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
 		
 		Time.timeScale = 1.0f;
@@ -47,47 +41,20 @@ public class IntroCutScene : CutSceneBase
 		});
 	}
 	
-	private void Update()
+	private void InputCheck(InputAction.CallbackContext context)
 	{
-		if (isInputCheck == false)
+		if (isPause == false)
 		{
 			return;
 		}
-
-		// if (Input.GetKeyDown(KeyCode.F) && isPause == true)
-		// {
-		// 	Time.timeScale = 1.0f;
-		// 	introCutScene.Resume();
-		// 	isPause = false;
-		// }
-		// else if (Input.GetKeyDown(KeyCode.F) && isPause == false)
-		// {
-		// 	SkipToNextImg();
-		// }
+		
+		introCutScene.Resume();
+		isPause = false;
 	}
-
-	private void InputCheck(InputAction.CallbackContext context)
-	{
-		if (isPause == true)
-		{
-			Time.timeScale = 1.0f;
-			introCutScene.Resume();
-			isPause = false;
-		}
-		// else 
-		// {
-		// 	SkipToNextImg();
-		// }
-	}
-	public void ToggleInputCheck() => isInputCheck = !isInputCheck;
+	
 	public void PauseTimeline()
 	{
 		introCutScene.Pause();
 		isPause = true;
-	}
-
-	private void SkipToNextImg()
-	{
-		Time.timeScale = 3.0f;
 	}
 }

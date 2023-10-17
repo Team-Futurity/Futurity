@@ -53,11 +53,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 	private CinemachineFramingTransposer cameraBody;
 	private IEnumerator timeSlow;
 	private IEnumerator lerpTimeScale;
-	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private AnalogGlitchVolume analogGlitch;
-
-	// test
-	private bool isInit = false;
 	
 	public void Start()
 	{
@@ -86,10 +82,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
-		
-		waitForSecondsRealtime = new WaitForSecondsRealtime(0.3f);
-
-		isInit = true;
 	}
 
 	private void Update()

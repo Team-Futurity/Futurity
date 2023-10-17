@@ -35,6 +35,8 @@ public class ChapterMoveController : MonoBehaviour
 		Init();
 		CheckDebugMode();
 		EnableEntryCutScene();
+
+		Time.timeScale = 1.0f;
 	}
 
 	private void Update()

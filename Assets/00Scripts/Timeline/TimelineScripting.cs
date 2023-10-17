@@ -32,10 +32,8 @@ public class TimelineScripting : MonoBehaviour
 	{
 		textPrint = PrintingScript(scriptsStruct);
 		isEnd = false;
-
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 		
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 		StartCoroutine(textPrint);
 	}
 
@@ -210,7 +208,7 @@ public class TimelineScripting : MonoBehaviour
 		}
 	}
 
-	public void InputChange(InputAction.CallbackContext context)
+	private void InputChange(InputAction.CallbackContext context)
 	{
 		isInput = true;
 	}

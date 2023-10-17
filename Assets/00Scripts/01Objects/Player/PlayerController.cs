@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-
 public class PlayerController : UnitFSM<PlayerController>, IFSM
 {
 	// Constants
@@ -249,6 +248,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
+		if (IsCurrentState(PlayerState.BasicSM)) { return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
+
 		// 예외처리
 		if (!IsCurrentState(PlayerState.Idle))
 		{
@@ -282,7 +283,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public PlayerInputData DashProcess(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Death) || playerData.isStun || !hitCoolTimeIsEnd || currentDashCount <= 0) 
+		if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || playerData.isStun || !hitCoolTimeIsEnd || currentDashCount <= 0) 
 		{ 
 			return GetInputData(PlayerInputEnum.Dash, false); 
 		}
@@ -305,7 +306,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerInputData NAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
-		if (playerData.isStun || !hitCoolTimeIsEnd || IsCurrentState(PlayerState.Death)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+		if (playerData.isStun || !hitCoolTimeIsEnd || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true) && IsCurrentState(PlayerState.ChargedAttack)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
@@ -328,7 +329,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerInputData SAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
-		if (playerData.isStun || !hitCoolTimeIsEnd || IsCurrentState(PlayerState.Death)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
+		if (playerData.isStun || !hitCoolTimeIsEnd || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
@@ -366,8 +367,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
 		//if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+
 		if (comboGaugeSystem.CurrentGauge < 100) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
-		if (IsCurrentState(PlayerState.Death)) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+		if (IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM)) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
 		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
