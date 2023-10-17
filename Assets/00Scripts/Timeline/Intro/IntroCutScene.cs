@@ -31,7 +31,7 @@ public class IntroCutScene : CutSceneBase
 	{
 		FadeManager.Instance.FadeOut(fadeInTime);
 		
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		//InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck, true);
 	}
 

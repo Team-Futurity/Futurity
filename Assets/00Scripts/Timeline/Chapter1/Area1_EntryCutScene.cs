@@ -31,9 +31,6 @@ public class Area1_EntryCutScene : CutSceneBase
 	{
 		chapterManager.isCutScenePlay = true;
 		chapterManager.SetActiveMainUI(false);
-		
-		//InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
-		InputActionManager.Instance.DisableActionMap();
 	}
 	
 	public override void DisableCutScene()
@@ -47,13 +44,10 @@ public class Area1_EntryCutScene : CutSceneBase
 		eliteEnemy.SetActive(false);
 		
 		chapterManager.SetActiveMainUI(true);
-		//chapterManager.SetActivePlayerInput(true);
 		chapterManager.isCutScenePlay = false;
-		
+
 		chapterManager.PlayerController.playerData.status.updateHPEvent
 			.Invoke(230f, 230f);
-		
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 
 	public void Area1_Scripting()
