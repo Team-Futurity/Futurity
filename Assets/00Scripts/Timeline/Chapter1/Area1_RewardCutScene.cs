@@ -20,9 +20,7 @@ public class Area1_RewardCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.isCutScenePlay = true;
-		//chapterManager.SetActivePlayerInput(false);
 		chapterManager.SetActiveMainUI(false);
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 	}
 
 	public override void DisableCutScene()
@@ -30,8 +28,6 @@ public class Area1_RewardCutScene : CutSceneBase
 		chapterManager.isCutScenePlay = false;
 		chapterManager.SetActivePlayerInput(true);
 		chapterManager.SetActiveMainUI(true);
-		
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 		spawnerManager.SpawnEnemy();
 	}
 
