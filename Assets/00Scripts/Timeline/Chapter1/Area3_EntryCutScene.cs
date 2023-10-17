@@ -46,6 +46,9 @@ public class Area3_EntryCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
+		chapterManager.scripting.ResetEmotion();
+		chapterManager.scripting.DisableAllNameObject();
+		
 		chapterManager.isCutScenePlay = false;
 		chapterManager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
