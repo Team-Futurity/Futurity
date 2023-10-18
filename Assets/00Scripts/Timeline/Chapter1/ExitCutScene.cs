@@ -22,13 +22,11 @@ public class ExitCutScene : CutSceneBase
 	{
 		chapterManager.SetActiveMainUI(false);
 		chapterManager.ChangeFollowTarget(true, null);
-		chapterManager.SetActivePlayerInput(false);
 	}
 
 	public override void DisableCutScene()
 	{
 		chapterManager.SetActiveMainUI(true);
-		chapterManager.SetActivePlayerInput(true);
 	}
 	
 	public void MovePlayer()

@@ -11,9 +11,13 @@ public class UIWindowOpenerButton : UIButton
 
 	protected override void ActiveFunc()
 	{
+		UIInputManager.Instance.SaveIndex();
+		
 		if (isClose)
 		{
 			UIManager.Instance.CloseWindow(OpenWindowType);
+			UIManager.Instance.RefreshWindow(WindowList.TITLE);
+			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
 		}
 		else
 		{

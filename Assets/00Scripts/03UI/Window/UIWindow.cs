@@ -19,11 +19,9 @@ public class UIWindow : MonoBehaviour
 	[HideInInspector]
 	public UnityEvent<bool> onOpen;
 
-	// 현재 Window가 가지게 되는 Button List
 	[field: SerializeField, Space(10)]
 	public List<UIButton> CurrentWindowButtons { get; private set; }
 	
-	// 현재 Window가 가지는 Group
 	[field: SerializeField, Space(10)]
 	public List<GameObject> CurrentWindowObjects { get; private set; }
 

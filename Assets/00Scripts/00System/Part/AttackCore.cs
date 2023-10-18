@@ -60,8 +60,11 @@ public class AttackCore : CoreAbility
 		if (isStateTransition)
 		{
 			// 가까운 순서대로 몬스터를 정리한다.
-			var nearEnemy = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position))
-				.ToList()[0];
+			var nearEnemies = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList();
+
+			if(nearEnemies.Count == 0) { return; }
+
+			var nearEnemy = nearEnemies[0];
 
 			var hasTransitionComponent =
 				nearEnemy.TryGetComponent<TransitionAttackCore>(out var transitionAttackCore);

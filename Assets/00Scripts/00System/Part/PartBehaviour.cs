@@ -8,7 +8,7 @@ public class PartBehaviour : MonoBehaviour
 	public int partCode = 0;
 	public PartType partType = PartType.NONE;
 	
-	// PlayerÀÇ °³³äÀ¸·Î Sub¿Í Core¸¦ »ç¿ëÇÒ ¼ö ÀÖµµ·Ï ÇÑ´Ù.
+	// Playerì˜ ê°œë…ìœ¼ë¡œ Subì™€ Coreë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆë„ë¡ í•œë‹¤.
 	private SubAbility subAbility;
 	private CoreAbility coreAbility;
 

@@ -58,6 +58,14 @@ public class FadeManager : Singleton<FadeManager>
 		StartCoroutine(UpdateScreenFade(MAX, MIN, time, outAction));
 	}
 
+	public void ForceFadeOut()
+	{
+		var imageColor = fadeImage.color;
+		imageColor.a = 0;
+		
+		fadeImage.color= imageColor;
+	}
+	
 	private IEnumerator UpdateScreenFade(float start, float end, float time, UnityAction endAction = null)
 	{
 		var imageColor = fadeImage.color;

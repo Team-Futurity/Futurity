@@ -16,6 +16,8 @@ public class UISceneLoadButton : UIButton
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
 			SceneLoader.Instance.LoadScene(sceneName, isLoadingScene);
+			InputActionManager.Instance.DisableActionMap();
+			UIInputManager.Instance.ClearAll();
 		});
 	}
 }

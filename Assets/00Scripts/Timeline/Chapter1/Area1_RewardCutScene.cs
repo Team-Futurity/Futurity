@@ -20,16 +20,16 @@ public class Area1_RewardCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.isCutScenePlay = true;
-		chapterManager.SetActivePlayerInput(false);
 		chapterManager.SetActiveMainUI(false);
 	}
 
 	public override void DisableCutScene()
 	{
-		chapterManager.isCutScenePlay = false;
-		chapterManager.SetActivePlayerInput(true);
-		chapterManager.SetActiveMainUI(true);
+		chapterManager.scripting.DisableAllNameObject();
+		chapterManager.scripting.ResetEmotion();
 		
+		chapterManager.isCutScenePlay = false;
+		chapterManager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
 	}
 

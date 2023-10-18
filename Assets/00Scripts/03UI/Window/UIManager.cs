@@ -27,13 +27,6 @@ public class UIManager : Singleton<UIManager>
 
 	public void RemoveWindow(WindowList type)
 	{
-		var isOk = windowDic?.Remove(type);
-
-		if (isOk == false)
-		{
-			FDebug.Log($"{type}에 해당하는 Window가 존재하지 않거나, 잘못되었습니다.", GetType());
-		}
-		
 		windowDic[type].RemoveWindow();
 	}
 
@@ -62,16 +55,26 @@ public class UIManager : Singleton<UIManager>
 	public void CloseOtherWindow(params WindowList[] windows)
 	{
 		var exceptionWindow = activeWindowList.ConvertAll(x => x);
-		
+
 		if (windows[0] != WindowList.MAX)
 		{
 			exceptionWindow.Except(windows.ToList());
 		}
-		
+
 		foreach (var closeWindow in exceptionWindow)
 		{
-			windowDic[closeWindow].CloseWindow();
+			CloseWindow(closeWindow);
 		}
+	}
+
+	public void RemoveAllWindow()
+	{
+		//foreach(var window in windowDic)
+		//{
+		//	RemoveWindow(window.Key);
+		//}
+
+		windowDic.Clear();
 	}
 
 	public bool HasWindow(WindowList type)

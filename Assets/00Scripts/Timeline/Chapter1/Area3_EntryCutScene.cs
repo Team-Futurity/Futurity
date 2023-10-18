@@ -27,8 +27,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	protected override void Init()
 	{
 		vignette = cameraEffect.Vignette;
-
-		originIntensity = vignette.intensity.value;
+		originIntensity = 0;
 	}
 
 	private void Update()
@@ -41,24 +40,27 @@ public class Area3_EntryCutScene : CutSceneBase
 		chapterManager.isCutScenePlay = true;
 		chapterManager.scripting.EnableNameText((int)ScriptingStruct.ENameType.MIRAE);
 		chapterManager.SetActiveMainUI(false);
-		chapterManager.SetActivePlayerInput(false);
 		chapterManager.ChangeFollowTarget(true, playerMoveTarget);
-
-		vignette.intensity.value = intensity;
-		vignette.color.value = Color.black;
-		
-		Invoke(nameof(PlayCutScene), 0.3f);
+		SetCameraVignette();
 	}
 
 	public override void DisableCutScene()
 	{
+		chapterManager.scripting.ResetEmotion();
+		chapterManager.scripting.DisableAllNameObject();
+		
 		chapterManager.isCutScenePlay = false;
-		chapterManager.SetActivePlayerInput(true);
 		chapterManager.SetActiveMainUI(true);
 		spawnerManager.SpawnEnemy();
 
 		vignette.intensity.value = originIntensity;
 		vignette.color.value = Color.red;
+	}
+
+	private void SetCameraVignette()
+	{
+		vignette.color.value = Color.black;
+		vignette.intensity.value = intensity;
 	}
 	
 	public void Area3_PrintScripts()

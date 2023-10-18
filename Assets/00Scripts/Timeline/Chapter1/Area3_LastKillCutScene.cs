@@ -20,18 +20,16 @@ public class Area3_LastKillCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.SetActiveMainUI(false);
-		chapterManager.SetActivePlayerInput(false);
-
 		chapterManager.isCutScenePlay = true;
 	}
 
 	public override void DisableCutScene()
 	{
+		chapterManager.scripting.ResetEmotion();
+		chapterManager.scripting.DisableAllNameObject();
+		
 		chapterManager.SetActiveMainUI(true);
-		chapterManager.SetActivePlayerInput(true);
-
 		chapterManager.isCutScenePlay = false;
-		// TODO : 3챕터 이동 트리거 발동
 	}
 
 	public void Area3_LastKillScripts()

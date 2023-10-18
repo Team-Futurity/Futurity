@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ChapterMoveTrigger : MonoBehaviour
 {
 	[Header("Component")] 
 	private ChapterMoveController chapterMoveController;
+	private bool isInput = false;
 
 	private void Start()
 	{
@@ -17,6 +19,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 			return;
 		}
 		
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 		chapterMoveController.SetActiveInteractionUI(true);
 	}
 
@@ -27,7 +30,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 			return;
 		}
 
-		if (Input.GetKeyDown(KeyCode.F))
+		if (isInput == true)
 		{
 			switch (chapterMoveController.CurrentChapter)
 			{
@@ -39,6 +42,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 					break;
 				
 				case EChapterType.CHAPTER1_2:
+					chapterMoveController.MoveNextChapter();
 					break;
 				
 				case EChapterType.CHAPTER_BOSS:
@@ -49,8 +53,14 @@ public class ChapterMoveTrigger : MonoBehaviour
 			}
 			
 			chapterMoveController.SetActiveInteractionUI(false);
+			InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 			gameObject.SetActive(false);
 		}
+	}
+
+	public void CheckMoveStage(InputAction.CallbackContext context)
+	{
+		isInput = true;
 	}
 	
 	private void OnTriggerExit(Collider other)
@@ -60,6 +70,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 			return;
 		}
 		
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 		chapterMoveController.SetActiveInteractionUI(false);
 	}
 }

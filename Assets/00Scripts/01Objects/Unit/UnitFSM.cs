@@ -115,7 +115,6 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		if (GetState(subEnumState, ref state))
 		{
 			AddSubState(state);
-			Debug.Log("SUB STATE" + state);
 		}
 	}
 

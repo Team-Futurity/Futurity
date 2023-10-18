@@ -156,7 +156,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float hitColorChangeTime = 0.2f;
 	public float hitPower = 450f;							//피격 AddForce 값
 	public Color damagedColor;                              //피격 변환 컬러값
-	public EventReference hitSound;
 	[HideInInspector] public bool isInPlayer = false;
 
 	[Space(3)]
@@ -168,7 +167,11 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)] 
 	[Header("Spawn Info & Event")]
 	[HideInInspector] public UnityEvent disableEvent;
-	
+	public EventReference attackSound1;
+	public EventReference attackSound2;
+	public EventReference attackSound3;
+	public EventReference hitSound;
+
 	private void Start()
 	{
 		if(effectSO)

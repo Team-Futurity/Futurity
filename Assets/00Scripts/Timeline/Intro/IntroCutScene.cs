@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 
 public class IntroCutScene : CutSceneBase
@@ -16,10 +17,7 @@ public class IntroCutScene : CutSceneBase
 
 	[Header("다음으로 이동할 씬 이름")] 
 	[SerializeField] private string nextSceneName;
-
-	private bool isInputCheck = false;
 	private bool isPause = false;
-	
 	
 	protected override void Init()
 	{
@@ -29,10 +27,13 @@ public class IntroCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		FadeManager.Instance.FadeOut(fadeInTime);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck, true);
 	}
 
 	public override void DisableCutScene()
 	{
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
+		
 		Time.timeScale = 1.0f;
 		FadeManager.Instance.FadeIn(fadeOutTime, () =>
 		{
@@ -40,34 +41,20 @@ public class IntroCutScene : CutSceneBase
 		});
 	}
 	
-	private void Update()
+	private void InputCheck(InputAction.CallbackContext context)
 	{
-		if (isInputCheck == false)
+		if (isPause == false)
 		{
 			return;
 		}
-
-		if (Input.GetKeyDown(KeyCode.F) && isPause == true)
-		{
-			Time.timeScale = 1.0f;
-			introCutScene.Resume();
-			isPause = false;
-		}
-		else if (Input.GetKeyDown(KeyCode.F) && isPause == false)
-		{
-			SkipToNextImg();
-		}
+		
+		introCutScene.Resume();
+		isPause = false;
 	}
-
-	public void ToggleInputCheck() => isInputCheck = !isInputCheck;
+	
 	public void PauseTimeline()
 	{
 		introCutScene.Pause();
 		isPause = true;
-	}
-
-	private void SkipToNextImg()
-	{
-		Time.timeScale = 3.0f;
 	}
 }

@@ -22,20 +22,22 @@ public class ChapterMoveController : MonoBehaviour
 
 	[Header("다음 씬으로 넘어갈 콜라이더")] 
 	[SerializeField] private GameObject chapterMoveTrigger;
-
+	
 	[Header("디버그용 패널")] 
 	[SerializeField] private bool isDebugMode;
 	[SerializeField] private bool enableSpawner;
 	[SerializeField] private List<SpawnerManager> spawnerManager;
 
 	private GameObject player;
-	private PlayerInput playerInput;
 
 	private void Start()
 	{
 		Init();
 		CheckDebugMode();
 		EnableEntryCutScene();
+
+		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status.updateHPEvent.Invoke(230f, 230f);
+		Time.timeScale = 1.0f;
 	}
 
 	private void Update()
@@ -106,16 +108,20 @@ public class ChapterMoveController : MonoBehaviour
 				break;
 			
 			case EChapterType.CHAPTER1_2:
+				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
+					TimelineManager.Instance.ChapterScene[(int)EChapter1_2.AREA2_ENTRYSCENE].
+						GetComponent<PlayableDirector>().Play();
 				};
 				break;
 			
 			case EChapterType.CHAPTER_BOSS:
+				TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
+					TimelineManager.Instance.ChapterScene[(int)EBossCutScene.BOSS_ENTRYCUTSCENE]
+						.GetComponent<PlayableDirector>().Play();
 				};
 				break;
 			
@@ -132,7 +138,6 @@ public class ChapterMoveController : MonoBehaviour
 	private void Init()
 	{
 		player = GameObject.FindWithTag("Player");
-		playerInput = player.GetComponent<PlayerInput>();
 
 		if (GameObject.FindWithTag("CutScene").TryGetComponent(out cutSceneManager) == true)
 		{
@@ -148,9 +153,7 @@ public class ChapterMoveController : MonoBehaviour
 		{
 			return;
 		}
-
-		playerInput.enabled = true;
-
+		
 		if (enableSpawner == false)
 		{
 			return;

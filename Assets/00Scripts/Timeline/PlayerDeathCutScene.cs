@@ -27,8 +27,9 @@ public class PlayerDeathCutScene : CutSceneBase
 	{
 		chapterManager.ResetCameraValue();
 		chapterManager.ChangeFollowTarget();
-		
-		gameOverUI.SetActive(true);
+
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		UIManager.Instance.OpenWindow(WindowList.GAME_OVER);
 		chapterManager.GrayScale.amount.value = 0.0f;
 		chapterManager.GrayScale.active = false;
 	}

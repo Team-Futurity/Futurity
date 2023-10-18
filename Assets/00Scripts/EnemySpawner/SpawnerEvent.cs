@@ -7,8 +7,7 @@ public class SpawnerEvent : MonoBehaviour
 	[Header("Component")] 
 	[SerializeField] private ChapterMoveController chapterMove;
 
-	[Header("진행중 다이얼로그 출현 조건")] 
-	[SerializeField] private GameObject dialogWindow;
+	[Header("진행중 다이얼로그 출현 조건")]
 	[SerializeField] private UIDialogController dialogController;
 	[SerializeField] private List<int> dialogConditions;
 
@@ -30,7 +29,7 @@ public class SpawnerEvent : MonoBehaviour
 		}
 		
 		manager.isEventEnable = true;
-		dialogWindow.SetActive(true);
+		dialogController.gameObject.SetActive(true);
 		dialogController.SetDialogData(manager.DialogData);
 		dialogController.PlayDialog();
 	}
@@ -45,11 +44,7 @@ public class SpawnerEvent : MonoBehaviour
 		switch (spawnerType)
 		{
 			case ESpawnerType.CHAPTER1_AREA1:
-				if (enableCollider != null && disableCollider != null)
-				{
-					enableCollider.enabled = true;
-					disableCollider.enabled = false;
-				}
+				CheckEndEventCollider();
 				TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 				return;
 			
@@ -57,9 +52,10 @@ public class SpawnerEvent : MonoBehaviour
 				break;
 			
 			case ESpawnerType.CHAPTER1_AREA3:
+				CheckEndEventCollider();
 				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_LASTKILL);
 				chapterMove.EnableExitCollider();
-				break;
+				return;
 			
 			case ESpawnerType.CHAPTER_BOSS:
 				break;
@@ -71,4 +67,19 @@ public class SpawnerEvent : MonoBehaviour
 		TimelineManager.Instance.EnablePublicCutScene(EPublicCutScene.LASTKILLCUTSCENE);
 		chapterMove.EnableExitCollider();
 	}
+
+	private void CheckEndEventCollider()
+	{
+		if (enableCollider != null)
+		{
+			enableCollider.enabled = true;
+		}
+
+		if (disableCollider != null)
+		{
+			disableCollider.enabled = false;
+		}
+	}
 }
+
+

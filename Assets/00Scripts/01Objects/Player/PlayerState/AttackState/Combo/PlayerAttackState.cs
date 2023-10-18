@@ -75,7 +75,7 @@ public class PlayerAttackState : PlayerComboAttackState
 				var enemyController = other.gameObject.GetComponent<EnemyController>();
 
 				DamageInfo info = new DamageInfo(unit.playerData, enemy, attackNode.attackST);
-				AttackAsset asset = attackNode.GetAttackAsset(404);
+				AttackAsset asset = attackNode.GetAttackAsset(unit.partSystem.GetEquiped75PercentPointPartCode());
 				info.SetHitEffect(asset.hitEffectPoolManager, asset.effectOffset);
 				unit.playerData.Attack(info);
 				//HitEffectPooling(unit, enemy.transform);
