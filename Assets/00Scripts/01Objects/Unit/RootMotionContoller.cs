@@ -52,7 +52,7 @@ public class RootMotionContoller : MonoBehaviour
 			Vector3 movedPosition = parent.transform.position + deltaPosition;
 			if (Physics.Raycast(parent.transform.position, animator.deltaPosition.normalized, out RaycastHit hit, stopDistance))
 			{
-				if (hit.transform.gameObject.layer != 6)
+				if (hit.transform.gameObject.layer == 8)
 				{
 					movedPosition -= parent.transform.forward * 0.2f;
 					deltaPosition = movedPosition - parent.transform.position;
