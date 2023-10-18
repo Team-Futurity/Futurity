@@ -60,7 +60,6 @@ public class RootMotionContoller : MonoBehaviour
 				}
 			}
 
-
 			parent.transform.position += deltaPosition;
 			parent.transform.rotation *= animator.deltaRotation;
 		}
