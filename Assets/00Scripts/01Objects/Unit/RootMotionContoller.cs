@@ -9,6 +9,8 @@ public class RootMotionContoller : MonoBehaviour
 	[SerializeField] private Animator animator;
 	[SerializeField] private List<AnimationType> animations;
 	private Dictionary<string, AnimationType> animationDic;
+	[SerializeField] private bool currentApplyRootMotion;
+	[SerializeField] private float stopDistance;
 
 	private void Awake()
 	{
@@ -30,8 +32,38 @@ public class RootMotionContoller : MonoBehaviour
 		if(!animationDic.TryGetValue(animName, out type)) { return false; }
 
 		animator.applyRootMotion = type.isRootMotion;
+		currentApplyRootMotion = type.isRootMotion;
 		
 		return true;
+	}
+
+	public void SetStopDistance(float distance)
+	{
+		stopDistance = distance;
+	}
+
+	private void OnAnimatorMove()
+	{
+		if(animator == null) { return; }
+
+		if (currentApplyRootMotion)
+		{
+			Vector3 deltaPosition = animator.deltaPosition;
+			Vector3 movedPosition = parent.transform.position + deltaPosition;
+			if (Physics.Raycast(parent.transform.position, animator.deltaPosition.normalized, out RaycastHit hit, stopDistance))
+			{
+				if (hit.transform.gameObject.layer != 6)
+				{
+					movedPosition -= parent.transform.forward * 0.2f;
+					deltaPosition = movedPosition - parent.transform.position;
+					deltaPosition.y = 0;
+				}
+			}
+
+
+			parent.transform.position += deltaPosition;
+			parent.transform.rotation *= animator.deltaRotation;
+		}
 	}
 
 	private IEnumerator RefreshRootMotionCoroutine()
@@ -53,8 +85,8 @@ public class RootMotionContoller : MonoBehaviour
 			}
 
 			transform.position += new Vector3(vector.x * animationDic[currentAnimName].applyX, vector.y * animationDic[currentAnimName].applyY, vector.z * animationDic[currentAnimName].applyZ);*/
-			transform.position = vector;
-			model.transform.localPosition = Vector3.zero;
+			/*transform.position = vector;
+			model.transform.localPosition = Vector3.zero;*/
 
 			yield return null;
 		}

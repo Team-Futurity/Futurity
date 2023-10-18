@@ -171,6 +171,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
 		animator.SetInteger(ChargedAttackAnimaKey, NullState);
+		rmController.SetStopDistance(moveMargin * MathPlus.cm2m);
 
 		// UnitFSM Init
 		SetFSM();
