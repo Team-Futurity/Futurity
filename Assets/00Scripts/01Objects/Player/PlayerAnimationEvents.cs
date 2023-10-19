@@ -161,7 +161,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 		float[] value = ConvertStringToFloatArray(str);
 
 		// attackNode = pc.curNode;
-		pc.cameraEffect.CameraShake(value[0], value[1]);
+		pc.camera.CameraShake(value[0], value[1]);
 	}
 	
 	// 플레이어 피격에 대한 HitStop
@@ -196,7 +196,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 		yield return new WaitForSecondsRealtime(hitStopTime);
 		
 		Time.timeScale = 1.0f;
-		pc.cameraEffect.CameraShake(velocity, duration);
+		pc.camera.CameraShake(velocity, duration);
 	}
 
 	private IEnumerator HitStop(float duration)

@@ -15,7 +15,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	[Header("Component")] 
 	[SerializeField] private Camera mainCamera;
-	public PlayerCameraEffect cameraEffect;
+	public PlayerCamera playerCamera;
 	[SerializeField] private GameObject mainUICanvas;
 	[SerializeField] private GameObject comboUI;
 	[SerializeField] private GameObject playerInfoUI;

@@ -6,10 +6,10 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class PlayerCameraEffect : MonoBehaviour
+public class PlayerCamera : MonoBehaviour
 {
 	[Header("Component")] 
-	[SerializeField] private CinemachineVirtualCamera playerCamera;
+	[ReadOnly(false), SerializeField] private CinemachineVirtualCamera playerCamera;
 	[ReadOnly(false), SerializeField] private CinemachineFramingTransposer camBody;
 
 	[Space(3)]
@@ -111,6 +111,7 @@ public class PlayerCameraEffect : MonoBehaviour
 
 	private void Init()
 	{
+		playerCamera = gameObject.GetComponent<CinemachineVirtualCamera>();
 		camBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 
 		originTarget = GameObject.FindWithTag("Player").transform;

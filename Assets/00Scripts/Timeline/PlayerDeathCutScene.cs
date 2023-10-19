@@ -21,7 +21,7 @@ public class PlayerDeathCutScene : CutSceneBase
 
 	public override void DisableCutScene()
 	{
-		chapterManager.cameraEffect.RevertCameraValue();
+		chapterManager.playerCamera.RevertCameraValue();
 
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		UIManager.Instance.OpenWindow(WindowList.GAME_OVER);
