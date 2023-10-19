@@ -40,7 +40,7 @@ public class Area3_EntryCutScene : CutSceneBase
 		chapterManager.isCutScenePlay = true;
 		chapterManager.scripting.EnableNameText((int)ScriptingStruct.ENameType.MIRAE);
 		chapterManager.SetActiveMainUI(false);
-		chapterManager.ChangeFollowTarget(true, playerMoveTarget);
+		chapterManager.cameraEffect.ChangeCameraFollowTarget(playerMoveTarget);
 		SetCameraVignette();
 	}
 

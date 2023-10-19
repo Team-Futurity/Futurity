@@ -9,9 +9,14 @@ using UnityEngine.Rendering.Universal;
 public class PlayerCameraEffect : MonoBehaviour
 {
 	[Header("Component")] 
-	[SerializeField] private CinemachineVirtualCamera cam;
+	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[ReadOnly(false), SerializeField] private CinemachineFramingTransposer camBody;
-	[ReadOnly(false), SerializeField] private  float originOrthoSize;
+
+	[Space(3)]
+	[Header("Origin Value")]
+	[ReadOnly(false), SerializeField] private float originOrthoSize;
+	[ReadOnly(false), SerializeField] private Transform originTarget;
+	[ReadOnly(false), SerializeField] private Vector3 originOffset;
 	
 	[Space(3)]
 	[Header("Shake Camera")] 
@@ -34,6 +39,16 @@ public class PlayerCameraEffect : MonoBehaviour
 	{
 		Init();
 	}
+
+	#region CameraFunc
+	public void ChangeCameraFollowTarget(Transform target) => playerCamera.m_Follow = target;
+	public void ResetCameraTarget() => playerCamera.m_Follow = originTarget;
+	public void RevertCameraValue()
+	{
+		camBody.m_TrackedObjectOffset = originOffset;
+		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
+	}
+	#endregion
 	
 	#region PlayerAnimationEventFunc
 	
@@ -96,8 +111,11 @@ public class PlayerCameraEffect : MonoBehaviour
 
 	private void Init()
 	{
-		camBody = cam.GetCinemachineComponent<CinemachineFramingTransposer>();
-		originOrthoSize = cam.m_Lens.OrthographicSize;
+		camBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+		originTarget = GameObject.FindWithTag("Player").transform;
+		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
+		originOffset = camBody.m_TrackedObjectOffset;
 		
 		// vignette
 		volume = Camera.main.GetComponent<Volume>();

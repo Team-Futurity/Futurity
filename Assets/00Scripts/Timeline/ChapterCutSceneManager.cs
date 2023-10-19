@@ -15,7 +15,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	[Header("Component")] 
 	[SerializeField] private Camera mainCamera;
-	[SerializeField] private CinemachineVirtualCamera playerCamera;
+	public PlayerCameraEffect cameraEffect;
 	[SerializeField] private GameObject mainUICanvas;
 	[SerializeField] private GameObject comboUI;
 	[SerializeField] private GameObject playerInfoUI;
@@ -34,23 +34,16 @@ public class ChapterCutSceneManager : MonoBehaviour
   
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
-	private Transform originTarget;
-	
+
 	[Header("GrayScale")]
 	private GrayScale grayScale = null;
 	public GrayScale GrayScale => grayScale;
 	
-
 	[Header("Volume Controller(Only use Timeline)")]
 	[SerializeField] private float scanLineJitter;
 	[SerializeField] private float colorDrift;
 	[HideInInspector] public bool isCutScenePlay = false;
-
-	// reset offset value
-	private Vector3 originOffset;
-	private float originOrthoSize;
-
-	private CinemachineFramingTransposer cameraBody;
+	
 	private IEnumerator timeSlow;
 	private IEnumerator lerpTimeScale;
 	private AnalogGlitchVolume analogGlitch;
@@ -73,12 +66,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
-
-		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-		
-		originTarget = playerCamera.m_Follow;
-		originOffset = cameraBody.m_TrackedObjectOffset;
-		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
 		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
@@ -132,22 +119,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	#endregion
 	
-	#region PlayerCamera
-	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
-	
-	public void ResetCameraValue()
-	{
-		cameraBody.m_TrackedObjectOffset = originOffset;
-		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
-	}
-	
-	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
-	{
-		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
-	}
-	
-	#endregion
-	
 	#region TimeScale
 	public void ResetTimeScale()
 	{
@@ -195,7 +166,5 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 		Time.timeScale = 1.0f;
 	}
-	
-	
 	#endregion
 }
