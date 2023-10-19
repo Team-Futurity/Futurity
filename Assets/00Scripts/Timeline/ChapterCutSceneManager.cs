@@ -17,8 +17,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 	[SerializeField] private Camera mainCamera;
 	public PlayerCamera playerCamera;
 	[SerializeField] private GameObject mainUICanvas;
-	[SerializeField] private GameObject comboUI;
-	[SerializeField] private GameObject playerInfoUI;
 	public TimelineScripting scripting;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
@@ -91,13 +89,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 	}
 	
 	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);
-	
-	public void SetActiveComboUI(bool active) => comboUI.SetActive(active);
 
-	public void SetActivePlayerInfoUI(bool active) => playerInfoUI.SetActive(active);
-
-	public void EnableUI() => mainUICanvas.SetActive(true);
-	
 	#region StandingScripts
 	
 	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene)
