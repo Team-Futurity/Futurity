@@ -1,7 +1,6 @@
 using Cinemachine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -9,8 +8,11 @@ using UnityEngine.Rendering.Universal;
 public class PlayerCamera : MonoBehaviour
 {
 	[Header("Component")] 
+	[SerializeField] private TimeScaleManager timeScaleManager;
 	[ReadOnly(false), SerializeField] private CinemachineVirtualCamera playerCamera;
 	[ReadOnly(false), SerializeField] private CinemachineFramingTransposer camBody;
+	
+	public TimeScaleManager TimeScaleManager => timeScaleManager;
 
 	[Space(3)]
 	[Header("Origin Value")]
@@ -108,7 +110,7 @@ public class PlayerCamera : MonoBehaviour
 		isVignetteActive = false;
 	}
 	#endregion
-
+	
 	private void Init()
 	{
 		playerCamera = gameObject.GetComponent<CinemachineVirtualCamera>();
@@ -125,6 +127,4 @@ public class PlayerCamera : MonoBehaviour
 			FDebug.Log("Init Success");
 		}
 	}
-	
-	
 }
