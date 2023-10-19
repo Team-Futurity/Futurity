@@ -22,6 +22,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public GameObject worldEffectParent;
 	public GameObject walkEffectPrefab;
 	public Transform walkEffectTransform;
+	public bool isSlowMotionEnable = false;
 
 
 	private void Start()
@@ -188,6 +189,21 @@ public class PlayerAnimationEvents : MonoBehaviour
 	{
 		hitStopNonShake = HitStop(duration);
 		StartCoroutine(hitStopNonShake);
+	}
+
+	public void PlayerAttackSlowMotion(int index)
+	{
+		// if (isSlowMotionEnable == false)
+		// {
+		// 	return;
+		// }
+
+		if (CheckEnemyInAttackRange() == false)
+		{
+			return;
+		}
+		
+		pc.camera.TimeScaleManager.StartAttackSlowMotion(index);
 	}
 	
 	private IEnumerator HitStopWithCamShake(float hitStopTime, float velocity, float duration)
