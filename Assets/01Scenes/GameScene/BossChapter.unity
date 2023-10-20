@@ -347,7 +347,7 @@ PrefabInstance:
     - target: {fileID: 7658714702427283326, guid: 600df2b89b94fea48899a892139891a4, type: 3}
       propertyPath: dialogController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1698532520}
     - target: {fileID: 7658714702427283326, guid: 600df2b89b94fea48899a892139891a4, type: 3}
       propertyPath: dialogConditions.Array.size
       value: 4
@@ -597,7 +597,9 @@ PrefabInstance:
       propertyPath: orthographic size
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2136977446652153888, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
+    - {fileID: 2136977446685459982, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
 --- !u!114 &376407832 stripped
 MonoBehaviour:
@@ -623,6 +625,31 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376407833}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!1 &376407835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2136977446652153902, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
+  m_PrefabInstance: {fileID: 376407831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &376407836
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376407835}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
@@ -1058,10 +1085,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isIntroScene: 0
   mainCamera: {fileID: 927087377}
-  playerCamera: {fileID: 2109404573}
+  playerCamera: {fileID: 2109404574}
   mainUICanvas: {fileID: 1698532534}
-  comboUI: {fileID: 1698532522}
-  playerInfoUI: {fileID: 1698532521}
   scripting: {fileID: 869694111}
   timelineManager: {fileID: 0}
   timeToSlowMotion: 0
@@ -1073,7 +1098,7 @@ MonoBehaviour:
     - {fileID: 6934600567661861072}
     - {fileID: 6934600567202668182}
     activeScene:
-    - {fileID: 0}
+    - {fileID: 375044223}
   playerModelTf: {fileID: 2109404575}
   scanLineJitter: 0
   colorDrift: 0
@@ -2528,21 +2553,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
---- !u!1 &1698532520 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 421019985831200878, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+--- !u!114 &1698532520 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
   m_PrefabInstance: {fileID: 1698532519}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1698532521 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2727758572846162478, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
-  m_PrefabInstance: {fileID: 1698532519}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1698532522 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2237939323653331262, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
-  m_PrefabInstance: {fileID: 1698532519}
-  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dac07281b2245747b8a70136a5c352d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1698532523 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1945769398257344133, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
@@ -2857,6 +2878,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1742047434716101405, guid: be7f6c4b978b8cd4cb2e6d5481e88ab9, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 2109404574}
     - target: {fileID: 1742047434716101405, guid: be7f6c4b978b8cd4cb2e6d5481e88ab9, type: 3}
       propertyPath: cameraEffect
       value: 
@@ -4303,7 +4328,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chapterManager: {fileID: 0}
-  gameOverUI: {fileID: 1698532520}
   grayScaleTime: 0.5
 --- !u!320 &6934600567202668169
 PlayableDirector:
@@ -5020,6 +5044,8 @@ PlayableDirector:
     value: {fileID: 6934600567520695005}
   - key: {fileID: 6298005330003932405, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
     value: {fileID: 376407834}
+  - key: {fileID: -3517746960414827506, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
+    value: {fileID: 376407836}
   m_ExposedReferences:
     m_References:
     - 576dfd039a37d1f48961207a9d847a9d: {fileID: 2109404573}

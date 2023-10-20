@@ -2581,10 +2581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isIntroScene: 0
   mainCamera: {fileID: 163582117}
-  playerCamera: {fileID: 1971600211}
+  playerCamera: {fileID: 1971600209}
   mainUICanvas: {fileID: 1565196020}
-  comboUI: {fileID: 1565196019}
-  playerInfoUI: {fileID: 1565196018}
   scripting: {fileID: 591974862}
   timelineManager: {fileID: 0}
   timeToSlowMotion: 0.2
@@ -3391,11 +3389,17 @@ Transform:
   m_Father: {fileID: 1276833605}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &926121481 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 421019985892840057, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+--- !u!114 &938976699 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
   m_PrefabInstance: {fileID: 1565196000}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dac07281b2245747b8a70136a5c352d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &969489006
 GameObject:
   m_ObjectHideFlags: 3
@@ -4013,7 +4017,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chapterManager: {fileID: 0}
-  gameOverUI: {fileID: 926121481}
   grayScaleTime: 0.5
 --- !u!320 &1137756667
 PlayableDirector:
@@ -4462,8 +4465,8 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 612318110}
-          m_TargetAssemblyTypeName: ChapterCutSceneManager, Assembly-CSharp
+        - m_Target: {fileID: 1971600209}
+          m_TargetAssemblyTypeName: PlayerCamera, Assembly-CSharp
           m_MethodName: ResetCameraTarget
           m_Mode: 1
           m_Arguments:
@@ -4544,7 +4547,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapterManager: {fileID: 0}
   chapter1Director: {fileID: 1431025555}
-  cameraEffect: {fileID: 1971600209}
   playerMoveTarget: {fileID: 2068952479}
   spawnerManager: {fileID: 1914705763}
   scriptsList:
@@ -4952,16 +4954,6 @@ MonoBehaviour:
 --- !u!1 &1565196017 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4436574797537137591, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
-  m_PrefabInstance: {fileID: 1565196000}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1565196018 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2727758572846162478, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
-  m_PrefabInstance: {fileID: 1565196000}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1565196019 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2237939323653331262, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
   m_PrefabInstance: {fileID: 1565196000}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1565196020 stripped
@@ -6484,7 +6476,7 @@ PrefabInstance:
     - target: {fileID: 7064719518032218579, guid: 0d818c7ad356a8c429147fd73657e82c, type: 3}
       propertyPath: dialogController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 938976699}
     - target: {fileID: 7064719518032218579, guid: 0d818c7ad356a8c429147fd73657e82c, type: 3}
       propertyPath: stageMoveManager
       value: 
@@ -6851,7 +6843,7 @@ PlayableDirector:
   - key: {fileID: 6298005330003932405, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
     value: {fileID: 163582118}
   - key: {fileID: -3517746960414827506, guid: 65f0d0d9f829df04f9860629a1d7b87a, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 163582120}
   m_ExposedReferences:
     m_References:
     - 576dfd039a37d1f48961207a9d847a9d: {fileID: 1971600211}
@@ -7228,6 +7220,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.36590263
       objectReference: {fileID: 0}
+    - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1971600209}
     - target: {fileID: 1070719927369175192, guid: 62e30b16aefe65f4a9ee39e4732b078f, type: 3}
       propertyPath: hitCoolTime
       value: 0.001

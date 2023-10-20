@@ -23,7 +23,7 @@ public class PlayerHitState : UnitState<PlayerController>
 		}
 		else
 		{
-			pc.cameraEffect.StartHitEffectVignette();
+			pc.camera.StartHitEffectVignette();
 			pc.ChangeState(PlayerState.Idle);
 		}
 	}

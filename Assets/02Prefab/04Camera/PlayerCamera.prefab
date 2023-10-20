@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &863899678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 863899679}
+  - component: {fileID: 863899680}
+  m_Layer: 0
+  m_Name: TimeScaleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &863899679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863899678}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6655423352717444401}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &863899680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863899678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f31199c1f75480f409bcd82f95cc33fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowMotionData:
+  - {fileID: 11400000, guid: d50f6fc717d39b5448e409b2e15fb383, type: 2}
+  - {fileID: 11400000, guid: 9531e560ec66ed94cbff0ebcd242dcb4, type: 2}
+  - {fileID: 11400000, guid: c02e3bb0f518b744a9d8dad54ee8a447, type: 2}
 --- !u!1 &6655423352717444396
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,6 +83,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6655423352871930390}
+  - {fileID: 863899679}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
@@ -70,9 +119,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78113019d0acf734d80b46ed55abca70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 6655423352717444402}
+  timeScaleManager: {fileID: 863899680}
+  playerCamera: {fileID: 0}
   camBody: {fileID: 0}
   originOrthoSize: 0
+  originTarget: {fileID: 0}
+  originOffset: {x: 0, y: 0, z: 0}
   impulseSource: {fileID: 6655423352717444407}
   maxIntensity: 0.4
   changeSpeed: 6
@@ -398,15 +450,15 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_XDamping: 0
-  m_YDamping: 0
+  m_XDamping: 0.3
+  m_YDamping: 0.3
   m_ZDamping: 0
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_CameraDistance: 10
-  m_DeadZoneWidth: 0
-  m_DeadZoneHeight: 0
+  m_DeadZoneWidth: 0.01
+  m_DeadZoneHeight: 0.01
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
   m_SoftZoneWidth: 0.8

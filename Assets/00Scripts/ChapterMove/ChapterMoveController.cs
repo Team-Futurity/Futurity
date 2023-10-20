@@ -9,7 +9,7 @@ public class ChapterMoveController : MonoBehaviour
 	[Header("Component")] 
 	[SerializeField] private GameObject interactionUI;
 	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
-	[SerializeField] private ChapterCutSceneManager cutSceneManager;
+	[ReadOnly(false), SerializeField] private ChapterCutSceneManager cutSceneManager;
 	
 	[Header("챕터 정보")] 
 	[SerializeField] private EChapterType currentChapter;
