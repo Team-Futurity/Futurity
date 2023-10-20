@@ -20,7 +20,7 @@ public class RootMotionContoller : MonoBehaviour
 			animationDic.Add(anim.animationName, anim);
 		}
 
-		StartCoroutine(RefreshRootMotionCoroutine());
+		//StartCoroutine(RefreshRootMotionCoroutine());
 	}
 
 	// 애니메이션 전환 시 실행
@@ -49,20 +49,37 @@ public class RootMotionContoller : MonoBehaviour
 		if (currentApplyRootMotion)
 		{
 			Vector3 deltaPosition = animator.deltaPosition;
-			Vector3 movedPosition = parent.transform.position + deltaPosition;
+			Vector3 movedPosition = parent.transform.position + deltaPosition; // 최종적으로 위치할 것으로 예상되는 위치
+			FDebug.DrawRay(parent.transform.position, animator.deltaPosition.normalized * stopDistance, Color.red);
+			deltaPosition.y = 0;
+
+			// 애니메이션 방향으로 Stop Distance까지 Ray 사용 
 			if (Physics.Raycast(parent.transform.position, animator.deltaPosition.normalized, out RaycastHit hit, stopDistance))
 			{
-				if (hit.transform.gameObject.layer == 8)
+				// Unit(Enemy, Player)의 레이어일 경우에만 동작
+				if (hit.transform.gameObject.tag == "Enemy")
 				{
-					movedPosition -= parent.transform.forward * 0.2f;
-					deltaPosition = movedPosition - parent.transform.position;
-					deltaPosition.y = 0;
+					FDebug.Log("Distance_" + hit.distance + ", Direction_" + -parent.transform.forward);
+
+					// 너무 과도하게 붙은 경우 일정 거리 앞에서 멈추도록 하는 코드
+					movedPosition = hit.transform.position - parent.transform.forward * stopDistance;
+					movedPosition.y = 0;
+
+					FDebug.Log("M" + movedPosition);
+					parent.transform.position = movedPosition;
 				}
 			}
-
-			parent.transform.position += deltaPosition;
-			parent.transform.rotation *= animator.deltaRotation;
+			else
+			{
+				// 변화값만큼 이동
+				FDebug.Log("D" + deltaPosition);
+				parent.transform.position += deltaPosition;
+				parent.transform.rotation *= animator.deltaRotation;
+			}
 		}
+		/*Vector3 vec = parent.transform.position;
+		vec.y = 0;
+		parent.transform.position = vec;*/
 	}
 
 	private IEnumerator RefreshRootMotionCoroutine()

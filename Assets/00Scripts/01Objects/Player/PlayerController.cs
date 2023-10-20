@@ -112,6 +112,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerAnimationEvents playerAnimationEvents;
 	public PlayerCamera camera;
 	public PartSystem partSystem;
+	public TraceObject sariObject;
 	[HideInInspector] public CameraFollowTarget followTarget;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
@@ -124,6 +125,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
 	[HideInInspector] public InputAction moveAction;
 	[HideInInspector] public UnityEvent<string> attackEndEvent;
+	[HideInInspector] public UnityEvent moveEvent;
+	[HideInInspector] public UnityEvent moveStopEvent;
 
 	// Temporary
 	[Serializable]
@@ -195,6 +198,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		dashCoolTimeWFS = new WaitForSeconds(dashCoolTime);
 		currentDashCount = maxDashCount;
 		StartCoroutine(DashDelayCoroutine());
+
+		// move
+		moveEvent.AddListener(sariObject.OnDelayPreMove);
+		moveStopEvent.AddListener(sariObject.OnStop);
 
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
@@ -690,7 +697,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (animator == null) { msgs.Add("animator is Null."); }
 		if (rigid == null) { msgs.Add("rigid is Null."); }
 		if (rmController == null) { msgs.Add("rmController is Null."); }
-		if(partSystem == null){msgs.Add("partSystem is Null");}
+		if (partSystem == null) { msgs.Add("partSystem is Null"); }
+		if (sariObject == null) { msgs.Add("sariObject is Null"); }
 
 		isClear = msgs.Count == 0;
 		if (isClear)
