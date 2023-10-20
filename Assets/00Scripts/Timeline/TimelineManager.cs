@@ -5,7 +5,6 @@ public enum EChapter1CutScene
 {
 	AREA1_ENTRYCUTSCENE = 0,
 	AREA1_REWARDCUTSCENE = 1,
-	AREA1_EXITCUTSCENE = 2,
 }
 
 public enum EChapter1_2

@@ -110,7 +110,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	//public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
-	public PlayerCameraEffect cameraEffect;
+	public PlayerCamera camera;
 	public PartSystem partSystem;
 	[HideInInspector] public CameraFollowTarget followTarget;
 	[HideInInspector] public Animator animator;
