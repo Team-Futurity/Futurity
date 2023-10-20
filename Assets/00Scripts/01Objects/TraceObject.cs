@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TraceObject : MonoBehaviour
@@ -8,6 +6,7 @@ public class TraceObject : MonoBehaviour
 	[SerializeField] private GameObject targetObject;
 	[SerializeField] private float moveDelay;
 	[SerializeField] private float moveSpeed;
+	[SerializeField] private float rotateSpeed;
 	[SerializeField] private float timeToReachMaximumSpeed;
 	[SerializeField] private float allowingDistance;
 	[SerializeField] private AnimationCurve speedCurve;
@@ -37,38 +36,56 @@ public class TraceObject : MonoBehaviour
 		isMoveEnd = true;
 	}
 
+	private void FixedUpdate()
+	{
+		if (isMoveDelayTime)
+		{
+			currentTime += Time.fixedDeltaTime;
+
+			Vector3 direction = targetObject.transform.position - transform.position;
+			Vector3 rotVec = direction;
+
+			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), rotateSpeed * Time.deltaTime);
+			
+			if(currentTime >= moveDelay)
+			{
+				isMoveDelayTime = false;
+				isMoveStart = true;
+				currentTime = 0;
+			}
+		}
+
+
+		if (isMoveStart)
+		{
+			float normalizedTime;
+			float speed = 0;
+			currentTime += Time.fixedDeltaTime;
+			normalizedTime = currentTime / timeToReachMaximumSpeed;
+			speed = moveSpeed * speedCurve.Evaluate(normalizedTime);
+
+			TraceToTarget(speed);
+
+			if (isMoveEnd)
+			{
+				if (Vector3.Distance(transform.position, targetObject.transform.position) <= allowingDistance)
+				{
+					isMoveStart = false;
+					isMoveDelayTime = false;
+					currentTime = 0;
+				}
+			}
+		}
+	}
+
 	private IEnumerator MoveCoroutine()
 	{
 		currentTime = 0;
 		delayPreMoveWFS = new WaitForSeconds(moveDelay);
-		float speed = 0;
+		
 		while (true)
 		{
-			if(isMoveDelayTime)
-			{
-				yield return delayPreMoveWFS;
-				isMoveDelayTime = false;
-				isMoveStart = true;
-			}
-
-			if(isMoveStart)
-			{
-				float normalizedTime;
-				currentTime += Time.deltaTime;
-				normalizedTime = currentTime / timeToReachMaximumSpeed;
-				speed = moveSpeed * speedCurve.Evaluate(normalizedTime);
-
-				TraceToTarget(speed);
-
-				if(isMoveEnd)
-				{
-					if (Vector3.Distance(transform.position, targetObject.transform.position) <= allowingDistance)
-					{
-						isMoveStart = false;
-						isMoveDelayTime = false;
-					}
-				}
-			}
+			
 
 			yield return null;
 		}
@@ -77,7 +94,9 @@ public class TraceObject : MonoBehaviour
 	private void TraceToTarget(float speed)
 	{
 		Vector3 direction = targetObject.transform.position - transform.position;
+		Vector3 rotVec = direction;
 
-		transform.position += direction * speed * Time.deltaTime;
+		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), rotateSpeed * Time.deltaTime);
+		transform.position += direction * speed * Time.fixedDeltaTime;
 	}
 }
