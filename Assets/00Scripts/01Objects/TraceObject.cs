@@ -15,15 +15,12 @@ public class TraceObject : MonoBehaviour
 	private bool isMoveDelayTime; // move Delay가 시작되었는지 여부
 	private bool isMoveStart; // move가 시작되었는지 여부
 	private bool isMoveEnd; // move End 신호가 들어왔는지 여부
-	private WaitForSeconds delayPreMoveWFS;
 
 	private void Start()
 	{
 		isMoveStart = false;
 		isMoveDelayTime = false;
 		isMoveEnd = false;
-
-		StartCoroutine(MoveCoroutine());
 	}
 
 	public void OnDelayPreMove()
@@ -75,19 +72,6 @@ public class TraceObject : MonoBehaviour
 					currentTime = 0;
 				}
 			}
-		}
-	}
-
-	private IEnumerator MoveCoroutine()
-	{
-		currentTime = 0;
-		delayPreMoveWFS = new WaitForSeconds(moveDelay);
-		
-		while (true)
-		{
-			
-
-			yield return null;
 		}
 	}
 
