@@ -119,7 +119,10 @@ public class AutoTarget : Singleton<AutoTarget>
 	public void MoveToTarget(Vector3 targetPosition, GameObject origin, float margin, float time)
 	{
 		movingObject = origin;
+
 		targetPos = targetPosition;
+		targetPos.y = origin.transform.position.y;
+
 		this.margin = margin * MathPlus.cm2m;
 		timeSpent = time;
 		isMoving = true;
