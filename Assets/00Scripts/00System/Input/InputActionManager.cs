@@ -16,7 +16,7 @@ public class InputActionManager : Singleton<InputActionManager>
 
 	public CombinedInputActions InputActions { get; private set; }
 
-	private InputActionMap currentActionMap;
+	public InputActionMap currentActionMap { get; private set; }
 
 	[SerializeField] private bool isTestMode;
 	[SerializeField] private bool onPlayer;
