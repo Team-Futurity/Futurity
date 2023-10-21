@@ -50,12 +50,24 @@ public class DebugManager : MonoBehaviour
         };
     }
 
-    public void OnToggleDebug(InputValue value)
+	private void OnEnable()
+	{
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+	}
+
+	private void OnDisable()
+	{
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+	}
+
+	public void OnToggleDebug(InputAction.CallbackContext context)
     {
         isShowConsole = !isShowConsole;
     }
 
-    public void OnReturn(InputValue value)
+    public void OnReturn(InputAction.CallbackContext context)
     {
         if (isShowConsole && input != "")
         {
@@ -89,8 +101,16 @@ public class DebugManager : MonoBehaviour
 
         return new Vector2(uiWidth, uiHeight);
     }
-      
-    private void OnGUI()
+
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Backslash))
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Debug);
+		}
+	}
+
+	private void OnGUI()
     {
         if (!isShowConsole) return;
 
