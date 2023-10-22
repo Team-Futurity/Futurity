@@ -6106,7 +6106,7 @@ MonoBehaviour:
   effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
   rmController: {fileID: 389426774204208751}
   playerAnimationEvents: {fileID: 8346341091200553560}
-  cameraEffect: {fileID: 0}
+  camera: {fileID: 0}
   partSystem: {fileID: 8474775642207685257}
   sariObject: {fileID: 0}
   followTarget: {fileID: 0}
@@ -6128,6 +6128,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   moveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  moveStopEvent:
     m_PersistentCalls:
       m_Calls: []
   rushEffects:
@@ -6574,54 +6577,7 @@ MonoBehaviour:
   worldEffectParent: {fileID: 0}
   walkEffectPrefab: {fileID: 4455796136795157021, guid: b3d651092a49f10438f327db972918da, type: 3}
   walkEffectTransform: {fileID: 6056033157355613526}
---- !u!114 &370884905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4773346115932327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ff56e7c54b93c459bdb6ede869d50f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 9199333450892302302}
-  model: {fileID: 4773346115932327}
-  animator: {fileID: 6754002155594371175}
-  animations:
-  - animationName: Dash
-    isRootMotion: 0
-    applyX: 0
-    applyY: 0
-    applyZ: 0
-  - animationName: Idle
-    isRootMotion: 1
-    applyX: 0
-    applyY: 0
-    applyZ: 0
-  - animationName: Move
-    isRootMotion: 1
-    applyX: 0
-    applyY: 0
-    applyZ: 0
-  - animationName: Hit
-    isRootMotion: 1
-    applyX: 0
-    applyY: 0
-    applyZ: 0
-  - animationName: Attack
-    isRootMotion: 1
-    applyX: 0
-    applyY: 0
-    applyZ: 0
-  - animationName: Death
-    isRootMotion: 1
-    applyX: 0
-    applyY: 0
-    applyZ: 0
-  currentApplyRootMotion: 0
-  stopDistance: 0
+  isSlowMotionEnable: 0
 --- !u!1 &71485536562590071 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 877193897016056961, guid: 38533b871cd808b4594f1765969c915b, type: 3}
