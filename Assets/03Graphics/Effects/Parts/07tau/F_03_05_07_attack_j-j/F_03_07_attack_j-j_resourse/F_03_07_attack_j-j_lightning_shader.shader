@@ -412,8 +412,8 @@ Shader "F_03_07_attack_j-j_lightning_shader"
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
-				float3 Color = ( ( IN.ase_color * _MainLightColor ) * ( _MainLightColor.a * _color_inten ) ).rgb;
-				float Alpha = ( IN.ase_color.a * smoothstepResult27 );
+				float3 Color = ( IN.ase_color * _color_inten ).rgb;
+				float Alpha = saturate( ( IN.ase_color.a * smoothstepResult27 ) );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -697,7 +697,7 @@ Shader "F_03_07_attack_j-j_lightning_shader"
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).b);
 				
 
-				float Alpha = ( IN.ase_color.a * smoothstepResult27 );
+				float Alpha = saturate( ( IN.ase_color.a * smoothstepResult27 ) );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -947,7 +947,7 @@ Shader "F_03_07_attack_j-j_lightning_shader"
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).b);
 				
 
-				float Alpha = ( IN.ase_color.a * smoothstepResult27 );
+				float Alpha = saturate( ( IN.ase_color.a * smoothstepResult27 ) );
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -1176,7 +1176,7 @@ Shader "F_03_07_attack_j-j_lightning_shader"
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).b);
 				
 
-				surfaceDescription.Alpha = ( IN.ase_color.a * smoothstepResult27 );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * smoothstepResult27 ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1400,7 +1400,7 @@ Shader "F_03_07_attack_j-j_lightning_shader"
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).b);
 				
 
-				surfaceDescription.Alpha = ( IN.ase_color.a * smoothstepResult27 );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * smoothstepResult27 ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1638,7 +1638,7 @@ Shader "F_03_07_attack_j-j_lightning_shader"
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).b);
 				
 
-				surfaceDescription.Alpha = ( IN.ase_color.a * smoothstepResult27 );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * smoothstepResult27 ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1876,7 +1876,7 @@ Shader "F_03_07_attack_j-j_lightning_shader"
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).b);
 				
 
-				surfaceDescription.Alpha = ( IN.ase_color.a * smoothstepResult27 );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * smoothstepResult27 ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1913,40 +1913,35 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ScenePickingPass;0;7;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormals;0;8;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormalsOnly;0;9;DepthNormalsOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;-5.875747,305.0094;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;F_03_07_attack_j-j_lightning_shader;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638293359162591084;  Blend;0;0;Two Sided;0;638293359192013767;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;20;-634.0367,191.4092;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;23;-438.0228,304.411;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;22;-635.5759,327.6938;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;16;-904.1979,464.3658;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;26;-196.2996,141.5424;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.VertexColorNode;25;-847.8984,38.94807;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.LightColorNode;21;-835.9103,213.9642;Inherit;False;0;3;COLOR;0;FLOAT3;1;FLOAT;2
-Node;AmplifyShaderEditor.RangedFloatNode;24;-830.2084,346.0639;Inherit;False;Property;_color_inten;color_inten;0;0;Create;True;0;0;0;False;0;False;1;5;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;24;-830.2084,346.0639;Inherit;False;Property;_color_inten;color_inten;0;0;Create;True;0;0;0;False;0;False;1;2;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-1090.79,565.3195;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;15;-1866.164,491.637;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;11;-789.7935,436.9516;Inherit;True;Property;_line_03;line_03;2;0;Create;True;0;0;0;False;0;False;-1;ea3de0befabbf5a49a0fa4901dcc4100;ea3de0befabbf5a49a0fa4901dcc4100;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SmoothstepOpNode;27;-422.6388,515.3648;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;28;-1574.756,469.6059;Inherit;False;1;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.PannerNode;18;-1587.047,298.7263;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-1,1;False;1;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SamplerNode;12;-1418.503,270.2924;Inherit;True;Property;_TextureSample0;Texture Sample 0;1;0;Create;True;0;0;0;False;0;False;-1;0f58912d8ccd1c54aae466001d4fa1cf;0f58912d8ccd1c54aae466001d4fa1cf;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-WireConnection;1;2;23;0
-WireConnection;1;3;26;0
-WireConnection;20;0;25;0
-WireConnection;20;1;21;0
-WireConnection;23;0;20;0
-WireConnection;23;1;22;0
-WireConnection;22;0;21;2
-WireConnection;22;1;24;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;27;-478.1499,513.0518;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;30;-247.6536,470.9754;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;91.12425,307.0094;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;F_03_07_attack_j-j_lightning_shader;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638293359162591084;  Blend;0;0;Two Sided;0;638293359192013767;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.SaturateNode;29;-69.317,411.0574;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+WireConnection;23;0;25;0
+WireConnection;23;1;24;0
 WireConnection;16;0;13;0
 WireConnection;16;1;15;0
-WireConnection;26;0;25;4
-WireConnection;26;1;27;0
 WireConnection;13;0;28;4
 WireConnection;13;1;12;1
 WireConnection;11;1;16;0
-WireConnection;27;0;11;3
-WireConnection;27;1;28;3
 WireConnection;18;0;15;0
 WireConnection;12;1;18;0
+WireConnection;27;0;11;3
+WireConnection;27;1;28;3
+WireConnection;30;0;25;4
+WireConnection;30;1;27;0
+WireConnection;1;2;23;0
+WireConnection;1;3;29;0
+WireConnection;29;0;30;0
 ASEEND*/
-//CHKSM=D8024020F67EC00E6698634B85227B2E06A58141
+//CHKSM=4A8DF93DCE3DA25F5EF3A618F0FA27ACC259B86A

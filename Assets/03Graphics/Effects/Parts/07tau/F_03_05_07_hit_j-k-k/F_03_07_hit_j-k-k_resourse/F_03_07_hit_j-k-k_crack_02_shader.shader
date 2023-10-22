@@ -10,7 +10,8 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 		_color_intensity("color_intensity", Float) = 0
 		_TextureSample0("Texture Sample 0", 2D) = "white" {}
 		_TextureSample1("Texture Sample 0", 2D) = "white" {}
-		[ASEEnd][Toggle]_ToggleSwitch0("Toggle Switch0", Float) = 1
+		[Toggle]_ToggleSwitch0("Toggle Switch0", Float) = 1
+		[ASEEnd][HDR]_Color0("Color 0", Color) = (1,0.25,0,1)
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -233,6 +234,7 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color0;
 			float4 _F_03_02_attack_jjj_crack_texture_ST;
 			float4 _TextureSample0_ST;
 			float _color_intensity;
@@ -416,14 +418,16 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 				float2 appendResult23_g1 = (float2(( length( CenteredUV15_g1 ) * 1.0 * 2.0 ) , ( atan2( break17_g1.x , break17_g1.y ) * ( 1.0 / TWO_PI ) * 1.0 )));
 				float4 texCoord22 = IN.ase_texcoord4;
 				texCoord22.xy = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
-				
 				float2 uv_F_03_02_attack_jjj_crack_texture = IN.ase_texcoord3.xy * _F_03_02_attack_jjj_crack_texture_ST.xy + _F_03_02_attack_jjj_crack_texture_ST.zw;
+				float4 tex2DNode10 = tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture );
+				float smoothstepResult43 = smoothstep( 0.9 , 1.0 , tex2DNode10.r);
+				
 				float2 uv_TextureSample0 = IN.ase_texcoord3.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
-				float3 Color = ( ( ( IN.ase_color * _MainLightColor ) * ( _MainLightColor.a * _color_intensity ) ) * step( tex2D( _TextureSample1, appendResult23_g1 ).r , texCoord22.w ) ).rgb;
-				float Alpha = ( IN.ase_color.a * ( tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture ).r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) );
+				float3 Color = ( _Color0 + ( ( IN.ase_color * _color_intensity ) * step( tex2D( _TextureSample1, appendResult23_g1 ).r , texCoord22.w ) * smoothstepResult43 ) ).rgb;
+				float Alpha = saturate( ( IN.ase_color.a * ( tex2DNode10.r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) ) );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -507,6 +511,7 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color0;
 			float4 _F_03_02_attack_jjj_crack_texture_ST;
 			float4 _TextureSample0_ST;
 			float _color_intensity;
@@ -679,12 +684,13 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 				#endif
 
 				float2 uv_F_03_02_attack_jjj_crack_texture = IN.ase_texcoord2.xy * _F_03_02_attack_jjj_crack_texture_ST.xy + _F_03_02_attack_jjj_crack_texture_ST.zw;
+				float4 tex2DNode10 = tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture );
 				float4 texCoord22 = IN.ase_texcoord3;
 				texCoord22.xy = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv_TextureSample0 = IN.ase_texcoord2.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				
 
-				float Alpha = ( IN.ase_color.a * ( tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture ).r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) );
+				float Alpha = saturate( ( IN.ase_color.a * ( tex2DNode10.r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) ) );
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -753,6 +759,7 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color0;
 			float4 _F_03_02_attack_jjj_crack_texture_ST;
 			float4 _TextureSample0_ST;
 			float _color_intensity;
@@ -910,12 +917,13 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
 				float2 uv_F_03_02_attack_jjj_crack_texture = IN.ase_texcoord.xy * _F_03_02_attack_jjj_crack_texture_ST.xy + _F_03_02_attack_jjj_crack_texture_ST.zw;
+				float4 tex2DNode10 = tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture );
 				float4 texCoord22 = IN.ase_texcoord1;
 				texCoord22.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv_TextureSample0 = IN.ase_texcoord.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				
 
-				surfaceDescription.Alpha = ( IN.ase_color.a * ( tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture ).r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( tex2DNode10.r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -984,6 +992,7 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color0;
 			float4 _F_03_02_attack_jjj_crack_texture_ST;
 			float4 _TextureSample0_ST;
 			float _color_intensity;
@@ -1136,12 +1145,13 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
 				float2 uv_F_03_02_attack_jjj_crack_texture = IN.ase_texcoord.xy * _F_03_02_attack_jjj_crack_texture_ST.xy + _F_03_02_attack_jjj_crack_texture_ST.zw;
+				float4 tex2DNode10 = tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture );
 				float4 texCoord22 = IN.ase_texcoord1;
 				texCoord22.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv_TextureSample0 = IN.ase_texcoord.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				
 
-				surfaceDescription.Alpha = ( IN.ase_color.a * ( tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture ).r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( tex2DNode10.r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1220,6 +1230,7 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color0;
 			float4 _F_03_02_attack_jjj_crack_texture_ST;
 			float4 _TextureSample0_ST;
 			float _color_intensity;
@@ -1376,12 +1387,13 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
 				float2 uv_F_03_02_attack_jjj_crack_texture = IN.ase_texcoord1.xy * _F_03_02_attack_jjj_crack_texture_ST.xy + _F_03_02_attack_jjj_crack_texture_ST.zw;
+				float4 tex2DNode10 = tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture );
 				float4 texCoord22 = IN.ase_texcoord2;
 				texCoord22.xy = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv_TextureSample0 = IN.ase_texcoord1.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				
 
-				surfaceDescription.Alpha = ( IN.ase_color.a * ( tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture ).r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( tex2DNode10.r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1461,6 +1473,7 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Color0;
 			float4 _F_03_02_attack_jjj_crack_texture_ST;
 			float4 _TextureSample0_ST;
 			float _color_intensity;
@@ -1616,12 +1629,13 @@ Shader "F_03_07_hit_j-k-k_crack_02_shader"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
 				float2 uv_F_03_02_attack_jjj_crack_texture = IN.ase_texcoord1.xy * _F_03_02_attack_jjj_crack_texture_ST.xy + _F_03_02_attack_jjj_crack_texture_ST.zw;
+				float4 tex2DNode10 = tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture );
 				float4 texCoord22 = IN.ase_texcoord2;
 				texCoord22.xy = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv_TextureSample0 = IN.ase_texcoord1.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				
 
-				surfaceDescription.Alpha = ( IN.ase_color.a * ( tex2D( _F_03_02_attack_jjj_crack_texture, uv_F_03_02_attack_jjj_crack_texture ).r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( tex2DNode10.r * step( (( _ToggleSwitch0 )?( texCoord22.z ):( 0.12 )) , tex2D( _TextureSample0, uv_TextureSample0 ).r ) ) ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1658,45 +1672,47 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ScenePickingPass;0;7;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormals;0;8;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormalsOnly;0;9;DepthNormalsOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;45.86352,107.9337;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;F_03_07_hit_j-k-k_crack_02_shader;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638299466118049479;  Blend;0;0;Two Sided;0;638299466142504929;Forward Only;0;0;Cast Shadows;0;638299466165524099;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;False;True;False;False;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;-155.0609,116.5301;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.VertexColorNode;11;-680.877,-471.7703;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;12;-437.9194,-316.8094;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-261.8937,-258.0959;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;14;-452.104,-165.3873;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.LightColorNode;15;-676.5152,-295.4681;Inherit;False;0;3;COLOR;0;FLOAT3;1;FLOAT;2
-Node;AmplifyShaderEditor.RangedFloatNode;16;-676.825,-144.9889;Inherit;False;Property;_color_intensity;color_intensity;1;0;Create;True;0;0;0;False;0;False;0;5;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ToggleSwitchNode;21;-1227.9,485.9625;Inherit;False;Property;_ToggleSwitch0;Toggle Switch0;4;0;Create;True;0;0;0;False;0;False;1;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;23;-1529.877,432.8144;Inherit;False;Constant;_Float1;Float 1;6;0;Create;True;0;0;0;False;0;False;0.12;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.StepOpNode;25;-907.4014,493.6411;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;27;-629.2434,410.8389;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;26;-1304.88,620.3021;Inherit;True;Property;_TextureSample0;Texture Sample 0;2;0;Create;True;0;0;0;False;0;False;-1;2f6b7e4a91552194691cce0c9f072c83;2f6b7e4a91552194691cce0c9f072c83;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;34;-121.7334,-99.13348;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;31;-1088.039,7.515129;Inherit;True;Property;_TextureSample1;Texture Sample 0;3;0;Create;True;0;0;0;False;0;False;-1;2f6b7e4a91552194691cce0c9f072c83;2f6b7e4a91552194691cce0c9f072c83;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;35;-1512.048,160.9991;Inherit;False;Polar Coordinates;-1;;1;7dab8e02884cf104ebefaa2e788e4162;0;4;1;FLOAT2;0,0;False;2;FLOAT2;0.5,0.5;False;3;FLOAT;1;False;4;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;22;-1770.747,441.021;Inherit;False;1;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.StepOpNode;29;-722.0568,36.61742;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0.09;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;10;-1129.347,268.4826;Inherit;True;Property;_F_03_02_attack_jjj_crack_texture;F_03_02_attack_j-j-j_crack_texture;0;0;Create;True;0;0;0;False;0;False;-1;2b5c1512bbd79a64fa07f26c54d84575;2b5c1512bbd79a64fa07f26c54d84575;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-WireConnection;1;2;34;0
-WireConnection;1;3;17;0
-WireConnection;17;0;11;4
-WireConnection;17;1;27;0
-WireConnection;12;0;11;0
-WireConnection;12;1;15;0
-WireConnection;13;0;12;0
-WireConnection;13;1;14;0
-WireConnection;14;0;15;2
-WireConnection;14;1;16;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;-296.1342,133.6299;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;36;-142.2428,131.7243;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.VertexColorNode;11;-659.3524,-253.4492;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;16;-666.0627,-74.26527;Inherit;False;Property;_color_intensity;color_intensity;1;0;Create;True;0;0;0;False;0;False;0;2;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-425.6938,-252.8919;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;34;-212.4317,10.53043;Inherit;False;3;3;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;107.6173,107.9337;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;F_03_07_hit_j-k-k_crack_02_shader;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638299466118049479;  Blend;0;0;Two Sided;0;638299466142504929;Forward Only;0;0;Cast Shadows;0;638299466165524099;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;False;True;False;False;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;40;-56.80237,-11.9964;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;42;-300.8024,-188.9964;Inherit;False;Property;_Color0;Color 0;5;1;[HDR];Create;True;0;0;0;False;0;False;1,0.25,0,1;0,0,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;10;-1018.594,283.2497;Inherit;True;Property;_F_03_02_attack_jjj_crack_texture;F_03_02_attack_j-j-j_crack_texture;0;0;Create;True;0;0;0;False;0;False;-1;2b5c1512bbd79a64fa07f26c54d84575;2b5c1512bbd79a64fa07f26c54d84575;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;27;-524.9767,413.9985;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;43;-686.1349,264.3867;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0.9;False;2;FLOAT;1;False;1;FLOAT;0
 WireConnection;21;0;23;0
 WireConnection;21;1;22;3
 WireConnection;25;0;21;0
 WireConnection;25;1;26;1
-WireConnection;27;0;10;1
-WireConnection;27;1;25;0
-WireConnection;34;0;13;0
-WireConnection;34;1;29;0
 WireConnection;31;1;35;0
 WireConnection;29;0;31;1
 WireConnection;29;1;22;4
+WireConnection;17;0;11;4
+WireConnection;17;1;27;0
+WireConnection;36;0;17;0
+WireConnection;13;0;11;0
+WireConnection;13;1;16;0
+WireConnection;34;0;13;0
+WireConnection;34;1;29;0
+WireConnection;34;2;43;0
+WireConnection;1;2;40;0
+WireConnection;1;3;36;0
+WireConnection;40;0;42;0
+WireConnection;40;1;34;0
+WireConnection;27;0;10;1
+WireConnection;27;1;25;0
+WireConnection;43;0;10;1
 ASEEND*/
-//CHKSM=3EF05534DE7295B0B7AB72889A19D134E1240CB1
+//CHKSM=165052F0368BF7477B1E1390DE50E901BDF4F68D
