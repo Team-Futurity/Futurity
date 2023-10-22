@@ -6,20 +6,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public enum DialogSystemState
+public class UIDialogController : MonoBehaviour
 {
-	NONE,
+	public enum DialogSystemState
+	{
+		NONE,
 
-	INIT,
-	NORMAL,
-	PRINTING,
-	PRINTING_END,
+		INIT,
+		READY,
+		PRINTING,
+		PRINTING_END,
 
-	MAX
-}
-
-public partial class UIDialogController : MonoBehaviour
-{
+		MAX
+	}
+	
+	// Dialog
+	// Type, 
 	[field: Header("게임 실행 중 Type 변경을 권장하지 않음")]
 	[field: SerializeField]
 	public UIDialogType DialogType { get; private set; }
@@ -28,6 +30,8 @@ public partial class UIDialogController : MonoBehaviour
 	[Header("현재 Dialog Data")]
 	[SerializeField]
 	private DialogData currentDialogData;
+
+	private List<DialogData> dialogDataList;
 
 	[field: Space(10)]
 	[field: Header("텍스트가 출력되는 오브젝트")]
@@ -38,16 +42,11 @@ public partial class UIDialogController : MonoBehaviour
 
 	#region Dialog Events
 
-	[HideInInspector]
-	public UnityEvent OnStarted;
+	public UnityEvent onStarted;
+	public UnityEvent onChanged;
+	public UnityEvent onEnded;
 
-	[HideInInspector]
-	public UnityEvent<DialogDataGroup> OnShow;
-
-	[HideInInspector]
-	public UnityEvent OnEnded;
-
-	public bool isNext = false;
+	[HideInInspector] public UnityEvent<DialogDataGroup> onShow;
 
 	#endregion
 

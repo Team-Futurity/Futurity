@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class UIDialogFeatureBase : MonoBehaviour
 {
 	protected UIDialogController controller;
+	
 	protected DialogDataGroup dialogData;
 
 	protected virtual void Awake()

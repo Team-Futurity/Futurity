@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [System.Serializable]
 public struct DialogDataGroup
 {
@@ -29,8 +28,11 @@ public class DialogData : ScriptableObject
 
 	private int currentIndex;
 	private int nextIndex;
-
-	private bool onLastData;
+	
+	// Data Init
+	// GetCurrentData
+	// NextDialog
+	// GetLastData
 
 	public void Init()
 	{
