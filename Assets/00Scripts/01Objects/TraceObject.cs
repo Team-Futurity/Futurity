@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class TraceObject : MonoBehaviour
 {
@@ -31,6 +32,14 @@ public class TraceObject : MonoBehaviour
 	public void OnStop()
 	{
 		isMoveEnd = true;
+	}
+
+	public void SetTargetTransform()
+	{
+		Vector3 direction = targetObject.transform.position - transform.position;
+		transform.rotation = Quaternion.LookRotation(direction);
+
+		transform.position = targetObject.transform.position;
 	}
 
 	private void FixedUpdate()
@@ -67,6 +76,8 @@ public class TraceObject : MonoBehaviour
 			{
 				if (Vector3.Distance(transform.position, targetObject.transform.position) <= allowingDistance)
 				{
+					SetTargetTransform();
+
 					isMoveStart = false;
 					isMoveDelayTime = false;
 					currentTime = 0;
@@ -81,6 +92,6 @@ public class TraceObject : MonoBehaviour
 		Vector3 rotVec = direction;
 
 		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), rotateSpeed * Time.deltaTime);
-		transform.position += direction * speed * Time.fixedDeltaTime;
+		transform.position = Vector3.Slerp(transform.position, targetObject.transform.position, speed * Time.deltaTime); //direction * speed * Time.fixedDeltaTime;
 	}
 }

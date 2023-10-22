@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : UnitFSM<PlayerController>, IFSM
 {
+	#region Fields
 	// Constants
 	public readonly string EnemyTag = "Enemy";
 	public readonly string ComboAttackAnimaKey = "ComboParam";
@@ -150,6 +151,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// etc
 	[HideInInspector] public bool activePartIsActive; // 액티브 부품이 사용가능한지
+	#endregion
 
 	private void Start()
 	{
@@ -202,6 +204,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// move
 		moveEvent.AddListener(sariObject.OnDelayPreMove);
 		moveStopEvent.AddListener(sariObject.OnStop);
+		sariObject.SetTargetTransform();
 
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
