@@ -138,9 +138,12 @@ public class AutoTarget : Singleton<AutoTarget>
 				Vector3 currentPosition = movingObject.transform.position;
 				Vector3 nextPosition = Vector3.Lerp(movingObject.transform.position, targetPos, timeRatio);
 
-				if(!Physics.Linecast(currentPosition, nextPosition))
+				if(!Physics.Linecast(currentPosition, nextPosition, 8))
 				{
 					movingObject.transform.position = nextPosition;
+				}
+				else
+				{
 					isMoving = false;
 
 					continue;
