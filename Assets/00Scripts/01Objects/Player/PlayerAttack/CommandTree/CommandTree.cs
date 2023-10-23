@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
 using FMODUnity;
@@ -6,7 +6,7 @@ using FMODUnity;
 [Serializable]
 public class AttackAsset
 {
-	[Header("���� ����Ʈ")]
+	[Header("타격 이펙트")]
 	public Vector3 effectOffset;
 	public Quaternion effectRotOffset;
 	public GameObject effectPrefab;
@@ -14,7 +14,7 @@ public class AttackAsset
 	public EffectParent effectParentType;
 	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
 
-	[Header("�� �ǰ� ����Ʈ")]
+	[Header("피격 이펙트")]
 	public Vector3 hitEffectOffset;
 	public Quaternion hitEffectRotOffset;
 	public GameObject hitEffectPrefab;
@@ -22,7 +22,7 @@ public class AttackAsset
 	public EffectParent hitEffectParentType;
 	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
 
-	[Header("���� ����")]
+	[Header("사운드")]
 	public EventReference attackSound;
 
 	public void AddPoolManager()
@@ -43,16 +43,16 @@ public class AttackAsset
 [Serializable]
 public class AttackNode
 {
-	[Header("��� �̸�")]
+	[Header("명령어명")]
 	public string name;
 
-	[Header("���� Ÿ��")]
+	[Header("입력 커맨드")]
 	public PlayerInputEnum command;
-	[Header("���� ����(�޺�)")]
+	[Header("상하위 노드")]
 	public List<AttackNode> childNodes;
 	public AttackNode parent;
 
-	[Header("�޺� ������")]
+	[Header("공격 관련")]
 	public float attackLength;
 	public float attackAngle;
 	public float attackLengthMark;
@@ -66,7 +66,7 @@ public class AttackNode
 
 	public Dictionary<int, AttackAsset> attackAssetsByPart; 
 
-	[Header("����� ������")]
+	[Header("연출 관련")]
 	public int animInteger;
 
 	public float shakePower;
