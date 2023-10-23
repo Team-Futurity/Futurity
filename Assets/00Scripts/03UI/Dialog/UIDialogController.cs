@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
@@ -61,6 +60,12 @@ public class UIDialogController : MonoBehaviour
 		InitDialog();
 	}
 
+	public void SetDialogData(DialogData data)
+	{
+		dialogDatas.Add(data);
+		InitDialog();
+	}
+
 	public void SetDialogData(string code)
 	{
 		LoadDialogData(code);
@@ -73,6 +78,7 @@ public class UIDialogController : MonoBehaviour
 		
 		dialogText.Show(currentDialogData.GetDialogDataGroup().descripton);
 		onShow?.Invoke(currentDialogData.GetDialogDataGroup());
+		
 	}
 
 	public void Pass()
@@ -127,6 +133,7 @@ public class UIDialogController : MonoBehaviour
 		}
 
 		OpenDialogBoard(true);
+		onStarted?.Invoke();
 	}
 	
 	private void OpenDialogBoard(bool isOn)
