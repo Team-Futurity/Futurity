@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : UnitFSM<PlayerController>, IFSM
 {
+	#region Fields
 	// Constants
 	public readonly string EnemyTag = "Enemy";
 	public readonly string ComboAttackAnimaKey = "ComboParam";
@@ -112,6 +113,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerAnimationEvents playerAnimationEvents;
 	public PlayerCamera camera;
 	public PartSystem partSystem;
+	public TraceObject sariObject;
 	[HideInInspector] public CameraFollowTarget followTarget;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
@@ -124,6 +126,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
 	[HideInInspector] public InputAction moveAction;
 	[HideInInspector] public UnityEvent<string> attackEndEvent;
+	[HideInInspector] public UnityEvent moveEvent;
+	[HideInInspector] public UnityEvent moveStopEvent;
 
 	// Temporary
 	[Serializable]
@@ -147,6 +151,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// etc
 	[HideInInspector] public bool activePartIsActive; // 액티브 부품이 사용가능한지
+	#endregion
 
 	private void Start()
 	{
@@ -171,6 +176,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
 		animator.SetInteger(ChargedAttackAnimaKey, NullState);
+		rmController.SetStopDistance(moveMargin * MathPlus.cm2m);
 
 		// UnitFSM Init
 		SetFSM();
@@ -194,6 +200,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		dashCoolTimeWFS = new WaitForSeconds(dashCoolTime);
 		currentDashCount = maxDashCount;
 		StartCoroutine(DashDelayCoroutine());
+
+		// move
+		moveEvent.AddListener(sariObject.OnDelayPreMove);
+		moveStopEvent.AddListener(sariObject.OnStop);
+		sariObject.SetTargetTransform();
 
 		// hit
 		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
@@ -609,7 +620,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if(!comboIsLock)
 		{
 			// 마지막 콤보에서 입력 씹는 코드
-			//if(curNode.childNodes.Count == 0 && !IsCurrentState(PlayerState.AttackAfterDelay)) { return; }
+			if(curNode.childNodes.Count == 0 && !IsCurrentState(PlayerState.AttackAfterDelay)) { return; }
 
 			nextCombo = nextCommand;
 		}
@@ -689,7 +700,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (animator == null) { msgs.Add("animator is Null."); }
 		if (rigid == null) { msgs.Add("rigid is Null."); }
 		if (rmController == null) { msgs.Add("rmController is Null."); }
-		if(partSystem == null){msgs.Add("partSystem is Null");}
+		if (partSystem == null) { msgs.Add("partSystem is Null"); }
+		if (sariObject == null) { msgs.Add("sariObject is Null"); }
 
 		isClear = msgs.Count == 0;
 		if (isClear)

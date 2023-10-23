@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &252251537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 252251538}
+  m_Layer: 0
+  m_Name: SariPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &252251538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252251537}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 1.3, z: -0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5328251835375101389}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &292770055
 GameObject:
   m_ObjectHideFlags: 0
@@ -5893,7 +5924,6 @@ GameObject:
   - component: {fileID: 6307489441031809494}
   - component: {fileID: 8247117609381097480}
   - component: {fileID: 8996021751070515556}
-  - component: {fileID: 484117206}
   - component: {fileID: 8335321450642112346}
   - component: {fileID: 1070719927369175189}
   - component: {fileID: 1070719927369175188}
@@ -5929,6 +5959,7 @@ Transform:
   - {fileID: 106277733895473951}
   - {fileID: 508675301}
   - {fileID: 8222219191267386378}
+  - {fileID: 252251538}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -6073,10 +6104,11 @@ MonoBehaviour:
   autoTargetColliderChanger: {fileID: 2092668479919039194}
   basicCollider: {fileID: 1070719927369175189}
   effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
-  rmController: {fileID: 484117206}
+  rmController: {fileID: 389426774204208751}
   playerAnimationEvents: {fileID: 8346341091200553560}
-  cameraEffect: {fileID: 0}
+  camera: {fileID: 0}
   partSystem: {fileID: 8474775642207685257}
+  sariObject: {fileID: 0}
   followTarget: {fileID: 0}
   animator: {fileID: 0}
   rigid: {fileID: 0}
@@ -6093,6 +6125,12 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   attackEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  moveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  moveStopEvent:
     m_PersistentCalls:
       m_Calls: []
   rushEffects:
@@ -6283,34 +6321,6 @@ MonoBehaviour:
   containerSO: {fileID: 11400000, guid: c4d12abaff4256c46a26163c6feb92c1, type: 2}
   localParent: {fileID: 490048779824429130}
   worldParent: {fileID: 0}
---- !u!114 &484117206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199333450892302302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ff56e7c54b93c459bdb6ede869d50f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 9199333450892302302}
-  model: {fileID: 4773346115932327}
-  animator: {fileID: 6754002155594371175}
-  animations:
-  - animationName: Dash
-    isRootMotion: 0
-  - animationName: Idle
-    isRootMotion: 1
-  - animationName: Move
-    isRootMotion: 1
-  - animationName: Hit
-    isRootMotion: 1
-  - animationName: Attack
-    isRootMotion: 1
-  - animationName: Death
-    isRootMotion: 1
 --- !u!114 &8335321450642112346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6496,6 +6506,54 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 38533b871cd808b4594f1765969c915b, type: 3}
   m_PrefabInstance: {fileID: 923691493022789110}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &389426774204208751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4773346115932327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ff56e7c54b93c459bdb6ede869d50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 9199333450892302302}
+  model: {fileID: 4773346115932327}
+  animator: {fileID: 6754002155594371175}
+  animations:
+  - animationName: Dash
+    isRootMotion: 0
+    applyX: 0
+    applyY: 0
+    applyZ: 0
+  - animationName: Idle
+    isRootMotion: 1
+    applyX: 0
+    applyY: 0
+    applyZ: 0
+  - animationName: Move
+    isRootMotion: 1
+    applyX: 0
+    applyY: 0
+    applyZ: 0
+  - animationName: Hit
+    isRootMotion: 1
+    applyX: 0
+    applyY: 0
+    applyZ: 0
+  - animationName: Attack
+    isRootMotion: 1
+    applyX: 0
+    applyY: 0
+    applyZ: 0
+  - animationName: Death
+    isRootMotion: 1
+    applyX: 0
+    applyY: 0
+    applyZ: 0
+  currentApplyRootMotion: 0
+  stopDistance: 0.2
 --- !u!114 &8346341091200553560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6519,6 +6577,7 @@ MonoBehaviour:
   worldEffectParent: {fileID: 0}
   walkEffectPrefab: {fileID: 4455796136795157021, guid: b3d651092a49f10438f327db972918da, type: 3}
   walkEffectTransform: {fileID: 6056033157355613526}
+  isSlowMotionEnable: 0
 --- !u!1 &71485536562590071 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 877193897016056961, guid: 38533b871cd808b4594f1765969c915b, type: 3}
