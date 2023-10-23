@@ -135,7 +135,16 @@ public class AutoTarget : Singleton<AutoTarget>
 			if (isMoving)
 			{
 				float timeRatio = Time.deltaTime / timeSpent;
-				movingObject.transform.position = Vector3.Lerp(movingObject.transform.position, targetPos, timeRatio);
+				Vector3 currentPosition = movingObject.transform.position;
+				Vector3 nextPosition = Vector3.Lerp(movingObject.transform.position, targetPos, timeRatio);
+
+				if(!Physics.Linecast(currentPosition, nextPosition))
+				{
+					movingObject.transform.position = nextPosition;
+					isMoving = false;
+
+					continue;
+				}
 
 				float distance = Vector3.Distance(movingObject.transform.position, targetPos);
 				if (distance <= margin)

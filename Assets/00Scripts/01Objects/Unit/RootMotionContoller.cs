@@ -50,13 +50,13 @@ public class RootMotionContoller : MonoBehaviour
 			Vector3 currentPosition = parent.transform.position;
 			Vector3 nextPosition = parent.transform.position + deltaPosition;
 			Vector3 direction = deltaPosition.normalized;
-			float predictedDistancePerFrame = deltaPosition.magnitude;
+			float predictedDistancePerFrame = deltaPosition.magnitude + 0.08f;
 
 			Vector3 predictedPosition = nextPosition + direction * predictedDistancePerFrame;
 
 			if(!Physics.Linecast(currentPosition, predictedPosition))
 			{
-				parent.transform.position += deltaPosition;
+				parent.transform.position = nextPosition;
 			}
 		}
 	}
