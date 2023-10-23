@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class UIDialogNpcNameViewer : UIDialogFeatureBase
 {
-	[field: SerializeField]
-	public Image NpcNameImage { get; private set; }
+	[SerializeField, Header("NPC 이름 이미지")]
+	private Image nameImage;
 
 	protected override void UpdateFeature()
 	{
-		NpcNameImage.sprite = LoadNPCNameSprite(dialogData.talker_Eng);
+		nameImage.sprite = LoadNPCNameSprite(dialogData.talker_Eng);
 	}
 
 	private Sprite LoadNPCNameSprite(string key)
