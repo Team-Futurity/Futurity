@@ -193,12 +193,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void PlayerAttackSlowMotion(int index)
 	{
-		// if (isSlowMotionEnable == false)
-		// {
-		// 	return;
-		// }
-
-		if (CheckEnemyInAttackRange() == false)
+		if (CheckEnemyInAttackRange() == false || pc.comboGaugeSystem.CurrentGauge < 100)
 		{
 			return;
 		}
