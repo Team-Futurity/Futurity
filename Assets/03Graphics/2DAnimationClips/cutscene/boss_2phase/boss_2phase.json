@@ -1,0 +1,366 @@
+{
+"skeleton": {
+	"hash": "+E9j4STT24g",
+	"spine": "4.1.21",
+	"x": -998,
+	"y": -534.99,
+	"width": 1920,
+	"height": 1084,
+	"images": "./images/",
+	"audio": "D:/퓨처리티/컷씬/보스 페이즈"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "9_mask_paricle1 복사", "parent": "root", "x": 161.5, "y": -13.5 },
+	{ "name": "9_mask_paricle2 복사", "parent": "root", "x": 139, "y": 109 },
+	{ "name": "9_mask_paricle3 복사", "parent": "root", "x": 188.5, "y": 7 },
+	{ "name": "9_mask_paricle4 복사", "parent": "root", "x": 126.5, "y": -194 },
+	{ "name": "9_mask_paricle5 복사", "parent": "root", "x": 248.5, "y": -201 },
+	{ "name": "boss_obj2", "parent": "root", "x": -49, "y": 7.5 },
+	{ "name": "boss_obj1", "parent": "root", "x": -13, "y": 8.5 }
+],
+"slots": [
+	{ "name": "out", "bone": "root", "attachment": "out" },
+	{ "name": "9_back", "bone": "root", "attachment": "9_back" },
+	{ "name": "boss_obj1_backlight", "bone": "boss_obj1", "attachment": "boss_obj1_backlight", "blend": "screen" },
+	{ "name": "boss_obj1", "bone": "boss_obj1", "attachment": "boss_obj1" },
+	{ "name": "boss_obj1_shadow", "bone": "boss_obj1", "attachment": "boss_obj1_shadow", "blend": "multiply" },
+	{ "name": "boss_obj2_backlight", "bone": "boss_obj2", "attachment": "boss_obj2_backlight", "blend": "screen" },
+	{ "name": "boss_obj2", "bone": "boss_obj2", "attachment": "boss_obj2" },
+	{ "name": "boss_obj2_shadow", "bone": "boss_obj2", "attachment": "boss_obj2_shadow", "blend": "multiply" },
+	{ "name": "9_mask_paricle1 복사", "bone": "9_mask_paricle1 복사", "attachment": "9_mask_paricle1 복사" },
+	{ "name": "9_mask_paricle2 복사", "bone": "9_mask_paricle2 복사", "attachment": "9_mask_paricle2 복사" },
+	{ "name": "9_mask_paricle3 복사", "bone": "9_mask_paricle3 복사", "attachment": "9_mask_paricle3 복사" },
+	{ "name": "9_mask_paricle4 복사", "bone": "9_mask_paricle4 복사", "attachment": "9_mask_paricle4 복사" },
+	{ "name": "9_mask_paricle5 복사", "bone": "9_mask_paricle5 복사", "attachment": "9_mask_paricle5 복사" },
+	{ "name": "레이어 1 복사 3", "bone": "root", "color": "7200ff9b", "attachment": "레이어 1 복사 3", "blend": "additive" },
+	{ "name": "effect", "bone": "root", "attachment": "effect", "blend": "screen" },
+	{ "name": "frame", "bone": "root", "attachment": "frame" },
+	{ "name": "mask_light", "bone": "boss_obj1", "attachment": "mask_light", "blend": "additive" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"9_back": {
+				"9_back": { "x": -38, "y": 9, "width": 1922, "height": 1082 }
+			},
+			"9_mask_paricle1 복사": {
+				"9_mask_paricle1 복사": { "width": 189, "height": 113 }
+			},
+			"9_mask_paricle2 복사": {
+				"9_mask_paricle2 복사": { "width": 56, "height": 90 }
+			},
+			"9_mask_paricle3 복사": {
+				"9_mask_paricle3 복사": { "width": 125, "height": 104 }
+			},
+			"9_mask_paricle4 복사": {
+				"9_mask_paricle4 복사": { "width": 141, "height": 130 }
+			},
+			"9_mask_paricle5 복사": {
+				"9_mask_paricle5 복사": { "width": 107, "height": 192 }
+			},
+			"boss_obj1": {
+				"boss_obj1": { "x": -120.75, "y": -54.87, "width": 1630, "height": 1037 }
+			},
+			"boss_obj1_backlight": {
+				"boss_obj1_backlight": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0.08907, 1, 0.08907 ],
+					"triangles": [ 0, 1, 2, 0, 2, 3 ],
+					"vertices": [ 932.15, -558.09, -930.85, -558.09, -930.85, 427.54, 932.15, 427.54 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 1863,
+					"height": 1082
+				}
+			},
+			"boss_obj1_shadow": {
+				"boss_obj1_shadow": { "x": -13.33, "y": -20.98, "width": 1919, "height": 1080 }
+			},
+			"boss_obj2": {
+				"boss_obj2": { "width": 1910, "height": 1082 }
+			},
+			"boss_obj2_backlight": {
+				"boss_obj2_backlight": { "x": 36.71, "y": -5.61, "width": 1900, "height": 1082 }
+			},
+			"boss_obj2_shadow": {
+				"boss_obj2_shadow": { "x": 50.42, "y": -0.53, "width": 1873, "height": 1082 }
+			},
+			"effect": {
+				"effect": { "x": -38, "y": 9, "width": 1922, "height": 1082 }
+			},
+			"frame": {
+				"frame": { "x": -38, "y": 7, "width": 1922, "height": 1086 }
+			},
+			"mask_light": {
+				"mask_light": { "x": -25, "y": -21.41, "width": 1922, "height": 1082 }
+			},
+			"out": {
+				"out": {
+					"type": "clipping",
+					"end": "out",
+					"vertexCount": 4,
+					"vertices": [ -998, 548.97, -998, -534.96, 921.99, -534.99, 922, 549.01 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"레이어 1 복사 3": {
+				"레이어 1 복사 3": { "x": 123.57, "y": 246.5, "width": 148, "height": 123 }
+			}
+		}
+	}
+],
+"animations": {
+	"boss_2phase": {
+		"slots": {
+			"9_mask_paricle1 복사": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 2,
+						"color": "ffffff00",
+						"curve": [ 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2, 0.39, 2.9, 1 ]
+					},
+					{
+						"time": 3.3333,
+						"color": "fffffffe",
+						"curve": [ 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 0.5 ]
+					},
+					{ "time": 4.3333, "color": "ffffff00" }
+				]
+			},
+			"9_mask_paricle2 복사": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 2,
+						"color": "ffffff00",
+						"curve": [ 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2, 0.39, 2.9, 1 ]
+					},
+					{
+						"time": 3.3333,
+						"color": "fffffffe",
+						"curve": [ 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 0.5 ]
+					},
+					{ "time": 4.3333, "color": "ffffff00" }
+				]
+			},
+			"9_mask_paricle3 복사": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 2,
+						"color": "ffffff00",
+						"curve": [ 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2, 0.39, 2.9, 1 ]
+					},
+					{
+						"time": 3.3333,
+						"color": "fffffffe",
+						"curve": [ 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 0.33 ]
+					},
+					{ "time": 4.3333, "color": "ffffff00" }
+				]
+			},
+			"9_mask_paricle4 복사": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 2,
+						"color": "ffffff00",
+						"curve": [ 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2, 0.39, 2.9, 1 ]
+					},
+					{
+						"time": 3.3333,
+						"color": "fffffffe",
+						"curve": [ 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 0.33 ]
+					},
+					{ "time": 4.3333, "color": "ffffff00" }
+				]
+			},
+			"9_mask_paricle5 복사": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 2,
+						"color": "ffffff00",
+						"curve": [ 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2.578, 1, 2.9, 1, 2, 0.39, 2.9, 1 ]
+					},
+					{
+						"time": 3.3333,
+						"color": "fffffffe",
+						"curve": [ 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 1, 3.667, 1, 4, 0.5 ]
+					},
+					{ "time": 4.3333, "color": "ffffff00" }
+				]
+			},
+			"boss_obj1": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.3333,
+						"color": "ffffff00",
+						"curve": [ 0.667, 1, 1.333, 1, 0.667, 1, 1.333, 1, 0.667, 1, 1.333, 1, 0.667, 0, 1.333, 1 ]
+					},
+					{
+						"time": 1.6667,
+						"color": "ffffffff",
+						"curve": [ 1.778, 1, 1.889, 1, 1.778, 1, 1.889, 1, 1.778, 1, 1.889, 1, 1.778, 1, 1.889, 0 ]
+					},
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"boss_obj1_backlight": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.3333,
+						"color": "ffffff00",
+						"curve": [ 0.356, 1, 0.378, 1, 0.356, 1, 0.378, 1, 0.356, 1, 0.378, 1, 0.356, 0.33, 0.378, 1 ]
+					},
+					{ "time": 0.4, "color": "ffffffff", "curve": "stepped" },
+					{
+						"time": 1.9333,
+						"color": "ffffffff",
+						"curve": [ 1.956, 1, 1.978, 1, 1.956, 1, 1.978, 1, 1.956, 1, 1.978, 1, 1.956, 1, 1.978, 0 ]
+					},
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"boss_obj1_shadow": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.3333,
+						"color": "ffffff00",
+						"curve": [ 0.356, 1, 0.378, 1, 0.356, 1, 0.378, 1, 0.356, 1, 0.378, 1, 0.356, 0.33, 0.378, 1 ]
+					},
+					{ "time": 0.4, "color": "ffffffff", "curve": "stepped" },
+					{
+						"time": 1.9333,
+						"color": "ffffffff",
+						"curve": [ 1.956, 1, 1.978, 1, 1.956, 1, 1.978, 1, 1.956, 1, 1.978, 1, 1.956, 1, 1.978, 0 ]
+					},
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"boss_obj2": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 1.6667,
+						"color": "ffffff00",
+						"curve": [ 2.111, 1, 2.556, 1, 2.111, 1, 2.556, 1, 2.111, 1, 2.556, 1, 2.111, 0, 2.556, 1 ]
+					},
+					{ "time": 3, "color": "ffffffff" }
+				]
+			},
+			"boss_obj2_backlight": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 1.6667,
+						"color": "ffffff00",
+						"curve": [ 1.778, 1, 1.889, 1, 1.778, 1, 1.889, 1, 1.778, 1, 1.889, 1, 1.778, 0, 1.889, 1 ]
+					},
+					{ "time": 2, "color": "ffffffff" }
+				]
+			},
+			"boss_obj2_shadow": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 1.6667,
+						"color": "ffffff00",
+						"curve": [ 1.778, 1, 1.889, 1, 1.778, 1, 1.889, 1, 1.778, 1, 1.889, 1, 1.778, 0, 1.889, 1 ]
+					},
+					{ "time": 2, "color": "ffffffff" }
+				]
+			},
+			"mask_light": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.3333,
+						"color": "ffffff00",
+						"curve": [ 0.704, 1, 1.296, 1, 0.704, 1, 1.296, 1, 0.704, 1, 1.296, 1, 0.897, 0, 1.296, 1 ]
+					},
+					{
+						"time": 1.6667,
+						"color": "ffffffff",
+						"curve": [ 1.889, 1, 2.111, 1, 1.889, 1, 2.111, 1, 1.889, 1, 2.111, 1, 1.889, 1, 2.111, 0.33 ]
+					},
+					{ "time": 2.3333, "color": "ffffff00" }
+				]
+			},
+			"레이어 1 복사 3": {
+				"rgba": [
+					{ "color": "7200ff00", "curve": "stepped" },
+					{
+						"time": 1.6667,
+						"color": "7200ff00",
+						"curve": [ 2.111, 0.45, 2.556, 0.85, 2.111, 0, 2.556, 0.74, 2.111, 1, 2.556, 1, 2.111, 0, 2.556, 0.8 ]
+					},
+					{ "time": 3, "color": "dabdffcb" }
+				]
+			}
+		},
+		"bones": {
+			"boss_obj1": {
+				"translate": [
+					{
+						"y": -34.77,
+						"curve": [ 0.444, 0, 0.889, 0, 0, -11.71, 0.889, 0 ]
+					},
+					{ "time": 1.3333 }
+				]
+			},
+			"9_mask_paricle1 복사": {
+				"translate": [
+					{
+						"time": 2,
+						"curve": [ 3.011, 0, 3.575, 0, 2, -37.21, 3.575, -54.82 ]
+					},
+					{ "time": 4.3333, "y": -54.82 }
+				]
+			},
+			"9_mask_paricle2 복사": {
+				"translate": [
+					{
+						"time": 2,
+						"curve": [ 3.011, 0, 3.575, 0, 2, -25.3, 3.575, -37.27 ]
+					},
+					{ "time": 4.3333, "y": -37.27 }
+				]
+			},
+			"9_mask_paricle3 복사": {
+				"translate": [
+					{
+						"time": 2,
+						"curve": [ 3.011, 0, 3.575, 0, 2, -43.17, 3.575, -63.59 ]
+					},
+					{ "time": 4.3333, "y": -63.59 }
+				]
+			},
+			"9_mask_paricle4 복사": {
+				"translate": [
+					{
+						"time": 2,
+						"curve": [ 3.011, 0, 3.575, 0, 2, -66.98, 3.575, -98.67 ]
+					},
+					{ "time": 4.3333, "y": -98.67 }
+				]
+			},
+			"9_mask_paricle5 복사": {
+				"translate": [
+					{
+						"time": 2,
+						"curve": [ 2, 0, 3.575, 0, 2, -71.45, 3.575, -105.25 ]
+					},
+					{ "time": 4.3333, "y": -105.25 }
+				]
+			}
+		}
+	}
+}
+}
