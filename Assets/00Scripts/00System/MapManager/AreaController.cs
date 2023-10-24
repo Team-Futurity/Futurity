@@ -7,7 +7,7 @@ public class AreaController : MonoBehaviour
 {
 	[field: SerializeField]
 	public bool UseDirecting { get; private set; }
-	public EChapter1CutScene directingType;
+	public ECutSceneType directingType;
 	[HideInInspector] public ChapterCutSceneManager cutSceneManager;
 
 	[field:Space(10)]
@@ -60,7 +60,7 @@ public class AreaController : MonoBehaviour
 
 		if(UseDirecting)
 		{
-			TimelineManager.Instance.Chapter1_Area1_EnableCutScene(directingType);
+			//TimelineManager.Instance.Chapter1_Area1_EnableCutScene(directingType);
 		}
 	}
 

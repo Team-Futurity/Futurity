@@ -52,7 +52,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	public void InitManager()
 	{
-		//TimelineManager.Instance.InitTimelineManager(cutSceneList);
 		TimelineManager.Instance.InitCutSceneManager(GetChildCutScene());
 
 		var player = GameObject.FindWithTag("Player");
