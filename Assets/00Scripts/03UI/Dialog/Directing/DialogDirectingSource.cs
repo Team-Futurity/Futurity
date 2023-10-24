@@ -22,21 +22,6 @@ public class DialogDirectingSource
 
 	public DialogData dialogSource;
 	public DialogEventType eventType;
-	public PerformDirectingSetting directingSetting;
+	public UIPerformBoard board;
 }
 
-[System.Serializable]
-public class PerformDirectingSetting
-{
-	public enum PerformDirectingType
-	{
-		NONE,
-
-		OPEN,
-		CHANGE,
-
-		MAX
-	}
-
-	public PerformDirectingType directType;
-}
