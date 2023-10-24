@@ -8,7 +8,6 @@ public enum ESpawnerType
 {
 	NONEVENT = -1,
 	CHAPTER1_AREA1,
-	CHAPTER1_AREA2,
 	CHAPTER1_AREA3,
 	CHAPTER_BOSS
 }
@@ -23,11 +22,11 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private Transform enemyContainer;
 	[SerializeField] private DialogData dialogData;
 
-	[Header("Event")] 
+	[Header("Event")]
 	[SerializeField] private ESpawnerType spawnerType;
+	[SerializeField] private int dialogCondition;
 	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> spawnEndEvent;
 	[SerializeField] private UnityEvent<DialogData> interimEvent;
-	[SerializeField] private int dialogCondition;
 	[HideInInspector] public bool isEventEnable = false;
 	public ESpawnerType SpawnerType => spawnerType;
 
@@ -174,11 +173,12 @@ public class SpawnerManager : MonoBehaviour
 	{
 		curWaveSpawnCount--;
 
-		if (curWaveSpawnCount > dialogCondition || isEventEnable == true || spawnerType == ESpawnerType.NONEVENT)
+		if (spawnerType == ESpawnerType.NONEVENT || isEventEnable == true || curWaveSpawnCount > dialogCondition)
 		{
 			return;
 		}
-		
+
+		isEventEnable = true;
 		interimEvent?.Invoke(dialogData);
 	}
 }

@@ -28,14 +28,14 @@ public class SpawnerEvent : MonoBehaviour
 
 		switch (spawnerType)
 		{
+			case ESpawnerType.NONEVENT:
+				break;
+				
 			case ESpawnerType.CHAPTER1_AREA1:
 				CheckEndEventCollider();
 				TimelineManager.Instance.EnableCutScene(ECutSceneType.LASTKILL);
 				return;
-			
-			case ESpawnerType.CHAPTER1_AREA2:
-				break;
-			
+
 			case ESpawnerType.CHAPTER1_AREA3:
 				CheckEndEventCollider();
 				TimelineManager.Instance.EnableCutScene(ECutSceneType.AREA3_EXIT);
