@@ -8,25 +8,12 @@ using UnityEngine.UI;
 
 public class UIDialogController : MonoBehaviour
 {
-	public enum DialogSystemState
-	{
-		NONE,
-
-		INIT,
-		READY,
-		PRINTING,
-		PRINTING_END,
-
-		MAX
-	}
-	
 	[field: Header("게임 실행 중 Type 변경을 권장하지 않음"), SerializeField]
 	public UIDialogType DialogType { get; private set; }
 
 	[Space(10), Header("텍스트가 출력되는 오브젝트"), SerializeField]
 	private UIDialogText dialogText;
 
-	private DialogSystemState currentState;
 	private int currentIndex;
 
 	[SerializeField]
@@ -50,7 +37,6 @@ public class UIDialogController : MonoBehaviour
 	private void Awake()
 	{
 		dialogDatas = new List<DialogData>();
-		currentState = DialogSystemState.NONE;
 		currentIndex = 0;
 	}
 

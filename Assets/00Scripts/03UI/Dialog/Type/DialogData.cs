@@ -22,13 +22,9 @@ public class DialogData : ScriptableObject
 	
 	#region Unity Events
 
-	[HideInInspector]
+	[Space(10)]
 	public UnityEvent onInit;
-
-	[HideInInspector]
 	public UnityEvent onChanged;
-	
-	[HideInInspector]
 	public UnityEvent onEnded;
 	
 	#endregion
