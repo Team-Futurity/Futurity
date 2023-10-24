@@ -19,6 +19,11 @@ public class UIPerformBoard : MonoBehaviour
 		return CheckCondition(type);
 	}
 
+	public void Active(bool isOn)
+	{
+		gameObject.SetActive(isOn);
+	}
+
 	private bool CheckCondition(PlayerInputEnum type)
 	{
 		if(targetCondition != type)

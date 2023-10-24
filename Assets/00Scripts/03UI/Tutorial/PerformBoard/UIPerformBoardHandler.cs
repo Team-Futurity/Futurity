@@ -8,90 +8,63 @@ using UnityEngine.UI;
 public class UIPerformBoardHandler : MonoBehaviour
 {
 	// Data를 전달받는 타겟 오브젝트
-	[field: Header("플레이어 데이터")]
-	
-	[field: SerializeField] 
-	public PlayerInputManager Target { get; private set; }
+	[SerializeField, Header("플레이어 데이터")]
+	private PlayerInputManager target;
 
-	[field: Header("Board 목록")] 
-	[field: SerializeField]
-	public List<UIPerformBoard> PerformBoardList { get; private set; }
-
-	// Current Board
 	[SerializeField]
+	private List<UIPerformBoard> performBoards;
+
 	private UIPerformBoard currentBoard;
-	
-	// Index
-	private int currentIndex;
-	private int maxIndex;
-	
-	[HideInInspector] 
-	public UnityEvent OnChangePerformBoard;
 
-	[HideInInspector]
-	public UnityEvent OnEnded;
-	
-	//private void Awake()
-	//{
-	//	if(PerformBoardList is null)
-	//	{
-	//		FDebug.LogError($"{PerformBoardList.GetType()}이 존재하지 않습니다.");
-	//		Debug.Break();
-	//	}
+	private void Awake()
+	{
+		currentBoard = Pop();
+		currentBoard.Active(true);
+	}
 
-	//	foreach (var board in PerformBoardList)
-	//	{
-	//		board.SetActive(false);
-	//	}
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			GetTargetInputData(PlayerInputEnum.Move);
+		}
+	}
+
+	private void GetTargetInputData(PlayerInputEnum type)
+	{
+		var isClear = currentBoard.EnterPlayerEventType(type);
+
+		if (isClear)
+		{
+			ChangeBoard();	
+		}
+	}
+
+	private void ChangeBoard()
+	{
+		currentBoard.Active(false);
 		
-	//	currentIndex = 0;
-	//	maxIndex = PerformBoardList.Count - 1;
-	//}
+		currentBoard = Pop();
 
-	//public void SetPerfrom()
-	//{
-	//	currentBoard = PerformBoardList[currentIndex];
-	//	currentBoard.SetActive(true);
-	//}
-
-	//public void Run()
-	//{
-	//	Target.onChangeStateEvent?.AddListener(UpdateAction);
-	//}
-
-	//public void Stop()
-	//{
-	//	currentBoard.SetActive(false);
-	//	Target.onChangeStateEvent?.RemoveListener(UpdateAction);
-	//}
-
-	//private void UpdateAction(PlayerInputEnum data)
-	//{
-	//	var isComplate = currentBoard.SetPerformAction(data);
+		if (currentBoard == null)
+		{
+			Debug.Log("모든 작업이 종료되었습니다.");
+			return;
+		}
 		
-	//	if (!isComplate)
-	//	{
-	//		return;
-	//	}
-		
-	//	Stop();
-		
-	//	if (currentIndex >= maxIndex)
-	//	{
-	//		OnEnded?.Invoke();
-	//		return;
-	//	}
-	//	else
-	//	{
-	//		OnChangePerformBoard?.Invoke();
-	//	}
-	//}
+		currentBoard.Active(true);
+	}
 
-	//public void ChangeToNextBoard()
-	//{
-	//	Run();
+	private UIPerformBoard Pop()
+	{
+		if (performBoards.Count <= 0)
+		{
+			return null;
+		}
 		
-	//	currentIndex++;
-	//	SetPerfrom();
-	//}
+		var data = performBoards[0];
+		performBoards.RemoveAt(0);
+		
+		return data;
+	}
 }
