@@ -27,7 +27,7 @@ public class BossEntryCutScene : CutSceneBase
 		chapterManager.SetActiveMainUI(false);
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		// chapterManager.SetActivePlayerInput(true);
 		// chapterManager.SetActiveMainUI(true);

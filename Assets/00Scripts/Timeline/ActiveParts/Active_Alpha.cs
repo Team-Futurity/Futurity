@@ -17,7 +17,7 @@ public class Active_Alpha : CutSceneBase
 		chapterManager.SetActiveMainUI(false);
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		Time.timeScale = 1.0f;
 		chapterManager.SetActiveMainUI(true);
