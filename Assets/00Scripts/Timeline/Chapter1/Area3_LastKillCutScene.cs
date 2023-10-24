@@ -23,7 +23,7 @@ public class Area3_LastKillCutScene : CutSceneBase
 		chapterManager.isCutScenePlay = true;
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();

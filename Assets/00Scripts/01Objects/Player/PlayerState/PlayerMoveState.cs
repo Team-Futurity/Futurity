@@ -13,6 +13,7 @@ public class PlayerMoveState : UnitState<PlayerController>
 		pc.animator.SetBool(MoveAnimKey, true);
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
 		pc.rmController.SetRootMotion("Move");
+		pc.moveEvent.Invoke();
 	}
 
 	public override void Update(PlayerController pc)
@@ -45,7 +46,6 @@ public class PlayerMoveState : UnitState<PlayerController>
 
 			float cutValue = 0.1e-5f + angleCut;
 
-			FDebug.Log(cutValue + "__" + dot + "__" + (dot < cutValue || dot >= 1 - cutValue));
 			if (dot < cutValue || dot >= 1 - cutValue)
 			{			
 				pc.animator.SetBool(MoveAnimKey, false);
@@ -70,6 +70,7 @@ public class PlayerMoveState : UnitState<PlayerController>
 		//base.End(pc);
 		pc.animator.SetBool(MoveAnimKey, false);
 		pc.rigid.velocity = Vector3.zero;
+		pc.moveStopEvent.Invoke();
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

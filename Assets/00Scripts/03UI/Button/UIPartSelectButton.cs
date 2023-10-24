@@ -33,11 +33,6 @@ public class UIPartSelectButton : UIButton
 	[SerializeField]
 	private int buttonIndex = 0;
 
-	private void Awake()
-	{
-		InitResource();
-	}
-
 	protected override void ActiveFunc()
 	{
 		onSelected?.Invoke(partCode, buttonIndex);
