@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Rendering; 
@@ -17,16 +18,12 @@ public class ChapterCutSceneManager : MonoBehaviour
 	public TimelineScripting scripting;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
-	[HideInInspector] public TimelineManager timelineManager;
 
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
 	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
 
-	[Header("컷신 목록")] 
-	[SerializeField] private CutSceneStruct cutSceneList;
-  
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
 
@@ -45,19 +42,18 @@ public class ChapterCutSceneManager : MonoBehaviour
 	
 	public void Start()
 	{
-		if (isIntroScene == true)
+		if (isIntroScene == false)
 		{
-			cutSceneList.chapterScene[0].SetActive(true);
 			return;
 		}
-		
-		InitManager();
+
+		transform.GetChild(0).gameObject.SetActive(true);
 	}
 
 	public void InitManager()
 	{
-		timelineManager = TimelineManager.Instance;
-		timelineManager.InitTimelineManager(cutSceneList);
+		//TimelineManager.Instance.InitTimelineManager(cutSceneList);
+		TimelineManager.Instance.InitCutSceneManager(GetChildCutScene());
 
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
@@ -86,6 +82,19 @@ public class ChapterCutSceneManager : MonoBehaviour
 	}
 	
 	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);
+
+	private List<CutSceneBase> GetChildCutScene()
+	{
+		int count = transform.childCount;
+		List<CutSceneBase> result = new List<CutSceneBase>();
+
+		for (int i = 0; i < count; ++i)
+		{
+			result.Add(transform.GetChild(i).GetComponent<CutSceneBase>());
+		}
+
+		return result;
+	}
 
 	#region StandingScripts
 	

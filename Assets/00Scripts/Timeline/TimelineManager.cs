@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,18 +22,35 @@ public enum EBossCutScene
 public enum EPublicCutScene
 {
 	LASTKILLCUTSCENE = 0,
-	PLYAERDEATHCUTSCENE,
+	PLYAERDEATHCUTSCENE
 }
 
 public enum EActiveCutScene
 {
-	ACITVE_ALPHA = 0,	
+	ACITVE_ALPHA = 0,
 }
+
+public enum ECutSceneType
+{
+	ACTIVE_ALPHA,
+	PLAYER_DEATH,
+	LASTKILL,
+	INTRO_SCENE,
+	AREA1_ENTRY,
+	AREA1_REWARD,
+	AREA3_ENTRY,
+	AREA3_EXIT,
+	BOSS_ENTRY
+}
+
+[Serializable]
+public class CutSceneContainer : SerializationDictionary<ECutSceneType, GameObject> {}
 
 public class TimelineManager : Singleton<TimelineManager>
 {
 	[Header("런타임 자동 초기화")] 
 	[SerializeField] private CutSceneStruct cutSceneList = new CutSceneStruct();
+	[ReadOnly(false)] public CutSceneContainer cutSceneContainer = new CutSceneContainer();
 	
 	public List<GameObject> ChapterScene => cutSceneList.chapterScene;
 	public List<GameObject> PublicScene => cutSceneList.publicScene;
@@ -56,6 +74,18 @@ public class TimelineManager : Singleton<TimelineManager>
 		{
 			cutSceneList.activeScene.Add(cutScene);
 		}
+	}
+
+	public void InitCutSceneManager(List<CutSceneBase> list)
+	{
+		cutSceneContainer.Clear();
+
+		foreach (CutSceneBase cutScene in list)
+		{
+			cutSceneContainer.Add(cutScene.CutSceneType, cutScene.gameObject);
+		}
+		
+		FDebug.Log($"Init Done!(Count : {cutSceneContainer.Count})");
 	}
 
 	public void EnablePublicCutScene(EPublicCutScene cutScene)
