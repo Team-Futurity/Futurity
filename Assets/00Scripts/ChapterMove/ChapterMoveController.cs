@@ -99,29 +99,26 @@ public class ChapterMoveController : MonoBehaviour
 		switch (currentChapter)
 		{
 			case EChapterType.CHAPTER1_1:
-				TimelineManager.Instance.Chapter1_Area1_EnableCutScene(EChapter1CutScene.AREA1_ENTRYCUTSCENE);
+				TimelineManager.Instance.EnableCutScene(ECutSceneType.AREA1_ENTRY);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.ChapterScene[(int)EChapter1CutScene.AREA1_ENTRYCUTSCENE].
-						GetComponent<PlayableDirector>().Play();
+					TimelineManager.Instance.EnableNonPlayOnAwakeCutScene(ECutSceneType.AREA1_ENTRY);
 				};
 				break;
 			
 			case EChapterType.CHAPTER1_2:
-				TimelineManager.Instance.Chapter1_Area2_EnableCutScene(EChapter1_2.AREA2_ENTRYSCENE);
+				TimelineManager.Instance.EnableCutScene(ECutSceneType.AREA3_ENTRY);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.ChapterScene[(int)EChapter1_2.AREA2_ENTRYSCENE].
-						GetComponent<PlayableDirector>().Play();
+					TimelineManager.Instance.EnableNonPlayOnAwakeCutScene(ECutSceneType.AREA3_ENTRY);
 				};
 				break;
 			
 			case EChapterType.CHAPTER_BOSS:
-				TimelineManager.Instance.BossStage_EnableCutScene(EBossCutScene.BOSS_ENTRYCUTSCENE);
+				TimelineManager.Instance.EnableCutScene(ECutSceneType.BOSS_ENTRY);
 				cutSceneEvent = () =>
 				{
-					TimelineManager.Instance.ChapterScene[(int)EBossCutScene.BOSS_ENTRYCUTSCENE]
-						.GetComponent<PlayableDirector>().Play();
+					TimelineManager.Instance.EnableNonPlayOnAwakeCutScene(ECutSceneType.BOSS_ENTRY);
 				};
 				break;
 			

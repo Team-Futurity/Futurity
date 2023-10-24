@@ -30,7 +30,7 @@ public class IntroCutScene : CutSceneBase
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck, true);
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
 		
