@@ -7,68 +7,25 @@ using UnityEngine.UI;
 
 public class UIPerformBoard : MonoBehaviour
 {
+	// TargetCondition
 	[SerializeField]
-	private UIPerformActionData[] actionDatas;
+	private PlayerInputEnum targetCondition;
 
-	private Dictionary<PlayerInputEnum, UIPerformActionDataGroup> actionDic;
+	// Enter : Player Input Enum
+	// Check : Key Checked
 
-	private int activeActionCount;
-	
-	private bool isClear = false;
-
-	private void Awake()
+	public bool EnterPlayerEventType(PlayerInputEnum type)
 	{
-		actionDic = new Dictionary<PlayerInputEnum, UIPerformActionDataGroup>();
-		
-		for (int i = 0; i < actionDatas.Length; ++i)
-		{
-			var condition = actionDatas[i].conditionAction;
-			var imageObject = transform.GetChild(i).GetComponent<Image>();
-
-			if (imageObject == null)
-			{
-				return;
-			}
-
-			var dataGroup = new UIPerformActionDataGroup(actionDatas[i], imageObject);
-			
-			actionDic.Add(condition, dataGroup);
-			actionDic[condition].SetImage(ActionImageType.NORMAL);
-		}
-
-		activeActionCount = actionDic.Count;
+		return CheckCondition(type);
 	}
 
-	public bool SetPerformAction(PlayerInputEnum data)
+	private bool CheckCondition(PlayerInputEnum type)
 	{
-		var index = UpdatePerformAction(data);
-
-		isClear = (index <= 0);
-		
-		return isClear;
-	}
-
-	public void SetActive(bool isOn)
-	{
-		gameObject.SetActive(isOn);
-	}
-
-	private int UpdatePerformAction(PlayerInputEnum data)
-	{
-		if (!actionDic.ContainsKey(data))
+		if(targetCondition != type)
 		{
-			FDebug.Log($"[{GetType()}] {data}에 해당하는 Key가 존재하지 않습니다 ");
-			return 1000;
+			return false;
 		}
-		
-		if (actionDic[data].GetChecked())
-		{
-			return activeActionCount;
-		}
-		
-		actionDic[data].SetImage(ActionImageType.CLEAR);
-		actionDic[data].SetChecked(true);
 
-		return --activeActionCount;
+		return true;
 	}
 }
