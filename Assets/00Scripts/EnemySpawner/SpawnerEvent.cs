@@ -6,31 +6,16 @@ public class SpawnerEvent : MonoBehaviour
 {
 	[Header("Component")] 
 	[SerializeField] private ChapterMoveController chapterMove;
-
-	[Header("진행중 다이얼로그 출현 조건")]
 	[SerializeField] private UIDialogController dialogController;
-	[SerializeField] private List<int> dialogConditions;
 
 	[Header("콜라이더 이벤트")] 
 	[SerializeField] private Collider enableCollider;
 	[SerializeField] private Collider disableCollider;
 	
-	public void InterimEvent(SpawnerManager manager, ESpawnerType chapterType)
+	public void InterimEvent(DialogData dialogData)
 	{
-		if (chapterType == ESpawnerType.NONEVENT || manager.isEventEnable == true || 
-		    manager.CurWaveSpawnCount > dialogConditions[(int)chapterType])
-		{
-			return;
-		}
-
-		if (manager.DialogData == null)
-		{
-			return;
-		}
-		
-		manager.isEventEnable = true;
 		dialogController.gameObject.SetActive(true);
-		dialogController.SetDialogData(manager.DialogData);
+		dialogController.SetDialogData(dialogData);
 		dialogController.PlayDialog();
 	}
 
