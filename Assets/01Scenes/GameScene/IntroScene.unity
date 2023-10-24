@@ -851,7 +851,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1746,7 +1746,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 1124073471
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2002,7 +2002,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1888966098}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!320 &1485336651
 PlayableDirector:
@@ -2187,6 +2187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aede345c4aa3fc24083f9a8f7ad236f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutSceneType: 3
   chapterManager: {fileID: 0}
   introCutScene: {fileID: 1485336651}
   fadeInTime: 0.8
@@ -2808,7 +2809,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2906,6 +2907,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1888966098}
   - component: {fileID: 1888966097}
+  - component: {fileID: 1888966099}
   m_Layer: 0
   m_Name: IntroCutSceneManager
   m_TagString: Untagged
@@ -2929,17 +2931,9 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   playerCamera: {fileID: 0}
   mainUICanvas: {fileID: 0}
-  comboUI: {fileID: 0}
-  playerInfoUI: {fileID: 0}
-  scripting: {fileID: 2098055878}
-  timelineManager: {fileID: 0}
+  scripting: {fileID: 1888966099}
   timeToSlowMotion: 0
   recoveryTime: 0
-  cutSceneList:
-    chapterScene:
-    - {fileID: 1485336649}
-    publicScene: []
-    activeScene: []
   playerModelTf: {fileID: 0}
   scanLineJitter: 0
   colorDrift: 0
@@ -2956,11 +2950,29 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2098055877}
   - {fileID: 1485336650}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1888966099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888966096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a6d4ba54549c84ea9a0d3c7679db6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miraeAnimation: {fileID: 0}
+  sariAnimation: {fileID: 0}
+  bossAnimation: {fileID: 0}
+  textInput: {fileID: 0}
+  nameText: []
+  textOutputDelay: 0.05
+  isEnd: 0
 --- !u!1 &1965154840
 GameObject:
   m_ObjectHideFlags: 0
@@ -3366,54 +3378,3 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &2098055876
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2098055877}
-  - component: {fileID: 2098055878}
-  m_Layer: 0
-  m_Name: TimelineScripting
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2098055877
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098055876}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1888966098}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2098055878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098055876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2a6d4ba54549c84ea9a0d3c7679db6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  miraeAnimation: {fileID: 0}
-  sariAnimation: {fileID: 0}
-  bossAnimation: {fileID: 0}
-  textInput: {fileID: 0}
-  nameText: []
-  textOutputDelay: 0.05
-  isEnd: 0
