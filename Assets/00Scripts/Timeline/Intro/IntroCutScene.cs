@@ -20,10 +20,9 @@ public class IntroCutScene : CutSceneBase
 
 	[Header("다음으로 이동할 씬 이름")] 
 	[SerializeField] private string nextSceneName;
-	private bool isPause = false;
+
 
 	private Queue<SkeletonGraphic> cutSceneQueue;
-	private int curSceneIndex = 0;
 	private bool isInput = false;
 
 	private IEnumerator skeletonCutScene;
@@ -98,7 +97,7 @@ public class IntroCutScene : CutSceneBase
 			}
 			else
 			{
-				if (cutSceneQueue.Count <= 0)
+				if (cutSceneQueue.Count <= 0 || cutSceneQueue.Count == 3)
 				{
 					skeleton.gameObject.SetActive(false);
 					break;
@@ -113,6 +112,9 @@ public class IntroCutScene : CutSceneBase
 
 			isInput = false;
 		}
+		
+		isInput = false;
+		introCutScene.Resume();
 	}
 
 	private void InputCheck(InputAction.CallbackContext context)
@@ -123,6 +125,5 @@ public class IntroCutScene : CutSceneBase
 	private void PauseTimeline()
 	{
 		introCutScene.Pause();
-		isPause = true;
 	}
 }
