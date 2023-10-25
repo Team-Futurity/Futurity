@@ -48,7 +48,6 @@ public class IntroCutScene : CutSceneBase
 	{
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
 		
-		Time.timeScale = 1.0f;
 		FadeManager.Instance.FadeIn(fadeOutTime, () =>
 		{
 			SceneLoader.Instance.LoadScene(nextSceneName);
