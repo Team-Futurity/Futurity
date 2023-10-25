@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,6 +15,9 @@ public abstract class UnitBase : MonoBehaviour
 	[field: SerializeField] public bool IsAttackTime { get; private set; } // 현재 공격중인지
 	[field: SerializeField] public bool IsAttackTiming { get; private set; } // 공격이 이뤄지는 시점이후인지
 
+	[Header("참조 연결")]
+	public Animator unitAnimator;
+
 	[Header("런타임 변경 불가."), Tooltip("공격이 시작했는지를 체크할 고정 프레임(Fixed Delta Time) 단위")]
 	public int AttackCheckFrameCount = 3;
 	protected WaitForSeconds attackCheckWFS;
@@ -21,10 +25,16 @@ public abstract class UnitBase : MonoBehaviour
 
 	public UnityEvent<DamageInfo> onAttackEvent;
 
+	private int stopFrameCount;
+	private bool isStopAnimation;
+
 	protected virtual void Start()
 	{
+		if(unitAnimator == null) { FDebug.LogWarning("Animator is Null.", GetType()); }
+
 		attackCheckWFS = new WaitForSeconds(Time.fixedDeltaTime * AttackCheckFrameCount);
 		StartCoroutine(AttackProcessCorotutine());
+		StartCoroutine(AnimationStopCoroutine());
 	}
 
 	#region Getter
@@ -70,6 +80,7 @@ public abstract class UnitBase : MonoBehaviour
 				{
 					// Dequeue해서 Attack 실행
 					var info = damageInfoQueue.Dequeue();
+					info.SetStopFrameCount(stopFrameCount);
 					info.Attacker.AttackProcess(info);
 				}
 			}
@@ -95,6 +106,36 @@ public abstract class UnitBase : MonoBehaviour
 	}
 	#endregion
 
+	#region Production
+	public void StopAnimation(int frameCount)
+	{
+		isStopAnimation = true;
+		stopFrameCount = frameCount;
+	}
+
+	private IEnumerator AnimationStopCoroutine()
+	{
+		int currentStopedFrameCount;
+		while(true)
+		{
+			if(isStopAnimation)
+			{
+				currentStopedFrameCount = 0;
+				unitAnimator.speed = 0;
+				while (currentStopedFrameCount < stopFrameCount)
+				{
+					yield return null;
+					currentStopedFrameCount++;
+				}
+				unitAnimator.speed = 1;
+				isStopAnimation = false;
+			}
+
+			yield return null;
+		}
+	}
+	#endregion
+	
 	public virtual void Knockback(Vector3 direction, float power)
 	{
 		rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
@@ -123,10 +164,11 @@ public abstract class UnitBase : MonoBehaviour
 		IsAttackTiming = false;
 	}
 
-	public void EnableAttackTiming()
+	public void EnableAttackTiming(int frameCount = 0)
 	{
 		IsAttackTime = true;
 		IsAttackTiming = true;
+		stopFrameCount = frameCount;
 	}
 	#endregion
 
