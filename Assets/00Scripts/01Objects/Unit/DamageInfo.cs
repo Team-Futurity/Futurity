@@ -11,12 +11,14 @@ public class DamageInfo
 	public ObjectPoolManager<Transform> HitEffectPoolManager { get; private set; }
 	public Vector3 HitEffectOffset { get; private set; }
 	public bool IsDot { get; private set; }
+	public int StopFrameCount { get; private set; }
 
 	public DamageInfo(UnitBase attacker, UnitBase defender, float attackST)
 	{
 		Attacker = attacker;
 		Defender = defender;
 		AttackST = attackST;
+		StopFrameCount = 0;
 	}
 
 	public DamageInfo(DamageInfo origin)
@@ -28,6 +30,7 @@ public class DamageInfo
 		HitEffectPoolManager = origin.HitEffectPoolManager;
 		HitEffectOffset = origin.HitEffectOffset;
 		IsDot = origin.IsDot;
+		StopFrameCount = origin.StopFrameCount;
 	}
 
 	public void SetHitEffect(ObjectPoolManager<Transform> hitEffectPoolManager, Vector3? hitEffectOffset = null)
@@ -46,5 +49,10 @@ public class DamageInfo
 	public void SetIsDot(bool isDot)
 	{
 		IsDot = isDot;
+	}
+
+	public void SetStopFrameCount(int frameCount)
+	{
+		StopFrameCount = frameCount;
 	}
 }

@@ -256,9 +256,9 @@ public class PlayerAnimationEvents : MonoBehaviour
 		//TimelineManager.Instance.EnableActiveCutScene(EActiveCutScene.ACITVE_ALPHA);
 	}
 	#endregion
-	public void EnableAttackTiming()
+	public void EnableAttackTiming(int stopingFrameCount = 0)
 	{
-		pc.playerData.EnableAttackTiming();
+		pc.playerData.EnableAttackTiming(stopingFrameCount);
 	}
 
 	public void WalkSE()
