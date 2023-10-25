@@ -27,7 +27,7 @@ public class TutorialController : MonoBehaviour
 	private int maxDialogIndex = 0;
 	
 	// Only Debug
-	[Space(10), Header("Debug ¸ðµå Àü¿ë")]
+	[Space(10), Header("Debug ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
 	public bool isDebugMode = false;
 
 	private void Awake()
@@ -58,11 +58,12 @@ public class TutorialController : MonoBehaviour
 	private void StartTutorial()
 	{
 
-		/*FadeManager.Instance.FadeIn(fadeTime, () =>
-		{
-			SceneLoader.Instance.LoadScene("Chapter1-Stage1");
-		});
-		return;*/
+		// FadeManager.Instance.FadeIn(fadeTime, () =>
+		// {
+		// 	SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+		// });
+		// return;
+		
 		// First Settings
 		dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
 		

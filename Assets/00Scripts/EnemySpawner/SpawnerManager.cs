@@ -8,7 +8,6 @@ public enum ESpawnerType
 {
 	NONEVENT = -1,
 	CHAPTER1_AREA1,
-	CHAPTER1_AREA2,
 	CHAPTER1_AREA3,
 	CHAPTER_BOSS
 }
@@ -22,14 +21,14 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private GameObject[] enemyPrefabs;
 	[SerializeField] private Transform enemyContainer;
 	[SerializeField] private DialogData dialogData;
-	public DialogData DialogData => dialogData;
 
-	[Header("Event")] 
+	[Header("Event")]
 	[SerializeField] private ESpawnerType spawnerType;
-	public ESpawnerType SpawnerType => spawnerType;
+	[SerializeField] private int dialogCondition;
 	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> spawnEndEvent;
-	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> interimEvent;
+	[SerializeField] private UnityEvent<DialogData> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
+	public ESpawnerType SpawnerType => spawnerType;
 
 	[Header("이미 배치된 적이 있다면 사용")] 
 	[SerializeField] private List<PlaceEnemy> placeEnemies = null;
@@ -120,10 +119,8 @@ public class SpawnerManager : MonoBehaviour
 
 	private void MonsterDisableEvent()
 	{
-		curWaveSpawnCount--;
-	
+		MinusWaveSpawnCount();
 		spawnEndEvent?.Invoke(this, spawnerType);
-		interimEvent?.Invoke(this, spawnerType);
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{
@@ -170,6 +167,19 @@ public class SpawnerManager : MonoBehaviour
 	private void SpawnerDisableEvent(EnemySpawner spawner)
 	{
 		spawnerList.Remove(spawner);
+	}
+
+	private void MinusWaveSpawnCount()
+	{
+		curWaveSpawnCount--;
+
+		if (spawnerType == ESpawnerType.NONEVENT || isEventEnable == true || curWaveSpawnCount > dialogCondition)
+		{
+			return;
+		}
+
+		isEventEnable = true;
+		interimEvent?.Invoke(dialogData);
 	}
 }
 

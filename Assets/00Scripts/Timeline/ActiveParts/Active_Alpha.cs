@@ -14,14 +14,13 @@ public class Active_Alpha : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
-		chapterManager.SetActivePlayerInfoUI(false);
-		chapterManager.SetActiveComboUI(false);
+		chapterManager.SetActiveMainUI(false);
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		Time.timeScale = 1.0f;
-		chapterManager.SetActivePlayerInfoUI(true);
+		chapterManager.SetActiveMainUI(true);
 	}
 
 	public void TimeStop()

@@ -3,10 +3,12 @@ using UnityEngine;
 
 public abstract class CutSceneBase : MonoBehaviour
 {
+	public ECutSceneType CutSceneType => cutSceneType;
+	[SerializeField] protected ECutSceneType cutSceneType;
 	[SerializeField] protected ChapterCutSceneManager chapterManager;
 	protected virtual void Init() { }
 	protected virtual void EnableCutScene() { }
-	public abstract void DisableCutScene();
+	protected abstract void DisableCutScene();
 
 	private void OnEnable()
 	{

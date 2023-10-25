@@ -9,6 +9,8 @@ public class RootMotionContoller : MonoBehaviour
 	[SerializeField] private Animator animator;
 	[SerializeField] private List<AnimationType> animations;
 	private Dictionary<string, AnimationType> animationDic;
+	[SerializeField] private bool currentApplyRootMotion;
+	[SerializeField] private float stopDistance;
 
 	private void Awake()
 	{
@@ -17,8 +19,6 @@ public class RootMotionContoller : MonoBehaviour
 		{
 			animationDic.Add(anim.animationName, anim);
 		}
-
-		StartCoroutine(RefreshRootMotionCoroutine());
 	}
 
 	// 애니메이션 전환 시 실행
@@ -30,48 +30,34 @@ public class RootMotionContoller : MonoBehaviour
 		if(!animationDic.TryGetValue(animName, out type)) { return false; }
 
 		animator.applyRootMotion = type.isRootMotion;
+		currentApplyRootMotion = type.isRootMotion;
 		
 		return true;
 	}
 
-	private IEnumerator RefreshRootMotionCoroutine()
+	public void SetStopDistance(float distance)
 	{
-		while (true)
-		{
-			Vector3 vector = model.transform.position;
-			/*string currentAnimName = GetName();
-
-			if (currentAnimName == "") { FDebug.LogError("Animation Name is not Matched", GetType()); yield return null; continue; }
-
-			FDebug.Log(transform.position + "_" + (transform.position + transform.forward * 0.3f));
-
-			if (Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out RaycastHit hit, 0.3f))
-			{
-				FDebug.Log(vector + "__" + (vector - transform.forward * (hit.distance - 0.2f)));
-
-				vector -= transform.forward * (hit.distance - 0.2f);
-			}
-
-			transform.position += new Vector3(vector.x * animationDic[currentAnimName].applyX, vector.y * animationDic[currentAnimName].applyY, vector.z * animationDic[currentAnimName].applyZ);*/
-			transform.position = vector;
-			model.transform.localPosition = Vector3.zero;
-
-			yield return null;
-		}
+		stopDistance = distance;
 	}
 
-	private string GetName()
+	private void OnAnimatorMove()
 	{
-		string animationName = "";
-		foreach(var animName in animationDic.Keys)
+		if(animator == null) { return; }
+
+		if (currentApplyRootMotion)
 		{
-			if(animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
+			Vector3 deltaPosition = animator.deltaPosition;
+			Vector3 currentPosition = parent.transform.position;
+			Vector3 nextPosition = parent.transform.position + deltaPosition;
+			Vector3 direction = deltaPosition.normalized;
+			float predictedDistancePerFrame = deltaPosition.magnitude;
+
+			Vector3 predictedPosition = nextPosition + direction * predictedDistancePerFrame + Vector3.up * 0.5f;
+
+			if(!Physics.Linecast(currentPosition, predictedPosition))
 			{
-				animationName = animName;
-				break;
+				parent.transform.position = nextPosition;
 			}
 		}
-
-		return animationName;
 	}
 }

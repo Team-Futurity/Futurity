@@ -4,12 +4,8 @@ using UnityEngine.Rendering;
 
 public class PlayerDeathCutScene : CutSceneBase
 {
-	[Header("Component")]
-	[SerializeField] private GameObject gameOverUI;
-
 	[Header("흑백 전환 시간")] 
 	[SerializeField] private float grayScaleTime = 0.5f;
-	
 	private IEnumerator enableGrayScale;
 
 	protected override void Init()
@@ -23,13 +19,13 @@ public class PlayerDeathCutScene : CutSceneBase
 		StartGrayScaleRoutine();
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
-		chapterManager.ResetCameraValue();
-		chapterManager.ChangeFollowTarget();
+		chapterManager.playerCamera.RevertCameraValue();
 
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		UIManager.Instance.OpenWindow(WindowList.GAME_OVER);
+		
 		chapterManager.GrayScale.amount.value = 0.0f;
 		chapterManager.GrayScale.active = false;
 	}

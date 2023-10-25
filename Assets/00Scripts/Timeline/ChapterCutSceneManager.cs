@@ -1,8 +1,6 @@
-using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Rendering; 
@@ -15,70 +13,49 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	[Header("Component")] 
 	[SerializeField] private Camera mainCamera;
-	[SerializeField] private CinemachineVirtualCamera playerCamera;
+	public PlayerCamera playerCamera;
 	[SerializeField] private GameObject mainUICanvas;
-	[SerializeField] private GameObject comboUI;
-	[SerializeField] private GameObject playerInfoUI;
 	public TimelineScripting scripting;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
-	[HideInInspector] public TimelineManager timelineManager;
 
 	[Header("슬로우 타임")] 
 	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
 	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
 	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
 
-	[Header("컷신 목록")] 
-	[SerializeField] private CutSceneStruct cutSceneList;
-  
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
-	private Transform originTarget;
-	
+
 	[Header("GrayScale")]
 	private GrayScale grayScale = null;
 	public GrayScale GrayScale => grayScale;
 	
-
 	[Header("Volume Controller(Only use Timeline)")]
 	[SerializeField] private float scanLineJitter;
 	[SerializeField] private float colorDrift;
 	[HideInInspector] public bool isCutScenePlay = false;
-
-	// reset offset value
-	private Vector3 originOffset;
-	private float originOrthoSize;
-
-	private CinemachineFramingTransposer cameraBody;
+	
 	private IEnumerator timeSlow;
 	private IEnumerator lerpTimeScale;
 	private AnalogGlitchVolume analogGlitch;
 	
 	public void Start()
 	{
-		if (isIntroScene == true)
+		if (isIntroScene == false)
 		{
-			cutSceneList.chapterScene[0].SetActive(true);
 			return;
 		}
-		
-		InitManager();
+
+		transform.GetChild(0).gameObject.SetActive(true);
 	}
 
 	public void InitManager()
 	{
-		timelineManager = TimelineManager.Instance;
-		timelineManager.InitTimelineManager(cutSceneList);
+		TimelineManager.Instance.InitCutSceneManager(GetChildCutScene());
 
 		var player = GameObject.FindWithTag("Player");
 		playerController = player.GetComponent<PlayerController>();
-
-		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-		
-		originTarget = playerCamera.m_Follow;
-		originOffset = cameraBody.m_TrackedObjectOffset;
-		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
 		
 		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
@@ -104,13 +81,20 @@ public class ChapterCutSceneManager : MonoBehaviour
 	}
 	
 	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);
-	
-	public void SetActiveComboUI(bool active) => comboUI.SetActive(active);
 
-	public void SetActivePlayerInfoUI(bool active) => playerInfoUI.SetActive(active);
+	private List<CutSceneBase> GetChildCutScene()
+	{
+		int count = transform.childCount;
+		List<CutSceneBase> result = new List<CutSceneBase>();
 
-	public void EnableUI() => mainUICanvas.SetActive(true);
-	
+		for (int i = 0; i < count; ++i)
+		{
+			result.Add(transform.GetChild(i).GetComponent<CutSceneBase>());
+		}
+
+		return result;
+	}
+
 	#region StandingScripts
 	
 	public void PauseCutSceneUntilScriptsEnd(PlayableDirector cutScene)
@@ -130,22 +114,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 		scripting.isEnd = false;
 	}
 
-	#endregion
-	
-	#region PlayerCamera
-	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
-	
-	public void ResetCameraValue()
-	{
-		cameraBody.m_TrackedObjectOffset = originOffset;
-		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
-	}
-	
-	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
-	{
-		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
-	}
-	
 	#endregion
 	
 	#region TimeScale
@@ -195,7 +163,5 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 		Time.timeScale = 1.0f;
 	}
-	
-	
 	#endregion
 }
