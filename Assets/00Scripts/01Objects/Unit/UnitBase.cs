@@ -26,6 +26,7 @@ public abstract class UnitBase : MonoBehaviour
 	public UnityEvent<DamageInfo> onAttackEvent;
 
 	private int stopFrameCount;
+	private int skipFrameCount;
 	private bool isStopAnimation;
 
 	protected virtual void Start()
@@ -107,19 +108,28 @@ public abstract class UnitBase : MonoBehaviour
 	#endregion
 
 	#region Production
-	public void StopAnimation(int frameCount)
+	public void StopAnimation(int frameCount, int skipFrameCountBeforeStop = 0)
 	{
 		isStopAnimation = true;
 		stopFrameCount = frameCount;
+		skipFrameCount = skipFrameCountBeforeStop;
 	}
 
 	private IEnumerator AnimationStopCoroutine()
 	{
-		int currentStopedFrameCount;
+		int currentStopedFrameCount = 0;
+		int currentkipedFrameCount = 0;
 		while(true)
 		{
 			if(isStopAnimation)
 			{
+				currentkipedFrameCount = 0;
+				while (currentkipedFrameCount < skipFrameCount)
+				{
+					yield return null;
+					currentkipedFrameCount++;
+				}
+
 				currentStopedFrameCount = 0;
 				unitAnimator.speed = 0;
 				while (currentStopedFrameCount < stopFrameCount)
