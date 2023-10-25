@@ -16,7 +16,9 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 	private UnitState<Unit> currentState;
 	private UnitState<Unit> prevState;
 	// subState는 currentState에 종속적으로 작동하며 currentState가 End되면 같이 End되며 null이 된다.
-	private UnitState<Unit> subState; 
+	private UnitState<Unit> subState;
+
+	public SerializableDictionary<int, StateData> stateDataDictionary; 
 
 	protected void SetUp(ValueType firstState)
 	{
@@ -34,7 +36,10 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 				continue;
 			}
 
-			var state = Activator.CreateInstance(stateType) as UnitState<Unit>;
+			StateData stateData;
+			stateDataDictionary.TryGetValue(1, out stateData);
+
+			var state = Activator.CreateInstance(stateType, stateData) as UnitState<Unit>;
 
 			if (!states.TryAdd(attribute.key, state))
 			{
