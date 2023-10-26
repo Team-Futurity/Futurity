@@ -11,21 +11,13 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
 	public GameObject test;
 
+
+	#region Field
+
 	[Space(3)]
 	[Header("Enemy Parameter")]
 	[SerializeField] private EnemyType enemyType;
 	public EnemyType ThisEnemyType => enemyType;
-
-	//animation name
-	public readonly string moveAnimParam = "Move";          //이동
-	public readonly string atkAnimParam = "Attack";         //공격
-	public readonly string ragnedAnimParam = "Ranged";
-	public readonly string dashAnimParam = "Dash";			//쫄 대쉬
-	public readonly string hitAnimParam = "Hit";            //피격
-	public readonly string deadAnimParam = "Dead";			//사망
-	public readonly string playerTag = "Player";            //플레이어 태그 이름
-
-	public readonly string matColorProperty = "_BaseColor";
 
 	[Space(3)]
 	[Header("Enemy Management")]
@@ -66,6 +58,20 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public EventReference attackSound3;
 	public EventReference hitSound;
 
+	#region Animation name
+	//animation name
+	public readonly string moveAnimParam = "Move";          //이동
+	public readonly string atkAnimParam = "Attack";         //공격
+	public readonly string ragnedAnimParam = "Ranged";
+	public readonly string dashAnimParam = "Dash";          //쫄 대쉬
+	public readonly string hitAnimParam = "Hit";            //피격
+	public readonly string deadAnimParam = "Dead";          //사망
+	public readonly string playerTag = "Player";            //플레이어 태그 이름
+
+	public readonly string matColorProperty = "_BaseColor";
+	#endregion
+
+	#endregion
 
 	private void Start()
 	{
@@ -91,6 +97,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 			SetUp(EnemyState.Spawn);
 	}
 
+	#region Enemy controller methods
 	public void SetMaterial()
 	{
 		if (unlitMaterial != null)
@@ -131,7 +138,26 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 				return null;
 		}
 	}
-	
+
+	#endregion
+
+
+	#region Production
+
+	public void ActiveEnemy()
+	{
+		this.ChangeState(EnemyState.Idle);
+	}
+
+	public void DeActiveEnemy()
+	{
+		this.ChangeState(EnemyState.Empty);
+	}
+
+
+
+	#endregion
+
 	public void RegisterEvent(UnityAction eventFunc)
 	{
 		disableEvent.AddListener(eventFunc);

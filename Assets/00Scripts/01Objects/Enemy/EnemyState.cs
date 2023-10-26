@@ -8,9 +8,6 @@ public enum EnemyState : int
 	Hitted,                 //피격
 	Death,                  //사망
 
-	ClusterSlow,
-	ClusterChase,
-
 	//Melee Default
 	MDefaultChase,          //추격
 	MDefaultAttack,         //공격
@@ -36,4 +33,7 @@ public enum EnemyState : int
 	//Tutorial
 	TutorialIdle,
 
+	//Production
+	Empty,
+	AutoMove,
 }
