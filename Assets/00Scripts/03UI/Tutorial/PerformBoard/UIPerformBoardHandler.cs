@@ -22,12 +22,14 @@ public class UIPerformBoardHandler : MonoBehaviour
 		currentBoard.Active(true);
 	}
 
-	private void Update()
+	public void AddPerformBoard(UIPerformBoard board)
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			GetTargetInputData(PlayerInputEnum.Move);
-		}
+		performBoards.Add(board);
+	}
+
+	public void SetPerformBoard(List<UIPerformBoard> boards)
+	{
+		performBoards = boards;
 	}
 
 	private void GetTargetInputData(PlayerInputEnum type)
