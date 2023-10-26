@@ -11,8 +11,8 @@ public class UIPerformBoard : MonoBehaviour
 	[SerializeField]
 	private PlayerInputEnum targetCondition;
 
-	// Enter : Player Input Enum
-	// Check : Key Checked
+	[HideInInspector]
+	public UnityAction onEndedAction; 
 
 	public bool EnterPlayerEventType(PlayerInputEnum type)
 	{
@@ -31,6 +31,7 @@ public class UIPerformBoard : MonoBehaviour
 			return false;
 		}
 
+		onEndedAction?.Invoke();
 		return true;
 	}
 }

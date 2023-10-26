@@ -11,29 +11,34 @@ public class UIPerformBoardHandler : MonoBehaviour
 	[SerializeField, Header("플레이어 데이터")]
 	private PlayerInputManager target;
 
-	[SerializeField]
-	private List<UIPerformBoard> performBoards;
-
+	private Dictionary<int, List<UIPerformBoard>> performBoardDic = new Dictionary<int, List<UIPerformBoard>>();
+	
 	private UIPerformBoard currentBoard;
-
-	private void Awake()
+	private int currentType = -1;
+	
+	public void AddPerformBoard(int type, UIPerformBoard board)
 	{
-		currentBoard = Pop();
+		performBoardDic[type]?.Add(board);
+	}
+
+	public void SetPerformBoard(int type, List<UIPerformBoard> boards)
+	{
+		performBoardDic[type] = boards;
+	}
+
+	public void OpenPerform(int type)
+	{
+		currentBoard = Pop(type);
 		currentBoard.Active(true);
-	}
-
-	public void AddPerformBoard(UIPerformBoard board)
-	{
-		performBoards.Add(board);
-	}
-
-	public void SetPerformBoard(List<UIPerformBoard> boards)
-	{
-		performBoards = boards;
 	}
 
 	private void GetTargetInputData(PlayerInputEnum type)
 	{
+		if (currentBoard == null || currentType == -1)
+		{
+			return;
+		}
+		
 		var isClear = currentBoard.EnterPlayerEventType(type);
 
 		if (isClear)
@@ -46,7 +51,7 @@ public class UIPerformBoardHandler : MonoBehaviour
 	{
 		currentBoard.Active(false);
 		
-		currentBoard = Pop();
+		currentBoard = Pop(currentType);
 
 		if (currentBoard == null)
 		{
@@ -57,15 +62,15 @@ public class UIPerformBoardHandler : MonoBehaviour
 		currentBoard.Active(true);
 	}
 
-	private UIPerformBoard Pop()
+	private UIPerformBoard Pop(int type)
 	{
-		if (performBoards.Count <= 0)
+		if (performBoardDic[type].Count <= 0)
 		{
 			return null;
 		}
 		
-		var data = performBoards[0];
-		performBoards.RemoveAt(0);
+		var data = performBoardDic[type][0];
+		performBoardDic[type].RemoveAt(0);
 		
 		return data;
 	}
