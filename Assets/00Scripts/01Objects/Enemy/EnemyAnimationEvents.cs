@@ -7,17 +7,11 @@ public class EnemyAnimationEvents : MonoBehaviour
 {
 	public EnemyController ec;
 
-	public bool isCharging = false;//
-	
-	private void Start()
-	{
-		
-	}
-
 	public void ActiveEffect(int activeIndex)
 	{
 		EffectActiveData data = ec.currentEffectData;
 		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
+		ec.currentEffectKey = key;
 
 		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
 
@@ -65,8 +59,6 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void EliteRangedPositioning()
 	{
-		isCharging = false;
-
 		ec.currentEffectData.activationTime = EffectActivationTime.InstanceAttack;
 		ec.currentEffectData.target = EffectTarget.Target;
 	}

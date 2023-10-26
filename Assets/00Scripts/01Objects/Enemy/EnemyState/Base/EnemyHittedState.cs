@@ -14,6 +14,7 @@ public class EnemyHittedState : StateBase
 		curTime = 0;
 		unit.animator.SetTrigger(unit.hitAnimParam);
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
+		unit.effectController.RemoveEffect(unit.currentEffectKey);
 
 		AudioManager.Instance.PlayOneShot(unit.hitSound, unit.transform.position);
 	}

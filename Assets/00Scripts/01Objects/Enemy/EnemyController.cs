@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using FMODUnity;
 using System.Linq;
 using UnityEngine.Events;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class EnemyController : UnitFSM<EnemyController>, IFSM
 {
@@ -28,10 +29,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Enemy Management")]
-	public EnemyAnimationEvents animationEvents;
 	public EffectController effectController;
 	public EffectDatas effectSO;
 	public EffectActiveData currentEffectData;
+	public EffectKey currentEffectKey;
 
 	[Space(3)]
 	[Header("Reference")]
@@ -71,6 +72,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		if(effectSO)
 			effectController = ECManager.Instance.GetEffectManager(effectSO);
 		currentEffectData = new EffectActiveData();
+		currentEffectKey = new EffectKey();
 
 		animator = GetComponentInChildren<Animator>();
 		rigid = GetComponent<Rigidbody>();
