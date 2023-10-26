@@ -9,6 +9,7 @@ public class DialogDirectingPlayer : MonoBehaviour
 	private List<DialogDirectingSource> directingSource;
 
 	private UIPerformBoardHandler performHandler;
+	private UIDialogController controller;
 
 	private DialogData currentDialog;
 
@@ -42,28 +43,27 @@ public class DialogDirectingPlayer : MonoBehaviour
 	private void UpdateAction()
 	{
 		DialogDirectingSource lastSource = new DialogDirectingSource();
-		
+
 		foreach (var source in directingSource)
 		{
 			var dialogSource = source.dialogSource;
 			var eventType = source.eventType;
 
 			// Current Dialog가 비어있거나, 지금과 동일하지 않을 경우 새로 추가한다.
-			if (currentDialog == null)
+			if (currentDialog == null || currentDialog != dialogSource)
 			{
+				Debug.Log("여긴 로딩 되나?");
 				currentDialog = dialogSource;
-
-				saveDialogID.Add(currentDialog.GetInstanceID());
-			}
-			else if (currentDialog != dialogSource)
-			{
+				
 				bool beforeSave = saveDialogID.Contains(currentDialog.GetInstanceID());
 
 				if (!beforeSave)
 				{
+					Debug.Log("들어오는가?");
 					currentDialog.onInit?.AddListener(() =>
 					{
 						performHandler.OpenPerform(0);
+						Debug.Log("Load 되는가?");
 					});
 
 					currentDialog.onEnded?.AddListener(() =>
@@ -71,9 +71,16 @@ public class DialogDirectingPlayer : MonoBehaviour
 						performHandler.OpenPerform(1);
 					});
 				}
+				
+				saveDialogID.Add(currentDialog.GetInstanceID());
+			}
 
-				// Change
-				currentDialog = dialogSource;
+			for (int i = 0; i < 2; ++i)
+			{
+				if (!performHandler.HasGroup(i))
+				{
+					performHandler.CreateGroup(i);
+				}
 			}
 
 			switch (eventType)
