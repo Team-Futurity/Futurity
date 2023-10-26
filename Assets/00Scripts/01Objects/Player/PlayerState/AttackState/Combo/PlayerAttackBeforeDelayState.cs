@@ -66,6 +66,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		// ohter Setting
 		pc.SetGauntlet(true);
+		pc.sariObject.OnDelayPreMove();
 
 		// sound
 		if (isCombo)

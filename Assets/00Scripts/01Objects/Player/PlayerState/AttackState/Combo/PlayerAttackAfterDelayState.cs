@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Windows;
-using UnityEngine.XR;
-using static PlayerController;
 
 [FSMState((int)PlayerState.AttackAfterDelay)]
 public class PlayerAttackAfterDelayState : PlayerComboAttackState
@@ -46,6 +43,8 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 		if (currentTime >= attackNode.attackAfterDelay)
 		{
 			SendAttackEndMessage(unit);
+
+			unit.sariObject.OnStop();
 
 			unit.RotatePlayer(unit.lastMoveDir);
 			unit.ChangeState(PlayerState.Idle);
