@@ -15,10 +15,21 @@ public class UIPerformBoardHandler : MonoBehaviour
 	
 	private UIPerformBoard currentBoard;
 	private int currentType = -1;
+
+	public void CreateGroup(int type)
+	{
+		performBoardDic.Add(type, new List<UIPerformBoard>());
+	}
+
+	public bool HasGroup(int type)
+	{
+		return performBoardDic.ContainsKey(type);
+	}
 	
 	public void AddPerformBoard(int type, UIPerformBoard board)
 	{
-		performBoardDic[type]?.Add(board);
+		Debug.Log("Perform Board 등록 완료");
+		performBoardDic[type].Add(board);
 	}
 
 	public void SetPerformBoard(int type, List<UIPerformBoard> boards)
@@ -30,6 +41,14 @@ public class UIPerformBoardHandler : MonoBehaviour
 	{
 		currentBoard = Pop(type);
 		currentBoard.Active(true);
+		
+		Debug.Log("On Perform");
+	}
+
+	public void Debugs(PlayerInputEnum type)
+	{
+		GetTargetInputData(type);
+		Debug.Log(type.ToString());
 	}
 
 	private void GetTargetInputData(PlayerInputEnum type)
@@ -38,6 +57,7 @@ public class UIPerformBoardHandler : MonoBehaviour
 		{
 			return;
 		}
+		Debug.Log("통과?");
 		
 		var isClear = currentBoard.EnterPlayerEventType(type);
 
