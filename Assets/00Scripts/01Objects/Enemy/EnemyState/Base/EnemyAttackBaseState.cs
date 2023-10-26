@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyAttackBaseState : StateBase
 {
-	protected float attackChangeDelay = 2f;
 
 	public override void Begin(EnemyController unit)
 	{
@@ -15,7 +14,7 @@ public class EnemyAttackBaseState : StateBase
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, attackChangeDelay, unit, unit.UnitChaseState());
+		unit.DelayChangeState(curTime, unit.attackingDelay, unit, unit.UnitChaseState());
 	}
 
 	public override void End(EnemyController unit)

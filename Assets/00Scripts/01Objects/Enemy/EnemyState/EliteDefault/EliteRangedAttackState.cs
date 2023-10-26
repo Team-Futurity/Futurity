@@ -28,12 +28,6 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 		
 	}
 
-	public override void Update(EnemyController unit)
-	{
-		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, attackChangeDelay, unit, EnemyState.EliteDefaultChase);
-	}
-
 	public override void End(EnemyController unit)
 	{
 		unit.atkCollider.transform.position = unit.transform.position;

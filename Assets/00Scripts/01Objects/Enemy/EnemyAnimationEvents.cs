@@ -11,6 +11,8 @@ public class EnemyAnimationEvents : MonoBehaviour
 	{
 		EffectActiveData data = ec.currentEffectData;
 		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
+		if (ec.currentEffectKey == null)
+			ec.currentEffectKey = new EffectKey();
 		ec.currentEffectKey = key;
 
 		var particles = key.EffectObject.GetComponent<ParticleActiveController>();

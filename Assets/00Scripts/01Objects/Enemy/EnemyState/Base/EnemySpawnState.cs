@@ -20,6 +20,9 @@ public class EnemySpawnState : StateBase
 
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
+
+		if (unit.ThisEnemyType == EnemyType.RangedDefault)
+			unit.SettingProjectile();
 	}
 
 	public override void Update(EnemyController unit)

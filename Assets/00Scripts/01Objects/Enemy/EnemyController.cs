@@ -43,6 +43,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Material unlitMaterial;
 	[HideInInspector] public Material copyUMat;
 
+	[Space(3)]
+	[Header("Attack")]
+	public float attackRange = 7f;
+	public float attackingDelay = 4f;
 
 	[Space(3)]
 	[Header("Hitted")]
@@ -78,7 +82,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		if(effectSO)
 			effectController = ECManager.Instance.GetEffectManager(effectSO);
 		currentEffectData = new EffectActiveData();
-		currentEffectKey = new EffectKey();
+		currentEffectKey = null;
 
 		animator = GetComponentInChildren<Animator>();
 		rigid = GetComponent<Rigidbody>();
@@ -139,6 +143,13 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		}
 	}
 
+	public void SettingProjectile()
+	{
+		UnitState<EnemyController> s = null;
+		GetState(EnemyState.RDefaultAttack, ref s);
+		((RDefaultAttackState)s).SetProjectile(GetComponentInChildren<Projectile>().gameObject);
+	}
+
 	#endregion
 
 
@@ -154,7 +165,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public void DeActiveEnemy()
 	{
-		this.ChangeState(EnemyState.Empty);
+		this.ChangeState(EnemyState.None);
 	}
 
 	public void MoveToPosition(Vector3 targetPos)

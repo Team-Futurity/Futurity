@@ -10,7 +10,7 @@ public class MDefaultChaseState : EnemyChaseBaseState
 	{
 		base.Update(unit);
 
-		if (distance < attackRange)
+		if (distance < unit.attackRange)
 		{
 			unit.rigid.velocity = Vector3.zero;
 			unit.navMesh.enabled = false;

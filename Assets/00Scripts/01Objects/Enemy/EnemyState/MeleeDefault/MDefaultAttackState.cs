@@ -23,10 +23,4 @@ public class MDefaultAttackState : EnemyAttackBaseState
 
 		AudioManager.Instance.PlayOneShot(unit.attackSound1, unit.transform.position);
 	}
-
-	public override void Update(EnemyController unit)
-	{
-		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, attackChangeDelay, unit, unit.UnitChaseState());
-	}
 }

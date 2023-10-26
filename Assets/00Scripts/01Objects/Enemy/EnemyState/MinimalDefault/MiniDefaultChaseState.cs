@@ -11,12 +11,12 @@ public class MiniDefaultChaseState : EnemyChaseBaseState
 
 		unit.transform.LookAt(unit.target.transform.position);
 
-		if (distance < attackRange)
+		if (distance < unit.attackRange)
 		{
 			unit.rigid.velocity = Vector3.zero;
 			unit.ChangeState(EnemyState.MiniDefaultDelay);
 		}
-		else if (distance > attackRange)
+		else if (distance > unit.attackRange)
 		{
 			unit.navMesh.SetDestination(unit.target.transform.position);
 		}

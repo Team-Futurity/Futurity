@@ -34,6 +34,6 @@ public enum EnemyState : int
 	TutorialIdle,
 
 	//Production
-	Empty,
+	None,
 	AutoMove,
 }

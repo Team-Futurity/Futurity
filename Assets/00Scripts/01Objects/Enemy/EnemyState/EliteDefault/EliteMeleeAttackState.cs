@@ -19,15 +19,10 @@ public class EliteMeleeAttackState : EnemyAttackBaseState
 	public override void Begin(EnemyController unit)
 	{
 		base.Begin(unit);
+		atk1.parent = unit.gameObject;
 		unit.currentEffectData = atk1;
 		unit.atkCollider.radius = radius;
 		unit.rigid.velocity = Vector3.zero;
 		unit.enemyData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(38);
-	}
-
-	public override void Update(EnemyController unit)
-	{
-		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, attackChangeDelay, unit, EnemyState.EliteDefaultChase);
 	}
 }

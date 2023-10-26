@@ -17,6 +17,12 @@ public class RDefaultAttackState : EnemyAttackBaseState
 
 	private EffectActiveData effectActiveData = new EffectActiveData();
 
+	public void SetProjectile(GameObject projectile)
+	{
+		rangedProjectile = projectile;
+		rangedProjectile.SetActive(false);
+	}
+
 	public RDefaultAttackState()
 	{
 		effectActiveData.activationTime = EffectActivationTime.AttackReady;
@@ -28,9 +34,6 @@ public class RDefaultAttackState : EnemyAttackBaseState
 	public override void Begin(EnemyController unit)
 	{
 		base.Begin(unit);
-		if (!rangedProjectile)
-			rangedProjectile = unit.GetComponentInChildren<Projectile>().gameObject;
-
 		effectActiveData.parent = unit.gameObject;
 		unit.currentEffectData = effectActiveData;
 		rangedProjectile.transform.position = unit.transform.position + projectilePos;
