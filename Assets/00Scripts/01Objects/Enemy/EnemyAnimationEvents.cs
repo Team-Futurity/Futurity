@@ -21,6 +21,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 		}
 	}
 
+	#region Attack
 	public void MeleeAttack()
 	{
 		ec.enemyData.EnableAttackTiming();
@@ -61,5 +62,11 @@ public class EnemyAnimationEvents : MonoBehaviour
 	{
 		ec.currentEffectData.activationTime = EffectActivationTime.InstanceAttack;
 		ec.currentEffectData.target = EffectTarget.Target;
+	}
+	#endregion
+
+	public void StopAnimationUntil(int frameCount)
+	{
+		ec.enemyData.StopAnimation(frameCount);
 	}
 }
