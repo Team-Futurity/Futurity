@@ -4,11 +4,7 @@ using UnityEngine;
 public class PlayerAttackState_Charged : PlayerAttackState
 {
 	// Constants
-	public static float LengthMarkIncreasing = 200; // 단계당 돌진 거리 증가량
-	public static float KnockbackIncreasing = 200; // 단계당 돌진 거리 증가량
-	public static float AttackSTIncreasing = 2;     // 단계당 공격 배율 증가량
-	public static float LevelStandard = 0.5f;         // 단계를 나눌 기준
-	public static float initialLevelStandard = 1f;
+	public static ChargeIncreases[] IncreasesByLevel;
 	public static int MaxLevel = 4;                 // 최대 차지 단계
 	public static float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
 	public static float FlyPower = 45;               // 공중 체공 힘
@@ -63,8 +59,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		// etc
 		private Vector3 maxRangeEffectScale;
 
-	//public PlayerAttackState_Charged(StateData stateData) : base(stateData, "ChargeTrigger", "Combo") { Sqrt2 = Mathf.Sqrt(2); }
-	public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { Sqrt2 = Mathf.Sqrt(2); }
+	public PlayerAttackState_Charged(StateData stateData) : base(stateData, "ChargeTrigger", "Combo") 
+	{ 
+		Sqrt2 = Mathf.Sqrt(2);
+		stateData.SetDataToState();
+	}
+	//public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { Sqrt2 = Mathf.Sqrt(2); }
 
 	public override void Begin(PlayerController unit)
 	{
@@ -72,7 +72,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		unit.attackColliderChanger.DisableAllCollider();
 		
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
-		attackLengthMark = unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing; // 0 Level Length Mark
+		attackLengthMark = unit.curNode.attackLengthMark + IncreasesByLevel[currentLevel].LengthMarkIncreasing; // 0 Level Length Mark
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
 		currentTime = 0;
 		currentLevel = 0;
@@ -183,14 +183,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		if (!unit.specialIsReleased)
 		{
-			level = currentTime > initialLevelStandard ? (int)((currentTime - initialLevelStandard) / LevelStandard) + 1 : 0;
+			level = currentTime > IncreasesByLevel[currentLevel].LevelStandard ? currentLevel + 1 : currentLevel;
 			//level = (int)(currentTime / LevelStandard);
 			level = Mathf.Clamp(level, 0, MaxLevel - 1);
 
 			FDebug.Log(rangeEffect);
 			if(rangeEffect != null)
 			{
-				rangeEffect.EffectObject.transform.localScale = Vector3.Lerp(rangeEffect.EffectObject.transform.localScale, maxRangeEffectScale, LevelStandard / Time.deltaTime);
+				rangeEffect.EffectObject.transform.localScale = Vector3.Lerp(rangeEffect.EffectObject.transform.localScale, maxRangeEffectScale, IncreasesByLevel[MaxLevel - 1].LevelStandard * Time.deltaTime);
 			}
 
 			// 단계가 바뀌었다면
@@ -205,7 +205,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 						chargeEffectKey = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Caster, unit.rushEffects[0].effectPos.position, null, unit.playerEffectParent);
 						unit.effectController.RegistLevelEffect(chargeEffectKey);
 						rangeEffect = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Ground, unit.transform.position + Vector3.up * 0.01f, unit.transform.rotation, unit.playerEffectParent);
-						maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + (MaxLevel - 1) * LengthMarkIncreasing) * MathPlus.cm2m);
+						maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + IncreasesByLevel[MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m);
 					}
 					else
 					{
@@ -277,9 +277,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private void CalculateRushData(PlayerController unit)
 	{
 		// 레벨 별 데이터
-		attackST = unit.curNode.attackST + currentLevel * AttackSTIncreasing;
-		attackLengthMark = unit.curNode.attackLengthMark + currentLevel * LengthMarkIncreasing;
-		attackKnockback = unit.curNode.attackKnockback + currentLevel * KnockbackIncreasing;
+		attackST = unit.curNode.attackST + IncreasesByLevel[currentLevel].AttackSTIncreasing;
+		attackLengthMark = unit.curNode.attackLengthMark + IncreasesByLevel[currentLevel].LengthMarkIncreasing;
+		attackKnockback = unit.curNode.attackKnockback + IncreasesByLevel[currentLevel].KnockbackIncreasing;
 
 		// 초당 이동 속도 계산(m/sec)
 		moveSpeed = (attackLengthMark * MathPlus.cm2m) / (unit.curNode.attackDelay);

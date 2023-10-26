@@ -6,7 +6,6 @@ using System;
 [Serializable]
 public class StateData : ScriptableObject
 {
-	public Type stateType;
-
-	public virtual void SetDataToState<T>(UnitFSM<T> fsm) where T : IFSM { }
+	[field: SerializeField] public int enumNumber { get; set; }
+	public virtual void SetDataToState() { }
 }

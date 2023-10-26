@@ -18,11 +18,14 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 	// subState는 currentState에 종속적으로 작동하며 currentState가 End되면 같이 End되며 null이 된다.
 	private UnitState<Unit> subState;
 
-	public SerializableDictionary<int, StateData> stateDataDictionary; 
+	public List<StateData> stateDatas;
+	public Dictionary<int, StateData> stateDataDictionary;
 
 	protected void SetUp(ValueType firstState)
 	{
 		states = new Dictionary<int, UnitState<Unit>>();
+
+		SetStateDataDictionary(stateDatas);
 
 		var stateTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => typeof(UnitState<Unit>).IsAssignableFrom(t));
 
@@ -37,9 +40,18 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 			}
 
 			StateData stateData;
-			stateDataDictionary.TryGetValue(1, out stateData);
+			stateDataDictionary.TryGetValue(attribute.key, out stateData);
 
-			var state = Activator.CreateInstance(stateType, stateData) as UnitState<Unit>;
+
+			UnitState<Unit> state;
+			if (stateData == null)
+			{
+				state = Activator.CreateInstance(stateType) as UnitState<Unit>;
+			}
+			else
+			{
+				state = Activator.CreateInstance(stateType, new object[] { stateData }) as UnitState<Unit>;
+			}
 
 			if (!states.TryAdd(attribute.key, state))
 			{
@@ -55,6 +67,8 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		if(statesToUse.Count == 0) { FDebug.LogWarning("[UnitFSM] Count of List<ValueType> stateToUse is Zero. If you don't want that, Check this Method Call Part"); return; }
 
 		states = new Dictionary<int, UnitState<Unit>>();
+
+		SetStateDataDictionary(stateDatas);
 
 		var stateTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => typeof(UnitState<Unit>).IsAssignableFrom(t));
 
@@ -73,7 +87,10 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 				continue;
 			}
 
-			var state = Activator.CreateInstance(stateType) as UnitState<Unit>;
+			StateData stateData;
+			stateDataDictionary.TryGetValue(attribute.key, out stateData);
+
+			var state = Activator.CreateInstance(stateType, stateData) as UnitState<Unit>;
 
 			if (!states.TryAdd(attribute.key, state))
 			{
@@ -82,6 +99,18 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		}
 
 		ChangeState(firstState);
+	}
+
+	private void SetStateDataDictionary(List<StateData> list)
+	{
+		stateDataDictionary = new Dictionary<int, StateData>();
+
+		foreach(StateData data in list)
+		{
+			if (stateDataDictionary.ContainsKey(data.enumNumber)) { continue; }
+
+			stateDataDictionary.Add(data.enumNumber, data);
+		}
 	}
 
 	public void ChangeState(ValueType nextEnumState)
