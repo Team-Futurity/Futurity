@@ -1,31 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-
-public class EnemyChaseBaseState : StateBase
+[FSMState((int)EnemyState.AutoMove)]
+public class EnemyAutoMoveState : StateBase
 {
-	protected float distance = .0f;
+	private Vector3 targetPos;
+
+
+	public void SetTarget(Vector3 targetPos)
+	{
+		this.targetPos = targetPos;
+	}
 
 	public override void Begin(EnemyController unit)
 	{
 		unit.animator.SetBool(unit.moveAnimParam, true);
-		unit.chaseRange.enabled = false;
 		unit.navMesh.enabled = true;
 	}
+
 	public override void Update(EnemyController unit)
 	{
-		if (unit.target == null)
-			return;
-
-		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
+		if (unit.transform.position != targetPos)
+			unit.navMesh.SetDestination(targetPos);
+		else if (unit.target != null)
+			unit.ChangeState(unit.UnitChaseState());
+		else
+			unit.ChangeState(EnemyState.Idle);
 	}
 
 	public override void End(EnemyController unit)
 	{
 		unit.animator.SetBool(unit.moveAnimParam, false);
 		unit.navMesh.enabled = false;
-		curTime = .0f;
 	}
 }

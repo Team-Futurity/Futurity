@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class RandomMoveBaseState : UnitState<EnemyController>
 {
+	private float randMoveDistanceMin = 0.5f;
+	private float randMoveDistanceMax = 1.0f;
+
 	private Vector3 targetPos;
 	private float randPercentage;
 	private float randDistance;
@@ -12,7 +15,7 @@ public class RandomMoveBaseState : UnitState<EnemyController>
 	public override void Begin(EnemyController unit)
 	{
 		randPercentage = Random.Range(0, 4);
-		randDistance = Random.Range(unit.randMoveDistanceMin, unit.randMoveDistanceMax);
+		randDistance = Random.Range(randMoveDistanceMin, randMoveDistanceMax);
 
 		if (randPercentage == 0)
 			targetPos = new Vector3(unit.transform.position.x + randDistance, 0, unit.transform.position.z + randDistance);
