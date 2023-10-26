@@ -102,7 +102,7 @@ public class CommandTreeLoader : MonoBehaviour
 			case EffectParent.World:
 				return worldParent;
 			default:
-				FDebug.LogError("[CommandTreeLoader] Effect Parent is None or Invalid. Please Set Valid Effect Parent");
+				FDebug.Log("Effect Parent is None or Invalid. If you want to use Effect Parent, Set Valid Effect Parent", GetType());
 				return null;
 		}
 	}

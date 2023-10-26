@@ -350,7 +350,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			if (!IsAttackProcess(true))
 			{
-				//StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
+				StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
 				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), state == PlayerState.NormalAttack ? curNode.name : "Pressed");
 			}
 			else
