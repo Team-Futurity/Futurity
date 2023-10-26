@@ -8,6 +8,7 @@ public class EnemyMoveIdleState : RandomMoveBaseState
 	public override void Begin(EnemyController unit)
 	{
 		unit.animator.SetBool(unit.moveAnimParam, true);
+		unit.navMesh.enabled = true;
 		base.Begin(unit);
 	}
 
@@ -21,6 +22,7 @@ public class EnemyMoveIdleState : RandomMoveBaseState
 	public override void End(EnemyController unit)
 	{
 		unit.animator.SetBool(unit.moveAnimParam, false);
+		unit.navMesh.enabled = false;
 		base.End(unit);
 	}
 

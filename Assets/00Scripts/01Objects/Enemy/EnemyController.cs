@@ -28,7 +28,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Reference")]
-	[HideInInspector] public UnitBase target;				//Attack target 지정
+	[HideInInspector] public UnitBase target = null;				//Attack target 지정
 	public Enemy enemyData;									//Enemy status 캐싱
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
@@ -146,7 +146,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public void ActiveEnemy()
 	{
-		this.ChangeState(EnemyState.Idle);
+		if (target == null)
+			this.ChangeState(EnemyState.Idle);
+		else
+			this.ChangeState(UnitChaseState());
 	}
 
 	public void DeActiveEnemy()
@@ -154,7 +157,13 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		this.ChangeState(EnemyState.Empty);
 	}
 
-
+	public void MoveToPosition(Vector3 targetPos)
+	{
+		UnitState<EnemyController> s = null;
+		GetState(EnemyState.AutoMove, ref s);
+		((EnemyAutoMoveState)s).SetTarget(targetPos);
+		this.ChangeState(EnemyState.AutoMove);
+	}
 
 	#endregion
 

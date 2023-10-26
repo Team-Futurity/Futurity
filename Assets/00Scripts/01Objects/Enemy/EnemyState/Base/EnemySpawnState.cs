@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [FSMState((int)EnemyState.Spawn)]
 public class EnemySpawnState : StateBase
@@ -15,6 +16,7 @@ public class EnemySpawnState : StateBase
 	public override void Begin(EnemyController unit)
 	{
 		unit.navMesh.speed = unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue();
+		unit.navMesh.enabled = false;
 
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
