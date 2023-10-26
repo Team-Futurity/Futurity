@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackBaseState : UnitState<EnemyController>
+public class EnemyAttackBaseState : StateBase
 {
-	protected float curTime = .0f;
+	protected float attackChangeDelay = 2f;
 
 	public override void Begin(EnemyController unit)
 	{
@@ -15,29 +15,13 @@ public class EnemyAttackBaseState : UnitState<EnemyController>
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, unit.UnitChaseState());
-	}
-
-	public override void FixedUpdate(EnemyController unit)
-	{
-
+		unit.DelayChangeState(curTime, attackChangeDelay, unit, unit.UnitChaseState());
 	}
 
 	public override void End(EnemyController unit)
 	{
 		curTime = 0f;
 		unit.enemyData.DisableAttackTime();
-		/*unit.effectManager.HitEffectDeActive(unit.hitEffect.indexNum);
-		foreach(var i in unit.effects)
-		{
-			if (unit.effectManager.copySpecific[i.indexNum] != null)
-				unit.effectManager.SpecificEffectDeActive(i.indexNum);
-		}*/
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-		
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)

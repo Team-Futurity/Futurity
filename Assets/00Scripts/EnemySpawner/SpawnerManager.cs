@@ -54,10 +54,10 @@ public class SpawnerManager : MonoBehaviour
 		totalSpawnCount = new int[MAX_ENEMY_TYPE];
 		InitSpawnerData();
 		
-		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MeleeDefault], EnemyController.EnemyType.MeleeDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.RangedDefault], EnemyController.EnemyType.RangedDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MinimalDefault], EnemyController.EnemyType.MinimalDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.EliteDefault], EnemyController.EnemyType.EliteDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MeleeDefault], EnemyType.MeleeDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.RangedDefault], EnemyType.RangedDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MinimalDefault], EnemyType.MinimalDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.EliteDefault], EnemyType.EliteDefault);
 
 		if (placeEnemies.Count == 0)
 		{
@@ -78,7 +78,7 @@ public class SpawnerManager : MonoBehaviour
 		UpdateSpawnerList();
 	}
 
-	public GameObject GetEnemy(EnemyController.EnemyType type)
+	public GameObject GetEnemy(EnemyType type)
 	{
 		if (enemyPool[(int)type].Count <= 0)
 		{
@@ -103,7 +103,7 @@ public class SpawnerManager : MonoBehaviour
 		}
 	}
 
-	private void CreateEnemyObject(int count, EnemyController.EnemyType type)
+	private void CreateEnemyObject(int count, EnemyType type)
 	{
 		int index = (int)type;
 
@@ -186,6 +186,6 @@ public class SpawnerManager : MonoBehaviour
 [Serializable]
 public struct PlaceEnemy
 {
-	public EnemyController.EnemyType enemyType;
+	public EnemyType enemyType;
 	public GameObject enemyObj;
 }

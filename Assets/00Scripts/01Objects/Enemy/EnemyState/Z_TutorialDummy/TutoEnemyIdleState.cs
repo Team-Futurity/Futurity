@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)EnemyController.EnemyState.TutorialIdle)]
+[FSMState((int)EnemyState.TutorialIdle)]
 public class TutoEnemyIdleState : UnitState<EnemyController>
 {
 	public override void Begin(EnemyController unit)

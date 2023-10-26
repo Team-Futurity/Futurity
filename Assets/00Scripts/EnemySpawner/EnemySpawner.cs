@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
 
 	// Event
 	public event GetEnemy GetEnemyEvent;
-	public delegate GameObject GetEnemy(EnemyController.EnemyType type);
+	public delegate GameObject GetEnemy(EnemyType type);
 	[HideInInspector] public UnityEvent<EnemySpawner> spawnerDisableEvent;
 	
 	// 실제 소환 개수 저장
@@ -53,10 +53,10 @@ public class EnemySpawner : MonoBehaviour
 		
 		spawnIndex = 0;
 
-		PlaceEnemy(melee, EnemyController.EnemyType.MeleeDefault);
-		PlaceEnemy(ranged, EnemyController.EnemyType.RangedDefault);
-		PlaceEnemy(minimal, EnemyController.EnemyType.MinimalDefault);
-		PlaceEnemy(eliteDefault, EnemyController.EnemyType.EliteDefault);
+		PlaceEnemy(melee, EnemyType.MeleeDefault);
+		PlaceEnemy(ranged, EnemyType.RangedDefault);
+		PlaceEnemy(minimal, EnemyType.MinimalDefault);
+		PlaceEnemy(eliteDefault, EnemyType.EliteDefault);
 		
 		curWaveCount++;
 	}
@@ -79,7 +79,7 @@ public class EnemySpawner : MonoBehaviour
 	public int GetCurrentSpawnCount() => (curWaveEnemyCount.Sum());
 	public bool IsSpawnEnd() => (curWaveCount >= totalWaveCount);
 	
-	private void PlaceEnemy(int count, EnemyController.EnemyType type)
+	private void PlaceEnemy(int count, EnemyType type)
 	{
 		if (count <= 0)
 		{

@@ -60,6 +60,7 @@ MonoBehaviour:
   isStun: 0
   <IsAttackTime>k__BackingField: 0
   <IsAttackTiming>k__BackingField: 0
+  unitAnimator: {fileID: 0}
   AttackCheckFrameCount: 3
   onAttackEvent:
     m_PersistentCalls:
@@ -78,16 +79,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   test: {fileID: 0}
-  enemyType: 0
-  isTutorialDummy: 0
+  enemyType: 1
   animationEvents: {fileID: 0}
   effectSO: {fileID: 11400000, guid: a122abf1cddf7094bb1cf47d2a43f66c, type: 2}
-  isClusteringObj: 0
-  isClustering: 0
-  clusterNum: 0
-  individualNum: 0
-  clusterTarget: {fileID: 0}
-  clusterDistance: 2.5
   target: {fileID: 0}
   enemyData: {fileID: 4439521067689912932}
   animator: {fileID: 0}
@@ -95,34 +89,16 @@ MonoBehaviour:
   navMesh: {fileID: 0}
   chaseRange: {fileID: 4439521068934908808}
   atkCollider: {fileID: 4439521067800669048}
+  enemyCollider: {fileID: 0}
   skinnedMeshRenderer: {fileID: 3950909452414716358}
-  material: {fileID: 0}
+  material: {fileID: 2100000, guid: 396fcbdde050bb54bb23427b773befcf, type: 2}
   transparentMaterial: {fileID: 0}
   unlitMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
   copyTMat: {fileID: 0}
   copyUMat: {fileID: 0}
-  maxSpawningTime: 0.1
-  enemyCollider: {fileID: 0}
-  walkDistance: 2
-  idleSetTime: 2
-  movePercentage: 5
-  randMoveDistanceMin: 1.5
-  randMoveDistanceMax: 3
-  attackRange: 1.5
-  attackChangeDelay: 2
-  turnSpeed: 150
-  isAttackSuccess: 0
-  projectileDistance: 0
-  rangedProjectile: {fileID: 0}
-  projectileSpeed: 0
-  powerReference1: 0
-  powerReference2: 0
-  hitMaxTime: 0.22
-  hitColorChangeTime: 0.3
   hitPower: 500
   damagedColor: {r: 0.8773585, g: 0.03205486, b: 0, a: 1}
   isInPlayer: 0
-  deathDelay: 2
   onDeathEvent:
     m_PersistentCalls:
       m_Calls: []
