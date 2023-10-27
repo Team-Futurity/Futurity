@@ -8,6 +8,15 @@ public class RDefaultChaseState : EnemyChaseBaseState
 {
 	private float attackBeforeDelay = 3f;
 
+	public override void Begin(EnemyController unit)
+	{
+		base.Begin(unit);
+	}
+
+	public override void End(EnemyController unit)
+	{
+		base.End(unit);
+	}
 	public override void Update(EnemyController unit)
 	{
 		base.Update(unit);

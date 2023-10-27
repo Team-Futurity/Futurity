@@ -15,7 +15,6 @@ public class UIDialogDistance : UIDialogFeatureBase
 	[field: SerializeField]
 	public LayerMask TargetLayer { get; private set; }
 
-	public bool isGizmosView;
 	private bool isInCollider;
 
 	private bool isOpen;
@@ -39,8 +38,6 @@ public class UIDialogDistance : UIDialogFeatureBase
 		{
 			isOpen = true;
 
-			controller.SetDialogData(GetDialogData());
-			controller.PlayDialog();
 			textImage.gameObject.SetActive(isOpen);
 		}
 
@@ -56,11 +53,6 @@ public class UIDialogDistance : UIDialogFeatureBase
 
 	private void LateUpdate()
 	{
-		/*if(TargetPos == null)
-		{
-			return;
-		}*/
-
 		var targetArray = Physics.OverlapSphere(TargetPos.position, OpenDist, TargetLayer);
 
 		if (targetArray.Length <= 0)
@@ -76,16 +68,5 @@ public class UIDialogDistance : UIDialogFeatureBase
 	{
 		int selectIndex = UnityEngine.Random.Range(0, dialogs.Count);
 		return dialogs[selectIndex];
-	}
-
-	private void OnDrawGizmos()
-	{
-		if (!isGizmosView)
-		{
-			return;
-		}
-
-		Gizmos.color = (isInCollider) ? Color.red : Color.green;
-		Gizmos.DrawWireSphere(TargetPos.position, OpenDist);
 	}
 }

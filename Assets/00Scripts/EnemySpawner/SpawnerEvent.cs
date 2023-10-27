@@ -16,7 +16,7 @@ public class SpawnerEvent : MonoBehaviour
 	{
 		dialogController.gameObject.SetActive(true);
 		dialogController.SetDialogData(dialogData);
-		dialogController.PlayDialog();
+		//dialogController.PlayDialog();
 	}
 
 	public void SpawnerEndEvent(SpawnerManager manager, ESpawnerType spawnerType)
