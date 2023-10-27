@@ -53,6 +53,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float hitPower = 450f;
 	public Color damagedColor;
 	[HideInInspector] public bool isInPlayer = false;
+	public int skipFrameCountBeforeStop;
+	[HideInInspector] public int stopFrameCount; 
 
 
 	[HideInInspector]public UnityEvent onDeathEvent;

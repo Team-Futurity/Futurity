@@ -15,6 +15,8 @@ public class EnemyHittedState : StateBase
 		unit.animator.SetTrigger(unit.hitAnimParam);
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
 
+		unit.enemyData.StopAnimation(unit.stopFrameCount, unit.skipFrameCountBeforeStop);
+
 		if(unit.currentEffectKey != null)
 			unit.effectController.RemoveEffect(unit.currentEffectKey);
 
