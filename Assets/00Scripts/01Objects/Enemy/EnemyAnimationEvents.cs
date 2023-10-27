@@ -66,9 +66,4 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.currentEffectData.target = EffectTarget.Target;
 	}
 	#endregion
-
-	public void StopAnimationUntil(int frameCount)
-	{
-		ec.enemyData.StopAnimation(frameCount);
-	}
 }
