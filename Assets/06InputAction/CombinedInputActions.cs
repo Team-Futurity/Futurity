@@ -89,6 +89,15 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ESC"",
+                    ""type"": ""Button"",
+                    ""id"": ""612ca7c6-6f8f-475b-9e6c-f015c8df50e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -322,6 +331,17 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                     ""action"": ""UI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb0b776a-b5f7-4e29-a9eb-ce2c7ec867f2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ESC"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -369,6 +389,15 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                     ""name"": ""RightKey"",
                     ""type"": ""Button"",
                     ""id"": ""95354754-51de-47e7-811a-ece0b2795050"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ESC"",
+                    ""type"": ""Button"",
+                    ""id"": ""a9ba9f15-778d-442b-a76f-17e362c6f01c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -485,6 +514,17 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                     ""action"": ""RightKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad05175b-3b5a-4bee-ab47-17716fceafd8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ESC"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -571,6 +611,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         m_Player_ActiveSkill = m_Player.FindAction("ActiveSkill", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_UI = m_Player.FindAction("UI", throwIfNotFound: true);
+        m_Player_ESC = m_Player.FindAction("ESC", throwIfNotFound: true);
         // UI Behaviour
         m_UIBehaviour = asset.FindActionMap("UI Behaviour", throwIfNotFound: true);
         m_UIBehaviour_ClickUI = m_UIBehaviour.FindAction("Click UI", throwIfNotFound: true);
@@ -578,6 +619,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         m_UIBehaviour_MoveToNextUI = m_UIBehaviour.FindAction("Move To Next UI", throwIfNotFound: true);
         m_UIBehaviour_LeftKey = m_UIBehaviour.FindAction("LeftKey", throwIfNotFound: true);
         m_UIBehaviour_RightKey = m_UIBehaviour.FindAction("RightKey", throwIfNotFound: true);
+        m_UIBehaviour_ESC = m_UIBehaviour.FindAction("ESC", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Return = m_Debug.FindAction("Return", throwIfNotFound: true);
@@ -648,6 +690,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
     private readonly InputAction m_Player_ActiveSkill;
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_UI;
+    private readonly InputAction m_Player_ESC;
     public struct PlayerActions
     {
         private @CombinedInputActions m_Wrapper;
@@ -659,6 +702,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         public InputAction @ActiveSkill => m_Wrapper.m_Player_ActiveSkill;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @UI => m_Wrapper.m_Player_UI;
+        public InputAction @ESC => m_Wrapper.m_Player_ESC;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -689,6 +733,9 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                 @UI.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUI;
                 @UI.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUI;
                 @UI.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUI;
+                @ESC.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnESC;
+                @ESC.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnESC;
+                @ESC.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnESC;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -714,6 +761,9 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                 @UI.started += instance.OnUI;
                 @UI.performed += instance.OnUI;
                 @UI.canceled += instance.OnUI;
+                @ESC.started += instance.OnESC;
+                @ESC.performed += instance.OnESC;
+                @ESC.canceled += instance.OnESC;
             }
         }
     }
@@ -727,6 +777,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
     private readonly InputAction m_UIBehaviour_MoveToNextUI;
     private readonly InputAction m_UIBehaviour_LeftKey;
     private readonly InputAction m_UIBehaviour_RightKey;
+    private readonly InputAction m_UIBehaviour_ESC;
     public struct UIBehaviourActions
     {
         private @CombinedInputActions m_Wrapper;
@@ -736,6 +787,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         public InputAction @MoveToNextUI => m_Wrapper.m_UIBehaviour_MoveToNextUI;
         public InputAction @LeftKey => m_Wrapper.m_UIBehaviour_LeftKey;
         public InputAction @RightKey => m_Wrapper.m_UIBehaviour_RightKey;
+        public InputAction @ESC => m_Wrapper.m_UIBehaviour_ESC;
         public InputActionMap Get() { return m_Wrapper.m_UIBehaviour; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -760,6 +812,9 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                 @RightKey.started -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnRightKey;
                 @RightKey.performed -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnRightKey;
                 @RightKey.canceled -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnRightKey;
+                @ESC.started -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnESC;
+                @ESC.performed -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnESC;
+                @ESC.canceled -= m_Wrapper.m_UIBehaviourActionsCallbackInterface.OnESC;
             }
             m_Wrapper.m_UIBehaviourActionsCallbackInterface = instance;
             if (instance != null)
@@ -779,6 +834,9 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                 @RightKey.started += instance.OnRightKey;
                 @RightKey.performed += instance.OnRightKey;
                 @RightKey.canceled += instance.OnRightKey;
+                @ESC.started += instance.OnESC;
+                @ESC.performed += instance.OnESC;
+                @ESC.canceled += instance.OnESC;
             }
         }
     }
@@ -851,6 +909,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         void OnActiveSkill(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
         void OnUI(InputAction.CallbackContext context);
+        void OnESC(InputAction.CallbackContext context);
     }
     public interface IUIBehaviourActions
     {
@@ -859,6 +918,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         void OnMoveToNextUI(InputAction.CallbackContext context);
         void OnLeftKey(InputAction.CallbackContext context);
         void OnRightKey(InputAction.CallbackContext context);
+        void OnESC(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {
