@@ -22,9 +22,6 @@
     ],
     "m_Nodes": [
         {
-            "m_Id": "b203086de66d4f57b37cbc661d0d70b5"
-        },
-        {
             "m_Id": "1ca88d2a48ef44f98abe58f1aed2f0e2"
         },
         {
@@ -143,6 +140,9 @@
         },
         {
             "m_Id": "20519c71ceb442a4b92a5714a63f3ce2"
+        },
+        {
+            "m_Id": "fee8636489fc4ea29e8dc06eac2e33c3"
         }
     ],
     "m_GroupDatas": [],
@@ -242,20 +242,6 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "1b83878bf1944083a71b67907fde00c2"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "3bac15124fd1487ba4206704e040c26d"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "b203086de66d4f57b37cbc661d0d70b5"
                 },
                 "m_SlotId": 0
             }
@@ -562,13 +548,13 @@
         },
         "m_Blocks": [
             {
-                "m_Id": "b203086de66d4f57b37cbc661d0d70b5"
-            },
-            {
                 "m_Id": "1ca88d2a48ef44f98abe58f1aed2f0e2"
             },
             {
                 "m_Id": "a769770d79344d6f9581d9cdfdd57cef"
+            },
+            {
+                "m_Id": "fee8636489fc4ea29e8dc06eac2e33c3"
             }
         ]
     },
@@ -3306,39 +3292,6 @@
 }
 
 {
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "b203086de66d4f57b37cbc661d0d70b5",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "VertexDescription.Position",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "eebbbc1d5dda471d95f42b8509e0b3dd"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "VertexDescription.Position"
-}
-
-{
     "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty",
     "m_ObjectId": "b35749f5a1c24187a084971ec00f1896",
@@ -4513,6 +4466,30 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PositionMaterialSlot",
+    "m_ObjectId": "eb7b2fc0e7164f34a5f281cf5fb33e16",
+    "m_Id": 0,
+    "m_DisplayName": "Position",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Position",
+    "m_StageCapability": 1,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": [],
+    "m_Space": 0
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "ecd9f2aa6efb4e79a3f0b46509b35ad4",
     "m_Id": 2,
@@ -4581,30 +4558,6 @@
         "z": 0.0,
         "w": 0.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.PositionMaterialSlot",
-    "m_ObjectId": "eebbbc1d5dda471d95f42b8509e0b3dd",
-    "m_Id": 0,
-    "m_DisplayName": "Position",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Position",
-    "m_StageCapability": 1,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-    },
-    "m_Labels": [],
-    "m_Space": 0
 }
 
 {
@@ -4702,6 +4655,39 @@
         "z": 0.0,
         "w": 0.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
+    "m_ObjectId": "fee8636489fc4ea29e8dc06eac2e33c3",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "VertexDescription.Position",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "eb7b2fc0e7164f34a5f281cf5fb33e16"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedDescriptor": "VertexDescription.Position"
 }
 
 {
