@@ -182,17 +182,17 @@ public class AutoTarget : Singleton<AutoTarget>
 
 		float halfAngle = autoTargetAngle * 0.5f;
 		GameObject[] objectsArray = objects.Distinct().ToArray();
-		GameObject[] objectInAttackRange = GetObjectsInAttackRange(objectsArray, attackCollider);
+		/*GameObject[] objectInAttackRange = GetObjectsInAttackRange(objectsArray, attackCollider);
 
 		// 공격 범위 내에 있는 경우는 무시
 		if(objectInAttackRange.Length > 0)
 		{
 			return false;
-			/*SetDistance(ObjectsInAttackRange, origin);
+			*//*SetDistance(ObjectsInAttackRange, origin);
 			int[] ascendingIndexes = ascendingDistances.Values.ToArray();
 
-			TurnToTarget(objects[ascendingIndexes[0]], origin);*/
-		}
+			TurnToTarget(objects[ascendingIndexes[0]], origin);*//*
+		}*/
 
 		// 상대적 거리 연산
 		ObjectDistanceInCollection[] distances = GetObjectDistance(objectsArray, origin);

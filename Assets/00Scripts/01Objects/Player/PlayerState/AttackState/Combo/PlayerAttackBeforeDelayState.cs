@@ -44,9 +44,12 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		pc.rmController.SetRootMotion("Attack");
 
 		// autoTargetting
-		float range = isCombo 
-			? pc.autoLength * MathPlus.cm2m 
-			: (attackNode.attackLengthMark + (PlayerAttackState_Charged.MaxLevel - 1) * PlayerAttackState_Charged.LengthMarkIncreasing) * MathPlus.cm2m;
+		float range = 
+			isCombo 
+			? 
+			pc.autoLength * MathPlus.cm2m 
+			: 
+			(attackNode.attackLengthMark + PlayerAttackState_Charged.IncreasesByLevel[PlayerAttackState_Charged.MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m;
 
 		// Collider
 		
@@ -63,6 +66,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 
 		// ohter Setting
 		pc.SetGauntlet(true);
+		pc.sariObject.OnDelayPreMove();
 
 		// sound
 		if (isCombo)

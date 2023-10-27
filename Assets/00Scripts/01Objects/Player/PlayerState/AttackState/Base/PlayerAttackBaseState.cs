@@ -5,6 +5,9 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 {
 	protected float currentTime;
 
+	public PlayerAttackBaseState() { }
+	public PlayerAttackBaseState(StateData stateData) { }
+
 	public override void Begin(PlayerController unit)
 	{
 		currentTime = 0;
