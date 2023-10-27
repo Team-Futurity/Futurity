@@ -41,7 +41,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public SkinnedMeshRenderer skinnedMeshRenderer;
 	public Material material;
 	public Material unlitMaterial;
+	public Material deadMaterial;
 	[HideInInspector] public Material copyUMat;
+	[HideInInspector] public Material copyDMat;
 
 	[Space(3)]
 	[Header("Attack")]
@@ -51,7 +53,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	[Space(3)]
 	[Header("Hitted")]
-	public float hitDelay;
+	public float hitDelay = 0.4f;
 	public float hitPower = 450f;
 	public Color damagedColor;
 	[HideInInspector] public bool isInPlayer = false;
@@ -107,16 +109,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	}
 
 	#region Enemy controller methods
-	public void SetMaterial()
-	{
-		if (unlitMaterial != null)
-		{
-			copyUMat = new Material(unlitMaterial);
-			copyUMat.SetColor(matColorProperty, new Color(1.0f, 1.0f, 1.0f, 0f));
-			skinnedMeshRenderer.material = copyUMat;
-			
-		}
-	}
 
 	public void DelayChangeState (float curTime, float maxTime, EnemyController unit, System.ValueType nextEnumState)
 	{
@@ -179,6 +171,22 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 		GetState(EnemyState.AutoMove, ref s);
 		((EnemyAutoMoveState)s).SetTarget(targetPos);
 		this.ChangeState(EnemyState.AutoMove);
+	}
+
+	public void SetMaterial()
+	{
+		if (unlitMaterial != null)
+		{
+			copyUMat = new Material(unlitMaterial);
+			copyUMat.SetColor(matColorProperty, new Color(1.0f, 1.0f, 1.0f, 0f));
+			skinnedMeshRenderer.material = copyUMat;
+
+		}
+		if (deadMaterial != null)
+		{
+			copyDMat = new Material(deadMaterial);
+			copyDMat.SetFloat("_distortion", 1.0f);
+		}
 	}
 
 	#endregion
