@@ -19,6 +19,8 @@ public class DialogData : ScriptableObject
 	private DialogDataGroup currentData;
 
 	private int currentIndex;
+
+	private bool isActive = false;
 	
 	#region Unity Events
 
@@ -35,15 +37,23 @@ public class DialogData : ScriptableObject
 		currentData = dataList[currentIndex];
 		
 		onInit?.Invoke();
+		isActive = true;
 	}
 
 	public bool Next()
 	{
+		if(!isActive)
+		{
+			return true;
+		}
+
 		currentIndex++;
 
-		if (currentIndex >= dataList.Count)
+		if (currentIndex >= dataList.Count && isActive)
 		{
 			onEnded?.Invoke();
+			isActive = false;
+
 			return true;
 		}
 		
