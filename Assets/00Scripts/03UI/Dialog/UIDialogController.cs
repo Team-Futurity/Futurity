@@ -1,136 +1,170 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public enum DialogSystemState
+public class UIDialogController : MonoBehaviour
 {
-	NONE,
-
-	INIT,
-	NORMAL,
-	PRINTING,
-	PRINTING_END,
-
-	MAX
-}
-
-public partial class UIDialogController : MonoBehaviour
-{
-	[field: Header("게임 실행 중 Type 변경을 권장하지 않음")]
-	[field: SerializeField]
+	[field: Header("게임 실행 중 Type 변경을 권장하지 않음"), SerializeField]
 	public UIDialogType DialogType { get; private set; }
 
-	[Space(10)]
-	[Header("현재 Dialog Data")]
+	[Space(10), Header("텍스트가 출력되는 오브젝트"), SerializeField]
+	private UIDialogText dialogText;
+
+	private int currentIndex;
+
 	[SerializeField]
+	private List<DialogData> dialogDatas;
 	private DialogData currentDialogData;
 
-	[field: Space(10)]
-	[field: Header("텍스트가 출력되는 오브젝트")]
-	[field: SerializeField]
-	public UIDialogText DialogText { get; private set; }
-
-	public DialogSystemState currentState;
-
+	[SerializeField]
+	private bool usedPass = false;
+	
 	#region Dialog Events
 
-	[HideInInspector]
-	public UnityEvent OnStarted;
+	[Space(15)]
+	public UnityEvent onStarted;
+	public UnityEvent onChanged;
+	public UnityEvent onEnded;
 
-	[HideInInspector]
-	public UnityEvent<DialogDataGroup> OnShow;
-
-	[HideInInspector]
-	public UnityEvent OnEnded;
-
-	public bool isNext = false;
+	[HideInInspector] public UnityEvent<DialogDataGroup> onShow;
 
 	#endregion
+	
+	private void Awake()
+	{
+		//dialogDatas = new List<DialogData>();
+		currentIndex = 0;
+	}
+
+	public void SetDialogData(List<DialogData> datas)
+	{
+		dialogDatas = datas;
+		InitDialog();
+	}
 
 	public void SetDialogData(DialogData data)
 	{
-		currentDialogData = data;
-		SetDialogData("TEST");
+		dialogDatas.Add(data);
+		InitDialog();
 	}
 
 	public void SetDialogData(string code)
 	{
-		ChangeState(DialogSystemState.INIT);
-
-		currentDialogData.Init();
-
-		gameObject.SetActive(true);
-
-		if (DialogType == UIDialogType.NORMAL)
-		{
-			DialogText.OnEnd.AddListener(GetNextDialog);
-		}
-
-		OnStarted?.Invoke();
+		LoadDialogData(code);
+		InitDialog();
 	}
 
-	public void PlayDialog()
+	public void PlayUsedPlayer()
 	{
-		if (currentState == DialogSystemState.NONE)
+		InitDialog();
+	}
+
+	public void Play()
+	{
+		if (dialogText.isRunning) { return; }
+		
+		dialogText.Show(currentDialogData.GetDialogDataGroup().descripton);
+		onShow?.Invoke(currentDialogData.GetDialogDataGroup());
+	}
+
+	public void Pass()
+	{
+		if (dialogText.isRunning)
 		{
+			dialogText.Pass();
+		}
+		else
+		{
+			UpdateNextDialog();
+		}
+	}
+
+	public void SetDialogInitEvent(int index, UnityAction action)
+	{
+		if (index >= dialogDatas.Count) return;
+		dialogDatas[index].onInit?.AddListener(action);
+	}
+
+	public void SetDialogChangedEvent(int index, UnityAction action)
+	{
+		if (index >= dialogDatas.Count) return;
+		dialogDatas[index].onChanged?.AddListener(action);
+	}
+
+	public void SetDialogEndedEvent(int index, UnityAction action)
+	{
+		if (index >= dialogDatas.Count) return;
+		dialogDatas[index].onEnded?.AddListener(action);
+	}
+
+	public void RemoveDialogEventAll()
+	{
+		for (int i = 0; i < dialogDatas.Count; ++i)
+		{
+			dialogDatas[i].onInit.RemoveAllListeners();
+			dialogDatas[i].onChanged.RemoveAllListeners();
+			dialogDatas[i].onEnded.RemoveAllListeners();
+		}
+	}
+	
+	public void NextDialog()
+	{
+		dialogText.onEnded?.RemoveAllListeners();
+		
+		// Next Index
+		currentIndex += 1;
+
+		// Index가 DialogDatas보다 많을 경우
+		if (currentIndex >= dialogDatas.Count)
+		{
+			CloseDialog();
+			
+			onEnded?.Invoke();
 			return;
 		}
 
-		ChangeState(DialogSystemState.PRINTING);
-
-		var (_, dialogData) = currentDialogData.GetCurrentData();
-
-		DialogText.Show(dialogData.descripton);
-
-		OnShow?.Invoke(dialogData);
+		// Dialog Data를 갈아끼운다.
+		InitDialog();
+		
+		// Play가 필요하다.
 	}
 
-	public void GetNextDialog()
+	private void InitDialog()
 	{
-		ChangeState(DialogSystemState.PRINTING_END);
-		currentDialogData.NextDialog();
+		currentDialogData = dialogDatas[currentIndex];
+		currentDialogData.Init();
 
-		EnterNextInteraction();
-	}
-
-	public void CloseDialog()
-	{
-		ChangeState(DialogSystemState.NONE);
-		gameObject.SetActive(false);
-
-		if (DialogType == UIDialogType.NORMAL)
+		if (!usedPass)
 		{
-			DialogText.OnEnd.RemoveListener(GetNextDialog);
+			dialogText.onEnded?.AddListener(UpdateNextDialog);
 		}
 
-		OnEnded?.Invoke();
+		onStarted?.Invoke();
+	}
+	
+	private void CloseDialog()
+	{
+		RemoveDialogEventAll();
 	}
 
-	#region Dialog Feature
-
-	public void EnterNextInteraction()
+	private void UpdateNextDialog()
 	{
-		if (currentState == DialogSystemState.PRINTING_END)
+		var isEnd = currentDialogData.Next();
+
+		if (isEnd)
 		{
-			if (currentDialogData.GetLastData())
-			{
-				CloseDialog();
-
-				return;
-			}
-
-			PlayDialog();
+			return;
 		}
+		
+		Play();
 	}
 
-	#endregion
-
-	private void ChangeState(DialogSystemState state)
+	private DialogData LoadDialogData(string code)
 	{
-		currentState = state;
+		return Addressables.LoadAssetAsync<DialogData>(code).WaitForCompletion();
 	}
 }
