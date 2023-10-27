@@ -28,6 +28,7 @@ public class DamageInfo
 		Attacker = origin.Attacker;
 		Defender = origin.Defender;
 		AttackST = origin.AttackST;
+		KnockbackPower = origin.KnockbackPower;
 		Damage = origin.Damage;
 		HitEffectPoolManager = origin.HitEffectPoolManager;
 		HitEffectOffset = origin.HitEffectOffset;
