@@ -105,7 +105,7 @@ MonoBehaviour:
   isStun: 0
   <IsAttackTime>k__BackingField: 0
   <IsAttackTiming>k__BackingField: 0
-  unitAnimator: {fileID: 0}
+  unitAnimator: {fileID: 9186020455881157766}
   AttackCheckFrameCount: 3
   onAttackEvent:
     m_PersistentCalls:
@@ -125,7 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   test: {fileID: 3943168383430316033}
   enemyType: 4
-  animationEvents: {fileID: 0}
   effectSO: {fileID: 11400000, guid: c8b9145509aaf3a4f875003ca36da342, type: 2}
   target: {fileID: 0}
   enemyData: {fileID: 3319673298915680775}
@@ -137,13 +136,17 @@ MonoBehaviour:
   enemyCollider: {fileID: 0}
   skinnedMeshRenderer: {fileID: 4706696313475467886}
   material: {fileID: 2100000, guid: 1a5b21d96dc3c364e814aeb19da1f1c7, type: 2}
-  transparentMaterial: {fileID: 0}
   unlitMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
-  copyTMat: {fileID: 0}
   copyUMat: {fileID: 0}
+  attackRange: 7
+  attackingDelay: 4
+  hitDelay: 0
   hitPower: 500
   damagedColor: {r: 0.8784314, g: 0.03137255, b: 0, a: 1}
   isInPlayer: 0
+  skipFrameCountBeforeStop: 0
+  stopFrameCount: 0
+  knockbackPower: 0
   onDeathEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -577,7 +580,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ec: {fileID: 3319673298915680772}
-  isCharging: 0
 --- !u!4 &2998095787108955900 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
@@ -591,5 +593,10 @@ GameObject:
 --- !u!137 &4706696313475467886 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -1206874426333947015, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
+  m_PrefabInstance: {fileID: 3319673297830154519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9186020455881157766 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: e248f371b2c18524b8ca496b422c765f, type: 3}
   m_PrefabInstance: {fileID: 3319673297830154519}
   m_PrefabAsset: {fileID: 0}
