@@ -74,11 +74,13 @@ public class SpawnerManager : MonoBehaviour
 
 	private void Start()
 	{
-		if (isImmediatelySpawn == true)
+		if (isImmediatelySpawn == false)
 		{
-			SpawnEnemy();
-			
+			return;
 		}
+		
+		SpawnEnemy();
+		Invoke(nameof(EnablePlayerInput), 0.1f);
 	}
 
 	public void SpawnEnemy()
@@ -194,6 +196,11 @@ public class SpawnerManager : MonoBehaviour
 
 		isEventEnable = true;
 		interimEvent?.Invoke(dialogData);
+	}
+	
+	private void EnablePlayerInput()
+	{
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 }
 
