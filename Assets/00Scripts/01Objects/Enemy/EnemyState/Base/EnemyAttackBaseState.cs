@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class EnemyAttackBaseState : StateBase
 {
+	private bool isAttack = false;
+
 
 	public override void Begin(EnemyController unit)
 	{
-		unit.animator.SetTrigger(unit.atkAnimParam);
 		unit.enemyData.EnableAttackTime();
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.attackingDelay, unit, unit.UnitChaseState());
+		if(!isAttack)
+		{
+			AttackAnim(unit, curTime, unit.attackBeforeDelay);
+			curTime = 0f;
+			isAttack = true;
+		}
+		else
+			unit.DelayChangeState(curTime, unit.attackingDelay, unit, unit.UnitChaseState());
 	}
 
 	public override void End(EnemyController unit)
 	{
 		curTime = 0f;
+		isAttack = false;
 		unit.enemyData.DisableAttackTime();
 	}
 
@@ -30,5 +39,12 @@ public class EnemyAttackBaseState : StateBase
 			DamageInfo info = new DamageInfo(unit.enemyData, unit.target, 1);
 			unit.enemyData.Attack(info);
 		}
+	}
+
+
+	private void AttackAnim(EnemyController unit, float curTime, float maxTime)
+	{
+		if (curTime > maxTime)
+			unit.animator.SetTrigger(unit.atkAnimParam);
 	}
 }

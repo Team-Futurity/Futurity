@@ -5,7 +5,7 @@ using static EnemyController;
 public class EnemyHittedState : StateBase
 {
 	private float hitColorChangeTime = 0.2f;
-	private float hitMaxTime = 0.4f;
+
 	private bool isColorChanged = false;
 	private Color defaultColor = new Color(1, 1, 1, 0f);
 
@@ -36,7 +36,7 @@ public class EnemyHittedState : StateBase
 		if (unit.ThisEnemyType == EnemyType.TutorialDummy)
 			unit.DelayChangeState(curTime, 0.5f, unit, EnemyState.TutorialIdle);
 		else
-			unit.DelayChangeState(curTime, hitMaxTime, unit, unit.UnitChaseState());
+			unit.DelayChangeState(curTime, unit.hitDelay, unit, unit.UnitChaseState());
 
 		//Death event
 		if (unit.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)

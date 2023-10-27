@@ -46,15 +46,18 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Attack")]
 	public float attackRange = 7f;
+	public float attackBeforeDelay;
 	public float attackingDelay = 4f;
 
 	[Space(3)]
 	[Header("Hitted")]
+	public float hitDelay;
 	public float hitPower = 450f;
 	public Color damagedColor;
 	[HideInInspector] public bool isInPlayer = false;
 	public int skipFrameCountBeforeStop;
-	[HideInInspector] public int stopFrameCount; 
+	[HideInInspector] public int stopFrameCount;
+	[HideInInspector] public float knockbackPower;
 
 
 	[HideInInspector]public UnityEvent onDeathEvent;
