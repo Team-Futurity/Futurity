@@ -1,7 +1,7 @@
 public enum EnemyType : int
 {
 	TutorialDummy,
-	MeleeDefault,
+	MeleeDefault = 0,
 	RangedDefault,
 	MinimalDefault,
 	EliteDefault,
