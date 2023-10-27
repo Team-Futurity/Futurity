@@ -16,6 +16,9 @@ public class UIPerformBoardHandler : MonoBehaviour
 	private UIPerformBoard currentBoard;
 	private int currentType = -1;
 
+	[HideInInspector]
+	public UnityEvent onEnded; 
+
 	public void CreateGroup(int type)
 	{
 		performBoardDic.Add(type, new List<UIPerformBoard>());
@@ -39,6 +42,12 @@ public class UIPerformBoardHandler : MonoBehaviour
 	public void OpenPerform(int type)
 	{
 		currentBoard = Pop(type);
+
+		if (currentBoard == null)
+		{
+			return;
+		}
+
 		currentType = type;
 		currentBoard.Active(true);
 	}
@@ -71,8 +80,8 @@ public class UIPerformBoardHandler : MonoBehaviour
 
 		if (currentBoard == null)
 		{
+			onEnded?.Invoke();
 			return;
-		
 		}
 		currentBoard.Active(true);
 	}
