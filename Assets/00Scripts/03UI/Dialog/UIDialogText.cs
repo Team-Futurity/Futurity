@@ -14,13 +14,13 @@ public class UIDialogText : MonoBehaviour
 	private int currentAccessIndex = 0;
 	private string copyText;
 
-	private bool isRunning = false;
+	public bool isRunning = false;
 	
 	public TMP_Text dialogText;
 	private WaitForSeconds typingPrintSpeed;
 
 	[HideInInspector]
-	public UnityEvent OnEnd;
+	public UnityEvent onEnded;
 
 	private void Awake()
 	{
@@ -32,44 +32,33 @@ public class UIDialogText : MonoBehaviour
 
 	public void Show(string text)
 	{
-		if (isRunning)
-		{
-			return;
-		}
+		// 진행중일 경우, Return
+		if (isRunning) { return; }
 
+		// 초기화 해주고
 		ClearText();
 
+		// 텍스트 적용
 		copyText = text;
 		isRunning = true;
 		
 		if (usedTypingAnimation)
 		{
 			StartTyping();
-			return;
 		}
 	}
 
-	public void Restart()
+	public void Pass()
 	{
-		if (!isRunning)
-		{
-			return;
-		}
-		
-		StartTyping();
-	}
-	
-	public void Stop()
-	{
-		if (!isRunning)
-		{
-			return;
-		}
+		if (!isRunning) { return; }
 		
 		StopCoroutine("StartTypingAnimation");
+		dialogText.text = copyText;
+
+		ResetData();
 	}
 
-	public void ClearText()
+	private void ClearText()
 	{
 		dialogText.text = "";
 	}
@@ -88,7 +77,6 @@ public class UIDialogText : MonoBehaviour
 			yield return typingPrintSpeed;
 		}
 		
-		// End
 		ResetData();
 	}
 
@@ -98,6 +86,6 @@ public class UIDialogText : MonoBehaviour
 		isRunning = false;
 		currentAccessIndex = 0;
 
-		OnEnd?.Invoke();
+		onEnded?.Invoke();
 	}
 }
