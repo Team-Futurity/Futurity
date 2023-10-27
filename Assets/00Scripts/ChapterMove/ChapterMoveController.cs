@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Playables;
 
 public class ChapterMoveController : MonoBehaviour
 {
@@ -68,6 +66,14 @@ public class ChapterMoveController : MonoBehaviour
 				ChangeChapter(ChapterSceneName.CHAPTER1_2);
 				break;
 			
+			case EChapterType.CHAPTER2_1:
+				ChangeChapter(ChapterSceneName.CHAPTER2_1);
+				break;
+			
+			case EChapterType.CHAPTER2_2:
+				ChangeChapter(ChapterSceneName.CHAPTER2_2);
+				break;
+			
 			case EChapterType.CHAPTER_BOSS:
 				ChangeChapter(ChapterSceneName.BOSS_CHAPTER);
 				break;
@@ -112,6 +118,12 @@ public class ChapterMoveController : MonoBehaviour
 				{
 					TimelineManager.Instance.EnableNonPlayOnAwakeCutScene(ECutSceneType.AREA3_ENTRY);
 				};
+				break;
+			
+			case EChapterType.CHAPTER2_1:
+				break;
+			
+			case EChapterType.CHAPTER2_2:
 				break;
 			
 			case EChapterType.CHAPTER_BOSS:
