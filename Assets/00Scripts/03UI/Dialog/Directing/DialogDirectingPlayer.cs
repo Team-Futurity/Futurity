@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,7 @@ public class DialogDirectingPlayer : MonoBehaviour
 	private UIDialogController controller;
 
 	private DialogData currentDialog;
-
-	private List<int> saveDialogID = new List<int>();
-
+	
 	#region Unity Events
 
 	public UnityEvent onPlay;
@@ -49,37 +48,37 @@ public class DialogDirectingPlayer : MonoBehaviour
 		foreach (var source in directingSource)
 		{
 			var eventType = source.eventType;
-			var dialogSource = source.dialogSource;
-			
-			if (currentDialog == null || currentDialog != dialogSource)
+
+			if (currentDialog == null || currentDialog != source.dialogSource)
 			{
-				currentDialog = dialogSource;
-
-				bool beforeSave = saveDialogID.Contains(currentDialog.GetInstanceID());
-
-				if (!beforeSave)
+				currentDialog = source.dialogSource;
+				
+				if (eventType == DialogDirectingSource.DialogEventType.START)
 				{
-					// Init 이벤트 등록 -> 끝나고 PlayUsedPlayer를 통해서 Event를 실행한다.
-					currentDialog.onInit?.AddListener(() =>
+					source.dialogSource.onInit?.AddListener(() =>
 					{
+						// Dialog Open Perform
 						performHandler.OpenPerform(0);
-						
-						// PerformHandler의 모든 Data가 종료된다면, controller를 Play 해준다.
+
 						performHandler.onEnded?.AddListener(() =>
 						{
 							UIManager.Instance.OpenWindow(WindowList.DIALOG_NORMAL);
 							controller.Play();
 						});
 					});
+				}
 
-					currentDialog.onEnded?.AddListener(() =>
+				if (eventType == DialogDirectingSource.DialogEventType.END)
+				{
+					source.dialogSource.onEnded?.AddListener(() =>
 					{
 						performHandler.onEnded?.RemoveAllListeners();
+						UIManager.Instance.CloseWindow(WindowList.DIALOG_NORMAL);
+
+						// Dialog Open Perform
 						performHandler.OpenPerform(1);
 					});
 				}
-				
-				saveDialogID.Add(currentDialog.GetInstanceID());
 			}
 			
 			// Event Group 생성
@@ -98,13 +97,12 @@ public class DialogDirectingPlayer : MonoBehaviour
 					performHandler.AddPerformBoard(0, source.board);
 					break;
 				
-				// 변경 시점 -> End Event가 없다는 소리.
 				case DialogDirectingSource.DialogEventType.NEXT_CHANGE_START:
-					// 같이 등록을 해준다.
+					
 					performHandler.AddPerformBoard(0, source.board);
 
-					// 해당 Dialog 종료 시, Next Dialog 실행
-					dialogSource.onEnded?.AddListener(() =>
+					// 현재 Dialog가 종료되었다면, 다음 Dialog를 실행하기
+					source.dialogSource.onEnded?.AddListener(() =>
 					{
 						controller.NextDialog();
 						controller.Play();
@@ -119,6 +117,7 @@ public class DialogDirectingPlayer : MonoBehaviour
 				case DialogDirectingSource.DialogEventType.NEXT_CHANGE_END:
 					performHandler.AddPerformBoard(1, source.board);
 					
+					// 다음 Dialog를 실행하기 -> PerformBoard 종료 시, 
 					source.board.onEndedAction += () =>
 					{
 						controller.NextDialog();
@@ -131,6 +130,7 @@ public class DialogDirectingPlayer : MonoBehaviour
 			lastSource = source;
 		}
 
+		// 마지막 데이터가 종료된 이후가 해당 Dialog의 끝
 		lastSource.board.onEndedAction += () =>
 		{
 			onEnded?.Invoke();
