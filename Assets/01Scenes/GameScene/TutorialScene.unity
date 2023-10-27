@@ -6548,7 +6548,7 @@ MonoBehaviour:
   fadeTime: 1
   performHandler: {fileID: 0}
   dialogController: {fileID: 1910054083}
-  isDebugMode: 0
+  isDebugMode: 1
 --- !u!114 &1000963569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6565,6 +6565,12 @@ MonoBehaviour:
   - dialogSource: {fileID: 11400000, guid: eec3325b2d2957945ade28c55c784533, type: 2}
     eventType: 1
     board: {fileID: 924070195}
+  onPlay:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnded:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1006317518 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6121841937639872710, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
@@ -6887,7 +6893,7 @@ RectTransform:
   m_Children:
   - {fileID: 542531731}
   m_Father: {fileID: 1124304066}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6907,7 +6913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CurrentState>k__BackingField: 0
-  <WindowType>k__BackingField: 0
+  <WindowType>k__BackingField: 8
   <PlayOnStart>k__BackingField: 0
   onOpen:
     m_PersistentCalls:
@@ -7008,8 +7014,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1910054081}
-  - {fileID: 601853349}
   - {fileID: 1112189157}
+  - {fileID: 601853349}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
