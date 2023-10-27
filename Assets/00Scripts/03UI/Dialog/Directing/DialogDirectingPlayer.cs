@@ -44,6 +44,8 @@ public class DialogDirectingPlayer : MonoBehaviour
 	private void UpdateAction()
 	{
 		DialogDirectingSource lastSource = new DialogDirectingSource();
+		bool hasStart = false;
+		bool hasEnd = false;
 
 		foreach (var source in directingSource)
 		{
@@ -51,15 +53,26 @@ public class DialogDirectingPlayer : MonoBehaviour
 
 			if (currentDialog == null || currentDialog != source.dialogSource)
 			{
+				// Start Event가 없을 경우
+				if (!hasStart && hasEnd)
+				{
+					UIManager.Instance.OpenWindow(WindowList.DIALOG_NORMAL);
+					controller.Play();
+				}
+
+				hasStart = hasEnd = false;
 				currentDialog = source.dialogSource;
 				
 				if (eventType == DialogDirectingSource.DialogEventType.START)
 				{
+					hasStart = true;
+					
 					source.dialogSource.onInit?.AddListener(() =>
 					{
 						// Dialog Open Perform
 						performHandler.OpenPerform(0);
 
+						// perform이 시작되기 전에 진행하고 종료되면 열어준다.
 						performHandler.onEnded?.AddListener(() =>
 						{
 							UIManager.Instance.OpenWindow(WindowList.DIALOG_NORMAL);
@@ -70,6 +83,8 @@ public class DialogDirectingPlayer : MonoBehaviour
 
 				if (eventType == DialogDirectingSource.DialogEventType.END)
 				{
+					hasEnd = true;
+					
 					source.dialogSource.onEnded?.AddListener(() =>
 					{
 						performHandler.onEnded?.RemoveAllListeners();
