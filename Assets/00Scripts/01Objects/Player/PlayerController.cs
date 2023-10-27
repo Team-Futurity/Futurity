@@ -97,6 +97,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Space(2)]
 	[Header("References")]
 	public GameObject[] gloveObjects;
+	public GameObject[] hands;
 	public Player playerData;
 	public CommandTreeLoader commandTreeLoader;
 	public SpecialMoveController activePartController;
