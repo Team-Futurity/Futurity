@@ -42,6 +42,12 @@ public class SpawnerEvent : MonoBehaviour
 				chapterMove.EnableExitCollider();
 				return;
 			
+			case ESpawnerType.CHAPTER2_AREA1:
+				break;
+			
+			case ESpawnerType.CHAPTER2_AREA2:
+				break;
+			
 			case ESpawnerType.CHAPTER_BOSS:
 				break;
 			
