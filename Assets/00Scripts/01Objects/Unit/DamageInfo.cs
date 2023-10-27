@@ -7,17 +7,19 @@ public class DamageInfo
 	public readonly UnitBase Attacker;
 	public readonly UnitBase Defender;
 	public readonly float AttackST;
+	public readonly float KnockbackPower;
 	public float Damage { get; private set; }
 	public ObjectPoolManager<Transform> HitEffectPoolManager { get; private set; }
 	public Vector3 HitEffectOffset { get; private set; }
 	public bool IsDot { get; private set; }
 	public int StopFrameCount { get; private set; }
 
-	public DamageInfo(UnitBase attacker, UnitBase defender, float attackST)
+	public DamageInfo(UnitBase attacker, UnitBase defender, float attackST, float knockbackPower = 0)
 	{
 		Attacker = attacker;
 		Defender = defender;
 		AttackST = attackST;
+		KnockbackPower = knockbackPower;
 		StopFrameCount = 0;
 	}
 

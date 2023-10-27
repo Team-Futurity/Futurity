@@ -74,16 +74,16 @@ public class PlayerAttackState : PlayerComboAttackState
 				var enemy = other.gameObject.GetComponent<UnitBase>();
 				var enemyController = other.gameObject.GetComponent<EnemyController>();
 
-				DamageInfo info = new DamageInfo(unit.playerData, enemy, attackNode.attackST);
+				DamageInfo info = new DamageInfo(unit.playerData, enemy, attackNode.attackST, attackNode.attackKnockback);
 				AttackAsset asset = attackNode.GetAttackAsset(unit.partSystem.GetEquiped75PercentPointPartCode());
 				info.SetHitEffect(asset.hitEffectPoolManager, asset.effectOffset);
 				unit.playerData.Attack(info);
 				//HitEffectPooling(unit, enemy.transform);
-				if(enemyController.ThisEnemyType != EnemyType.TutorialDummy)
+				/*if(enemyController.ThisEnemyType != EnemyType.TutorialDummy)
 				{
 					Vector3 direction = enemy.transform.position - unit.transform.position;
 					enemy.Knockback(direction.normalized, attackNode.attackKnockback);
-				}
+				}*/
 					
 				hittedEnemyCount++;
 			}

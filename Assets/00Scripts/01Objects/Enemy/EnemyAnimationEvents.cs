@@ -66,4 +66,13 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.currentEffectData.target = EffectTarget.Target;
 	}
 	#endregion
+
+	public void KnockBack()
+	{
+		if (ec.ThisEnemyType != EnemyType.TutorialDummy)
+		{
+			Vector3 direction = ec.transform.position - ec.target.transform.position;
+			ec.enemyData.Knockback(direction.normalized, ec.knockbackPower);
+		}
+	}
 }

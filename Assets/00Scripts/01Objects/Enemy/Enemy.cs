@@ -16,6 +16,7 @@ public class Enemy : UnitBase
 
 	public override void Hit(DamageInfo damageInfo)
 	{
+		ec.knockbackPower = damageInfo.KnockbackPower;
 		ec.stopFrameCount = damageInfo.StopFrameCount;
 
 		ec.ChangeState(EnemyState.Hitted);

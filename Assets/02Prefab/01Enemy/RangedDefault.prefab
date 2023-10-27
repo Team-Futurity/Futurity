@@ -138,7 +138,7 @@ MonoBehaviour:
   isStun: 0
   <IsAttackTime>k__BackingField: 0
   <IsAttackTiming>k__BackingField: 0
-  unitAnimator: {fileID: 0}
+  unitAnimator: {fileID: 3322032618862593325}
   AttackCheckFrameCount: 3
   onAttackEvent:
     m_PersistentCalls:
@@ -173,9 +173,13 @@ MonoBehaviour:
   copyUMat: {fileID: 0}
   attackRange: 7
   attackingDelay: 3
+  hitDelay: 0
   hitPower: 150
   damagedColor: {r: 0.8867924, g: 0.007878224, b: 0, a: 1}
   isInPlayer: 0
+  skipFrameCountBeforeStop: 0
+  stopFrameCount: 0
+  knockbackPower: 0
   onDeathEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -385,6 +389,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -5716681864270162303, guid: e920e0e4c4ae94c42b7db74b0392aab7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e920e0e4c4ae94c42b7db74b0392aab7, type: 3}
+--- !u!95 &3322032618862593325 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: e920e0e4c4ae94c42b7db74b0392aab7, type: 3}
+  m_PrefabInstance: {fileID: 426307182936310605}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &4323092847529699525 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -4750107842817037432, guid: e920e0e4c4ae94c42b7db74b0392aab7, type: 3}
