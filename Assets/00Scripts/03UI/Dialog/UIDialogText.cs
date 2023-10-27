@@ -8,14 +8,14 @@ using UnityEngine.Events;
 
 public class UIDialogText : MonoBehaviour
 {
-	[SerializeField] 
+	[SerializeField]
 	private bool usedTypingAnimation = false;
 
 	private int currentAccessIndex = 0;
 	private string copyText;
 
 	public bool isRunning = false;
-	
+
 	public TMP_Text dialogText;
 	private WaitForSeconds typingPrintSpeed;
 
@@ -25,7 +25,7 @@ public class UIDialogText : MonoBehaviour
 	private void Awake()
 	{
 		TryGetComponent(out dialogText);
-		
+
 		typingPrintSpeed = new WaitForSeconds(0.1f);
 		isRunning = false;
 	}
@@ -41,7 +41,7 @@ public class UIDialogText : MonoBehaviour
 		// 텍스트 적용
 		copyText = text;
 		isRunning = true;
-		
+
 		if (usedTypingAnimation)
 		{
 			StartTyping();
@@ -51,7 +51,7 @@ public class UIDialogText : MonoBehaviour
 	public void Pass()
 	{
 		if (!isRunning) { return; }
-		
+
 		StopCoroutine("StartTypingAnimation");
 		dialogText.text = copyText;
 
@@ -73,10 +73,10 @@ public class UIDialogText : MonoBehaviour
 		for (; currentAccessIndex < copyText.Length; ++currentAccessIndex)
 		{
 			dialogText.text += copyText[currentAccessIndex].ToString();
-			
+
 			yield return typingPrintSpeed;
 		}
-		
+
 		ResetData();
 	}
 
