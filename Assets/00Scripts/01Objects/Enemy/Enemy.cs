@@ -10,14 +10,16 @@ public class Enemy : UnitBase
 
 	protected override void AttackProcess(DamageInfo damageInfo)
 	{
-		ec.isAttackSuccess = true;
 		damageInfo.SetDamage(GetDamage(damageInfo.AttackST));
 		damageInfo.Defender.Hit(damageInfo);
 	}
 
 	public override void Hit(DamageInfo damageInfo)
 	{
-		ec.ChangeState(EnemyController.EnemyState.Hitted);
+		ec.knockbackPower = damageInfo.KnockbackPower;
+		ec.stopFrameCount = damageInfo.StopFrameCount;
+
+		ec.ChangeState(EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
 
 		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();

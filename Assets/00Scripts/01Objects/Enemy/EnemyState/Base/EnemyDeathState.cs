@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)EnemyController.EnemyState.Death)]
-public class EnemyDeathState : UnitState<EnemyController>
+[FSMState((int)EnemyState.Death)]
+public class EnemyDeathState : StateBase
 {
-	private float curTime = 0f;
+	private float deathDelay = 2.0f;
+
 	private Color refColor = new Color(0f, 0f, 0f, 0f);
 
 	public override void Begin(EnemyController unit)
 	{
-		if (unit.isClustering)
-		{
-			ClusterManager.Instance.EnemyDeCluster(unit.clusterNum);
-		}
-		
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
@@ -31,29 +27,9 @@ public class EnemyDeathState : UnitState<EnemyController>
 			refColor.a += curTime * 0.005f;
 		unit.copyUMat.SetColor(unit.matColorProperty, refColor);
 
-		if (curTime > unit.deathDelay)
+		if (curTime > deathDelay)
 		{
 			unit.gameObject.SetActive(false);
 		}
-	}
-
-	public override void FixedUpdate(EnemyController unit)
-	{
-
-	}
-
-	public override void End(EnemyController unit)
-	{
-
-	}
-
-	public override void OnTriggerEnter(EnemyController unit, Collider other)
-	{
-
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-
 	}
 }

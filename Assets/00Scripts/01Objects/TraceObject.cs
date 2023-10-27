@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class TraceObject : MonoBehaviour
 {
@@ -38,10 +37,11 @@ public class TraceObject : MonoBehaviour
 	{
 		transform.position = targetObject.transform.position;
 
-		Vector3 direction = targetObject.transform.position - transform.position;
+		Vector3 direction = targetObject.transform.forward; //targetObject.transform.position - transform.position;
 
 		if(direction != Vector3.zero)
 		{
+			transform.LookAt(direction);
 			transform.rotation = Quaternion.LookRotation(direction);
 		}
 	}
@@ -89,7 +89,7 @@ public class TraceObject : MonoBehaviour
 
 	private void RotateToTarget()
 	{
-		Vector3 direction = targetObject.transform.position - transform.position;
+		Vector3 direction = targetObject.transform.forward;
 
 		if(direction == Vector3.zero) { return; }
 
