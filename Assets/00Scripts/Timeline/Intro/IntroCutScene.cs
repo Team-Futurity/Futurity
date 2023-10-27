@@ -20,8 +20,7 @@ public class IntroCutScene : CutSceneBase
 
 	[Header("다음으로 이동할 씬 이름")] 
 	[SerializeField] private string nextSceneName;
-
-
+	
 	private Queue<SkeletonGraphic> cutSceneQueue;
 	private bool isInput = false;
 

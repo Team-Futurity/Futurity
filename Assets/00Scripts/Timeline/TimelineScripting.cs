@@ -24,6 +24,9 @@ public class TimelineScripting : MonoBehaviour
 	[SerializeField] private Image scriptsPenal;
 	[SerializeField] private Sprite[] scriptsImage;
 
+	[Header("Sound")] 
+	[SerializeField] private FMODUnity.EventReference typingSound;
+
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private IEnumerator textPrint;
 	private IEnumerator inputCheck;
@@ -124,6 +127,7 @@ public class TimelineScripting : MonoBehaviour
 			foreach (char text in scripts.scripts)
 			{
 				textInput.text += text;
+				AudioManager.Instance.PlayOneShot(typingSound, Vector3.zero);
 
 				if (isInput == true)
 				{
