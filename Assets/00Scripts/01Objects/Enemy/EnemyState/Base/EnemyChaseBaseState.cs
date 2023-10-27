@@ -22,8 +22,8 @@ public class EnemyChaseBaseState : StateBase
 
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 
-		if (distance > targetDistance)
-			unit.ChangeState(EnemyState.Default);
+		/*if (distance > targetDistance)
+			unit.ChangeState(EnemyState.Default);*/
 	}
 
 	public override void End(EnemyController unit)

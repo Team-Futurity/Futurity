@@ -78,8 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8676add6620b0e409274690c724b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDatas: []
   test: {fileID: 0}
-  enemyType: 1
+  enemyType: 0
   effectSO: {fileID: 11400000, guid: a122abf1cddf7094bb1cf47d2a43f66c, type: 2}
   target: {fileID: 0}
   enemyData: {fileID: 4439521067689912932}
@@ -92,14 +93,17 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 3950909452414716358}
   material: {fileID: 2100000, guid: 396fcbdde050bb54bb23427b773befcf, type: 2}
   unlitMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
+  deadMaterial: {fileID: 2100000, guid: c8bd5f6865c8df14f858d1383b241ff6, type: 2}
   copyUMat: {fileID: 0}
-  attackRange: 7
+  copyDMat: {fileID: 0}
+  attackRange: 2
+  attackBeforeDelay: 0.9
   attackingDelay: 2
-  hitDelay: 0
+  hitDelay: 0.25
   hitPower: 500
   damagedColor: {r: 0.8773585, g: 0.03205486, b: 0, a: 1}
   isInPlayer: 0
-  skipFrameCountBeforeStop: 0
+  skipFrameCountBeforeStop: 1
   stopFrameCount: 0
   knockbackPower: 0
   onDeathEvent:

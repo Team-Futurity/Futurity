@@ -18,8 +18,6 @@ public class EnemyAttackBaseState : StateBase
 		if(!isAttack)
 		{
 			AttackAnim(unit, curTime, unit.attackBeforeDelay);
-			curTime = 0f;
-			isAttack = true;
 		}
 		else
 			unit.DelayChangeState(curTime, unit.attackingDelay, unit, unit.UnitChaseState());
@@ -45,6 +43,10 @@ public class EnemyAttackBaseState : StateBase
 	private void AttackAnim(EnemyController unit, float curTime, float maxTime)
 	{
 		if (curTime > maxTime)
+		{
 			unit.animator.SetTrigger(unit.atkAnimParam);
+			isAttack = true;
+			curTime = 0f;
+		}
 	}
 }

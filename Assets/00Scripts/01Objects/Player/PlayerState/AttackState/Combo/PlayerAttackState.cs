@@ -14,6 +14,12 @@ public class PlayerAttackState : PlayerComboAttackState
 
 	private int hittedEnemyCount;
 
+	protected PlayerAttackState(StateData stateData, string attackTriggerKey, string attackTypeKey) : base(stateData)
+	{
+		AttackTriggerAnimKey = attackTriggerKey;
+		AttackTypeAnimaKey = attackTypeKey;
+	}
+
 	protected PlayerAttackState(string attackTriggerKey, string attackTypeKey)
 	{
 		AttackTriggerAnimKey = attackTriggerKey;

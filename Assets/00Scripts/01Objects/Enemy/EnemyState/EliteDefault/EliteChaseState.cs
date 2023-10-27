@@ -5,6 +5,15 @@ using UnityEngine;
 [FSMState((int)EnemyState.EliteDefaultChase)]
 public class EliteChaseState : EnemyChaseBaseState
 {
+	public override void Begin(EnemyController unit)
+	{
+		base.Begin(unit);
+	}
+
+	public override void End(EnemyController unit)
+	{
+		base.End(unit);
+	}
 	public override void Update(EnemyController unit)
 	{
 		base.Update(unit);

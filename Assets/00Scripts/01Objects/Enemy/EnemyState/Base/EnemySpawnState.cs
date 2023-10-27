@@ -7,16 +7,11 @@ using UnityEngine.AI;
 public class EnemySpawnState : StateBase
 {
 	private float maxSpawningTime = 0.1f;
-	private float walkDistance = 1.0f;
-
-	private Color BeginColor = Color.black;
-	private Color refColor = Color.black;
-	private Vector3 targetPos;
 
 	public override void Begin(EnemyController unit)
 	{
 		unit.navMesh.speed = unit.enemyData.status.GetStatus(StatusType.SPEED).GetValue();
-		unit.navMesh.enabled = false;
+		unit.navMesh.enabled = true;
 
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
