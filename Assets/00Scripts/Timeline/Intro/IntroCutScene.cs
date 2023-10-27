@@ -20,8 +20,7 @@ public class IntroCutScene : CutSceneBase
 
 	[Header("다음으로 이동할 씬 이름")] 
 	[SerializeField] private string nextSceneName;
-
-
+	
 	private Queue<SkeletonGraphic> cutSceneQueue;
 	private bool isInput = false;
 
@@ -48,7 +47,6 @@ public class IntroCutScene : CutSceneBase
 	{
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
 		
-		Time.timeScale = 1.0f;
 		FadeManager.Instance.FadeIn(fadeOutTime, () =>
 		{
 			SceneLoader.Instance.LoadScene(nextSceneName);

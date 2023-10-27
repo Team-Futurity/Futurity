@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -24,6 +25,10 @@ public class TimelineScripting : MonoBehaviour
 	[SerializeField] private Image scriptsPenal;
 	[SerializeField] private Sprite[] scriptsImage;
 
+	[Header("Sound")] 
+	[SerializeField] private FMODUnity.EventReference typingSound;
+	private EventInstance soundInst;
+
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private IEnumerator textPrint;
 	private IEnumerator inputCheck;
@@ -31,6 +36,9 @@ public class TimelineScripting : MonoBehaviour
 	private void Start()
 	{
 		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
+		
+		soundInst = AudioManager.Instance.CreateInstance(typingSound);
+		soundInst.setParameterByName("Time", 0, true);
 	}
 
 	public void StartPrintingScript(List<ScriptingStruct> scriptsStruct)
@@ -124,7 +132,8 @@ public class TimelineScripting : MonoBehaviour
 			foreach (char text in scripts.scripts)
 			{
 				textInput.text += text;
-
+				soundInst.start();
+				
 				if (isInput == true)
 				{
 					textInput.text = scripts.scripts;
