@@ -46,6 +46,7 @@ public class DialogDirectingPlayer : MonoBehaviour
 		DialogDirectingSource lastSource = new DialogDirectingSource();
 		bool hasStart = false;
 		bool hasEnd = false;
+		bool isFirst = true;
 
 		foreach (var source in directingSource)
 		{
@@ -54,8 +55,10 @@ public class DialogDirectingPlayer : MonoBehaviour
 			if (currentDialog == null || currentDialog != source.dialogSource)
 			{
 				// Start Event가 없을 경우
-				if (!hasStart && hasEnd)
+				if (!hasStart && hasEnd && isFirst)
 				{
+					isFirst = false;
+
 					UIManager.Instance.OpenWindow(WindowList.DIALOG_NORMAL);
 					controller.Play();
 				}
@@ -65,12 +68,14 @@ public class DialogDirectingPlayer : MonoBehaviour
 				
 				if (eventType == DialogDirectingSource.DialogEventType.START)
 				{
+					Debug.Log($"{source.dialogSource.name}에 Start Event 등록 완료.");
+
 					hasStart = true;
 					
 					source.dialogSource.onInit?.AddListener(() =>
 					{
 						// Dialog Open Perform
-						performHandler.OpenPerform(0);
+						performHandler.OpenPerform(source.dialogSource.GetInstanceID());
 
 						// perform이 시작되기 전에 진행하고 종료되면 열어준다.
 						performHandler.onEnded?.AddListener(() =>
@@ -83,25 +88,35 @@ public class DialogDirectingPlayer : MonoBehaviour
 
 				if (eventType == DialogDirectingSource.DialogEventType.END)
 				{
+					Debug.Log($"{source.dialogSource.name}에 End Event 등록 완료.");
+
 					hasEnd = true;
-					
+
+					// 현재 Dialog가 종료가 된다면
 					source.dialogSource.onEnded?.AddListener(() =>
 					{
-						performHandler.onEnded?.RemoveAllListeners();
 						UIManager.Instance.CloseWindow(WindowList.DIALOG_NORMAL);
+						
+						// Event 제거
+						performHandler.onEnded?.RemoveAllListeners();
 
 						// Dialog Open Perform
-						performHandler.OpenPerform(1);
+						performHandler.OpenPerform(source.dialogSource.GetInstanceID() + 1);
 					});
 				}
 			}
-			
+
 			// Event Group 생성
+			var id = currentDialog.GetInstanceID();
+
 			for (int i = 0; i < 2; ++i)
 			{
-				if (!performHandler.HasGroup(i))
+				// Normal : Before, +1 : End
+				if (!performHandler.HasGroup(id + i))
 				{
-					performHandler.CreateGroup(i);
+					performHandler.CreateGroup(id + i);
+
+					Debug.Log($"{currentDialog.name} + Create Group + {id + i}");
 				}
 			}
 
@@ -109,14 +124,12 @@ public class DialogDirectingPlayer : MonoBehaviour
 			switch (eventType)
 			{
 				case DialogDirectingSource.DialogEventType.START:
-					performHandler.AddPerformBoard(0, source.board);
+					performHandler.AddPerformBoard(currentDialog.GetInstanceID(), source.board);
 					break;
 				
 				case DialogDirectingSource.DialogEventType.NEXT_CHANGE_START:
-					
-					performHandler.AddPerformBoard(0, source.board);
+					performHandler.AddPerformBoard(currentDialog.GetInstanceID(), source.board);
 
-					// 현재 Dialog가 종료되었다면, 다음 Dialog를 실행하기
 					source.dialogSource.onEnded?.AddListener(() =>
 					{
 						controller.NextDialog();
@@ -126,19 +139,21 @@ public class DialogDirectingPlayer : MonoBehaviour
 					break;
 				
 				case DialogDirectingSource.DialogEventType.END:
-					performHandler.AddPerformBoard(1, source.board);
+					performHandler.AddPerformBoard(currentDialog.GetInstanceID() + 1, source.board);
 					break;
 				
 				case DialogDirectingSource.DialogEventType.NEXT_CHANGE_END:
-					performHandler.AddPerformBoard(1, source.board);
-					
-					// 다음 Dialog를 실행하기 -> PerformBoard 종료 시, 
+					performHandler.AddPerformBoard(currentDialog.GetInstanceID() + 1, source.board);
+
+					// 마지막 Board라는 소리이므로, 해당 board의 End Event를 걸어준다.
 					source.board.onEndedAction += () =>
 					{
+						UIManager.Instance.OpenWindow(WindowList.DIALOG_NORMAL);
+
 						controller.NextDialog();
-						controller.PlayUsedPlayer();
+						controller.Play();
 					};
-					
+
 					break;
 			}
 			
