@@ -54,7 +54,18 @@ public class RootMotionContoller : MonoBehaviour
 
 			Vector3 predictedPosition = nextPosition + direction * predictedDistancePerFrame + Vector3.up * 0.5f;
 
-			if(!Physics.Linecast(currentPosition, predictedPosition))
+			if(Physics.Linecast(currentPosition, predictedPosition, out var hit))
+			{
+				if(hit.transform.CompareTag("Player"))
+				{
+					parent.transform.position = nextPosition;
+				}
+				else
+				{
+					FDebug.Log(hit.collider);
+				}
+			}
+			else
 			{
 				parent.transform.position = nextPosition;
 			}
