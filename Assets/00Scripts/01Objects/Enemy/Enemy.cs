@@ -16,6 +16,8 @@ public class Enemy : UnitBase
 
 	public override void Hit(DamageInfo damageInfo)
 	{
+		ec.stopFrameCount = damageInfo.StopFrameCount;
+
 		ec.ChangeState(EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
 
