@@ -24,15 +24,15 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 
 	private void Start()
 	{
+#if UNITY_EDITOR
+		curChapter = editorChapter;
+#endif
+		
 		OnEnableController();
 	}
 
 	public void OnEnableController()
 	{
-		#if UNITY_EDITOR
-		curChapter = editorChapter;
-		#endif
-		
 		Init();
 		CheckPenetrate();
 		EnableEntryCutScene();
