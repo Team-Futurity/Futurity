@@ -138,6 +138,7 @@ MonoBehaviour:
   isStun: 0
   <IsAttackTime>k__BackingField: 0
   <IsAttackTiming>k__BackingField: 0
+  unitAnimator: {fileID: 3322032618862593325}
   AttackCheckFrameCount: 3
   onAttackEvent:
     m_PersistentCalls:
@@ -155,17 +156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8676add6620b0e409274690c724b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDatas: []
   test: {fileID: 0}
   enemyType: 1
-  isTutorialDummy: 0
-  animationEvents: {fileID: 0}
   effectSO: {fileID: 11400000, guid: eb55f2935f6d3a04493d6a9e92285560, type: 2}
-  isClusteringObj: 0
-  isClustering: 0
-  clusterNum: 0
-  individualNum: 0
-  clusterTarget: {fileID: 0}
-  clusterDistance: 2.5
   target: {fileID: 0}
   enemyData: {fileID: 732466587148635420}
   animator: {fileID: 0}
@@ -173,34 +167,23 @@ MonoBehaviour:
   navMesh: {fileID: 0}
   chaseRange: {fileID: 732466586947889354}
   atkCollider: {fileID: 0}
+  enemyCollider: {fileID: 0}
   skinnedMeshRenderer: {fileID: 4323092847529699525}
   material: {fileID: 2100000, guid: d076fd63e2a49b345a7c0fd5d30a1dcd, type: 2}
-  transparentMaterial: {fileID: 0}
   unlitMaterial: {fileID: 2100000, guid: 2694a73925278084890fcae71ff55f76, type: 2}
-  copyTMat: {fileID: 0}
+  deadMaterial: {fileID: 2100000, guid: 21183be779f7b464c8c7b399f3c7e16c, type: 2}
   copyUMat: {fileID: 0}
-  maxSpawningTime: 0.1
-  enemyCollider: {fileID: 0}
-  walkDistance: 1
-  idleSetTime: 2
-  movePercentage: 5
-  randMoveDistanceMin: 1.5
-  randMoveDistanceMax: 3
-  attackRange: 7
-  attackChangeDelay: 3
-  turnSpeed: 150
-  isAttackSuccess: 0
-  projectileDistance: 10
-  rangedProjectile: {fileID: 3881962845268420492}
-  projectileSpeed: 10
-  powerReference1: 400
-  powerReference2: 450
-  hitMaxTime: 0.22
-  hitColorChangeTime: 0.2
+  copyDMat: {fileID: 0}
+  attackRange: 8
+  attackBeforeDelay: 0.9
+  attackingDelay: 3
+  hitDelay: 0.25
   hitPower: 150
   damagedColor: {r: 0.8867924, g: 0.007878224, b: 0, a: 1}
   isInPlayer: 0
-  deathDelay: 2
+  skipFrameCountBeforeStop: 0
+  stopFrameCount: 0
+  knockbackPower: 0
   onDeathEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -410,6 +393,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -5716681864270162303, guid: e920e0e4c4ae94c42b7db74b0392aab7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e920e0e4c4ae94c42b7db74b0392aab7, type: 3}
+--- !u!95 &3322032618862593325 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: e920e0e4c4ae94c42b7db74b0392aab7, type: 3}
+  m_PrefabInstance: {fileID: 426307182936310605}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &4323092847529699525 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -4750107842817037432, guid: e920e0e4c4ae94c42b7db74b0392aab7, type: 3}
@@ -438,7 +426,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ec: {fileID: 732466587148635423}
-  isCharging: 0
 --- !u!1001 &732466585278184168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -456,7 +443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4608799634614410596, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4608799634614410597, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}
       propertyPath: m_RootOrder
@@ -508,11 +495,6 @@ PrefabInstance:
       objectReference: {fileID: 732466587148635423}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}
---- !u!1 &3881962845268420492 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4608799634614410596, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}
-  m_PrefabInstance: {fileID: 732466585278184168}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3881962845268420493 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4608799634614410597, guid: d1d04b3b39369b34fbd0b22dccd44e5f, type: 3}

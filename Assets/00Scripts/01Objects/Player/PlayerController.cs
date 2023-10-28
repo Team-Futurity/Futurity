@@ -96,8 +96,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// reference
 	[Space(2)]
 	[Header("References")]
-	public GameObject glove;
-	public GameObject rushGlove;
+	public GameObject[] gloveObjects;
 	public Player playerData;
 	public CommandTreeLoader commandTreeLoader;
 	public SpecialMoveController activePartController;
@@ -114,6 +113,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerCamera camera;
 	public PartSystem partSystem;
 	public TraceObject sariObject;
+	public GameObject playerEffectParent;
 	[HideInInspector] public CameraFollowTarget followTarget;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
@@ -350,7 +350,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			if (!IsAttackProcess(true))
 			{
-				//StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
+				StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
 				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), state == PlayerState.NormalAttack ? curNode.name : "Pressed");
 			}
 			else
@@ -525,8 +525,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public void SetGauntlet(bool isEnabled)
 	{
-		glove.SetActive(isEnabled);
-		rushGlove.SetActive(isEnabled);
+		foreach (var gloveObj in gloveObjects)
+		{
+			gloveObj.SetActive(isEnabled);
+		}
 	}
 
 	public void SetCollider(bool isEnabled)
@@ -682,8 +684,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		msgs = new List<string>();
 
-		if (glove == null) { msgs.Add("glove is Null."); }
-		if (rushGlove == null) { msgs.Add("rushGlove is Null."); }
+		if (gloveObjects == null) { msgs.Add("gloveObjects is Null."); }
 		if (playerData == null) { msgs.Add("playerData is Null."); }
 		if (commandTreeLoader == null) { msgs.Add("commandTreeLoader is Null."); }
 		if (activePartController == null) { msgs.Add("activePartController is Null."); }
@@ -702,6 +703,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (rmController == null) { msgs.Add("rmController is Null."); }
 		if (partSystem == null) { msgs.Add("partSystem is Null"); }
 		if (sariObject == null) { msgs.Add("sariObject is Null"); }
+		if (playerEffectParent == null) { msgs.Add("playerEffectParent is Null"); }
 
 		isClear = msgs.Count == 0;
 		if (isClear)

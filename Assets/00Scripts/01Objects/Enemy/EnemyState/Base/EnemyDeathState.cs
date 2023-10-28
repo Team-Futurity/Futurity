@@ -2,22 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)EnemyController.EnemyState.Death)]
-public class EnemyDeathState : UnitState<EnemyController>
+[FSMState((int)EnemyState.Death)]
+public class EnemyDeathState : StateBase
 {
-	private float curTime = 0f;
-	private Color refColor = new Color(0f, 0f, 0f, 0f);
+	private float deathDelay = 2.0f;
+	private string copyDMatProperty = "_distortion";
 
 	public override void Begin(EnemyController unit)
 	{
-		if (unit.isClustering)
-		{
-			ClusterManager.Instance.EnemyDeCluster(unit.clusterNum);
-		}
-		
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
+
+		unit.skinnedMeshRenderer.materials = new Material[1] { unit.copyDMat };
+		unit.skinnedMeshRenderer.gameObject.layer = 7;
 		
 		unit.OnDisableEvent();
 		unit.onDeathEvent?.Invoke();
@@ -27,33 +25,12 @@ public class EnemyDeathState : UnitState<EnemyController>
 	{
 		curTime += Time.deltaTime;
 
-		if (refColor.a < 1f)
-			refColor.a += curTime * 0.005f;
-		unit.copyUMat.SetColor(unit.matColorProperty, refColor);
+		if (unit.copyDMat.GetFloat(copyDMatProperty) > 0f)
+			unit.copyDMat.SetFloat(copyDMatProperty, 1f - curTime); ;
 
-		if (curTime > unit.deathDelay)
+		if (curTime > deathDelay)
 		{
 			unit.gameObject.SetActive(false);
 		}
-	}
-
-	public override void FixedUpdate(EnemyController unit)
-	{
-
-	}
-
-	public override void End(EnemyController unit)
-	{
-
-	}
-
-	public override void OnTriggerEnter(EnemyController unit, Collider other)
-	{
-
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-
 	}
 }

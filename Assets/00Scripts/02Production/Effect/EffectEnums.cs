@@ -104,6 +104,8 @@ public class EffectKey
 	private bool isLevelEffect;
 	private bool isTrackingEffect;
 
+	public EffectKey() { }
+
 	public EffectKey(AsyncOperationHandle<GameObject> handle, EffectData data, AssetReference effectRef, ObjectAddressablePoolManager<Transform> poolManager, Vector3? pos, Quaternion? rot, int index)
 	{
 		effectData = data;
