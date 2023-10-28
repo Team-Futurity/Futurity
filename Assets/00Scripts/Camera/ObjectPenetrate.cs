@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ObjectPenetrate : MonoBehaviour
@@ -48,5 +49,15 @@ public class ObjectPenetrate : MonoBehaviour
 			spriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
 			spriteRenderer = null;
 		}
+	}
+
+	private void OnDisable()
+	{
+		if (spriteRenderer == null)
+		{
+			return;
+		}
+
+		spriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
 	}
 }
