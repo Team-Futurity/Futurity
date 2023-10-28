@@ -9,7 +9,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 
 	private void Start()
 	{
-		chapterMoveController = gameObject.GetComponentInParent<ChapterMoveController>();
+		chapterMoveController = ChapterMoveController.Instance;
 	}
 
 	private void OnTriggerEnter(Collider other)

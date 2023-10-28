@@ -23,6 +23,7 @@ public class IntroCutScene : CutSceneBase
 	
 	private Queue<SkeletonGraphic> cutSceneQueue;
 	private bool isInput = false;
+	private bool isInputCheck = false;
 
 	private IEnumerator skeletonCutScene;
 	
@@ -56,7 +57,7 @@ public class IntroCutScene : CutSceneBase
 	#if UNITY_EDITOR
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.F))
+		if (Input.GetKeyDown(KeyCode.F) && isInputCheck == true)
 		{
 			isInput = true;
 		}
@@ -76,6 +77,7 @@ public class IntroCutScene : CutSceneBase
 		SkeletonGraphic skeleton = cutSceneQueue.Dequeue();
 		int curAniIndex = 0;
 		int maxAniCount = skeleton.Skeleton.Data.Animations.Count;
+		isInputCheck = true;
 		
 		while (true)
 		{
@@ -107,11 +109,11 @@ public class IntroCutScene : CutSceneBase
 				curAniIndex = 0;
 				maxAniCount = skeleton.Skeleton.Data.Animations.Count;
 			}
-
+			
 			isInput = false;
 		}
 		
-		isInput = false;
+		isInputCheck = isInput = false;
 		introCutScene.Resume();
 	}
 

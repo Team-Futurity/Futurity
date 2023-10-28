@@ -2,39 +2,37 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChapterMoveController : MonoBehaviour
+public class ChapterMoveController : Singleton<ChapterMoveController>
 {
 	[Header("Component")] 
 	[SerializeField] private GameObject interactionUI;
-	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
 	[ReadOnly(false), SerializeField] private ChapterCutSceneManager cutSceneManager;
 	
 	[Header("챕터 정보")] 
-	[SerializeField] private EChapterType currentChapter;
-	[SerializeField] private EChapterType nextChapter;
-	public EChapterType CurrentChapter => currentChapter;
+	[SerializeField] private List<ChapterData> chapterData;
+	[SerializeField, ReadOnly(false)] private EChapterType curChapter = EChapterType.CHAPTER1_1;
 
 	[Header("Fade Out 시간")] 
 	[SerializeField] private float fadeOutTime = 0.5f;
 	[SerializeField] private float fadeInTime = 1.0f;
-
-	[Header("다음 씬으로 넘어갈 콜라이더")] 
-	[SerializeField] private GameObject chapterMoveTrigger;
 	
-	[Header("디버그용 패널")] 
-	[SerializeField] private bool isDebugMode;
-	[SerializeField] private bool enableSpawner;
-	[SerializeField] private List<SpawnerManager> spawnerManager;
-
-	private GameObject player;
+	private ObjectPenetrate objectPenetrate;
+	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
 
 	private void Start()
 	{
-		Init();
-		CheckDebugMode();
-		EnableEntryCutScene();
+		OnEnableController();
+	}
 
-		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status.updateHPEvent.Invoke(230f, 230f);
+	public void OnEnableController()
+	{
+		Init();
+		CheckPenetrate();
+		EnableEntryCutScene();
+		
+		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status
+			.updateHPEvent.Invoke(230f, 230f);
+		
 		Time.timeScale = 1.0f;
 	}
 
@@ -46,133 +44,62 @@ public class ChapterMoveController : MonoBehaviour
 		}
 	}
 	
-	public void EnableExitCollider()
-	{
-		if (chapterMoveTrigger == null)
-		{
-			return;
-		}
-		chapterMoveTrigger.SetActive(true);
-	}
-
 	public void MoveNextChapter()
 	{
-		switch (nextChapter)
-		{
-			case EChapterType.CHAPTER1_1:
-				break;
-			
-			case EChapterType.CHAPTER1_2:
-				ChangeChapter(ChapterSceneName.CHAPTER1_2);
-				break;
-			
-			case EChapterType.CHAPTER2_1:
-				ChangeChapter(ChapterSceneName.CHAPTER2_1);
-				break;
-			
-			case EChapterType.CHAPTER2_2:
-				ChangeChapter(ChapterSceneName.CHAPTER2_2);
-				break;
-			
-			case EChapterType.CHAPTER_BOSS:
-				ChangeChapter(ChapterSceneName.BOSS_CHAPTER);
-				break;
-			
-			default:
-				return;
-		}
-	}
-	
-	private void ChangeChapter(string sceneName)
-	{
 		InputActionManager.Instance.DisableActionMap();
-		
+
 		FadeManager.Instance.FadeIn(fadeInTime, () =>
 		{
-			SceneLoader.Instance.LoadScene(sceneName);
+			SceneLoader.Instance.LoadScene(chapterData[(int)curChapter].NextChapterName);
+			
+			curChapter++;
+			objectPenetrate.enabled = true;
 		});
+		
+		Invoke(nameof(OnEnableController), fadeOutTime + 5.0f);
 	}
 
 	private void EnableEntryCutScene()
 	{
-		if (isDebugMode == true)
+		int index = (int)curChapter;
+		if (chapterData[index].CutSceneType == ECutSceneType.NONE)
 		{
+			FadeManager.Instance.FadeOut(chapterData[index].FadeOutTime);
 			return;
 		}
 
 		Action cutSceneEvent = null;
-		
-		switch (currentChapter)
+
+		TimelineManager.Instance.EnableCutScene(chapterData[index].CutSceneType);
+
+		cutSceneEvent = () =>
 		{
-			case EChapterType.CHAPTER1_1:
-				TimelineManager.Instance.EnableCutScene(ECutSceneType.AREA1_ENTRY);
-				cutSceneEvent = () =>
-				{
-					TimelineManager.Instance.EnableNonPlayOnAwakeCutScene(ECutSceneType.AREA1_ENTRY);
-				};
-				break;
-			
-			case EChapterType.CHAPTER1_2:
-				TimelineManager.Instance.EnableCutScene(ECutSceneType.AREA3_ENTRY);
-				cutSceneEvent = () =>
-				{
-					TimelineManager.Instance.EnableNonPlayOnAwakeCutScene(ECutSceneType.AREA3_ENTRY);
-				};
-				break;
-			
-			case EChapterType.CHAPTER2_1:
-				break;
-			
-			case EChapterType.CHAPTER2_2:
-				break;
-			
-			case EChapterType.CHAPTER_BOSS:
-				TimelineManager.Instance.EnableCutScene(ECutSceneType.BOSS_ENTRY);
-				cutSceneEvent = () =>
-				{
-					TimelineManager.Instance.EnableNonPlayOnAwakeCutScene(ECutSceneType.BOSS_ENTRY);
-				};
-				break;
-			
-			case EChapterType.NONEVENTCHAPTER:
-				break;
-			
-			default:
-				return;
-		}
+			TimelineManager.Instance.EnableNonPlayOnAwakeCutScene(chapterData[index].CutSceneType);
+		};
 
 		FadeManager.Instance.FadeOut(fadeOutTime, () => cutSceneEvent?.Invoke());
 	}
 
+	private void CheckPenetrate()
+	{
+		if (chapterData[(int)curChapter].IsPenetrate == true)
+		{
+			objectPenetrate.enabled = true;
+		}
+	}
+
 	private void Init()
 	{
-		player = GameObject.FindWithTag("Player");
-
 		if (GameObject.FindWithTag("CutScene").TryGetComponent(out cutSceneManager) == true)
 		{
 			cutSceneManager.InitManager();
 		}
-	}
 
-	#region OnlyUseEditor
-
-	private void CheckDebugMode()
-	{
-		if (isDebugMode == false)
+		if (objectPenetrate != null)
 		{
 			return;
 		}
 		
-		if (enableSpawner == false)
-		{
-			return;
-		}
-
-		foreach (SpawnerManager manager in spawnerManager)
-		{
-			manager.SpawnEnemy();
-		}
+		objectPenetrate = GameObject.FindWithTag("PlayerCamera").GetComponent<ObjectPenetrate>();
 	}
-	
-	#endregion
 }

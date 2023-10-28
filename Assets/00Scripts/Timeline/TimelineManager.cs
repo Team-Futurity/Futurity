@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 
 public enum ECutSceneType
 {
+	NONE,
 	ACTIVE_ALPHA,
 	PLAYER_DEATH,
 	LASTKILL,
