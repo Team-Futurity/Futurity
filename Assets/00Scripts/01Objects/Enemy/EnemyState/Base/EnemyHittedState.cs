@@ -65,9 +65,19 @@ public class EnemyHittedState : StateBase
 	{
 		direction = unit.transform.position - unit.target.transform.position;
 
-		if(direction.x > 0)
-			unit.animator.SetTrigger(unit.hitFAnimParam);
-		else
-			unit.animator.SetTrigger(unit.hitBAnimParam);
+		if (direction.x > 0)
+		{
+			if (unit.transform.eulerAngles.y > 0 && unit.transform.eulerAngles.y < 180)
+				unit.animator.SetTrigger(unit.hitBAnimParam);
+			else if (unit.transform.eulerAngles.y > 180 && unit.transform.eulerAngles.y < 360)
+				unit.animator.SetTrigger(unit.hitFAnimParam);
+		}
+		else if (direction.x < 0)
+		{
+			if (unit.transform.eulerAngles.y > 0 && unit.transform.eulerAngles.y < 180)
+				unit.animator.SetTrigger(unit.hitFAnimParam);
+			else if (unit.transform.eulerAngles.y > 180 && unit.transform.eulerAngles.y < 360)
+				unit.animator.SetTrigger(unit.hitBAnimParam);
+		}
 	}
 }
