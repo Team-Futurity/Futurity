@@ -2,7 +2,6 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -77,11 +76,11 @@ public class IntroCutScene : CutSceneBase
 		SkeletonGraphic skeleton = cutSceneQueue.Dequeue();
 		int curAniIndex = 0;
 		int maxAniCount = skeleton.Skeleton.Data.Animations.Count;
-		isInputCheck = true;
-		
+
 		while (true)
 		{
 			skeleton.gameObject.SetActive(true);
+			isInputCheck = true;
 			
 			Animation ani = skeleton.Skeleton.Data.Animations.Items[curAniIndex];
 			skeleton.AnimationState.SetAnimation(0, ani, false);
