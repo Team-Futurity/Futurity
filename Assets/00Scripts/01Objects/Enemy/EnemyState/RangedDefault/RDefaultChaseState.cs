@@ -27,7 +27,7 @@ public class RDefaultChaseState : EnemyChaseBaseState
 			unit.rigid.velocity = Vector3.zero;
 			unit.DelayChangeState(curTime, 0.5f, unit, EnemyState.RDefaultAttack);
 		}
-		else if (distance > unit.attackRange)
+		else if (distance > unit.attackRange && distance < targetDistance)
 		{
 			unit.navMesh.SetDestination(unit.target.transform.position);
 		}

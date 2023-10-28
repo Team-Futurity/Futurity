@@ -7,7 +7,7 @@ using UnityEngine;
 public class EnemyChaseBaseState : StateBase
 {
 	protected float distance = .0f;
-	protected float targetDistance = 8f;
+	protected float targetDistance = 15f;
 
 	public override void Begin(EnemyController unit)
 	{
