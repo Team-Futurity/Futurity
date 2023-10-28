@@ -18,7 +18,12 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 	
 	private ObjectPenetrate objectPenetrate;
 	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
-	
+
+	private void Start()
+	{
+		OnEnableController();
+	}
+
 	public void OnEnableController()
 	{
 		Init();
