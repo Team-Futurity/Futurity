@@ -2,6 +2,7 @@ public enum EChapterType
 {
 	CHAPTER1_1,
 	CHAPTER1_2,
+	CHAPTER1_3,
 	CHAPTER2_1,
 	CHAPTER2_2,
 	CHAPTER_BOSS,
