@@ -1,0 +1,277 @@
+{
+"skeleton": {
+	"hash": "6b1rYG7ELi0",
+	"spine": "4.1.21",
+	"x": -958.99,
+	"y": -539.04,
+	"width": 1919.99,
+	"height": 1080.06,
+	"images": "./images/",
+	"audio": "D:/퓨처리티/컷씬/엔딩/엔딩4"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "frame_1", "parent": "root", "x": -336.12, "y": -24.5 },
+	{ "name": "boss", "parent": "frame_1", "x": -2.38, "y": -46.5 },
+	{ "name": "boss_hand", "parent": "frame_1", "x": 204.62, "y": 23 },
+	{ "name": "text", "parent": "frame_1", "length": 92.72, "rotation": 105.11, "x": 241.78, "y": -168.22 },
+	{ "name": "balloon1", "parent": "root", "x": -672, "y": 377.5 },
+	{ "name": "balloon2", "parent": "root", "x": 697.5, "y": -352 },
+	{ "name": "frame_2", "parent": "root", "x": 313.5, "y": 33 },
+	{ "name": "mirae", "parent": "frame_2", "x": 2, "y": -8 },
+	{ "name": "mirae_hand", "parent": "frame_2", "length": 287.16, "rotation": 73, "x": -158.95, "y": -386.88 }
+],
+"slots": [
+	{ "name": "out", "bone": "root", "attachment": "out" },
+	{ "name": "back", "bone": "root", "attachment": "back" },
+	{ "name": "frame_1", "bone": "frame_1", "attachment": "frame_1" },
+	{ "name": "boss", "bone": "boss", "attachment": "boss" },
+	{ "name": "boss_hand", "bone": "boss_hand", "attachment": "boss_hand" },
+	{ "name": "frame_2", "bone": "frame_2", "attachment": "frame_2" },
+	{ "name": "mirae", "bone": "mirae", "attachment": "mirae" },
+	{ "name": "mirae_hand", "bone": "mirae_hand", "attachment": "mirae_hand" },
+	{ "name": "mirae_hair", "bone": "frame_2", "attachment": "mirae_hair" },
+	{ "name": "frame", "bone": "root", "attachment": "frame" },
+	{ "name": "text", "bone": "text", "attachment": "text" },
+	{ "name": "balloon1", "bone": "balloon1", "attachment": "balloon1" },
+	{ "name": "balloon2", "bone": "balloon2", "attachment": "balloon2" },
+	{ "name": "용지", "bone": "root", "color": "000000ff", "attachment": "용지" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"back": {
+				"back": { "x": 1, "y": 1, "width": 1922, "height": 1082 }
+			},
+			"balloon1": {
+				"balloon1": { "width": 406, "height": 253 }
+			},
+			"balloon2": {
+				"balloon2": { "width": 389, "height": 238 }
+			},
+			"boss": {
+				"boss": { "width": 647, "height": 1010 }
+			},
+			"boss_hand": {
+				"boss_hand": { "width": 231, "height": 619 }
+			},
+			"frame": {
+				"frame": { "x": -12.5, "y": 1, "width": 1895, "height": 1082 }
+			},
+			"frame_1": {
+				"frame_1": {
+					"type": "mesh",
+					"uvs": [ 0.51012, 1, 0, 1, 0, 0, 0.51012, 0 ],
+					"triangles": [ 0, 1, 2, 3, 0, 2 ],
+					"vertices": [ 283.88, -515.5, -283.88, -515.5, -283.88, 515.5, 283.88, 515.5 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 1113,
+					"height": 1031
+				}
+			},
+			"frame_2": {
+				"frame_2": { "width": 531, "height": 916 }
+			},
+			"mirae": {
+				"mirae": { "width": 623, "height": 1026 }
+			},
+			"mirae_hair": {
+				"mirae_hair": { "x": -214, "y": -21, "width": 1035, "height": 976 }
+			},
+			"mirae_hand": {
+				"mirae_hand": { "x": 237.77, "y": 51.31, "rotation": -73, "width": 282, "height": 683 }
+			},
+			"out": {
+				"out": {
+					"type": "clipping",
+					"end": "out",
+					"vertexCount": 4,
+					"vertices": [ -958.98, 540.99, -958.99, -539.04, 961, -539, 960.99, 541.02 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"text": {
+				"text": { "x": 40.45, "y": 8.93, "rotation": -105.11, "width": 105, "height": 218 }
+			},
+			"용지": {
+				"용지": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0.49806, 1, 0.49806, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 962, -540, -2.74, -540, -2.74, 542, 962, 542 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 1922,
+					"height": 1082
+				}
+			}
+		}
+	}
+],
+"animations": {
+	"ending_third_cut": {
+		"slots": {
+			"balloon1": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.6667,
+						"color": "ffffff00",
+						"curve": [ 0.944, 1, 1.722, 1, 0.944, 1, 1.722, 1, 0.944, 1, 1.722, 1, 0.944, 0, 1.722, 1 ]
+					},
+					{ "time": 2, "color": "ffffffff" }
+				]
+			},
+			"boss": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0, 0.47, 0.889, 1 ]
+					},
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			},
+			"boss_hand": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 1.3333,
+						"color": "ffffff00",
+						"curve": [ 1.481, 1, 2.519, 1, 1.481, 1, 2.519, 1, 1.481, 1, 2.519, 1, 1.333, 0.17, 2.519, 1 ]
+					},
+					{ "time": 2.6667, "color": "ffffffff" }
+				]
+			},
+			"text": {
+				"rgba": [
+					{ "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"frame_1": {
+				"translate": [
+					{
+						"y": -43.71,
+						"curve": [ 0.444, 0, 0.889, 0, 0, -21.68, 0.889, 0 ]
+					},
+					{ "time": 1.3333 }
+				]
+			},
+			"boss_hand": {
+				"translate": [
+					{ "y": -19.47, "curve": "stepped" },
+					{
+						"time": 1.3333,
+						"y": -19.47,
+						"curve": [ 1.778, 0, 2.222, 0, 1.333, -1.5, 2.222, 20.85 ]
+					},
+					{ "time": 2.6667, "y": 20.85 }
+				]
+			}
+		},
+		"attachments": {
+			"default": {
+				"용지": {
+					"용지": {
+						"deform": [
+							{
+								"offset": 2,
+								"vertices": [ -824.36707, -7.70436, -824.36707, -7.70436 ],
+								"curve": "stepped"
+							},
+							{
+								"time": 0.0333,
+								"offset": 2,
+								"vertices": [ 5.13608, -7.70436, 5.13608, -7.70436 ]
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	"ending_third_cut2": {
+		"slots": {
+			"balloon2": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 1.3333,
+						"color": "ffffff00",
+						"curve": [ 1.778, 1, 2.222, 1, 1.778, 1, 2.222, 1, 1.778, 1, 2.222, 1, 1.778, 0, 2.222, 1 ]
+					},
+					{ "time": 2.6667, "color": "ffffffff" }
+				]
+			},
+			"mirae": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0, 0.43, 0.889, 1 ]
+					},
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			},
+			"mirae_hair": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.6667,
+						"color": "ffffff00",
+						"curve": [ 0.889, 1, 1.111, 1, 0.889, 1, 1.111, 1, 0.889, 1, 1.111, 1, 0.667, 0.18, 1.111, 1 ]
+					},
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			},
+			"mirae_hand": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0, 0.43, 0.889, 1 ]
+					},
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			},
+			"text": {
+				"rgba": [
+					{ "color": "ffffff00" }
+				]
+			},
+			"용지": {
+				"attachment": [
+					{}
+				]
+			}
+		},
+		"bones": {
+			"boss_hand": {
+				"translate": [
+					{ "y": 20.85 }
+				]
+			},
+			"frame_2": {
+				"translate": [
+					{
+						"y": 46.78,
+						"curve": [ 0.444, 0, 0.889, 0, 0, 23.97, 0.889, 0 ]
+					},
+					{ "time": 1.3333 }
+				]
+			},
+			"mirae_hand": {
+				"translate": [
+					{
+						"x": -6.98,
+						"y": -22.82,
+						"curve": [ 0, -5, 1.037, 3.01, 0, -16.35, 1.037, 9.84 ]
+					},
+					{ "time": 1.3333, "x": 3.01, "y": 9.84 }
+				]
+			}
+		}
+	}
+}
+}
