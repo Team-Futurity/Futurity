@@ -15,6 +15,9 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 	[Header("Fade Out 시간")] 
 	[SerializeField] private float fadeOutTime = 0.5f;
 	[SerializeField] private float fadeInTime = 1.0f;
+
+	[Header("에디터에서만 사용")] 
+	[SerializeField] private EChapterType editorChapter;
 	
 	private ObjectPenetrate objectPenetrate;
 	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
@@ -26,6 +29,10 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 
 	public void OnEnableController()
 	{
+		#if UNITY_EDITOR
+		curChapter = editorChapter;
+		#endif
+		
 		Init();
 		CheckPenetrate();
 		EnableEntryCutScene();
