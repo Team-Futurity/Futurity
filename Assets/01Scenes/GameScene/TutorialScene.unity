@@ -6510,7 +6510,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1000963567}
   - component: {fileID: 1000963568}
-  - component: {fileID: 1000963569}
   m_Layer: 0
   m_Name: TutorialController
   m_TagString: Untagged
@@ -6549,22 +6548,6 @@ MonoBehaviour:
   performHandler: {fileID: 0}
   dialogController: {fileID: 1910054083}
   isDebugMode: 0
---- !u!114 &1000963569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000963566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75fa6765a894ea74d955c3b425c47165, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directingSource:
-  - dialogSource: {fileID: 11400000, guid: eec3325b2d2957945ade28c55c784533, type: 2}
-    eventType: 1
-    board: {fileID: 924070195}
 --- !u!114 &1006317518 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6121841937639872710, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
@@ -6887,7 +6870,7 @@ RectTransform:
   m_Children:
   - {fileID: 542531731}
   m_Father: {fileID: 1124304066}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7008,8 +6991,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1910054081}
-  - {fileID: 601853349}
   - {fileID: 1112189157}
+  - {fileID: 601853349}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22713,6 +22696,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1124304066}
     m_Modifications:
+    - target: {fileID: 538067449226629367, guid: a868ac18e6ede5242be62ae69404df25, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 538067451232136320, guid: a868ac18e6ede5242be62ae69404df25, type: 3}
       propertyPath: m_Name
       value: Normal Dialog Window

@@ -22,7 +22,7 @@ public class UIDialogController : MonoBehaviour
 
 	[SerializeField]
 	private bool usedPass = false;
-	
+
 	#region Dialog Events
 
 	[Space(15)]
@@ -33,10 +33,10 @@ public class UIDialogController : MonoBehaviour
 	[HideInInspector] public UnityEvent<DialogDataGroup> onShow;
 
 	#endregion
-	
+
 	private void Awake()
 	{
-		//dialogDatas = new List<DialogData>();
+		dialogDatas = new List<DialogData>();
 		currentIndex = 0;
 	}
 
@@ -58,17 +58,13 @@ public class UIDialogController : MonoBehaviour
 		InitDialog();
 	}
 
-	public void PlayUsedPlayer()
-	{
-		InitDialog();
-	}
-
 	public void Play()
 	{
 		if (dialogText.isRunning) { return; }
-		
+
 		dialogText.Show(currentDialogData.GetDialogDataGroup().descripton);
 		onShow?.Invoke(currentDialogData.GetDialogDataGroup());
+
 	}
 
 	public void Pass()
@@ -110,32 +106,11 @@ public class UIDialogController : MonoBehaviour
 			dialogDatas[i].onEnded.RemoveAllListeners();
 		}
 	}
-	
-	public void NextDialog()
-	{
-		dialogText.onEnded?.RemoveAllListeners();
-		
-		// Next Index
-		currentIndex += 1;
-
-		// Index가 DialogDatas보다 많을 경우
-		if (currentIndex >= dialogDatas.Count)
-		{
-			CloseDialog();
-			
-			onEnded?.Invoke();
-			return;
-		}
-
-		// Dialog Data를 갈아끼운다.
-		InitDialog();
-		
-		// Play가 필요하다.
-	}
 
 	private void InitDialog()
 	{
 		currentDialogData = dialogDatas[currentIndex];
+
 		currentDialogData.Init();
 
 		if (!usedPass)
@@ -143,11 +118,18 @@ public class UIDialogController : MonoBehaviour
 			dialogText.onEnded?.AddListener(UpdateNextDialog);
 		}
 
+		OpenDialogBoard(true);
 		onStarted?.Invoke();
 	}
-	
+
+	private void OpenDialogBoard(bool isOn)
+	{
+		gameObject.SetActive(isOn);
+	}
+
 	private void CloseDialog()
 	{
+		OpenDialogBoard(false);
 		RemoveDialogEventAll();
 	}
 
@@ -157,9 +139,22 @@ public class UIDialogController : MonoBehaviour
 
 		if (isEnd)
 		{
+			currentIndex += 1;
+
+			if (currentIndex >= dialogDatas.Count)
+			{
+				CloseDialog();
+
+				onEnded?.Invoke();
+				return;
+			}
+
+			currentDialogData = dialogDatas[currentIndex];
+			onChanged?.Invoke();
+
 			return;
 		}
-		
+
 		Play();
 	}
 

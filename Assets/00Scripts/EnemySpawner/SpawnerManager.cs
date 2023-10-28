@@ -9,12 +9,17 @@ public enum ESpawnerType
 	NONEVENT = -1,
 	CHAPTER1_AREA1,
 	CHAPTER1_AREA3,
+	CHAPTER2_AREA1,
+	CHAPTER2_AREA2,
 	CHAPTER_BOSS
 }
 
 public class SpawnerManager : MonoBehaviour
 {
 	public readonly static int MAX_ENEMY_TYPE = 4;
+	
+	[Header("즉시 스폰 여부")] 
+	[SerializeField] private bool isImmediatelySpawn = false;
 	
 	[Header("컴포넌트")] 
 	[SerializeField] private List<EnemySpawner> spawnerList;
@@ -65,6 +70,17 @@ public class SpawnerManager : MonoBehaviour
 		}
 
 		AddAlreadyPlaceEnemy();
+	}
+
+	private void Start()
+	{
+		if (isImmediatelySpawn == false)
+		{
+			return;
+		}
+		
+		SpawnEnemy();
+		Invoke(nameof(EnablePlayerInput), 0.1f);
 	}
 
 	public void SpawnEnemy()
@@ -180,6 +196,11 @@ public class SpawnerManager : MonoBehaviour
 
 		isEventEnable = true;
 		interimEvent?.Invoke(dialogData);
+	}
+	
+	private void EnablePlayerInput()
+	{
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 }
 

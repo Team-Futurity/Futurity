@@ -16,7 +16,7 @@ public class SpawnerEvent : MonoBehaviour
 	{
 		dialogController.gameObject.SetActive(true);
 		dialogController.SetDialogData(dialogData);
-		//dialogController.PlayDialog();
+		dialogController.Play();
 	}
 
 	public void SpawnerEndEvent(SpawnerManager manager, ESpawnerType spawnerType)
@@ -41,6 +41,12 @@ public class SpawnerEvent : MonoBehaviour
 				TimelineManager.Instance.EnableCutScene(ECutSceneType.AREA3_EXIT);
 				chapterMove.EnableExitCollider();
 				return;
+			
+			case ESpawnerType.CHAPTER2_AREA1:
+				break;
+			
+			case ESpawnerType.CHAPTER2_AREA2:
+				break;
 			
 			case ESpawnerType.CHAPTER_BOSS:
 				break;

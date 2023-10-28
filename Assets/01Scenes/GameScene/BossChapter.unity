@@ -1586,11 +1586,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5245959868886681680, guid: 4934e84ec27ee494d95bcc9cd1536956, type: 3}
       propertyPath: nextChapter
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5245959868886681680, guid: 4934e84ec27ee494d95bcc9cd1536956, type: 3}
       propertyPath: currentChapter
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5245959868886681681, guid: 4934e84ec27ee494d95bcc9cd1536956, type: 3}
       propertyPath: m_Name
@@ -1708,7 +1708,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Area 3-1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7324823438822523001, guid: 7ec1f9b587d393a40a7d010d6593f90a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7ec1f9b587d393a40a7d010d6593f90a, type: 3}
 --- !u!1001 &1087235533
 PrefabInstance:
@@ -2836,7 +2837,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5035729509657482532, guid: be7f6c4b978b8cd4cb2e6d5481e88ab9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: be7f6c4b978b8cd4cb2e6d5481e88ab9, type: 3}
 --- !u!4 &1929316828 stripped
 Transform:
@@ -3977,14 +3979,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f0817d5652a0045b6c1feabe30b477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTf: {fileID: 0}
-  visibleLayer:
+  isEnable: 0
+  newAlpha: 0.2
+  layerMask:
     serializedVersion: 2
-    m_Bits: 64
-  colorFieldName: _BaseColor
-  opacity: 0.3
-  calcThreshold: 1
-  decimalCount: 3
+    m_Bits: 0
+  rayLength: 30
 --- !u!4 &5311579048703807246
 Transform:
   m_ObjectHideFlags: 0
@@ -4237,14 +4237,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f0817d5652a0045b6c1feabe30b477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTf: {fileID: 0}
-  visibleLayer:
+  isEnable: 0
+  newAlpha: 0.2
+  layerMask:
     serializedVersion: 2
-    m_Bits: 64
-  colorFieldName: _BaseColor
-  opacity: 0.3
-  calcThreshold: 1
-  decimalCount: 3
+    m_Bits: 0
+  rayLength: 30
 --- !u!114 &6934600567202668168
 MonoBehaviour:
   m_ObjectHideFlags: 0

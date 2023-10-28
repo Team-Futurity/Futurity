@@ -2640,8 +2640,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 0
-  m_FrequencyGain: 5
+  m_AmplitudeGain: 0.5193175
+  m_FrequencyGain: 0.5193175
   mNoiseOffsets: {x: 413.1541, y: 209.79037, z: 379.37183}
 --- !u!114 &131184446
 MonoBehaviour:
@@ -3939,7 +3939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Path: {fileID: 1369162071}
-  m_PathPosition: 0
+  m_PathPosition: 84.71898
   m_PositionUnits: 1
   m_PathOffset: {x: 0, y: 0, z: 0}
   m_XDamping: 0
@@ -6809,6 +6809,10 @@ PrefabInstance:
       propertyPath: <PartSystem>k__BackingField
       value: 
       objectReference: {fileID: 1173309214}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: dialogText
+      value: 
+      objectReference: {fileID: 788211376}
     - target: {fileID: 693757723749138536, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14860,6 +14864,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 59.266, y: 10, z: 2}
   m_Center: {x: -6.3554964, y: 4.5, z: 0}
+--- !u!114 &788211376 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 25148977391622301, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 356946801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f459daf9be37b488f29cec020da0c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &790942386
 GameObject:
   m_ObjectHideFlags: 0
@@ -16088,14 +16103,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f0817d5652a0045b6c1feabe30b477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTf: {fileID: 1173309212}
-  visibleLayer:
+  isEnable: 0
+  newAlpha: 0.2
+  layerMask:
     serializedVersion: 2
-    m_Bits: 64
-  colorFieldName: _BaseColor
-  opacity: 0.3
-  calcThreshold: 1
-  decimalCount: 3
+    m_Bits: 0
+  rayLength: 30
 --- !u!95 &871688385
 Animator:
   serializedVersion: 5
@@ -31597,7 +31610,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1709947847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33302,14 +33315,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f0817d5652a0045b6c1feabe30b477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTf: {fileID: 1173309212}
-  visibleLayer:
+  isEnable: 0
+  newAlpha: 0.2
+  layerMask:
     serializedVersion: 2
-    m_Bits: 64
-  colorFieldName: _BaseColor
-  opacity: 0.3
-  calcThreshold: 1
-  decimalCount: 3
+    m_Bits: 0
+  rayLength: 30
 --- !u!95 &1792650185
 Animator:
   serializedVersion: 5
