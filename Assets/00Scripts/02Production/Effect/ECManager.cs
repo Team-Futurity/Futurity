@@ -37,11 +37,11 @@ public class ECManager : Singleton<ECManager>
 		return em;
 	}
 
-	private void LateUpdate()
+	private void FixedUpdate()
 	{
 		foreach(var data in emDictionary.Values)
 		{
-			data.LateUpdate();
+			data.FixedUpdate();
 		}
 	}
 }

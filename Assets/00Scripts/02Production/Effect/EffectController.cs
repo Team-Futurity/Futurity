@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UIElements;
+using static PlayerController;
 
 public class EffectController
 {
@@ -106,9 +107,9 @@ public class EffectController
 	}
 
 	// 추적 설정
-	public void RegisterTracking(EffectKey key, Transform target)
+	public TrackingEffectData RegisterTracking(EffectKey key, Transform target)
 	{
-		if (!CheckEffectKey(key)) { return; }
+		if (!CheckEffectKey(key)) { return null; }
 
 		Vector3 pos = key.position ?? Vector3.zero;
 		Quaternion rot = key.rotation ?? Quaternion.identity;
@@ -116,9 +117,12 @@ public class EffectController
 		Vector3 marginPos = pos != Vector3.zero? pos - target.position : pos;
 		rot.eulerAngles = rot == Quaternion.identity ? Vector3.zero : rot.eulerAngles - target.rotation.eulerAngles;
 
-		trackingEffects.Add(new TrackingEffectData(key.EffectObject, target, marginPos, rot));
+		var trackingData = new TrackingEffectData(key.EffectObject, target, marginPos, rot);
+		trackingEffects.Add(trackingData);
 
 		key.SetTrackingEffect(true);
+
+		return trackingData;
 	}
 	#endregion
 
@@ -171,7 +175,7 @@ public class EffectController
 			levelEffect.index, level);
 
 		// 추적 설정 초기화
-		if (isTrace) { RegisterTracking(newKey, traceTarget); }
+		if (isTrace) { var trackingData = RegisterTracking(newKey, traceTarget); RunTracking(trackingData); }
 
 		// 이펙트 제거 및 단계 변경
 		RemoveEffect(currentKey, trackingNumber);
@@ -209,25 +213,29 @@ public class EffectController
 		key.poolManager.DeactiveObject(key.EffectObject.transform);
 	}
 
-	public void LateUpdate()
+
+	private void RunTracking(TrackingEffectData effectData)
+	{
+		if(effectData == null) { return; }
+
+		effectData.effect.transform.position = effectData.target.position + effectData.positionMargin;
+		effectData.effect.transform.eulerAngles = effectData.target.rotation.eulerAngles + effectData.rotationMargin.eulerAngles;
+	}
+	public void FixedUpdate()
 	{
 		if (trackingEffects.Count <= 0) { return; }
-
-		List<TrackingEffectData> list = null;
+		List<TrackingEffectData> list = new List<TrackingEffectData>();
 
 		// 추적 설정한 오브젝트 이동
 		foreach (var effectData in trackingEffects)
 		{
 			if (effectData.effect == null)
 			{
-				if (list == null) { list = new List<TrackingEffectData>(); }
-
 				list.Add(effectData);
 				continue;
 			}
 
-			effectData.effect.transform.position = effectData.target.position + effectData.positionMargin;
-			effectData.effect.transform.eulerAngles = effectData.target.rotation.eulerAngles + effectData.rotationMargin.eulerAngles;
+			RunTracking(effectData);
 		}
 
 		if (list == null) { return; }
