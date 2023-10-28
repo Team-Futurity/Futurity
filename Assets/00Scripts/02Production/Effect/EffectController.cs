@@ -180,7 +180,7 @@ public class EffectController
 		// 이펙트 제거 및 단계 변경
 		RemoveEffect(currentKey, trackingNumber);
 		levelEffect.currentLevel = level;
-		levelEffect.effect = currentKey.EffectObject;
+		levelEffect.effect = newKey.EffectObject;
 		levelEffect.data = data;
 		newKey.SetLevelEffect(true);
 		currentKey = newKey;
