@@ -62,7 +62,7 @@ public class RootMotionContoller : MonoBehaviour
 				}
 				else
 				{
-					FDebug.Log(hit.collider);
+					//FDebug.Log(hit.collider);
 				}
 			}
 			else
