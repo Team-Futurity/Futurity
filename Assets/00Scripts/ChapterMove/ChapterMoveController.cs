@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChapterMoveController : MonoBehaviour
+public class ChapterMoveController : Singleton<ChapterMoveController>
 {
 	[Header("Component")] 
 	[SerializeField] private GameObject interactionUI;
@@ -15,14 +15,11 @@ public class ChapterMoveController : MonoBehaviour
 	[Header("Fade Out 시간")] 
 	[SerializeField] private float fadeOutTime = 0.5f;
 	[SerializeField] private float fadeInTime = 1.0f;
-
-	[Header("다음 씬으로 넘어갈 콜라이더")] 
-	[SerializeField] private GameObject chapterMoveTrigger;
-	private ObjectPenetrate objectPenetrate;
 	
+	private ObjectPenetrate objectPenetrate;
 	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
 	
-	private void Start()
+	public void OnEnableController()
 	{
 		Init();
 		CheckPenetrate();
@@ -41,17 +38,7 @@ public class ChapterMoveController : MonoBehaviour
 			MoveNextChapter();
 		}
 	}
-
-	public void EnableExitCollider()
-	{
-		if (chapterMoveTrigger == null)
-		{
-			return;
-		}
-
-		chapterMoveTrigger.SetActive(true);
-	}
-
+	
 	public void MoveNextChapter()
 	{
 		InputActionManager.Instance.DisableActionMap();
@@ -63,6 +50,8 @@ public class ChapterMoveController : MonoBehaviour
 			curChapter++;
 			objectPenetrate.enabled = true;
 		});
+		
+		Invoke(nameof(OnEnableController), fadeOutTime + 5.0f);
 	}
 
 	private void EnableEntryCutScene()
