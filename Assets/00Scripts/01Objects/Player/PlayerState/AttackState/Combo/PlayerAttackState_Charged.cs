@@ -58,13 +58,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		// etc
 		private Vector3 maxRangeEffectScale;
+		private GameObject chargeEffectPos;
 
 	public PlayerAttackState_Charged(StateData stateData) : base(stateData, "ChargeTrigger", "Combo") 
 	{ 
 		Sqrt2 = Mathf.Sqrt(2);
 		stateData.SetDataToState();
+		chargeEffectPos = new GameObject("Charge Effect Position");
 	}
-	//public PlayerAttackState_Charged() : base("ChargeTrigger", "Combo") { Sqrt2 = Mathf.Sqrt(2); }
 
 	public override void Begin(PlayerController unit)
 	{
@@ -76,6 +77,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
 		currentTime = 0;
 		currentLevel = 0;
+
+		// effect
+		chargeEffectPos.transform.parent = unit.transform;
+		chargeEffectKey = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Caster, null, null, unit.playerEffectParent);
+		unit.effectController.RegistLevelEffect(chargeEffectKey);
+		unit.effectController.RegisterTracking(chargeEffectKey, chargeEffectPos.transform);
+		rangeEffect = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Ground, unit.transform.position + Vector3.up * 0.01f, unit.transform.rotation, unit.playerEffectParent);
+		maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + IncreasesByLevel[MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m);
 
 		pc = unit;
 	}
@@ -123,7 +132,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		// 디버깅용 Ray
 		FDebug.DrawLine(unit.transform.position, targetPos, Color.red);
 
-		if (!isReleased) { return; }
+		if (!isReleased) { SetPostionChargeEffect(unit);  return; }
 
 		// 돌진 전 위치에서 현재 위치로 향하는 벡터의 크기가 targetMagnitude보다 작고
 		if ((unit.transform.position - originPos).magnitude < targetMagnitude)
@@ -198,24 +207,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				currentLevel = level;
 
-				if (currentLevel > 0)
-				{
-					if(currentLevel == 1)
-					{
-						chargeEffectKey = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Caster, unit.rushEffects[0].effectPos.position, null, unit.playerEffectParent);
-						unit.effectController.RegistLevelEffect(chargeEffectKey);
-						rangeEffect = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Ground, unit.transform.position + Vector3.up * 0.01f, unit.transform.rotation, unit.playerEffectParent);
-						maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + IncreasesByLevel[MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m);
-					}
-					else
-					{
-						unit.effectController.SetEffectLevel(ref chargeEffectKey, currentLevel - 1);
-					}
+				unit.effectController.SetEffectLevel(ref chargeEffectKey, currentLevel);
 
-					unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
-					rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * MathPlus.cm2m);
-				}
-
+				unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
+				rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * MathPlus.cm2m);
 			}
 		}
 		else
@@ -230,8 +225,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			// 돌진이라면
 			if(currentLevel > 0)
 			{
-				// 돌진 이펙트는 1단계 이상에서만 실행
-
 				// Remove Charge Effect
 				unit.effectController.RemoveEffect(chargeEffectKey, null, true);
 				unit.effectController.RemoveEffect(rangeEffect);
@@ -358,5 +351,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		// State Change
 		NextAttackState(pc, PlayerState.AttackAfterDelay);
 		//pc.ChangeState(PlayerState.AttackAfterDelay);
+	}
+
+	private void SetPostionChargeEffect(PlayerController unit)
+	{
+		Vector3 midPosition = (unit.hands[0].transform.position + unit.hands[1].transform.position) * 0.5f;
+		chargeEffectPos.transform.position = midPosition;
 	}
 }
