@@ -25,8 +25,9 @@ public class MDefaultChaseState : EnemyChaseBaseState
 			unit.navMesh.enabled = false;
 			unit.ChangeState(EnemyState.MDefaultAttack);
 		}
-
-		else
+		else if(distance > unit.attackRange)
 			unit.navMesh.SetDestination(unit.target.transform.position);
+		else if (distance > targetDistance)
+			unit.ChangeState(EnemyState.Default);
 	}
 }

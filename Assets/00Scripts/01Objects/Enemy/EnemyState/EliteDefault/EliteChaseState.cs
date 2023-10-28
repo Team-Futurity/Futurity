@@ -33,5 +33,7 @@ public class EliteChaseState : EnemyChaseBaseState
 		{
 			unit.navMesh.SetDestination(unit.target.transform.position);
 		}
+		else if (distance > targetDistance)
+			unit.ChangeState(EnemyState.Default);
 	}
 }

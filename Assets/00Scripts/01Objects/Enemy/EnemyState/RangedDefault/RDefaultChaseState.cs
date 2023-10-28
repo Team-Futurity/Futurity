@@ -31,5 +31,7 @@ public class RDefaultChaseState : EnemyChaseBaseState
 		{
 			unit.navMesh.SetDestination(unit.target.transform.position);
 		}
+		else if (distance > targetDistance)
+			unit.ChangeState(EnemyState.Default);
 	}
 }
