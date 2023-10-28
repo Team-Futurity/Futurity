@@ -100,13 +100,13 @@ public class PlayerAnimationEvents : MonoBehaviour
 		switch (attackProccessOrder)
 		{
 			case 0:
-				chargeState.UpAttack();
+				//chargeState.UpAttack();
 				break;
 			case 1:
-				chargeState.DownAttack();
+				//chargeState.DownAttack();
 				break;
 			case 2:
-				chargeState.EnemyLanding();
+				//chargeState.EnemyLanding();
 				break;
 		}
 	}

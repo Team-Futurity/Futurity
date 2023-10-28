@@ -8,7 +8,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public static int MaxLevel = 4;                 // 최대 차지 단계
 	public static float RangeEffectUnitLength = 0.145f; // Range 이펙트의 1unit에 해당하는 Z축 크기
 	public static float FlyPower = 45;               // 공중 체공 힘
-	public static float WallCollisionDamage = 50f;	// 벽 충돌 시 데미지
+	public static float WallCollisionDamage = 50f;  // 벽 충돌 시 데미지
+	public static float MoveSpeedInCharging = 0.5f;
+	public static ChargeCollisionData ChargeCollisionData;
+	public static GameObject ChargeCollisionEffect;
 	private readonly string KReleaseAnimKey = "KIsReleased";
 	private readonly string DashEndAnimKey = "KDashEnded";
 	private readonly float Sqrt2;
@@ -55,6 +58,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		private EffectKey rangeEffect;
 		private EffectKey rushBodyEffect;
 		private EffectKey rushGroundEffect;
+		private ObjectPoolManager<Transform> collisionToWallEffectPoolManager;
 
 		// etc
 		private Vector3 maxRangeEffectScale;
@@ -65,6 +69,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		Sqrt2 = Mathf.Sqrt(2);
 		stateData.SetDataToState();
 		chargeEffectPos = new GameObject("Charge Effect Position");
+		collisionToWallEffectPoolManager = new ObjectPoolManager<Transform>(ChargeCollisionEffect);
 	}
 
 	public override void Begin(PlayerController unit)
@@ -145,10 +150,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			// 위치 보정
 			unit.transform.position = targetPos;
 
-			if (currentLevel > 0)
-			{
-				unit.animator.SetTrigger(DashEndAnimKey);
-			}
+			unit.animator.SetTrigger(DashEndAnimKey);
 
 			NextAttackState(unit, PlayerState.AttackAfterDelay);
 		}
@@ -172,6 +174,14 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			if(isEnemy)
 			{
 				Vector3 knockbackDir = unit.transform.forward;
+
+				var gotoWall = collision.gameObject.GetComponent<ActiveEffectToWall>();
+				if(gotoWall == null)
+				{
+					gotoWall = collision.gameObject.AddComponent<ActiveEffectToWall>();
+				}
+				gotoWall.RunCollision(ChargeCollisionData, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera);
+
 
 				unitData = collision.transform.GetComponent<UnitBase>();
 				unitData.Knockback(knockbackDir, attackKnockback * 2);
@@ -197,9 +207,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			level = Mathf.Clamp(level, 0, MaxLevel - 1);
 
 			FDebug.Log(rangeEffect);
-			if(rangeEffect != null)
+			if (rangeEffect != null)
 			{
-				rangeEffect.EffectObject.transform.localScale = Vector3.Lerp(rangeEffect.EffectObject.transform.localScale, maxRangeEffectScale, IncreasesByLevel[MaxLevel - 1].LevelStandard * Time.deltaTime);
+				float spendingTime = currentLevel == 0 ? IncreasesByLevel[currentLevel].LevelStandard : IncreasesByLevel[currentLevel].LevelStandard - IncreasesByLevel[currentLevel - 1].LevelStandard;
+				rangeEffect.EffectObject.transform.localScale = Vector3.Lerp(rangeEffect.EffectObject.transform.localScale, maxRangeEffectScale, spendingTime * Time.deltaTime);
 			}
 
 			// 단계가 바뀌었다면
@@ -208,6 +219,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				currentLevel = level;
 
 				unit.effectController.SetEffectLevel(ref chargeEffectKey, currentLevel);
+
+				FDebug.Log(currentLevel + "_" + chargeEffectKey.EffectObject.name + "_" + chargeEffectKey.IsTrackingEffect());
 
 				unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
 				rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * MathPlus.cm2m);
@@ -222,26 +235,18 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			CalculateRushData(unit);
 
-			// 돌진이라면
-			if(currentLevel > 0)
-			{
-				// Remove Charge Effect
-				unit.effectController.RemoveEffect(chargeEffectKey, null, true);
-				unit.effectController.RemoveEffect(rangeEffect);
+			// Remove Charge Effect
+			unit.effectController.RemoveEffect(chargeEffectKey, null, true);
+			unit.effectController.RemoveEffect(rangeEffect);
 
-				// Active Move Effects
-				rushBodyEffect = unit.effectController.ActiveEffect(EffectActivationTime.MoveWhileAttack, EffectTarget.Caster, null, null, unit.playerEffectParent);
-				unit.effectController.RegisterTracking(rushBodyEffect, unit.rushEffects[2].effectPos);
-				rushGroundEffect = unit.effectController.ActiveEffect(EffectActivationTime.MoveWhileAttack, EffectTarget.Ground, null, null, unit.playerEffectParent);
-				unit.effectController.RegisterTracking(rushGroundEffect, unit.transform);
+			// Active Move Effects
+			rushBodyEffect = unit.effectController.ActiveEffect(EffectActivationTime.MoveWhileAttack, EffectTarget.Caster, null, null, unit.playerEffectParent);
+			unit.effectController.RegisterTracking(rushBodyEffect, unit.rushEffects[2].effectPos);
+			rushGroundEffect = unit.effectController.ActiveEffect(EffectActivationTime.MoveWhileAttack, EffectTarget.Ground, null, null, unit.playerEffectParent);
+			unit.effectController.RegisterTracking(rushGroundEffect, unit.transform);
 
-				// 별도 처리
-				originScale = unit.basicCollider.radius; 
-			}
-			else
-			{
-				unit.playerAnimationEvents.AllocateEffect(EffectActivationTime.InstanceAttack, EffectTarget.Caster, unit.rushEffects[1].effectPos);
-			}
+			// 별도 처리
+			originScale = unit.basicCollider.radius;
 		}
 
 		currentTime += Time.deltaTime;
@@ -306,7 +311,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		}
 	}
 
-	public void UpAttack()
+	/*public void UpAttack()
 	{
 		// Enemy 초기 위치를 Ground로 지정
 		groundPos = firstEnemy.transform.position;
@@ -351,7 +356,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		// State Change
 		NextAttackState(pc, PlayerState.AttackAfterDelay);
 		//pc.ChangeState(PlayerState.AttackAfterDelay);
-	}
+	}*/
 
 	private void SetPostionChargeEffect(PlayerController unit)
 	{
