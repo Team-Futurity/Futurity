@@ -4,28 +4,33 @@ using UnityEngine;
 
 public class ChapterMoveController : MonoBehaviour
 {
-	[Header("Component")] [SerializeField] private GameObject interactionUI;
-	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
+	[Header("Component")] 
+	[SerializeField] private GameObject interactionUI;
 	[ReadOnly(false), SerializeField] private ChapterCutSceneManager cutSceneManager;
-
-	[Header("챕터 정보")] [SerializeField] private List<ChapterData> chapterData;
+	
+	[Header("챕터 정보")] 
+	[SerializeField] private List<ChapterData> chapterData;
 	[SerializeField, ReadOnly(false)] private EChapterType curChapter = EChapterType.CHAPTER1_1;
 
-	[Header("Fade Out 시간")] [SerializeField]
-	private float fadeOutTime = 0.5f;
-
+	[Header("Fade Out 시간")] 
+	[SerializeField] private float fadeOutTime = 0.5f;
 	[SerializeField] private float fadeInTime = 1.0f;
 
-	[Header("다음 씬으로 넘어갈 콜라이더")] [SerializeField]
-	private GameObject chapterMoveTrigger;
-
+	[Header("다음 씬으로 넘어갈 콜라이더")] 
+	[SerializeField] private GameObject chapterMoveTrigger;
+	private ObjectPenetrate objectPenetrate;
+	
+	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
+	
 	private void Start()
 	{
 		Init();
+		CheckPenetrate();
 		EnableEntryCutScene();
-
+		
 		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status
 			.updateHPEvent.Invoke(230f, 230f);
+		
 		Time.timeScale = 1.0f;
 	}
 
@@ -54,7 +59,9 @@ public class ChapterMoveController : MonoBehaviour
 		FadeManager.Instance.FadeIn(fadeInTime, () =>
 		{
 			SceneLoader.Instance.LoadScene(chapterData[(int)curChapter].NextChapterName);
+			
 			curChapter++;
+			objectPenetrate.enabled = true;
 		});
 	}
 
@@ -79,11 +86,26 @@ public class ChapterMoveController : MonoBehaviour
 		FadeManager.Instance.FadeOut(fadeOutTime, () => cutSceneEvent?.Invoke());
 	}
 
+	private void CheckPenetrate()
+	{
+		if (chapterData[(int)curChapter].IsPenetrate == true)
+		{
+			objectPenetrate.enabled = true;
+		}
+	}
+
 	private void Init()
 	{
 		if (GameObject.FindWithTag("CutScene").TryGetComponent(out cutSceneManager) == true)
 		{
 			cutSceneManager.InitManager();
 		}
+
+		if (objectPenetrate != null)
+		{
+			return;
+		}
+		
+		objectPenetrate = GameObject.FindWithTag("PlayerCamera").GetComponent<ObjectPenetrate>();
 	}
 }
