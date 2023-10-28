@@ -9,12 +9,14 @@ public class EnemyHittedState : StateBase
 	private bool isColorChanged = false;
 	private Color defaultColor = new Color(1, 1, 1, 0f);
 
+	Vector3 direction;
+
 	public override void Begin(EnemyController unit)
 	{
 		curTime = 0;
-		unit.animator.SetTrigger(unit.hitAnimParam);
+		
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
-
+		PrintAnimation(unit);
 		unit.enemyData.StopAnimation(unit.stopFrameCount, unit.skipFrameCountBeforeStop);
 
 		if(unit.currentEffectKey != null)
@@ -38,7 +40,18 @@ public class EnemyHittedState : StateBase
 		else
 			unit.DelayChangeState(curTime, unit.hitDelay, unit, unit.UnitChaseState());
 
-		//Death event
+		DeathEvent(unit);
+	}
+
+	public override void End(EnemyController unit)
+	{
+		unit.rigid.velocity = Vector3.zero;
+		isColorChanged = false;
+		unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
+	}
+
+	public void DeathEvent(EnemyController unit)
+	{
 		if (unit.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
 		{
 			if (!unit.IsCurrentState(EnemyState.Death))
@@ -48,10 +61,13 @@ public class EnemyHittedState : StateBase
 		}
 	}
 
-	public override void End(EnemyController unit)
+	public void PrintAnimation(EnemyController unit)
 	{
-		unit.rigid.velocity = Vector3.zero;
-		isColorChanged = false;
-		unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
+		direction = unit.transform.position - unit.target.transform.position;
+
+		if(direction.x > 0)
+			unit.animator.SetTrigger(unit.hitFAnimParam);
+		else
+			unit.animator.SetTrigger(unit.hitBAnimParam);
 	}
 }
