@@ -12,7 +12,14 @@ public class SpawnerEvent : MonoBehaviour
 	[Header("콜라이더 이벤트")] 
 	[SerializeField] private Collider enableCollider;
 	[SerializeField] private Collider disableCollider;
+
+	private TimelineManager timeline;
 	
+	private void Start()
+	{
+		timeline = TimelineManager.Instance;
+	}
+
 	public void InterimEvent(DialogData dialogData)
 	{
 		dialogController.gameObject.SetActive(true);
@@ -26,38 +33,10 @@ public class SpawnerEvent : MonoBehaviour
 		{
 			return;
 		}
-
-		switch (spawnerType)
-		{
-			case ESpawnerType.NONEVENT:
-				break;
-				
-			case ESpawnerType.CHAPTER1_AREA1:
-				CheckEndEventCollider();
-				TimelineManager.Instance.EnableCutScene(ECutSceneType.LASTKILL);
-				return;
-
-			case ESpawnerType.CHAPTER1_AREA3:
-				CheckEndEventCollider();
-				TimelineManager.Instance.EnableCutScene(ECutSceneType.AREA3_EXIT);
-				chapterMoveTrigger.SetActive(true);
-				return;
-			
-			case ESpawnerType.CHAPTER2_AREA1:
-				break;
-			
-			case ESpawnerType.CHAPTER2_AREA2:
-				break;
-			
-			case ESpawnerType.CHAPTER_BOSS:
-				break;
-			
-			default:
-				break;
-		}
 		
-		TimelineManager.Instance.EnableCutScene(ECutSceneType.LASTKILL);
+		CheckEndEventCollider();
 		chapterMoveTrigger.SetActive(true);
+		timeline.EnableCutScene(spawnerType != ESpawnerType.CHAPTER1_AREA3 ? ECutSceneType.LASTKILL : ECutSceneType.AREA3_EXIT);
 	}
 
 	private void CheckEndEventCollider()
