@@ -90,8 +90,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		unit.effectController.RegisterTracking(chargeEffectKey, chargeEffectPos.transform);
 		rangeEffect = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Ground, unit.transform.position + Vector3.up * 0.01f, unit.transform.rotation, unit.playerEffectParent);
 		maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + IncreasesByLevel[MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m);
+		rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * unit.curNode.attackLengthMark * MathPlus.cm2m);
 
 		pc = unit;
+		unit.playerData.EnableAttackTime();
+		unit.playerData.EnableAttackTiming();
 	}
 
 	public override void End(PlayerController unit)
@@ -180,13 +183,15 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				{
 					gotoWall = collision.gameObject.AddComponent<ActiveEffectToWall>();
 				}
-				gotoWall.RunCollision(ChargeCollisionData, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera);
-
 
 				unitData = collision.transform.GetComponent<UnitBase>();
 				unitData.Knockback(knockbackDir, attackKnockback * 2);
 
+				DamageInfo wallDamageInfo = new DamageInfo(unit.playerData, unitData, unit.curNode.attackST);
+				gotoWall.RunCollision(ChargeCollisionData, wallDamageInfo, unitData, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera);
+
 				DamageInfo info = new DamageInfo(unit.playerData, unitData, attackNode.attackST);
+				
 				unit.playerData.Attack(info);
 			}
 
@@ -210,7 +215,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			if (rangeEffect != null)
 			{
 				float spendingTime = currentLevel == 0 ? IncreasesByLevel[currentLevel].LevelStandard : IncreasesByLevel[currentLevel].LevelStandard - IncreasesByLevel[currentLevel - 1].LevelStandard;
-				rangeEffect.EffectObject.transform.localScale = Vector3.Lerp(rangeEffect.EffectObject.transform.localScale, maxRangeEffectScale, spendingTime * Time.deltaTime);
+				rangeEffect.EffectObject.transform.localScale = Vector3.Lerp(rangeEffect.EffectObject.transform.localScale, maxRangeEffectScale, spendingTime / Time.deltaTime);
 			}
 
 			// 단계가 바뀌었다면
@@ -224,6 +229,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 				unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
 				rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * MathPlus.cm2m);
+				attackLengthMark = unit.curNode.attackLengthMark + IncreasesByLevel[currentLevel].LengthMarkIncreasing;
 			}
 		}
 		else
@@ -276,7 +282,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		// 레벨 별 데이터
 		attackST = unit.curNode.attackST + IncreasesByLevel[currentLevel].AttackSTIncreasing;
-		attackLengthMark = unit.curNode.attackLengthMark + IncreasesByLevel[currentLevel].LengthMarkIncreasing;
 		attackKnockback = unit.curNode.attackKnockback + IncreasesByLevel[currentLevel].KnockbackIncreasing;
 
 		// 초당 이동 속도 계산(m/sec)
