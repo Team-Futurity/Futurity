@@ -24,25 +24,13 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private float attackKnockback;     // 최종적으로 이동할 거리
 	private float attackST;				// 최종 공격배율
 	private float targetMagnitude;		// originPos에서 targetPos로 향하는 벡터의 크기^2
-	private float basicRayLength;		// ray의 기본 길이
-	private float enemyRayLength;		// 적을 고려한 Ray 길이
-	private float rayLength             // 최종 ray의 길이(basic + enemy)
-		{ get { return basicRayLength + enemyRayLength; } }
-	private RaycastHit hit;				// 충돌 정보를 가져올 RaycastHit
 	private Vector3 forward;			// 시선 벡터
 	private Vector3 originPos;          // 돌진 전 위치
 	private Vector3 targetPos;          // 목표 위치
-	private Rigidbody firstEnemy;       // 첫번째로 충돌한 적
-	private Collider firstEnemyCollider;		// 첫번째로 충돌한 적의 콜라이더
-	private UnitBase firstEnemyData;			// 첫번째로 충돌한 적의 데이터
-	private float enemyDistance;				// 첫번째로 충돌한 적과의 거리
-	private Vector3 groundPos;          // Enemy의 체공 이전 좌표
 	private float originScale;		// Player의 원래 콜라이더 크기
 
 	// Trigger
 	public bool isReleased; // 돌진 버튼이 Release되면 true
-	private bool isEnd;     // 돌진 프로세스(이동)가 종료되었는가
-	private bool isLanding;	// Enemy가 착지중이라면
 
 	// Layer
 	public LayerMask wallLayer = 1 << 6; // wall Layer
@@ -103,31 +91,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		unit.rigid.velocity = Vector3.zero;
 
-		if (firstEnemy != null)
-		{
-			firstEnemy.velocity = Vector3.zero;
-			firstEnemy.transform.eulerAngles = new Vector3(0, firstEnemy.rotation.eulerAngles.y, 0);
-
-			// Enemy 행동 제약 해제(XZ)
-			firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
-			firstEnemyCollider.enabled = true;
-
-			firstEnemy = null;
-			firstEnemyCollider = null;
-		}
-
 		isReleased = false;
 		unit.specialIsReleased = false;
-		isEnd = false;
-		isLanding = false;
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed);
 
 		RemoveEffects(unit);
-
-		/*if(curEffect != null)
-		{
-			unit.rushObjectPool.DeactiveObject(curEffect);
-		}*/
 
 		pc.basicCollider.radius = originScale;
 		pc.rigid.velocity = Vector3.zero;
@@ -271,7 +239,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		// 벽(장애물)과 충돌했으니 바로 돌진 종료
 		NextAttackState(unit, PlayerState.AttackAfterDelay);
-		//unit.ChangeState(PlayerState.AttackAfterDelay);
 	}
 
 	private void CalculateRushData(PlayerController unit)
@@ -311,53 +278,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			RemoveEffect(unit, chargeEffectKey);
 		}
 	}
-
-	/*public void UpAttack()
-	{
-		// Enemy 초기 위치를 Ground로 지정
-		groundPos = firstEnemy.transform.position;
-
-		// Enemy 행동 제약 해제(XZ)
-		firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
-		firstEnemyCollider.enabled = true;
-
-		// Enemy 날리기 
-		firstEnemy.AddForce(Vector3.up * FlyPower, ForceMode.VelocityChange);
-		pc.effectController.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Target, firstEnemy.transform.position);
-
-		// 돌진이 끝났음을 알림
-		isEnd = true;
-
-		pc.basicCollider.radius = originScale;
-		pc.rigid.velocity = Vector3.zero;
-	}
-
-	public void DownAttack()
-	{
-		// 속도 초기화 후 아래로 힘을 가함
-		firstEnemy.velocity = Vector3.zero;
-		firstEnemy.AddForce(Vector3.down * FlyPower, ForceMode.VelocityChange);
-
-		// Landing 상태가 됨을 알림
-		isLanding = true;
-	}
-
-	public void EnemyLanding()
-	{
-		// 이팩트 출력
-		pc.effectController.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Ground, groundPos, null, null, 0, currentLevel - 1);
-
-		// 포지션 정상화
-		firstEnemy.transform.position = groundPos;
-
-		// 데미지 처리
-		DamageInfo info = new DamageInfo(pc.playerData, firstEnemyData, attackST);
-		pc.playerData.Attack(info);
-
-		// State Change
-		NextAttackState(pc, PlayerState.AttackAfterDelay);
-		//pc.ChangeState(PlayerState.AttackAfterDelay);
-	}*/
 
 	private void SetPostionChargeEffect(PlayerController unit)
 	{
