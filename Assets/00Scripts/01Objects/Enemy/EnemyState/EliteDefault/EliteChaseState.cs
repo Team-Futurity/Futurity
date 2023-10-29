@@ -29,9 +29,11 @@ public class EliteChaseState : EnemyChaseBaseState
 		{
 			unit.ChangeState(EnemyState.EliteRangedAttack);
 		}
-		else if (distance > unit.attackRange)
+		else if (distance > unit.attackRange && distance < targetDistance)
 		{
 			unit.navMesh.SetDestination(unit.target.transform.position);
 		}
+		else if (distance > targetDistance)
+			unit.ChangeState(EnemyState.Default);
 	}
 }

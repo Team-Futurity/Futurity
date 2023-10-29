@@ -1,12 +1,11 @@
 public enum EChapterType
 {
-	NONEVENTCHAPTER = -1,
 	CHAPTER1_1,
 	CHAPTER1_2,
+	CHAPTER1_3,
 	CHAPTER2_1,
 	CHAPTER2_2,
 	CHAPTER_BOSS,
-	NONE,
 }
 
 public static class ChapterSceneName

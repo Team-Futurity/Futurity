@@ -22,7 +22,7 @@ public class RootMotionContoller : MonoBehaviour
 		}
 	}
 
-	// �ִϸ��̼� ��ȯ �� ����
+	// ¾Ö´Ï¸ÞÀÌ¼Ç ÀüÈ¯ ½Ã ½ÇÇà
 	public bool SetRootMotion(string animName, int layer = 0)
 	{
 		if(animName == null) { return false; }

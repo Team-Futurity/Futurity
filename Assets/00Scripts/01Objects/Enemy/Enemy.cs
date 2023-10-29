@@ -16,6 +16,9 @@ public class Enemy : UnitBase
 
 	public override void Hit(DamageInfo damageInfo)
 	{
+		FDebug.Log(ec.transform.position - ec.target.transform.position);
+		FDebug.Log(ec.transform.eulerAngles.y);
+
 		ec.knockbackPower = damageInfo.KnockbackPower;
 
 		ec.ChangeState(EnemyState.Hitted);

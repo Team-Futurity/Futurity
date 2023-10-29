@@ -2,7 +2,6 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -23,6 +22,7 @@ public class IntroCutScene : CutSceneBase
 	
 	private Queue<SkeletonGraphic> cutSceneQueue;
 	private bool isInput = false;
+	private bool isInputCheck = false;
 
 	private IEnumerator skeletonCutScene;
 	
@@ -56,7 +56,7 @@ public class IntroCutScene : CutSceneBase
 	#if UNITY_EDITOR
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.F))
+		if (Input.GetKeyDown(KeyCode.F) && isInputCheck == true)
 		{
 			isInput = true;
 		}
@@ -76,10 +76,11 @@ public class IntroCutScene : CutSceneBase
 		SkeletonGraphic skeleton = cutSceneQueue.Dequeue();
 		int curAniIndex = 0;
 		int maxAniCount = skeleton.Skeleton.Data.Animations.Count;
-		
+
 		while (true)
 		{
 			skeleton.gameObject.SetActive(true);
+			isInputCheck = true;
 			
 			Animation ani = skeleton.Skeleton.Data.Animations.Items[curAniIndex];
 			skeleton.AnimationState.SetAnimation(0, ani, false);
@@ -107,11 +108,11 @@ public class IntroCutScene : CutSceneBase
 				curAniIndex = 0;
 				maxAniCount = skeleton.Skeleton.Data.Animations.Count;
 			}
-
+			
 			isInput = false;
 		}
 		
-		isInput = false;
+		isInputCheck = isInput = false;
 		introCutScene.Resume();
 	}
 

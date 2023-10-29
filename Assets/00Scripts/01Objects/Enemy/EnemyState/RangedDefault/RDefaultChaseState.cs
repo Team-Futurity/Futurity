@@ -6,8 +6,6 @@ using UnityEngine;
 [FSMState((int)EnemyState.RDefaultChase)]
 public class RDefaultChaseState : EnemyChaseBaseState
 {
-	private float attackBeforeDelay = 3f;
-
 	public override void Begin(EnemyController unit)
 	{
 		base.Begin(unit);
@@ -22,15 +20,18 @@ public class RDefaultChaseState : EnemyChaseBaseState
 		base.Update(unit);
 
 		unit.transform.LookAt(unit.target.transform.position);
-		 if (distance < unit.attackRange)
+
+		if (distance < unit.attackRange)
 		{
 			curTime += Time.deltaTime;
 			unit.rigid.velocity = Vector3.zero;
-			unit.DelayChangeState(curTime, attackBeforeDelay, unit, EnemyState.RDefaultAttack);
+			unit.DelayChangeState(curTime, 0.5f, unit, EnemyState.RDefaultAttack);
 		}
-		else if (distance > unit.attackRange)
+		else if (distance > unit.attackRange && distance < targetDistance)
 		{
 			unit.navMesh.SetDestination(unit.target.transform.position);
 		}
+		else if (distance > targetDistance)
+			unit.ChangeState(EnemyState.Default);
 	}
 }

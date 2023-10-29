@@ -26,7 +26,7 @@ public class EnemyDeathState : StateBase
 		curTime += Time.deltaTime;
 
 		if (unit.copyDMat.GetFloat(copyDMatProperty) > 0f)
-			unit.copyDMat.SetFloat(copyDMatProperty, 1f - curTime); ;
+			unit.copyDMat.SetFloat(copyDMatProperty, 1f - curTime);
 
 		if (curTime > deathDelay)
 		{
