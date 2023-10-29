@@ -4,6 +4,7 @@ public enum SpecialMoveType
 {
 	None,
 	Basic,
+	Beta,
 	Test
 }
 
