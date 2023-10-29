@@ -255,7 +255,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		originPos = unit.transform.position;
 		targetPos = originPos + forward * (attackLengthMark * MathPlus.cm2m);
 		targetMagnitude = (targetPos - originPos).magnitude;
-		basicRayLength = moveSpeed * Time.fixedDeltaTime + Sqrt2 * unit.basicCollider.radius;
 	}
 
 	private void RemoveEffect(PlayerController unit, EffectKey effect)
