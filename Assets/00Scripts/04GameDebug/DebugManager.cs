@@ -42,8 +42,6 @@ public class DebugManager : Singleton<DebugManager>
 	{
 		base.Awake();
 
-		previousMap = InputActionManager.Instance.InputActions.Debug;
-
 		Help = new DebugCommand("help", "명령어 목록을 출력합니다.", "help", AddHelpLog);
 		Clear = new DebugCommand("clear", "로그 기록을 모두 삭제합니다.", "clear", logs.Clear);
 		PrintInt = new DebugCommand<int>("print", "Print Inteager", "print", (v1) => { FDebug.Log(v1); });
@@ -63,9 +61,19 @@ public class DebugManager : Singleton<DebugManager>
 		};
 	}
 
+	private void Start()
+	{
+		previousMap = InputActionManager.Instance.InputActions.Debug;
+
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+	}
+
 	protected override void OnEnable()
 	{
 		base.OnEnable();
+
+		if(InputActionManager.Instance.InputActions == null) { return; }
 
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
