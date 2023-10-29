@@ -139,8 +139,12 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnESC(InputAction.CallbackContext context)
 	{
-		//Time.timeScale = .0f;
-		
+		if (UIManager.Instance.IsOpenWindow(WindowList.PAUSE))
+		{
+			return;
+		}
+
+		Time.timeScale = .0f;
 		UIManager.Instance.OpenWindow(WindowList.PAUSE);
 	}
 	#endregion

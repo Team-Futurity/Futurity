@@ -25,6 +25,10 @@ public class TutorialController : MonoBehaviour
 		{
 			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 		}
+		else
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		}
 	}
 
 	private void Start()

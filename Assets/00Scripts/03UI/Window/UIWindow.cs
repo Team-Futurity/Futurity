@@ -93,7 +93,8 @@ public class UIWindow : MonoBehaviour
 		UIInputManager.Instance.ClearAll();
 		
 		// Set this CurrentButton -> UIInputManager
-		UIInputManager.Instance.SetButtonList(CurrentWindowButtons, false);
+		if(CurrentWindowButtons != null)
+			UIInputManager.Instance.SetButtonList(CurrentWindowButtons, false);
 	}
 
 	public void CloseWindow()
