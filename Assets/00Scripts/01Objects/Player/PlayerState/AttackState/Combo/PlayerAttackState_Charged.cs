@@ -230,10 +230,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			unit.playerData.Attack(info);
 		}
 
-		if (currentLevel > 0)
-		{
-			unit.animator.SetTrigger(DashEndAnimKey);
-		}
+		unit.animator.SetTrigger(DashEndAnimKey);
 
 		unit.rigid.velocity = Vector3.zero;
 
