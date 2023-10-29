@@ -8,19 +8,9 @@ public class UIInputManager : Singleton<UIInputManager>
 	// Button List
 	private Dictionary<int, UIButton> currentActiveButtons = new Dictionary<int, UIButton>();
 
-	private PlayerInput playerInput;
-
 	// Button Index
 	private int currentIndex = 0;
 	private int saveIndex = 0;
-
-	protected override void Awake()
-	{
-		base.Awake();
-
-		TryGetComponent(out playerInput);
-
-	}
 
 	private void Start()
 	{
@@ -33,20 +23,9 @@ public class UIInputManager : Singleton<UIInputManager>
 		// Left & Right
 		InputActionManager.Instance.RegisterCallback(map.LeftKey, (context) => OnLeftKey(context), true);
 		InputActionManager.Instance.RegisterCallback(map.RightKey, (context) => OnRightKey(context), true);
-	}
-
-	private void SetInputActionAsset(InputActionData actionData)
-	{
-		if (actionData.actionType == InputActionType.UI)
-		{
-			playerInput.actions = actionData.actionAsset;
-			playerInput.actions.Enable();
-		}
-	}
-
-	private void RemoveInputActionAsset()
-	{
-		playerInput.actions.Disable();
+		
+		// Esc Key
+		//InputActionManager.Instance.RegisterCallback();
 	}
 
 	#region Button
@@ -156,6 +135,12 @@ public class UIInputManager : Singleton<UIInputManager>
 		}
 
 		currentActiveButtons[currentIndex].Active();
+	}
+
+	public void OnPause(InputAction.CallbackContext context)
+	{
+		// ESC Key
+		
 	}
 	#endregion
 }
