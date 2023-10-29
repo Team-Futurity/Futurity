@@ -15,8 +15,11 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 	public int GetTargetCount() => targets.Count;
 
 	// collider
-	ColliderBase attackColliderData;
-	ColliderBase autotargetColliderData;
+	private ColliderBase attackColliderData;
+	private ColliderBase autotargetColliderData;
+
+	// switch
+	private bool isAutoTargeted;
 
 	public override void Begin(PlayerController pc)
 	{
@@ -41,9 +44,12 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		pc.rmController.SetRootMotion("Attack");
 
 		// autoTargetting
-		float range = isCombo 
-			? pc.autoLength * MathPlus.cm2m 
-			: (attackNode.attackLengthMark + (PlayerAttackState_Charged.MaxLevel - 1) * PlayerAttackState_Charged.LengthMarkIncreasing) * MathPlus.cm2m;
+		float range = 
+			isCombo 
+			? 
+			pc.autoLength * MathPlus.cm2m 
+			: 
+			(attackNode.attackLengthMark + PlayerAttackState_Charged.IncreasesByLevel[PlayerAttackState_Charged.MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m;
 
 		// Collider
 		
@@ -52,12 +58,15 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		attackColliderData.SetCollider(attackNode.attackAngle, attackNode.attackLength * MathPlus.cm2m);
 		autotargetColliderData.SetCollider(pc.autoAngle, range);
 
+		isAutoTargeted = false;
+
 		targets.Clear();
 
 		pc.playerData.EnableAttackTime();
 
 		// ohter Setting
 		pc.SetGauntlet(true);
+		pc.sariObject.OnDelayPreMove();
 
 		// sound
 		if (isCombo)
@@ -70,10 +79,11 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 	{
 		base.Update(pc);
 
-		if (targets.Count > 0)
+		if (targets.Count > 0 && !isAutoTargeted)
 		{
 			ColliderBase collider = pc.attackColliderChanger.GetCollider(attackNode.attackColliderType);
 			bool isMove = AutoTarget.Instance.AutoTargetProcess(targets, pc.gameObject, collider, pc.autoAngle, pc.moveMargin, pc.moveTime, !pc.curNode.ignoresAutoTargetMove);
+			isAutoTargeted = true;
 			// 오토타겟 이동 2안) /*if (isMove) { pc.ResetCombo(); pc.StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack); Begin(pc); }*/
 		}
 

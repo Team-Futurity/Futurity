@@ -1,0 +1,77 @@
+{
+"skeleton": {
+	"hash": "FB05kU8Q4K8",
+	"spine": "4.1.21",
+	"x": -951,
+	"y": -531,
+	"width": 1922,
+	"height": 1082,
+	"images": "./images/",
+	"audio": "D:/퓨처리티/컷씬/엔딩/엔딩5"
+},
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "back", "bone": "root", "attachment": "back" },
+	{ "name": "back_blur", "bone": "root", "attachment": "back_blur" },
+	{ "name": "mirae", "bone": "root", "attachment": "mirae" },
+	{ "name": "mirae_blur", "bone": "root", "attachment": "mirae_blur" },
+	{ "name": "frame", "bone": "root", "attachment": "frame" },
+	{ "name": "용지", "bone": "root", "attachment": "용지" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"back": {
+				"back": { "x": 10, "y": 10, "width": 1922, "height": 1082 }
+			},
+			"back_blur": {
+				"back_blur": { "x": 10, "y": 10, "width": 1922, "height": 1082 }
+			},
+			"frame": {
+				"frame": { "x": 10, "y": 10, "width": 1922, "height": 1082 }
+			},
+			"mirae": {
+				"mirae": { "x": 98.5, "y": -235.5, "width": 691, "height": 507 }
+			},
+			"mirae_blur": {
+				"mirae_blur": { "x": 99, "y": -235.5, "width": 700, "height": 521 }
+			},
+			"용지": {
+				"용지": { "x": 10, "y": 10, "width": 1922, "height": 1082 }
+			}
+		}
+	}
+],
+"animations": {
+	"ending_forth_cut": {
+		"slots": {
+			"back_blur": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 0, 0.889, 1 ]
+					},
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			},
+			"mirae_blur": {
+				"attachment": [
+					{}
+				]
+			},
+			"용지": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.667, 1, 2, 1, 0.667, 1, 2, 1, 0.667, 1, 2, 1, 0.667, 0, 2, 1 ]
+					},
+					{ "time": 2.6667, "color": "ffffffff" }
+				]
+			}
+		}
+	}
+}
+}

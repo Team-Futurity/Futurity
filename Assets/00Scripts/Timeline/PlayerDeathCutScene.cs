@@ -19,7 +19,7 @@ public class PlayerDeathCutScene : CutSceneBase
 		StartGrayScaleRoutine();
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		chapterManager.playerCamera.RevertCameraValue();
 

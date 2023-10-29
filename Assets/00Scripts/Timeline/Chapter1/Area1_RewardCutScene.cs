@@ -23,7 +23,7 @@ public class Area1_RewardCutScene : CutSceneBase
 		chapterManager.SetActiveMainUI(false);
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		chapterManager.scripting.DisableAllNameObject();
 		chapterManager.scripting.ResetEmotion();

@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-	[SerializeField] private EnemyController ec;
-
-
+	[SerializeField] private float projectileSpeed = 10.0f;
 	private void Update()
     {
-		transform.position += transform.forward * ec.projectileSpeed * Time.deltaTime;
+		transform.position += transform.forward * projectileSpeed * Time.deltaTime;
 	}
 }

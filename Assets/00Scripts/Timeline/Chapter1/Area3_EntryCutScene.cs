@@ -43,7 +43,7 @@ public class Area3_EntryCutScene : CutSceneBase
 		SetCameraVignette();
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();

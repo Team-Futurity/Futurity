@@ -1,22 +1,27 @@
 using UnityEngine;
 using static EnemyController;
 
-[FSMState((int)EnemyController.EnemyState.Hitted)]
-public class EnemyHittedState : UnitState<EnemyController>
+[FSMState((int)EnemyState.Hitted)]
+public class EnemyHittedState : StateBase
 {
+	private float hitColorChangeTime = 0.2f;
+
 	private bool isColorChanged = false;
-	private float curTime;
 	private Color defaultColor = new Color(1, 1, 1, 0f);
+
+	Vector3 direction;
 
 	public override void Begin(EnemyController unit)
 	{
-		//FDebug.Log("Hit Begin");
 		curTime = 0;
-
-		//unit.rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
-
-		unit.animator.SetTrigger(unit.hitAnimParam);
+		
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
+    
+    PrintAnimation(unit);
+		unit.enemyData.AlterAnimationSpeed(unit.stopFrameCount, unit.skipFrameCountBeforeStop, 0);
+
+		if(unit.currentEffectKey != null)
+			unit.effectController.RemoveEffect(unit.currentEffectKey);
 
 		AudioManager.Instance.PlayOneShot(unit.hitSound, unit.transform.position);
 	}
@@ -25,18 +30,29 @@ public class EnemyHittedState : UnitState<EnemyController>
 		curTime += Time.deltaTime;
 
 		if(!isColorChanged)
-			if(curTime > unit.hitColorChangeTime)
+			if(curTime > hitColorChangeTime)
 			{
 				unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
 				isColorChanged = true;
 			}
 
-		if (unit.isTutorialDummy)
-			unit.DelayChangeState(curTime, 0.5f, unit, EnemyController.EnemyState.TutorialIdle);
+		if (unit.ThisEnemyType == EnemyType.TutorialDummy)
+			unit.DelayChangeState(curTime, 0.5f, unit, EnemyState.TutorialIdle);
 		else
-			unit.DelayChangeState(curTime, unit.hitMaxTime, unit, unit.UnitChaseState());
+			unit.DelayChangeState(curTime, unit.hitDelay, unit, unit.UnitChaseState());
 
-		//Death event
+		DeathEvent(unit);
+	}
+
+	public override void End(EnemyController unit)
+	{
+		unit.rigid.velocity = Vector3.zero;
+		isColorChanged = false;
+		unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
+	}
+
+	public void DeathEvent(EnemyController unit)
+	{
 		if (unit.enemyData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
 		{
 			if (!unit.IsCurrentState(EnemyState.Death))
@@ -46,28 +62,23 @@ public class EnemyHittedState : UnitState<EnemyController>
 		}
 	}
 
-	public override void FixedUpdate(EnemyController unit)
+	public void PrintAnimation(EnemyController unit)
 	{
-		
-	}
+		direction = unit.transform.position - unit.target.transform.position;
 
-	public override void End(EnemyController unit)
-	{
-		//FDebug.Log("Hit End");
-
-		//unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
-		unit.rigid.velocity = Vector3.zero;
-		isColorChanged = false;
-		unit.copyUMat.SetColor(unit.matColorProperty, defaultColor);
-	}
-
-	public override void OnTriggerEnter(EnemyController unit, Collider other)
-	{
-		
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-
+		if (direction.x > 0)
+		{
+			if (unit.transform.eulerAngles.y > 0 && unit.transform.eulerAngles.y < 180)
+				unit.animator.SetTrigger(unit.hitBAnimParam);
+			else if (unit.transform.eulerAngles.y > 180 && unit.transform.eulerAngles.y < 360)
+				unit.animator.SetTrigger(unit.hitFAnimParam);
+		}
+		else if (direction.x < 0)
+		{
+			if (unit.transform.eulerAngles.y > 0 && unit.transform.eulerAngles.y < 180)
+				unit.animator.SetTrigger(unit.hitFAnimParam);
+			else if (unit.transform.eulerAngles.y > 180 && unit.transform.eulerAngles.y < 360)
+				unit.animator.SetTrigger(unit.hitBAnimParam);
+		}
 	}
 }

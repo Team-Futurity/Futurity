@@ -46,7 +46,6 @@ public class PlayerMoveState : UnitState<PlayerController>
 
 			float cutValue = 0.1e-5f + angleCut;
 
-			FDebug.Log(cutValue + "__" + dot + "__" + (dot < cutValue || dot >= 1 - cutValue));
 			if (dot < cutValue || dot >= 1 - cutValue)
 			{			
 				pc.animator.SetBool(MoveAnimKey, false);

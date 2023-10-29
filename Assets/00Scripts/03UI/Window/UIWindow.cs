@@ -100,19 +100,18 @@ public class UIWindow : MonoBehaviour
 	{
 		ChangeState(WindowState.ASSIGN);
 
+		isOpen = false;
+
 		for (int i = 0; i < CurrentWindowObjects.Count; ++i)
 		{
-			CurrentWindowObjects[i].SetActive(false);
+			CurrentWindowObjects[i].SetActive(isOpen);
 		}
 
-		isOpen = false;
 
 		for (int i = 0; i < CurrentWindowButtons.Count; ++i)
 		{
 			CurrentWindowButtons[i].SetDefault();
 		}
-		
-		//onOpen?.Invoke(false);
 	}
 
 	public void RemoveWindow()

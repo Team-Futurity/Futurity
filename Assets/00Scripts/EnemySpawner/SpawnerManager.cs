@@ -10,6 +10,8 @@ public enum ESpawnerType
 	CHAPTER1_AREA1,
 	CHAPTER1_AREA2,
 	CHAPTER1_AREA3,
+	CHAPTER2_AREA1,
+	CHAPTER2_AREA2,
 	CHAPTER_BOSS
 }
 
@@ -17,19 +19,22 @@ public class SpawnerManager : MonoBehaviour
 {
 	public readonly static int MAX_ENEMY_TYPE = 4;
 	
+	[Header("즉시 스폰 여부")] 
+	[SerializeField] private bool isImmediatelySpawn = false;
+	
 	[Header("컴포넌트")] 
 	[SerializeField] private List<EnemySpawner> spawnerList;
 	[SerializeField] private GameObject[] enemyPrefabs;
 	[SerializeField] private Transform enemyContainer;
 	[SerializeField] private DialogData dialogData;
-	public DialogData DialogData => dialogData;
 
-	[Header("Event")] 
+	[Header("Event")]
 	[SerializeField] private ESpawnerType spawnerType;
-	public ESpawnerType SpawnerType => spawnerType;
+	[SerializeField] private int dialogCondition;
 	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> spawnEndEvent;
-	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> interimEvent;
+	[SerializeField] private UnityEvent<DialogData> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
+	public ESpawnerType SpawnerType => spawnerType;
 
 	[Header("이미 배치된 적이 있다면 사용")] 
 	[SerializeField] private List<PlaceEnemy> placeEnemies = null;
@@ -55,10 +60,10 @@ public class SpawnerManager : MonoBehaviour
 		totalSpawnCount = new int[MAX_ENEMY_TYPE];
 		InitSpawnerData();
 		
-		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MeleeDefault], EnemyController.EnemyType.MeleeDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.RangedDefault], EnemyController.EnemyType.RangedDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.MinimalDefault], EnemyController.EnemyType.MinimalDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyController.EnemyType.EliteDefault], EnemyController.EnemyType.EliteDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MeleeDefault], EnemyType.MeleeDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.RangedDefault], EnemyType.RangedDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MinimalDefault], EnemyType.MinimalDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.EliteDefault], EnemyType.EliteDefault);
 
 		if (placeEnemies.Count == 0)
 		{
@@ -66,6 +71,17 @@ public class SpawnerManager : MonoBehaviour
 		}
 
 		AddAlreadyPlaceEnemy();
+	}
+
+	private void Start()
+	{
+		if (isImmediatelySpawn == false)
+		{
+			return;
+		}
+		
+		SpawnEnemy();
+		Invoke(nameof(EnablePlayerInput), 0.1f);
 	}
 
 	public void SpawnEnemy()
@@ -79,7 +95,7 @@ public class SpawnerManager : MonoBehaviour
 		UpdateSpawnerList();
 	}
 
-	public GameObject GetEnemy(EnemyController.EnemyType type)
+	public GameObject GetEnemy(EnemyType type)
 	{
 		if (enemyPool[(int)type].Count <= 0)
 		{
@@ -104,7 +120,7 @@ public class SpawnerManager : MonoBehaviour
 		}
 	}
 
-	private void CreateEnemyObject(int count, EnemyController.EnemyType type)
+	private void CreateEnemyObject(int count, EnemyType type)
 	{
 		int index = (int)type;
 
@@ -120,10 +136,8 @@ public class SpawnerManager : MonoBehaviour
 
 	private void MonsterDisableEvent()
 	{
-		curWaveSpawnCount--;
-	
+		MinusWaveSpawnCount();
 		spawnEndEvent?.Invoke(this, spawnerType);
-		interimEvent?.Invoke(this, spawnerType);
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{
@@ -171,11 +185,29 @@ public class SpawnerManager : MonoBehaviour
 	{
 		spawnerList.Remove(spawner);
 	}
+
+	private void MinusWaveSpawnCount()
+	{
+		curWaveSpawnCount--;
+
+		if (spawnerType == ESpawnerType.NONEVENT || isEventEnable == true || curWaveSpawnCount > dialogCondition)
+		{
+			return;
+		}
+
+		isEventEnable = true;
+		interimEvent?.Invoke(dialogData);
+	}
+	
+	private void EnablePlayerInput()
+	{
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+	}
 }
 
 [Serializable]
 public struct PlaceEnemy
 {
-	public EnemyController.EnemyType enemyType;
+	public EnemyType enemyType;
 	public GameObject enemyObj;
 }

@@ -42,18 +42,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 		Quaternion rotation = Quaternion.identity;
 		Vector3 position = Vector3.zero;
 
-		if (attackAsset.effectParentType == EffectParent.World)
-		{
-			Quaternion playerRot = pc.gameObject.transform.rotation;
-			if (playerRot.y > 180f) { playerRot.y -= 360f; }
-			rotation = playerRot * attackAsset.effectRotOffset;
-			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
-
-			position = pc.gameObject.transform.position + rotation * attackAsset.effectOffset;
-			position.y = pc.gameObject.transform.position.y + attackAsset.effectOffset.y;
-			effect = attackAsset.effectPoolManager.ActiveObject(position, rotation);
-		}
-		else
+		if (attackAsset.effectParentType == EffectParent.Local)
 		{
 			Quaternion playerRot = pc.gameObject.transform.localRotation;
 			if (playerRot.y > 180f) { playerRot.y -= 360f; }
@@ -63,6 +52,17 @@ public class PlayerAnimationEvents : MonoBehaviour
 			position = pc.gameObject.transform.localPosition + attackAsset.effectOffset;
 			position.y = pc.gameObject.transform.localPosition.y + attackAsset.effectOffset.y;
 			effect = attackAsset.effectPoolManager.ActiveObject(attackAsset.effectOffset, attackAsset.effectRotOffset, false);
+		}
+		else
+		{
+			Quaternion playerRot = pc.gameObject.transform.rotation;
+			if (playerRot.y > 180f) { playerRot.y -= 360f; }
+			rotation = playerRot * attackAsset.effectRotOffset;
+			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
+
+			position = pc.gameObject.transform.position + rotation * attackAsset.effectOffset;
+			position.y = pc.gameObject.transform.position.y + attackAsset.effectOffset.y;
+			effect = attackAsset.effectPoolManager.ActiveObject(position, rotation);
 		}
 
 
@@ -100,13 +100,13 @@ public class PlayerAnimationEvents : MonoBehaviour
 		switch (attackProccessOrder)
 		{
 			case 0:
-				chargeState.UpAttack();
+				//chargeState.UpAttack();
 				break;
 			case 1:
-				chargeState.DownAttack();
+				//chargeState.DownAttack();
 				break;
 			case 2:
-				chargeState.EnemyLanding();
+				//chargeState.EnemyLanding();
 				break;
 		}
 	}
@@ -193,12 +193,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
 	public void PlayerAttackSlowMotion(int index)
 	{
-		// if (isSlowMotionEnable == false)
-		// {
-		// 	return;
-		// }
-
-		if (CheckEnemyInAttackRange() == false)
+		if (CheckEnemyInAttackRange() == false || pc.comboGaugeSystem.CurrentGauge < 100)
 		{
 			return;
 		}
@@ -261,9 +256,19 @@ public class PlayerAnimationEvents : MonoBehaviour
 		//TimelineManager.Instance.EnableActiveCutScene(EActiveCutScene.ACITVE_ALPHA);
 	}
 	#endregion
+	
 	public void EnableAttackTiming()
 	{
 		pc.playerData.EnableAttackTiming();
+	}
+
+	// 0 : frameCount
+	// 1 : skipFrameCount
+	// 2 : animation speed
+	public void AlterAnimationSpeed(string data)
+	{
+		float[] result = ConvertStringToFloatArray(data);
+		pc.playerData.AlterAnimationSpeed((int)result[0], (int)result[1], result[2]);
 	}
 
 	public void WalkSE()

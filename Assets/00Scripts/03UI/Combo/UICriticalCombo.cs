@@ -44,7 +44,7 @@ public class UICriticalCombo : MonoBehaviour
 		currentLocalPos = numberGroup.anchoredPosition;
 
 		// Number Data Load
-		LoadNumberSpriteImages();
+		// LoadNumberSpriteImages();
 
 		// Number Init
 		InitNumbers();
@@ -53,6 +53,7 @@ public class UICriticalCombo : MonoBehaviour
 		countSystem.updateHitCount?.AddListener(UpdateNumberImages);
 
 		numberGroup.gameObject.SetActive(false);
+
 	}
 
 	private void LoadNumberSpriteImages()
@@ -161,7 +162,7 @@ public class UICriticalCombo : MonoBehaviour
 
 			yield return null;
 
-			numberGroup.anchoredPosition = new Vector2(resultPosX, resultPosY);
+			//numberGroup.anchoredPosition = new Vector2(resultPosX, resultPosY);
 		}
 
 		StartCoroutine("OffNumberImage");

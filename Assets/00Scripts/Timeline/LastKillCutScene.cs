@@ -9,7 +9,7 @@ public class LastKillCutScene : CutSceneBase
 		chapterManager.SetActiveMainUI(false);
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
 		chapterManager.SetActiveMainUI(true);
 	}

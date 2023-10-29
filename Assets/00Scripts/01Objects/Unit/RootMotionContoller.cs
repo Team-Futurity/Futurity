@@ -7,6 +7,7 @@ public class RootMotionContoller : MonoBehaviour
 	[SerializeField] private GameObject parent;
 	[SerializeField] private GameObject model;
 	[SerializeField] private Animator animator;
+	[SerializeField] private UnitBase unit;
 	[SerializeField] private List<AnimationType> animations;
 	private Dictionary<string, AnimationType> animationDic;
 	[SerializeField] private bool currentApplyRootMotion;
@@ -19,11 +20,9 @@ public class RootMotionContoller : MonoBehaviour
 		{
 			animationDic.Add(anim.animationName, anim);
 		}
-
-		//StartCoroutine(RefreshRootMotionCoroutine());
 	}
 
-	// æ÷¥œ∏ﬁ¿Ãº« ¿¸»Ø Ω√ Ω««‡
+	// ¬æ√ñ¬¥√è¬∏√û√Ä√å¬º√á √Ä√º√à¬Ø ¬Ω√É ¬Ω√á√á√†
 	public bool SetRootMotion(string animName, int layer = 0)
 	{
 		if(animName == null) { return false; }
@@ -49,77 +48,19 @@ public class RootMotionContoller : MonoBehaviour
 		if (currentApplyRootMotion)
 		{
 			Vector3 deltaPosition = animator.deltaPosition;
-			Vector3 movedPosition = parent.transform.position + deltaPosition; // √÷¡æ¿˚¿∏∑Œ ¿ßƒ°«“ ∞Õ¿∏∑Œ øπªÛµ«¥¬ ¿ßƒ°
-			FDebug.DrawRay(parent.transform.position, animator.deltaPosition.normalized * stopDistance, Color.red);
-			deltaPosition.y = 0;
+			Vector3 currentPosition = parent.transform.position;
+			Vector3 nextPosition = parent.transform.position + deltaPosition;
+			Vector3 direction = deltaPosition.normalized;
+			float predictedDistancePerFrame = deltaPosition.magnitude;
 
-			// æ÷¥œ∏ﬁ¿Ãº« πÊ«‚¿∏∑Œ Stop Distance±Ó¡ˆ Ray ªÁøÎ 
-			if (Physics.Raycast(parent.transform.position, animator.deltaPosition.normalized, out RaycastHit hit, stopDistance))
+			Vector3 predictedPosition = nextPosition + direction * predictedDistancePerFrame + Vector3.up * 0.5f;
+
+			unit.DisableAllCollider();
+			if(!Physics.Linecast(currentPosition, predictedPosition, out var hit))
 			{
-				// Unit(Enemy, Player)¿« ∑π¿ÃæÓ¿œ ∞ÊøÏø°∏∏ µø¿€
-				if (hit.transform.gameObject.tag == "Enemy")
-				{
-					FDebug.Log("Distance_" + hit.distance + ", Direction_" + -parent.transform.forward);
-
-					// ≥ π´ ∞˙µµ«œ∞‘ ∫Ÿ¿∫ ∞ÊøÏ ¿œ¡§ ∞≈∏Æ æ’ø°º≠ ∏ÿ√ﬂµµ∑œ «œ¥¬ ƒ⁄µÂ
-					movedPosition = hit.transform.position - parent.transform.forward * stopDistance;
-					movedPosition.y = 0;
-
-					FDebug.Log("M" + movedPosition);
-					parent.transform.position = movedPosition;
-				}
+				parent.transform.position = nextPosition;
 			}
-			else
-			{
-				// ∫Ø»≠∞™∏∏≈≠ ¿Ãµø
-				FDebug.Log("D" + deltaPosition);
-				parent.transform.position += deltaPosition;
-				parent.transform.rotation *= animator.deltaRotation;
-			}
+			unit.RestoreCollider();
 		}
-		/*Vector3 vec = parent.transform.position;
-		vec.y = 0;
-		parent.transform.position = vec;*/
-	}
-
-	private IEnumerator RefreshRootMotionCoroutine()
-	{
-		while (true)
-		{
-			Vector3 vector = model.transform.position;
-			/*string currentAnimName = GetName();
-
-			if (currentAnimName == "") { FDebug.LogError("Animation Name is not Matched", GetType()); yield return null; continue; }
-
-			FDebug.Log(transform.position + "_" + (transform.position + transform.forward * 0.3f));
-
-			if (Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out RaycastHit hit, 0.3f))
-			{
-				FDebug.Log(vector + "__" + (vector - transform.forward * (hit.distance - 0.2f)));
-
-				vector -= transform.forward * (hit.distance - 0.2f);
-			}
-
-			transform.position += new Vector3(vector.x * animationDic[currentAnimName].applyX, vector.y * animationDic[currentAnimName].applyY, vector.z * animationDic[currentAnimName].applyZ);*/
-			/*transform.position = vector;
-			model.transform.localPosition = Vector3.zero;*/
-
-			yield return null;
-		}
-	}
-
-	private string GetName()
-	{
-		string animationName = "";
-		foreach(var animName in animationDic.Keys)
-		{
-			if(animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
-			{
-				animationName = animName;
-				break;
-			}
-		}
-
-		return animationName;
 	}
 }

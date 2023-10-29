@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -6,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class TimelineScripting : MonoBehaviour
 {
@@ -19,6 +21,14 @@ public class TimelineScripting : MonoBehaviour
 	[HideInInspector] public bool isEnd = false;
 	private bool isInput = false;
 
+	[Header("스크립트 패널 교체")] 
+	[SerializeField] private Image scriptsPenal;
+	[SerializeField] private Sprite[] scriptsImage;
+
+	[Header("Sound")] 
+	[SerializeField] private FMODUnity.EventReference typingSound;
+	private EventInstance soundInst;
+
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private IEnumerator textPrint;
 	private IEnumerator inputCheck;
@@ -26,6 +36,9 @@ public class TimelineScripting : MonoBehaviour
 	private void Start()
 	{
 		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
+		
+		soundInst = AudioManager.Instance.CreateInstance(typingSound);
+		soundInst.setParameterByName("Time", 0, true);
 	}
 
 	public void StartPrintingScript(List<ScriptingStruct> scriptsStruct)
@@ -49,6 +62,14 @@ public class TimelineScripting : MonoBehaviour
 			
 			nameText[i].SetActive(false);
 		}
+		
+		if (index == (int)ScriptingStruct.ENameType.MIRAE)
+		{
+			scriptsPenal.sprite = scriptsImage[0];
+			return;
+		}
+		
+		scriptsPenal.sprite = scriptsImage[1];
 	}
 	
 	public void EnableStandingImg(string imgName)
@@ -104,14 +125,15 @@ public class TimelineScripting : MonoBehaviour
 			{
 				BossEmotionCheck(scripts.bossExpression);
 			}
-
+			
 			EnableNameText((int)scripts.nameType);
 			textInput.text = "";
 
 			foreach (char text in scripts.scripts)
 			{
 				textInput.text += text;
-
+				soundInst.start();
+				
 				if (isInput == true)
 				{
 					textInput.text = scripts.scripts;
@@ -137,6 +159,8 @@ public class TimelineScripting : MonoBehaviour
 		isEnd = true;
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 	}
+
+	#region EmotionCheck
 	
 	private void MiraeEmotionCheck(ScriptingStruct.EMiraeExpression type)
 	{
@@ -229,7 +253,8 @@ public class TimelineScripting : MonoBehaviour
 				return;
 		}
 	}
-
+	#endregion
+	
 	private void InputChange(InputAction.CallbackContext context)
 	{
 		isInput = true;

@@ -135,7 +135,19 @@ public class AutoTarget : Singleton<AutoTarget>
 			if (isMoving)
 			{
 				float timeRatio = Time.deltaTime / timeSpent;
-				movingObject.transform.position = Vector3.Lerp(movingObject.transform.position, targetPos, timeRatio);
+				Vector3 currentPosition = movingObject.transform.position;
+				Vector3 nextPosition = Vector3.Lerp(movingObject.transform.position, targetPos, timeRatio);
+
+				if(!Physics.Linecast(currentPosition, nextPosition, 8))
+				{
+					movingObject.transform.position = nextPosition;
+				}
+				else
+				{
+					isMoving = false;
+
+					continue;
+				}
 
 				float distance = Vector3.Distance(movingObject.transform.position, targetPos);
 				if (distance <= margin)
@@ -170,17 +182,17 @@ public class AutoTarget : Singleton<AutoTarget>
 
 		float halfAngle = autoTargetAngle * 0.5f;
 		GameObject[] objectsArray = objects.Distinct().ToArray();
-		GameObject[] objectInAttackRange = GetObjectsInAttackRange(objectsArray, attackCollider);
+		/*GameObject[] objectInAttackRange = GetObjectsInAttackRange(objectsArray, attackCollider);
 
 		// 공격 범위 내에 있는 경우는 무시
 		if(objectInAttackRange.Length > 0)
 		{
 			return false;
-			/*SetDistance(ObjectsInAttackRange, origin);
+			*//*SetDistance(ObjectsInAttackRange, origin);
 			int[] ascendingIndexes = ascendingDistances.Values.ToArray();
 
-			TurnToTarget(objects[ascendingIndexes[0]], origin);*/
-		}
+			TurnToTarget(objects[ascendingIndexes[0]], origin);*//*
+		}*/
 
 		// 상대적 거리 연산
 		ObjectDistanceInCollection[] distances = GetObjectDistance(objectsArray, origin);

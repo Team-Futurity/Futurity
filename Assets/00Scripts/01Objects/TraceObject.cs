@@ -33,18 +33,28 @@ public class TraceObject : MonoBehaviour
 		isMoveEnd = true;
 	}
 
+	public void SetTargetTransform()
+	{
+		transform.position = targetObject.transform.position;
+
+		Vector3 direction = targetObject.transform.forward; //targetObject.transform.position - transform.position;
+
+		if(direction != Vector3.zero)
+		{
+			transform.LookAt(direction);
+			transform.rotation = Quaternion.LookRotation(direction);
+		}
+	}
+
 	private void FixedUpdate()
 	{
 		if (isMoveDelayTime)
 		{
 			currentTime += Time.fixedDeltaTime;
 
-			Vector3 direction = targetObject.transform.position - transform.position;
-			Vector3 rotVec = direction;
+			RotateToTarget();
 
-			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), rotateSpeed * Time.deltaTime);
-			
-			if(currentTime >= moveDelay)
+			if (currentTime >= moveDelay)
 			{
 				isMoveDelayTime = false;
 				isMoveStart = true;
@@ -67,6 +77,8 @@ public class TraceObject : MonoBehaviour
 			{
 				if (Vector3.Distance(transform.position, targetObject.transform.position) <= allowingDistance)
 				{
+					SetTargetTransform();
+
 					isMoveStart = false;
 					isMoveDelayTime = false;
 					currentTime = 0;
@@ -75,12 +87,20 @@ public class TraceObject : MonoBehaviour
 		}
 	}
 
+	private void RotateToTarget()
+	{
+		Vector3 direction = targetObject.transform.forward;
+
+		if(direction == Vector3.zero) { return; }
+
+		Quaternion targetRot = Quaternion.LookRotation(direction);
+
+		transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, rotateSpeed * Time.deltaTime);
+	}
+
 	private void TraceToTarget(float speed)
 	{
-		Vector3 direction = targetObject.transform.position - transform.position;
-		Vector3 rotVec = direction;
-
-		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), rotateSpeed * Time.deltaTime);
-		transform.position += direction * speed * Time.fixedDeltaTime;
+		RotateToTarget();
+		transform.position = Vector3.Slerp(transform.position, targetObject.transform.position, speed * Time.deltaTime); //direction * speed * Time.fixedDeltaTime;
 	}
 }
