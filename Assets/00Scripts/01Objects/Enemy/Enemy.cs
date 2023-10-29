@@ -20,7 +20,6 @@ public class Enemy : UnitBase
 		FDebug.Log(ec.transform.eulerAngles.y);
 
 		ec.knockbackPower = damageInfo.KnockbackPower;
-		ec.stopFrameCount = damageInfo.StopFrameCount;
 
 		ec.ChangeState(EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);

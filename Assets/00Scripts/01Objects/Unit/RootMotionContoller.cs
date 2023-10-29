@@ -7,6 +7,7 @@ public class RootMotionContoller : MonoBehaviour
 	[SerializeField] private GameObject parent;
 	[SerializeField] private GameObject model;
 	[SerializeField] private Animator animator;
+	[SerializeField] private UnitBase unit;
 	[SerializeField] private List<AnimationType> animations;
 	private Dictionary<string, AnimationType> animationDic;
 	[SerializeField] private bool currentApplyRootMotion;
@@ -21,7 +22,7 @@ public class RootMotionContoller : MonoBehaviour
 		}
 	}
 
-	// �ִϸ��̼� ��ȯ �� ����
+	// ¾Ö´Ï¸ÞÀÌ¼Ç ÀüÈ¯ ½Ã ½ÇÇà
 	public bool SetRootMotion(string animName, int layer = 0)
 	{
 		if(animName == null) { return false; }
@@ -54,21 +55,12 @@ public class RootMotionContoller : MonoBehaviour
 
 			Vector3 predictedPosition = nextPosition + direction * predictedDistancePerFrame + Vector3.up * 0.5f;
 
-			if(Physics.Linecast(currentPosition, predictedPosition, out var hit))
-			{
-				if(hit.transform.CompareTag("Player"))
-				{
-					parent.transform.position = nextPosition;
-				}
-				else
-				{
-					//FDebug.Log(hit.collider);
-				}
-			}
-			else
+			unit.DisableAllCollider();
+			if(!Physics.Linecast(currentPosition, predictedPosition, out var hit))
 			{
 				parent.transform.position = nextPosition;
 			}
+			unit.RestoreCollider();
 		}
 	}
 }
