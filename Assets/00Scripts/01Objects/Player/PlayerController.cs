@@ -686,6 +686,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		msgs = new List<string>();
 
 		if (gloveObjects == null) { msgs.Add("gloveObjects is Null."); }
+		if (hands == null) { msgs.Add("hands is Null."); }
 		if (playerData == null) { msgs.Add("playerData is Null."); }
 		if (commandTreeLoader == null) { msgs.Add("commandTreeLoader is Null."); }
 		if (activePartController == null) { msgs.Add("activePartController is Null."); }

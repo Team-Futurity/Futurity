@@ -19,8 +19,6 @@ public class Player : UnitBase
 		float criticalConf = GetCritical();
 		info.SetDamage(GetDamage(info.AttackST) * criticalConf);
 
-		StopAnimation(info.StopFrameCount);
-
 		info.Defender.Hit(info);
 		onAttackEvent?.Invoke(info);
 	}
