@@ -188,11 +188,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				unitData.Knockback(knockbackDir, attackKnockback * 2);
 
 				DamageInfo wallDamageInfo = new DamageInfo(unit.playerData, unitData, unit.curNode.attackST);
-				gotoWall.RunCollision(ChargeCollisionData, wallDamageInfo, unitData, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera);
-
-				DamageInfo info = new DamageInfo(unit.playerData, unitData, attackNode.attackST);
-				
-				unit.playerData.Attack(info);
+				gotoWall.RunCollision(ChargeCollisionData, wallDamageInfo, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera);
 			}
 
 			CollisionProcess(unit, unitData);
