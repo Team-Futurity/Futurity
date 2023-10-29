@@ -1,0 +1,93 @@
+{
+"skeleton": {
+	"hash": "WwQ4vfUh4uo",
+	"spine": "4.1.21",
+	"x": -276,
+	"y": -1,
+	"width": 517,
+	"height": 827,
+	"images": "./images/",
+	"audio": "C:/Users/hyeon2-400/Downloads/900e3891e91e289d/리소스/2-1/standing_display_on"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "obj", "parent": "root", "x": 69, "y": 452 },
+	{ "name": "text1", "parent": "root", "x": 65.5, "y": 563 }
+],
+"slots": [
+	{ "name": "standing_display_on", "bone": "root", "attachment": "standing_display_on" },
+	{ "name": "obj", "bone": "obj", "attachment": "obj" },
+	{ "name": "text1", "bone": "text1", "attachment": "text1" },
+	{ "name": "text2", "bone": "text1", "attachment": "text2" },
+	{ "name": "light", "bone": "root", "color": "ffffff8d", "attachment": "light", "blend": "screen" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"light": {
+				"light": { "x": 45.5, "y": 456.5, "width": 391, "height": 575 }
+			},
+			"obj": {
+				"obj": { "width": 156, "height": 178 }
+			},
+			"standing_display_on": {
+				"standing_display_on": { "x": -18, "y": 412.5, "width": 516, "height": 827 }
+			},
+			"text1": {
+				"text1": { "width": 141, "height": 46 }
+			},
+			"text2": {
+				"text2": { "x": 8, "y": -231, "width": 163, "height": 46 }
+			}
+		}
+	}
+],
+"animations": {
+	"standing_display_on": {
+		"slots": {
+			"light": {
+				"rgba": [
+					{
+						"color": "ffffff8d",
+						"curve": [ 0.381, 1, 0.952, 1, 0.381, 1, 0.952, 1, 0.381, 1, 0.952, 1, 0.381, 0.55, 0.952, 0.73 ]
+					},
+					{
+						"time": 1.3333,
+						"color": "ffffffba",
+						"curve": [ 1.778, 1, 2.222, 1, 1.778, 1, 2.222, 1, 1.778, 1, 2.222, 1, 1.778, 0.73, 2.222, 0.55 ]
+					},
+					{ "time": 2.6667, "color": "ffffff8d" }
+				]
+			}
+		},
+		"bones": {
+			"obj": {
+				"translate": [
+					{
+						"y": -3.6,
+						"curve": [ 0.381, 0, 0.952, 0, 0.381, -3.6, 0.952, 3.6 ]
+					},
+					{
+						"time": 1.3333,
+						"y": 3.6,
+						"curve": [ 1.778, 0, 2.222, 0, 1.778, 3.6, 2.222, -3.6 ]
+					},
+					{ "time": 2.6667, "y": -3.6 }
+				],
+				"scale": [
+					{
+						"curve": [ 0.381, 1, 0.952, -1, 0.381, 1, 0.952, 1 ]
+					},
+					{
+						"time": 1.3333,
+						"x": -1,
+						"curve": [ 1.778, -1, 2.222, 1, 1.778, 1, 2.222, 1 ]
+					},
+					{ "time": 2.6667 }
+				]
+			}
+		}
+	}
+}
+}
