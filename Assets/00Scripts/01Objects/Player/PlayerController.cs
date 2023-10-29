@@ -383,6 +383,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (comboGaugeSystem.CurrentGauge < 100) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 		if (IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM)) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
+		// 해당 부분에서 Part Data를 받아와서 Part가 실행될 수 있도록 해야함.
+		
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
 		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
 	}
