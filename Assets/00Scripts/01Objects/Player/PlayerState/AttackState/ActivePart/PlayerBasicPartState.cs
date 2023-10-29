@@ -169,6 +169,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		isExplosion = true;
 	}
 
+	// Player Landing 시, 데미지 처리
 	public void Landing()
 	{
 		proccessor.landingEffectObjectPool.ActiveObject(proccessor.landingEffectPos.position, proccessor.landingEffectPos.rotation).

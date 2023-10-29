@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [FSMState((int)PlayerState.BetaSM)]
-public class PlayerBetaPartState : PlayerSpecialMoveState<BasicActivePart>
+public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 {
 	// Common
 	private List<UnitBase> enemyList = new List<UnitBase>();
@@ -54,12 +54,14 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BasicActivePart>
 		
 		pc = unit;
 
-		firstMinSize = proccessor.minRange * MathPlus.cm2m;
+		firstMinSize = proccessor.firstRadius * MathPlus.cm2m;
 		
 		// 맨 처음 시작 시에는 1타 전용 
 		if (unit.attackColliderChanger.GetCollider(ColliderType.Box) is TruncatedCapsuleCollider capsuleCollider)
 		{
 			capsuleColl = capsuleCollider;
+			
+			currentCollider = capsuleColl;
 			currentCollider.SetCollider(firstMaxAngle, firstMinSize);
 		}
 	}
@@ -70,6 +72,24 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BasicActivePart>
 
 		// 왜 쓴거지
 		if (currentTime == Time.deltaTime) return;
+
+		if (skillCycle == 1)
+		{
+			OnFirstPhase();			
+		}
+		else if (skillCycle == 2)
+		{
+			pc.ChangeState(PlayerState.Idle);
+		}
+		else if (skillCycle == 3)
+		{
+			// Phase 3
+		}
+		else if (skillCycle == 4)
+		{
+			// Ended
+		}
+		
 		
 		// 기점을 시작으로 진행하였음
 	}
@@ -89,18 +109,48 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BasicActivePart>
 		
 	}
 
+	// 이펙트 동시에 데미지 처리
 	private void OnFirstPhase()
 	{
+		// Collider Open
+		currentCollider.SetCollider(firstMaxAngle, firstRadius);
+		// Effect Create
+
+		// Damage Add
+		AddDamageEnemy(pc);
 		
+
+		skillCycle += 1;
 	}
 
 	private void OnSecondPhase()
 	{
+		currentCollider.SetCollider(secondMaxAngle, secondRadius);
 		
+		skillCycle += 1;
 	}
 
 	private void OnThirdPhase()
 	{
+		//currentCollider.setC
+		skillCycle += 1;
+	}
+
+	// Enemy에게 데미지 전달
+	private void AddDamageEnemy(PlayerController unit)
+	{
+		foreach (var enemy in enemyList)
+		{
+			DamageInfo info = new DamageInfo(unit.playerData, enemy, 1);
+
+			// Cycle 마다 데미지가 다르기 때문
+			var currentDamage = 
+				(skillCycle == 1) ? firstDamage : (skillCycle == 2) ? secondDamage : 30;
+			
+			info.SetDamage(currentDamage);
+			enemy.Hit(info);
+		}
 		
+		enemyList.Clear();
 	}
 }

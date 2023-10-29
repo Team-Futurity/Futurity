@@ -22,7 +22,6 @@ public class SpecialMoveController : MonoBehaviour
 	public void RunActivePart(PlayerController pc, Player p, SpecialMoveType type)
 	{
 		// SpeicalMoves는 Data를 보관하고 있는 Dictionary Type
-		// 
 		specialMoves[type].RunSpecialMove(pc, specialMoves[type]);
 	}
 }
