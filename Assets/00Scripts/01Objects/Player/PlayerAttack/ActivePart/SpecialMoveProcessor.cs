@@ -20,8 +20,8 @@ public abstract class SpecialMoveProcessor
 		GetPartData();
 		
 		// 지금은 Basic Active Part로 설정되어 있어서 추후에는 Type을 가지고 변경해야 할 필요가 존재함.
-		var state = nextState as PlayerSpecialMoveState<BasicActivePart>;
-		state.SetActivePartData(proccessor as BasicActivePart);
+		var state = nextState as PlayerSpecialMoveState<BetaActivePart>;
+		state.SetActivePartData(proccessor as BetaActivePart);
 		pc.ChangeState(PlayerState.BasicSM);
 	}
 }
