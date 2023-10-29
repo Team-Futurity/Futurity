@@ -25,7 +25,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		InputActionManager.Instance.RegisterCallback(map.RightKey, (context) => OnRightKey(context), true);
 		
 		// Esc Key
-		//InputActionManager.Instance.RegisterCallback();
+		InputActionManager.Instance.RegisterCallback(map.ESC, (context) => OnESC(context), true);
 	}
 
 	#region Button
@@ -137,10 +137,11 @@ public class UIInputManager : Singleton<UIInputManager>
 		currentActiveButtons[currentIndex].Active();
 	}
 
-	public void OnPause(InputAction.CallbackContext context)
+	public void OnESC(InputAction.CallbackContext context)
 	{
-		// ESC Key
+		//Time.timeScale = .0f;
 		
+		UIManager.Instance.OpenWindow(WindowList.PAUSE);
 	}
 	#endregion
 }
