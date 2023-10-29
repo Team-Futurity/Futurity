@@ -1,34 +1,35 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class DebugManager : MonoBehaviour
+public class DebugManager : Singleton<DebugManager>
 {
 	// Constants
-	[field : SerializeField] public float OriginalFontSize { get; private set; }
+	[field: SerializeField] public float OriginalFontSize { get; private set; }
 	private const float OriginalWidth = 1080;
 	private const float OriginalLogSpacing = 5;
 
 	// Debug Only
-    private bool isShowConsole;
+	private bool isShowConsole;
 
-    private string input;
-    private Vector2 scroll;
+	private string input;
+	private Vector2 scroll;
 
-    public static DebugCommand Help;
-    public static DebugCommand Clear;
-    public static DebugCommand KillAll;
-    public static DebugCommand<int> PrintInt;
+	public static DebugCommand Help;
+	public static DebugCommand Clear;
+	public static DebugCommand<int> PrintInt;
 
-    public List<object> commandList;
+	public List<object> commandList;
+	public List<string> commandIDList;
 
 	// data
 	private Queue<string> logs = new Queue<string>();
 	private float screenRatio;
 	private float logHeight;
-	private  float logSpacing;
+	private float logSpacing;
 
 	[Header("Customize")]
 	[SerializeField] private GUIPanelData InputPanel;
@@ -37,45 +38,63 @@ public class DebugManager : MonoBehaviour
 	// etc
 	private InputActionMap previousMap;
 
-    private void Awake()
-    {
+	protected override void Awake()
+	{
+		base.Awake();
+
 		previousMap = InputActionManager.Instance.InputActions.Debug;
 
 		Help = new DebugCommand("help", "명령어 목록을 출력합니다.", "help", AddHelpLog);
-        Clear = new DebugCommand("clear", "로그 기록을 모두 삭제합니다.", "clear", logs.Clear);
+		Clear = new DebugCommand("clear", "로그 기록을 모두 삭제합니다.", "clear", logs.Clear);
+		PrintInt = new DebugCommand<int>("print", "Print Inteager", "print", (v1) => { FDebug.Log(v1); });
 
-        DebugCommand t1 = new DebugCommand("test1", "테스트용.", "test", () => { FDebug.Log("Test01"); });
-        DebugCommand t2 = new DebugCommand("test2", "테스트용.", "test", () => { FDebug.Log("Test02"); });
-        DebugCommand t3 = new DebugCommand("test3", "테스트용.", "test", () => { FDebug.Log("Test03"); });
-        DebugCommand t4 = new DebugCommand("test4", "테스트용.", "test", () => { FDebug.Log("Test04"); });
-        KillAll = new DebugCommand("killAll", "Removes all Enemy(Debug Test Only)", "killAll", () => { FDebug.Log("All Kill for Enemy"); });
-        PrintInt = new DebugCommand<int>("print", "Print Inteager", "print", (v1) => { FDebug.Log(v1); });
-       
-        commandList = new List<object>
-        {
-            Help,
+		commandList = new List<object>
+		{
+			Help,
 			Clear,
-            KillAll,
-            PrintInt,
-            t1,
-            t2,
-            t3,
-            t4
-        };
-    }
+			PrintInt,
+		};
 
-	private void OnEnable()
+		commandIDList = new List<string>
+		{
+			Help.CommandID,
+			Clear.CommandID,
+			PrintInt.CommandID
+		};
+	}
+
+	protected override void OnEnable()
 	{
+		base.OnEnable();
+
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
 	}
 
-	private void OnDisable()
+	protected override void OnDisable()
 	{
-		if(InputActionManager.Instance == null) { return; }
+		base.OnDisable();
+
+		if (InputActionManager.Instance == null) { return; }
 
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+	}
+
+	public void AddNewCommand(DebugCommand command)
+	{
+		if (commandIDList.Contains(command.CommandID)) { return; }
+
+		commandList.Add(command);
+		commandIDList.Add(command.CommandID);
+	}
+
+	public void AddNewCommand<V1>(DebugCommand<V1> command)
+	{
+		if (commandIDList.Contains(command.CommandID)) { return; }
+
+		commandList.Add(command);
+		commandIDList.Add(command.CommandID);
 	}
 
 	public void OnToggleDebug(InputAction.CallbackContext context)
@@ -96,14 +115,13 @@ public class DebugManager : MonoBehaviour
 	private void AddLog(string log)
 	{
 		logs.Enqueue(log);
-		scroll.y = logHeight * logs.Count;
+		scroll.y = (logHeight + logSpacing) * logs.Count;
 	}
 
 
 	private void DrawLog(ref float yPos)
 	{
 		Vector2 uiSize = logPanel.GetGUIPanelSize();
-		uiSize.y *= screenRatio;
 		float spacedLogHeight = logHeight + logSpacing;
 
 		GUI.Box(new Rect(0, yPos, uiSize.x, uiSize.y), "");
