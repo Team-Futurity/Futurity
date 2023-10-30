@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RandomMoveBaseState : UnitState<EnemyController>
 {
-	private float randMoveDistanceMin = 0.5f;
-	private float randMoveDistanceMax = 1.0f;
+	private float randMoveDistanceMin = 1.0f;
+	private float randMoveDistanceMax = 2.0f;
 
 	private Vector3 targetPos;
 	private float randPercentage;

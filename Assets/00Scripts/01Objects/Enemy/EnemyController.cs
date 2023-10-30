@@ -25,6 +25,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public EffectDatas effectSO;
 	public EffectActiveData currentEffectData;
 	public EffectKey currentEffectKey;
+	[HideInInspector] public bool isDead = false;
 
 	[Space(3)]
 	[Header("Reference")]
@@ -44,6 +45,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Material deadMaterial;
 	[HideInInspector] public Material copyUMat;
 	[HideInInspector] public Material copyDMat;
+
+	[Space(3)]
+	[Header("Hitted")]
+	public float beforeChaseDelay = 1f;
 
 	[Space(3)]
 	[Header("Attack")]
@@ -75,7 +80,8 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public readonly string atkAnimParam = "Attack";         //공격
 	public readonly string ragnedAnimParam = "Ranged";
 	public readonly string dashAnimParam = "Dash";          //쫄 대쉬
-	public readonly string hitAnimParam = "Hit";            //피격
+	public readonly string hitFAnimParam = "HitF";            //피격
+	public readonly string hitBAnimParam = "HitB";            //피격
 	public readonly string deadAnimParam = "Dead";          //사망
 	public readonly string playerTag = "Player";            //플레이어 태그 이름
 

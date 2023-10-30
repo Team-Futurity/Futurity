@@ -10,6 +10,7 @@ public class EnemyDeathState : StateBase
 
 	public override void Begin(EnemyController unit)
 	{
+		unit.isDead = true;
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
@@ -26,7 +27,7 @@ public class EnemyDeathState : StateBase
 		curTime += Time.deltaTime;
 
 		if (unit.copyDMat.GetFloat(copyDMatProperty) > 0f)
-			unit.copyDMat.SetFloat(copyDMatProperty, 1f - curTime); ;
+			unit.copyDMat.SetFloat(copyDMatProperty, 1f - curTime);
 
 		if (curTime > deathDelay)
 		{

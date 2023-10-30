@@ -16,10 +16,13 @@ public class Enemy : UnitBase
 
 	public override void Hit(DamageInfo damageInfo)
 	{
-		ec.knockbackPower = damageInfo.KnockbackPower;
-		ec.stopFrameCount = damageInfo.StopFrameCount;
+		/*FDebug.Log(ec.transform.position - ec.target.transform.position);
+		FDebug.Log(ec.transform.eulerAngles.y);*/
 
-		ec.ChangeState(EnemyState.Hitted);
+		ec.knockbackPower = damageInfo.KnockbackPower;
+
+		if(!ec.isDead)
+			ec.ChangeState(EnemyState.Hitted);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
 
 		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();

@@ -20,18 +20,22 @@ public class EliteChaseState : EnemyChaseBaseState
 
 		unit.transform.LookAt(unit.target.transform.position);
 
-
-		if (distance < unit.attackRange * 0.5f)
+		if (curTime > unit.beforeChaseDelay)
 		{
-			unit.ChangeState(EnemyState.EliteMeleeAttack);
-		}
-		else if (distance < unit.attackRange)
-		{
-			unit.ChangeState(EnemyState.EliteRangedAttack);
-		}
-		else if (distance > unit.attackRange)
-		{
-			unit.navMesh.SetDestination(unit.target.transform.position);
+			if (distance < unit.attackRange * 0.5f)
+			{
+				unit.ChangeState(EnemyState.EliteMeleeAttack);
+			}
+			else if (distance < unit.attackRange)
+			{
+				unit.ChangeState(EnemyState.EliteRangedAttack);
+			}
+			else if (distance > unit.attackRange && distance < targetDistance)
+			{
+				unit.navMesh.SetDestination(unit.target.transform.position);
+			}
+			else if (distance > targetDistance)
+				unit.ChangeState(EnemyState.Default);
 		}
 	}
 }

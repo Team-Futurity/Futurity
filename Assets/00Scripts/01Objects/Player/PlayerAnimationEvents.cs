@@ -100,13 +100,13 @@ public class PlayerAnimationEvents : MonoBehaviour
 		switch (attackProccessOrder)
 		{
 			case 0:
-				chargeState.UpAttack();
+				//chargeState.UpAttack();
 				break;
 			case 1:
-				chargeState.DownAttack();
+				//chargeState.DownAttack();
 				break;
 			case 2:
-				chargeState.EnemyLanding();
+				//chargeState.EnemyLanding();
 				break;
 		}
 	}
@@ -256,9 +256,21 @@ public class PlayerAnimationEvents : MonoBehaviour
 		//TimelineManager.Instance.EnableActiveCutScene(EActiveCutScene.ACITVE_ALPHA);
 	}
 	#endregion
-	public void EnableAttackTiming(int stopingFrameCount = 0)
+	
+	public void EnableAttackTiming()
 	{
-		pc.playerData.EnableAttackTiming(stopingFrameCount);
+		pc.playerData.EnableAttackTiming();
+	}
+
+	// 0 : frameCount
+	// 1 : skipFrameCount
+	// 2 : animation speed
+	public void AlterAnimationSpeed(string data)
+	{
+		if (!CheckEnemyInAttackRange()) { return; }
+
+		float[] result = ConvertStringToFloatArray(data);
+		pc.playerData.AlterAnimationSpeed((int)result[0], (int)result[1], result[2]);
 	}
 
 	public void WalkSE()

@@ -9,7 +9,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 
 	private void Start()
 	{
-		chapterMoveController = gameObject.GetComponentInParent<ChapterMoveController>();
+		chapterMoveController = ChapterMoveController.Instance;
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -30,35 +30,18 @@ public class ChapterMoveTrigger : MonoBehaviour
 			return;
 		}
 
-		if (isInput == true)
+		if (isInput == false)
 		{
-			switch (chapterMoveController.CurrentChapter)
-			{
-				case EChapterType.NONEVENTCHAPTER:
-					break;
-					
-				case EChapterType.CHAPTER1_1:
-					chapterMoveController.MoveNextChapter();
-					break;
-				
-				case EChapterType.CHAPTER1_2:
-					chapterMoveController.MoveNextChapter();
-					break;
-				
-				case EChapterType.CHAPTER_BOSS:
-					break;
-				
-				default:
-					return;
-			}
-			
-			chapterMoveController.SetActiveInteractionUI(false);
-			InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
-			gameObject.SetActive(false);
+			return;
 		}
+		
+		chapterMoveController.MoveNextChapter();
+		chapterMoveController.SetActiveInteractionUI(false);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
+		gameObject.SetActive(false);
 	}
 
-	public void CheckMoveStage(InputAction.CallbackContext context)
+	private void CheckMoveStage(InputAction.CallbackContext context)
 	{
 		isInput = true;
 	}

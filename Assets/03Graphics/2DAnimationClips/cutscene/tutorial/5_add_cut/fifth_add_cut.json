@@ -1,0 +1,123 @@
+{
+"skeleton": {
+	"hash": "nA61aeibhBQ",
+	"spine": "4.1.21",
+	"x": -1001.04,
+	"y": -528.02,
+	"width": 1920.03,
+	"height": 1080.08,
+	"images": "./images/",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "mirae", "parent": "root", "x": -124.5, "y": 34.5 }
+],
+"slots": [
+	{ "name": "out", "bone": "root", "attachment": "out" },
+	{ "name": "back", "bone": "root", "attachment": "back" },
+	{ "name": "back_light", "bone": "root", "attachment": "back_light" },
+	{ "name": "mirae", "bone": "mirae", "attachment": "mirae" },
+	{ "name": "mirae_light", "bone": "mirae", "attachment": "mirae_light" },
+	{ "name": "mirae_line", "bone": "mirae", "attachment": "mirae_line" },
+	{ "name": "frame", "bone": "root", "attachment": "frame" },
+	{ "name": "용지", "bone": "root", "attachment": "용지" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"back": {
+				"back": { "x": -41, "y": 12, "width": 1922, "height": 1082 }
+			},
+			"back_light": {
+				"back_light": { "x": -29.5, "y": 12, "width": 1899, "height": 1082 }
+			},
+			"frame": {
+				"frame": { "x": -41, "y": 12, "width": 1922, "height": 1082 }
+			},
+			"mirae": {
+				"mirae": { "width": 1227, "height": 1005 }
+			},
+			"mirae_light": {
+				"mirae_light": { "x": 218, "y": 0.5, "width": 791, "height": 1004 }
+			},
+			"mirae_line": {
+				"mirae_line": { "x": 16, "y": -7, "width": 1263, "height": 1023 }
+			},
+			"out": {
+				"out": {
+					"type": "clipping",
+					"end": "out",
+					"vertexCount": 4,
+					"vertices": [ -1001.04, 552.06, -1001.02, -528.02, 918.97, -527.98, 918.99, 552.03 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"용지": {
+				"용지": {
+					"type": "mesh",
+					"uvs": [ 0.99387, 1, 0, 1, 0, 0, 0.99387, 0 ],
+					"triangles": [ 0, 1, 2, 3, 0, 2 ],
+					"vertices": [ 1247.42, -625.28, -1334.87, -625.28, -1334.87, 650.42, 1247.42, 650.42 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 1933,
+					"height": 1082
+				}
+			}
+		}
+	}
+],
+"animations": {
+	"fifth_add_cut": {
+		"slots": {
+			"back_light": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.056, 1, 0.111, 1, 0.056, 1, 0.111, 1, 0.056, 1, 0.111, 1, 0, 0.08, 0.111, 1 ]
+					},
+					{ "time": 0.1667, "color": "ffffffff" }
+				]
+			},
+			"mirae_light": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.056, 1, 0.111, 1, 0.056, 1, 0.111, 1, 0.056, 1, 0.111, 1, 0, 0.08, 0.111, 1 ]
+					},
+					{ "time": 0.1667, "color": "fffffffe" }
+				]
+			},
+			"용지": {
+				"rgba": [
+					{ "color": "a3f8ff00", "curve": "stepped" },
+					{
+						"time": 0.3333,
+						"color": "a3f8ff00",
+						"curve": [ 0.77, 0.64, 1.333, 0.87, 0.77, 0.97, 1.333, 0.99, 0.611, 1, 1.056, 1, 0.77, 0, 1.333, 0.65 ]
+					},
+					{
+						"time": 1.3333,
+						"color": "ffffffff",
+						"curve": [ 1.333, 1.13, 1.778, 0.33, 1.333, 1.01, 1.778, 0.33, 1.556, 1, 1.778, 0.33, 1.333, 1.35, 1.778, 1 ]
+					},
+					{ "time": 2, "color": "000000ff" }
+				]
+			}
+		},
+		"bones": {
+			"mirae": {
+				"translate": [
+					{
+						"x": 7.77,
+						"curve": [ 0, -12.16, 0.333, -19.45, 0.167, 0, 0.333, 0 ]
+					},
+					{ "time": 0.5, "x": -19.45 }
+				]
+			}
+		}
+	}
+}
+}

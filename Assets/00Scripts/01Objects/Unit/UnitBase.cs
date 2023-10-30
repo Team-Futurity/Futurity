@@ -5,6 +5,20 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
+public struct AlterAnimationData
+{
+	public int alterFrameCount;
+	public int skipFrameCount;
+	public float animationSpeed;
+
+	public AlterAnimationData(int alterFrameCount, int skipFrameCount, float animationSpeed)
+	{
+		this.alterFrameCount = alterFrameCount;
+		this.skipFrameCount = skipFrameCount;
+		this.animationSpeed = animationSpeed;
+	}
+}
+
 public abstract class UnitBase : MonoBehaviour
 {
 	public StatusManager status;
@@ -25,17 +39,24 @@ public abstract class UnitBase : MonoBehaviour
 
 	public UnityEvent<DamageInfo> onAttackEvent;
 
-	private int stopFrameCount;
-	private int skipFrameCount;
-	private bool isStopAnimation;
+	private AlterAnimationData alterAnimationData;
+	private bool isAlterSpeedForAnimation;
+
+	// collider
+	private Collider[] colliders;
+	private bool[] collidersAreEnabled;
 
 	protected virtual void Start()
 	{
-		if(unitAnimator == null) { FDebug.LogWarning("Animator is Null.", GetType()); }
+		if (unitAnimator == null) { FDebug.LogWarning("Animator is Null.", GetType()); }
 
 		attackCheckWFS = new WaitForSeconds(Time.fixedDeltaTime * AttackCheckFrameCount);
 		StartCoroutine(AttackProcessCorotutine());
 		StartCoroutine(AnimationStopCoroutine());
+
+		// colliders
+		colliders = GetComponentsInChildren<Collider>();
+		collidersAreEnabled = new bool[colliders.Length];
 	}
 
 	#region Getter
@@ -56,6 +77,11 @@ public abstract class UnitBase : MonoBehaviour
 	{
 		DamageInfo info = new DamageInfo(damageInfo);
 		damageInfoQueue.Enqueue(info);
+	}
+	public void InstantAttack(DamageInfo damageInfo)
+	{
+		DamageInfo info = new DamageInfo(damageInfo);
+		AttackProcess(info);
 	}
 
 	protected abstract void AttackProcess(DamageInfo damageInfo); // Unit이 공격할 때 호출
@@ -81,7 +107,6 @@ public abstract class UnitBase : MonoBehaviour
 				{
 					// Dequeue해서 Attack 실행
 					var info = damageInfoQueue.Dequeue();
-					info.SetStopFrameCount(stopFrameCount);
 					info.Attacker.AttackProcess(info);
 				}
 			}
@@ -92,7 +117,7 @@ public abstract class UnitBase : MonoBehaviour
 
 	public void HitEffectPooling(DamageInfo info)
 	{
-		if(info.HitEffectPoolManager == null) { return; }
+		if (info.HitEffectPoolManager == null) { return; }
 
 		Transform effect;
 		Vector3 rot = info.Defender.transform.rotation.eulerAngles;
@@ -108,44 +133,83 @@ public abstract class UnitBase : MonoBehaviour
 	#endregion
 
 	#region Production
-	public void StopAnimation(int frameCount, int skipFrameCountBeforeStop = 0)
+
+	public void AlterAnimationSpeed(int alterFrameCount, int skipFrameCount, float animationSpeed)
 	{
-		isStopAnimation = true;
-		stopFrameCount = frameCount;
-		skipFrameCount = skipFrameCountBeforeStop;
+		alterAnimationData.alterFrameCount = alterFrameCount;
+		alterAnimationData.skipFrameCount = skipFrameCount;
+		alterAnimationData.animationSpeed = animationSpeed;
+		isAlterSpeedForAnimation = true;
+	}
+
+	public void AlterAnimationSpeed(AlterAnimationData data)
+	{
+		alterAnimationData = data;
+		isAlterSpeedForAnimation = true;
+	}
+
+	public void RestoreOriginalAnimationSpeed()
+	{
+		alterAnimationData.alterFrameCount = 0;
+		alterAnimationData.skipFrameCount = 0;
+		alterAnimationData.animationSpeed = 1;
+		isAlterSpeedForAnimation = false;
 	}
 
 	private IEnumerator AnimationStopCoroutine()
 	{
 		int currentStopedFrameCount = 0;
 		int currentkipedFrameCount = 0;
-		while(true)
+		while (true)
 		{
-			if(isStopAnimation)
+			if (isAlterSpeedForAnimation)
 			{
 				currentkipedFrameCount = 0;
-				while (currentkipedFrameCount < skipFrameCount)
+				while (isAlterSpeedForAnimation && currentkipedFrameCount < alterAnimationData.skipFrameCount)
 				{
 					yield return null;
 					currentkipedFrameCount++;
 				}
 
 				currentStopedFrameCount = 0;
-				unitAnimator.speed = 0;
-				while (currentStopedFrameCount < stopFrameCount)
+				unitAnimator.speed = alterAnimationData.animationSpeed;
+				while (isAlterSpeedForAnimation && currentStopedFrameCount < alterAnimationData.alterFrameCount)
 				{
 					yield return null;
 					currentStopedFrameCount++;
 				}
 				unitAnimator.speed = 1;
-				isStopAnimation = false;
+				isAlterSpeedForAnimation = false;
 			}
 
 			yield return null;
 		}
 	}
 	#endregion
-	
+
+	#region Collider
+	public void DisableAllCollider()
+	{
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			if (colliders[i] == null) { continue; }
+
+			collidersAreEnabled[i] = colliders[i].enabled;
+			colliders[i].enabled = false;
+		}
+	}
+
+	public void RestoreCollider()
+	{
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			if (colliders[i] == null) { continue; }
+
+			colliders[i].enabled = collidersAreEnabled[i];
+		}
+	}
+	#endregion
+
 	public virtual void Knockback(Vector3 direction, float power)
 	{
 		rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
@@ -174,11 +238,10 @@ public abstract class UnitBase : MonoBehaviour
 		IsAttackTiming = false;
 	}
 
-	public void EnableAttackTiming(int frameCount = 0)
+	public void EnableAttackTiming()
 	{
 		IsAttackTime = true;
 		IsAttackTiming = true;
-		stopFrameCount = frameCount;
 	}
 	#endregion
 

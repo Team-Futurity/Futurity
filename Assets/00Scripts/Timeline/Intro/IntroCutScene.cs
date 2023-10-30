@@ -20,9 +20,16 @@ public class IntroCutScene : CutSceneBase
 
 	[Header("다음으로 이동할 씬 이름")] 
 	[SerializeField] private string nextSceneName;
-	
+
+	[Header("Text 출력")] 
+	[SerializeField] private List<TextMeshProUGUI> textInput;
+	[SerializeField] private List<string> inputText;
+	[SerializeField] private float inputDelay = 0.05f;
+	private int curIndex;
+
 	private Queue<SkeletonGraphic> cutSceneQueue;
 	private bool isInput = false;
+	private bool isInputCheck = false;
 
 	private IEnumerator skeletonCutScene;
 	
@@ -53,10 +60,17 @@ public class IntroCutScene : CutSceneBase
 		});
 	}
 
-	#if UNITY_EDITOR
+	public void StartPrintText()
+	{
+		introCutScene.Pause();
+
+		StartCoroutine(PrintText());
+	}
+
+#if UNITY_EDITOR
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.F))
+		if (Input.GetKeyDown(KeyCode.F) && isInputCheck == true)
 		{
 			isInput = true;
 		}
@@ -76,10 +90,11 @@ public class IntroCutScene : CutSceneBase
 		SkeletonGraphic skeleton = cutSceneQueue.Dequeue();
 		int curAniIndex = 0;
 		int maxAniCount = skeleton.Skeleton.Data.Animations.Count;
-		
+
 		while (true)
 		{
 			skeleton.gameObject.SetActive(true);
+			isInputCheck = true;
 			
 			Animation ani = skeleton.Skeleton.Data.Animations.Items[curAniIndex];
 			skeleton.AnimationState.SetAnimation(0, ani, false);
@@ -95,7 +110,7 @@ public class IntroCutScene : CutSceneBase
 			}
 			else
 			{
-				if (cutSceneQueue.Count <= 0 || cutSceneQueue.Count == 3)
+				if (cutSceneQueue.Count <= 0)
 				{
 					skeleton.gameObject.SetActive(false);
 					break;
@@ -107,11 +122,24 @@ public class IntroCutScene : CutSceneBase
 				curAniIndex = 0;
 				maxAniCount = skeleton.Skeleton.Data.Animations.Count;
 			}
-
+			
 			isInput = false;
 		}
 		
-		isInput = false;
+		isInputCheck = isInput = false;
+		introCutScene.Resume();
+	}
+
+	private IEnumerator PrintText()
+	{
+		for (int i = 0; i < inputText[curIndex].Length; ++i)
+		{
+			textInput[curIndex].text += inputText[curIndex][i];
+
+			yield return new WaitForSeconds(inputDelay);
+		}
+
+		curIndex++;
 		introCutScene.Resume();
 	}
 
