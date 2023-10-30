@@ -92,7 +92,10 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 		if (chapterData[(int)curChapter].IsPenetrate == true)
 		{
 			objectPenetrate.enabled = true;
+			return;
 		}
+
+		objectPenetrate.enabled = false;
 	}
 
 	private void Init()
