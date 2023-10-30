@@ -267,6 +267,8 @@ public class PlayerAnimationEvents : MonoBehaviour
 	// 2 : animation speed
 	public void AlterAnimationSpeed(string data)
 	{
+		if (!CheckEnemyInAttackRange()) { return; }
+
 		float[] result = ConvertStringToFloatArray(data);
 		pc.playerData.AlterAnimationSpeed((int)result[0], (int)result[1], result[2]);
 	}
