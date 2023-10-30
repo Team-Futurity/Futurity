@@ -1273,7 +1273,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB300\uD55C\uBBFC\uAD6D \uD0DC\uC5FD\uC2DC"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 734dce16976c576469c0b94c695ec55e, type: 2}
   m_sharedMaterial: {fileID: 73273771539542256, guid: 734dce16976c576469c0b94c695ec55e, type: 2}
@@ -1587,7 +1587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &527058248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2185,7 +2185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &729709499
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2317,7 +2317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &741936557
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2630,6 +2630,243 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 768149621}
   m_CullTransparentMesh: 0
+--- !u!1 &777136853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 777136857}
+  - component: {fileID: 777136856}
+  - component: {fileID: 777136855}
+  - component: {fileID: 777136854}
+  m_Layer: 0
+  m_Name: Legacy_IntroCutScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &777136854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777136853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aede345c4aa3fc24083f9a8f7ad236f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutSceneType: 0
+  chapterManager: {fileID: 0}
+  introCutScene: {fileID: 777136856}
+  skeletonParent: {fileID: 1546554414}
+  fadeInTime: 0.8
+  fadeOutTime: 0.8
+  nextSceneName: TutorialScene
+  textInput:
+  - {fileID: 1270699911}
+  - {fileID: 461755930}
+  - {fileID: 1856857327}
+  - {fileID: 1563008815}
+  inputText:
+  - "2100\uB144 06\uC6D4 12\uC77C 18:00"
+  - "\uB300\uD55C\uBBFC\uAD6D \uD0DC\uC5FD\uC2DC"
+  - "\u300C \uCF00\uD2B8\uB85C \uC5F0\uAD6C\uC18C \uADFC\uCC98 \u300D"
+  - "10\uB144 \uC804\u22EF"
+  inputDelay: 0.05
+--- !u!114 &777136855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777136853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 519a41bfdbcc42c468ced7658188b0fd, type: 2}
+    - {fileID: 11400000, guid: 754373071bcc9dd4bbfd1b9d7f8da0d7, type: 2}
+    - {fileID: 11400000, guid: 7c7f661a44e07b242a7cc34b3e238be4, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 777136854}
+          m_TargetAssemblyTypeName: IntroCutScene, Assembly-CSharp
+          m_MethodName: StartSkeletonCutScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 777136853}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 777136854}
+          m_TargetAssemblyTypeName: IntroCutScene, Assembly-CSharp
+          m_MethodName: StartPrintText
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!320 &777136856
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777136853}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: -8371912105167495738, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+    value: {fileID: 157703780}
+  - key: {fileID: -6580127070178649157, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+    value: {fileID: 1270699913}
+  - key: {fileID: 50704684634948979, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+    value: {fileID: 461755932}
+  - key: {fileID: -5973493525962282036, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+    value: {fileID: 1856857329}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 777136855}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 248165729689270382, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+    value: {fileID: 2061415648}
+  - key: {fileID: 725253708753369491, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+    value: {fileID: 1563008814}
+  - key: {fileID: 0}
+    value: {fileID: 777136855}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 777136855}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 777136855}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 777136855}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 777136855}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 777136855}
+  - key: {fileID: -802907220136892597, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+    value: {fileID: 777136855}
+  m_ExposedReferences:
+    m_References: []
+--- !u!4 &777136857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777136853}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &783264812
 GameObject:
   m_ObjectHideFlags: 0
@@ -2840,7 +3077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &845985762
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3521,7 +3758,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "2100\uB144 06\uC6D4 12\uC77C 18:00"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 734dce16976c576469c0b94c695ec55e, type: 2}
   m_sharedMaterial: {fileID: 73273771539542256, guid: 734dce16976c576469c0b94c695ec55e, type: 2}
@@ -3635,7 +3872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1287995678
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3767,7 +4004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1338923907
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4304,6 +4541,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 519a41bfdbcc42c468ced7658188b0fd, type: 2}
     - {fileID: 11400000, guid: 754373071bcc9dd4bbfd1b9d7f8da0d7, type: 2}
+    - {fileID: 11400000, guid: 7c7f661a44e07b242a7cc34b3e238be4, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -4333,6 +4571,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1485336653}
+          m_TargetAssemblyTypeName: IntroCutScene, Assembly-CSharp
+          m_MethodName: StartPrintText
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &1485336653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4352,6 +4604,17 @@ MonoBehaviour:
   fadeInTime: 0.8
   fadeOutTime: 0.8
   nextSceneName: TutorialScene
+  textInput:
+  - {fileID: 1270699911}
+  - {fileID: 461755930}
+  - {fileID: 1856857327}
+  - {fileID: 1563008815}
+  inputText:
+  - "2100\uB144 06\uC6D4 12\uC77C 18:00"
+  - "\uB300\uD55C\uBBFC\uAD6D \uD0DC\uC5FD\uC2DC"
+  - "\u300C \uCF00\uD2B8\uB85C \uC5F0\uAD6C\uC18C \uADFC\uCC98 \u300D"
+  - "10\uB144 \uC804\u22EF"
+  inputDelay: 0.05
 --- !u!1 &1490625192
 GameObject:
   m_ObjectHideFlags: 0
@@ -4586,7 +4849,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "10\uB144 \uC804\u22EF"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 734dce16976c576469c0b94c695ec55e, type: 2}
   m_sharedMaterial: {fileID: 73273771539542256, guid: 734dce16976c576469c0b94c695ec55e, type: 2}
@@ -5131,7 +5394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1718830064
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5434,7 +5697,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u300C \uCF00\uD2B8\uB85C \uC5F0\uAD6C\uC18C \uADFC\uCC98 \u300D"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 734dce16976c576469c0b94c695ec55e, type: 2}
   m_sharedMaterial: {fileID: 73273771539542256, guid: 734dce16976c576469c0b94c695ec55e, type: 2}

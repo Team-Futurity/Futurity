@@ -25,6 +25,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public EffectDatas effectSO;
 	public EffectActiveData currentEffectData;
 	public EffectKey currentEffectKey;
+	[HideInInspector] public bool isDead = false;
 
 	[Space(3)]
 	[Header("Reference")]

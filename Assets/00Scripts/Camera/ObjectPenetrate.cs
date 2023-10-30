@@ -15,7 +15,7 @@ public class ObjectPenetrate : MonoBehaviour
 	private Transform playerPos;
 	
 	private const float ORIGIN_ALPHA = 1.0f;
-	private SpriteRenderer spriteRenderer;
+	private SpriteRenderer prevSprite;
 
 	private void Start()
 	{
@@ -29,35 +29,41 @@ public class ObjectPenetrate : MonoBehaviour
 
 		if (Physics.Raycast(ray, out RaycastHit hit, rayLength, layerMask))
 		{
-			spriteRenderer = hit.collider.GetComponent<SpriteRenderer>();
+			SpriteRenderer spriteRenderer = hit.collider.GetComponent<SpriteRenderer>();
 
 			if (spriteRenderer == null)
 			{
 				return;
 			}
 			
+			if (prevSprite != null)
+			{
+				prevSprite.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
+			}
+
+			prevSprite = spriteRenderer;
 			Color color = new Color(255f, 255f, 255f, newAlpha);
 			spriteRenderer.color = color;
 		}
 		else
 		{
-			if (spriteRenderer == null)
+			if (prevSprite == null)
 			{
 				return;
 			}
 			
-			spriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
-			spriteRenderer = null;
+			prevSprite.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
+			prevSprite = null;
 		}
 	}
 
 	private void OnDisable()
 	{
-		if (spriteRenderer == null)
+		if (prevSprite == null)
 		{
 			return;
 		}
 
-		spriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
+		prevSprite.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
 	}
 }
