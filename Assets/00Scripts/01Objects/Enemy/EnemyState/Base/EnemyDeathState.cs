@@ -10,6 +10,7 @@ public class EnemyDeathState : StateBase
 
 	public override void Begin(EnemyController unit)
 	{
+		unit.isDead = true;
 		unit.rigid.constraints = RigidbodyConstraints.FreezeAll;
 		unit.animator.SetTrigger(unit.deadAnimParam);
 		unit.enemyCollider.enabled = false;
