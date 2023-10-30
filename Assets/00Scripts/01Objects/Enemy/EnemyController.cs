@@ -47,6 +47,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public Material copyDMat;
 
 	[Space(3)]
+	[Header("Hitted")]
+	public float beforeChaseDelay = 1f;
+
+	[Space(3)]
 	[Header("Attack")]
 	public float attackRange = 7f;
 	public float attackBeforeDelay;

@@ -110,7 +110,7 @@ public class IntroCutScene : CutSceneBase
 			}
 			else
 			{
-				if (cutSceneQueue.Count <= 0 || cutSceneQueue.Count == 3)
+				if (cutSceneQueue.Count <= 0)
 				{
 					skeleton.gameObject.SetActive(false);
 					break;
