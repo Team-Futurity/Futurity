@@ -111,7 +111,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		// Collider Open
 		capsuleColl.SetCollider(firstMaxAngle, firstMinSize);
 		// Effect Create
-		// unit.animator.SetBool(FirstBetaAnimKey, true);
 
 		// Damage Add
 		AddDamageEnemy(pc);
@@ -121,7 +120,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	{
 		// Next Process Set
 		currentProcess = BetaProcess.SECOND_PHASE;
-		
 		capsuleColl.SetCollider(0, 0);
 	}
 
@@ -132,7 +130,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		// Collider
 		capsuleColl.SetCollider(secondMaxAngle, secondRadius);
 		
-		// Animation
 		// Effect
 
 		// Damage Add
@@ -155,9 +152,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		// 실행 시간 지났을 경우, 데이터 Max로 세팅하기
 		// Collider 적용.
 		// 데미지 전달
-		
-		// 애니메이션 끝났을 경우, OnThirdPhaseEnded 호출하기
-		OnThirdPhaseEnded();
 	}
 
 	public void OnThirdPhaseEnded()
