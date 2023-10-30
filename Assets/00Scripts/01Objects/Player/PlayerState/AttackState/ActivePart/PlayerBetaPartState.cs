@@ -25,6 +25,8 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	private BetaProcess currentProcess;
 	private bool isPlaying = false;
 
+	private readonly string BetaAnimKey = "IsBetaActive";
+	
 	// Phase 1
 	private float firstMaxAngle = .0f;
 	private float firstMinSize = .0f;
@@ -33,15 +35,12 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 
 	private Transform firstEffect;
 
-	private readonly string FirstBetaAnimKey = "TestBetaAnim";
 
 	// Phase 2
 	private float secondMaxAngle = .0f;
 	private float secondMinSize = .0f;
 	private float secondRadius;
 	private float secondDamage = .0f;
-
-	private readonly string SecondBetaAnimKey = "TT";
 
 	// Phase 3
 
@@ -69,6 +68,8 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		
 		currentProcess = BetaProcess.FIRST_PHASE;
 		isPlaying = true;
+		// Animation Play
+		unit.animator.SetBool(BetaAnimKey, true);
 	}
 
 	public override void Update(PlayerController unit)
@@ -77,40 +78,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 
 		// 왜 쓴거지
 		if (currentTime == Time.deltaTime || !isPlaying) return;
-		
-		switch (currentProcess)
-		{
-			case BetaProcess.NONE:
-				break;
-
-			case BetaProcess.FIRST_PHASE:
-				isPlaying = false;
-				
-				OnFirstPhase(unit);
-
-				break;
-
-			case BetaProcess.SECOND_PHASE:
-				isPlaying = false;
-				
-				OnSecondPhase(unit);
-
-				break;
-
-			case BetaProcess.THIRD_PHASE:
-				isPlaying = false;
-				
-				OnThirdPhase();
-
-				break;
-
-			case BetaProcess.END:
-				isPlaying = false;
-				
-				OnEnded();
-				
-				break;
-		}
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -119,6 +86,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 
 	public override void End(PlayerController unit)
 	{
+		pc.animator.SetBool(BetaAnimKey, false);
 		Debug.Log("Beta State을 벗어남");
 	}
 
@@ -136,7 +104,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	}
 
 	// 이펙트 동시에 데미지 처리
-	private void OnFirstPhase(PlayerController unit)
+	public void OnFirstPhase()
 	{
 		Debug.Log("On First Phase");
 		
@@ -146,23 +114,18 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		// unit.animator.SetBool(FirstBetaAnimKey, true);
 
 		// Damage Add
-		AddDamageEnemy(unit);
-		
-		OnFirstPhaseEnded(unit);
+		AddDamageEnemy(pc);
 	}
 
-	private void OnFirstPhaseEnded(PlayerController unit)
+	public void OnFirstPhaseEnded()
 	{
 		// Next Process Set
 		currentProcess = BetaProcess.SECOND_PHASE;
-		unit.animator.SetBool(FirstBetaAnimKey, false);
 		
 		capsuleColl.SetCollider(0, 0);
-		
-		isPlaying = true;
 	}
 
-	private void OnSecondPhase(PlayerController unit)
+	public void OnSecondPhase()
 	{
 		Debug.Log("On Second Phase");
 		
@@ -173,20 +136,16 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		// Effect
 
 		// Damage Add
-		AddDamageEnemy(unit);
-		
-		OnSecondPhaseEnded(unit);
+		AddDamageEnemy(pc);
 	}
 
-	private void OnSecondPhaseEnded(PlayerController unit)
+	public void OnSecondPhaseEnded()
 	{
 		// Next Process Set
 		currentProcess = BetaProcess.THIRD_PHASE;
-
-		isPlaying = true;
 	}
 
-	private void OnThirdPhase()
+	public void OnThirdPhase()
 	{
 		Debug.Log("On Third Phase");
 		
@@ -198,16 +157,16 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		// 데미지 전달
 		
 		// 애니메이션 끝났을 경우, OnThirdPhaseEnded 호출하기
+		OnThirdPhaseEnded();
 	}
 
-	private void OnThirdPhaseEnded()
+	public void OnThirdPhaseEnded()
 	{
 		// Next Process Set
 		currentProcess = BetaProcess.END;
-		
 	}
 
-	private void OnEnded()
+	public void OnEnded()
 	{
 		pc.ChangeState(PlayerState.Idle);
 	}
@@ -215,10 +174,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	// Enemy에게 데미지 전달
 	private void AddDamageEnemy(PlayerController unit)
 	{
-		Debug.Log("Add Damage Enemy Start");
-		
-		Debug.Log(enemyList.Count);
-		
 		foreach (var enemy in enemyList)
 		{
 			DamageInfo info = new DamageInfo(unit.playerData, enemy, 1);
