@@ -17,12 +17,11 @@ public class EnemyChaseBaseState : StateBase
 	}
 	public override void Update(EnemyController unit)
 	{
+		curTime += Time.deltaTime;
+
 		if (unit.target == null)
 			return;
-
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
-
-		
 	}
 
 	public override void End(EnemyController unit)
