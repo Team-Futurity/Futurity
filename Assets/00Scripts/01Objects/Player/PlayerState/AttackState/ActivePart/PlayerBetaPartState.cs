@@ -76,9 +76,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		base.Update(unit);
 
 		// 왜 쓴거지
-		if (currentTime == Time.deltaTime) return;
-
-		if (!isPlaying) return;
+		if (currentTime == Time.deltaTime || !isPlaying) return;
 		
 		switch (currentProcess)
 		{
@@ -107,6 +105,10 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 				break;
 
 			case BetaProcess.END:
+				isPlaying = false;
+				
+				OnEnded();
+				
 				break;
 		}
 	}
@@ -187,6 +189,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	private void OnThirdPhase()
 	{
 		Debug.Log("On Third Phase");
+		
 		// Collider 늘어나게 하기 
 		// Collider 방향을 플레이어가 바라보는 방향으로 설정하기
 		
