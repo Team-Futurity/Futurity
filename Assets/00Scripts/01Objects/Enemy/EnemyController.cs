@@ -200,5 +200,6 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public void OnDisableEvent()
 	{
 		disableEvent?.Invoke();
+		disableEvent?.RemoveAllListeners();
 	}
 }
