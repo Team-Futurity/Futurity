@@ -50,7 +50,8 @@ public class TutorialController : MonoBehaviour
 
 	private void StartTutorial()
 	{
-		SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+		//SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+		
 		//// First Settings
 		//dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
 		
