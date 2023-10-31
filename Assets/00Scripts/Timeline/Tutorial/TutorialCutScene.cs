@@ -33,7 +33,7 @@ public class TutorialCutScene : CutSceneBase
 	
 	protected override void DisableCutScene()
 	{
-		SceneLoader.Instance.LoadScene("Chapter1-Stage1");
+		FadeManager.Instance.FadeIn(0.8f, () => SceneLoader.Instance.LoadScene("Chapter1-Stage1"));
 	}
 	
 	public void Tutorial_Scripting()
