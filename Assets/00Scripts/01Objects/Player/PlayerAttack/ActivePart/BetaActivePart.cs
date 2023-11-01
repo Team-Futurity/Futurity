@@ -5,7 +5,9 @@ using UnityEngine;
 public class BetaActivePart : SpecialMoveProcessor
 {
 	// Common
-	public Transform effectPos;
+	public Transform firstEffectPos;
+	public Transform secondEffectPos;
+	public Transform thirdEffectPos;
 
 	public ObjectPoolManager<Transform> firstAttackObjectPool;
 	public ObjectPoolManager<Transform> secondAttackObjectPool;
