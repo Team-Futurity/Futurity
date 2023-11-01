@@ -29,6 +29,8 @@ public class Stage1_EntryCutScene : CutSceneBase
 		
 		chapterManager.scripting.DisableAllNameObject();
 		chapterManager.scripting.ResetEmotion();
+		
+		chapterManager.SetActiveMainUI(true);
 	}
 
 	public void C2A1_Scripting()
