@@ -47,5 +47,14 @@ public class TutorialController : MonoBehaviour
 		{
 			performHandler.AddPerformBoard(3, uiPerformBoards[i]);
 		}
+
+		int next = 1;
+		cutScene.onPauseEvent?.AddListener(() =>
+		{
+			performHandler.OpenPerform(next);
+			next++;
+			
+			performHandler.onEnded?.AddListener(cutScene.Resume);
+		});
 	}
 }
