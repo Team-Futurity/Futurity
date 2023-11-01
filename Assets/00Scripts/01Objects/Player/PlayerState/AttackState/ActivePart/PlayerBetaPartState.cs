@@ -111,7 +111,8 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		// Collider Open
 		capsuleColl.SetCollider(firstMaxAngle, firstMinSize);
 		// Effect Create
-
+		proccessor.firstAttackObjectPool.ActiveObject(proccessor.firstEffectPos.position, proccessor.firstEffectPos.rotation).
+			GetComponent<ParticleController>().Initialize(proccessor.firstAttackObjectPool);
 		// Damage Add
 		AddDamageEnemy(pc);
 	}
@@ -131,7 +132,8 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		capsuleColl.SetCollider(secondMaxAngle, secondRadius);
 		
 		// Effect
-
+		proccessor.secondAttackObjectPool.ActiveObject(proccessor.secondEffectPos.position, proccessor.secondEffectPos.rotation).
+			GetComponent<ParticleController>().Initialize(proccessor.secondAttackObjectPool);;
 		// Damage Add
 		AddDamageEnemy(pc);
 	}
@@ -140,17 +142,17 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	{
 		// Next Process Set
 		currentProcess = BetaProcess.THIRD_PHASE;
+		
+		// Collider Swap
+		
 	}
 
 	public void OnThirdPhase()
 	{
 		Debug.Log("On Third Phase");
 		
-		// Collider 늘어나게 하기 
-		// Collider 방향을 플레이어가 바라보는 방향으로 설정하기
-		
-		// 실행 시간 지났을 경우, 데이터 Max로 세팅하기
-		// Collider 적용.
+		proccessor.thirdAttackObjectPool.ActiveObject(proccessor.thirdEffectPos.position, proccessor.thirdEffectPos.rotation).
+		GetComponent<ParticleController>().Initialize(proccessor.thirdAttackObjectPool);
 		// 데미지 전달
 	}
 
@@ -175,8 +177,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 			// Cycle 마다 데미지가 다르기 때문
 			var currentDamage = currentProcess == BetaProcess.FIRST_PHASE ? firstDamage :
 				currentProcess == BetaProcess.SECOND_PHASE ? secondDamage : 300;
-			
-			Debug.Log(currentProcess);
 			
 			info.SetDamage(currentDamage);
 			enemy.Hit(info);
