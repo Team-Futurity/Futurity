@@ -11,7 +11,12 @@ public class InteractionTrigger : MonoBehaviour
 	[SerializeField] private GameObject interactionUI;
 	[SerializeField] private UnityEvent interactionEvent;
 	private bool isInput = false;
-	
+
+	private void Start()
+	{
+		interactionUI = ChapterMoveController.Instance.transform.GetChild(0).gameObject;
+	}
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player") == false)
@@ -43,6 +48,11 @@ public class InteractionTrigger : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
+		if (other.CompareTag("Player") == false)
+		{
+			return;
+		}
+		
 		interactionUI.SetActive(false);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
 	}
