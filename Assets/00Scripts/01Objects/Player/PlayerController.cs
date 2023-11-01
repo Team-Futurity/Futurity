@@ -212,6 +212,12 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		StartCoroutine(HitDelayCoroutine());
 
 		followTarget = gameObject.GetComponentInChildren<CameraFollowTarget>();
+
+		// debug
+		DebugManager.Instance.AddNewCommand(new DebugCommand<int>("AddAttackPointToPlayer", "플레이어에게 AttackPoint를 더합니다", "AddAttackPointToPlayer", (v1) => { playerData.status.GetStatus(StatusType.ATTACK_POINT).AddValue(v1); }));
+		DebugManager.Instance.AddNewCommand(new DebugCommand("PlayerATK100", "플레이어에게 AttackPoint를 100으로 만듭니다", "PlayerATK100", () => { playerData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(100); }));
+		DebugManager.Instance.AddNewCommand(new DebugCommand("PlayerATK1000", "플레이어에게 AttackPoint를 1000으로 만듭니다", "PlayerATK1000", () => { playerData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(1000); }));
+		DebugManager.Instance.AddNewCommand(new DebugCommand("UltraMirae", "플레이어를 아주 강력하게 만듭니다", "UltraMirae", () => { playerData.status.GetStatus(StatusType.CURRENT_HP).SetValue(1000000); playerData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(1000000); }));
 	}
 
 	public void SetFSM()
@@ -268,7 +274,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			// 돌진 중 이동 기능
 			if (IsAttackProcess())
 			{
-				if (IsCurrentState(PlayerState.ChargedAttack))
+				if (IsCurrentState(PlayerState.ChargedAttack) && !specialIsReleased)
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);

@@ -2,6 +2,7 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -19,7 +20,13 @@ public class IntroCutScene : CutSceneBase
 
 	[Header("다음으로 이동할 씬 이름")] 
 	[SerializeField] private string nextSceneName;
-	
+
+	[Header("Text 출력")] 
+	[SerializeField] private List<TextMeshProUGUI> textInput;
+	[SerializeField] private List<string> inputText;
+	[SerializeField] private float inputDelay = 0.05f;
+	private int curIndex;
+
 	private Queue<SkeletonGraphic> cutSceneQueue;
 	private bool isInput = false;
 	private bool isInputCheck = false;
@@ -53,7 +60,14 @@ public class IntroCutScene : CutSceneBase
 		});
 	}
 
-	#if UNITY_EDITOR
+	public void StartPrintText()
+	{
+		introCutScene.Pause();
+
+		StartCoroutine(PrintText());
+	}
+
+#if UNITY_EDITOR
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.F) && isInputCheck == true)
@@ -96,7 +110,7 @@ public class IntroCutScene : CutSceneBase
 			}
 			else
 			{
-				if (cutSceneQueue.Count <= 0 || cutSceneQueue.Count == 3)
+				if (cutSceneQueue.Count <= 0)
 				{
 					skeleton.gameObject.SetActive(false);
 					break;
@@ -113,6 +127,19 @@ public class IntroCutScene : CutSceneBase
 		}
 		
 		isInputCheck = isInput = false;
+		introCutScene.Resume();
+	}
+
+	private IEnumerator PrintText()
+	{
+		for (int i = 0; i < inputText[curIndex].Length; ++i)
+		{
+			textInput[curIndex].text += inputText[curIndex][i];
+
+			yield return new WaitForSeconds(inputDelay);
+		}
+
+		curIndex++;
 		introCutScene.Resume();
 	}
 

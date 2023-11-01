@@ -25,6 +25,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public EffectDatas effectSO;
 	public EffectActiveData currentEffectData;
 	public EffectKey currentEffectKey;
+	[HideInInspector] public bool isDead = false;
 
 	[Space(3)]
 	[Header("Reference")]
@@ -44,6 +45,10 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public Material deadMaterial;
 	[HideInInspector] public Material copyUMat;
 	[HideInInspector] public Material copyDMat;
+
+	[Space(3)]
+	[Header("Hitted")]
+	public float beforeChaseDelay = 1f;
 
 	[Space(3)]
 	[Header("Attack")]

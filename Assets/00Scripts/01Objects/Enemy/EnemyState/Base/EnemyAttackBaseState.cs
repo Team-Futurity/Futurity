@@ -10,6 +10,7 @@ public class EnemyAttackBaseState : StateBase
 	public override void Begin(EnemyController unit)
 	{
 		unit.enemyData.EnableAttackTime();
+		unit.rigid.velocity = Vector3.zero;
 	}
 
 	public override void Update(EnemyController unit)
@@ -45,8 +46,8 @@ public class EnemyAttackBaseState : StateBase
 		if (curTime > maxTime)
 		{
 			unit.animator.SetTrigger(unit.atkAnimParam);
-			isAttack = true;
 			curTime = 0f;
+			isAttack = true;
 		}
 	}
 }

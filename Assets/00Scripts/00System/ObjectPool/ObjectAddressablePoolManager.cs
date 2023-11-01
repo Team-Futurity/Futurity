@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -31,6 +32,7 @@ public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolPare
 		PoolingClass returnValue = null;
 		startPos = startPos ?? Vector3.zero;
 		startRot = startRot ?? Quaternion.identity;
+		List<string> nullCause = new List<string>();
 
 		// 비활성화된 오브젝트가 남아있다면
 		if (nonActivedObjects.Count > 0)
@@ -57,6 +59,10 @@ public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolPare
                 obj.gameObject.SetActive(true);
 				returnValue = obj;
             }
+			else
+			{
+				nullCause.Add("Failed to Pop in nonActiveObject");
+			}
 		}
         else
         {
@@ -93,6 +99,9 @@ public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolPare
 				poolObj.ActiveObj();
 			}
 			returnValue = obj.GetComponent<PoolingClass>();
+
+			if(returnValue == null) { nullCause.Add($"Failed to GetComponent<{typeof(PoolingClass)}> in effectObject.Result"); }
+
 		}
         
         // 성공시 활성화된 오브젝트 플러스
@@ -110,6 +119,14 @@ public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolPare
 			}
 
 			activedPoolingObjects.Add(returnValue);
+		}
+		else
+		{
+			string error = "";
+			foreach(var str in nullCause)
+			{
+				error += str + "_";
+			}
 		}
 
         return returnValue;

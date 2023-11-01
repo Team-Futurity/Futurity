@@ -18,15 +18,17 @@ public struct ChargeCollisionData
 public class ActiveEffectToWall : MonoBehaviour
 {
 	[SerializeField] private ChargeCollisionData collisionData;
+	private DamageInfo damageInfo;
 	private ObjectPoolManager<Transform> poolManager;
 	private Rigidbody rigidbody;
 	private PlayerCamera playerCamera;
 	private bool isOnEffect;
 
-	public void RunCollision(ChargeCollisionData collisionData, ObjectPoolManager<Transform> poolManager, Rigidbody rb, PlayerCamera cameraData)
+	public void RunCollision( ChargeCollisionData collisionData, DamageInfo info, ObjectPoolManager<Transform> poolManager, Rigidbody rb, PlayerCamera cameraData)
 	{
 		this.collisionData = collisionData;
 		this.poolManager = poolManager;
+		damageInfo = info;
 		rigidbody = rb;
 		playerCamera = cameraData;
 		isOnEffect = false;
@@ -41,7 +43,7 @@ public class ActiveEffectToWall : MonoBehaviour
 
 		if(!isOnEffect && Physics.Raycast(transform.position, rigidbody.velocity.normalized, out hit, collisionData.effectDistance, collisionData.wallLayer))
 		{
-			var effect = poolManager.ActiveObject(hit.point + collisionData.effectPosOffset + hit.normal * 0.01f, Quaternion.Euler(collisionData.effectRotOffset));
+			var effect = poolManager.ActiveObject(hit.point + collisionData.effectPosOffset + hit.normal * 0.01f, Quaternion.LookRotation(hit.normal) * Quaternion.Euler(collisionData.effectRotOffset));
 			var particle = effect.GetComponent<ParticleController>();
 			if(particle != null)
 			{
@@ -53,6 +55,7 @@ public class ActiveEffectToWall : MonoBehaviour
 		if(isOnEffect && Physics.Raycast(transform.position, rigidbody.velocity.normalized, out hit, collisionData.collisionDistance, collisionData.wallLayer))
 		{
 			rigidbody.velocity = Vector3.zero;
+			damageInfo.Attacker.InstantAttack(damageInfo);
 			playerCamera?.CameraShake(collisionData.shakeVelocity, collisionData.shakeDuration);
 			enabled = false;
 		}

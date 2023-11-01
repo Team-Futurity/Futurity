@@ -190,11 +190,16 @@ public class SpawnerManager : MonoBehaviour
 	{
 		curWaveSpawnCount--;
 
-		if (spawnerType == ESpawnerType.NONEVENT || isEventEnable == true || curWaveSpawnCount > dialogCondition)
+		if (spawnerType == ESpawnerType.NONEVENT || isEventEnable == true)
 		{
 			return;
 		}
 
+		if (curWaveSpawnCount <= dialogCondition)
+		{
+			return;
+		}
+		
 		isEventEnable = true;
 		interimEvent?.Invoke(dialogData);
 	}

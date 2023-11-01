@@ -78,6 +78,11 @@ public abstract class UnitBase : MonoBehaviour
 		DamageInfo info = new DamageInfo(damageInfo);
 		damageInfoQueue.Enqueue(info);
 	}
+	public void InstantAttack(DamageInfo damageInfo)
+	{
+		DamageInfo info = new DamageInfo(damageInfo);
+		AttackProcess(info);
+	}
 
 	protected abstract void AttackProcess(DamageInfo damageInfo); // Unit이 공격할 때 호출
 

@@ -24,25 +24,13 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	private float attackKnockback;     // 최종적으로 이동할 거리
 	private float attackST;				// 최종 공격배율
 	private float targetMagnitude;		// originPos에서 targetPos로 향하는 벡터의 크기^2
-	private float basicRayLength;		// ray의 기본 길이
-	private float enemyRayLength;		// 적을 고려한 Ray 길이
-	private float rayLength             // 최종 ray의 길이(basic + enemy)
-		{ get { return basicRayLength + enemyRayLength; } }
-	private RaycastHit hit;				// 충돌 정보를 가져올 RaycastHit
 	private Vector3 forward;			// 시선 벡터
 	private Vector3 originPos;          // 돌진 전 위치
 	private Vector3 targetPos;          // 목표 위치
-	private Rigidbody firstEnemy;       // 첫번째로 충돌한 적
-	private Collider firstEnemyCollider;		// 첫번째로 충돌한 적의 콜라이더
-	private UnitBase firstEnemyData;			// 첫번째로 충돌한 적의 데이터
-	private float enemyDistance;				// 첫번째로 충돌한 적과의 거리
-	private Vector3 groundPos;          // Enemy의 체공 이전 좌표
 	private float originScale;		// Player의 원래 콜라이더 크기
 
 	// Trigger
 	public bool isReleased; // 돌진 버튼이 Release되면 true
-	private bool isEnd;     // 돌진 프로세스(이동)가 종료되었는가
-	private bool isLanding;	// Enemy가 착지중이라면
 
 	// Layer
 	public LayerMask wallLayer = 1 << 6; // wall Layer
@@ -90,8 +78,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		unit.effectController.RegisterTracking(chargeEffectKey, chargeEffectPos.transform);
 		rangeEffect = unit.effectController.ActiveEffect(EffectActivationTime.AttackReady, EffectTarget.Ground, unit.transform.position + Vector3.up * 0.01f, unit.transform.rotation, unit.playerEffectParent);
 		maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + IncreasesByLevel[MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m);
+		rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * unit.curNode.attackLengthMark * MathPlus.cm2m);
 
 		pc = unit;
+		unit.playerData.EnableAttackTime();
+		unit.playerData.EnableAttackTiming();
 	}
 
 	public override void End(PlayerController unit)
@@ -100,31 +91,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		unit.rigid.velocity = Vector3.zero;
 
-		if (firstEnemy != null)
-		{
-			firstEnemy.velocity = Vector3.zero;
-			firstEnemy.transform.eulerAngles = new Vector3(0, firstEnemy.rotation.eulerAngles.y, 0);
-
-			// Enemy 행동 제약 해제(XZ)
-			firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
-			firstEnemyCollider.enabled = true;
-
-			firstEnemy = null;
-			firstEnemyCollider = null;
-		}
-
 		isReleased = false;
 		unit.specialIsReleased = false;
-		isEnd = false;
-		isLanding = false;
 		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed);
 
 		RemoveEffects(unit);
-
-		/*if(curEffect != null)
-		{
-			unit.rushObjectPool.DeactiveObject(curEffect);
-		}*/
 
 		pc.basicCollider.radius = originScale;
 		pc.rigid.velocity = Vector3.zero;
@@ -180,14 +151,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				{
 					gotoWall = collision.gameObject.AddComponent<ActiveEffectToWall>();
 				}
-				gotoWall.RunCollision(ChargeCollisionData, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera);
-
 
 				unitData = collision.transform.GetComponent<UnitBase>();
 				unitData.Knockback(knockbackDir, attackKnockback * 2);
 
-				DamageInfo info = new DamageInfo(unit.playerData, unitData, attackNode.attackST);
-				unit.playerData.Attack(info);
+				DamageInfo wallDamageInfo = new DamageInfo(unit.playerData, unitData, unit.curNode.attackST);
+				gotoWall.RunCollision(ChargeCollisionData, wallDamageInfo, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera);
 			}
 
 			CollisionProcess(unit, unitData);
@@ -210,7 +179,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			if (rangeEffect != null)
 			{
 				float spendingTime = currentLevel == 0 ? IncreasesByLevel[currentLevel].LevelStandard : IncreasesByLevel[currentLevel].LevelStandard - IncreasesByLevel[currentLevel - 1].LevelStandard;
-				rangeEffect.EffectObject.transform.localScale = Vector3.Lerp(rangeEffect.EffectObject.transform.localScale, maxRangeEffectScale, spendingTime * Time.deltaTime);
+				rangeEffect.EffectObject.transform.localScale = Vector3.Lerp(rangeEffect.EffectObject.transform.localScale, maxRangeEffectScale, spendingTime / Time.deltaTime);
 			}
 
 			// 단계가 바뀌었다면
@@ -224,14 +193,17 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 				unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
 				rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * MathPlus.cm2m);
+				attackLengthMark = unit.curNode.attackLengthMark + IncreasesByLevel[currentLevel].LengthMarkIncreasing;
 			}
 		}
 		else
 		{
 			FDebug.Log($"Rush Level : {currentLevel}");
-			unit.specialIsReleased = false;
+			
 			isReleased = true;
 			unit.animator.SetTrigger(KReleaseAnimKey);
+
+			unit.RemoveSubState();
 
 			CalculateRushData(unit);
 
@@ -260,23 +232,18 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			unit.playerData.Attack(info);
 		}
 
-		if (currentLevel > 0)
-		{
-			unit.animator.SetTrigger(DashEndAnimKey);
-		}
+		unit.animator.SetTrigger(DashEndAnimKey);
 
 		unit.rigid.velocity = Vector3.zero;
 
 		// 벽(장애물)과 충돌했으니 바로 돌진 종료
 		NextAttackState(unit, PlayerState.AttackAfterDelay);
-		//unit.ChangeState(PlayerState.AttackAfterDelay);
 	}
 
 	private void CalculateRushData(PlayerController unit)
 	{
 		// 레벨 별 데이터
 		attackST = unit.curNode.attackST + IncreasesByLevel[currentLevel].AttackSTIncreasing;
-		attackLengthMark = unit.curNode.attackLengthMark + IncreasesByLevel[currentLevel].LengthMarkIncreasing;
 		attackKnockback = unit.curNode.attackKnockback + IncreasesByLevel[currentLevel].KnockbackIncreasing;
 
 		// 초당 이동 속도 계산(m/sec)
@@ -287,7 +254,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		originPos = unit.transform.position;
 		targetPos = originPos + forward * (attackLengthMark * MathPlus.cm2m);
 		targetMagnitude = (targetPos - originPos).magnitude;
-		basicRayLength = moveSpeed * Time.fixedDeltaTime + Sqrt2 * unit.basicCollider.radius;
 	}
 
 	private void RemoveEffect(PlayerController unit, EffectKey effect)
@@ -310,53 +276,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			RemoveEffect(unit, chargeEffectKey);
 		}
 	}
-
-	/*public void UpAttack()
-	{
-		// Enemy 초기 위치를 Ground로 지정
-		groundPos = firstEnemy.transform.position;
-
-		// Enemy 행동 제약 해제(XZ)
-		firstEnemy.constraints = RigidbodyConstraints.FreezeAll ^ RigidbodyConstraints.FreezePositionY;
-		firstEnemyCollider.enabled = true;
-
-		// Enemy 날리기 
-		firstEnemy.AddForce(Vector3.up * FlyPower, ForceMode.VelocityChange);
-		pc.effectController.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Target, firstEnemy.transform.position);
-
-		// 돌진이 끝났음을 알림
-		isEnd = true;
-
-		pc.basicCollider.radius = originScale;
-		pc.rigid.velocity = Vector3.zero;
-	}
-
-	public void DownAttack()
-	{
-		// 속도 초기화 후 아래로 힘을 가함
-		firstEnemy.velocity = Vector3.zero;
-		firstEnemy.AddForce(Vector3.down * FlyPower, ForceMode.VelocityChange);
-
-		// Landing 상태가 됨을 알림
-		isLanding = true;
-	}
-
-	public void EnemyLanding()
-	{
-		// 이팩트 출력
-		pc.effectController.ActiveEffect(EffectActivationTime.AfterDoingAttack, EffectTarget.Ground, groundPos, null, null, 0, currentLevel - 1);
-
-		// 포지션 정상화
-		firstEnemy.transform.position = groundPos;
-
-		// 데미지 처리
-		DamageInfo info = new DamageInfo(pc.playerData, firstEnemyData, attackST);
-		pc.playerData.Attack(info);
-
-		// State Change
-		NextAttackState(pc, PlayerState.AttackAfterDelay);
-		//pc.ChangeState(PlayerState.AttackAfterDelay);
-	}*/
 
 	private void SetPostionChargeEffect(PlayerController unit)
 	{

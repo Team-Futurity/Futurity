@@ -92,7 +92,6 @@ public class FadeManager : Singleton<FadeManager>
 	private void SetFadeRun(bool isTrigger)
 	{
 		isFading = isTrigger;
-		fadeImage.raycastTarget = !isTrigger;
 	}
 
 	private void SetFadeImage(float ratio)

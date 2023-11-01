@@ -6,124 +6,55 @@ using UnityEngine.AddressableAssets;
 
 public class TutorialController : MonoBehaviour
 {
-	[SerializeField] private float fadeTime = 1f;
+	[SerializeField]
+	private float fadeTime = 1f;
 
-	[SerializeField] private UIPerformBoardHandler performHandler;
-	[SerializeField] private UIDialogController dialogController;
+	[SerializeField]
+	private UIPerformBoardHandler performHandler;
 
-	
-	// Dialog Data Set
-	private List<DialogData> tutorialDialogList = new List<DialogData>();
-	private readonly string dialogPath = "Assets/04Data/Dialog/Tutorial/";
-	private readonly string[] dialogKey =
-	{
-		"TutorialData1",
-		"TutorialData2",
-		"TutorialData3"
-	};
+	public List<UIPerformBoard> uiPerformBoards;
 
-	// Only Debug
-	[Space(10), Header("Debug ��� ����")]
-	public bool isDebugMode = false;
+	public TutorialCutScene cutScene;
 
 	private void Awake()
 	{
-		if (!isDebugMode)
-		{
-			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
-		}
-
-		LoadTutorialDialogData();
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 
 	private void Start()
 	{
-		if (isDebugMode)
-		{
-			StartTutorial();
-		}
-		else
-		{
-			FadeManager.Instance.FadeOut(fadeTime, StartTutorial);
-		}
+		SetEvent();
+		FadeManager.Instance.FadeOut(fadeTime);
 	}
 
-	private void StartTutorial()
+	private void SetEvent()
 	{
-		SceneLoader.Instance.LoadScene("Chapter1-Stage1");
-		//// First Settings
-		//dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
-		
-		//// Event - Dialog Ended
-		//dialogController.OnEnded?.AddListener(() =>
-		//{
-		//	switch (currentDialogIndex)
-		//	{
-		//		case 0:
-		//			performHandler.SetPerfrom();
-		//			performHandler.Run();
-		//			break;
+		performHandler.CreateGroup(1);
+		performHandler.CreateGroup(2);
+		performHandler.CreateGroup(3);
 
-		//		case 1:
-		//			performHandler.ChangeToNextBoard();
-		//			break;
-		//	}
-		//});
-
-		//// Event - Perform Changed
-		//performHandler.OnChangePerformBoard?.AddListener(() =>
-		//{
-		//	switch (currentDialogIndex)
-		//	{
-		//		case 0:
-		//			currentDialogIndex++;
-		//			dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
-					
-		//			dialogController.PlayDialog();
-		//			break;
-				
-		//		case 1:
-		//			performHandler.ChangeToNextBoard();
-		//			currentDialogIndex++;
-		//			break;
-		//	}
-		//});
+		for (int i = 0; i < 2; ++i)
+		{
+			performHandler.AddPerformBoard(1, uiPerformBoards[i]);
+		}
 		
-		//// Event - Perform Ended
-		//performHandler.OnEnded?.AddListener(() =>
-		//{
-		//	dialogController.SetDialogData(tutorialDialogList[maxDialogIndex]);
-		//	dialogController.PlayDialog();
+		for (int i = 2; i < 8; ++i)
+		{
+			performHandler.AddPerformBoard(2, uiPerformBoards[i]);
+		}
+		
+		for (int i = 8; i < 9; ++i)
+		{
+			performHandler.AddPerformBoard(3, uiPerformBoards[i]);
+		}
+
+		int next = 1;
+		cutScene.onPauseEvent?.AddListener(() =>
+		{
+			performHandler.OpenPerform(next);
+			next++;
 			
-		//	dialogController.OnEnded?.RemoveAllListeners();
-		//	dialogController.OnEnded?.AddListener(() =>
-		//	{
-		//		if (isDebugMode)
-		//		{
-		//			SceneLoader.Instance.LoadScene("Chapter1-Stage1");
-		//		}
-		//		else
-		//		{
-		//			FadeManager.Instance.FadeIn(fadeTime, () =>
-		//			{
-		//				SceneLoader.Instance.LoadScene("Chapter1-Stage1");
-		//			});
-		//		}
-		//	});
-		//});
-		
-		//// Play
-		//dialogController.PlayDialog();
-	}
-
-	private void LoadTutorialDialogData()
-	{
-		foreach (var key in dialogKey)
-		{
-			var path = dialogPath + key + ".asset";
-
-			DialogData dialogData = Addressables.LoadAsset<DialogData>(path).WaitForCompletion();
-			tutorialDialogList.Add(dialogData);
-		}
+			performHandler.onEnded?.AddListener(cutScene.Resume);
+		});
 	}
 }
