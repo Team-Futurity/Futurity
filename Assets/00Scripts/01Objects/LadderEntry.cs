@@ -41,8 +41,11 @@ public class LadderEntry : MonoBehaviour
 
 	private void DownLadder()
 	{
+		InputActionManager.Instance.DisableActionMap();
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckInput);
+		
 		Transform player = GameObject.FindWithTag("Player").transform;
+		player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
@@ -53,6 +56,9 @@ public class LadderEntry : MonoBehaviour
 
 	private void DelayFadeOut()
 	{
-		FadeManager.Instance.FadeOut(fadeTime);
+		FadeManager.Instance.FadeOut(fadeTime, () =>
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		});
 	}
 }
