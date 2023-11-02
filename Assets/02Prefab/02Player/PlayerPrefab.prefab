@@ -6531,6 +6531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 9199333450892302302}
   model: {fileID: 4773346115932327}
+  modelPelvis: {fileID: 6916651567598433520}
   animator: {fileID: 6754002155594371175}
   colliders:
   - collider: {fileID: 9199333450892302302}
@@ -6544,16 +6545,34 @@ MonoBehaviour:
   animations:
   - animationName: Dash
     isRootMotion: 0
+    isApplyX: 0
+    isApplyY: 0
+    isApplyZ: 0
   - animationName: Idle
     isRootMotion: 1
+    isApplyX: 0
+    isApplyY: 0
+    isApplyZ: 0
   - animationName: Move
     isRootMotion: 1
+    isApplyX: 0
+    isApplyY: 0
+    isApplyZ: 0
   - animationName: Hit
     isRootMotion: 1
+    isApplyX: 1
+    isApplyY: 0
+    isApplyZ: 1
   - animationName: Attack
     isRootMotion: 1
+    isApplyX: 1
+    isApplyY: 1
+    isApplyZ: 1
   - animationName: Death
     isRootMotion: 1
+    isApplyX: 1
+    isApplyY: 1
+    isApplyZ: 1
   currentApplyRootMotion: 0
   stopDistance: 0.2
 --- !u!114 &8346341091200553560
@@ -6860,6 +6879,11 @@ MonoBehaviour:
 --- !u!95 &6754002155594371175 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 38533b871cd808b4594f1765969c915b, type: 3}
+  m_PrefabInstance: {fileID: 923691493022789110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6916651567598433520 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5993584602083891462, guid: 38533b871cd808b4594f1765969c915b, type: 3}
   m_PrefabInstance: {fileID: 923691493022789110}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7110416804458029272 stripped
