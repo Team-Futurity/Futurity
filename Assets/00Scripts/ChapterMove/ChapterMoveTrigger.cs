@@ -37,7 +37,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 	private void CheckMoveStage(InputAction.CallbackContext context)
 	{
 		chapterMoveController.MoveNextChapter();
-		chapterMoveController.EnableInteractionUI(EUIType.NEXTSTAGE);
+		chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 		gameObject.SetActive(false);
 	}
