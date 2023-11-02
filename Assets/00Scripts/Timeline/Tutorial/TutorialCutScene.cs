@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Playables;
 
 public class TutorialCutScene : CutSceneBase
@@ -12,6 +13,8 @@ public class TutorialCutScene : CutSceneBase
 	[Header("스크립트 데이터")] 
 	[SerializeField] private List<ScriptingList> scriptingList;
 	private int curScriptsIndex;
+
+	public UnityEvent onPauseEvent;
 
 	private void Update()
 	{
@@ -50,6 +53,8 @@ public class TutorialCutScene : CutSceneBase
 	{
 		cutScene.Pause();
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		
+		onPauseEvent?.Invoke();
 	}
 
 	public void Resume()

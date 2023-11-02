@@ -15,8 +15,13 @@ public class UIWindowOpenerButton : UIButton
 		
 		if (isClose)
 		{
+			if (OpenWindowType == WindowList.PAUSE)
+			{
+				Time.timeScale = 1f;
+			}
+			
 			UIManager.Instance.CloseWindow(OpenWindowType);
-			UIManager.Instance.RefreshWindow(WindowList.TITLE);
+			UIManager.Instance.RefreshWindow(UIManager.Instance.GetBefroeWindow());
 			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
 		}
 		else
