@@ -38,5 +38,7 @@ public class InteractionTrigger : MonoBehaviour
 		interactionEvent?.Invoke();
 		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
+		
+		gameObject.SetActive(false);
 	}
 }
