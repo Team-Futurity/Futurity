@@ -274,7 +274,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			// 돌진 중 이동 기능
 			if (IsAttackProcess())
 			{
-				if (IsCurrentState(PlayerState.ChargedAttack))
+				if (IsCurrentState(PlayerState.ChargedAttack) && !specialIsReleased)
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);

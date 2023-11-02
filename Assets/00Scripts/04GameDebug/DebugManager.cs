@@ -44,8 +44,8 @@ public class DebugManager : Singleton<DebugManager>
 	{
 		base.Awake();
 
-		Help = new DebugCommand("help", "¸í·É¾î ¸ñ·ÏÀ» Ãâ·ÂÇÕ´Ï´Ù.", "help", AddHelpLog);
-		Clear = new DebugCommand("clear", "·Î±× ±â·ÏÀ» ¸ðµÎ »èÁ¦ÇÕ´Ï´Ù.", "clear", logs.Clear);
+		Help = new DebugCommand("help", "ï¿½ï¿½É¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.", "help", AddHelpLog);
+		Clear = new DebugCommand("clear", "ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.", "clear", logs.Clear);
 		PrintInt = new DebugCommand<int>("print", "Print Inteager", "print", (v1) => { FDebug.Log(v1); });
 
 		commandList = new List<object>

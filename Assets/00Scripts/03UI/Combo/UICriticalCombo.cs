@@ -162,7 +162,7 @@ public class UICriticalCombo : MonoBehaviour
 
 			yield return null;
 
-			//numberGroup.anchoredPosition = new Vector2(resultPosX, resultPosY);
+			numberGroup.anchoredPosition = new Vector2(resultPosX, resultPosY);
 		}
 
 		StartCoroutine("OffNumberImage");

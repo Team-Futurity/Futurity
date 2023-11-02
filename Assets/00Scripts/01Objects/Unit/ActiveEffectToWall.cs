@@ -43,7 +43,7 @@ public class ActiveEffectToWall : MonoBehaviour
 
 		if(!isOnEffect && Physics.Raycast(transform.position, rigidbody.velocity.normalized, out hit, collisionData.effectDistance, collisionData.wallLayer))
 		{
-			var effect = poolManager.ActiveObject(hit.point + collisionData.effectPosOffset + hit.normal * 0.01f, Quaternion.Euler(collisionData.effectRotOffset));
+			var effect = poolManager.ActiveObject(hit.point + collisionData.effectPosOffset + hit.normal * 0.01f, Quaternion.LookRotation(hit.normal) * Quaternion.Euler(collisionData.effectRotOffset));
 			var particle = effect.GetComponent<ParticleController>();
 			if(particle != null)
 			{

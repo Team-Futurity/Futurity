@@ -199,9 +199,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		else
 		{
 			FDebug.Log($"Rush Level : {currentLevel}");
-			unit.specialIsReleased = false;
+			
 			isReleased = true;
 			unit.animator.SetTrigger(KReleaseAnimKey);
+
+			unit.RemoveSubState();
 
 			CalculateRushData(unit);
 

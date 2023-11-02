@@ -21,6 +21,8 @@ public class Area1_RewardCutScene : CutSceneBase
 	{
 		chapterManager.isCutScenePlay = true;
 		chapterManager.SetActiveMainUI(false);
+		
+		GameObject.FindWithTag("Player").GetComponent<Rigidbody>().velocity = Vector3.zero;
 	}
 
 	protected override void DisableCutScene()

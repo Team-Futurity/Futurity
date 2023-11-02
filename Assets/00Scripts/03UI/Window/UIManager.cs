@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
@@ -8,12 +9,15 @@ public class UIManager : Singleton<UIManager>
 	private Dictionary<WindowList, UIWindow> windowDic;
 	private List<WindowList> activeWindowList;
 
+	private Stack<UIWindow> windowStack;
+
 	protected override void Awake()
 	{
 		base.Awake();
 
 		windowDic = new Dictionary<WindowList, UIWindow>();
 		activeWindowList = new List<WindowList>();
+		windowStack = new Stack<UIWindow>();
 	}
 	
 	#region Window
@@ -21,13 +25,9 @@ public class UIManager : Singleton<UIManager>
 	public void AddWindow(WindowList type, UIWindow window)
 	{
 		windowDic?.Add(type, window);
+		windowStack?.Push(window);
 		
 		window.SetUp();
-	}
-
-	public void RemoveWindow(WindowList type)
-	{
-		windowDic[type].RemoveWindow();
 	}
 
 	public void OpenWindow(WindowList type)
@@ -45,6 +45,14 @@ public class UIManager : Singleton<UIManager>
 	public void RefreshWindow(WindowList type)
 	{
 		windowDic[type].RefreshWindow();
+	}
+
+	public WindowList GetBefroeWindow()
+	{
+		if (0 >= activeWindowList.Count)
+			return WindowList.NONE;
+		else
+			return activeWindowList[^1];
 	}
 	
 	public void OpenWindowAllClose()
@@ -69,11 +77,6 @@ public class UIManager : Singleton<UIManager>
 
 	public void RemoveAllWindow()
 	{
-		//foreach(var window in windowDic)
-		//{
-		//	RemoveWindow(window.Key);
-		//}
-
 		windowDic.Clear();
 	}
 
@@ -86,12 +89,6 @@ public class UIManager : Singleton<UIManager>
 	{
 		return windowDic[type].isOpen;
 	}
-	
-	#endregion
-
-	#region Canvas
-	
-	
 	
 	#endregion
 }

@@ -12,12 +12,17 @@ public class UIPerformBoardHandler : MonoBehaviour
 	private PlayerInputManager target;
 
 	private Dictionary<int, List<UIPerformBoard>> performBoardDic = new Dictionary<int, List<UIPerformBoard>>();
-	
+
 	private UIPerformBoard currentBoard;
 	private int currentType = -1;
 
 	[HideInInspector]
-	public UnityEvent onEnded; 
+	public UnityEvent onEnded;
+
+	private void Awake()
+	{
+		target.onChangeStateEvent?.AddListener(GetTargetInputData);
+	}
 
 	public void CreateGroup(int type)
 	{
@@ -28,7 +33,7 @@ public class UIPerformBoardHandler : MonoBehaviour
 	{
 		return performBoardDic.ContainsKey(type);
 	}
-	
+
 	public void AddPerformBoard(int type, UIPerformBoard board)
 	{
 		performBoardDic[type].Add(board);
@@ -52,30 +57,25 @@ public class UIPerformBoardHandler : MonoBehaviour
 		currentBoard.Active(true);
 	}
 
-	public void Debugs(PlayerInputEnum type)
-	{
-		GetTargetInputData(type);
-	}
-
 	private void GetTargetInputData(PlayerInputEnum type)
 	{
 		if (currentBoard == null || currentType == -1)
 		{
 			return;
 		}
-		
+
 		var isClear = currentBoard.EnterPlayerEventType(type);
 
 		if (isClear)
 		{
-			ChangeBoard();	
+			ChangeBoard();
 		}
 	}
 
 	private void ChangeBoard()
 	{
 		currentBoard.Active(false);
-		
+
 		currentBoard = Pop(currentType);
 
 		if (currentBoard == null)
@@ -83,6 +83,7 @@ public class UIPerformBoardHandler : MonoBehaviour
 			onEnded?.Invoke();
 			return;
 		}
+
 		currentBoard.Active(true);
 	}
 
