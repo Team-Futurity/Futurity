@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: F_03_03_04_attack_2_ring_material
-  m_Shader: {fileID: -6465566751694194690, guid: 6ed8d181a1af6124a8138fc27ded0cc4, type: 3}
+  m_Name: hit_02_material
+  m_Shader: {fileID: -6465566751694194690, guid: a486ca58c6476d9408dd7c2a731a4bbb, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,20 +20,36 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _SampleTexture2D_541b04f78b5c41a0bfeb5391798fdfe0_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 1117ca616f13bc549aa3e5481e3a1771, type: 3}
+    - _MainTEX:
+        m_Texture: {fileID: 2800000, guid: 732df94e02387464688e439522da4dee, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_6d93e9a11a0843c8b4d6efce77bb5db5_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 1117ca616f13bc549aa3e5481e3a1771, type: 3}
+    - _SampleTexture2D_7a789b8a49d14bb6bcdfa4d84c20f824_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 59ae5bd91cb139a409a51f33dc32b948, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_8da18cf7f16446b19bc7ef334a361c33_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 55a9e3c69076d1e47b31ebf7268035c4, type: 3}
+    - _SampleTexture2D_e091f522829d49f0a6288804a6977534_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 7551c583d5a959e4a961945074a090c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_b72550a162b349c287a3fa632d996ba1_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 1117ca616f13bc549aa3e5481e3a1771, type: 3}
+    - _color:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _dis_texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _dist:
+        m_Texture: {fileID: 2800000, guid: 23d6661a73f290844b281976d9ee78d7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ring:
+        m_Texture: {fileID: 2800000, guid: 59ae5bd91cb139a409a51f33dc32b948, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texture:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -52,10 +68,18 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _inten: 5
-    m_Colors: []
+    - _inten: 1
+    - _inten_main: 10
+    - _intencity: 2
+    m_Colors:
+    - _dis_offset: {r: 0, g: 0, b: 0, a: 0}
+    - _dis_tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _mask: {r: -0.06, g: 0.99, b: 0, a: 0}
+    - _offset: {r: 0, g: 0, b: 0, a: 0}
+    - _smoothstep: {r: 0, g: 0.01, b: 0, a: 0}
+    - _tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &2203400706708935628
+--- !u!114 &3371594612926981983
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
