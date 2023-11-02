@@ -69,7 +69,7 @@ public class DebugManager : Singleton<DebugManager>
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.MoveInput, OnMoveInput, true);
 
-		SceneManager.sceneUnloaded += RemoveAllCallbacks;
+		//SceneManager.sceneUnloaded += RemoveAllCallbacks;
 		SceneManager.sceneLoaded += RegisterAllCallbacks;
 	}
 
