@@ -49,7 +49,6 @@ public class SceneLoader : Singleton<SceneLoader>
 	{
 		nextSceneName = sceneName;
 
-		UIManager.Instance.RemoveAllWindow();
 		EnableSceneLoadEvent();
 		SceneManager.LoadScene(loadSceneName);
 	}

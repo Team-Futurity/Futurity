@@ -33,6 +33,8 @@ public class LoadingSystem : MonoBehaviour
 	{
 		nextScene = sceneName;
 
+		UIManager.Instance.RemoveAllWindow();
+
 		FadeManager.Instance.FadeOut(fadeTime, () =>
 		{
 			AudioManager.Instance.CleanUp();
