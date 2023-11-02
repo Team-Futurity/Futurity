@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Playables;
 
-public class Stage1_SubInteraction : CutSceneBase
+public class SubInteractionCutScene : CutSceneBase
 {
 	[Header("Component")]
 	[SerializeField] private PlayableDirector cutScene;
@@ -11,6 +12,9 @@ public class Stage1_SubInteraction : CutSceneBase
 	[SerializeField] private List<ScriptingList> scriptingList;
 	[SerializeField] private List<int> firstName;
 	private int enableIndex;
+
+	[Header("종료 이벤트")]
+	[SerializeField] private UnityEvent endEvent;
 
 	protected override void Init()
 	{
@@ -29,9 +33,11 @@ public class Stage1_SubInteraction : CutSceneBase
 		
 		chapterManager.scripting.DisableAllNameObject();
 		chapterManager.scripting.ResetEmotion();
+		
+		endEvent?.Invoke();
 	}
 	
-	public void C2A1_Scripting()
+	public void SubInteractionScripting()
 	{
 		cutScene.Pause();
 		
