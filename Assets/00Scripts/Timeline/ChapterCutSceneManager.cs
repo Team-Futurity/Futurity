@@ -89,7 +89,10 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 		for (int i = 0; i < count; ++i)
 		{
-			result.Add(transform.GetChild(i).GetComponent<CutSceneBase>());
+			if (transform.GetChild(i).TryGetComponent(out CutSceneBase cutScene) == true)
+			{
+				result.Add(cutScene);
+			}
 		}
 
 		return result;

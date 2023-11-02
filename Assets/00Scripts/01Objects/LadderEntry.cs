@@ -10,8 +10,6 @@ public class LadderEntry : MonoBehaviour
 	[SerializeField] private GameObject interactionUI;
 	[SerializeField] private Transform movePos;
 
-	private bool isInput = false;
-	
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player") == false)
@@ -22,23 +20,6 @@ public class LadderEntry : MonoBehaviour
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckInput);
 		interactionUI.SetActive(true);
 	}
-
-	private void OnTriggerStay(Collider other)
-	{
-		if (other.CompareTag("Player") == false)
-		{
-			return;
-		}
-
-		if (isInput == false)
-		{
-			return;
-		}
-		
-		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckInput);
-		DownLadder();
-		gameObject.SetActive(false);
-	}
 	
 	private void OnTriggerExit(Collider other)
 	{
@@ -48,17 +29,23 @@ public class LadderEntry : MonoBehaviour
 		}
 		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckInput);
-		interactionUI.SetActive(true);
+		interactionUI.SetActive(false);
 	}
 
 	private void CheckInput(InputAction.CallbackContext context)
 	{
-		isInput = true;
+		DownLadder();
+		interactionUI.SetActive(false);
+		gameObject.SetActive(false);
 	}
 
 	private void DownLadder()
 	{
+		InputActionManager.Instance.DisableActionMap();
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckInput);
+		
 		Transform player = GameObject.FindWithTag("Player").transform;
+		player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
@@ -69,6 +56,9 @@ public class LadderEntry : MonoBehaviour
 
 	private void DelayFadeOut()
 	{
-		FadeManager.Instance.FadeOut(fadeTime);
+		FadeManager.Instance.FadeOut(fadeTime, () =>
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		});
 	}
 }
