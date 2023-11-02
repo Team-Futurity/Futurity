@@ -139,13 +139,12 @@ public class SpawnerManager : MonoBehaviour
 	{
 		MinusWaveSpawnCount();
 
-		if (curWaveSpawnCount > 0 || SpawnerListCount > 0 || spawnerType == ESpawnerType.CHAPTER_BOSS)
+		if (curWaveSpawnCount <= 0 && SpawnerListCount <= 0 && spawnerType != ESpawnerType.CHAPTER_BOSS)
 		{
-			return;
+			spawnEndEvent?.Invoke(this, spawnerType);
+			ectEvent?.Invoke();
 		}
 		
-		spawnEndEvent?.Invoke(this, spawnerType);
-		ectEvent?.Invoke();
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{
