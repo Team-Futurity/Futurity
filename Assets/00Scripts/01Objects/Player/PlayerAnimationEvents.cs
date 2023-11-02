@@ -265,12 +265,13 @@ public class PlayerAnimationEvents : MonoBehaviour
 	// 0 : frameCount
 	// 1 : skipFrameCount
 	// 2 : animation speed
+	// 3 : blend time
 	public void AlterAnimationSpeed(string data)
 	{
 		if (!CheckEnemyInAttackRange()) { return; }
 
 		float[] result = ConvertStringToFloatArray(data);
-		pc.playerData.AlterAnimationSpeed((int)result[0], (int)result[1], result[2]);
+		pc.playerData.AlterAnimationSpeed((int)result[0], (int)result[1], result[2], (int)result[3]);
 	}
 
 	public void WalkSE()

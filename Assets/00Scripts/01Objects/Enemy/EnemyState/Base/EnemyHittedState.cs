@@ -18,7 +18,7 @@ public class EnemyHittedState : StateBase
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
     
     PrintAnimation(unit);
-		unit.enemyData.AlterAnimationSpeed(unit.stopFrameCount, unit.skipFrameCountBeforeStop, 0);
+		unit.enemyData.AlterAnimationSpeed(unit.stopFrameCount, unit.skipFrameCountBeforeStop, 0, 5);
 
 		if(unit.currentEffectKey != null)
 			unit.effectController.RemoveEffect(unit.currentEffectKey);
