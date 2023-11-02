@@ -32,6 +32,7 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private ESpawnerType spawnerType;
 	[SerializeField] private int dialogCondition;
 	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> spawnEndEvent;
+	[SerializeField] private UnityEvent ectEvent;
 	[SerializeField] private UnityEvent<DialogData> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
 	public ESpawnerType SpawnerType => spawnerType;
@@ -137,7 +138,14 @@ public class SpawnerManager : MonoBehaviour
 	private void MonsterDisableEvent()
 	{
 		MinusWaveSpawnCount();
+
+		if (curWaveSpawnCount > 0 || SpawnerListCount > 0 || spawnerType == ESpawnerType.CHAPTER_BOSS)
+		{
+			return;
+		}
+		
 		spawnEndEvent?.Invoke(this, spawnerType);
+		ectEvent?.Invoke();
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{
