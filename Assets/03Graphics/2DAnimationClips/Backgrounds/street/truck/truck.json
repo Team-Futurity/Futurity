@@ -1,0 +1,105 @@
+{
+"skeleton": {
+	"hash": "vNjFFcIKLOI",
+	"spine": "4.1.21",
+	"x": -486,
+	"y": -0.49,
+	"width": 978.41,
+	"height": 886.49,
+	"images": "./images/",
+	"audio": "C:/Users/juhee/Desktop/ck_work/3-2/퓨처리티/리소스/스트리트/truck"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "truck", "parent": "root", "x": 0.5, "y": 443 },
+	{ "name": "truck_wheel", "parent": "truck", "x": -89, "y": -204 }
+],
+"slots": [
+	{ "name": "truck_wheel", "bone": "truck_wheel", "attachment": "truck_wheel" },
+	{ "name": "truck", "bone": "truck", "attachment": "truck" },
+	{ "name": "light", "bone": "truck", "color": "ffffff87", "attachment": "light", "blend": "additive" },
+	{ "name": "light2", "bone": "truck_wheel", "color": "ffffff36", "attachment": "light2", "blend": "additive" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"light": {
+				"light": { "x": 344.41, "y": -297.99, "width": 295, "height": 291 }
+			},
+			"light2": {
+				"light2": { "x": -32.08, "y": 8.81, "width": 724, "height": 487 }
+			},
+			"truck": {
+				"truck": { "width": 973, "height": 886 }
+			},
+			"truck_wheel": {
+				"truck_wheel": { "width": 749, "height": 478 }
+			}
+		}
+	}
+],
+"animations": {
+	"truck": {
+		"slots": {
+			"light": {
+				"rgba": [
+					{
+						"color": "ffffff87",
+						"curve": [ 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 0.53, 0.889, 0.24 ]
+					},
+					{
+						"time": 1.3333,
+						"color": "ffffff3c",
+						"curve": [ 1.778, 1, 2.222, 1, 1.778, 1, 2.222, 1, 1.778, 1, 2.222, 1, 1.778, 0.24, 2.222, 0.53 ]
+					},
+					{ "time": 2.6667, "color": "ffffff87" }
+				]
+			},
+			"light2": {
+				"rgba": [
+					{
+						"color": "ffffff36",
+						"curve": [ 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 1, 0.889, 1, 0.444, 0.21, 0.889, 0.24 ]
+					},
+					{
+						"time": 1.3333,
+						"color": "ffffff3c",
+						"curve": [ 1.778, 1, 2.222, 1, 1.778, 1, 2.222, 1, 1.778, 1, 2.222, 1, 1.778, 0.24, 2.222, 0.21 ]
+					},
+					{ "time": 2.6667, "color": "ffffff36" }
+				]
+			}
+		},
+		"bones": {
+			"truck": {
+				"translate": [
+					{
+						"curve": [ 0.444, 0, 0.889, 0, 0.444, 0, 0.889, 29.72 ]
+					},
+					{
+						"time": 1.3333,
+						"y": 29.72,
+						"curve": [ 1.778, 0, 2.222, 0, 1.778, 29.72, 2.222, 0 ]
+					},
+					{ "time": 2.6667 }
+				]
+			},
+			"truck_wheel": {
+				"translate": [
+					{
+						"y": -15.51,
+						"curve": [ 0.444, 0, 0.889, 0, 0.444, -15.51, 0.889, 6.44 ]
+					},
+					{
+						"time": 1.3333,
+						"y": 6.44,
+						"curve": [ 1.778, 0, 2.222, 0, 1.778, 6.44, 2.222, -15.51 ]
+					},
+					{ "time": 2.6667, "y": -15.51 }
+				]
+			}
+		}
+	}
+}
+}
