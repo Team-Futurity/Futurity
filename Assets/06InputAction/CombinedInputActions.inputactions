@@ -512,12 +512,12 @@
             "actions": [
                 {
                     "name": "Return",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "d349d67f-3795-4f4b-8b25-5532b88a0ac0",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ToggleDebug",
@@ -525,6 +525,15 @@
                     "id": "c0de7bc9-d4bf-4936-9471-9ad116c85efe",
                     "expectedControlType": "Button",
                     "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MoveInput",
+                    "type": "Value",
+                    "id": "b56a0a0a-bdef-4b86-842c-d953556e865e",
+                    "expectedControlType": "Axis",
+                    "processors": "Clamp(min=-1,max=1)",
                     "interactions": "",
                     "initialStateCheck": true
                 }
@@ -549,6 +558,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Return",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "761b3c25-d52d-4ada-9fb8-607db9a12878",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "Clamp(max=1)",
+                    "groups": "PC",
+                    "action": "MoveInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "169395a5-7f88-48ce-9d9f-100eeb848ef4",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "Invert,Clamp(min=-1)",
+                    "groups": "PC",
+                    "action": "MoveInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
