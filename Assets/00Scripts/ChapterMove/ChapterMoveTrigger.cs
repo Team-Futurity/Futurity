@@ -20,30 +20,7 @@ public class ChapterMoveTrigger : MonoBehaviour
 		}
 		
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
-		chapterMoveController.SetActiveInteractionUI(true);
-	}
-
-	private void OnTriggerStay(Collider other)
-	{
-		if (other.CompareTag("Player") == false)
-		{
-			return;
-		}
-
-		if (isInput == false)
-		{
-			return;
-		}
-		
-		chapterMoveController.MoveNextChapter();
-		chapterMoveController.SetActiveInteractionUI(false);
-		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
-		gameObject.SetActive(false);
-	}
-
-	private void CheckMoveStage(InputAction.CallbackContext context)
-	{
-		isInput = true;
+		chapterMoveController.EnableInteractionUI(EUIType.NEXTSTAGE);
 	}
 	
 	private void OnTriggerExit(Collider other)
@@ -54,6 +31,15 @@ public class ChapterMoveTrigger : MonoBehaviour
 		}
 		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
-		chapterMoveController.SetActiveInteractionUI(false);
+		chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
 	}
+	
+	private void CheckMoveStage(InputAction.CallbackContext context)
+	{
+		chapterMoveController.MoveNextChapter();
+		chapterMoveController.EnableInteractionUI(EUIType.NEXTSTAGE);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
+		gameObject.SetActive(false);
+	}
+
 }

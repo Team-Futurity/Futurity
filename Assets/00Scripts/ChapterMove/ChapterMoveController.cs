@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EUIType
+{
+	NEXTSTAGE,
+	OPENBOX,
+}
+
 public class ChapterMoveController : Singleton<ChapterMoveController>
 {
-	[Header("Component")] 
-	[SerializeField] private GameObject interactionUI;
+	[Header("Component")]
 	[ReadOnly(false), SerializeField] private ChapterCutSceneManager cutSceneManager;
 	
 	[Header("챕터 정보")] 
@@ -16,11 +21,12 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 	[SerializeField] private float fadeOutTime = 0.5f;
 	[SerializeField] private float fadeInTime = 1.0f;
 
+	[Header("상호작용 UI")] 
+	[SerializeField] private List<GameObject> interactionUI;
+
 	[Header("에디터에서만 사용")] 
 	[SerializeField] private EChapterType editorChapter;
-	
 	private ObjectPenetrate objectPenetrate;
-	public void SetActiveInteractionUI(bool isActive) => interactionUI.SetActive(isActive);
 
 	private void Start()
 	{
@@ -43,6 +49,9 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 		Time.timeScale = 1.0f;
 	}
 
+	public void EnableInteractionUI(EUIType type) => interactionUI[(int)type].SetActive(true);
+	public void DisableInteractionUI(EUIType type) => interactionUI[(int)type].SetActive(false);
+	
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.F7))

@@ -8,14 +8,8 @@ using UnityEngine.InputSystem;
 public class InteractionTrigger : MonoBehaviour
 {
 	[Header("Component")]
-	[SerializeField] private GameObject interactionUI;
 	[SerializeField] private UnityEvent interactionEvent;
 	
-	private void Start()
-	{
-		interactionUI = ChapterMoveController.Instance.transform.GetChild(0).gameObject;
-	}
-
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player") == false)
@@ -23,7 +17,7 @@ public class InteractionTrigger : MonoBehaviour
 			return;
 		}
 		
-		interactionUI.SetActive(true);
+		ChapterMoveController.Instance.EnableInteractionUI(EUIType.NEXTSTAGE);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
 	}
 	
@@ -34,13 +28,13 @@ public class InteractionTrigger : MonoBehaviour
 			return;
 		}
 		
-		interactionUI.SetActive(false);
+		ChapterMoveController.Instance.DisableInteractionUI(EUIType.NEXTSTAGE);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
 	}
 
 	private void InputCheck(InputAction.CallbackContext context)
 	{
-		interactionUI.SetActive(false);
+		ChapterMoveController.Instance.DisableInteractionUI(EUIType.NEXTSTAGE);
 		interactionEvent?.Invoke();
 		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
