@@ -534,12 +534,12 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
             ""actions"": [
                 {
                     ""name"": ""Return"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""d349d67f-3795-4f4b-8b25-5532b88a0ac0"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""ToggleDebug"",
@@ -547,6 +547,15 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                     ""id"": ""c0de7bc9-d4bf-4936-9471-9ad116c85efe"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveInput"",
+                    ""type"": ""Value"",
+                    ""id"": ""b56a0a0a-bdef-4b86-842c-d953556e865e"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 }
@@ -571,6 +580,28 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""761b3c25-d52d-4ada-9fb8-607db9a12878"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": ""Clamp(max=1)"",
+                    ""groups"": ""PC"",
+                    ""action"": ""MoveInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""169395a5-7f88-48ce-9d9f-100eeb848ef4"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": ""Invert,Clamp(min=-1)"",
+                    ""groups"": ""PC"",
+                    ""action"": ""MoveInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -624,6 +655,7 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Return = m_Debug.FindAction("Return", throwIfNotFound: true);
         m_Debug_ToggleDebug = m_Debug.FindAction("ToggleDebug", throwIfNotFound: true);
+        m_Debug_MoveInput = m_Debug.FindAction("MoveInput", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -847,12 +879,14 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
     private IDebugActions m_DebugActionsCallbackInterface;
     private readonly InputAction m_Debug_Return;
     private readonly InputAction m_Debug_ToggleDebug;
+    private readonly InputAction m_Debug_MoveInput;
     public struct DebugActions
     {
         private @CombinedInputActions m_Wrapper;
         public DebugActions(@CombinedInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Return => m_Wrapper.m_Debug_Return;
         public InputAction @ToggleDebug => m_Wrapper.m_Debug_ToggleDebug;
+        public InputAction @MoveInput => m_Wrapper.m_Debug_MoveInput;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -868,6 +902,9 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                 @ToggleDebug.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleDebug;
                 @ToggleDebug.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleDebug;
                 @ToggleDebug.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleDebug;
+                @MoveInput.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnMoveInput;
+                @MoveInput.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnMoveInput;
+                @MoveInput.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnMoveInput;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -878,6 +915,9 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
                 @ToggleDebug.started += instance.OnToggleDebug;
                 @ToggleDebug.performed += instance.OnToggleDebug;
                 @ToggleDebug.canceled += instance.OnToggleDebug;
+                @MoveInput.started += instance.OnMoveInput;
+                @MoveInput.performed += instance.OnMoveInput;
+                @MoveInput.canceled += instance.OnMoveInput;
             }
         }
     }
@@ -924,5 +964,6 @@ public partial class @CombinedInputActions : IInputActionCollection2, IDisposabl
     {
         void OnReturn(InputAction.CallbackContext context);
         void OnToggleDebug(InputAction.CallbackContext context);
+        void OnMoveInput(InputAction.CallbackContext context);
     }
 }
