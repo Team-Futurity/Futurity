@@ -15,7 +15,6 @@ public class RewardBox : MonoBehaviour
 	[SerializeField] private float waitTime = 0.6f;
 	private IEnumerator startAnimation;
 	
-	
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player") == false)
@@ -23,6 +22,7 @@ public class RewardBox : MonoBehaviour
 			return;
 		}
 		
+		ChapterMoveController.Instance.EnableInteractionUI(EUIType.OPENBOX);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 
@@ -33,6 +33,7 @@ public class RewardBox : MonoBehaviour
 			return;
 		}
 		
+		ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 
@@ -45,6 +46,7 @@ public class RewardBox : MonoBehaviour
 	private IEnumerator PlayAnimation()
 	{
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
 		boxAnimations.Play();
 		
 		yield return new WaitForSeconds(waitTime);
