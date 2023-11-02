@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 
-public class SubInteractionCutScene : CutSceneBase
+public class InteractionCutScene : CutSceneBase
 {
 	[Header("Component")]
 	[SerializeField] private PlayableDirector cutScene;
@@ -25,6 +25,7 @@ public class SubInteractionCutScene : CutSceneBase
 	{
 		chapterManager.SetActiveMainUI(false);
 		chapterManager.scripting.EnableNameText(firstName[enableIndex]);
+		chapterManager.scripting.EnableStandingImg("SARI");
 	}
 
 	protected override void DisableCutScene()
