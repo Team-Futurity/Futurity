@@ -69,10 +69,8 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 			SceneLoader.Instance.LoadScene(chapterData[(int)curChapter].NextChapterName);
 			
 			curChapter++;
-			objectPenetrate.enabled = true;
+			objectPenetrate.enabled = false;
 		});
-		
-		Invoke(nameof(OnEnableController), fadeOutTime + 5.0f);
 	}
 
 	private void EnableEntryCutScene()
