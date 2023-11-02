@@ -47,4 +47,5 @@ public class InteractionCutScene : CutSceneBase
 	}
 
 	public void SetIndex(int index) => enableIndex = index;
+	public void MoveStage() => ChapterMoveController.Instance.MoveNextChapter();
 }
