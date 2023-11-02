@@ -39,7 +39,7 @@ public class LoadingSystem : MonoBehaviour
 		{
 			AudioManager.Instance.CleanUp();
 
-			//SceneLoader.Instance.updateProgress?.AddListener(loadIcon.MoveIcon);
+			SceneLoader.Instance.updateProgress?.AddListener(loadIcon.MoveIcon);
 			SceneLoader.Instance.LoadSceneAsync(nextScene);
 		});
 	}

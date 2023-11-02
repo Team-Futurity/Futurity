@@ -547,6 +547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1598249408}
   - component: {fileID: 1598249409}
+  - component: {fileID: 1598249410}
   m_Layer: 5
   m_Name: Loading Icon
   m_TagString: Untagged
@@ -622,10 +623,23 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.476
+  m_Value: 0.3
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1598249410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598249407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d07de9ced9ff5684bb5f3f85dc95b9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 458422004}
 --- !u!114 &180621672957841420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,7 +653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeTime: 1
-  loadIcon: {fileID: 0}
+  loadIcon: {fileID: 1598249410}
   img: {fileID: 5013756388815644666}
   cctvText: {fileID: 5013756389914354018}
   newsText: {fileID: 5013756389577796802}

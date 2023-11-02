@@ -77,7 +77,6 @@ public class UIManager : Singleton<UIManager>
 
 	public void RemoveAllWindow()
 	{
-		Debug.Log("WINDOW CLEAR + " + windowDic.Count);
 		windowDic.Clear();
 	}
 
