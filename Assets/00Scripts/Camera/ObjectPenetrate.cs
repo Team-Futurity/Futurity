@@ -17,6 +17,7 @@ public class ObjectPenetrate : MonoBehaviour
 	
 	private const float ORIGIN_ALPHA = 1.0f;
 	private SpriteRenderer prevSpriteRenderer;
+	private Material mat;
 	private AlphaChanger alphaChanger;
 
 	private void Start()
@@ -28,7 +29,12 @@ public class ObjectPenetrate : MonoBehaviour
 	{
 		Vector3 dir = (playerPos.position - rayOffset.position).normalized;
 		Ray ray = new Ray(rayOffset.position, dir);
+		
+		SpritePenetrate(ray);
+	}
 
+	private void SpritePenetrate(Ray ray)
+	{
 		if (Physics.Raycast(ray, out RaycastHit hit, rayLength, layerMask))
 		{
 			if (prevSpriteRenderer != null)
@@ -63,5 +69,5 @@ public class ObjectPenetrate : MonoBehaviour
 			}
 		}
 	}
-	
+
 }
