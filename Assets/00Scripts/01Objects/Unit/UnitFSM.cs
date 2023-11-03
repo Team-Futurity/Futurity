@@ -21,6 +21,8 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 	public List<StateData> stateDatas;
 	public Dictionary<int, StateData> stateDataDictionary;
 
+	public StateChangeConditions stateChangeConditions;
+
 	protected void SetUp(ValueType firstState)
 	{
 		states = new Dictionary<int, UnitState<Unit>>();
@@ -126,6 +128,15 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 	{
 		if (nextState != null && nextState != currentState)
 		{
+			int currentStateIndex = GetStateOrder(currentState);
+			int nextStateIndex = GetStateOrder(nextState);
+
+			if(!stateChangeConditions.GetChangable(currentStateIndex, nextStateIndex) || !currentState.IsChangable(unit, nextState)) 
+			{
+				//FDebug.Log($"CurrentState cannot change to {nextState}", GetType());
+				return; 
+			}
+
 			if (currentState != null)
 			{
 				currentState.End(unit);
@@ -210,6 +221,19 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		}
 
 		return isProcessed;
+	}
+
+	public int GetStateOrder(UnitState<Unit> state)
+	{
+		foreach(var pair in states)
+		{
+			if(pair.Value == state)
+			{
+				return pair.Key;
+			}
+		}
+
+		return -1;
 	}
 
 	protected virtual void Update()
