@@ -178,6 +178,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 		}
 		
 		director.Resume();
+		isInput = false;
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
 	}
 	
