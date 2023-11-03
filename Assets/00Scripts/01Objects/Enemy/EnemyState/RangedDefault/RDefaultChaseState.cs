@@ -21,17 +21,20 @@ public class RDefaultChaseState : EnemyChaseBaseState
 
 		unit.transform.LookAt(unit.target.transform.position);
 
-		if (distance < unit.attackRange)
+		if (curTime > unit.beforeChaseDelay)
 		{
-			curTime += Time.deltaTime;
-			unit.rigid.velocity = Vector3.zero;
-			unit.DelayChangeState(curTime, 0.5f, unit, EnemyState.RDefaultAttack);
+			if (distance < unit.attackRange)
+			{
+				curTime += Time.deltaTime;
+				unit.rigid.velocity = Vector3.zero;
+				unit.DelayChangeState(curTime, 0.5f, unit, EnemyState.RDefaultAttack);
+			}
+			else if (distance > unit.attackRange && distance < targetDistance)
+			{
+				unit.navMesh.SetDestination(unit.target.transform.position);
+			}
+			else if (distance > targetDistance)
+				unit.ChangeState(EnemyState.Default);
 		}
-		else if (distance > unit.attackRange && distance < targetDistance)
-		{
-			unit.navMesh.SetDestination(unit.target.transform.position);
-		}
-		else if (distance > targetDistance)
-			unit.ChangeState(EnemyState.Default);
 	}
 }

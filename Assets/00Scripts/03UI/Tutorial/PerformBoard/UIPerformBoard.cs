@@ -11,6 +11,8 @@ public class UIPerformBoard : MonoBehaviour
 	[SerializeField]
 	private PlayerInputEnum targetCondition;
 
+	private bool[] moveType = new bool[4];
+
 	[HideInInspector]
 	public UnityAction onEndedAction; 
 
@@ -26,9 +28,31 @@ public class UIPerformBoard : MonoBehaviour
 
 	private bool CheckCondition(PlayerInputEnum type)
 	{
-		if(targetCondition != type)
+		if (targetCondition == PlayerInputEnum.Move)
 		{
-			return false;
+			if (type == PlayerInputEnum.Move_Up)
+				moveType[0] = true;
+			if (type == PlayerInputEnum.Move_Down)
+				moveType[1] = true;
+			if (type == PlayerInputEnum.Move_Left)
+				moveType[2] = true;
+			if (type == PlayerInputEnum.Move_Right)
+				moveType[3] = true;
+
+			for (int i = 0; i < 4; ++i)
+			{
+				if (moveType[i] == false)
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			if (targetCondition != type)
+			{
+				return false;
+			}
 		}
 
 		onEndedAction?.Invoke();

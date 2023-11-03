@@ -19,15 +19,18 @@ public class MDefaultChaseState : EnemyChaseBaseState
 	{
 		base.Update(unit);
 
-		if (distance < unit.attackRange)
+		if (curTime > unit.beforeChaseDelay)
 		{
-			unit.rigid.velocity = Vector3.zero;
-			unit.navMesh.enabled = false;
-			unit.ChangeState(EnemyState.MDefaultAttack);
+			if (distance < unit.attackRange)
+			{
+				unit.rigid.velocity = Vector3.zero;
+				unit.navMesh.enabled = false;
+				unit.ChangeState(EnemyState.MDefaultAttack);
+			}
+			else if (distance > unit.attackRange && distance < targetDistance)
+				unit.navMesh.SetDestination(unit.target.transform.position);
+			else if (distance > targetDistance)
+				unit.ChangeState(EnemyState.Default);
 		}
-		else if(distance > unit.attackRange && distance < targetDistance)
-			unit.navMesh.SetDestination(unit.target.transform.position);
-		else if (distance > targetDistance)
-			unit.ChangeState(EnemyState.Default);
 	}
 }

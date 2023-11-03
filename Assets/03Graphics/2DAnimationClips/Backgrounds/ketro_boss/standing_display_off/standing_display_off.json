@@ -1,0 +1,68 @@
+{
+"skeleton": {
+	"hash": "0O/dPH1t7uI",
+	"spine": "4.1.21",
+	"x": -304,
+	"y": -13,
+	"width": 513,
+	"height": 846,
+	"images": "./images/",
+	"audio": "C:/Users/hyeon2-400/Downloads/900e3891e91e289d/리소스/2-1/standing_display_off"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "display_glitch", "parent": "root", "x": 34.5, "y": 465.5 }
+],
+"slots": [
+	{ "name": "standing_display_off", "bone": "root", "attachment": "standing_display_off" },
+	{ "name": "frame", "bone": "root", "attachment": "frame" },
+	{ "name": "display_glitch", "bone": "display_glitch", "attachment": "display_glitch" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"display_glitch": {
+				"display_glitch": { "width": 225, "height": 379 }
+			},
+			"frame": {
+				"frame": {
+					"type": "clipping",
+					"end": "frame",
+					"vertexCount": 8,
+					"vertices": [ -75.85, 654.29, -77.18, 276.7, 5.85, 277.88, 14.84, 303.08, 146.01, 302.78, 146.01, 650.65, 144.26, 652.31, 141.36, 654.03 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"standing_display_off": {
+				"standing_display_off": { "x": -47.5, "y": 410, "width": 513, "height": 846 }
+			}
+		}
+	}
+],
+"animations": {
+	"standing_display_off": {
+		"slots": {
+			"display_glitch": {
+				"rgba": [
+					{ "color": "ffffffff" },
+					{ "time": 0.0333, "color": "777777ff" },
+					{ "time": 0.0667, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"display_glitch": {
+				"translate": [
+					{},
+					{ "time": 0.0333, "x": 7.46, "y": 10.15 },
+					{ "time": 0.0667, "x": -8.17, "y": -14.55 }
+				],
+				"scale": [
+					{ "x": 1.1, "y": 1.1 }
+				]
+			}
+		}
+	}
+}
+}

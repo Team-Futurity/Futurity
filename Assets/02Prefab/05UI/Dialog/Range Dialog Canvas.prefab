@@ -165,8 +165,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usedTypingAnimation: 0
+  isRunning: 0
   dialogText: {fileID: 5136851834066615353}
-  OnEnd:
+  onEnded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &4984199728335160548
@@ -344,7 +345,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6544509610004598401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,7 +380,6 @@ MonoBehaviour:
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  isGizmosView: 1
   dialogs:
   - {fileID: 11400000, guid: 063305181c570ca4c9b81adf184f9db6, type: 2}
   textImage: {fileID: 5393184476342888854}
@@ -396,16 +396,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <DialogType>k__BackingField: 3
-  currentDialogData: {fileID: 0}
-  <DialogText>k__BackingField: {fileID: 1792705752}
-  currentState: 0
-  OnStarted:
+  dialogText: {fileID: 0}
+  dialogDatas: []
+  usedPass: 0
+  onStarted:
     m_PersistentCalls:
       m_Calls: []
-  OnShow:
+  onChanged:
     m_PersistentCalls:
       m_Calls: []
-  OnEnded:
+  onEnded:
     m_PersistentCalls:
       m_Calls: []
-  isNext: 0
+  onShow:
+    m_PersistentCalls:
+      m_Calls: []

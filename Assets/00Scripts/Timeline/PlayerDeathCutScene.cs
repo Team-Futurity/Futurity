@@ -28,6 +28,8 @@ public class PlayerDeathCutScene : CutSceneBase
 		
 		chapterManager.GrayScale.amount.value = 0.0f;
 		chapterManager.GrayScale.active = false;
+
+		Time.timeScale = 1.0f;
 	}
 	
 	private void StartGrayScaleRoutine()
