@@ -26,7 +26,7 @@ public class SpawnerEvent : MonoBehaviour
 	public void SpawnerEndEvent(SpawnerManager manager, ESpawnerType spawnerType)
 	{
 		chapterMoveTrigger.SetActive(true);
-		timeline.EnableCutScene(spawnerType != ESpawnerType.CHAPTER1_AREA3 ? ECutSceneType.LASTKILL : ECutSceneType.CHAPTER1_AREA3_EXIT);
+		timeline.EnableCutScene(ECutSceneType.LASTKILL);
 	}
 }
 

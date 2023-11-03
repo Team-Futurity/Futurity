@@ -16,7 +16,8 @@ public class ObjectPenetrate : MonoBehaviour
 	private Transform playerPos;
 	
 	private const float ORIGIN_ALPHA = 1.0f;
-	private SpriteRenderer spriteRenderer;
+	private SpriteRenderer prevSpriteRenderer;
+	private Material mat;
 	private AlphaChanger alphaChanger;
 
 	private void Start()
@@ -28,13 +29,23 @@ public class ObjectPenetrate : MonoBehaviour
 	{
 		Vector3 dir = (playerPos.position - rayOffset.position).normalized;
 		Ray ray = new Ray(rayOffset.position, dir);
+		
+		SpritePenetrate(ray);
+	}
 
+	private void SpritePenetrate(Ray ray)
+	{
 		if (Physics.Raycast(ray, out RaycastHit hit, rayLength, layerMask))
 		{
-			if (hit.collider.TryGetComponent(out spriteRenderer) == true)
+			if (prevSpriteRenderer != null)
 			{
-				Color color = new Color(255f, 255f, 255f, newAlpha);
-				spriteRenderer.color = color;
+				prevSpriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
+			}
+			
+			if (hit.collider.TryGetComponent(out SpriteRenderer spriteRenderer) == true)
+			{
+				prevSpriteRenderer = spriteRenderer;
+				spriteRenderer.color = new Color(255f, 255f, 255f, newAlpha);
 			}
 			else if (hit.collider.TryGetComponent(out alphaChanger))
 			{
@@ -43,12 +54,12 @@ public class ObjectPenetrate : MonoBehaviour
 		}
 		else
 		{
-			if (spriteRenderer != null)
+			if (prevSpriteRenderer != null)
 			{
 				Color color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
-				spriteRenderer.color = color;
+				prevSpriteRenderer.color = color;
 
-				spriteRenderer = null;
+				prevSpriteRenderer = null;
 			}
 
 			if (alphaChanger != null)
@@ -58,5 +69,5 @@ public class ObjectPenetrate : MonoBehaviour
 			}
 		}
 	}
-	
+
 }
