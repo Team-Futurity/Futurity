@@ -1265,6 +1265,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5349195765023122735, guid: 000149a01fcbbf54786bdbfc043de2d0, type: 3}
   m_PrefabInstance: {fileID: 682412885}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &113338421 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2082070042, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 1565196000}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1e05ec19df52940a83ae3efac3befd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &124042848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4433,6 +4444,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardBox
       objectReference: {fileID: 0}
+    - target: {fileID: 7840373653282847204, guid: b921c7729287bd447ac5efd2322b16f3, type: 3}
+      propertyPath: passivePartSelect
+      value: 
+      objectReference: {fileID: 113338421}
     - target: {fileID: 7840373653282847205, guid: b921c7729287bd447ac5efd2322b16f3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -4482,6 +4497,11 @@ PrefabInstance:
 --- !u!4 &381468300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7840373653282847205, guid: b921c7729287bd447ac5efd2322b16f3, type: 3}
+  m_PrefabInstance: {fileID: 381468299}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &381468301 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 7840373653282846747, guid: b921c7729287bd447ac5efd2322b16f3, type: 3}
   m_PrefabInstance: {fileID: 381468299}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &382604764
@@ -7757,8 +7777,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Events:
     m_Signals:
-    - {fileID: 11400000, guid: 279aa905e5e1dea40bf89e4fbe08a577, type: 2}
-    - {fileID: 11400000, guid: aebfa6a9165c9ba48818c5f3b9eabf8a, type: 2}
+    - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
+    - {fileID: 11400000, guid: 41c3a9a1825e34f47893f98c32a7be66, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -8566,12 +8586,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: ectEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: spawnEndEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: ectEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: ectEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 381468301}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: ectEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: spawnEndEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: ectEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_enabled
       objectReference: {fileID: 0}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: spawnEndEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -8586,8 +8626,20 @@ PrefabInstance:
       value: SpawnerEndEvent
       objectReference: {fileID: 0}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: ectEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.Collider, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: ectEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: spawnEndEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SpawnerEvent, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: ectEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: spawnEndEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -14306,7 +14358,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 71462b26ff8a17e429e0fd77190af9fc, type: 2}
     - {fileID: 11400000, guid: 3030dd9511c149947a45bf224b710de2, type: 2}
-    - {fileID: 11400000, guid: 895e728666933af41971d7573e01e03d, type: 2}
+    - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -26169,11 +26221,11 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 9394698ad6c63b64e9c42a1b19f54b88, type: 2}
     - {fileID: 11400000, guid: 71462b26ff8a17e429e0fd77190af9fc, type: 2}
-    - {fileID: 11400000, guid: a739a9f45066f4740927a957e30ec85d, type: 2}
+    - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 612318110}
           m_TargetAssemblyTypeName: ChapterCutSceneManager, Assembly-CSharp
           m_MethodName: StartLerpTimeScale
           m_Mode: 1
@@ -26187,7 +26239,7 @@ MonoBehaviour:
           m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 612318110}
           m_TargetAssemblyTypeName: ChapterCutSceneManager, Assembly-CSharp
           m_MethodName: StartSlowMotion
           m_Mode: 1
