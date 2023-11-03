@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,9 +18,19 @@ public class Area1_EntryCutScene : CutSceneBase
 	[SerializeField] private List<ScriptingList> scriptsList;
 	private int curScriptsIndex;
 
+	[Header("Skeleton Cut Scene")] 
+	[SerializeField] private List<SkeletonGraphic> skeletonList;
+	private Queue<SkeletonGraphic> skeletonQueue;
+
 	protected override void Init()
 	{
-		
+		skeletonQueue = new Queue<SkeletonGraphic>();
+
+		foreach (SkeletonGraphic skeleton in skeletonList)
+		{
+			skeletonQueue.Enqueue(skeleton); 
+			skeleton.gameObject.SetActive(false);
+		}
 	}
 
 	protected override void EnableCutScene()
@@ -37,6 +48,11 @@ public class Area1_EntryCutScene : CutSceneBase
 		chapterManager.isCutScenePlay = false;
 	}
 
+	public void Area1_StartSkeletonCutScene()
+	{
+		chapterManager.StartSkeletonCutScene(entryCutScene, skeletonQueue);
+	}
+	
 	public void Area1_Scripting()
 	{
 		entryCutScene.Pause();
