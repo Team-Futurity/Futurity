@@ -1,0 +1,87 @@
+{
+"skeleton": {
+	"hash": "LjCSIHcP4ag",
+	"spine": "4.1.21",
+	"x": -921.4,
+	"y": -535.89,
+	"width": 1919.36,
+	"height": 1079.63,
+	"images": "./images1/",
+	"audio": "D:/futurity/cutscene1"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "１", "parent": "root", "x": 38.03, "y": 4.04 },
+	{ "name": "２", "parent": "root", "x": 417.4, "y": -94.29 }
+],
+"slots": [
+	{ "name": "out", "bone": "root", "attachment": "out" },
+	{ "name": "ｂａｃｋｇｒｏｕｎｄ", "bone": "root", "attachment": "ｂａｃｋｇｒｏｕｎｄ" },
+	{ "name": "１", "bone": "１", "attachment": "１" },
+	{ "name": "２", "bone": "２", "attachment": "２" },
+	{ "name": "ｃｕｔ", "bone": "root", "attachment": "ｃｕｔ" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"out": {
+				"out": {
+					"type": "clipping",
+					"end": "out",
+					"vertexCount": 4,
+					"vertices": [ -920.75, -534.47, -921.4, 542.94, 997.62, 543.74, 997.96, -535.89 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"１": {
+				"１": { "width": 1922, "height": 1082 }
+			},
+			"２": {
+				"２": { "width": 1175, "height": 885 }
+			},
+			"ｂａｃｋｇｒｏｕｎｄ": {
+				"ｂａｃｋｇｒｏｕｎｄ": { "x": 38.03, "y": 4.04, "width": 1922, "height": 1082 }
+			},
+			"ｃｕｔ": {
+				"ｃｕｔ": { "x": 38.03, "y": 4.04, "width": 1922, "height": 1082 }
+			}
+		}
+	}
+],
+"animations": {
+	"1": {
+		"slots": {
+			"２": {
+				"rgba": [
+					{ "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"１": {
+				"translate": [
+					{
+						"y": -61.12,
+						"curve": [ 0.222, 0, 0.444, 0, 0, -28.54, 0.444, 0 ]
+					},
+					{ "time": 0.6667 }
+				]
+			}
+		}
+	},
+	"2": {
+		"bones": {
+			"２": {
+				"translate": [
+					{
+						"y": 96.61,
+						"curve": [ 0, 0, 0.444, 0, 0, 47.91, 0.444, 0 ]
+					},
+					{ "time": 0.6667 }
+				]
+			}
+		}
+	}
+}
+}
