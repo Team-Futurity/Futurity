@@ -31,13 +31,13 @@ public class T0_DashState : B_PatternBase
 			isAttackDone = true;
 		}
 
-		if(isAttackDone && curTime > unit.curAttackData.attackDelay + unit.curAttackData.attackSpeed)
+		if (isAttackDone && curTime > unit.curAttackData.attackDelay + unit.curAttackData.attackSpeed)
 		{
-			unit.attackTrigger.type0Collider.SetActive(false);
 			unit.rigid.velocity = Vector3.zero;
+			unit.attackTrigger.type0Collider.SetActive(false);
 		}
-		
-		else if(isAttackDone && curTime > unit.curAttackData.attackDelay + unit.curAttackData.attackSpeed + unit.curAttackData.attackAfterDelay)
+
+		if (isAttackDone && curTime > unit.curAttackData.attackDelay + unit.curAttackData.attackSpeed + unit.curAttackData.attackAfterDelay)
 			unit.ChangeState(unit.nextState);
 	}
 

@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[FSMState((int)BossState.Death)]
-public class B_DeathState : UnitState<BossController>
+[FSMState((int)BossState.Phase2Event)]
+public class B_NoneState : UnitState<BossController>
 {
 	public override void Begin(BossController unit)
 	{
-		unit.animator.SetTrigger(unit.deathAnim);
-		unit.isDead = true;
+		unit.curState = BossState.Phase2Event;
+		unit.isActive = false;
+		unit.isPhase2EventDone = true;
 	}
 
 	public override void End(BossController unit)
 	{
+		unit.previousState = BossState.Phase2Event;
 	}
 
 	public override void FixedUpdate(BossController unit)
@@ -29,5 +30,7 @@ public class B_DeathState : UnitState<BossController>
 
 	public override void Update(BossController unit)
 	{
+		if (unit.isActive)
+			unit.ChangeState(BossState.Idle);
 	}
 }

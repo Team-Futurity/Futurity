@@ -6,7 +6,6 @@ using UnityEngine;
 public class B_IdleState : BossStateBase
 {
 	private float idleDelay = 0.5f;
-
 	public override void Begin(BossController unit)
 	{
 		unit.curState = BossState.Idle;
@@ -15,9 +14,9 @@ public class B_IdleState : BossStateBase
 	public override void Update(BossController unit)
 	{
 		base.Update(unit);
-		if (curTime > unit.activeDataSO.GetAttackDelayValue(unit) && !isAttackDelayDone)
+		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
+		if (curTime > idleDelay && !isAttackDelayDone)
 		{
-			distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 			if (distance > unit.chaseDistance)
 				unit.nextState = BossState.Chase;
 			else
@@ -32,6 +31,6 @@ public class B_IdleState : BossStateBase
 
 	public override void End(BossController unit)
 	{
-		base.End(unit);
+		isAttackDelayDone = false;
 	}
 }

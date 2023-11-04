@@ -9,7 +9,6 @@ public class T6_CircleState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T6_Circle;
-		unit.SetEffectData(unit.attackTrigger.type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, true);
 	}
 	public override void Update(BossController unit)
 	{

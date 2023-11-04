@@ -9,13 +9,14 @@ public class BossController : UnitFSM<BossController>, IFSM
 {
 	public bool isActive = false;
 	[HideInInspector] public bool isDead = false;
+	[HideInInspector] public bool isPhase2EventDone = false;
 
 	[Space(8)]
 	[Header("State")]
 	public BossState curState;
 	public Phase curPhase;
-	[HideInInspector] public BossState nextState;
-	[HideInInspector] public BossState previousState;
+	/*[HideInInspector]*/ public BossState nextState;
+	/*[HideInInspector]*/ public BossState previousState;
 
 	#region Base Parameter
 	[Space(8)]
@@ -31,7 +32,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 
 	[Space(8)]
 	[Header("Material cashing")]
-	public SkinnedMeshRenderer meshRenderer;
+	public List<SkinnedMeshRenderer> meshRenderers;
 	public List<Material> materials;
 	public Material unlitMaterial;
 	[HideInInspector] public Material copyUMat;

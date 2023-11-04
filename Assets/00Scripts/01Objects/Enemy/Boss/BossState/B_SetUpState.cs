@@ -19,7 +19,10 @@ public class B_SetUpState : BossStateBase
 		//Material
 		unit.copyUMat = new Material(unit.unlitMaterial);
 		unit.copyUMat.SetColor("_BaseColor", new Color(1.0f, 1.0f, 1.0f, 0f));
-		unit.meshRenderer.material = unit.copyUMat;
+		for(int i = 0; i < unit.meshRenderers.Count; i++)
+		{
+			unit.meshRenderers[i].materials = new Material[2] { unit.materials[i], unit.copyUMat };
+		}
 
 		//Basic
 		unit.target = GameObject.FindWithTag("Player").GetComponent<UnitBase>();
@@ -27,7 +30,8 @@ public class B_SetUpState : BossStateBase
 		unit.rigid = unit.GetComponent<Rigidbody>();
 		unit.navMesh = unit.GetComponent<NavMeshAgent>();
 		unit.curPhase = Phase.Phase1;
-		unit.nextState = BossState.Chase;
+		unit.nextState = BossState.Idle;
+		unit.navMesh.speed = unit.bossData.status.GetStatus(StatusType.SPEED).GetValue();
 
 		unit.navMesh.enabled = false;
 	}
@@ -35,6 +39,6 @@ public class B_SetUpState : BossStateBase
 	public override void Update(BossController unit)
 	{
 		if (unit.isActive)
-			unit.ChangeState(BossState.Idle);
+			unit.ChangeState(unit.nextState);
 	}
 }

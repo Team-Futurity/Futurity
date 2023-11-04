@@ -104,13 +104,13 @@ public class BossActiveDatas : ScriptableObject
 			if(data.phase == Phase.Phase1)
 			{
 				sum += data.percentage;
-				if (random < sum)
+				if (random < sum && data.state != unit.previousState)
 				{
-					while (data.state == unit.previousState 
-						|| data.state == BossState.T3_Laser 
-						|| data.state == BossState.T4_Laser 
-						|| data.state == BossState.T5_EnemySpawn)
-						SetRandomNextState(unit);
+					//while (data.state == unit.previousState 
+					//	|| data.state == BossState.T3_Laser 
+					//	|| data.state == BossState.T4_Laser 
+					//	|| data.state == BossState.T5_EnemySpawn)
+					//	SetRandomNextState(unit);
 					
 					unit.nextState = data.state;
 				}
@@ -118,10 +118,10 @@ public class BossActiveDatas : ScriptableObject
 			else
 			{
 				sum += data.percentage;
-				if (random < sum)
+				if (random < sum && data.state != unit.previousState)
 				{
-					while (data.state == unit.previousState)
-						SetRandomNextState(unit);
+					//while (data.state == unit.previousState)
+					//	SetRandomNextState(unit);
 
 					unit.nextState = data.state;
 				}

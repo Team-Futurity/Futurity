@@ -7,7 +7,7 @@ public class BossAttackTrigger : MonoBehaviour
 	[SerializeField] private BossController bc;
 	[SerializeField] private GameObject objParent;
 	public Transform type3StartPos;
-	[SerializeField] private float attackRadius = 7f;
+	[SerializeField] private float type6Radius = 7f;
 
 	[Space(8)]
 	[Header("Attack Collider")]
@@ -19,9 +19,13 @@ public class BossAttackTrigger : MonoBehaviour
 	public List<GameObject> type4Colliders;
 	public SpawnerManager type5Manager;
 	public List<GameObject> type6Colliders;
+	public List<GameObject> type6ExtraColliders;
 
-	public BossAttackTrigger()
+
+	public void Awake()
 	{
+		if(bc.attackTrigger == null)
+			bc.attackTrigger = new BossAttackTrigger();
 		bc.attackTrigger = this;
 		this.transform.SetParent(objParent.transform, true);
 		AttackSetting();
@@ -84,7 +88,7 @@ public class BossAttackTrigger : MonoBehaviour
 		Vector2 randomPos;
 		for (int i = 0; i < unit.attackTrigger.type6Colliders.Count; i++)
 		{
-			randomPos = Random.insideUnitCircle * attackRadius;
+			randomPos = Random.insideUnitCircle * type6Radius;
 			unit.attackTrigger.type6Colliders[i].transform.position = new Vector3(randomPos.x, 0, randomPos.y) + unit.transform.position;
 		}
 	}

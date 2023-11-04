@@ -7,7 +7,6 @@ using static EnemyController;
 public class B_HitState : UnitState<BossController>
 {
 	private float curHP = 0;
-
 	private bool isColorChanged = false;
 	private float curTime;
 	private Color defaultColor = new Color(1, 1, 1, 0f);
@@ -40,6 +39,19 @@ public class B_HitState : UnitState<BossController>
 		else
 			unit.RemoveSubState();
 
+		//Phase event
+		if (!unit.isPhase2EventDone && curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * (unit.phaseDataSO.GetHPPercentage(Phase.Phase2) / 100))
+		{
+			unit.curPhase = Phase.Phase2;
+			if(unit.attackTrigger.type2ExtraColliders.Count> 0)
+			{
+				foreach (GameObject o in unit.attackTrigger.type2ExtraColliders)
+					o.SetActive(true);
+			}
+			foreach (GameObject g in unit.attackTrigger.type2ExtraColliders)
+				unit.attackTrigger.type6Colliders.Add(g);
+			unit.ChangeState(BossState.Phase2Event);
+		}
 		//Death event
 		if (unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
 		{
@@ -51,12 +63,7 @@ public class B_HitState : UnitState<BossController>
 	{
 		curHP = unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue();
 
-		if (curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * (unit.phaseDataSO.GetHPPercentage(Phase.Phase2)/100))
-		{
-			unit.curPhase = Phase.Phase2;
-			foreach (GameObject o in unit.attackTrigger.type2ExtraColliders)
-				o.SetActive(true);
-		}
+		
 
 		unit.rigid.velocity = Vector3.zero;
 		isColorChanged = false;
