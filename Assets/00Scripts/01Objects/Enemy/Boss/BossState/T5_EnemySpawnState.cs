@@ -9,7 +9,6 @@ public class T5_EnemySpawnState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T5_EnemySpawn;
-		unit.nextState = BossState.Chase;
 	}
 	public override void Update(BossController unit)
 	{

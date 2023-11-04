@@ -10,7 +10,6 @@ public class T4_LaserState : B_PatternBase
 		base.Begin(unit);
 		unit.curState = BossState.T4_Laser;
 		unit.SetEffectData(unit.attackTrigger.type4Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Caster, false);
-		unit.animator.SetTrigger(unit.type4Anim);
 	}
 	public override void Update(BossController unit)
 	{
@@ -24,7 +23,7 @@ public class T4_LaserState : B_PatternBase
 
 		if (isAttackDelayDone && !isAttackDone)
 		{
-			unit.animator.SetTrigger(unit.type2Anim);
+			unit.animator.SetTrigger(unit.type4Anim);
 			isAttackDone = true;
 		}
 
