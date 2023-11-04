@@ -1,3 +1,4 @@
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,11 @@ public class BossActiveDatas : ScriptableObject
 	public List<BossAttackData> attackDatas = new List<BossAttackData>();
 
 	#region Set Value
-	public void SetTypePercentage(BossController unit, Phase phase, BossState skillType)
+	public void SetCurAttackData(BossController unit)
 	{
+		Phase phase = unit.curPhase;
+		BossState skillType = unit.nextState;
+
 		if (unit.curAttackData == null)
 			unit.curAttackData = new BossAttackData();
 
@@ -24,9 +28,11 @@ public class BossActiveDatas : ScriptableObject
 	#endregion
 
 	#region Get Value
-	public float GetAttackPointValue(Phase phase, BossState skillType)
+	public float GetAttackPointValue(BossController unit)
 	{
 		float value = 0f;
+		Phase phase = unit.curPhase;
+		BossState skillType = unit.curState;
 
 		foreach (var data in attackDatas)
 			if (data.phase == phase && data.state == skillType)
@@ -34,10 +40,11 @@ public class BossActiveDatas : ScriptableObject
 
 		return value;
 	}
-	public float GetPercentageValue(Phase phase, BossState skillType)
+	public float GetPercentageValue(BossController unit)
 	{
 		int value = 0;
-		phase = Phase.Phase1;
+		Phase phase = Phase.Phase1;
+		BossState skillType = unit.curState;
 
 		foreach (var data in attackDatas)
 			if (data.phase == phase && data.state == skillType)
@@ -45,9 +52,11 @@ public class BossActiveDatas : ScriptableObject
 
 		return value;
 	}
-	public float GetAttackDelayValue(Phase phase, BossState skillType)
+	public float GetAttackDelayValue(BossController unit)
 	{
 		float value = 0f;
+		Phase phase = unit.curPhase;
+		BossState skillType = unit.curState;
 
 		foreach (var data in attackDatas)
 			if (data.phase == phase && data.state == skillType)
@@ -56,9 +65,11 @@ public class BossActiveDatas : ScriptableObject
 		return value;
 	}
 
-	public float GetAttackSpeedValue(Phase phase, BossState skillType)
+	public float GetAttackSpeedValue(BossController unit)
 	{
 		float value = 0f;
+		Phase phase = unit.curPhase;
+		BossState skillType = unit.curState;
 
 		foreach (var data in attackDatas)
 			if (data.phase == phase && data.state == skillType)
@@ -67,9 +78,11 @@ public class BossActiveDatas : ScriptableObject
 		return value;
 	}
 
-	public float GetAfterDelayValue(Phase phase, BossState skillType)
+	public float GetAfterDelayValue(BossController unit)
 	{
 		float value = 0f;
+		Phase phase = unit.curPhase;
+		BossState skillType = unit.curState;
 
 		foreach (var data in attackDatas)
 			if (data.phase == phase && data.state == skillType)
@@ -88,14 +101,28 @@ public class BossActiveDatas : ScriptableObject
 
 		foreach (var data in attackDatas)
 		{
-			if(data.phase == unit.curPhase)
+			if(data.phase == Phase.Phase1)
+			{
+				sum += data.percentage;
+				if (random < sum)
+				{
+					while (data.state == unit.previousState 
+						|| data.state == BossState.T3_Laser 
+						|| data.state == BossState.T4_Laser 
+						|| data.state == BossState.T5_EnemySpawn)
+						SetRandomNextState(unit);
+					
+					unit.nextState = data.state;
+				}
+			}
+			else
 			{
 				sum += data.percentage;
 				if (random < sum)
 				{
 					while (data.state == unit.previousState)
 						SetRandomNextState(unit);
-					
+
 					unit.nextState = data.state;
 				}
 			}

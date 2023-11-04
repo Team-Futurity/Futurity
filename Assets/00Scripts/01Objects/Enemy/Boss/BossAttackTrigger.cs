@@ -38,6 +38,7 @@ public class BossAttackTrigger : MonoBehaviour
 	#region Active/DeActive Attack List methods
 	public void AttackSetting()
 	{
+		type0Collider.transform.SetParent(bc.transform, true);
 		type0Collider.SetActive(false);
 		type1Collider.SetActive(false);
 		type2Collider.SetActive(false);

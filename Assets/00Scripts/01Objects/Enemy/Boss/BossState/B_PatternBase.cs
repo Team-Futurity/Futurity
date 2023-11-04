@@ -2,47 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class B_PatternBase : UnitState<BossController>
+public class B_PatternBase : BossStateBase
 {
-	public float curTime = 0f;
+	protected bool isAttackDone = false;
 
 	public override void Begin(BossController unit)
 	{
+		base.Begin(unit);
 		unit.bossData.EnableAttackTime();
+		unit.activeDataSO.SetCurAttackData(unit);
+		unit.nextState = BossState.Idle;
 	}
+
 	public override void Update(BossController unit)
 	{
-		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.activeDataSO.GetActivateDelayValue(unit.curState), BossController.BossState.Idle);
+		base.Update(unit);
 	}
 
 	public override void End(BossController unit)
 	{
-		curTime = 0f;
-		unit.skillAfterDelay = unit.activeDataSO.GetAfterDelayValue(unit.curPhase, unit.curState);
-		if (unit.isActivateType467)
-		{
-			unit.afterType467Pattern = unit.nextState;
-			unit.nextState = unit.phaseDataSO.RandomState(unit.curPhase);
-			unit.cur467Time = 0f;
-			unit.isActivateType467 = false;
-		}
-		if(unit.curState == BossState.T4_Laser 
-			|| unit.curState == BossState.T6_Circle 
-			|| unit.curState == BossState.T7_Trap)
-			unit.cur467Time = 0f;
+		base.End(unit);
+		isAttackDone = false;
 		unit.bossData.DisableAttackTime();
-	}
-
-	public override void FixedUpdate(BossController unit)
-	{
-	}
-
-	public override void OnCollisionEnter(BossController unit, Collision collision)
-	{
-	}
-
-	public override void OnTriggerEnter(BossController unit, Collider other)
-	{
 	}
 }

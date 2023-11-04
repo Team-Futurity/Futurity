@@ -6,6 +6,7 @@ public class BossStateBase : UnitState<BossController>
 {
 	protected float curTime = 0f;
 	protected float distance = .0f;
+	protected bool isAttackDelayDone = false;
 
 	public override void Begin(BossController unit)
 	{
@@ -20,6 +21,8 @@ public class BossStateBase : UnitState<BossController>
 	public override void End(BossController unit)
 	{
 		curTime = 0f;
+		isAttackDelayDone = false;
+		unit.previousState = unit.curState;
 	}
 
 	public override void FixedUpdate(BossController unit)

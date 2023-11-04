@@ -20,8 +20,11 @@ public class B_ChaseState : BossStateBase
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 		unit.transform.LookAt(unit.target.transform);
 
-		if (random < unit.activeDataSO.GetPercentageValue(unit.curPhase, unit.curState))
-			unit.ChangeState(BossState.T0_Dash);
+		if (random < unit.activeDataSO.GetPercentageValue(unit))
+		{
+			unit.nextState = BossState.T0_Dash;
+			unit.ChangeState(unit.nextState);
+		}
 		else
 		{
 			if (distance < unit.chaseDistance)
@@ -37,7 +40,6 @@ public class B_ChaseState : BossStateBase
 	public override void End(BossController unit)
 	{
 		base.End(unit);
-		unit.previousState = BossState.Chase;
 		unit.animator.SetBool(unit.moveAnim, false);
 		unit.navMesh.enabled = false;
 	}
