@@ -96,9 +96,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8676add6620b0e409274690c724b138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateDatas: []
+  stateChangeConditions: {fileID: 0}
   test: {fileID: 0}
   enemyType: 4
   effectSO: {fileID: 0}
+  isDead: 0
   target: {fileID: 0}
   enemyData: {fileID: 2955528926438800407}
   animator: {fileID: 0}
@@ -113,6 +116,7 @@ MonoBehaviour:
   deadMaterial: {fileID: 0}
   copyUMat: {fileID: 0}
   copyDMat: {fileID: 0}
+  beforeChaseDelay: 1
   attackRange: 7
   attackBeforeDelay: 0
   attackingDelay: 4
@@ -156,7 +160,7 @@ MonoBehaviour:
       Data2: 1178723750
       Data3: 648321167
       Data4: 1092868903
-    Path: event:/SE/06monster/Minimal/F_S_01_06_hit_minimal
+    Path: event:/SE/Unit/06monster/T_DF/F_S_01_06_hit_minimal
 --- !u!114 &2955528926438800393
 MonoBehaviour:
   m_ObjectHideFlags: 0

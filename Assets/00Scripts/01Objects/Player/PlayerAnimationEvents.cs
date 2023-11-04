@@ -1,7 +1,8 @@
+using FMOD.Studio;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public Transform walkEffectTransform;
 	public bool isSlowMotionEnable = false;
 
+	private EventInstance currentVoice;
 
 	private void Start()
 	{
@@ -277,6 +279,24 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public void WalkSE()
 	{
 		AudioManager.Instance.PlayOneShot(walk, transform.position);
+	}
+
+	public void OutputAttackVoice()
+	{
+		var voice = pc.curNode.attackVoice;
+
+		if (voice.IsNull) { return; }
+
+		if(currentVoice.isValid())
+		{
+			currentVoice.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			FDebug.Log("FADE");
+		}
+		currentVoice = AudioManager.Instance.CreateInstance(voice);
+		currentVoice.set3DAttributes(RuntimeUtils.To3DAttributes(pc.gameObject));
+		currentVoice.start();
+
+
 	}
 
 	public void SetCollider(int isActiveInteager)

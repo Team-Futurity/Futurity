@@ -46,8 +46,8 @@ public class CSNodeSaveData
 	[field: SerializeField] public float SlowTime { get; set; }
 	[field: SerializeField] public float SlowScale { get; set; }
 
-	/*// Sound
-	[field: SerializeField] public EventReference AttackSound { get; set; }*/
+	// Sound
+	[field: SerializeField] public EventReference AttackVoice { get; set; }
 
 	// ETC
 
@@ -113,7 +113,7 @@ public class CSNodeSaveData
 		SlowTime = node.SlowTime;
 		SlowScale = node.SlowScale;
 
-		/*AttackSound = node.AttackSound;*/
+		AttackVoice = node.AttackVoice;
 
 		IsStartingNode = node.IsStartingNode();
 	}

@@ -131,14 +131,17 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 			int currentStateIndex = GetStateOrder(currentState);
 			int nextStateIndex = GetStateOrder(nextState);
 
-			if(!stateChangeConditions.GetChangable(currentStateIndex, nextStateIndex) || !currentState.IsChangable(unit, nextState)) 
-			{
-				//FDebug.Log($"CurrentState cannot change to {nextState}", GetType());
-				return; 
-			}
+			
 
 			if (currentState != null)
 			{
+				if (stateChangeConditions != null &&
+					!stateChangeConditions.GetChangable(currentStateIndex, nextStateIndex) || !currentState.IsChangable(unit, nextState))
+				{
+					//FDebug.Log($"CurrentState cannot change to {nextState}", GetType());
+					return;
+				}
+
 				currentState.End(unit);
 				subState?.End(unit);
 				subState = null;

@@ -170,9 +170,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateDatas: []
+  stateChangeConditions: {fileID: 0}
   test: {fileID: 0}
   enemyType: 2
   effectSO: {fileID: 11400000, guid: 0c4d126f02fcb15498038f47c1ad06e6, type: 2}
+  isDead: 0
   target: {fileID: 0}
   enemyData: {fileID: 2955528926438800407}
   animator: {fileID: 0}
@@ -187,6 +189,7 @@ MonoBehaviour:
   deadMaterial: {fileID: 2100000, guid: 57080fb6ae6e95941bce333421e26044, type: 2}
   copyUMat: {fileID: 0}
   copyDMat: {fileID: 0}
+  beforeChaseDelay: 1
   attackRange: 3
   attackBeforeDelay: 2.5
   attackingDelay: 1.5
@@ -209,14 +212,14 @@ MonoBehaviour:
       Data2: 1104239546
       Data3: 684765613
       Data4: -256759643
-    Path: event:/SE/06monster/T_DF/T_DF_Attack
+    Path: event:/SE/Unit/06monster/T_DF/T_DF_Attack
   attackSound2:
     Guid:
       Data1: -236737015
       Data2: 1173322720
       Data3: 2011576222
       Data4: -1979609135
-    Path: event:/SE/06monster/T_DF/T_DF_AttackToWall
+    Path: event:/SE/Unit/06monster/T_DF/T_DF_AttackToWall
   attackSound3:
     Guid:
       Data1: 0
@@ -230,7 +233,7 @@ MonoBehaviour:
       Data2: 1178723750
       Data3: 648321167
       Data4: 1092868903
-    Path: event:/SE/06monster/T_DF/F_S_01_06_hit_minimal
+    Path: event:/SE/Unit/06monster/T_DF/F_S_01_06_hit_minimal
 --- !u!114 &2955528926438800394
 MonoBehaviour:
   m_ObjectHideFlags: 0
