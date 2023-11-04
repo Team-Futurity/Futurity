@@ -56,20 +56,39 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		enemyList.Clear();
 
 		pc = unit;
-
+		
+		// Set Inspector Data
 		firstMinSize = proccessor.firstRadius;
+		firstMaxAngle = proccessor.firstMaxAngle;
+		firstRadius = proccessor.firstRadius;
+		firstDamage = proccessor.firstDamage;
+
+		secondMaxAngle = proccessor.secondMaxAngle;
+		secondDamage = proccessor.secondDamage;
 		secondRadius = proccessor.secondRadius;
+
+		thirdCollHeight = proccessor.thirdMaxHeight;
+		thirdCollWidth = proccessor.thirdMaxWdith;
+		thirdDamage = proccessor.thirdDamage;
 
 		if (unit.attackColliderChanger.GetCollider(ColliderType.Capsule) is TruncatedCapsuleCollider capsuleCollider)
 		{
 			capsuleColl = capsuleCollider;
 			capsuleColl.SetCollider(firstMaxAngle, firstMinSize);
 		}
+		
+		if (unit.attackColliderChanger.GetCollider(ColliderType.Box) is TruncatedBoxCollider boxCollider)
+		{
+			boxColl = boxCollider;
+			boxColl.SetCollider(thirdCollWidth, thirdCollHeight);
+		}
 
 		capsuleColl.ColliderReference.enabled = true;
+		boxColl.ColliderReference.enabled = false;
 		
 		currentProcess = BetaProcess.FIRST_PHASE;
 		isPlaying = true;
+		
 		// Animation Play
 		unit.animator.SetBool(BetaAnimKey, true);
 	}
@@ -108,7 +127,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		proccessor.firstAttackObjectPool.ActiveObject(proccessor.firstEffectPos.position, proccessor.firstEffectPos.rotation).
 			GetComponent<ParticleController>().Initialize(proccessor.firstAttackObjectPool);
 		// Damage Add
-		AddDamageEnemy(pc);
+		AddDamageEnemy(pc, firstDamage);
 	}
 
 	public void OnFirstPhaseEnded()
@@ -128,13 +147,16 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 			GetComponent<ParticleController>().Initialize(proccessor.secondAttackObjectPool);;
 		
 		// Damage Add
-		AddDamageEnemy(pc);
+		AddDamageEnemy(pc, secondDamage);
 	}
 
 	public void OnSecondPhaseEnded()
 	{
 		// Next Process Set
 		currentProcess = BetaProcess.THIRD_PHASE;
+		
+		capsuleColl.ColliderReference.enabled = false;
+		boxColl.ColliderReference.enabled = true;
 		
 		// Collider Swap
 		capsuleColl.SetCollider(0, 0);
@@ -147,7 +169,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		GetComponent<ParticleController>().Initialize(proccessor.thirdAttackObjectPool);
 		
 		// 데미지 전달
-		AddDamageEnemy(pc);
+		AddDamageEnemy(pc, thirdDamage);
 	}
 
 	public void OnThirdPhaseEnded()
@@ -161,18 +183,16 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	}
 
 	// Enemy에게 데미지 전달
-	private void AddDamageEnemy(PlayerController unit)
+	private void AddDamageEnemy(PlayerController unit, float damage)
 	{
 		foreach (var enemy in enemyList)
 		{
 			DamageInfo info = new DamageInfo(unit.playerData, enemy, 1);
 
-			// Cycle 마다 데미지가 다르기 때문
-			var currentDamage = currentProcess == BetaProcess.FIRST_PHASE ? firstDamage :
-				currentProcess == BetaProcess.SECOND_PHASE ? secondDamage : 300;
-			
-			info.SetDamage(currentDamage);
+			info.SetDamage(damage);
 			enemy.Hit(info);
+			
+			Debug.Log("몬스터 공격 성공!");
 		}
 
 		enemyList.Clear();
