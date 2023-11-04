@@ -20,12 +20,7 @@ public class Area3_EntryCutScene : CutSceneBase
 	protected override void Init()
 	{
 	}
-
-	private void Update()
-	{
-		//vignette.intensity.value = intensity;
-	}
-
+	
 	protected override void EnableCutScene()
 	{
 		chapterManager.isCutScenePlay = true;
