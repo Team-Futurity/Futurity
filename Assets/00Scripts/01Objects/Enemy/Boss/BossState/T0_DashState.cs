@@ -5,7 +5,6 @@ using UnityEngine;
 [FSMState((int)BossState.T0_Dash)]
 public class T0_DashState : B_PatternBase
 {
-	private Vector3 targetPos = new Vector3();
 	private float dashPower = 800f;
 
 	public override void Begin(BossController unit)
@@ -48,7 +47,7 @@ public class T0_DashState : B_PatternBase
 	{
 		if (other.CompareTag("Player"))
 		{
-			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint);
+			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
 			unit.bossData.Attack(info);
 			unit.nextState = BossState.T1_Melee;
 			unit.ChangeState(unit.nextState);

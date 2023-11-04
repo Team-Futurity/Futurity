@@ -5,6 +5,7 @@ using UnityEngine;
 public class B_PatternBase : BossStateBase
 {
 	protected bool isAttackDone = false;
+	protected Vector3 targetPos = new Vector3();
 
 	public override void Begin(BossController unit)
 	{
@@ -24,5 +25,14 @@ public class B_PatternBase : BossStateBase
 		base.End(unit);
 		isAttackDone = false;
 		unit.bossData.DisableAttackTime();
+	}
+
+	public override void OnTriggerEnter(BossController unit, Collider other)
+	{
+		if (other.CompareTag("Player"))
+		{
+			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
+			unit.bossData.Attack(info);
+		}
 	}
 }

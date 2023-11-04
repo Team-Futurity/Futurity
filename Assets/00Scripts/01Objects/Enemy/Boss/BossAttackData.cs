@@ -34,6 +34,7 @@ public class BossAttackData
 	public BossState state;
 
 	public float extraAttackPoint;
+	public float targetKnockbackPower;
 	public int percentage;
 
 	public float attackDelay;

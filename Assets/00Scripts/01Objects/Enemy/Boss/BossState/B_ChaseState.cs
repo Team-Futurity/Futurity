@@ -41,6 +41,7 @@ public class B_ChaseState : BossStateBase
 	{
 		base.End(unit);
 		unit.animator.SetBool(unit.moveAnim, false);
+		unit.rigid.velocity = Vector3.zero;
 		unit.navMesh.enabled = false;
 	}
 }
