@@ -15,17 +15,11 @@ public class Area3_EntryCutScene : CutSceneBase
 	[SerializeField] private List<ScriptingList> scriptsList;
 	private int curScriptsIndex = 0;
 	private PlayerController playerController;
-
-
+	
 	protected override void Init()
 	{
 	}
-
-	private void Update()
-	{
-		//vignette.intensity.value = intensity;
-	}
-
+	
 	protected override void EnableCutScene()
 	{
 		chapterManager.isCutScenePlay = true;
