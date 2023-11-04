@@ -1,0 +1,177 @@
+{
+"skeleton": {
+	"hash": "IUzV3yFUFCY",
+	"spine": "4.1.21",
+	"x": -952.66,
+	"y": -577.84,
+	"width": 1919.34,
+	"height": 1077.53,
+	"images": "./images/",
+	"audio": "D:/futurity/cutscene"
+},
+"bones": [
+	{ "name": "root", "x": -1.37 },
+	{ "name": "sari", "parent": "root", "x": -448.97, "y": -27.59 },
+	{ "name": "mirai", "parent": "root", "x": 495.34, "y": 19.16 },
+	{ "name": "miraihologram", "parent": "mirai", "x": 371.56, "y": 32.82 }
+],
+"slots": [
+	{ "name": "out", "bone": "root", "attachment": "out" },
+	{ "name": "background", "bone": "root", "attachment": "background" },
+	{ "name": "hologram", "bone": "sari", "attachment": "hologram", "blend": "additive" },
+	{ "name": "sari", "bone": "sari", "attachment": "sari" },
+	{ "name": "sarilight", "bone": "sari", "attachment": "sarilight", "blend": "additive" },
+	{ "name": "miraibackground", "bone": "mirai", "attachment": "miraibackground" },
+	{ "name": "miraihologram", "bone": "miraihologram", "attachment": "miraihologram", "blend": "screen" },
+	{ "name": "mirai", "bone": "mirai", "attachment": "mirai" },
+	{ "name": "miraillight", "bone": "mirai", "attachment": "miraillight", "blend": "screen" },
+	{ "name": "miraileye", "bone": "mirai", "attachment": "miraileye", "blend": "screen" },
+	{ "name": "black", "bone": "root", "attachment": "black" },
+	{ "name": "black2", "bone": "root", "attachment": "black2" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"background": {
+				"background": { "x": -386.09, "y": -13.53, "width": 1087, "height": 970 }
+			},
+			"black": {
+				"black": { "x": 8.41, "y": -38.53, "width": 1922, "height": 1082 }
+			},
+			"black2": {
+				"black2": { "x": 404.52, "y": -90.32, "width": 1048, "height": 1074 }
+			},
+			"hologram": {
+				"hologram": { "x": 46.87, "y": 14.06, "width": 1055, "height": 970 }
+			},
+			"mirai": {
+				"mirai": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0.16973, 0.99999, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 449.06, -517.68, -377.89, -517.67, -546.94, 448.32, 449.06, 448.32 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 996,
+					"height": 966
+				}
+			},
+			"miraibackground": {
+				"miraibackground": { "x": -90.44, "y": -34.68, "width": 1079, "height": 966 }
+			},
+			"miraihologram": {
+				"miraihologram": { "width": 1987, "height": 1003 }
+			},
+			"miraileye": {
+				"miraileye": { "x": 6.06, "y": 53.82, "width": 174, "height": 45 }
+			},
+			"miraillight": {
+				"miraillight": { "x": 92.56, "y": -47.68, "rotation": 0.15, "width": 551, "height": 676 }
+			},
+			"out": {
+				"out": {
+					"type": "clipping",
+					"end": "out",
+					"vertexCount": 4,
+					"vertices": [ -949.97, -575.69, -951.28, 498.94, 967.37, 499.7, 968.06, -577.84 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"sari": {
+				"sari": { "x": 79.37, "y": -42.94, "width": 1350, "height": 1084 }
+			},
+			"sarilight": {
+				"sarilight": { "x": -34.63, "y": -45.94, "width": 892, "height": 850 }
+			}
+		}
+	}
+],
+"animations": {
+	"tutorial": {
+		"slots": {
+			"black2": {
+				"attachment": [
+					{}
+				]
+			},
+			"miraihologram": {
+				"rgba": [
+					{
+						"color": "ffffff67",
+						"curve": [ 0.222, 1, 0.444, 1, 0.222, 1, 0.444, 1, 0.222, 1, 0.444, 1, 0.222, 0.6, 0.444, 1 ]
+					},
+					{ "time": 0.6667, "color": "ffffffff" }
+				]
+			},
+			"miraileye": {
+				"rgba": [
+					{
+						"color": "ffffffff",
+						"curve": [ 0.159, 1, 0.508, 1, 0.159, 1, 0.508, 1, 0.159, 1, 0.508, 1, 0.159, 0.52, 0.508, 0 ]
+					},
+					{
+						"time": 0.6667,
+						"color": "ffffff00",
+						"curve": [ 0.889, 1, 1.111, 1, 0.889, 1, 1.111, 1, 0.889, 1, 1.111, 1, 0.889, 0, 1.111, 1 ]
+					},
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			},
+			"miraillight": {
+				"rgba": [
+					{
+						"color": "5defffb7",
+						"curve": [ 0.159, 0.36, 0.508, 1, 0.159, 0.94, 0.508, 1, 0.159, 1, 0.508, 1, 0.159, 0.24, 0.508, 0 ]
+					},
+					{
+						"time": 0.6667,
+						"color": "ffffff00",
+						"curve": [ 0.889, 1, 1.111, 0.36, 0.889, 1, 1.111, 0.94, 0.889, 1, 1.111, 1, 0.889, 0, 1.111, 1.39 ]
+					},
+					{ "time": 1.3333, "color": "5defffb7" }
+				]
+			},
+			"sarilight": {
+				"rgba": [
+					{
+						"color": "76f0ffca",
+						"curve": [ 0.167, 0.46, 0.333, 1, 0.167, 0.94, 0.333, 1, 0.167, 1, 0.333, 1, 0.167, -0.21, 0.333, 0.23 ]
+					},
+					{
+						"time": 0.5,
+						"color": "ffffff3a",
+						"curve": [ 0.778, 1, 1.056, 0.46, 0.778, 1, 1.056, 0.94, 0.778, 1, 1.056, 1, 0.778, 0.23, 1.24, 1.35 ]
+					},
+					{ "time": 1.3333, "color": "76f0ffca" }
+				]
+			}
+		},
+		"bones": {
+			"sari": {
+				"translate": [
+					{
+						"y": -43.2,
+						"curve": [ 0.333, 0, 0.667, 0, 0, -9.44, 0.579, -4.57 ]
+					},
+					{ "time": 1, "y": -4.55 }
+				]
+			},
+			"mirai": {
+				"translate": [
+					{
+						"curve": [ 0.333, 0, 0.667, 0, 0, -32.76, 0.568, -49.4 ]
+					},
+					{ "time": 1, "y": -49.51 }
+				]
+			},
+			"miraihologram": {
+				"translate": [
+					{},
+					{ "time": 1.3333, "x": 35.74 }
+				]
+			}
+		}
+	}
+}
+}
