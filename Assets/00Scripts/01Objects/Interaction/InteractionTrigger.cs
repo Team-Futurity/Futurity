@@ -9,7 +9,7 @@ public class InteractionTrigger : MonoBehaviour
 {
 	[Header("Component")]
 	[SerializeField] private UnityEvent interactionEvent;
-	private bool isInteraction = false;
+	[SerializeField, ReadOnly(false)] private bool isInteraction = false;
 
 	public void CheckInteraction()
 	{

@@ -1,6 +1,8 @@
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
@@ -13,6 +15,10 @@ public class TutorialCutScene : CutSceneBase
 	[Header("스크립트 데이터")] 
 	[SerializeField] private List<ScriptingList> scriptingList;
 	private int curScriptsIndex;
+	
+	[Header("Skeleton Cut Scene")] 
+	[SerializeField] private List<SkeletonGraphic> skeletonList;
+	private Queue<SkeletonGraphic> skeletonQueue;
 
 	public UnityEvent onPauseEvent;
 
@@ -26,7 +32,13 @@ public class TutorialCutScene : CutSceneBase
 
 	protected override void Init()
 	{
-		
+		skeletonQueue = new Queue<SkeletonGraphic>();
+
+		foreach (SkeletonGraphic skeleton in skeletonList)
+		{
+			skeletonQueue.Enqueue(skeleton);
+			skeleton.gameObject.SetActive(false);
+		}
 	}
 
 	protected override void EnableCutScene()
@@ -47,6 +59,11 @@ public class TutorialCutScene : CutSceneBase
 		chapterManager.scripting.StartPrintingScript(scriptingList[curScriptsIndex].scriptList);
 		
 		curScriptsIndex = (curScriptsIndex + 1 < scriptingList.Count) ? curScriptsIndex + 1 : 0;
+	}
+
+	public void Tutorial_StartSkeletonCutScene()
+	{
+		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
 	}
 
 	public void Pause()
