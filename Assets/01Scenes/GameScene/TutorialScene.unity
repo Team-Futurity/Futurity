@@ -1049,7 +1049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3735043386707417191, guid: daf2f551220719849b196e95fb07c0d3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3735043386707417211, guid: daf2f551220719849b196e95fb07c0d3, type: 3}
       propertyPath: m_Pivot.x
@@ -31394,7 +31394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2020606662
 Transform:
   m_ObjectHideFlags: 0
@@ -31485,17 +31485,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Events:
     m_Signals:
-    - {fileID: 11400000, guid: af2fdc4d2765577478445f54915a6adf, type: 2}
-    - {fileID: 11400000, guid: ea5e8a50424e12146a91bb1ca84b07c8, type: 2}
-    - {fileID: 11400000, guid: 2951666787c38314f8c5ae3dccc22ff8, type: 2}
-    - {fileID: 11400000, guid: 2fb989c9b7d69e14c93a9cf16300358c, type: 2}
-    - {fileID: 11400000, guid: c28714a9afd2d5a4ab1cfdc6477c2e3f, type: 2}
+    - {fileID: 11400000, guid: 8c71a74bdb4f1634eb6aba765e746830, type: 2}
+    - {fileID: 11400000, guid: f263dc5bc612ac94ca37f2dfa51f6c2e, type: 2}
+    - {fileID: 11400000, guid: a0ea953ac8ac7ff499e6202ad34d41c7, type: 2}
+    - {fileID: 11400000, guid: 1f6b84a945392284d84bd4b87d35b405, type: 2}
+    - {fileID: 11400000, guid: 05c6dfe345a51774c99c5ce5107b74ad, type: 2}
+    - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
     m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1331771963}
+          m_TargetAssemblyTypeName: TimelineScripting, Assembly-CSharp
+          m_MethodName: EnableNameText
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 2020606664}
           m_TargetAssemblyTypeName: TutorialCutScene, Assembly-CSharp
-          m_MethodName: Pause
+          m_MethodName: Tutorial_Scripting
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -31509,7 +31524,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2020606664}
           m_TargetAssemblyTypeName: TutorialCutScene, Assembly-CSharp
-          m_MethodName: Tutorial_Scripting
+          m_MethodName: Pause
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -31542,7 +31557,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0

@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class DebugManager : Singleton<DebugManager>
 {
@@ -26,6 +26,8 @@ public class DebugManager : Singleton<DebugManager>
 
 	// data
 	private Queue<string> logs = new Queue<string>();
+	private List<string> inputs = new List<string>();
+	private int currentInputIndex;
 	private float screenRatio;
 	private float logHeight;
 	private float logSpacing;
@@ -36,6 +38,7 @@ public class DebugManager : Singleton<DebugManager>
 
 	// etc
 	private InputActionMap previousMap;
+	private bool isOnDebugInput;
 
 	protected override void Awake()
 	{
@@ -62,10 +65,12 @@ public class DebugManager : Singleton<DebugManager>
 
 	private void Start()
 	{
-		previousMap = InputActionManager.Instance.InputActions.Debug;
-
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.MoveInput, OnMoveInput, true);
+
+		//SceneManager.sceneUnloaded += RemoveAllCallbacks;
+		SceneManager.sceneLoaded += RegisterAllCallbacks;
 	}
 
 	protected override void OnEnable()
@@ -74,8 +79,7 @@ public class DebugManager : Singleton<DebugManager>
 
 		if(InputActionManager.Instance.InputActions == null) { return; }
 
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+		RegisterAllCallbacks(new Scene(), LoadSceneMode.Single);
 	}
 
 	protected override void OnDisable()
@@ -84,8 +88,21 @@ public class DebugManager : Singleton<DebugManager>
 
 		if (InputActionManager.Instance == null) { return; }
 
+		RemoveAllCallbacks(new Scene());
+	}
+
+	private void RemoveAllCallbacks(Scene scene)
+	{
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.MoveInput, OnMoveInput, true);
+	}
+
+	private void RegisterAllCallbacks(Scene scene, LoadSceneMode mode)
+	{
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.MoveInput, OnMoveInput, true);
 	}
 
 	public void AddNewCommand(DebugCommand command)
@@ -104,6 +121,8 @@ public class DebugManager : Singleton<DebugManager>
 		commandIDList.Add(command.CommandID);
 	}
 
+	#region InputCallbacks
+
 	public void OnToggleDebug(InputAction.CallbackContext context)
     {
         isShowConsole = !isShowConsole;
@@ -114,11 +133,27 @@ public class DebugManager : Singleton<DebugManager>
     {
         if (isShowConsole && input != "")
         {
+			inputs.Add(input);
             HandleInput();
             input = "";
-        }
+			currentInputIndex = inputs.Count;
+		}
     }
-	
+
+	public void OnMoveInput(InputAction.CallbackContext context)
+	{
+		if (isShowConsole)
+		{
+			float axis = context.ReadValue<float>();
+
+			currentInputIndex = axis < 0 ? currentInputIndex + 1 : currentInputIndex - 1;
+
+			currentInputIndex = Mathf.Clamp(currentInputIndex, 0, inputs.Count);
+			input = currentInputIndex == inputs.Count ? "" : inputs[currentInputIndex];
+		}
+	}
+	#endregion
+
 	private void AddLog(string log)
 	{
 		logs.Enqueue(log);
@@ -183,7 +218,14 @@ public class DebugManager : Singleton<DebugManager>
 		if(Input.GetKeyDown(KeyCode.Backslash))
 		{
 			InputActionMap map = previousMap;
-			previousMap = InputActionManager.Instance.currentActionMap;
+			if (!isOnDebugInput)
+			{
+				previousMap = InputActionManager.Instance.currentActionMap;
+				map = InputActionManager.Instance.InputActions.Debug;
+			}
+
+			isOnDebugInput = !isOnDebugInput;
+
 			InputActionManager.Instance.ToggleActionMap(map);
 		}
 	}
@@ -216,6 +258,7 @@ public class DebugManager : Singleton<DebugManager>
     private void HandleInput()
     {
         string[] devidedInput = input.Trim().Split(" ");
+
         if (devidedInput.Length <= 1 && devidedInput[0].Equals("")) { return; }
 		if (input.FirstOrDefault() != '/') { AddLog(input); return; }
         for (int commandCount = 0; commandCount < commandList.Count; commandCount++)
