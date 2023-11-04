@@ -39,6 +39,6 @@ public class InteractionTrigger : MonoBehaviour
 		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
 		
-		gameObject.SetActive(false);
+		gameObject.GetComponent<BoxCollider>().enabled = false;
 	}
 }
