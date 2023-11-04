@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static EnemyController;
 
-[FSMState((int)BossController.BossState.Hit)]
+[FSMState((int)BossState.Hit)]
 public class B_HitState : UnitState<BossController>
 {
 	private float curHP = 0;
@@ -14,11 +14,14 @@ public class B_HitState : UnitState<BossController>
 
 	public override void Begin(BossController unit)
 	{
-		//unit.curState = BossController.BossState.Hit;
+		//unit.curState = BossState.Hit;
 
 		curTime = 0;
-		if(unit.curState == BossController.BossState.Chase)
+		if (unit.curState == BossState.Chase || unit.curState == BossState.Idle)
+		{
+			unit.nextState = BossState.Idle;
 			unit.animator.SetTrigger(unit.hitAnim);
+		}
 		unit.copyUMat.SetColor("_BaseColor", unit.damagedColor);
 	}
 	public override void Update(BossController unit)
@@ -32,8 +35,8 @@ public class B_HitState : UnitState<BossController>
 				isColorChanged = true;
 			}
 
-		if (unit.curState == BossController.BossState.Chase)
-			unit.DelayChangeState(curTime, unit.hitMaxTime, BossController.BossState.Chase);
+		if (unit.curState == BossState.Chase || unit.curState == BossState.Idle)
+			unit.DelayChangeState(curTime, unit.hitMaxTime, BossState.Idle);
 		else
 			unit.RemoveSubState();
 
@@ -47,14 +50,13 @@ public class B_HitState : UnitState<BossController>
 	public override void End(BossController unit)
 	{
 		curHP = unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue();
-		if (curHP < unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * unit.phaseDataSO.GetPhasePercentage(Phase.Phase4))
-			SetPhaseData(unit, Phase.Phase4);
-		else if (curHP < unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * unit.phaseDataSO.GetPhasePercentage(Phase.Phase3))
-			SetPhaseData(unit, Phase.Phase3);
-		else if (curHP < unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * unit.phaseDataSO.GetPhasePercentage(Phase.Phase2))
-			SetPhaseData(unit, Phase.Phase2);
-		else if (curHP < unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * unit.phaseDataSO.GetPhasePercentage(Phase.Phase1))
-			SetPhaseData(unit, Phase.Phase1);
+
+		if (curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * (unit.phaseDataSO.GetHPPercentage(Phase.Phase2)/100))
+		{
+			unit.curPhase = Phase.Phase2;
+			foreach (GameObject o in unit.attackTrigger.type2ExtraColliders)
+				o.SetActive(true);
+		}
 
 		unit.rigid.velocity = Vector3.zero;
 		isColorChanged = false;
@@ -71,12 +73,5 @@ public class B_HitState : UnitState<BossController>
 
 	public override void OnTriggerEnter(BossController unit, Collider other)
 	{
-	}
-
-	private void SetPhaseData(BossController unit, Phase phase)
-	{
-		unit.curPhase = phase;
-		unit.type467MaxTime = unit.phaseDataSO.GetType467TImerValue(phase);
-		unit.type5MaxTime = unit.phaseDataSO.GetType5TImerValue(phase);
 	}
 }

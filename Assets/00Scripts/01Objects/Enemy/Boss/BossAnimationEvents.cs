@@ -73,6 +73,11 @@ public class BossAnimationEvents : MonoBehaviour
 	{
 		bc.DeActiveAttacks(bc.Type4Colliders);
 	}
+
+	public void ActiveType5Attack()
+	{
+		bc.attackTrigger.type5Manager.SpawnEnemy();
+	}
 	public void ActiveType6Attack()
 	{
 		bc.bossData.EnableAttackTiming();

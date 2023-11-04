@@ -22,7 +22,6 @@ public class T5_EnemySpawnState : B_PatternBase
 		if (isAttackDelayDone && !isAttackDone)
 		{
 			unit.animator.SetTrigger(unit.type5Anim);
-			unit.attackTrigger.type5Manager.SpawnEnemy();
 			isAttackDone = true;
 		}
 
