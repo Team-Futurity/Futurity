@@ -3,8 +3,8 @@ using UnityEngine;
 public enum SpecialMoveType
 {
 	None,
-	Basic,
-	Beta,
+	Basic = 2201,
+	Beta = 2202,
 	Test
 }
 
