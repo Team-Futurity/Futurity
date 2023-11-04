@@ -14,7 +14,6 @@ public enum BossState : int
 	T0_Dash,
 	T1_Melee,
 	T2_Ranged,
-	T3_Move,
 	T3_Laser,
 	T4_Laser,
 	T5_EnemySpawn,
