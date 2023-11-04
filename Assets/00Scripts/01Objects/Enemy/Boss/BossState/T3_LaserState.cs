@@ -5,7 +5,7 @@ using UnityEngine;
 [FSMState((int)BossState.T3_Laser)]
 public class T3_LaserState : B_PatternBase
 {
-	private Transform previousRot;
+
 	public override void Begin(BossController unit)
 	{
 		base.Begin(unit);
@@ -22,13 +22,12 @@ public class T3_LaserState : B_PatternBase
 		{
 			unit.transform.LookAt(unit.attackTrigger.type3StartPos.position);
 			unit.navMesh.SetDestination(unit.attackTrigger.type3StartPos.position);
-			previousRot = unit.transform;
 		}
 		else
 		{
 			if (curTime > unit.curAttackData.attackDelay && !isAttackDelayDone)
 			{
-				unit.transform.rotation = Quaternion.Slerp(previousRot.rotation, Quaternion.Euler(Vector3.zero), Time.deltaTime);
+				unit.transform.rotation = Quaternion.Euler(Vector3.zero);
 				unit.rigid.velocity = Vector3.zero;
 				isAttackDelayDone = true;
 			}

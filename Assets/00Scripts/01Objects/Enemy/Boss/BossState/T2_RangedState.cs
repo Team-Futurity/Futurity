@@ -17,6 +17,7 @@ public class T2_RangedState : B_PatternBase
 	public override void Begin(BossController unit)
 	{
 		base.Begin(unit);
+		unit.curState = BossState.T2_Ranged;	
 		effectData.parent = unit.gameObject;
 		unit.currentEffectData = effectData;
 	}
@@ -26,8 +27,7 @@ public class T2_RangedState : B_PatternBase
 
 		if (curTime > unit.curAttackData.attackDelay && !isAttackDelayDone)
 		{
-			targetPos = unit.target.transform.position;
-			unit.transform.LookAt(targetPos);
+			unit.transform.LookAt(unit.target.transform.position);
 			isAttackDelayDone = true;
 		}
 

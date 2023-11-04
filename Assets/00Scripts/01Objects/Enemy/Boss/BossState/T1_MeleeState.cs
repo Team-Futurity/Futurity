@@ -28,8 +28,7 @@ public class T1_MeleeState : B_PatternBase
 
 		if (curTime > unit.curAttackData.attackDelay && !isAttackDelayDone)
 		{
-			targetPos = unit.target.transform.position;
-			unit.transform.LookAt(targetPos);
+			unit.transform.LookAt(unit.target.transform.position);
 			isAttackDelayDone = true;
 		}
 
