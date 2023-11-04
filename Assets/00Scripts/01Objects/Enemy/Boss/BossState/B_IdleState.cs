@@ -2,38 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)BossController.BossState.Idle)]
-public class B_IdleState : UnitState<BossController>
+[FSMState((int)BossState.Idle)]
+public class B_IdleState : BossStateBase
 {
-	private float curTime = 0f;
+	private float idleDelay = 0.5f;
+
+	private bool isDelayDone = false;
 
 	public override void Begin(BossController unit)
 	{
-		
-		unit.curState = BossController.BossState.Idle;
+		unit.curState = BossState.Idle;
 	}
 
 	public override void Update(BossController unit)
 	{
-		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.skillAfterDelay, unit.nextPattern);
-	}
+		base.Update(unit);
+		if (curTime > idleDelay && !isDelayDone)
+		{
+			distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
+			if (distance > unit.chaseDistance)
+				unit.nextState = BossState.Chase;
+			else
+				unit.activeDataSO.SetRandomNextState(unit);
 
+			isDelayDone = true;
+		}
+
+		if(isDelayDone)
+			unit.ChangeState(unit.nextState);
+	}
 
 	public override void End(BossController unit)
 	{
-		curTime = 0f;
-	}
+		base.End(unit);
 
-	public override void FixedUpdate(BossController unit)
-	{
-	}
-
-	public override void OnCollisionEnter(BossController unit, Collision collision)
-	{
-	}
-
-	public override void OnTriggerEnter(BossController unit, Collider other)
-	{
+		isDelayDone = false;
+		unit.previousState = BossState.Idle;
 	}
 }

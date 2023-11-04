@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-[FSMState((int)BossController.BossState.SetUp)]
-public class B_SetUpState : UnitState<BossController>
+[FSMState((int)BossState.SetUp)]
+public class B_SetUpState : BossStateBase
 {
 	public override void Begin(BossController unit)
 	{
-		unit.curState = BossController.BossState.SetUp;
+		unit.curState = BossState.SetUp;
 		
 		//Effect
 		unit.effectController = ECManager.Instance.GetEffectManager(unit.effectSO);
@@ -25,58 +26,15 @@ public class B_SetUpState : UnitState<BossController>
 		unit.animator = unit.GetComponentInChildren<Animator>();
 		unit.rigid = unit.GetComponent<Rigidbody>();
 		unit.navMesh = unit.GetComponent<NavMeshAgent>();
-		unit.nextPattern = BossController.BossState.Chase;
-		unit.afterType467Pattern = BossController.BossState.Chase;
+		unit.curPhase = Phase.Phase1;
+		unit.nextState = BossState.Chase;
 
-		unit.type467MaxTime = unit.phaseDataSO.GetType467TImerValue(Phase.Phase1);
-		unit.type5MaxTime = unit.phaseDataSO.GetType5TImerValue(Phase.Phase1);
-		unit.skillAfterDelay = 3f;
 		unit.navMesh.enabled = false;
-
-		unit.type3StartPos.SetParent(null, true);
-		unit.Type5Manager.gameObject.transform.SetParent(null, true);
-
-		unit.Type1Collider.SetActive(false);
-		unit.Type2Collider.SetActive(false);
-		AttackSetting(unit.Type3Colliders);
-		AttackSetting(unit.Type4Colliders);
-		AttackSetting(unit.Type6Colliders);
-		AttackSetting(unit.Type7Colliders);
-		/*unit.DeActiveAttacks(unit.Type3Colliders);
-		unit.DeActiveAttacks(unit.Type4Colliders);
-		unit.DeActiveAttacks(unit.Type6Colliders);
-		unit.DeActiveAttacks(unit.Type7Colliders);*/
-	}
-
-	public override void End(BossController unit)
-	{
 	}
 
 	public override void Update(BossController unit)
 	{
 		if (unit.isActive)
-			unit.ChangeState(BossController.BossState.Idle);
-	}
-
-	public override void FixedUpdate(BossController unit)
-	{
-	}
-
-	public override void OnCollisionEnter(BossController unit, Collision collision)
-	{
-	}
-
-	public override void OnTriggerEnter(BossController unit, Collider other)
-	{
-	}
-
-	public void AttackSetting(List<GameObject> list)
-	{
-		if (list.Count > 0)
-			for (int i = 0; i < list.Count; i++)
-			{
-				list[i].transform.SetParent(null, true);
-				list[i].SetActive(false);
-			}
+			unit.ChangeState(BossState.Idle);
 	}
 }
