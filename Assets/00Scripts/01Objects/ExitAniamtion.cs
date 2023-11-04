@@ -1,11 +1,32 @@
+using Spine.Unity;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ChapterMoveTrigger : MonoBehaviour
+public class ExitAniamtion : MonoBehaviour
 {
 	[Header("Component")] 
 	private ChapterMoveController chapterMoveController;
+	[SerializeField] private SkeletonAnimation doorAnimation;
+	[SerializeField] private float delayTime = 1.5f;
 
+	[Header("조건")] 
+	[SerializeField] private int enableCondition;
+	[SerializeField, ReadOnly(false)] private int curCount;
+
+	public void PlusCurCount()
+	{
+		curCount++;
+
+		if (curCount < enableCondition)
+		{
+			return;
+		}
+
+		gameObject.GetComponent<BoxCollider>().enabled = true;
+	}
+	
 	private void Start()
 	{
 		chapterMoveController = ChapterMoveController.Instance;
@@ -35,10 +56,18 @@ public class ChapterMoveTrigger : MonoBehaviour
 	
 	private void CheckMoveStage(InputAction.CallbackContext context)
 	{
+		StartCoroutine(WaitDoorOpen());
+	}
+
+	private IEnumerator WaitDoorOpen()
+	{
+		doorAnimation.AnimationState.SetAnimation(0, "open", false);
+
+		yield return new WaitForSeconds(delayTime);
+		
 		chapterMoveController.MoveNextChapter();
 		chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 		gameObject.SetActive(false);
 	}
-
 }

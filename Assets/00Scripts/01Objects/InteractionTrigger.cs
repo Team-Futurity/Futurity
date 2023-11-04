@@ -9,6 +9,17 @@ public class InteractionTrigger : MonoBehaviour
 {
 	[Header("Component")]
 	[SerializeField] private UnityEvent interactionEvent;
+	private bool isInteraction = false;
+
+	public void CheckInteraction()
+	{
+		if (isInteraction == true)
+		{
+			return;
+		}
+
+		gameObject.GetComponent<BoxCollider>().enabled = true;
+	}
 	
 	private void OnTriggerEnter(Collider other)
 	{
@@ -39,6 +50,7 @@ public class InteractionTrigger : MonoBehaviour
 		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
 		
-		gameObject.SetActive(false);
+		gameObject.GetComponent<BoxCollider>().enabled = false;
+		isInteraction = true;
 	}
 }
