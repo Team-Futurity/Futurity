@@ -16,10 +16,9 @@ public class BetaActivePart : SpecialMoveProcessor
 	[Space(10)]
 	
 	// Phase 1
-	public float firstMaxAngle;
+	public float firstMaxAngle;	
 	public float firstRadius;
 	public float firstDamage;
-	public float firstDuration;
 	
 	[SerializeField]
 	private GameObject firstAttackEffect;
@@ -30,7 +29,6 @@ public class BetaActivePart : SpecialMoveProcessor
 	public float secondMaxAngle;
 	public float secondRadius;
 	public float secondDamage;
-	public float secondDuration;
 	
 	[SerializeField]
 	private GameObject secondAttackEffect;
@@ -41,7 +39,6 @@ public class BetaActivePart : SpecialMoveProcessor
 	public float thirdMaxWdith;
 	public float thirdMaxHeight;
 	public float thirdDamage;
-	public float thirdDuration;
 	
 	[SerializeField]
 	private GameObject thirdAttackEffect;
