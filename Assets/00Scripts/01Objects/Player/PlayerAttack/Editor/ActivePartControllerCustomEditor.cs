@@ -118,21 +118,18 @@ public class ActivePartControllerCustomEditor : Editor
 		part.firstMaxAngle = EditorGUILayout.FloatField("최소 반지름(cm)", part.firstMaxAngle);
 		part.firstRadius = EditorGUILayout.FloatField("최소 반지름(cm)", part.firstRadius);
 		part.firstDamage = EditorGUILayout.FloatField("최소 반지름(cm)", part.firstDamage);
-		part.firstDuration = EditorGUILayout.FloatField("최소 반지름(cm)", part.firstDuration);
 		
 		EditorGUILayout.Space(10);
 
 		part.secondMaxAngle = EditorGUILayout.FloatField("최소 반지름(cm)", part.secondMaxAngle);
 		part.secondRadius = EditorGUILayout.FloatField("최소 반지름(cm)", part.secondRadius);
 		part.secondDamage = EditorGUILayout.FloatField("최소 반지름(cm)", part.secondDamage);
-		part.secondDuration = EditorGUILayout.FloatField("최소 반지름(cm)", part.secondDuration);
 		
 		EditorGUILayout.Space(10);
 
 		part.thirdMaxWdith = EditorGUILayout.FloatField("최소 반지름(cm)", part.thirdMaxWdith);
 		part.thirdMaxHeight = EditorGUILayout.FloatField("최소 반지름(cm)", part.thirdMaxHeight);
 		part.thirdDamage = EditorGUILayout.FloatField("최소 반지름(cm)", part.thirdDamage);
-		part.thirdDuration = EditorGUILayout.FloatField("최소 반지름(cm)", part.thirdDuration);
 	}
 	#endregion
 }
