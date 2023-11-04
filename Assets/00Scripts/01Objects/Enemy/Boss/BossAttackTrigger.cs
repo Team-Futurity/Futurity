@@ -7,6 +7,7 @@ public class BossAttackTrigger : MonoBehaviour
 	[SerializeField] private BossController bc;
 	[SerializeField] private GameObject objParent;
 	public Transform type3StartPos;
+	[SerializeField] private float attackRadius = 7f;
 
 	[Space(8)]
 	[Header("Attack Collider")]
@@ -75,6 +76,16 @@ public class BossAttackTrigger : MonoBehaviour
 		for (int i = 0; i < list.Count; i++)
 		{
 			list[i].SetActive(false);
+		}
+	}
+
+	public void SetRandomVector(BossController unit)
+	{
+		Vector2 randomPos;
+		for (int i = 0; i < unit.attackTrigger.type6Colliders.Count; i++)
+		{
+			randomPos = Random.insideUnitCircle * attackRadius;
+			unit.attackTrigger.type6Colliders[i].transform.position = new Vector3(randomPos.x, 0, randomPos.y) + unit.transform.position;
 		}
 	}
 	#endregion
