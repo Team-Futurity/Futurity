@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -8,6 +9,7 @@ public class Area3_InteractionCutScene : CutSceneBase
 	[Header("Component")] 
 	[SerializeField] private PlayableDirector cutScene;
 	[SerializeField] private SpawnerManager[] spawnerManager;
+	[SerializeField] private List<BoxCollider> interactionCol;
 	
 	[Header("스크립트 데이터")]
 	[SerializeField] private List<ScriptingList> scriptsList;
@@ -29,6 +31,7 @@ public class Area3_InteractionCutScene : CutSceneBase
 		
 		isCutScenePlayed = true;
 		chapterManager.SetActiveMainUI(false);
+		interactionCol.ForEach(x => x.enabled = false);
 	}
 
 	protected override void DisableCutScene()
