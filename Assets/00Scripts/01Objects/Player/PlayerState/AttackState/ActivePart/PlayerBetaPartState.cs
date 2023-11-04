@@ -91,6 +91,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		
 		// Animation Play
 		unit.animator.SetBool(BetaAnimKey, true);
+		capsuleColl.SetCollider(firstMaxAngle, firstMinSize);
 	}
 
 	public override void Update(PlayerController unit)
@@ -122,7 +123,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	public void OnFirstPhase()
 	{
 		// Collider Open
-		capsuleColl.SetCollider(firstMaxAngle, firstMinSize);
 		// Effect Create
 		proccessor.firstAttackObjectPool.ActiveObject(proccessor.firstEffectPos.position, proccessor.firstEffectPos.rotation).
 			GetComponent<ParticleController>().Initialize(proccessor.firstAttackObjectPool);
