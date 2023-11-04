@@ -43,6 +43,9 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	private float secondDamage = .0f;
 
 	// Phase 3
+	private float thirdCollWidth = .0f;
+	private float thirdCollHeight = .0f;
+	private float thirdDamage = .0f;
 
 	public override void Begin(PlayerController unit)
 	{
@@ -50,7 +53,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 
 		Debug.Log("Beta State 진입");
 
-		// 혹시 모를 이전 데이터 제거
 		enemyList.Clear();
 
 		pc = unit;
@@ -76,18 +78,12 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	{
 		base.Update(unit);
 
-		// 왜 쓴거지
 		if (currentTime == Time.deltaTime || !isPlaying) return;
-	}
-
-	public override void FixedUpdate(PlayerController unit)
-	{
 	}
 
 	public override void End(PlayerController unit)
 	{
 		pc.animator.SetBool(BetaAnimKey, false);
-		Debug.Log("Beta State을 벗어남");
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
@@ -106,8 +102,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	// 이펙트 동시에 데미지 처리
 	public void OnFirstPhase()
 	{
-		Debug.Log("On First Phase");
-		
 		// Collider Open
 		capsuleColl.SetCollider(firstMaxAngle, firstMinSize);
 		// Effect Create
@@ -126,14 +120,13 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 
 	public void OnSecondPhase()
 	{
-		Debug.Log("On Second Phase");
-		
 		// Collider
 		capsuleColl.SetCollider(secondMaxAngle, secondRadius);
 		
 		// Effect
 		proccessor.secondAttackObjectPool.ActiveObject(proccessor.secondEffectPos.position, proccessor.secondEffectPos.rotation).
 			GetComponent<ParticleController>().Initialize(proccessor.secondAttackObjectPool);;
+		
 		// Damage Add
 		AddDamageEnemy(pc);
 	}
@@ -144,21 +137,21 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		currentProcess = BetaProcess.THIRD_PHASE;
 		
 		// Collider Swap
-		
+		capsuleColl.SetCollider(0, 0);
+		boxColl.SetCollider(thirdCollWidth / 2, thirdCollHeight);
 	}
 
 	public void OnThirdPhase()
 	{
-		Debug.Log("On Third Phase");
-		
 		proccessor.thirdAttackObjectPool.ActiveObject(proccessor.thirdEffectPos.position, proccessor.thirdEffectPos.rotation).
 		GetComponent<ParticleController>().Initialize(proccessor.thirdAttackObjectPool);
+		
 		// 데미지 전달
+		AddDamageEnemy(pc);
 	}
 
 	public void OnThirdPhaseEnded()
 	{
-		// Next Process Set
 		currentProcess = BetaProcess.END;
 	}
 
