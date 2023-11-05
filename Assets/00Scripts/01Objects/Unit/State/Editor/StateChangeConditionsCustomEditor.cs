@@ -1,38 +1,8 @@
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
-
-public enum StateType
-{
-	Enemy,
-	Player
-}
-
-[Serializable]
-public struct BooleanArray
-{
-	public bool[] array;
-}
-
-[CreateAssetMenu(fileName = "StateChangeConditions", menuName = "ScriptatbleObject/State/ChangeConditions")]
-public class StateChangeConditions : ScriptableObject
-{
-	public StateType stateType;
-	[SerializeField] public BooleanArray[] conditions;
-
-	public bool GetChangable(int current, int next)
-	{
-		int length = conditions.Length - 1;
-
-		if(current == next) { return false; }					// 같은 State는 비허용
-		if(current < 0 || current >= length) { return false; }	// current가 범위를 벗어난 경우 비허용(잘못된 입력)
-		if(next < 0 || next >= length) { return false; }        // next가 범위를 벗어난 경우 비허용(잘못된 입력)
-
-		return conditions[current].array[length - next];
-	}
-}
+using System.Linq;
 
 [CustomEditor(typeof(StateChangeConditions))]
 public class StateChangeConditionsCustomEditor : Editor
@@ -66,7 +36,7 @@ public class StateChangeConditionsCustomEditor : Editor
 		var style = new GUIStyle();
 		style.alignment = TextAnchor.MiddleRight;
 		style.fixedHeight = 0;
-		style.margin = new RectOffset(0, 0,0 ,0);
+		style.margin = new RectOffset(0, 0, 0, 0);
 		style.normal.textColor = Color.cyan;
 
 		float toggleWidth = 20f;
@@ -120,14 +90,14 @@ public class StateChangeConditionsCustomEditor : Editor
 			EditorGUILayout.EndHorizontal();
 		}
 
-		
+
 	}
 
 	private void SetEnumNames()
 	{
-		if(conditionDatas == null) { return; }
+		if (conditionDatas == null) { return; }
 
-		switch(conditionDatas.stateType)
+		switch (conditionDatas.stateType)
 		{
 			case StateType.Player:
 				enumNames = Enum.GetNames(typeof(PlayerState)).ToArray();
@@ -141,7 +111,7 @@ public class StateChangeConditionsCustomEditor : Editor
 		if (conditionDatas.conditions == null || conditionDatas.conditions.Length != enumNames.Length)
 		{
 			conditionDatas.conditions = new BooleanArray[enumNames.Length];
-			for(int i = 0; i < conditionDatas.conditions.Length; i++)
+			for (int i = 0; i < conditionDatas.conditions.Length; i++)
 			{
 				conditionDatas.conditions[i].array = new bool[enumNames.Length];
 			}
@@ -161,7 +131,7 @@ public class StateChangeConditionsCustomEditor : Editor
 					element.boolValue = true;
 				}
 			}*/
-			
+
 		}
 
 		enumLength = enumNames.Length;
