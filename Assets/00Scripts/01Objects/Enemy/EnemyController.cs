@@ -59,6 +59,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[Space(3)]
 	[Header("Hitted")]
 	public float hitDelay = 0.4f;
+	public float deathDelay = 0.4f;
 	public float hitPower = 450f;
 	public Color damagedColor;
 	[HideInInspector] public bool isInPlayer = false;

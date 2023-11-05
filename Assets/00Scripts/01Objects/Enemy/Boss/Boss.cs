@@ -13,8 +13,11 @@ public class Boss : UnitBase
 		//if (bc.curState == BossState.Chase || bc.curState == BossState.Idle)
 		//	bc.ChangeState(BossState.Hit);
 		//else
+		if (!bc.isInPhase2Event)
+		{
 			bc.AddSubState(BossState.Hit);
-		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
+			status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
+		}
 
 		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
 		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();

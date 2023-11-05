@@ -5,7 +5,7 @@ using UnityEngine;
 [FSMState((int)EnemyState.Death)]
 public class EnemyDeathState : StateBase
 {
-	private float deathDelay = 2.0f;
+	//private float deathDelay = 2.0f;
 	private string copyDMatProperty = "_distortion";
 
 	private EffectActiveData effectData = new EffectActiveData();
@@ -40,12 +40,13 @@ public class EnemyDeathState : StateBase
 	{
 		curTime += Time.deltaTime;
 
-		if (curTime > deathDelay)
+		/*if (curTime > deathDelay)
 		{
 			if (unit.copyDMat.GetFloat(copyDMatProperty) > 0f)
 				unit.copyDMat.SetFloat(copyDMatProperty, 1f - (curTime - deathDelay));
-		}
-		else if (curTime > deathDelay + 0.4f)
+		}*/
+
+		if (curTime > unit.deathDelay)
 		{
 			unit.gameObject.SetActive(false);
 		}
