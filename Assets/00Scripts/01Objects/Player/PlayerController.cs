@@ -392,8 +392,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		// 해당 부분에서 Part Data를 받아와서 Part가 실행될 수 있도록 해야함.
 		// PartCode에 따라서 Switch 필요 
-
-		activePartController.RunActivePart(this, playerData, (SpecialMoveType)partSystem.GetActivePartCode());
+		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
 		
 		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
 	}

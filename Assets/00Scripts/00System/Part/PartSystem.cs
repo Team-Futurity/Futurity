@@ -21,7 +21,7 @@ public class PartSystem : MonoBehaviour
 
 	// Active Part Variable
 	[SerializeField, Header("액티브 파츠")]
-	public SpecialMoveType activePartType;
+	public SpecialMoveType activePartType = SpecialMoveType.Basic;
 
 	public bool isStartActivePart = false; 
 		
@@ -73,11 +73,6 @@ public class PartSystem : MonoBehaviour
 		}
 
 		var active = PlayerPrefs.GetInt("ActivePart");
-		if (active == 0)
-		{
-			active = 2201;
-		}
-		
 		EquipActivePart(active);
 	}
 
@@ -122,14 +117,14 @@ public class PartSystem : MonoBehaviour
 
 	public void EquipActivePart(int partCode)
 	{
-		if (partCode == 0) return;
-		if (PartDatabase.HasPartCode(partCode) == false)
+		if (PartDatabase.HasPartCode(partCode) == false  && partCode != 0)
 		{
 			FDebug.Log($"{partCode}에 해당하는 Part가 존재하지 않습니다.", GetType());
 			return;
 		}
 
-		activePartType = (SpecialMoveType)partCode;
+		activePartType = partCode == 2202 ? SpecialMoveType.Beta : SpecialMoveType.Basic;
+
 		PlayerPrefs.SetInt("ActivePart", partCode);
 		
 		onPartEquip?.Invoke(999, partCode);
@@ -143,6 +138,7 @@ public class PartSystem : MonoBehaviour
 	private void UpdatePartActivate(float currentGauge, float maxGauge)
 	{
 		int activePartCount = (int)Math.Floor(currentGauge / 25f);
+		
 
 		for (int i = 1; i <= activePartCount; ++i)
 		{
@@ -160,11 +156,12 @@ public class PartSystem : MonoBehaviour
 		// 존재하지 않는 Part Return
 		if (IsIndexPartEmpty(index - 1)) return;
 		// 실행중인 Part Return
-		if (IsIndexPartActivate(index)) return;
-
-		if(index == ACTIVE_PART_INDEX - 1)
+		if (IsIndexPartActivate(index - 1)) return;
+		
+		if(index == ACTIVE_PART_INDEX + 1)
 		{
 			// Active
+			Debug.Log("Active Start");
 			isStartActivePart = true;
 		}
 		else
@@ -182,15 +179,15 @@ public class PartSystem : MonoBehaviour
 			}
 		}
 
-		onPartActive?.Invoke(index - 1, passiveParts[index -1].partCode);
+		//onPartActive?.Invoke(index - 1, passiveParts[index - 1].partCode);
 	}
 
 	private void DeactivatePart(int index)
 	{
 		if (IsIndexPartEmpty(index - 1)) return;
-		if (!IsIndexPartActivate(index)) return;
+		if (!IsIndexPartActivate(index - 1)) return;
 
-		if (index == ACTIVE_PART_INDEX - 1)
+		if (index == ACTIVE_PART_INDEX + 1)
 		{
 			isStartActivePart = false;
 		}
@@ -210,11 +207,12 @@ public class PartSystem : MonoBehaviour
 			passivePart.SetPartActive(false);
 		}
 
-		onPartDeactive?.Invoke(index - 1, passiveParts[index - 1].partCode);
+		//onPartDeactive?.Invoke(index - 1, passiveParts[index - 1].partCode);
 	}
 
 	public bool IsIndexPartEmpty(int index)
 	{
+		if (index == 3) { return false;}
 		return (passiveParts[index] == null);
 	}
 
@@ -227,7 +225,7 @@ public class PartSystem : MonoBehaviour
 		}
 		else
 		{
-			return passiveParts[index - 1].GetPartActive();
+			return passiveParts[index].GetPartActive();
 		}
 	}
 	
