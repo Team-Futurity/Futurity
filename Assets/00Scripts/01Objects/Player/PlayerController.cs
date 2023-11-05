@@ -301,7 +301,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public PlayerInputData DashProcess(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || playerData.isStun || !hitCoolTimeIsEnd || currentDashCount <= 0) 
+		if (/*IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) ||*/ playerData.isStun || !hitCoolTimeIsEnd || currentDashCount <= 0) 
 		{ 
 			return GetInputData(PlayerInputEnum.Dash, false); 
 		}
