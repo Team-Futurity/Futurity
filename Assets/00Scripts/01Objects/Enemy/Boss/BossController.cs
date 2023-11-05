@@ -140,4 +140,18 @@ public class BossController : UnitFSM<BossController>, IFSM
 		disableEvent?.Invoke();
 	}
 	#endregion
+
+	#region Production
+
+	public void ActivateBoss()
+	{
+		this.isActive = true;
+	}
+
+	public bool IsEnterPhase2()
+	{
+		return isInPhase2Event;
+	}
+
+	#endregion
 }
