@@ -4,14 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class CutSceneStruct
-{
-	public List<GameObject> chapterScene = new List<GameObject>();
-	public List<GameObject> publicScene = new List<GameObject>();
-	public List<GameObject> activeScene = new List<GameObject>();
-}
-
-[Serializable]
 public class SerializationDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
 	[SerializeField] private List<TKey> keys = new List<TKey>();

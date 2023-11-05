@@ -1,10 +1,13 @@
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Rendering; 
 using URPGlitch.Runtime.AnalogGlitch;
+using Animation = Spine.Animation;
 
 public class ChapterCutSceneManager : MonoBehaviour
 {
@@ -26,6 +29,11 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 	[Header("추적 대상")]
 	[SerializeField] private Transform playerModelTf;
+
+	[Header("SkeletonAnimation")] 
+	private Queue<SkeletonGraphic> skeletonQueue;
+	private IEnumerator skeletonCutScene;
+	private bool isInput = false;
 
 	[Header("GrayScale")]
 	private GrayScale grayScale = null;
@@ -115,6 +123,68 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		cutScene.Resume();
 		scripting.isEnd = false;
+	}
+
+	#endregion
+
+	#region SkeletonCutScene
+	public void StartSkeletonCutScene(PlayableDirector director, Queue<SkeletonGraphic> queue)
+	{
+		director.Pause();
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck, true);
+
+		skeletonCutScene = SkeletonCutScene(director, queue);
+		StartCoroutine(skeletonCutScene);
+	}
+	
+	private IEnumerator SkeletonCutScene(PlayableDirector director, Queue<SkeletonGraphic> queue)
+	{
+		SkeletonGraphic skeleton = queue.Dequeue();
+		int curAniIndex = 0;
+		int maxAniCount = skeleton.Skeleton.Data.Animations.Count;
+
+		while (true)
+		{
+			skeleton.gameObject.SetActive(true);
+
+			Animation ani = skeleton.Skeleton.Data.Animations.Items[curAniIndex];
+			skeleton.AnimationState.SetAnimation(0, ani, false);
+			
+			while (isInput == false)
+			{
+				yield return null;
+			}
+
+			if (curAniIndex + 1 < maxAniCount)
+			{
+				curAniIndex++;
+			}
+			else
+			{
+				if (queue.Count <= 0)
+				{
+					skeleton.gameObject.SetActive(false);
+					break;
+				}
+				
+				skeleton.gameObject.SetActive(false);
+				skeleton = queue.Dequeue();
+
+				curAniIndex = 0;
+				maxAniCount = skeleton.Skeleton.Data.Animations.Count;
+			}
+			
+			isInput = false;
+		}
+		
+		director.Resume();
+		isInput = false;
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck);
+	}
+	
+	private void InputCheck(InputAction.CallbackContext context)
+	{
+		isInput = true;
 	}
 
 	#endregion

@@ -2,54 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)BossController.BossState.Chase)]
-public class B_ChaseState : UnitState<BossController>
+[FSMState((int)BossState.Chase)]
+public class B_ChaseState : BossStateBase
 {
-	private float distance = .0f;
-
+	private int random = 0;
+	private int dashPercentage = 60;
 	public override void Begin(BossController unit)
 	{
-		unit.curState = BossController.BossState.Chase;
+		base.Begin(unit);
+		unit.curState = BossState.Chase;
 		unit.animator.SetBool(unit.moveAnim, true);
 		unit.navMesh.enabled = true;
+
+		random = Random.Range(1, 101);
 	}
 	public override void Update(BossController unit)
 	{
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
+		unit.transform.LookAt(unit.target.transform);
 
-		if (distance < unit.meleeDistance)
+		if (random < dashPercentage)
 		{
-			unit.rigid.velocity = Vector3.zero;
-			unit.transform.LookAt(unit.target.transform);
-			unit.ChangeState(BossController.BossState.T1_Melee);
+			unit.nextState = BossState.T0_Dash;
+			unit.ChangeState(unit.nextState);
 		}
-		else if (distance < unit.targetDistance)
+		else
 		{
-			unit.rigid.velocity = Vector3.zero;
-			unit.transform.LookAt(unit.target.transform);
-			unit.ChangeState(BossController.BossState.T2_Ranged);
-		}
-		else if (distance > unit.targetDistance)
-		{
-			unit.navMesh.SetDestination(unit.target.transform.position);
+			if (distance < unit.chaseDistance)
+			{
+				unit.rigid.velocity = Vector3.zero;
+				unit.activeDataSO.SetRandomNextState(unit);
+				unit.ChangeState(unit.nextState);
+			}
+			else
+				unit.navMesh.SetDestination(unit.target.transform.position);
 		}
 	}
 
 	public override void End(BossController unit)
 	{
+		base.End(unit);
 		unit.animator.SetBool(unit.moveAnim, false);
+		unit.rigid.velocity = Vector3.zero;
 		unit.navMesh.enabled = false;
-	}
-
-	public override void FixedUpdate(BossController unit)
-	{
-	}
-
-	public override void OnCollisionEnter(BossController unit, Collision collision)
-	{
-	}
-
-	public override void OnTriggerEnter(BossController unit, Collider other)
-	{
 	}
 }

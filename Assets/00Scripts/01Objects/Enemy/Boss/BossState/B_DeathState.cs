@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)BossController.BossState.Death)]
+[FSMState((int)BossState.Death)]
 public class B_DeathState : UnitState<BossController>
 {
 	public override void Begin(BossController unit)

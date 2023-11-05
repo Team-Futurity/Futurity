@@ -40,6 +40,8 @@ public class EnemySpawnState : StateBase
 		unit.animator.SetBool(unit.moveAnimParam, false);
 		unit.rigid.velocity = Vector3.zero;
 
+		unit.copyDMat.SetFloat(copyDMatProperty, 1.0f);
+
 		unit.skinnedMeshRenderer.materials = new Material [2] { unit.material, unit.copyUMat };
 		unit.skinnedMeshRenderer.gameObject.layer = 0;
 	}

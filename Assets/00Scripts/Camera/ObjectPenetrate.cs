@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPenetrate : MonoBehaviour
@@ -15,7 +16,9 @@ public class ObjectPenetrate : MonoBehaviour
 	private Transform playerPos;
 	
 	private const float ORIGIN_ALPHA = 1.0f;
-	private SpriteRenderer prevSprite;
+	private SpriteRenderer prevSpriteRenderer;
+	private Material mat;
+	private AlphaChanger alphaChanger;
 
 	private void Start()
 	{
@@ -26,44 +29,45 @@ public class ObjectPenetrate : MonoBehaviour
 	{
 		Vector3 dir = (playerPos.position - rayOffset.position).normalized;
 		Ray ray = new Ray(rayOffset.position, dir);
+		
+		SpritePenetrate(ray);
+	}
 
+	private void SpritePenetrate(Ray ray)
+	{
 		if (Physics.Raycast(ray, out RaycastHit hit, rayLength, layerMask))
 		{
-			SpriteRenderer spriteRenderer = hit.collider.GetComponent<SpriteRenderer>();
-
-			if (spriteRenderer == null)
+			if (prevSpriteRenderer != null)
 			{
-				return;
+				prevSpriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
 			}
 			
-			if (prevSprite != null)
+			if (hit.collider.TryGetComponent(out SpriteRenderer spriteRenderer) == true)
 			{
-				prevSprite.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
+				prevSpriteRenderer = spriteRenderer;
+				spriteRenderer.color = new Color(255f, 255f, 255f, newAlpha);
 			}
-
-			prevSprite = spriteRenderer;
-			Color color = new Color(255f, 255f, 255f, newAlpha);
-			spriteRenderer.color = color;
+			else if (hit.collider.TryGetComponent(out alphaChanger))
+			{
+				alphaChanger.SetObjectAlpha(newAlpha);
+			}
 		}
 		else
 		{
-			if (prevSprite == null)
+			if (prevSpriteRenderer != null)
 			{
-				return;
+				Color color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
+				prevSpriteRenderer.color = color;
+
+				prevSpriteRenderer = null;
 			}
-			
-			prevSprite.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
-			prevSprite = null;
+
+			if (alphaChanger != null)
+			{
+				alphaChanger.SetObjectAlpha(ORIGIN_ALPHA);
+				alphaChanger = null;
+			}
 		}
 	}
 
-	private void OnDisable()
-	{
-		if (prevSprite == null)
-		{
-			return;
-		}
-
-		prevSprite.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
-	}
 }

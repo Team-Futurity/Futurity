@@ -5,7 +5,6 @@ public class ChapterMoveTrigger : MonoBehaviour
 {
 	[Header("Component")] 
 	private ChapterMoveController chapterMoveController;
-	private bool isInput = false;
 
 	private void Start()
 	{
