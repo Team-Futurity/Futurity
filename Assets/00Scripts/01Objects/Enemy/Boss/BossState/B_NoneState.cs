@@ -9,12 +9,14 @@ public class B_NoneState : UnitState<BossController>
 		unit.curState = BossState.Phase2Event;
 		unit.isActive = false;
 		unit.isPhase2EventDone = true;
+		unit.isInPhase2Event = true;
 		unit.nextState = BossState.T5_EnemySpawn;
 	}
 
 	public override void End(BossController unit)
 	{
 		unit.previousState = BossState.Phase2Event;
+		unit.isInPhase2Event = false;
 	}
 
 	public override void FixedUpdate(BossController unit)
