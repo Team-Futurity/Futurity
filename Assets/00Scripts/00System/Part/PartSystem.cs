@@ -35,8 +35,8 @@ public class PartSystem : MonoBehaviour
 
 	// Part가 활성화, 비활성화 되었을 때.
 	// PartCode
-	[HideInInspector] public UnityEvent<int, int> onPartActive;
-	[HideInInspector] public UnityEvent<int, int> onPartDeactive;
+	[HideInInspector] public UnityEvent<int> onPartActive;
+	[HideInInspector] public UnityEvent<int> onPartDeactive;
 	#endregion
 
 	private void Awake()
@@ -177,7 +177,7 @@ public class PartSystem : MonoBehaviour
 			}
 		}
 
-		//onPartActive?.Invoke(index - 1, passiveParts[index - 1].partCode);
+		onPartActive?.Invoke(index - 1);
 	}
 
 	private void DeactivatePart(int index)
@@ -205,7 +205,7 @@ public class PartSystem : MonoBehaviour
 			passivePart.SetPartActive(false);
 		}
 
-		//onPartDeactive?.Invoke(index - 1, passiveParts[index - 1].partCode);
+		onPartDeactive?.Invoke(index - 1);
 	}
 
 	public bool IsIndexPartEmpty(int index)
