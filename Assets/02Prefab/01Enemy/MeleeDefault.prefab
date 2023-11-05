@@ -79,9 +79,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateDatas: []
+  stateChangeConditions: {fileID: 0}
   test: {fileID: 0}
   enemyType: 0
   effectSO: {fileID: 11400000, guid: a122abf1cddf7094bb1cf47d2a43f66c, type: 2}
+  isDead: 0
   target: {fileID: 0}
   enemyData: {fileID: 4439521067689912932}
   animator: {fileID: 0}
@@ -96,6 +98,7 @@ MonoBehaviour:
   deadMaterial: {fileID: 2100000, guid: c8bd5f6865c8df14f858d1383b241ff6, type: 2}
   copyUMat: {fileID: 0}
   copyDMat: {fileID: 0}
+  beforeChaseDelay: 1
   attackRange: 1.5
   attackBeforeDelay: 1.3
   attackingDelay: 3
@@ -118,7 +121,7 @@ MonoBehaviour:
       Data2: 1204554129
       Data3: 101309105
       Data4: 585119141
-    Path: event:/SE/06monster/M_CF/F_S_01_06_attack_melee
+    Path: event:/SE/Unit/06monster/M_CF/F_S_01_06_attack_melee
   attackSound2:
     Guid:
       Data1: 0
@@ -139,7 +142,7 @@ MonoBehaviour:
       Data2: 1229391428
       Data3: -951626351
       Data4: -192804069
-    Path: event:/SE/06monster/M_CF/F_S_01_06_hit_melee
+    Path: event:/SE/Unit/06monster/M_CF/F_S_01_06_hit_melee
 --- !u!54 &4439521067689912938
 Rigidbody:
   m_ObjectHideFlags: 0

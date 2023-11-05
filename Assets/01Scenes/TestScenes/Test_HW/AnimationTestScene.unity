@@ -495,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6806753902599942328, guid: e59e29b1acbbbc54c95c528a0ae85e9a, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6806753902599942328, guid: e59e29b1acbbbc54c95c528a0ae85e9a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -682,6 +682,10 @@ PrefabInstance:
       propertyPath: unitAnimator
       value: 
       objectReference: {fileID: 1565555140}
+    - target: {fileID: 4439521067689912933, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
+      propertyPath: hitDelay
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 4439521067689912933, guid: 00e0e54552aa9c041921e11cd1b00f95, type: 3}
       propertyPath: attackRange
       value: 0
@@ -1029,9 +1033,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateDatas: []
+  stateChangeConditions: {fileID: 0}
   test: {fileID: 0}
   enemyType: 0
   effectSO: {fileID: 0}
+  isDead: 0
   target: {fileID: 0}
   enemyData: {fileID: 1115527651}
   animator: {fileID: 0}
@@ -1046,6 +1052,7 @@ MonoBehaviour:
   deadMaterial: {fileID: 0}
   copyUMat: {fileID: 0}
   copyDMat: {fileID: 0}
+  beforeChaseDelay: 1
   attackRange: 0
   attackBeforeDelay: 0
   attackingDelay: 4

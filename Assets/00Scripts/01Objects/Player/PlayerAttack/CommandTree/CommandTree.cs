@@ -74,6 +74,9 @@ public class AttackNode
 	public float slowTime;
 	public float slowScale;
 
+	[Header("사운드")]
+	public EventReference attackVoice;
+
 	public AttackNode(PlayerInputEnum command)
 	{
 		this.command = command;

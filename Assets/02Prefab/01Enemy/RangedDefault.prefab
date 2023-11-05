@@ -157,9 +157,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateDatas: []
+  stateChangeConditions: {fileID: 0}
   test: {fileID: 0}
   enemyType: 1
   effectSO: {fileID: 11400000, guid: eb55f2935f6d3a04493d6a9e92285560, type: 2}
+  isDead: 0
   target: {fileID: 0}
   enemyData: {fileID: 732466587148635420}
   animator: {fileID: 0}
@@ -174,6 +176,7 @@ MonoBehaviour:
   deadMaterial: {fileID: 2100000, guid: 21183be779f7b464c8c7b399f3c7e16c, type: 2}
   copyUMat: {fileID: 0}
   copyDMat: {fileID: 0}
+  beforeChaseDelay: 1
   attackRange: 8
   attackBeforeDelay: 1
   attackingDelay: 3
@@ -196,7 +199,7 @@ MonoBehaviour:
       Data2: 1107172312
       Data3: -229187441
       Data4: 451092526
-    Path: event:/SE/06monster/D_LF/F_S_01_06_attack_ranged
+    Path: event:/SE/Unit/06monster/D_LF/F_S_01_06_attack_ranged
   attackSound2:
     Guid:
       Data1: 0
@@ -217,7 +220,7 @@ MonoBehaviour:
       Data2: 1262249983
       Data3: 1993503921
       Data4: 712377152
-    Path: event:/SE/06monster/D_LF/F_S_01_06_hit_ranged
+    Path: event:/SE/Unit/06monster/D_LF/F_S_01_06_hit_ranged
 --- !u!114 &732466587148635617
 MonoBehaviour:
   m_ObjectHideFlags: 0
