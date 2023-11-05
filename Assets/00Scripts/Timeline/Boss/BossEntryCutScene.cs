@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -13,6 +14,10 @@ public class BossEntryCutScene : CutSceneBase
 	[SerializeField] private List<ScriptingList> scriptsList;
 	private int curScriptsIndex = 0;
 	
+	[Header("Skeleton Cut Scene")] 
+	[SerializeField] private Transform skeletonParent;
+	private Queue<SkeletonGraphic> skeletonQueue;
+	
 	[Header("플레이어 이동값")] 
 	[SerializeField] private Transform endPos;
 	[SerializeField] private float moveTime = 1.5f;
@@ -20,6 +25,13 @@ public class BossEntryCutScene : CutSceneBase
 	protected override void Init()
 	{
 		bossAnimator = boss.GetComponentInChildren<Animator>();
+		skeletonQueue = new Queue<SkeletonGraphic>();
+
+		for (int i = 0; i < skeletonParent.childCount; ++i)
+		{
+			skeletonQueue.Enqueue(skeletonParent.GetChild(i).GetComponent<SkeletonGraphic>());
+			skeletonParent.GetChild(i).gameObject.SetActive(false);
+		}
 	}
 
 	protected override void EnableCutScene()
@@ -49,6 +61,11 @@ public class BossEntryCutScene : CutSceneBase
 		chapterManager.PauseCutSceneUntilScriptsEnd(bossEntry);
 		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
 		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
+	}
+
+	public void BossEntry_StartSkeleton()
+	{
+		chapterManager.StartSkeletonCutScene(bossEntry, skeletonQueue);
 	}
 
 	public void BossEntry_PlayHitAni()
