@@ -13,12 +13,15 @@ public class DamageInfo
 	public Vector3 HitEffectOffset { get; private set; }
 	public bool IsDot { get; private set; }
 
-	public DamageInfo(UnitBase attacker, UnitBase defender, float attackST, float knockbackPower = 0)
+	public bool isCritical = false;
+
+	public DamageInfo(UnitBase attacker, UnitBase defender, float attackST, float knockbackPower = 0, bool isAttackCritical = false)
 	{
 		Attacker = attacker;
 		Defender = defender;
 		AttackST = attackST;
 		KnockbackPower = knockbackPower;
+		isCritical = isAttackCritical;
 	}
 
 	public DamageInfo(DamageInfo origin)

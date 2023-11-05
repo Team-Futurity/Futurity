@@ -26,6 +26,7 @@ public class UIWindow : MonoBehaviour
 	public List<GameObject> CurrentWindowObjects { get; private set; }
 
 	public bool isOpen = false;
+	public bool isNotAddButtons;
 
 	private void Awake()
 	{
@@ -74,7 +75,8 @@ public class UIWindow : MonoBehaviour
 		// Set this CurrentButton -> UIInputManager
 		if (CurrentWindowButtons != null)
 		{
-			UIInputManager.Instance.SetButtonList(CurrentWindowButtons);
+			UIInputManager.Instance.SetMaxMoveIndex(-1);
+			UIInputManager.Instance.SetButtonList(CurrentWindowButtons, !isNotAddButtons);
 		}
 
 		onOpen?.Invoke(true);

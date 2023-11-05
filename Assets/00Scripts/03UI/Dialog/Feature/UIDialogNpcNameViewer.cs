@@ -12,7 +12,7 @@ public class UIDialogNpcNameViewer : UIDialogFeatureBase
 
 	protected override void UpdateFeature()
 	{
-		nameImage.sprite = LoadNPCNameSprite(dialogData.talker_Eng);
+		// nameImage.sprite = LoadNPCNameSprite(dialogData.talker_Eng);
 	}
 
 	private Sprite LoadNPCNameSprite(string key)

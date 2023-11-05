@@ -18,6 +18,7 @@ public class Player : UnitBase
 		
 		float criticalConf = GetCritical();
 		info.SetDamage(GetDamage(info.AttackST) * criticalConf);
+		info.isCritical = (criticalConf > 1.0f);
 
 		info.Defender.Hit(info);
 		onAttackEvent?.Invoke(info);

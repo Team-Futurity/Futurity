@@ -8,6 +8,8 @@ public class UIPartEquip : MonoBehaviour
 	// 0, 1, 2 -> Top, Middle, Bottom
 	public List<UIPartSelectButton> passiveButton;
 
+	public UIPartSelectButton activeButton;
+
 	[field: SerializeField]
 	public PartSystem PartSystem { get; private set; }
 
@@ -18,11 +20,35 @@ public class UIPartEquip : MonoBehaviour
 	private int selectButtonIndex = 0;
 
 	private bool isSelect = false;
+	private int partType = 0;
+
+	public GameObject passiveDim;
+	public GameObject activeDim;
 
 	public void SetSelectPart(int code)
 	{
 		selectPartCode = code;
 		isSelect = true;
+		partType = code > 2200 ? 1 : 2;
+
+		if (partType == 1)
+		{
+			// Active
+			activeDim.SetActive(false);
+			passiveDim.SetActive(true);
+			
+			UIInputManager.Instance.SetDefaultFocusForced(3);
+			UIInputManager.Instance.SetUnableMoveButton(true);
+		}
+		else
+		{
+			// Passive
+			passiveDim.SetActive(false);
+			activeDim.SetActive(true);
+			
+			UIInputManager.Instance.SetUnableMoveButton(false);
+			UIInputManager.Instance.SetMaxMoveIndex(3);
+		}
 	}
 
 	// PartSystem과 현재 장착 UI의 싱크를 맞춘다.
@@ -31,8 +57,7 @@ public class UIPartEquip : MonoBehaviour
 		EnableSelectEvent();
 
 		var passivePartDatas = PartSystem.GetPassiveParts();
-		
-		var activePartData = PartSystem.GetActivePart();
+		var activePartData = PartSystem.GetActivePartCode();
 
 		if (passivePartDatas == null)
 		{
@@ -56,6 +81,10 @@ public class UIPartEquip : MonoBehaviour
 				passiveButton[i].SetButtonData(passivePartDatas[i].partCode);
 			}
 		}
+		
+		// Active Sync
+		// 현재 PartSystem의 데이터와 Active UI를 맞추는 작업이 필요로 함.
+		activeButton.InitResource(true);
 	}
 
 	// 버튼을 눌렀다는 것은 해당 Index에 부품을 장착하겠다는 소리임.
@@ -91,7 +120,10 @@ public class UIPartEquip : MonoBehaviour
 		// Yes
 		if (isEquip)
 		{
-			PartSystem.EquipPassivePart(selectButtonIndex, selectPartCode);
+			if(partType == 2)
+				PartSystem.EquipPassivePart(selectButtonIndex, selectPartCode);
+			else
+				PartSystem.EquipActivePart(selectPartCode);
 
 			DisableSelectEvent();
 			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
@@ -106,17 +138,30 @@ public class UIPartEquip : MonoBehaviour
 
 	private void EnableSelectEvent()
 	{
-		for (int i = 0; i < passiveButton.Count; ++i)
+		if (partType == 2)
 		{
-			passiveButton[i].onSelected?.AddListener(SelectButton);
+			for (int i = 0; i < passiveButton.Count; ++i)
+			{
+				passiveButton[i].onSelected?.AddListener(SelectButton);
+			}
+		}
+		else
+		{
+			activeButton.onSelected?.AddListener(SelectButton);
 		}
 	}
-
 	private void DisableSelectEvent()
 	{
-		for (int i = 0; i < passiveButton.Count; ++i)
+		if (partType == 2)
 		{
-			passiveButton[i].onSelected?.RemoveAllListeners();
+			for (int i = 0; i < passiveButton.Count; ++i)
+			{
+				passiveButton[i].onSelected?.RemoveAllListeners();
+			}
+		}
+		else
+		{
+			activeButton.onSelected?.AddListener(SelectButton);
 		}
 	}
 }

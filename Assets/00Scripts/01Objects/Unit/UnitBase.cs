@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public struct AlterAnimationData
 {
@@ -43,6 +44,8 @@ public abstract class UnitBase : MonoBehaviour
 
 	private AlterAnimationData alterAnimationData;
 	private bool isAlterSpeedForAnimation;
+
+	public Image criticalImages;
 
 	// collider
 	private Collider[] colliders;
@@ -226,6 +229,17 @@ public abstract class UnitBase : MonoBehaviour
 	{
 		rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 		rigid.AddForce(direction * power, ForceMode.Impulse);
+	}
+
+	protected IEnumerator StartCriticalImage()
+	{
+		Debug.Log("CALL");
+
+		while(criticalImages.gameObject.activeSelf)
+		{
+			yield return new WaitForSeconds(1f);
+			criticalImages.gameObject.SetActive(false);
+		}
 	}
 
 	#region Switch(bool)

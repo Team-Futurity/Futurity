@@ -143,6 +143,56 @@ public class PlayerAnimationEvents : MonoBehaviour
 				break;
 		}
 	}
+
+	// 0 - 
+	public void BetaActivePartAttackProc(int attackProcessOrder)
+	{
+		UnitState<PlayerController> GettedState = null;
+		PlayerBetaPartState betaState;
+		if (!pc.GetState(PlayerState.BetaSM, ref GettedState)) { return; }
+		
+		betaState = GettedState as PlayerBetaPartState;
+
+		switch (attackProcessOrder)
+		{
+			// Phase 1 - Start
+			case 1:
+				betaState.OnFirstPhase();
+				break;
+			
+			// Phase 1 - End
+			case 2:
+				betaState.OnFirstPhaseEnded();
+				break;
+			
+			// Phase 2 - Start
+			case 3:
+				betaState.OnSecondPhase();
+				break;
+			
+			// Phase 2 - End
+			case 4:
+				betaState.OnSecondPhaseEnded();
+				break;
+			
+			// Phase 3 - Start
+			case 5:
+				betaState.OnThirdPhase();
+				break;
+			
+			// Phase 3 - End
+			case 6:
+				betaState.OnThirdPhaseEnded();
+				break;
+			
+			// Active End
+			case 7:
+				betaState.OnEnded();
+				break;
+			
+		}
+		
+	}
 	
 	public void WalkEffect()
 	{
