@@ -71,7 +71,7 @@ public class BossAnimationEvents : MonoBehaviour
 	public void Type6RandomVector()
 	{
 		bc.attackTrigger.SetRandomVector(bc);
-		bc.SetEffectData(bc.attackTrigger.type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, true);
+		bc.SetEffectData(bc.attackTrigger.type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, false);
 	}
 	#endregion
 

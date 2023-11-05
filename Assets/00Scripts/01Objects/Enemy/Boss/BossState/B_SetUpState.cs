@@ -21,7 +21,7 @@ public class B_SetUpState : BossStateBase
 		unit.copyUMat.SetColor("_BaseColor", new Color(1.0f, 1.0f, 1.0f, 0f));
 		for(int i = 0; i < unit.meshRenderers.Count; i++)
 		{
-			unit.meshRenderers[i].materials = new Material[2] { unit.materials[i], unit.copyUMat };
+			unit.meshRenderers[i].materials = new Material[2] { unit.material, unit.copyUMat };
 		}
 
 		//Basic

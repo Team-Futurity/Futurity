@@ -33,7 +33,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Space(8)]
 	[Header("Material cashing")]
 	public List<SkinnedMeshRenderer> meshRenderers;
-	public List<Material> materials;
+	public Material material;
 	public Material unlitMaterial;
 	[HideInInspector] public Material copyUMat;
 
@@ -55,7 +55,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public BossActiveDatas activeDataSO;
 	public BossPhaseDatas phaseDataSO;
 	[HideInInspector] public BossAttackData curAttackData;
-	public BossAttackTrigger attackTrigger;
+	public AttackColliders attackTrigger;
 
 	public float chaseDistance = 7.0f;
 
@@ -114,6 +114,18 @@ public class BossController : UnitFSM<BossController>, IFSM
 				data.parent = null;
 			data.index = 0;
 			listEffectData.Add(data);
+		}
+	}
+	public void ActiveEffect(int activeIndex = 0)
+	{
+		EffectActiveData data = currentEffectData;
+		EffectKey key = effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
+
+		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
+
+		if (particles != null)
+		{
+			particles.Initialize(effectController, key);
 		}
 	}
 

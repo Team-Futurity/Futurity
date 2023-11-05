@@ -46,7 +46,7 @@ public class BossAttackData
 
 	public float extraAttackPoint;
 	public float targetKnockbackPower;
-	public int percentage;
+	public int percentage = 0;
 
 	public float attackDelay;
 	public float attackSpeed;

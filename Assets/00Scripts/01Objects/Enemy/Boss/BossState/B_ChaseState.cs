@@ -30,7 +30,6 @@ public class B_ChaseState : BossStateBase
 		{
 			if (distance < unit.chaseDistance)
 			{
-				FDebug.Log(distance);
 				unit.rigid.velocity = Vector3.zero;
 				unit.activeDataSO.SetRandomNextState(unit);
 				unit.ChangeState(unit.nextState);

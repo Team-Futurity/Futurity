@@ -15,7 +15,7 @@ public class BossPhaseDatas : ScriptableObject
 			if (data.phase == phase)
 				value = data.hpPercentage;
 
-		return value;
+		return value * 0.01f;
 	}
 
 	#endregion

@@ -11,11 +11,13 @@ public class B_HitState : UnitState<BossController>
 	private float curTime;
 	private Color defaultColor = new Color(1, 1, 1, 0f);
 
+	private bool is25PerEventDone = false;
+
 	public override void Begin(BossController unit)
 	{
 		//unit.curState = BossState.Hit;
-
 		curTime = 0;
+		curHP = unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue();
 		if (unit.curState == BossState.Chase || unit.curState == BossState.Idle)
 		{
 			unit.nextState = BossState.Idle;
@@ -34,13 +36,14 @@ public class B_HitState : UnitState<BossController>
 				isColorChanged = true;
 			}
 
-		if (unit.curState == BossState.Chase || unit.curState == BossState.Idle)
-			unit.DelayChangeState(curTime, unit.hitMaxTime, BossState.Idle);
-		else
+		if (curTime > unit.hitMaxTime)
 			unit.RemoveSubState();
 
+
+		//unit.DelayChangeState(curTime, unit.hitMaxTime, BossState.Idle);
+
 		//Phase event
-		if (!unit.isPhase2EventDone && curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * (unit.phaseDataSO.GetHPPercentage(Phase.Phase2) / 100))
+		if (!unit.isPhase2EventDone && curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * unit.phaseDataSO.GetHPPercentage(Phase.Phase2))
 		{
 			unit.curPhase = Phase.Phase2;
 			if(unit.attackTrigger.type2ExtraColliders.Count> 0)
@@ -51,6 +54,10 @@ public class B_HitState : UnitState<BossController>
 			foreach (GameObject g in unit.attackTrigger.type2ExtraColliders)
 				unit.attackTrigger.type6Colliders.Add(g);
 			unit.ChangeState(BossState.Phase2Event);
+		}
+		if (!is25PerEventDone && curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * 0.25f)
+		{
+			unit.ChangeState(BossState.T5_EnemySpawn);
 		}
 		//Death event
 		if (unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
@@ -63,7 +70,10 @@ public class B_HitState : UnitState<BossController>
 	{
 		curHP = unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue();
 
-		
+		if (!is25PerEventDone && curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * 0.25f)
+		{
+			is25PerEventDone = true;
+		}
 
 		unit.rigid.velocity = Vector3.zero;
 		isColorChanged = false;

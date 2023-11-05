@@ -9,6 +9,7 @@ public class B_NoneState : UnitState<BossController>
 		unit.curState = BossState.Phase2Event;
 		unit.isActive = false;
 		unit.isPhase2EventDone = true;
+		unit.nextState = BossState.T5_EnemySpawn;
 	}
 
 	public override void End(BossController unit)
@@ -31,6 +32,6 @@ public class B_NoneState : UnitState<BossController>
 	public override void Update(BossController unit)
 	{
 		if (unit.isActive)
-			unit.ChangeState(BossState.Idle);
+			unit.ChangeState(unit.nextState);
 	}
 }

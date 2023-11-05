@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossAttackTrigger : MonoBehaviour
+public class AttackColliders : MonoBehaviour
 {
 	[SerializeField] private BossController bc;
 	[SerializeField] private GameObject objParent;
@@ -22,22 +22,13 @@ public class BossAttackTrigger : MonoBehaviour
 	public List<GameObject> type6ExtraColliders;
 
 
-	public void Awake()
+	private void Awake()
 	{
 		if(bc.attackTrigger == null)
-			bc.attackTrigger = new BossAttackTrigger();
+			bc.attackTrigger = new AttackColliders();
 		bc.attackTrigger = this;
 		this.transform.SetParent(objParent.transform, true);
 		AttackSetting();
-	}
-
-	public void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag("Player"))
-		{
-			DamageInfo info = new DamageInfo(bc.bossData, bc.target, bc.curAttackData.extraAttackPoint, bc.curAttackData.targetKnockbackPower);
-			bc.bossData.Attack(info);
-		}
 	}
 
 	#region Active/DeActive Attack List methods
@@ -48,6 +39,7 @@ public class BossAttackTrigger : MonoBehaviour
 		type2Collider.transform.SetParent(bc.transform, true);
 		foreach(GameObject o in type2ExtraColliders)
 			o.transform.SetParent(type2Collider.transform, true);
+		type3StartPos.transform.SetParent(null, true);
 		type0Collider.SetActive(false);
 		type1Collider.SetActive(false);
 		type2Collider.SetActive(false);
@@ -70,6 +62,7 @@ public class BossAttackTrigger : MonoBehaviour
 	{
 		for (int i = 0; i < list.Count; i++)
 		{
+			list[i].transform.SetParent(bc.transform, true);
 			list[i].SetActive(true);
 		}
 	}
@@ -79,6 +72,7 @@ public class BossAttackTrigger : MonoBehaviour
 		bc.listEffectData.Clear();
 		for (int i = 0; i < list.Count; i++)
 		{
+			list[i].transform.SetParent(this.transform, true);
 			list[i].SetActive(false);
 		}
 	}

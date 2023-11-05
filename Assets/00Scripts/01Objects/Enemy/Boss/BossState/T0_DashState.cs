@@ -7,10 +7,24 @@ public class T0_DashState : B_PatternBase
 {
 	private float dashPower = 800f;
 
+	private EffectActiveData effectData = new EffectActiveData();
+	public T0_DashState()
+	{
+		effectData.activationTime = EffectActivationTime.AfterDoingAttack;
+		effectData.target = EffectTarget.Target;
+		effectData.index = 0;
+		effectData.position = new Vector3(0f, 1f, 0f);
+		effectData.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+	}
+
 	public override void Begin(BossController unit)
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T0_Dash;
+		effectData.parent = unit.gameObject;
+		unit.currentEffectData = effectData;
+
+		unit.animator.SetBool(unit.moveAnim, true);
 	}
 
 	public override void Update(BossController unit)
@@ -27,6 +41,7 @@ public class T0_DashState : B_PatternBase
 		if(isAttackDelayDone && !isAttackDone)
 		{
 			unit.attackTrigger.type0Collider.SetActive(true);
+			unit.ActiveEffect();
 			unit.rigid.AddForce(unit.transform.forward * dashPower, ForceMode.Impulse);
 			isAttackDone = true;
 		}
@@ -44,6 +59,7 @@ public class T0_DashState : B_PatternBase
 	public override void End(BossController unit)
 	{
 		base.End(unit);
+		unit.animator.SetBool(unit.moveAnim, false);
 	}
 
 	public override void OnTriggerEnter(BossController unit, Collider other)

@@ -99,33 +99,27 @@ public class BossActiveDatas : ScriptableObject
 		int sum = 0;
 		int random = Random.Range(1, 101);
 
-		foreach (var data in attackDatas)
+		for(int i = 0; i<attackDatas.Count; i++)
 		{
-			if(data.phase == Phase.Phase1)
+			if (attackDatas[i].phase == unit.curPhase/* && attackDatas[i].phase == Phase.Phase1*/)
 			{
-				sum += data.percentage;
-				if (random < sum && data.state != unit.previousState)
+				sum += attackDatas[i].percentage;
+				if(random < sum && attackDatas[i].state != unit.previousState && attackDatas[i].percentage > 0)
 				{
-					//while (data.state == unit.previousState 
-					//	|| data.state == BossState.T3_Laser 
-					//	|| data.state == BossState.T4_Laser 
-					//	|| data.state == BossState.T5_EnemySpawn)
-					//	SetRandomNextState(unit);
-					
-					unit.nextState = data.state;
+					FDebug.Log("Boss Next Attack State : " + attackDatas[i].state);
+					unit.nextState = attackDatas[i].state;
+					break;
 				}
 			}
-			else
-			{
-				sum += data.percentage;
-				if (random < sum && data.state != unit.previousState)
-				{
-					//while (data.state == unit.previousState)
-					//	SetRandomNextState(unit);
-
-					unit.nextState = data.state;
-				}
-			}
+			//else if(attackDatas[i].phase == unit.curPhase && attackDatas[i].phase == Phase.Phase1)
+			//{
+			//	sum += attackDatas[i].percentage;
+			//	if (random < sum && attackDatas[i].state != unit.previousState && attackDatas[i].percentage > 0)
+			//	{
+			//		unit.nextState = attackDatas[i].state;
+			//		break;
+			//	}
+			//}
 		}
 	}
 	#endregion

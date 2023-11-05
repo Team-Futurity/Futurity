@@ -9,6 +9,8 @@ public class B_IdleState : BossStateBase
 	public override void Begin(BossController unit)
 	{
 		unit.curState = BossState.Idle;
+		if (unit.nextState == unit.curState)
+			unit.nextState = BossState.Chase;
 	}
 
 	public override void Update(BossController unit)
