@@ -6,6 +6,7 @@ public class BossAnimationEvents : MonoBehaviour
 {
 	public BossController bc;
 
+	#region effect methods
 	public void ActiveEffect(int activeIndex = 0)
 	{
 		EffectActiveData data = bc.currentEffectData;
@@ -32,61 +33,70 @@ public class BossAnimationEvents : MonoBehaviour
 			}
 		}
 	}
-
-	public void Type6RandomVector()
-	{
-		int randx;
-		int randz;
-		for (int i = 0; i < bc.Type6Colliders.Count; i++)
-		{
-			randx = Random.Range(-6, 6);
-			randz = Random.Range(-6, 6);
-			bc.Type6Colliders[i].transform.position = new Vector3(randx, bc.transform.position.y, randz);
-		}
-		bc.SetEffectData(bc.Type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, true);
-	}
+	#endregion
 
 	#region Activate Attack
 	public void ActivateType1Attack()
 	{
 		bc.bossData.EnableAttackTiming();
-		bc.Type1Collider.SetActive(true);
+		bc.attackTrigger.type1Collider.SetActive(true);
 	}
 	public void ActivateType2Attack()
 	{
 		bc.bossData.EnableAttackTiming();
-		bc.Type2Collider.SetActive(true);
+		bc.attackTrigger.type2Collider.SetActive(true);
 
 	}
 	public void ActivateType3Attack()
 	{
 		bc.bossData.EnableAttackTiming();
-		bc.ActiveAttacks(bc.Type3Colliders);
+		bc.attackTrigger.ActiveListAttacks(bc.attackTrigger.type3Colliders);
 	}
 
 	public void ActiveType4Attack()
 	{
 		bc.bossData.EnableAttackTiming();
-		bc.ActiveAttacks(bc.Type4Colliders);
+		bc.attackTrigger.ActiveListAttacks(bc.attackTrigger.type4Colliders);
 	}
-	public void DeActiveType4Attacks()
+	public void ActiveType5Attack()
 	{
-		bc.DeActiveAttacks(bc.Type4Colliders);
+		bc.attackTrigger.type5Manager.SpawnEnemy();
 	}
+
 	public void ActiveType6Attack()
 	{
 		bc.bossData.EnableAttackTiming();
-		bc.ActiveAttacks(bc.Type6Colliders);
+		bc.attackTrigger.ActiveListAttacks(bc.attackTrigger.type6Colliders);
 	}
-	public void DeActiveType6Attacks()
+	public void Type6RandomVector()
 	{
-		bc.DeActiveAttacks(bc.Type6Colliders);
+		bc.attackTrigger.SetRandomVector(bc);
+		bc.SetEffectData(bc.attackTrigger.type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, false);
 	}
-	public void ActiveType7Attack()
+	#endregion
+
+
+	#region DeActive Attack
+	public void DeActiveType1Attacks()
 	{
-		bc.bossData.EnableAttackTiming();
-		bc.ActiveAttacks(bc.Type7Colliders);
+		bc.attackTrigger.type1Collider.SetActive(false);
+	}
+	public void DeActiveType2Attacks()
+	{
+		bc.attackTrigger.type2Collider.SetActive(false);
+	}
+	public void DeActiveType3Attacks()
+	{
+		bc.attackTrigger.DeActiveListAttacks(bc.attackTrigger.type3Colliders);
+	}
+	public void DeActiveType4Attacks()
+	{
+		bc.attackTrigger.DeActiveListAttacks(bc.attackTrigger.type4Colliders);
 	}
 
+	public void DeActiveType6Attacks()
+	{
+		bc.attackTrigger.DeActiveListAttacks(bc.attackTrigger.type6Colliders);
+	}
 	#endregion
 }
