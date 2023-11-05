@@ -15,7 +15,7 @@ public class UIPartSlot : MonoBehaviour
 
 	private void Awake()
 	{
-		partSystem.onPartActive?.AddListener((index, code) =>
+		partSystem.onPartActive?.AddListener((index) =>
 	   {
 		   if(index == 3)
 		   {
@@ -26,7 +26,7 @@ public class UIPartSlot : MonoBehaviour
 		   passiveSlots[index].SetActivateImage(true);
 	   });
 
-		partSystem.onPartDeactive?.AddListener((index, code) =>
+		partSystem.onPartDeactive?.AddListener((index) =>
 		{
 			if(index == 3)
 			{
