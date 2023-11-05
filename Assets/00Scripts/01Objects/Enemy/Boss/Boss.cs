@@ -10,10 +10,10 @@ public class Boss : UnitBase
 
 	public override void Hit(DamageInfo damageInfo)
 	{
-		if (bc.curState == BossController.BossState.Chase)
-			bc.ChangeState(BossController.BossState.Hit);
-		else
-			bc.AddSubState(BossController.BossState.Hit);
+		//if (bc.curState == BossState.Chase || bc.curState == BossState.Idle)
+		//	bc.ChangeState(BossState.Hit);
+		//else
+			bc.AddSubState(BossState.Hit);
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
 
 		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
