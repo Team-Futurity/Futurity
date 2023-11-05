@@ -10,6 +10,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public bool isActive = false;
 	[HideInInspector] public bool isDead = false;
 	[HideInInspector] public bool isPhase2EventDone = false;
+	[HideInInspector] public bool isInPhase2Event = false;
 
 	[Space(8)]
 	[Header("State")]
@@ -138,5 +139,19 @@ public class BossController : UnitFSM<BossController>, IFSM
 	{
 		disableEvent?.Invoke();
 	}
+	#endregion
+
+	#region Production
+
+	public void ActivateBoss()
+	{
+		this.isActive = true;
+	}
+
+	public bool IsEnterPhase2()
+	{
+		return isInPhase2Event;
+	}
+
 	#endregion
 }
