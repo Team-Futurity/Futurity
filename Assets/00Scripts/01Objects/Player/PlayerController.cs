@@ -385,7 +385,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
 		if (!partSystem.isStartActivePart) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
-		Debug.Log("Start");
 
 		if (comboGaugeSystem.CurrentGauge < 100) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 		if (IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.SpecialMove, false); }

@@ -160,8 +160,6 @@ public class PartSystem : MonoBehaviour
 		
 		if(index == ACTIVE_PART_INDEX + 1)
 		{
-			// Active
-			Debug.Log("Active Start");
 			isStartActivePart = true;
 		}
 		else
