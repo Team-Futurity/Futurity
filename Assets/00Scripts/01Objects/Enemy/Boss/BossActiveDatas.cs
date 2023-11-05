@@ -101,25 +101,15 @@ public class BossActiveDatas : ScriptableObject
 
 		for(int i = 0; i<attackDatas.Count; i++)
 		{
-			if (attackDatas[i].phase == unit.curPhase/* && attackDatas[i].phase == Phase.Phase1*/)
+			if (attackDatas[i].phase == unit.curPhase)
 			{
 				sum += attackDatas[i].percentage;
 				if(random < sum && attackDatas[i].state != unit.previousState && attackDatas[i].percentage > 0)
 				{
-					FDebug.Log("Boss Next Attack State : " + attackDatas[i].state);
 					unit.nextState = attackDatas[i].state;
 					break;
 				}
 			}
-			//else if(attackDatas[i].phase == unit.curPhase && attackDatas[i].phase == Phase.Phase1)
-			//{
-			//	sum += attackDatas[i].percentage;
-			//	if (random < sum && attackDatas[i].state != unit.previousState && attackDatas[i].percentage > 0)
-			//	{
-			//		unit.nextState = attackDatas[i].state;
-			//		break;
-			//	}
-			//}
 		}
 	}
 	#endregion

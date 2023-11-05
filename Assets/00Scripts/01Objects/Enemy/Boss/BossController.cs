@@ -16,8 +16,8 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Header("State")]
 	public BossState curState;
 	public Phase curPhase;
-	/*[HideInInspector]*/ public BossState nextState;
-	/*[HideInInspector]*/ public BossState previousState;
+	[HideInInspector] public BossState nextState;
+	[HideInInspector] public BossState previousState;
 
 	#region Base Parameter
 	[Space(8)]
