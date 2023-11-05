@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class UIPassivePartSelect : MonoBehaviour
 {
 	public UIPartSelectButton[] passiveSelectButtons;
-	
 	[field: SerializeField, Space(15)]
 	public UIPartEquip Equip { get; private set; }
 

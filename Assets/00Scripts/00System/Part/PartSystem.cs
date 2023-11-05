@@ -117,12 +117,6 @@ public class PartSystem : MonoBehaviour
 
 	public void EquipActivePart(int partCode)
 	{
-		if (PartDatabase.HasPartCode(partCode) == false  && partCode != 0)
-		{
-			FDebug.Log($"{partCode}에 해당하는 Part가 존재하지 않습니다.", GetType());
-			return;
-		}
-
 		activePartType = partCode == 2202 ? SpecialMoveType.Beta : SpecialMoveType.Basic;
 
 		PlayerPrefs.SetInt("ActivePart", partCode);

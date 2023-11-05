@@ -4620,6 +4620,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9060506750192909035, guid: be05382524e070847b3921799dbb2170, type: 3}
   m_PrefabInstance: {fileID: 258621009}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &270030583 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2082070042, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 356946801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1e05ec19df52940a83ae3efac3befd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &291408595
 GameObject:
   m_ObjectHideFlags: 0
@@ -5206,6 +5217,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6943738417605049390, guid: 762bf57aaa3a1214d80252c3e4ad1694, type: 3}
+      propertyPath: boxAnimations
+      value: 
+      objectReference: {fileID: 535223445}
+    - target: {fileID: 6943738417605049390, guid: 762bf57aaa3a1214d80252c3e4ad1694, type: 3}
+      propertyPath: passivePartSelect
+      value: 
+      objectReference: {fileID: 270030583}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 762bf57aaa3a1214d80252c3e4ad1694, type: 3}
 --- !u!1001 &328467565
@@ -5376,9 +5395,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 121153120, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: activeButton
+      value: 
+      objectReference: {fileID: 1111840729}
+    - target: {fileID: 121153120, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: passiveButton.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 121153120, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
       propertyPath: <PartSystem>k__BackingField
       value: 
       objectReference: {fileID: 1173309214}
+    - target: {fileID: 121153120, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: passiveButton.Array.data[3]
+      value: 
+      objectReference: {fileID: 1111840729}
+    - target: {fileID: 1165952666, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
       propertyPath: dialogText
       value: 
@@ -5441,6 +5476,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6191086536693357904, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6568185539477007296, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: isNotAddButtons
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6568185539477007296, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: <CurrentWindowButtons>k__BackingField.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6568185539477007296, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: <CurrentWindowButtons>k__BackingField.Array.data[3]
+      value: 
+      objectReference: {fileID: 1111840729}
+    - target: {fileID: 6568185540198318572, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7094757613680866627, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
@@ -8531,6 +8582,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1375917435230868512, guid: 23e0841fbcdc01047a6cfd80c8f347c7, type: 3}
   m_PrefabInstance: {fileID: 534542362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &535223445 stripped
+Animation:
+  m_CorrespondingSourceObject: {fileID: 517563910717763401, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 356946801}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &537558212
 GameObject:
@@ -15879,6 +15935,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3326269419160706733, guid: 850c418c2c7ed1a44a32cfbb86a09b52, type: 3}
   m_PrefabInstance: {fileID: 1110420664}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1111840729 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 644333228073490107, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+  m_PrefabInstance: {fileID: 356946801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f440a35a8dc9d42a2eedf5bfa3aeb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &1114080707 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2136977446462511487, guid: 42f2af4b86912a34f9a911cc3828a686, type: 3}
@@ -17891,7 +17958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3735043386707417191, guid: daf2f551220719849b196e95fb07c0d3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3735043386707417209, guid: daf2f551220719849b196e95fb07c0d3, type: 3}
       propertyPath: m_UiScaleMode

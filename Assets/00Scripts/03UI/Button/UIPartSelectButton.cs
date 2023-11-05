@@ -65,7 +65,7 @@ public class UIPartSelectButton : UIButton
 			passiveObj.SetActive(true);
 			activeObj.SetActive(false);
 			
-			ChangeResource(LoadPartData(code));
+			ChangeResource(LoadPartData(code), true);
 		}
 		
 		partCode = code;
@@ -79,17 +79,25 @@ public class UIPartSelectButton : UIButton
 		return data;
 	}
 
-	private void ChangeResource(UIPassiveSelectData selectData)
+	private void ChangeResource(UIPassiveSelectData selectData, bool isActive = false)
 	{
 		PartIconImage.sprite = selectData.partIconSpr;
 		PartNameImage.sprite = selectData.partNameSpr;
-		CoreInfoText.text = selectData.coreInfoText;
-		SubInfoText.text = selectData.subInfoText;
+
+		if (!isActive)
+		{
+			CoreInfoText.text = selectData.coreInfoText;
+			SubInfoText.text = selectData.subInfoText;
+		}
 	}
 
-	public void InitResource()
+	public void InitResource(bool isActive = false)
 	{
 		PartIconImage.enabled = PartNameImage.enabled = false;
-		CoreInfoText.text = SubInfoText.text = "";
+
+		if (!isActive)
+		{
+			CoreInfoText.text = SubInfoText.text = "";
+		}
 	}
 }
