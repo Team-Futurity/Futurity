@@ -27,6 +27,15 @@ public class UIPartSelectButton : UIButton
 	
 	#endregion
 
+	public Image partTypeImage;
+	public Sprite passiveImage;
+	public Sprite activeImage;
+
+	public GameObject passiveObj;
+	public GameObject activeObj;
+
+	public TMP_Text infoText;
+
 	[HideInInspector]
 	public UnityEvent<int, int> onSelected;
 	
@@ -42,7 +51,23 @@ public class UIPartSelectButton : UIButton
 	{
 		PartIconImage.enabled = PartNameImage.enabled = true;
 
-		ChangeResource(LoadPartData(code));
+		if (code == 2201 || code == 2202)
+		{
+			partTypeImage.sprite = activeImage;
+			activeObj.SetActive(true);
+			passiveObj.SetActive(false);
+
+			infoText.text = LoadPartData(code).coreInfoText;
+		}
+		else
+		{
+			partTypeImage.sprite = passiveImage;
+			passiveObj.SetActive(true);
+			activeObj.SetActive(false);
+			
+			ChangeResource(LoadPartData(code));
+		}
+		
 		partCode = code;
 	}
 

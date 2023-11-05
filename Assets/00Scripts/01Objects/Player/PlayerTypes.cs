@@ -18,6 +18,7 @@ public enum PlayerState : int
 
 	// 액티브 부품(필살기)
 	BasicSM,      // 기본 부품
+	BetaSM,
 
 	// 기타 유틸
 	AutoMove

@@ -39,6 +39,7 @@ public class UIPartSlot : MonoBehaviour
 
 		partSystem.onPartEquip?.AddListener((index, code) =>
 		{
+			if (index == 999) return;
 			AddPartIcon(index, code);
 		});
 	}
@@ -50,11 +51,6 @@ public class UIPartSlot : MonoBehaviour
 
 	public void AddPartIcon(int index, int partCode)
 	{
-		if(index == 3)
-		{
-			return;
-		}
-
 		passiveSlots[index].SetSlot(LoadPassivePartIconImage(partCode));
 	}
 

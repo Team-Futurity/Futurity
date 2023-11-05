@@ -32,7 +32,7 @@ public class UIPartEquip : MonoBehaviour
 
 		var passivePartDatas = PartSystem.GetPassiveParts();
 		
-		var activePartData = PartSystem.GetActivePart();
+		var activePartData = PartSystem.GetActivePartCode();
 
 		if (passivePartDatas == null)
 		{
