@@ -51,7 +51,7 @@ public class CSNode : Node
 	public float SlowScale { get; set; }
 
 	// Attack Sound
-	//public EventReference AttackSound { get; set; }
+	public EventReference AttackVoice { get; set; }
 
 	private Color defaultBackgroundColor;
 
@@ -184,6 +184,9 @@ public class CSNode : Node
 		FloatField slowTimeField						= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
 		FloatField slowScaleField						= CreateAndRegistField("슬로우를 거는 세기		|", SlowScale, productionFoldout);
 
+		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
+		TextField attackVoiceField						= CreateAndRegistField("공격 목소리				|", AttackVoice.ToString(), soundFoldout);
+
 
 		// Callbacks
 		commandTypeField.RegisterValueChangedCallback((callback) => { CommandType = (CSCommandType)callback.newValue; });
@@ -215,7 +218,7 @@ public class CSNode : Node
 		slowTimeField.RegisterValueChangedCallback((callback) => { SlowTime = callback.newValue; });
 		slowScaleField.RegisterValueChangedCallback((callback) => { SlowScale = callback.newValue; });
 
-		/*attackSoundField.RegisterValueChangedCallback((callback) => { AttackSound = EventReference.Find(callback.newValue); });*/
+		attackVoiceField.RegisterValueChangedCallback((callback) => { AttackVoice = EventReference.Find(callback.newValue); });
 
 		// Add
 		customDataContainer.Add(textFoldout);
@@ -224,7 +227,7 @@ public class CSNode : Node
 		/*customDataContainer.Add(attackEffectFoldout);
 		customDataContainer.Add(enemyHitEffectFoldout);*/
 		customDataContainer.Add(productionFoldout);
-		/*customDataContainer.Add(soundFoldout);*/
+		customDataContainer.Add(soundFoldout);
 
 		extensionContainer.Add(customDataContainer);
 
@@ -468,7 +471,7 @@ public class CSNode : Node
 		SlowTime = saveData.SlowTime;
 		SlowScale = saveData.SlowScale;
 
-		//AttackSound = saveData.AttackSound;
+		AttackVoice = saveData.AttackVoice;
 	}
 
 	public void SaveToCommandSO(ref CSCommandSO so)
@@ -522,7 +525,7 @@ public class CSNode : Node
 		so.SlowTime = SlowTime;
 		so.SlowScale = SlowScale;
 
-		//so.AttackSound = AttackSound;
+		so.AttackVoice = AttackVoice;
 	}
 
 	private FloatField CreateAndRegistField(string fieldName, float variable, Foldout category)

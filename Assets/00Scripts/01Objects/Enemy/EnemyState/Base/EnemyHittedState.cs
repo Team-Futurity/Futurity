@@ -34,7 +34,7 @@ public class EnemyHittedState : StateBase
 
 
 		PrintAnimation(unit);
-		unit.enemyData.AlterAnimationSpeed(unit.stopFrameCount, unit.skipFrameCountBeforeStop, 0);
+		unit.enemyData.AlterAnimationSpeed(unit.stopFrameCount, unit.skipFrameCountBeforeStop, 0, 1);
 
 		if(unit.currentEffectKey != null)
 			unit.effectController.RemoveEffect(unit.currentEffectKey);
