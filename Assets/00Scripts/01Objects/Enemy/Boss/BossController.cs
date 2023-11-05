@@ -7,34 +7,18 @@ using UnityEngine.Events;
 
 public class BossController : UnitFSM<BossController>, IFSM
 {
-	public enum BossState : int
-	{
-		SetUp,
-
-		Idle,
-		Chase,
-		Hit,
-		Death,
-
-		T1_Melee,
-		T2_Ranged,
-		T3_Move,
-		T3_Laser,
-		T4_Laser,
-		T5_EnemySpawn,
-		T6_Circle,
-		T7_Trap,
-	}
 	public bool isActive = false;
 	[HideInInspector] public bool isDead = false;
+	[HideInInspector] public bool isPhase2EventDone = false;
 
 	[Space(8)]
 	[Header("State")]
 	public BossState curState;
 	public Phase curPhase;
-	[HideInInspector] public BossState nextPattern;
-	[HideInInspector] public BossState afterType467Pattern;
+	/*[HideInInspector]*/ public BossState nextState;
+	/*[HideInInspector]*/ public BossState previousState;
 
+	#region Base Parameter
 	[Space(8)]
 	[Header("Target ÁöÁ¤")]
 	public UnitBase target;
@@ -48,7 +32,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 
 	[Space(8)]
 	[Header("Material cashing")]
-	public SkinnedMeshRenderer meshRenderer;
+	public List<SkinnedMeshRenderer> meshRenderers;
 	public Material material;
 	public Material unlitMaterial;
 	[HideInInspector] public Material copyUMat;
@@ -64,33 +48,19 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Header("Spawn Info & Event")]
 	[HideInInspector] public UnityEvent disableEvent;
 
+	#endregion
 
 	[Space(8)]
 	[Header("Pattern")]
 	public BossActiveDatas activeDataSO;
 	public BossPhaseDatas phaseDataSO;
-	public float extraAttackValue;
+	[HideInInspector] public BossAttackData curAttackData;
+	public AttackColliders attackTrigger;
 
-	//setting value
-	public float targetDistance = 9f;
-	public float meleeDistance = 4f;
-	public int maxTypeCount = 5;
-	[HideInInspector] public float skillAfterDelay;
-	[HideInInspector] public float type467MaxTime;
-	[HideInInspector] public float type5MaxTime;
+	public float chaseDistance = 7.0f;
 
-	public bool isActivateType467 = false;
-	public bool isActivateType5 = false;
 
-	[HideInInspector] public float type4Percentage;
-	[HideInInspector] public float type6Percentage;
-	[HideInInspector] public float type7Percentage;
-
-	//current value
-	[HideInInspector] public int typeCount = 0;
-	[HideInInspector] public float cur467Time;
-	[HideInInspector] public float cur5Time = 0;
-
+	#region Animator Parameter
 	//Animator Parameter
 	public readonly string moveAnim = "Move";
 	public readonly string hitAnim = "Hit";
@@ -102,17 +72,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public readonly string type5Anim = "Type5";
 	public readonly string type6Anim = "Type6";
 	public readonly string type7Anim = "Type7";
-
-	[Space(8)]
-	[Header("Attack Collider")]
-	public GameObject Type1Collider;
-	public GameObject Type2Collider;
-	public List<GameObject> Type3Colliders;
-	public Transform type3StartPos;
-	public List<GameObject> Type4Colliders;
-	public SpawnerManager Type5Manager;
-	public List<GameObject> Type6Colliders;
-	public List<GameObject> Type7Colliders;
+	#endregion
 
 
 	[Space(8)]
@@ -131,50 +91,12 @@ public class BossController : UnitFSM<BossController>, IFSM
 		SetUp(BossState.SetUp);
 	}
 
-	protected override void Update()
-	{
-		base.Update();
+	#region methods
 
-		if(isActive)
-		{
-			if (!isActivateType467)
-			{
-				cur467Time += Time.deltaTime;
-				if (cur467Time > type467MaxTime)
-					isActivateType467 = true;
-			}
-			if (!isActivateType5)
-			{
-				cur5Time += Time.deltaTime;
-				if (cur5Time > type5MaxTime)
-					isActivateType5 = true;
-			}
-		}
-	}
-
-	public void DelayChangeState(float curTime, float maxTime, BossController.BossState nextState)
+	public void DelayChangeState(float curTime, float maxTime, BossState nextState)
 	{
 		if(curTime > maxTime)
 			unit.ChangeState(nextState);
-	}
-
-	public void ActiveAttacks(List<GameObject> list)
-	{
-		for (int i = 0; i < list.Count; i++)
-		{
-			list[i].transform.SetParent(this.gameObject.transform);
-			list[i].SetActive(true);
-		}
-	}
-
-	public void DeActiveAttacks(List<GameObject> list)
-	{
-		listEffectData.Clear();
-		for (int i = 0; i < list.Count; i++)
-		{
-			list[i].transform.SetParent(null, true);
-			list[i].SetActive(false);
-		}
 	}
 
 	public void SetEffectData(List<GameObject> list, EffectActivationTime activationTime, EffectTarget target, bool isParent)
@@ -194,6 +116,18 @@ public class BossController : UnitFSM<BossController>, IFSM
 			listEffectData.Add(data);
 		}
 	}
+	public void ActiveEffect(int activeIndex = 0)
+	{
+		EffectActiveData data = currentEffectData;
+		EffectKey key = effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
+
+		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
+
+		if (particles != null)
+		{
+			particles.Initialize(effectController, key);
+		}
+	}
 
 	public void RegisterEvent(UnityAction eventFunc)
 	{
@@ -204,4 +138,5 @@ public class BossController : UnitFSM<BossController>, IFSM
 	{
 		disableEvent?.Invoke();
 	}
+	#endregion
 }
