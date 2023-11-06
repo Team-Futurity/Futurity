@@ -16,13 +16,15 @@ public class PartSystem : MonoBehaviour
 	// Passive Part Variable
 	[SerializeField, Header("패시브 파츠")]
 	private PartBehaviour[] passiveParts = new PartBehaviour[3];
-	private const int CORE_ACTIVE_INDEX = 3;
-	private const int ACTIVE_PART_INDEX = 4;
+	private const int CORE_ACTIVE_INDEX = 2;
+	private const int ACTIVE_PART_INDEX = 3;
 
 	// Active Part Variable
 	[SerializeField, Header("액티브 파츠")]
-	private PartBehaviour activePart = new PartBehaviour();
+	public SpecialMoveType activePartType = SpecialMoveType.Basic;
 
+	public bool isStartActivePart = false; 
+		
 	// Part가 계산된 Status
 	private List<StatusData> calcStatus;
 
@@ -33,8 +35,8 @@ public class PartSystem : MonoBehaviour
 
 	// Part가 활성화, 비활성화 되었을 때.
 	// PartCode
-	[HideInInspector] public UnityEvent<int, int> onPartActive;
-	[HideInInspector] public UnityEvent<int, int> onPartDeactive;
+	[HideInInspector] public UnityEvent<int> onPartActive;
+	[HideInInspector] public UnityEvent<int> onPartDeactive;
 	#endregion
 
 	private void Awake()
@@ -44,74 +46,83 @@ public class PartSystem : MonoBehaviour
 		TryGetComponent(out player);
 
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdatePartActivate);
+	}
 
-		if(PlayerPrefs.HasKey("1"))
-		{
-			var key = PlayerPrefs.GetInt("1");
-			EquipPassivePart(0, key);
-		}
-
-		if (PlayerPrefs.HasKey("2"))
-		{
-			var key = PlayerPrefs.GetInt("2");
-			EquipPassivePart(1, key);
-		}
-
-		if (PlayerPrefs.HasKey("3"))
-		{
-			var key = PlayerPrefs.GetInt("3");
-			EquipPassivePart(2, key);
-		}
+	private void Start()
+	{
+		LoadPartData();
 	}
 
 	private void OnApplicationQuit()
 	{
-		PlayerPrefs.DeleteKey("1");
-		PlayerPrefs.DeleteKey("2");
-		PlayerPrefs.DeleteKey("3");
+		ClearPartData();
 	}
 
+	private void LoadPartData()
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			var data = PlayerPrefs.GetInt($"PassivePart{i}");
+
+			if (data == 0)
+			{
+				continue;
+			}
+			
+			EquipPassivePart(i, data);
+		}
+
+		var active = PlayerPrefs.GetInt("ActivePart");
+		EquipActivePart(active);
+	}
+
+	private void ClearPartData()
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			PlayerPrefs.SetInt($"PassivePart{i}", 0);
+		}
+		PlayerPrefs.SetInt("ActivePart", 0);
+	}
 
 	public PartBehaviour[] GetPassiveParts()
 	{
 		return passiveParts;
 	}
 
-	public PartBehaviour GetActivePart()
+	public int GetActivePartCode()
 	{
-		return activePart;
+		return (int)activePartType;
 	}
 
 	#region Equip & UnEquip
 
 	public void EquipPassivePart(int index, int partCode)
 	{
+		if (partCode == 0) return;
+		if (PartDatabase.HasPartCode(partCode) == false)
+		{
+			FDebug.Log($"{partCode}에 해당하는 Part가 존재하지 않습니다.", GetType());
+			return;
+		}
+		
 		passiveParts[index] = PartDatabase.GetPart(partCode);
+		PlayerPrefs.SetInt($"PassivePart{index}", partCode);
 
 		onPartEquip?.Invoke(index, partCode);
 
-		switch(index)
-		{
-			case 0:
-				PlayerPrefs.SetInt("1", partCode);
-				break;
-			case 1:
-				PlayerPrefs.SetInt("2", partCode);
-				break;
-			case 2:
-				PlayerPrefs.SetInt("3", partCode);
-				break;
-		}
-		
 		FDebug.Log($"{index + 1}번째에 {partCode}에 해당하는 파츠 장착 완료", GetType());
 		UpdatePartActivate(comboGaugeSystem.CurrentGauge, comboGaugeSystem.maxComboGauge);
 	}
 
 	public void EquipActivePart(int partCode)
 	{
-		activePart = PartDatabase.GetPart(partCode);
+		activePartType = partCode == 2202 ? SpecialMoveType.Beta : SpecialMoveType.Basic;
 
+		PlayerPrefs.SetInt("ActivePart", partCode);
+		
 		onPartEquip?.Invoke(999, partCode);
+		UpdatePartActivate(comboGaugeSystem.CurrentGauge, comboGaugeSystem.maxComboGauge);
 	}
 
 	#endregion
@@ -121,6 +132,7 @@ public class PartSystem : MonoBehaviour
 	private void UpdatePartActivate(float currentGauge, float maxGauge)
 	{
 		int activePartCount = (int)Math.Floor(currentGauge / 25f);
+		
 
 		for (int i = 1; i <= activePartCount; ++i)
 		{
@@ -138,12 +150,11 @@ public class PartSystem : MonoBehaviour
 		// 존재하지 않는 Part Return
 		if (IsIndexPartEmpty(index - 1)) return;
 		// 실행중인 Part Return
-		if (IsIndexPartActivate(index)) return;
-
-		if(index == ACTIVE_PART_INDEX)
+		if (IsIndexPartActivate(index - 1)) return;
+		
+		if(index == ACTIVE_PART_INDEX + 1)
 		{
-			// Active
-			FDebug.Log($"Active Part 활성화");
+			isStartActivePart = true;
 		}
 		else
 		{
@@ -160,17 +171,17 @@ public class PartSystem : MonoBehaviour
 			}
 		}
 
-		onPartActive?.Invoke(index - 1, passiveParts[index -1].partCode);
+		onPartActive?.Invoke(index - 1);
 	}
 
 	private void DeactivatePart(int index)
 	{
 		if (IsIndexPartEmpty(index - 1)) return;
-		if (!IsIndexPartActivate(index)) return;
+		if (!IsIndexPartActivate(index - 1)) return;
 
-		if (index == ACTIVE_PART_INDEX)
+		if (index == ACTIVE_PART_INDEX + 1)
 		{
-			FDebug.Log($"Active Part 비활성화");
+			isStartActivePart = false;
 		}
 		else
 		{
@@ -188,19 +199,13 @@ public class PartSystem : MonoBehaviour
 			passivePart.SetPartActive(false);
 		}
 
-		onPartDeactive?.Invoke(index - 1, passiveParts[index - 1].partCode);
+		onPartDeactive?.Invoke(index - 1);
 	}
 
 	public bool IsIndexPartEmpty(int index)
 	{
-		if(index == ACTIVE_PART_INDEX - 1)
-		{
-			return (activePart == null);
-		}
-		else
-		{
-			return (passiveParts[index] == null);
-		}
+		if (index == 3) { return false;}
+		return (passiveParts[index] == null);
 	}
 
 	// Part가 실행중인가?
@@ -208,11 +213,11 @@ public class PartSystem : MonoBehaviour
 	{
 		if (index == ACTIVE_PART_INDEX)
 		{
-			return activePart.GetPartActive();
+			return activePartType == SpecialMoveType.None;
 		}
 		else
 		{
-			return passiveParts[index - 1].GetPartActive();
+			return passiveParts[index].GetPartActive();
 		}
 	}
 	
@@ -229,12 +234,7 @@ public class PartSystem : MonoBehaviour
 	{
 		return passiveParts[index].partCode;
 	}
-
-	private int GetEquipActivePartCode()
-	{
-		return activePart.partCode;
-	}
-
+	
 	#region Status Feature
 
 	private void AddStatus(List<StatusData> statusData)
