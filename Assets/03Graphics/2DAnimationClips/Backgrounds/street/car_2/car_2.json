@@ -1,107 +1,144 @@
 {
 "skeleton": {
-	"hash": "qv4sBqWa+nw",
+	"hash": "2kBOIseXISM",
 	"spine": "4.1.21",
-	"x": -494,
+	"x": -499,
 	"y": -2,
-	"width": 992.69,
-	"height": 716,
+	"width": 998,
+	"height": 693,
 	"images": "./images/",
 	"audio": "C:/Users/juhee/Desktop/ck_work/3-2/퓨처리티/리소스/스트리트/car2"
 },
 "bones": [
 	{ "name": "root" },
-	{ "name": "car_2", "parent": "root", "y": 356 },
-	{ "name": "car_2_wheel", "parent": "car_2", "x": -179, "y": -38 }
+	{ "name": "car", "parent": "root", "x": -34, "y": 333.5 },
+	{ "name": "wheel_b", "parent": "car", "x": -356, "y": 27.5 },
+	{ "name": "wheel_f", "parent": "car", "x": 84.5, "y": -209 }
 ],
 "slots": [
-	{ "name": "car_2_wheel", "bone": "car_2_wheel", "attachment": "car_2_wheel" },
-	{ "name": "car_2", "bone": "car_2", "attachment": "car_2" },
-	{ "name": "light1", "bone": "car_2", "color": "ffffff7e", "attachment": "light1", "blend": "additive" },
-	{ "name": "light2", "bone": "car_2_wheel", "color": "ffffff7e", "attachment": "light2", "blend": "additive" }
+	{ "name": "wheel_f", "bone": "wheel_f", "attachment": "wheel_f" },
+	{ "name": "wheel_b", "bone": "wheel_b", "attachment": "wheel_b" },
+	{ "name": "car", "bone": "car", "attachment": "car" },
+	{ "name": "light", "bone": "car", "attachment": "light", "blend": "additive" }
 ],
 "skins": [
 	{
 		"name": "default",
 		"attachments": {
-			"car_2": {
-				"car_2": { "width": 988, "height": 716 }
+			"car": {
+				"car": { "width": 930, "height": 593 }
 			},
-			"car_2_wheel": {
-				"car_2_wheel": { "width": 620, "height": 606 }
+			"light": {
+				"light": { "x": 34, "y": 11, "width": 998, "height": 693 }
 			},
-			"light1": {
-				"light1": { "x": 310.19, "y": -202.11, "width": 377, "height": 302 }
+			"wheel_b": {
+				"wheel_b": { "width": 114, "height": 98 }
 			},
-			"light2": {
-				"light2": { "x": 18.67, "y": -93.9, "width": 662, "height": 436 }
+			"wheel_f": {
+				"wheel_f": { "width": 121, "height": 101 }
 			}
 		}
 	}
 ],
 "animations": {
-	"car_2": {
+	"animation": {
 		"slots": {
-			"light1": {
+			"light": {
 				"rgba": [
 					{
-						"color": "ffffff7e",
-						"curve": [ 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 0.5, 0.667, 0.24 ]
+						"color": "ffffffff",
+						"curve": [ 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 0.6 ]
 					},
 					{
 						"time": 1,
-						"color": "ffffff3c",
-						"curve": [ 1.333, 1, 1.667, 1, 1.333, 1, 1.667, 1, 1.333, 1, 1.667, 1, 1.333, 0.24, 1.667, 0.5 ]
+						"color": "ffffff97",
+						"curve": [ 1.333, 1, 1.667, 1, 1.333, 1, 1.667, 1, 1.333, 1, 1.667, 1, 1.333, 0.6, 1.667, 1 ]
 					},
-					{ "time": 2, "color": "ffffff7e" }
-				]
-			},
-			"light2": {
-				"rgba": [
-					{
-						"color": "ffffff7e",
-						"curve": [ 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 0.5, 0.667, 0.22 ]
-					},
-					{
-						"time": 1,
-						"color": "ffffff38",
-						"curve": [ 1.333, 1, 1.667, 1, 1.333, 1, 1.667, 1, 1.333, 1, 1.667, 1, 1.333, 0.22, 1.667, 0.5 ]
-					},
-					{ "time": 2, "color": "ffffff7e" }
+					{ "time": 2, "color": "ffffffff" }
 				]
 			}
 		},
 		"bones": {
-			"car_2": {
+			"car": {
 				"translate": [
 					{
-						"curve": [ 0.333, 0, 0.667, 0, 0.333, 0, 0.667, 56.51 ]
+						"y": 31.28,
+						"curve": [ 0.333, 0, 0.667, 0, 0.333, 31.28, 0.667, 0 ]
 					},
 					{
 						"time": 1,
-						"y": 56.51,
-						"curve": [ 1.333, 0, 1.667, 0, 1.333, 56.51, 1.667, 0 ]
+						"curve": [ 1.333, 0, 1.667, 0, 1.333, 0, 1.667, 31.28 ]
 					},
-					{ "time": 2 }
+					{ "time": 2, "y": 31.28 }
 				]
 			},
-			"car_2_wheel": {
+			"wheel_f": {
+				"rotate": [
+					{
+						"value": -5.11,
+						"curve": [ 0.034, -5.34, 0.067, -5.5 ]
+					},
+					{
+						"time": 0.1,
+						"value": -5.5,
+						"curve": [ 0.433, -5.5, 0.767, 5.25 ]
+					},
+					{
+						"time": 1.1,
+						"value": 5.25,
+						"curve": [ 1.4, 5.25, 1.701, -3 ]
+					},
+					{ "time": 2, "value": -5.11 }
+				],
 				"translate": [
 					{
-						"y": -4.31,
-						"curve": [ 0.058, 0, 0.112, 0, 0.058, -4.96, 0.112, -1.73 ]
+						"y": 4.25,
+						"curve": [ 0.036, 0, 0.068, 0, 0.036, 4.33, 0.068, 4.38 ]
+					},
+					{
+						"time": 0.1,
+						"y": 4.38,
+						"curve": [ 0.433, 0, 0.767, 0, 0.433, 4.38, 0.767, 0 ]
+					},
+					{
+						"time": 1.1,
+						"curve": [ 1.401, 0, 1.702, 0, 1.401, 0, 1.702, 3.56 ]
+					},
+					{ "time": 2, "y": 4.25 }
+				]
+			},
+			"wheel_b": {
+				"rotate": [
+					{
+						"value": -11.26,
+						"curve": [ 0.053, -11.65, 0.115, -11.68 ]
 					},
 					{
 						"time": 0.1667,
-						"y": -1.73,
-						"curve": [ 0.5, 0, 0.833, 0, 0.5, -1.73, 0.833, 13.03 ]
+						"value": -11.68,
+						"curve": [ 0.5, -11.68, 0.833, 0 ]
 					},
 					{
 						"time": 1.1667,
-						"y": 13.03,
-						"curve": [ 1.446, 0, 1.722, 0, 1.446, 13.03, 1.722, -1.14 ]
+						"curve": [ 1.455, 0, 1.713, -9.06 ]
 					},
-					{ "time": 2, "y": -4.31 }
+					{ "time": 2, "value": -11.26 }
+				],
+				"translate": [
+					{
+						"y": 4.25,
+						"curve": [ 0.056, 0, 0.116, 0, 0.056, 4.37, 0.116, 4.38 ]
+					},
+					{
+						"time": 0.1667,
+						"y": 4.38,
+						"curve": [ 0.5, 0, 0.833, 0, 0.5, 4.38, 0.833, 0 ]
+					},
+					{
+						"time": 1.1667,
+						"curve": [ 1.456, 0, 1.714, 0, 1.456, 0, 1.714, 3.59 ]
+					},
+					{ "time": 2, "y": 4.25 }
 				]
 			}
 		}
