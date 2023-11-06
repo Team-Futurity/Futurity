@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public struct AlterAnimationData
 {
 	public int alterFrameCount;
 	public int skipFrameCount;
+	public int blendFrameCount;
 	public float animationSpeed;
 
-	public AlterAnimationData(int alterFrameCount, int skipFrameCount, float animationSpeed)
+	public AlterAnimationData(int alterFrameCount, int skipFrameCount, float animationSpeed, int blendFrameCount)
 	{
 		this.alterFrameCount = alterFrameCount;
 		this.skipFrameCount = skipFrameCount;
 		this.animationSpeed = animationSpeed;
+		this.blendFrameCount = blendFrameCount;
 	}
 }
 
@@ -41,6 +44,8 @@ public abstract class UnitBase : MonoBehaviour
 
 	private AlterAnimationData alterAnimationData;
 	private bool isAlterSpeedForAnimation;
+
+	public Image criticalImages;
 
 	// collider
 	private Collider[] colliders;
@@ -134,11 +139,12 @@ public abstract class UnitBase : MonoBehaviour
 
 	#region Production
 
-	public void AlterAnimationSpeed(int alterFrameCount, int skipFrameCount, float animationSpeed)
+	public void AlterAnimationSpeed(int alterFrameCount, int skipFrameCount, float animationSpeed, int blendFrameCount)
 	{
 		alterAnimationData.alterFrameCount = alterFrameCount;
 		alterAnimationData.skipFrameCount = skipFrameCount;
 		alterAnimationData.animationSpeed = animationSpeed;
+		alterAnimationData.blendFrameCount = blendFrameCount;
 		isAlterSpeedForAnimation = true;
 	}
 
@@ -160,6 +166,7 @@ public abstract class UnitBase : MonoBehaviour
 	{
 		int currentStopedFrameCount = 0;
 		int currentkipedFrameCount = 0;
+		int currentBlentFrameCount = 0;
 		while (true)
 		{
 			if (isAlterSpeedForAnimation)
@@ -169,6 +176,14 @@ public abstract class UnitBase : MonoBehaviour
 				{
 					yield return null;
 					currentkipedFrameCount++;
+				}
+
+				currentBlentFrameCount = 0;
+				while (isAlterSpeedForAnimation && currentBlentFrameCount < alterAnimationData.blendFrameCount)
+				{
+					yield return null;
+					currentBlentFrameCount++;
+					unitAnimator.speed = Mathf.Lerp(unitAnimator.speed, alterAnimationData.animationSpeed, currentBlentFrameCount / alterAnimationData.blendFrameCount);
 				}
 
 				currentStopedFrameCount = 0;
@@ -214,6 +229,17 @@ public abstract class UnitBase : MonoBehaviour
 	{
 		rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 		rigid.AddForce(direction * power, ForceMode.Impulse);
+	}
+
+	protected IEnumerator StartCriticalImage()
+	{
+		Debug.Log("CALL");
+
+		while(criticalImages.gameObject.activeSelf)
+		{
+			yield return new WaitForSeconds(1f);
+			criticalImages.gameObject.SetActive(false);
+		}
 	}
 
 	#region Switch(bool)

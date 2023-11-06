@@ -82,7 +82,7 @@ public class CommandTreeLoader : MonoBehaviour
 		node.slowTime						= commandSO.SlowTime;
 		node.slowScale						= commandSO.SlowScale;
 
-		/*node.attackSound					= commandSO.AttackSound;*/
+		node.attackVoice = commandSO.AttackVoice;
 
 		node.childNodes = new List<AttackNode>();
 		foreach(var nextSO in commandSO.NextCommands)

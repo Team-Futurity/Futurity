@@ -23,5 +23,10 @@ public class PartDatabase : MonoBehaviour
 	{
 		return partDataBaseDic[code];
 	}
+
+	public static bool HasPartCode(int code)
+	{
+		return partDataBaseDic.ContainsKey(code);
+	}
 	
 }

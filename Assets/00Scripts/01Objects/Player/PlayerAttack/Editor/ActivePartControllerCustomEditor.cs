@@ -72,6 +72,8 @@ public class ActivePartControllerCustomEditor : Editor
 				return typeof(BasicActivePart);
 			case SpecialMoveType.Test:
 				return typeof(TestActivePart);
+			case SpecialMoveType.Beta:
+				return typeof(BetaActivePart);
 			default:
 				return null;
 		}
@@ -90,6 +92,9 @@ public class ActivePartControllerCustomEditor : Editor
 			case TestActivePart test:
 				DrawTestInspector(test);
 				break;
+			case BetaActivePart beta:
+				DrawBetaInspector(beta);
+				break;
 		}
 	}
 
@@ -106,6 +111,25 @@ public class ActivePartControllerCustomEditor : Editor
 	private void DrawTestInspector(TestActivePart part)
 	{
 		part.t1 = EditorGUILayout.FloatField("Test1", part.t1);
+	}
+
+	private void DrawBetaInspector(BetaActivePart part)
+	{
+		part.firstMaxAngle = EditorGUILayout.FloatField("최소 반지름(cm)", part.firstMaxAngle);
+		part.firstRadius = EditorGUILayout.FloatField("최소 반지름(cm)", part.firstRadius);
+		part.firstDamage = EditorGUILayout.FloatField("최소 반지름(cm)", part.firstDamage);
+		
+		EditorGUILayout.Space(10);
+
+		part.secondMaxAngle = EditorGUILayout.FloatField("최소 반지름(cm)", part.secondMaxAngle);
+		part.secondRadius = EditorGUILayout.FloatField("최소 반지름(cm)", part.secondRadius);
+		part.secondDamage = EditorGUILayout.FloatField("최소 반지름(cm)", part.secondDamage);
+		
+		EditorGUILayout.Space(10);
+
+		part.thirdMaxWdith = EditorGUILayout.FloatField("최소 반지름(cm)", part.thirdMaxWdith);
+		part.thirdMaxHeight = EditorGUILayout.FloatField("최소 반지름(cm)", part.thirdMaxHeight);
+		part.thirdDamage = EditorGUILayout.FloatField("최소 반지름(cm)", part.thirdDamage);
 	}
 	#endregion
 }

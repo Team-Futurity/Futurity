@@ -19,6 +19,16 @@ public class Boss : UnitBase
 			status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
 		}
 
+		Debug.Log("¹Û" + damageInfo.isCritical);
+
+		if (damageInfo.isCritical)
+		{
+			Debug.Log(damageInfo.isCritical);
+
+			criticalImages.gameObject.SetActive(true);
+			StartCoroutine("StartCriticalImage");
+		}
+
 		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
 		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
 		status.updateHPEvent?.Invoke(hpElement, maxHpElement);

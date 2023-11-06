@@ -32,6 +32,8 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 	{
 		base.Begin(unit);
 		enemies.Clear();
+		
+		// Size 조정
 		minSize = proccessor.minRange * MathPlus.cm2m;
 		maxSize = proccessor.maxRange * MathPlus.cm2m;
 		TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_ALPHA);
@@ -59,6 +61,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 		if(isExplosion)
 		{
+			// 점점 원형이 커지게 설정하기 위해서 사용됨
 			float radius = Mathf.Lerp(currentCollider.Length, maxSize, proccessor.duration / Time.deltaTime);
 			float effectRadius = 2 * radius * explosionEffectUnitSize;
 			currentCollider.SetCollider(maxAngle, radius);
@@ -66,11 +69,14 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 			explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
 			currentCollider.transform.position = explosionEffect.transform.position;
 
+			// 실행 시간이 지났다면
 			if (currentTime >= proccessor.duration)
 			{
 				effectRadius = 2 * maxSize * explosionEffectUnitSize;
 
+				// Max Size로 Collider를 설정한다.
 				currentCollider.SetCollider(maxAngle, maxSize);
+				// Effect 위치는 반경만큼
 				explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
 
 				isExplosion = false;
@@ -163,6 +169,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		isExplosion = true;
 	}
 
+	// Player Landing 시, 데미지 처리
 	public void Landing()
 	{
 		proccessor.landingEffectObjectPool.ActiveObject(proccessor.landingEffectPos.position, proccessor.landingEffectPos.rotation).
