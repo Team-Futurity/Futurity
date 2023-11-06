@@ -5,32 +5,51 @@ using UnityEngine.UI;
 
 public class UICreditViewer : MonoBehaviour
 {
-	public RectTransform creditTextRectTrans;
+	// Text
+	public RectTransform content;
+	private float maxPosY = .0f;
+	private float startPosY = .0f;
+	
+	// Image
 	public Image bgImage;
-
+	private float bgMaxPosX = .0f;
+	private float startPosX = .0f;
+	
+	// Time
 	public float duration = .0f;
+	private float timer = .0f;
 
 	private void Start()
 	{
-		// Credit 올라가는 속도와 BG Image가 끝까지 도달하는 시간은 동일해야 한다.
+		// Text
+		startPosY = 0f - (content.rect.height * 0.2f);
+		maxPosY = content.rect.height;
+		
+		// Image
+		startPosX = .0f;
+		bgMaxPosX = bgImage.rectTransform.rect.width / 2f;
 	}
 
 	private void Update()
 	{
+		timer += Time.deltaTime;
+
+		if (timer > duration)
+		{
+			SceneLoader.Instance.LoadScene("TitleScene");
+			return;
+		}
+
+		var textResult = Mathf.Lerp(startPosY, maxPosY, timer / duration);
+		var textResultPos = content.anchoredPosition;
+
+		textResultPos.y = textResult;
+		content.anchoredPosition = textResultPos;
 		
+		var imageResult = Mathf.Lerp(startPosX, bgMaxPosX, timer / duration);
+		var imageResultPos = bgImage.rectTransform.anchoredPosition;
+
+		imageResultPos.x = -imageResult;
+		bgImage.rectTransform.anchoredPosition = imageResultPos;
 	}
-
-	private void StartCreditTextScroll()
-	{
-		
-	}
-
-	private void StartBgImageScroll()
-	{
-		
-	}
-	
-	
-
-
 }
