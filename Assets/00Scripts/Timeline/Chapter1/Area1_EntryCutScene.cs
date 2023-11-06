@@ -1,8 +1,6 @@
 using Spine.Unity;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Playables;
 
 public class Area1_EntryCutScene : CutSceneBase
@@ -28,6 +26,8 @@ public class Area1_EntryCutScene : CutSceneBase
 			skeletonQueue.Enqueue(skeleton); 
 			skeleton.gameObject.SetActive(false);
 		}
+		
+		chapterManager.PlayerController.SetLandingAnimation();
 	}
 
 	protected override void EnableCutScene()
@@ -62,7 +62,7 @@ public class Area1_EntryCutScene : CutSceneBase
 	
 	public void RandingPlayer()
 	{
-		//playerAni.speed = 1.0f;
+		chapterManager.PlayerController.PlayLandingAnimation();
 	}
 
 	public void Area1_SpawnEnemy()
