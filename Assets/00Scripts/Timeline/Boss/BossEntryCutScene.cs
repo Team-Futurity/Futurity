@@ -2,12 +2,14 @@ using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class BossEntryCutScene : CutSceneBase
 {
 	[Header("Component")] 
 	[SerializeField] private PlayableDirector bossEntry;
 	[SerializeField] private BossController boss;
+	[SerializeField] private Image fadeImage;
 	private Animator bossAnimator;
 
 	[Header("스크립트 데이터")] 
@@ -49,6 +51,8 @@ public class BossEntryCutScene : CutSceneBase
 		
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();
+
+		fadeImage.color = new Color(255f, 255f, 255f, 0);
 	}
 
 	public void BossEntry_PrintScripts()
