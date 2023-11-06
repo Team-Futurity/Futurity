@@ -42,10 +42,10 @@ public class BossEntryCutScene : CutSceneBase
 	protected override void DisableCutScene()
 	{
 		chapterManager.SetActiveMainUI(true);
-		 boss.isActive = true;
+		boss.ActivateBoss();
 		
-		 chapterManager.PlayerController.playerData.status.updateHPEvent
-		 	?.Invoke(230f, 230f);
+		chapterManager.PlayerController.playerData.status.updateHPEvent
+			?.Invoke(230f, 230f);
 		
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();
