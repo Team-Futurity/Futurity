@@ -41,8 +41,7 @@ public class BossEntryCutScene : CutSceneBase
 
 	protected override void DisableCutScene()
 	{
-		 //chapterManager.SetActivePlayerInput(true);
-		 chapterManager.SetActiveMainUI(true);
+		chapterManager.SetActiveMainUI(true);
 		 boss.isActive = true;
 		
 		 chapterManager.PlayerController.playerData.status.updateHPEvent
@@ -50,8 +49,6 @@ public class BossEntryCutScene : CutSceneBase
 		
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();
-		/*InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
-		SceneLoader.Instance.LoadScene("TitleScene");*/
 	}
 
 	public void BossEntry_PrintScripts()
@@ -80,6 +77,7 @@ public class BossEntryCutScene : CutSceneBase
 	
 	public void MovePlayer()
 	{
+		Debug.Log("Move Player");
 		chapterManager.PlayerController.LerpToWorldPosition(endPos.position, moveTime);
 	}
 }
