@@ -77,7 +77,6 @@ public class BossEntryCutScene : CutSceneBase
 	
 	public void MovePlayer()
 	{
-		Debug.Log("Move Player");
 		chapterManager.PlayerController.LerpToWorldPosition(endPos.position, moveTime);
 	}
 }
