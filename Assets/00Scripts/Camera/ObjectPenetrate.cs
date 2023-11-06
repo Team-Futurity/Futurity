@@ -41,7 +41,7 @@ public class ObjectPenetrate : MonoBehaviour
 			{
 				prevSpriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
 			}
-			
+
 			if (hit.collider.TryGetComponent(out SpriteRenderer spriteRenderer) == true)
 			{
 				prevSpriteRenderer = spriteRenderer;
@@ -69,5 +69,4 @@ public class ObjectPenetrate : MonoBehaviour
 			}
 		}
 	}
-
 }
