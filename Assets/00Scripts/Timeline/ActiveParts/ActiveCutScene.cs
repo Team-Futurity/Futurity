@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Active_Alpha : CutSceneBase
+public class ActiveCutScene : CutSceneBase
 {
 	private Animator playerAnimator;
+	private readonly int ACTIVE_ALPHA_KEY = Animator.StringToHash("IsActivePart");
 
 	protected override void Init()
 	{
@@ -25,7 +24,7 @@ public class Active_Alpha : CutSceneBase
 
 	public void TimeStop()
 	{
-		playerAnimator.SetBool("IsActivePart", true);
+		playerAnimator.SetBool(ACTIVE_ALPHA_KEY, true);
 		Time.timeScale = 0.0f;
 	}
 }

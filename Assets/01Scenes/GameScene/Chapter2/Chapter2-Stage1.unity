@@ -1578,13 +1578,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c9030493b7c5e4f9dcab7f2f537415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 10
   chapterManager: {fileID: 0}
   cutScene: {fileID: 145870880}
-  spawnerManager: {fileID: 1342271753}
+  cutSceneType: 5
+  isUseScripting: 1
   scriptingList:
   - {fileID: 11400000, guid: f803382e03a688344a0de049c9f3cf3f, type: 2}
   - {fileID: 11400000, guid: 44e283aef14600a419f689cc9337de60, type: 2}
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
+  spawnerManager: {fileID: 1342271753}
 --- !u!114 &145870882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3273,8 +3276,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518d2b5b2c533674697cda5ddffd84a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 3
   chapterManager: {fileID: 0}
+  cutScene: {fileID: 0}
+  cutSceneType: 11
+  isUseScripting: 0
+  scriptingList: []
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
 --- !u!320 &301057435
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -3399,8 +3407,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad82560bb25010468300e9d2c3f42e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 2
   chapterManager: {fileID: 0}
+  cutScene: {fileID: 0}
+  cutSceneType: 10
+  isUseScripting: 0
+  scriptingList: []
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
   grayScaleTime: 0.5
 --- !u!320 &310417117
 PlayableDirector:
@@ -10828,8 +10841,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b88b9dc1add20f44b1d7977eeac55c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 1
   chapterManager: {fileID: 0}
+  cutScene: {fileID: 0}
+  cutSceneType: 12
+  isUseScripting: 0
+  scriptingList: []
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
 --- !u!320 &1254673403
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -12440,13 +12458,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4045ee0cc7f644458bac82db29339a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 11
   chapterManager: {fileID: 0}
   cutScene: {fileID: 1393225346}
-  interactionCollider: {fileID: 227387372}
-  chapterTrigger: {fileID: 1913249726}
+  cutSceneType: 0
+  isUseScripting: 1
   scriptingList:
   - {fileID: 11400000, guid: 7233bd11babbd144abb1a1ab412f7ac0, type: 2}
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
+  interactionCollider: {fileID: 227387372}
+  chapterTrigger: {fileID: 1913249726}
 --- !u!1 &1400966877
 GameObject:
   m_ObjectHideFlags: 0
@@ -16445,7 +16466,7 @@ GameObject:
   - component: {fileID: 1913249728}
   - component: {fileID: 1913249727}
   m_Layer: 0
-  m_Name: Area3_ExitCollider
+  m_Name: Area1_ExitCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18491,6 +18512,10 @@ PrefabInstance:
       propertyPath: m_Events.m_Signals.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
+    - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
+      propertyPath: isUseScripting
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1252798079483354431, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
       propertyPath: m_SceneBindings.Array.size
       value: 9

@@ -1,43 +1,25 @@
-using Spine.Unity;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class BossPhaseEndCutScene : CutSceneBase
 {
-	[Header("Component")] 
-	[SerializeField] private PlayableDirector cutScene;
+	[Header("추가 Component")]
 	[SerializeField] private Animator bossController;
-
-	[Header("스크립트 데이터")] 
-	[SerializeField] private List<ScriptingList> scriptsList;
-	private int curScriptsIndex;
 	
-	[Header("Skeleton Cut Scene")] 
-	[SerializeField] private List<SkeletonGraphic> skeletonList;
-	private Queue<SkeletonGraphic> skeletonQueue;
-
 	[Header("Init Text")] 
 	[SerializeField] private TextMeshProUGUI textField;
 	[SerializeField] private string initText;
 	[SerializeField] private float delayTime = 0.05f;
 
+	private readonly int BOSS_DEATH_KEY = Animator.StringToHash("Death");
 	private IEnumerator printText;
 	private WaitForSeconds waitForSeconds;
 	
 	protected override void Init()
 	{
-		skeletonQueue = new Queue<SkeletonGraphic>();
+		base.Init();
 		
-		skeletonList.ForEach(x =>
-		{
-			skeletonQueue.Enqueue(x);
-			x.gameObject.SetActive(false);
-		});
-
 		waitForSeconds = new WaitForSeconds(delayTime);
 	}
 
@@ -56,12 +38,7 @@ public class BossPhaseEndCutScene : CutSceneBase
 	
 	public void StartScripting()
 	{
-		cutScene.Pause();
-		
-		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
-		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-		
-		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
+		base.StartScripting();
 	}
 
 	public void StartStartSkeletonCutScene()
@@ -69,11 +46,11 @@ public class BossPhaseEndCutScene : CutSceneBase
 		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
 	}
 
-	public void PlayBossDeathAnimation()
+	public void BossDeathAnimation(bool enable)
 	{
-		
+		bossController.SetBool(BOSS_DEATH_KEY, enable);
 	}
-
+	
 	public void StartPrintText()
 	{
 		textField.text = "";
