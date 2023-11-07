@@ -19728,7 +19728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 207668225995948752, guid: 1197903ef07835f4d9cee4ad845c54be, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 207668225995948752, guid: 1197903ef07835f4d9cee4ad845c54be, type: 3}
       propertyPath: m_AnchorMax.x
@@ -32171,7 +32171,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 724868354}
-  - {fileID: 2041921061}
+  - {fileID: 2002450859}
   - {fileID: 1326283625}
   m_Father: {fileID: 1331771965}
   m_RootOrder: 1
@@ -32513,6 +32513,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1965462608}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2002450858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2002450859}
+  m_Layer: 5
+  m_Name: SkeletonParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2002450859
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002450858}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2041921061}
+  m_Father: {fileID: 1914066093}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2020606661
 GameObject:
   m_ObjectHideFlags: 0
@@ -32603,24 +32640,15 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 2020606663}
   cutSceneType: 0
-  isUseScripting: 0
+  isUseScripting: 1
   scriptingList:
   - {fileID: 11400000, guid: b12cd126ced852f40963d63576f0c062, type: 2}
   - {fileID: 11400000, guid: 09e050302ba95c848876240896376542, type: 2}
   - {fileID: 11400000, guid: 095039b98aac6514facae2aebd2d988f, type: 2}
   - {fileID: 11400000, guid: 522417e8846897c4fa09ac4673add4d0, type: 2}
   - {fileID: 11400000, guid: 066ddcc16fc6996459e7c92e4e700e9a, type: 2}
-  isUseSkeleton: 0
-  skeletonParent: {fileID: 0}
-  cutScene: {fileID: 2020606663}
-  scriptingList:
-  - {fileID: 11400000, guid: b12cd126ced852f40963d63576f0c062, type: 2}
-  - {fileID: 11400000, guid: 09e050302ba95c848876240896376542, type: 2}
-  - {fileID: 11400000, guid: 095039b98aac6514facae2aebd2d988f, type: 2}
-  - {fileID: 11400000, guid: 522417e8846897c4fa09ac4673add4d0, type: 2}
-  - {fileID: 11400000, guid: 066ddcc16fc6996459e7c92e4e700e9a, type: 2}
-  skeletonList:
-  - {fileID: 2041921062}
+  isUseSkeleton: 1
+  skeletonParent: {fileID: 2002450859}
   onPauseEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -32769,7 +32797,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041921060}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -32784,8 +32812,8 @@ RectTransform:
   - {fileID: 629303368}
   - {fileID: 2048544141}
   - {fileID: 720427535}
-  m_Father: {fileID: 1914066093}
-  m_RootOrder: 1
+  m_Father: {fileID: 2002450859}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
