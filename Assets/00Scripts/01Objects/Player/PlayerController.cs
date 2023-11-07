@@ -340,7 +340,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		else // 공격 중이라면
 		{
 			SetNextCombo(PlayerInputEnum.NormalAttack);
-			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
+
+			var findedInput = FindInput(PlayerInputEnum.NormalAttack);
+
+			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", findedInput?.name);
 		}
 	}
 
