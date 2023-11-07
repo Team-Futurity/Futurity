@@ -86,10 +86,7 @@ public class RootMotionContoller : MonoBehaviour
 
 		if (currentApplyRootMotion)
 		{
-			
-
 			Vector3 deltaPosition = animator.deltaPosition;
-			FDebug.Log($"{animator.GetCurrentAnimatorClipInfo(0)[0].clip.name} : {deltaPosition}");
 
 
 			deltaPosition.x = currentAnimationType.isApplyX ? deltaPosition.x : 0f;
