@@ -5,28 +5,13 @@ using UnityEngine.Playables;
 
 public class Area1_EntryCutScene : CutSceneBase
 {
-	[Header("Component")]
+	[Space(6)] 
+	[Header("=========== 추가 컴포넌트===========")]
 	[SerializeField] private SpawnerManager spawnerManager;
-	[SerializeField] private PlayableDirector entryCutScene;
 
-	[Header("스크립트 데이터")] 
-	[SerializeField] private List<ScriptingList> scriptsList;
-	private int curScriptsIndex;
-
-	[Header("Skeleton Cut Scene")] 
-	[SerializeField] private List<SkeletonGraphic> skeletonList;
-	private Queue<SkeletonGraphic> skeletonQueue;
-	
 	protected override void Init()
 	{
-		skeletonQueue = new Queue<SkeletonGraphic>();
-
-		foreach (SkeletonGraphic skeleton in skeletonList)
-		{
-			skeletonQueue.Enqueue(skeleton); 
-			skeleton.gameObject.SetActive(false);
-		}
-		
+		base.Init();
 		chapterManager.PlayerController.SetLandingAnimation();
 	}
 
@@ -38,26 +23,18 @@ public class Area1_EntryCutScene : CutSceneBase
 	
 	protected override void DisableCutScene()
 	{
-		chapterManager.scripting.DisableAllNameObject();
-		chapterManager.scripting.ResetEmotion();
-		
 		chapterManager.SetActiveMainUI(true);
 		chapterManager.isCutScenePlay = false;
 	}
 
 	public void Area1_StartSkeletonCutScene()
 	{
-		chapterManager.StartSkeletonCutScene(entryCutScene, skeletonQueue);
+		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
 	}
 	
 	public void Area1_Scripting()
 	{
-		entryCutScene.Pause();
-		
-		chapterManager.PauseCutSceneUntilScriptsEnd(entryCutScene);
-		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-		
-		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
+		base.StartScripting();
 	}
 	
 	public void RandingPlayer()
