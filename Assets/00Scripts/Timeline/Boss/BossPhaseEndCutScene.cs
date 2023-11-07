@@ -1,25 +1,12 @@
-using Spine.Unity;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class BossPhaseEndCutScene : CutSceneBase
 {
-	[Header("Component")] 
-	[SerializeField] private PlayableDirector cutScene;
+	[Header("추가 Component")]
 	[SerializeField] private Animator bossController;
-
-	[Header("스크립트 데이터")] 
-	[SerializeField] private List<ScriptingList> scriptsList;
-	private int curScriptsIndex;
 	
-	[Header("Skeleton Cut Scene")] 
-	[SerializeField] private List<SkeletonGraphic> skeletonList;
-	private Queue<SkeletonGraphic> skeletonQueue;
-
 	[Header("Init Text")] 
 	[SerializeField] private TextMeshProUGUI textField;
 	[SerializeField] private string initText;
@@ -30,13 +17,7 @@ public class BossPhaseEndCutScene : CutSceneBase
 	
 	protected override void Init()
 	{
-		skeletonQueue = new Queue<SkeletonGraphic>();
-		
-		skeletonList.ForEach(x =>
-		{
-			skeletonQueue.Enqueue(x);
-			x.gameObject.SetActive(false);
-		});
+		base.Init();
 
 		waitForSeconds = new WaitForSeconds(delayTime);
 	}
@@ -56,12 +37,7 @@ public class BossPhaseEndCutScene : CutSceneBase
 	
 	public void StartScripting()
 	{
-		cutScene.Pause();
-		
-		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
-		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-		
-		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
+		base.StartScripting();
 	}
 
 	public void StartStartSkeletonCutScene()
