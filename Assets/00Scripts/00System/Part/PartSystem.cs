@@ -117,7 +117,8 @@ public class PartSystem : MonoBehaviour
 
 	public void EquipActivePart(int partCode)
 	{
-		activePartType = partCode == 2202 ? SpecialMoveType.Beta : SpecialMoveType.Basic;
+		partCode = partCode == 2202 ? (int)SpecialMoveType.Beta : (int)SpecialMoveType.Basic;
+		activePartType = (SpecialMoveType)partCode;
 
 		PlayerPrefs.SetInt("ActivePart", partCode);
 		
