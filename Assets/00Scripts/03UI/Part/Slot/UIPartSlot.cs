@@ -17,7 +17,7 @@ public class UIPartSlot : MonoBehaviour
 	{
 		partSystem.onPartActive?.AddListener((index) =>
 	   {
-		   if(index == 3)
+		   if (index == 3)
 		   {
 			   activeSlot.SetSlot();
 			   return;
@@ -39,7 +39,13 @@ public class UIPartSlot : MonoBehaviour
 
 		partSystem.onPartEquip?.AddListener((index, code) =>
 		{
-			if (index == 999) return;
+			if (index == 999)
+			{
+				if (code == 2201) activeSlot.BasicSet(); else activeSlot.BetaSet();
+				activeSlot.SetSlot();
+				return;
+			}
+
 			AddPartIcon(index, code);
 		});
 	}
