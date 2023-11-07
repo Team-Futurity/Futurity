@@ -686,6 +686,17 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		return rotVec;
 	}
+
+	public void SetLandingAnimation()
+	{
+		animator.SetTrigger("Landing");
+		animator.speed = 0.0f;
+	}
+
+	public void PlayLandingAnimation()
+	{
+		animator.speed = 1.0f;
+	}
 	#endregion
 
 	#region Util

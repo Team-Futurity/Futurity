@@ -73,6 +73,9 @@ public class AttackNode
 	public float shakeTime;
 	public float slowTime;
 	public float slowScale;
+	public float rumbleLow;
+	public float rumbleHigh;
+	public float rumbleDuration;
 
 	[Header("사운드")]
 	public EventReference attackVoice;

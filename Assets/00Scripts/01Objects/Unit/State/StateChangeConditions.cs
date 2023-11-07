@@ -25,9 +25,9 @@ public class StateChangeConditions : ScriptableObject
 		int length = conditions.Length - 1;
 
 		if(current == next) { return false; }					// 같은 State는 비허용
-		if(current < 0 || current >= length) { return false; }	// current가 범위를 벗어난 경우 비허용(잘못된 입력)
-		if(next < 0 || next >= length) { return false; }        // next가 범위를 벗어난 경우 비허용(잘못된 입력)
+		if(current < 0 || current > length) { return false; }	// current가 범위를 벗어난 경우 비허용(잘못된 입력)
+		if(next < 0 || next > length) { return false; }        // next가 범위를 벗어난 경우 비허용(잘못된 입력)
 
-		return conditions[current].array[length - next];
+		return conditions[current].array[next];
 	}
 }

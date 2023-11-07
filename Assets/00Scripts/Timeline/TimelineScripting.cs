@@ -82,8 +82,32 @@ public class TimelineScripting : MonoBehaviour
 				break;
 			
 			case "BOSS":
+			case "SUNKYOUNG":
 				sariAnimation.gameObject.SetActive(false);
 				bossAnimation.gameObject.SetActive(true);
+				break;
+			
+			default:
+				break;
+		}
+	}
+
+	private void EnableStandingImg(ScriptingStruct.ENameType nameType)
+	{
+		switch (nameType)
+		{
+			case ScriptingStruct.ENameType.SONGSARI:
+				sariAnimation.gameObject.SetActive(true);
+				bossAnimation.gameObject.SetActive(false);
+				break;
+			
+			case ScriptingStruct.ENameType.BOSS:
+			case ScriptingStruct.ENameType.SUNKYOUNG:
+				sariAnimation.gameObject.SetActive(false);
+				bossAnimation.gameObject.SetActive(true);
+				break;
+			
+			default:
 				break;
 		}
 	}
@@ -115,6 +139,7 @@ public class TimelineScripting : MonoBehaviour
 	{
 		foreach (ScriptingStruct scripts in scriptsStruct)
 		{
+			EnableStandingImg(scripts.nameType); 
 			MiraeEmotionCheck(scripts.miraeExpression);
 
 			if (sariAnimation.gameObject.activeSelf == true)

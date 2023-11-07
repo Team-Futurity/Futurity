@@ -2,12 +2,14 @@ using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class BossEntryCutScene : CutSceneBase
 {
 	[Header("Component")] 
 	[SerializeField] private PlayableDirector bossEntry;
 	[SerializeField] private BossController boss;
+	[SerializeField] private Image fadeImage;
 	private Animator bossAnimator;
 
 	[Header("스크립트 데이터")] 
@@ -41,17 +43,16 @@ public class BossEntryCutScene : CutSceneBase
 
 	protected override void DisableCutScene()
 	{
-		 //chapterManager.SetActivePlayerInput(true);
-		 chapterManager.SetActiveMainUI(true);
-		 boss.isActive = true;
+		chapterManager.SetActiveMainUI(true);
+		boss.ActivateBoss();
 		
-		 chapterManager.PlayerController.playerData.status.updateHPEvent
-		 	?.Invoke(230f, 230f);
+		chapterManager.PlayerController.playerData.status.updateHPEvent
+			?.Invoke(230f, 230f);
 		
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();
-		/*InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
-		SceneLoader.Instance.LoadScene("TitleScene");*/
+
+		fadeImage.color = new Color(255f, 255f, 255f, 0);
 	}
 
 	public void BossEntry_PrintScripts()
