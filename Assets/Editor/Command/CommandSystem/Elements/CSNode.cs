@@ -49,6 +49,9 @@ public class CSNode : Node
 	public float ShakeTime { get; set; }
 	public float SlowTime { get; set; }
 	public float SlowScale { get; set; }
+	public float RumbleLow { get; set; }
+	public float RumbleHigh { get; set; }
+	public float RumbleDuration { get; set; }
 
 	// Attack Sound
 	public EventReference AttackVoice { get; set; }
@@ -183,6 +186,9 @@ public class CSNode : Node
 		FloatField shakeTimeField						= CreateAndRegistField("흔드는 시간				|", ShakeTime, productionFoldout);
 		FloatField slowTimeField						= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
 		FloatField slowScaleField						= CreateAndRegistField("슬로우를 거는 세기		|", SlowScale, productionFoldout);
+		FloatField rumbleLowField						= CreateAndRegistField("패드 진동 저역 세기		|", RumbleLow, productionFoldout);
+		FloatField rumbleHighField						= CreateAndRegistField("패드 진동 저역 세기		|", RumbleHigh, productionFoldout);
+		FloatField rumbleDurationField					= CreateAndRegistField("패드 진동 지속 시간		|", RumbleDuration, productionFoldout);
 
 		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
 		TextField attackVoiceField						= CreateAndRegistField("공격 목소리				|", AttackVoice.ToString(), soundFoldout);
@@ -217,6 +223,10 @@ public class CSNode : Node
 		shakeTimeField.RegisterValueChangedCallback((callback) => { ShakeTime = callback.newValue; });
 		slowTimeField.RegisterValueChangedCallback((callback) => { SlowTime = callback.newValue; });
 		slowScaleField.RegisterValueChangedCallback((callback) => { SlowScale = callback.newValue; });
+		rumbleLowField.RegisterValueChangedCallback((callback) => { RumbleLow = callback.newValue; });
+		rumbleHighField.RegisterValueChangedCallback((callback) => { RumbleHigh = callback.newValue; });
+		rumbleDurationField.RegisterValueChangedCallback((callback) => { RumbleDuration = callback.newValue; });
+
 
 		attackVoiceField.RegisterValueChangedCallback((callback) => { AttackVoice = EventReference.Find(callback.newValue); });
 
@@ -470,6 +480,9 @@ public class CSNode : Node
 		ShakeTime = saveData.ShakeTime;
 		SlowTime = saveData.SlowTime;
 		SlowScale = saveData.SlowScale;
+		RumbleLow = saveData.RumbleLow;
+		RumbleHigh = saveData.RumbleHigh;
+		RumbleDuration = saveData.RumbleDuration;
 
 		AttackVoice = saveData.AttackVoice;
 	}
@@ -524,6 +537,9 @@ public class CSNode : Node
 		so.ShakeTime = ShakeTime;
 		so.SlowTime = SlowTime;
 		so.SlowScale = SlowScale;
+		so.RumbleLow = RumbleLow;
+		so.RumbleHigh = RumbleHigh;
+		so.RumbleDuration = RumbleDuration;	
 
 		so.AttackVoice = AttackVoice;
 	}
