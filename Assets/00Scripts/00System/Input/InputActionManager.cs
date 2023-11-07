@@ -117,8 +117,6 @@ public class InputActionManager : Singleton<InputActionManager>
 	{
 		var newDevice = context.control.device;
 
-		FDebug.Log(newDevice);
-
 		if (currentDevice != newDevice)
 		{
 			currentDevice = newDevice;
