@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Active_Alpha : CutSceneBase
+public class ActiveCutScene : CutSceneBase
 {
 	private Animator playerAnimator;
 
