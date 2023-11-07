@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 public class PlayerDeathCutScene : CutSceneBase
 {
 	[Space(6)] 
-	[Header("=========== 추가 컴포넌트===========")]
+	[Header("GayScale")]
 	[SerializeField] private float grayScaleTime = 0.5f;
 	private IEnumerator enableGrayScale;
 

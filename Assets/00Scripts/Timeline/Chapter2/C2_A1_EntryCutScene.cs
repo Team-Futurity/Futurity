@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class Stage1_EntryCutScene : CutSceneBase
+public class C2_A1_EntryCutScene : CutSceneBase
 {
-	[Header("Component")] 
-	[SerializeField] private PlayableDirector cutScene;
+	[Header("추가 Component")]
 	[SerializeField] private SpawnerManager spawnerManager;
-
-	[Header("스크립트 데이터")] 
-	[SerializeField] private List<ScriptingList> scriptingList;
-	private int curScriptsIndex;
 
 	protected override void Init()
 	{
-		
+		base.Init();
 	}
 
 	protected override void EnableCutScene()
@@ -35,11 +30,6 @@ public class Stage1_EntryCutScene : CutSceneBase
 
 	public void C2A1_Scripting()
 	{
-		cutScene.Pause();
-		
-		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
-		chapterManager.scripting.StartPrintingScript(scriptingList[curScriptsIndex].scriptList);
-		
-		curScriptsIndex = (curScriptsIndex + 1 < scriptingList.Count) ? curScriptsIndex + 1 : 0;
+		StartScripting();
 	}
 }
