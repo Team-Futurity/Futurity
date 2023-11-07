@@ -46,15 +46,22 @@ public abstract class CutSceneBase : MonoBehaviour
 	protected virtual void EnableCutScene() { }
 	
 	protected abstract void DisableCutScene();
-	
-	protected void StartScripting()
+
+	protected void StartScripting(int index = -1)
 	{
 		cutScene.Pause();
 		
 		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
-		chapterManager.scripting.StartPrintingScript(scriptingList[curScriptsIndex].scriptList);
-		
-		curScriptsIndex = (curScriptsIndex + 1 < scriptingList.Count) ? curScriptsIndex + 1 : 0;
+
+		if (index == -1)
+		{
+			chapterManager.scripting.StartPrintingScript(scriptingList[curScriptsIndex].scriptList);
+			curScriptsIndex = (curScriptsIndex + 1 < scriptingList.Count) ? curScriptsIndex + 1 : 0;
+		}
+		else
+		{
+			chapterManager.scripting.StartPrintingScript(scriptingList[index].scriptList);
+		}
 	}
 
 	private void OnEnable()

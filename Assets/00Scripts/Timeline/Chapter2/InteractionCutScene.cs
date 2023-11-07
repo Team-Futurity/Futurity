@@ -35,10 +35,7 @@ public class InteractionCutScene : CutSceneBase
 	
 	public void SubInteractionScripting()
 	{
-		cutScene.Pause();
-		
-		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
-		chapterManager.scripting.StartPrintingScript(scriptingList[enableIndex].scriptList);
+		StartScripting(enableIndex);
 	}
 
 	public void SetIndex(int index) => enableIndex = index;
