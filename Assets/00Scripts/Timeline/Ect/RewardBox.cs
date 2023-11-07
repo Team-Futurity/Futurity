@@ -97,6 +97,7 @@ public class RewardBox : MonoBehaviour
 		partCodes[2] = temp[key3];
 		temp.Remove(key3);
 		
+		Debug.Log(partCodes[0] + " : " + partCodes[1] + " : " + partCodes[2]);
 		return partCodes;
 	}
 

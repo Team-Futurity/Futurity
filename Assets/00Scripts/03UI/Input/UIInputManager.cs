@@ -40,6 +40,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		for (int i = 0; i < buttons.Count; ++i)
 		{
 			currentActiveButtons?.Add(i, buttons[i]);
+			Debug.Log(i);
 		}
 
 		if (isDefaultFocus)
@@ -67,6 +68,8 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void SelectUI()
 	{
+		Debug.Log(currentIndex);
+		
 		if(!currentActiveButtons.ContainsKey(currentIndex))
 		{
 			FDebug.Log($"버튼이 없다.", GetType());
@@ -82,9 +85,6 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void SaveIndex()
 	{
-		if (saveIndex > 0)
-			return;
-		
 		saveIndex = currentIndex;
 	}
 
