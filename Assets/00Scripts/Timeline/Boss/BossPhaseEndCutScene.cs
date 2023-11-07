@@ -12,13 +12,14 @@ public class BossPhaseEndCutScene : CutSceneBase
 	[SerializeField] private string initText;
 	[SerializeField] private float delayTime = 0.05f;
 
+	private readonly int BOSS_DEATH_KEY = Animator.StringToHash("Death");
 	private IEnumerator printText;
 	private WaitForSeconds waitForSeconds;
 	
 	protected override void Init()
 	{
 		base.Init();
-
+		
 		waitForSeconds = new WaitForSeconds(delayTime);
 	}
 
@@ -45,11 +46,11 @@ public class BossPhaseEndCutScene : CutSceneBase
 		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
 	}
 
-	public void PlayBossDeathAnimation()
+	public void BossDeathAnimation(bool enable)
 	{
-		
+		bossController.SetBool(BOSS_DEATH_KEY, enable);
 	}
-
+	
 	public void StartPrintText()
 	{
 		textField.text = "";
