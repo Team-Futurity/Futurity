@@ -1,7 +1,4 @@
-using Spine.Unity;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class Area1_EntryCutScene : CutSceneBase
 {

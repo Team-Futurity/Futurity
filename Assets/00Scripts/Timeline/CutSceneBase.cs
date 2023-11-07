@@ -19,7 +19,7 @@ public abstract class CutSceneBase : MonoBehaviour
 	[Space(3)] [Header("스크립트 데이터")] 
 	[SerializeField] private bool isUseScripting;
 	[SerializeField] public List<ScriptingList> scriptingList;
-	protected int curScriptsIndex;
+	private int curScriptsIndex;
 
 	[Space(3)] 
 	[Header("스켈레톤 데이터")] 
@@ -31,15 +31,22 @@ public abstract class CutSceneBase : MonoBehaviour
 	{
 		chapterManager = gameObject.GetComponentInParent<ChapterCutSceneManager>();
 		cutScene = gameObject.GetComponent<PlayableDirector>();
-		curScriptsIndex = 0;
-		
+
+		if (isUseScripting == true)
+		{
+			curScriptsIndex = 0;	
+		}
+
 		if (isUseSkeleton == true)
 		{
 			InitSkeletonQueue();
 		}
 	}
+	
 	protected virtual void EnableCutScene() { }
+	
 	protected abstract void DisableCutScene();
+	
 	protected void StartScripting()
 	{
 		cutScene.Pause();
