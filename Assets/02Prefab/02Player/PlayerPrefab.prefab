@@ -117,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423453155}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0.11, y: 0.82, z: 1.378}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5976,6 +5976,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateDatas:
   - {fileID: 11400000, guid: e466e286fe4df874a92986fe8daad13f, type: 2}
+  stateChangeConditions: {fileID: 11400000, guid: a1e662c717cffce4db0aaaa628649e9b, type: 2}
   commandTree:
     <Top>k__BackingField:
       name: 
@@ -5996,6 +5997,16 @@ MonoBehaviour:
       shakeTime: 0
       slowTime: 0
       slowScale: 0
+      rumbleLow: 0
+      rumbleHigh: 0
+      rumbleDuration: 0
+      attackVoice:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
   autoLength: 500
   autoAngle: 180
   moveTime: 0.1
@@ -6042,6 +6053,16 @@ MonoBehaviour:
         shakeTime: 0
         slowTime: 0
         slowScale: 0
+        rumbleLow: 0
+        rumbleHigh: 0
+        rumbleDuration: 0
+        attackVoice:
+          Guid:
+            Data1: 0
+            Data2: 0
+            Data3: 0
+            Data4: 0
+          Path: 
       attackLength: 0
       attackAngle: 0
       attackLengthMark: 0
@@ -6057,6 +6078,16 @@ MonoBehaviour:
       shakeTime: 0
       slowTime: 0
       slowScale: 0
+      rumbleLow: 0
+      rumbleHigh: 0
+      rumbleDuration: 0
+      attackVoice:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
     attackLength: 0
     attackAngle: 0
     attackLengthMark: 0
@@ -6072,6 +6103,16 @@ MonoBehaviour:
     shakeTime: 0
     slowTime: 0
     slowScale: 0
+    rumbleLow: 0
+    rumbleHigh: 0
+    rumbleDuration: 0
+    attackVoice:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   firstBehaiviorNode:
     name: 
     command: 0
@@ -6091,6 +6132,16 @@ MonoBehaviour:
     shakeTime: 0
     slowTime: 0
     slowScale: 0
+    rumbleLow: 0
+    rumbleHigh: 0
+    rumbleDuration: 0
+    attackVoice:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   currentAttackState: 0
   currentAttackAnimKey: 
   hitCoolTimeIsEnd: 0
@@ -6228,6 +6279,7 @@ MonoBehaviour:
   onAttackEvent:
     m_PersistentCalls:
       m_Calls: []
+  criticalImages: {fileID: 0}
 --- !u!114 &1921549218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6241,15 +6293,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activePartDatas:
-  - type: 1
+  - type: 2201
     proccessor:
       rid: 7965168027137212555
-  - type: 2
+  - type: 2202
     proccessor:
-      rid: 7965168027137212560
+      rid: 2567414785314127872
   references:
     version: 2
     RefIds:
+    - rid: 2567414785314127872
+      type: {class: BetaActivePart, ns: , asm: Assembly-CSharp}
+      data:
+        stateToChange: 0
+        firstEffectPos: {fileID: 0}
+        secondEffectPos: {fileID: 0}
+        thirdEffectPos: {fileID: 0}
+        firstMaxAngle: 0
+        firstRadius: 0
+        firstDamage: 0
+        firstAttackEffect: {fileID: 0}
+        firstAttackEffectParent: {fileID: 0}
+        secondMaxAngle: 0
+        secondRadius: 0
+        secondDamage: 0
+        secondAttackEffect: {fileID: 0}
+        secondAttackEffectParent: {fileID: 0}
+        thirdMaxWdith: 0
+        thirdMaxHeight: 0
+        thirdDamage: 0
+        thirdAttackEffect: {fileID: 0}
+        thirdAttackEffectParent: {fileID: 0}
     - rid: 7965168027137212555
       type: {class: BasicActivePart, ns: , asm: Assembly-CSharp}
       data:
@@ -6263,15 +6337,10 @@ MonoBehaviour:
         explosionEffectPos: {fileID: 1612703979}
         landingEffectPos: {fileID: 5328251835375101389}
         chargeEffect: {fileID: 5653102041688409914, guid: 7c4a404f1628f7e40b71f4da4ccfb643, type: 3}
-        explosionEffect: {fileID: 7882521244870677114, guid: f6b57a94088577e4ea0eeacecf8e7227, type: 3}
+        explosionEffect: {fileID: 7784542857618838367, guid: f6b57a94088577e4ea0eeacecf8e7227, type: 3}
         landingEffect: {fileID: 1642341717177775396, guid: a86da6070f0a91547aa6492b3945cf49, type: 3}
         chargeEffectParent: {fileID: 0}
         worldEffectParent: {fileID: 0}
-    - rid: 7965168027137212560
-      type: {class: TestActivePart, ns: , asm: Assembly-CSharp}
-      data:
-        stateToChange: 0
-        t1: 0
 --- !u!114 &6307489441031809494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6397,7 +6466,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  activePart: {fileID: 0}
+  activePartType: 2201
+  isStartActivePart: 0
   onPartEquip:
     m_PersistentCalls:
       m_Calls: []

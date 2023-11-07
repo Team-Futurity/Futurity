@@ -11,9 +11,14 @@ public class UIInputManager : Singleton<UIInputManager>
 	// Button Index
 	private int currentIndex = 0;
 	private int saveIndex = 0;
+	private int maxMoveIndex = 0;
+
+	private bool isUnableMoveButton = false;
 
 	private void Start()
 	{
+		maxMoveIndex = -1;
+		
 		CombinedInputActions.UIBehaviourActions map = InputActionManager.Instance.InputActions.UIBehaviour;
 		InputActionManager.Instance.ToggleActionMap(map);
 		InputActionManager.Instance.RegisterCallback(map.MoveToPreviousUI, (context) => OnMoveToPreviousUI(context), true);
@@ -43,6 +48,12 @@ public class UIInputManager : Singleton<UIInputManager>
 		}
 	}
 
+	public void SetDefaultFocusForced(int index)
+	{
+		currentIndex = index;
+		SelectUI();
+	}
+
 	public void DefaultFocus()
 	{
 		currentIndex = 0;
@@ -64,9 +75,22 @@ public class UIInputManager : Singleton<UIInputManager>
 		currentActiveButtons[currentIndex].Select(true);
 	}
 
+	public void SetUnableMoveButton(bool isOn)
+	{
+		isUnableMoveButton = isOn;
+	}
+
 	public void SaveIndex()
 	{
+		if (saveIndex > 0)
+			return;
+		
 		saveIndex = currentIndex;
+	}
+
+	public void SetMaxMoveIndex(int index)
+	{
+		maxMoveIndex = index;
 	}
 
 	public void SetSaveIndexToCurrentIndex()
@@ -84,7 +108,7 @@ public class UIInputManager : Singleton<UIInputManager>
 	{
 		var result = currentIndex + num;
 
-		if (result < 0 || result >= currentActiveButtons.Count)
+		if (result < 0 || result >= currentActiveButtons.Count || (maxMoveIndex > result && maxMoveIndex != -1))
 		{
 			return;
 		}
@@ -99,6 +123,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnMoveToNextUI(InputAction.CallbackContext context)
 	{
+		if (isUnableMoveButton) { return;}
 		ChangeToIndex(1);
 
 		SelectUI();
@@ -106,6 +131,8 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnMoveToPreviousUI(InputAction.CallbackContext context)
 	{
+		if (isUnableMoveButton) { return;}
+		
 		ChangeToIndex(-1);
 
 		SelectUI();

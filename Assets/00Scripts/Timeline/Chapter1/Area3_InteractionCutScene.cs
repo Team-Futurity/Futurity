@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -7,13 +8,15 @@ public class Area3_InteractionCutScene : CutSceneBase
 {
 	[Header("Component")] 
 	[SerializeField] private PlayableDirector cutScene;
-	[SerializeField] private SpawnerManager[] spawnerManager;
+	[SerializeField] private List<SpawnerManager> spawnerManager;
+	[SerializeField] private List<BoxCollider> interactionCol;
 	
 	[Header("스크립트 데이터")]
 	[SerializeField] private List<ScriptingList> scriptsList;
 	private int curScriptsIndex = 0;
 	
 	private bool isCutScenePlayed = false;
+	private int curSpawnerIndex = -1;
 	
 	protected override void Init()
 	{
@@ -29,6 +32,7 @@ public class Area3_InteractionCutScene : CutSceneBase
 		
 		isCutScenePlayed = true;
 		chapterManager.SetActiveMainUI(false);
+		interactionCol.ForEach(x => x.enabled = false);
 	}
 
 	protected override void DisableCutScene()
@@ -50,17 +54,18 @@ public class Area3_InteractionCutScene : CutSceneBase
 
 	public void SpawnEnemy()
 	{
-		spawnerManager[0].SpawnEnemy();
+		spawnerManager[curSpawnerIndex].SpawnEnemy();
 	}
 
-	public void CheckCutScenePlayed()
+	public void CheckCutScenePlayed(int index)
 	{
 		if (isCutScenePlayed == false)
 		{
 			TimelineManager.Instance.EnableCutScene(ECutSceneType.CHAPTER1_AREA3_SPAWN);
-			return;
 		}
+
+		curSpawnerIndex = index;
 		
-		spawnerManager[1].SpawnEnemy();
+		spawnerManager[curSpawnerIndex].SpawnEnemy();
 	}
 }

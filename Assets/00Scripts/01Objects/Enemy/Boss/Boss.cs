@@ -10,11 +10,24 @@ public class Boss : UnitBase
 
 	public override void Hit(DamageInfo damageInfo)
 	{
-		if (bc.curState == BossController.BossState.Chase)
-			bc.ChangeState(BossController.BossState.Hit);
-		else
-			bc.AddSubState(BossController.BossState.Hit);
-		status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
+		//if (bc.curState == BossState.Chase || bc.curState == BossState.Idle)
+		//	bc.ChangeState(BossState.Hit);
+		//else
+		if (!bc.isInPhase2Event)
+		{
+			bc.AddSubState(BossState.Hit);
+			status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
+		}
+
+		Debug.Log("¹Û" + damageInfo.isCritical);
+
+		if (damageInfo.isCritical)
+		{
+			Debug.Log(damageInfo.isCritical);
+
+			criticalImages.gameObject.SetActive(true);
+			StartCoroutine("StartCriticalImage");
+		}
 
 		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
 		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();

@@ -42,9 +42,12 @@ public class CSCommandSO : ScriptableObject
 	[field: SerializeField] public float ShakeTime { get; set; }
 	[field: SerializeField] public float SlowTime { get; set; }
 	[field: SerializeField] public float SlowScale { get; set; }
+	[field: SerializeField] public float RumbleLow { get; set; }
+	[field: SerializeField] public float RumbleHigh { get; set; }
+	[field: SerializeField] public float RumbleDuration { get; set; }
 
-	/*// Attack Sound
-	[field: SerializeField] public EventReference AttackSound { get; set; }*/
+	// Attack Sound
+	[field: SerializeField] public EventReference AttackVoice { get; set; }
 
 	public void Initialize(string commandName, List<CSCommandAssetData> attackAssets, List<CSCommandData> nextCommands, CSCommandType type, bool isStartingCommand)
 	{

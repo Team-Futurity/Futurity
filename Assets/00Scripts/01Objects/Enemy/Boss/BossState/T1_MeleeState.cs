@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)BossController.BossState.T1_Melee)]
+[FSMState((int)BossState.T1_Melee)]
 public class T1_MeleeState : B_PatternBase
 {
 	private EffectActiveData effectData = new EffectActiveData();
@@ -18,28 +18,43 @@ public class T1_MeleeState : B_PatternBase
 	public override void Begin(BossController unit)
 	{
 		base.Begin(unit);
-		unit.typeCount++;
-		unit.curState = BossController.BossState.T1_Melee;
-		unit.extraAttackValue = unit.bossData.status.GetStatus(StatusType.Type1_Attack_Point).GetValue();
+		unit.curState = BossState.T1_Melee;
 		effectData.parent = unit.gameObject;
 		unit.currentEffectData = effectData;
-		if (unit.typeCount >= 5)
-			unit.nextPattern = BossController.BossState.T3_Move;
-		else
-			unit.nextPattern = BossController.BossState.Chase;
-
-		unit.animator.SetTrigger(unit.type1Anim);
 	}
 	public override void Update(BossController unit)
 	{
 		base.Update(unit);
 
+		if (curTime > unit.curAttackData.attackDelay && !isAttackDelayDone)
+		{
+			unit.transform.LookAt(unit.target.transform.position);
+			isAttackDelayDone = true;
+		}
+
+		if (isAttackDelayDone && !isAttackDone)
+		{
+			unit.animator.SetTrigger(unit.type1Anim);
+			isAttackDone = true;
+		}
+
+		if (isAttackDone && curTime > unit.curAttackData.attackDelay + unit.curAttackData.attackSpeed + unit.curAttackData.attackAfterDelay)
+		{
+			unit.ChangeState(unit.nextState);
+		}
 	}
 
 	public override void End(BossController unit)
 	{
 		base.End(unit);
-		if (unit.Type1Collider)
-			unit.Type1Collider.SetActive(false);
+	}
+
+	public override void OnTriggerEnter(BossController unit, Collider other)
+	{
+		if (other.CompareTag("Player"))
+		{
+			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
+			unit.bossData.Attack(info);
+		}
 	}
 }

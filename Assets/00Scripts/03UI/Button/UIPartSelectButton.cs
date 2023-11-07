@@ -27,6 +27,15 @@ public class UIPartSelectButton : UIButton
 	
 	#endregion
 
+	public Image partTypeImage;
+	public Sprite passiveImage;
+	public Sprite activeImage;
+
+	public GameObject passiveObj;
+	public GameObject activeObj;
+
+	public TMP_Text infoText;
+
 	[HideInInspector]
 	public UnityEvent<int, int> onSelected;
 	
@@ -42,7 +51,23 @@ public class UIPartSelectButton : UIButton
 	{
 		PartIconImage.enabled = PartNameImage.enabled = true;
 
-		ChangeResource(LoadPartData(code));
+		if (code == 2201 || code == 2202)
+		{
+			partTypeImage.sprite = activeImage;
+			activeObj.SetActive(true);
+			passiveObj.SetActive(false);
+
+			infoText.text = LoadPartData(code).coreInfoText;
+		}
+		else
+		{
+			partTypeImage.sprite = passiveImage;
+			passiveObj.SetActive(true);
+			activeObj.SetActive(false);
+			
+			ChangeResource(LoadPartData(code), true);
+		}
+		
 		partCode = code;
 	}
 
@@ -54,17 +79,25 @@ public class UIPartSelectButton : UIButton
 		return data;
 	}
 
-	private void ChangeResource(UIPassiveSelectData selectData)
+	private void ChangeResource(UIPassiveSelectData selectData, bool isActive = false)
 	{
 		PartIconImage.sprite = selectData.partIconSpr;
 		PartNameImage.sprite = selectData.partNameSpr;
-		CoreInfoText.text = selectData.coreInfoText;
-		SubInfoText.text = selectData.subInfoText;
+
+		if (!isActive)
+		{
+			CoreInfoText.text = selectData.coreInfoText;
+			SubInfoText.text = selectData.subInfoText;
+		}
 	}
 
-	public void InitResource()
+	public void InitResource(bool isActive = false)
 	{
 		PartIconImage.enabled = PartNameImage.enabled = false;
-		CoreInfoText.text = SubInfoText.text = "";
+
+		if (!isActive)
+		{
+			CoreInfoText.text = SubInfoText.text = "";
+		}
 	}
 }
