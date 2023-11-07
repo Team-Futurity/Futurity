@@ -9,24 +9,24 @@ public class UIPartSlot : MonoBehaviour
 	[SerializeField]
 	private PartSystem partSystem;
 
-	[Space(10), Header("Part ½½·Ô")]
+	[Space(10), Header("Part ï¿½ï¿½ï¿½ï¿½")]
 	public UIPassiveSlot[] passiveSlots;
 	public UIActiveSlot activeSlot;
 
 	private void Awake()
 	{
-		partSystem.onPartActive?.AddListener((index, code) =>
+		partSystem.onPartActive?.AddListener((index) =>
 	   {
-		   if(index == 3)
+		   if (index == 3)
 		   {
-			   activeSlot.SetSlot();
+			  // activeSlot.SetSlot();
 			   return;
 		   }
 
 		   passiveSlots[index].SetActivateImage(true);
 	   });
 
-		partSystem.onPartDeactive?.AddListener((index, code) =>
+		partSystem.onPartDeactive?.AddListener((index) =>
 		{
 			if(index == 3)
 			{
@@ -39,6 +39,13 @@ public class UIPartSlot : MonoBehaviour
 
 		partSystem.onPartEquip?.AddListener((index, code) =>
 		{
+			if (index == 999)
+			{
+				if (code == 2201) activeSlot.BasicSet(); else activeSlot.BetaSet();
+				activeSlot.SetSlot();
+				return;
+			}
+
 			AddPartIcon(index, code);
 		});
 	}
@@ -50,11 +57,6 @@ public class UIPartSlot : MonoBehaviour
 
 	public void AddPartIcon(int index, int partCode)
 	{
-		if(index == 3)
-		{
-			return;
-		}
-
 		passiveSlots[index].SetSlot(LoadPassivePartIconImage(partCode));
 	}
 

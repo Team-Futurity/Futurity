@@ -88,6 +88,7 @@ public class RootMotionContoller : MonoBehaviour
 		{
 			Vector3 deltaPosition = animator.deltaPosition;
 
+
 			deltaPosition.x = currentAnimationType.isApplyX ? deltaPosition.x : 0f;
 			deltaPosition.y = currentAnimationType.isApplyY ? deltaPosition.y : 0f;
 			deltaPosition.z = currentAnimationType.isApplyZ ? deltaPosition.z : 0f;
@@ -106,6 +107,7 @@ public class RootMotionContoller : MonoBehaviour
 				nextPosition.x = math.trunc(nextPosition.x * multiplyNumber) / multiplyNumber;
 				nextPosition.y = math.trunc(nextPosition.y * multiplyNumber) / multiplyNumber;
 				nextPosition.z = math.trunc(nextPosition.z * multiplyNumber) / multiplyNumber;
+
 				parent.transform.position = nextPosition;
 			}
 			else

@@ -12,6 +12,8 @@ public class SceneLoader : Singleton<SceneLoader>
 
 	private string nextSceneName = "";
 
+	public LoadingData data;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -37,6 +39,8 @@ public class SceneLoader : Singleton<SceneLoader>
 		}
 
 		loadSystemObject.TryGetComponent<LoadingSystem>(out var loadSystem);
+
+		if(data != null) loadSystem.SetLoadData(data);
 		loadSystem.SetNextScene(nextSceneName);
 
 		DisableSceneLoadEvent();
@@ -46,7 +50,6 @@ public class SceneLoader : Singleton<SceneLoader>
 	{
 		nextSceneName = sceneName;
 
-		UIManager.Instance.RemoveAllWindow();
 		EnableSceneLoadEvent();
 		SceneManager.LoadScene(loadSceneName);
 	}

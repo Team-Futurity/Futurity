@@ -17,12 +17,5 @@ public enum StatusType
 	DASH_COUNT,
 	STATUS_AVOID_PERCENT,
 
-	Type1_Attack_Point,
-	Type2_Attack_Point,
-	Type3_Attack_Point,
-	Type4_Attack_Point,
-	Type6_Attack_Point,
-	Type7_Attack_Point,
-
 	MAX
 }

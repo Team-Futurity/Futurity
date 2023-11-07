@@ -81,8 +81,11 @@ public class CommandTreeLoader : MonoBehaviour
 		node.shakeTime						= commandSO.ShakeTime;
 		node.slowTime						= commandSO.SlowTime;
 		node.slowScale						= commandSO.SlowScale;
+		node.rumbleLow						= commandSO.RumbleLow;
+		node.rumbleHigh						= commandSO.RumbleHigh;
+		node.rumbleDuration					= commandSO.RumbleDuration;
 
-		/*node.attackSound					= commandSO.AttackSound;*/
+		node.attackVoice					= commandSO.AttackVoice;
 
 		node.childNodes = new List<AttackNode>();
 		foreach(var nextSO in commandSO.NextCommands)

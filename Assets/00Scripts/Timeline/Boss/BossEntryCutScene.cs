@@ -1,37 +1,24 @@
-using Spine.Unity;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
+using UnityEngine.Events;
 
 public class BossEntryCutScene : CutSceneBase
 {
-	[Header("Component")] 
-	[SerializeField] private PlayableDirector bossEntry;
+	[Header("추가 Component")]
 	[SerializeField] private BossController boss;
 	private Animator bossAnimator;
-
-	[Header("스크립트 데이터")] 
-	[SerializeField] private List<ScriptingList> scriptsList;
-	private int curScriptsIndex = 0;
-	
-	[Header("Skeleton Cut Scene")] 
-	[SerializeField] private Transform skeletonParent;
-	private Queue<SkeletonGraphic> skeletonQueue;
 	
 	[Header("플레이어 이동값")] 
 	[SerializeField] private Transform endPos;
 	[SerializeField] private float moveTime = 1.5f;
 
+	[Header("Event")] 
+	[SerializeField] private UnityEvent endEvent;
+	
 	protected override void Init()
 	{
+		base.Init();
+		
 		bossAnimator = boss.GetComponentInChildren<Animator>();
-		skeletonQueue = new Queue<SkeletonGraphic>();
-
-		for (int i = 0; i < skeletonParent.childCount; ++i)
-		{
-			skeletonQueue.Enqueue(skeletonParent.GetChild(i).GetComponent<SkeletonGraphic>());
-			skeletonParent.GetChild(i).gameObject.SetActive(false);
-		}
 	}
 
 	protected override void EnableCutScene()
@@ -41,31 +28,26 @@ public class BossEntryCutScene : CutSceneBase
 
 	protected override void DisableCutScene()
 	{
-		// chapterManager.SetActivePlayerInput(true);
-		// chapterManager.SetActiveMainUI(true);
-		// boss.isActive = true;
-		//
-		// chapterManager.PlayerController.playerData.status.updateHPEvent
-		// 	?.Invoke(230f, 230f);
+		chapterManager.SetActiveMainUI(true);
+		boss.ActivateBoss();
+		
+		chapterManager.PlayerController.playerData.status.updateHPEvent
+			?.Invoke(230f, 230f);
 		
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
-		SceneLoader.Instance.LoadScene("TitleScene");
+		
+		endEvent?.Invoke();
 	}
 
 	public void BossEntry_PrintScripts()
 	{
-		bossEntry.Pause();
-		
-		chapterManager.PauseCutSceneUntilScriptsEnd(bossEntry);
-		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
+		StartScripting();
 	}
 
 	public void BossEntry_StartSkeleton()
 	{
-		chapterManager.StartSkeletonCutScene(bossEntry, skeletonQueue);
+		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
 	}
 
 	public void BossEntry_PlayHitAni()

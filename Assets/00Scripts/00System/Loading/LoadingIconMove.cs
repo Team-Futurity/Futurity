@@ -1,60 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadingIconMove : MonoBehaviour
 {
-	private RectTransform rectTransform;
+	public RectTransform icon;
+	private Slider slider;
+
 	private Vector2 startPos;
 	private Vector2 endPos;
 
-	private float screenMaxWidth = .0f;
-
-	private float moveDistance = .0f;
+	private bool isActive = false;
 
 	private float timer = .0f;
 
-	private bool isActive = false;
-
 	private void Awake()
 	{
-		TryGetComponent(out rectTransform);
-
-		screenMaxWidth = 2000f;
-		moveDistance = screenMaxWidth - Mathf.Abs(rectTransform.anchoredPosition.x);
-		
-		startPos = rectTransform.anchoredPosition;
-		endPos = new Vector2(
-			rectTransform.anchoredPosition.x + (moveDistance),
-			rectTransform.anchoredPosition.y
-		);
+		slider = GetComponent<Slider>();
 	}
 
 	public void MoveIcon(float percent)
 	{
 		if (percent <= .0f || isActive) return;
 
+		if (percent <= 0.3f) return;
+
 		isActive = true;
 
-		var targetPos = new Vector2(endPos.x * percent, endPos.y);
-		StartCoroutine("StartMove", targetPos);
+		timer = percent;
+
+		StartCoroutine("StartMove");
 	}
 
-	private IEnumerator StartMove(Vector2 targetPos)
+	private IEnumerator StartMove()
 	{
-		while (Vector2.Distance(startPos, targetPos) > 0.1f && isActive)
+		while(slider.value <= 1.0f)
 		{
-			timer += 0.01f;
-
-			var resultPos = Vector2.Lerp(startPos, targetPos, timer);
+			timer += Time.deltaTime;
 
 			yield return new WaitForSeconds(0.01f);
 
-			rectTransform.anchoredPosition = resultPos;
+			slider.value = Mathf.Lerp(0, 1, timer / 2.0f);
 		}
-
-		startPos = rectTransform.anchoredPosition;
-		timer = .0f;
-		isActive = false;
 	}
 }

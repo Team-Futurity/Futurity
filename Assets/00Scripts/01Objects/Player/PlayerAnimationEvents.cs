@@ -1,7 +1,8 @@
+using FMOD.Studio;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public Transform walkEffectTransform;
 	public bool isSlowMotionEnable = false;
 
+	private EventInstance currentVoice;
 
 	private void Start()
 	{
@@ -140,6 +142,55 @@ public class PlayerAnimationEvents : MonoBehaviour
 				chargeState.PreAttack();
 				break;
 		}
+	}
+ 
+	public void BetaActivePartAttackProc(int attackProcessOrder)
+	{
+		UnitState<PlayerController> GettedState = null;
+		PlayerBetaPartState betaState;
+		if (!pc.GetState(PlayerState.BetaSM, ref GettedState)) { return; }
+		
+		betaState = GettedState as PlayerBetaPartState;
+
+		switch (attackProcessOrder)
+		{
+			// Phase 1 - Start
+			case 1:
+				betaState.OnFirstPhase();
+				break;
+			
+			// Phase 1 - End
+			case 2:
+				betaState.OnFirstPhaseEnded();
+				break;
+			
+			// Phase 2 - Start
+			case 3:
+				betaState.OnSecondPhase();
+				break;
+			
+			// Phase 2 - End
+			case 4:
+				betaState.OnSecondPhaseEnded();
+				break;
+			
+			// Phase 3 - Start
+			case 5:
+				betaState.OnThirdPhase();
+				break;
+			
+			// Phase 3 - End
+			case 6:
+				betaState.OnThirdPhaseEnded();
+				break;
+			
+			// Active End
+			case 7:
+				betaState.OnEnded();
+				break;
+			
+		}
+		
 	}
 	
 	public void WalkEffect()
@@ -265,17 +316,41 @@ public class PlayerAnimationEvents : MonoBehaviour
 	// 0 : frameCount
 	// 1 : skipFrameCount
 	// 2 : animation speed
+	// 3 : blend time
 	public void AlterAnimationSpeed(string data)
 	{
 		if (!CheckEnemyInAttackRange()) { return; }
 
 		float[] result = ConvertStringToFloatArray(data);
-		pc.playerData.AlterAnimationSpeed((int)result[0], (int)result[1], result[2]);
+		pc.playerData.AlterAnimationSpeed((int)result[0], (int)result[1], result[2], (int)result[3]);
 	}
 
 	public void WalkSE()
 	{
 		AudioManager.Instance.PlayOneShot(walk, transform.position);
+	}
+
+	public void OutputAttackVoice()
+	{
+		var voice = pc.curNode.attackVoice;
+
+		if (voice.IsNull) { return; }
+
+		if(currentVoice.isValid())
+		{
+			currentVoice.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			FDebug.Log("FADE");
+		}
+		currentVoice = AudioManager.Instance.CreateInstance(voice);
+		currentVoice.set3DAttributes(RuntimeUtils.To3DAttributes(pc.gameObject));
+		currentVoice.start();
+
+
+	}
+
+	public void RumbleCurrentAttackNode()
+	{
+		RumbleManager.Instance.RumblePulse(attackNode.rumbleLow, attackNode.rumbleHigh, attackNode.rumbleDuration);
 	}
 
 	public void SetCollider(int isActiveInteager)

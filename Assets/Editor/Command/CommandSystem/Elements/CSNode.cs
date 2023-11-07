@@ -49,9 +49,12 @@ public class CSNode : Node
 	public float ShakeTime { get; set; }
 	public float SlowTime { get; set; }
 	public float SlowScale { get; set; }
+	public float RumbleLow { get; set; }
+	public float RumbleHigh { get; set; }
+	public float RumbleDuration { get; set; }
 
 	// Attack Sound
-	//public EventReference AttackSound { get; set; }
+	public EventReference AttackVoice { get; set; }
 
 	private Color defaultBackgroundColor;
 
@@ -183,6 +186,12 @@ public class CSNode : Node
 		FloatField shakeTimeField						= CreateAndRegistField("흔드는 시간				|", ShakeTime, productionFoldout);
 		FloatField slowTimeField						= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
 		FloatField slowScaleField						= CreateAndRegistField("슬로우를 거는 세기		|", SlowScale, productionFoldout);
+		FloatField rumbleLowField						= CreateAndRegistField("패드 진동 저역 세기		|", RumbleLow, productionFoldout);
+		FloatField rumbleHighField						= CreateAndRegistField("패드 진동 고역 세기		|", RumbleHigh, productionFoldout);
+		FloatField rumbleDurationField					= CreateAndRegistField("패드 진동 지속 시간		|", RumbleDuration, productionFoldout);
+
+		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
+		TextField attackVoiceField						= CreateAndRegistField("공격 목소리				|", AttackVoice.ToString(), soundFoldout);
 
 
 		// Callbacks
@@ -214,8 +223,12 @@ public class CSNode : Node
 		shakeTimeField.RegisterValueChangedCallback((callback) => { ShakeTime = callback.newValue; });
 		slowTimeField.RegisterValueChangedCallback((callback) => { SlowTime = callback.newValue; });
 		slowScaleField.RegisterValueChangedCallback((callback) => { SlowScale = callback.newValue; });
+		rumbleLowField.RegisterValueChangedCallback((callback) => { RumbleLow = callback.newValue; });
+		rumbleHighField.RegisterValueChangedCallback((callback) => { RumbleHigh = callback.newValue; });
+		rumbleDurationField.RegisterValueChangedCallback((callback) => { RumbleDuration = callback.newValue; });
 
-		/*attackSoundField.RegisterValueChangedCallback((callback) => { AttackSound = EventReference.Find(callback.newValue); });*/
+
+		attackVoiceField.RegisterValueChangedCallback((callback) => { AttackVoice = EventReference.Find(callback.newValue); });
 
 		// Add
 		customDataContainer.Add(textFoldout);
@@ -224,7 +237,7 @@ public class CSNode : Node
 		/*customDataContainer.Add(attackEffectFoldout);
 		customDataContainer.Add(enemyHitEffectFoldout);*/
 		customDataContainer.Add(productionFoldout);
-		/*customDataContainer.Add(soundFoldout);*/
+		customDataContainer.Add(soundFoldout);
 
 		extensionContainer.Add(customDataContainer);
 
@@ -467,8 +480,11 @@ public class CSNode : Node
 		ShakeTime = saveData.ShakeTime;
 		SlowTime = saveData.SlowTime;
 		SlowScale = saveData.SlowScale;
+		RumbleLow = saveData.RumbleLow;
+		RumbleHigh = saveData.RumbleHigh;
+		RumbleDuration = saveData.RumbleDuration;
 
-		//AttackSound = saveData.AttackSound;
+		AttackVoice = saveData.AttackVoice;
 	}
 
 	public void SaveToCommandSO(ref CSCommandSO so)
@@ -521,8 +537,11 @@ public class CSNode : Node
 		so.ShakeTime = ShakeTime;
 		so.SlowTime = SlowTime;
 		so.SlowScale = SlowScale;
+		so.RumbleLow = RumbleLow;
+		so.RumbleHigh = RumbleHigh;
+		so.RumbleDuration = RumbleDuration;	
 
-		//so.AttackSound = AttackSound;
+		so.AttackVoice = AttackVoice;
 	}
 
 	private FloatField CreateAndRegistField(string fieldName, float variable, Foldout category)
