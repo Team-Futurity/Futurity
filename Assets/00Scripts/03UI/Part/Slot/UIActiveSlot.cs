@@ -10,13 +10,6 @@ public class UIActiveSlot : MonoBehaviour
 	public Sprite normalSpr;
 	public Sprite swapSpr;
 
-	public Sprite normalBasic;
-	public Sprite swapBasic;
-
-	[Header("Beta")]
-	public Sprite normalBeta;
-	public Sprite swapBeta;
-
 	public void SetSlot()
 	{
 		iconImage.sprite = swapSpr;
@@ -25,17 +18,5 @@ public class UIActiveSlot : MonoBehaviour
 	public void ClearSlot()
 	{
 		iconImage.sprite = normalSpr;
-	}
-
-	public void BetaSet()
-	{
-		normalSpr = normalBeta;
-		swapSpr = swapBeta;
-	}
-
-	public void BasicSet()
-	{
-		normalSpr = normalBasic;
-		swapSpr = swapBasic;
 	}
 }
