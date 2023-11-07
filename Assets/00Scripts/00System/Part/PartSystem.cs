@@ -46,6 +46,8 @@ public class PartSystem : MonoBehaviour
 		TryGetComponent(out player);
 
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdatePartActivate);
+
+		EquipActivePart(2202);
 	}
 
 	private void Start()
