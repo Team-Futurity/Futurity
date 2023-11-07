@@ -117,7 +117,8 @@ public class PartSystem : MonoBehaviour
 
 	public void EquipActivePart(int partCode)
 	{
-		activePartType = partCode == 2202 ? SpecialMoveType.Beta : SpecialMoveType.Basic;
+		partCode = partCode == 2202 ? (int)SpecialMoveType.Beta : (int)SpecialMoveType.Basic;
+		activePartType = (SpecialMoveType)partCode;
 
 		PlayerPrefs.SetInt("ActivePart", partCode);
 		
@@ -151,7 +152,7 @@ public class PartSystem : MonoBehaviour
 		if (IsIndexPartEmpty(index - 1)) return;
 		// 실행중인 Part Return
 		if (IsIndexPartActivate(index - 1)) return;
-		
+
 		if(index == ACTIVE_PART_INDEX + 1)
 		{
 			isStartActivePart = true;

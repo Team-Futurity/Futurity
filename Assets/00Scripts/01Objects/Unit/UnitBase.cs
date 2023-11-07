@@ -233,8 +233,6 @@ public abstract class UnitBase : MonoBehaviour
 
 	protected IEnumerator StartCriticalImage()
 	{
-		Debug.Log("CALL");
-
 		while(criticalImages.gameObject.activeSelf)
 		{
 			yield return new WaitForSeconds(1f);
