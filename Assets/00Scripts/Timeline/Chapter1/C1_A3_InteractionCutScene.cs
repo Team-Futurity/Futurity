@@ -4,23 +4,18 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class Area3_InteractionCutScene : CutSceneBase
+public class C1_A3_InteractionCutScene : CutSceneBase
 {
-	[Header("Component")] 
-	[SerializeField] private PlayableDirector cutScene;
+	[Header("추가 Component")]
 	[SerializeField] private List<SpawnerManager> spawnerManager;
 	[SerializeField] private List<BoxCollider> interactionCol;
-	
-	[Header("스크립트 데이터")]
-	[SerializeField] private List<ScriptingList> scriptsList;
-	private int curScriptsIndex = 0;
-	
+
 	private bool isCutScenePlayed = false;
 	private int curSpawnerIndex = -1;
 	
 	protected override void Init()
 	{
-		
+		base.Init();
 	}
 
 	protected override void EnableCutScene()
@@ -37,19 +32,12 @@ public class Area3_InteractionCutScene : CutSceneBase
 
 	protected override void DisableCutScene()
 	{
-		chapterManager.scripting.ResetEmotion();
-		chapterManager.scripting.DisableAllNameObject();
 		chapterManager.SetActiveMainUI(true);
 	}
 
 	public void Area3_PrintText()
 	{
-		cutScene.Pause();
-
-		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
-		chapterManager.scripting.StartPrintingScript(scriptsList[curScriptsIndex].scriptList);
-	
-		curScriptsIndex = (curScriptsIndex + 1 < scriptsList.Count) ? curScriptsIndex + 1 : 0;
+		StartScripting();
 	}
 
 	public void SpawnEnemy()
