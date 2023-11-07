@@ -1,19 +1,11 @@
-using Spine.Unity;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Playables;
-using Animation = Spine.Animation;
 
 public class IntroCutScene : CutSceneBase
 {
-	[Header("Component")] 
-	[SerializeField] private PlayableDirector introCutScene;
-	[SerializeField] private Transform skeletonParent;
-	
+	[Space(6)]
 	[Header("Fade Time")] 
 	[SerializeField] private float fadeInTime = 0.8f;
 	[SerializeField] private float fadeOutTime = 0.8f;
@@ -27,18 +19,9 @@ public class IntroCutScene : CutSceneBase
 	[SerializeField] private float inputDelay = 0.05f;
 	private int curIndex;
 	
-	// 2D 애니 컷 씬
-	private Queue<SkeletonGraphic> cutSceneQueue;
-	
 	protected override void Init()
 	{
-		cutSceneQueue = new Queue<SkeletonGraphic>();
-
-		for (int i = 0; i < skeletonParent.childCount; ++i)
-		{
-			cutSceneQueue.Enqueue(skeletonParent.GetChild(i).GetComponent<SkeletonGraphic>());
-			skeletonParent.GetChild(i).gameObject.SetActive(false);	
-		}
+		base.Init();
 	}
 
 	protected override void EnableCutScene()
@@ -56,14 +39,14 @@ public class IntroCutScene : CutSceneBase
 
 	public void StartPrintText()
 	{
-		introCutScene.Pause();
+		cutScene.Pause();
 
 		StartCoroutine(PrintText());
 	}
 	
 	public void StartSkeletonCutScene()
 	{
-		chapterManager.StartSkeletonCutScene(introCutScene, cutSceneQueue);
+		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
 	}
 	
 	private IEnumerator PrintText()
@@ -76,7 +59,7 @@ public class IntroCutScene : CutSceneBase
 		}
 
 		curIndex++;
-		introCutScene.Resume();
+		cutScene.Resume();
 	}
 	
 }
