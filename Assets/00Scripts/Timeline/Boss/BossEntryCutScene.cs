@@ -1,17 +1,19 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class BossEntryCutScene : CutSceneBase
 {
 	[Header("추가 Component")]
 	[SerializeField] private BossController boss;
-	[SerializeField] private Image fadeImage;
 	private Animator bossAnimator;
 	
 	[Header("플레이어 이동값")] 
 	[SerializeField] private Transform endPos;
 	[SerializeField] private float moveTime = 1.5f;
 
+	[Header("Event")] 
+	[SerializeField] private UnityEvent endEvent;
+	
 	protected override void Init()
 	{
 		base.Init();
@@ -34,8 +36,8 @@ public class BossEntryCutScene : CutSceneBase
 		
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();
-
-		fadeImage.color = new Color(255f, 255f, 255f, 0);
+		
+		endEvent?.Invoke();
 	}
 
 	public void BossEntry_PrintScripts()
