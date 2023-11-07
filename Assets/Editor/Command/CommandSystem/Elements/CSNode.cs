@@ -187,7 +187,7 @@ public class CSNode : Node
 		FloatField slowTimeField						= CreateAndRegistField("슬로우 시간				|", SlowTime, productionFoldout);
 		FloatField slowScaleField						= CreateAndRegistField("슬로우를 거는 세기		|", SlowScale, productionFoldout);
 		FloatField rumbleLowField						= CreateAndRegistField("패드 진동 저역 세기		|", RumbleLow, productionFoldout);
-		FloatField rumbleHighField						= CreateAndRegistField("패드 진동 저역 세기		|", RumbleHigh, productionFoldout);
+		FloatField rumbleHighField						= CreateAndRegistField("패드 진동 고역 세기		|", RumbleHigh, productionFoldout);
 		FloatField rumbleDurationField					= CreateAndRegistField("패드 진동 지속 시간		|", RumbleDuration, productionFoldout);
 
 		Foldout soundFoldout = CSElementUtility.CreateFoldout("Sound");
