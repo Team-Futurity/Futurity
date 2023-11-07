@@ -10,13 +10,15 @@ public class InputActionManager : Singleton<InputActionManager>
 	/*public UnityEvent<InputActionType> OnInputActionEnabled;
 	public UnityEvent<InputActionData> OnEnableEvent;
 	public UnityEvent OnDisableEvent;*/
-	public UnityEvent<InputActionMap> OnActionMapChange; 
+	public UnityEvent<InputActionMap> OnActionMapChange;
 
 	//public bool ProcessesDefaulting { get; private set; }
 
 	public CombinedInputActions InputActions { get; private set; }
 
 	public InputActionMap currentActionMap { get; private set; }
+
+	public InputDevice currentDevice { get; private set; }
 
 	[SerializeField] private bool isTestMode;
 	[SerializeField] private bool onPlayer;
@@ -29,6 +31,7 @@ public class InputActionManager : Singleton<InputActionManager>
 		base.Awake();
 
 		InputActions = new CombinedInputActions();
+
 		//ProcessesDefaulting = false;
 
 		//SetDefault();
@@ -37,9 +40,9 @@ public class InputActionManager : Singleton<InputActionManager>
 #if UNITY_EDITOR
 	private void Update()
 	{
-		if(isTestMode)
+		if (isTestMode)
 		{
-			if(onPlayer)
+			if (onPlayer)
 			{
 				ToggleActionMap(InputActions.Player);
 				return;
@@ -82,26 +85,45 @@ public class InputActionManager : Singleton<InputActionManager>
 	{
 		// 빼고 넣는 건 callback이 중복으로 들어가는 걸 방지하기 위함!
 		//action.started -= callback;
+		action.started += CheckDevice;
 		action.started += callback;
 
-		if(!isButton)
+		if (!isButton)
 		{
-			//action.performed -= callback;
-			action.performed += callback;
+			action.performed += CheckDevice;
+			action.canceled += CheckDevice;
 
-			//action.canceled -= callback;
+			action.performed += callback;
 			action.canceled += callback;
 		}
 	}
 
 	public void RemoveCallback(InputAction action, Action<InputAction.CallbackContext> callback, bool isButton = false)
 	{
+		action.started -= CheckDevice;
 		action.started -= callback;
 
-		if(!isButton)
+		if (!isButton)
 		{
+			action.performed -= CheckDevice;
+			action.canceled -= CheckDevice;
+
 			action.performed -= callback;
 			action.canceled -= callback;
+		}
+	}
+
+	private void CheckDevice(InputAction.CallbackContext context)
+	{
+		var newDevice = context.control.device;
+
+		FDebug.Log(newDevice);
+
+		if (currentDevice != newDevice)
+		{
+			currentDevice = newDevice;
+
+			ToggleActionMap(currentActionMap);
 		}
 	}
 

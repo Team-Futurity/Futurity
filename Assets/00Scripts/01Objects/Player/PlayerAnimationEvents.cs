@@ -143,8 +143,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 				break;
 		}
 	}
-
-	// 0 - 
+ 
 	public void BetaActivePartAttackProc(int attackProcessOrder)
 	{
 		UnitState<PlayerController> GettedState = null;
@@ -347,6 +346,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		currentVoice.start();
 
 
+	}
+
+	public void RumbleCurrentAttackNode()
+	{
+		RumbleManager.Instance.RumblePulse(attackNode.rumbleLow, attackNode.rumbleHigh, attackNode.rumbleDuration);
 	}
 
 	public void SetCollider(int isActiveInteager)
