@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Area1_EntryCutScene : CutSceneBase
+public class C1_A1_EntryCutScene : CutSceneBase
 {
 	[Space(6)] 
 	[Header("=========== 추가 컴포넌트===========")]
