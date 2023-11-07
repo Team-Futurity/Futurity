@@ -9,6 +9,8 @@ public class PlayerSpecialMoveState<T> : PlayerAttackBaseState where T : Special
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
+
+		unit.rmController.SetRootMotion("ActivePart");
 	}
 
 	public override void Update(PlayerController unit)
