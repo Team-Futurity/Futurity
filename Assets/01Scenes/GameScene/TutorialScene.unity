@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.4811321, g: 0.3931599, b: 0.24737452, a: 1}
+  m_AmbientSkyColor: {r: 0.09251513, g: 0.18107247, b: 0.5943396, a: 1}
   m_AmbientEquatorColor: {r: 0.5283019, g: 0.46600214, b: 0.48146307, a: 1}
   m_AmbientGroundColor: {r: 0.6698113, g: 0.61217266, b: 0.5023585, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 1
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -7725,7 +7725,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596310050}
   m_LocalRotation: {x: 0.23911765, y: 0.3696438, z: -0.09904577, w: 0.89239913}
-  m_LocalPosition: {x: -5.9237247, y: 5.8000007, z: -6.1237245}
+  m_LocalPosition: {x: -22.923725, y: 5.800001, z: -6.1237245}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13239,11 +13239,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6655423352717444401, guid: 0855c3f1fc3be344c83adaf22dee1ff7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.9237247
+      value: -22.923725
       objectReference: {fileID: 0}
     - target: {fileID: 6655423352717444401, guid: 0855c3f1fc3be344c83adaf22dee1ff7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.8000007
+      value: 5.800001
       objectReference: {fileID: 0}
     - target: {fileID: 6655423352717444401, guid: 0855c3f1fc3be344c83adaf22dee1ff7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13918,6 +13918,7 @@ MonoBehaviour:
   <CurrentWindowButtons>k__BackingField: []
   <CurrentWindowObjects>k__BackingField: []
   isOpen: 0
+  isNotAddButtons: 0
 --- !u!1 &1124304062
 GameObject:
   m_ObjectHideFlags: 0
@@ -25364,7 +25365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1520320758
 Light:
   m_ObjectHideFlags: 0
@@ -25376,8 +25377,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.3803922, g: 0.43833432, b: 1, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 0.5896226, g: 0.789295, b: 1, a: 1}
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -32599,8 +32600,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff8a8e016aa27d438580effb5649775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 0
   chapterManager: {fileID: 0}
+  cutScene: {fileID: 2020606663}
+  cutSceneType: 0
+  isUseScripting: 0
+  scriptingList:
+  - {fileID: 11400000, guid: b12cd126ced852f40963d63576f0c062, type: 2}
+  - {fileID: 11400000, guid: 09e050302ba95c848876240896376542, type: 2}
+  - {fileID: 11400000, guid: 095039b98aac6514facae2aebd2d988f, type: 2}
+  - {fileID: 11400000, guid: 522417e8846897c4fa09ac4673add4d0, type: 2}
+  - {fileID: 11400000, guid: 066ddcc16fc6996459e7c92e4e700e9a, type: 2}
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
   cutScene: {fileID: 2020606663}
   scriptingList:
   - {fileID: 11400000, guid: b12cd126ced852f40963d63576f0c062, type: 2}
