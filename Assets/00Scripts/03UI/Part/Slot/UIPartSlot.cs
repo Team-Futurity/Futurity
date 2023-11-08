@@ -9,7 +9,7 @@ public class UIPartSlot : MonoBehaviour
 	[SerializeField]
 	private PartSystem partSystem;
 
-	[Space(10), Header("Part ½½·Ô")]
+	[Space(10), Header("Part ï¿½ï¿½ï¿½ï¿½")]
 	public UIPassiveSlot[] passiveSlots;
 	public UIActiveSlot activeSlot;
 
@@ -19,7 +19,7 @@ public class UIPartSlot : MonoBehaviour
 	   {
 		   if (index == 3)
 		   {
-			   activeSlot.SetSlot();
+			  // activeSlot.SetSlot();
 			   return;
 		   }
 

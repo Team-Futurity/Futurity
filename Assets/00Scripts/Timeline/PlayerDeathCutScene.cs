@@ -4,13 +4,14 @@ using UnityEngine.Rendering;
 
 public class PlayerDeathCutScene : CutSceneBase
 {
-	[Header("흑백 전환 시간")] 
+	[Space(6)] 
+	[Header("GayScale")]
 	[SerializeField] private float grayScaleTime = 0.5f;
 	private IEnumerator enableGrayScale;
 
 	protected override void Init()
 	{
-		
+		base.Init();
 	}
 	
 	protected override void EnableCutScene()

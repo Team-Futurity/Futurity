@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667555, g: 0.48427182, b: 0.56452405, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8429,8 +8429,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b88b9dc1add20f44b1d7977eeac55c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 1
   chapterManager: {fileID: 0}
+  cutScene: {fileID: 0}
+  cutSceneType: 12
+  isUseScripting: 0
+  scriptingList: []
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
 --- !u!320 &632934173
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -14812,8 +14817,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad82560bb25010468300e9d2c3f42e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 2
   chapterManager: {fileID: 0}
+  cutScene: {fileID: 0}
+  cutSceneType: 10
+  isUseScripting: 0
+  scriptingList: []
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
   grayScaleTime: 0.5
 --- !u!320 &1137756667
 PlayableDirector:
@@ -17890,6 +17900,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 5982630791469350487, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 688e26f7ac981674ca6ae22f42a80033, type: 2}
     - target: {fileID: 6074239495995282582, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -25671,7 +25685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6655423352717444407, guid: 0855c3f1fc3be344c83adaf22dee1ff7, type: 3}
       propertyPath: m_ImpulseDefinition.m_ImpulseDuration
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6655423352871930389, guid: 0855c3f1fc3be344c83adaf22dee1ff7, type: 3}
       propertyPath: m_XDamping
@@ -27003,8 +27017,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518d2b5b2c533674697cda5ddffd84a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 3
   chapterManager: {fileID: 0}
+  cutScene: {fileID: 0}
+  cutSceneType: 11
+  isUseScripting: 0
+  scriptingList: []
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
 --- !u!320 &2086130054
 PlayableDirector:
   m_ObjectHideFlags: 0

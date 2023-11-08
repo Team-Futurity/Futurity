@@ -1,15 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Playables;
 
 public class InteractionCutScene : CutSceneBase
 {
-	[Header("Component")]
-	[SerializeField] private PlayableDirector cutScene;
-	
-	[Header("스크립트 데이터")]
-	[SerializeField] private List<ScriptingList> scriptingList;
+	[Header("추가 Component")]
 	[SerializeField] private List<int> firstName;
 	private int enableIndex;
 
@@ -18,7 +13,7 @@ public class InteractionCutScene : CutSceneBase
 
 	protected override void Init()
 	{
-
+		base.Init();
 	}
 
 	protected override void EnableCutScene()
@@ -40,10 +35,7 @@ public class InteractionCutScene : CutSceneBase
 	
 	public void SubInteractionScripting()
 	{
-		cutScene.Pause();
-		
-		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
-		chapterManager.scripting.StartPrintingScript(scriptingList[enableIndex].scriptList);
+		StartScripting(enableIndex);
 	}
 
 	public void SetIndex(int index) => enableIndex = index;
