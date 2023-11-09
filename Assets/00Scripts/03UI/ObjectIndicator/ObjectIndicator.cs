@@ -10,7 +10,7 @@ public class ObjectIndicator : MonoBehaviour
 	[SerializeField] private Transform enemies;
 
 	[Header("Effect")]
-	[SerializeField] private GameObject defualtIndicatorEffect;
+	[SerializeField] private GameObject defaultIndicatorEffect;
 	[SerializeField] private GameObject otherIndicatorEffect;
 
 	[Header("Distance")]
@@ -22,19 +22,17 @@ public class ObjectIndicator : MonoBehaviour
 	[SerializeField] private float minSize;
 	[SerializeField] private float maxSize;
 
-
 	private GameObject defaultIndicatorInstance;
 	private GameObject otherIndicatorInstance;
 	private bool isActive;
+	public bool IsActive => isActive;
 
 	private void Start()
 	{
-		defaultIndicatorInstance = Instantiate(defualtIndicatorEffect, transform);
-		otherIndicatorInstance = Instantiate(defualtIndicatorEffect, transform);
+		defaultIndicatorInstance = Instantiate(defaultIndicatorEffect, transform);
+		otherIndicatorInstance = Instantiate(otherIndicatorEffect, transform);
 		defaultIndicatorInstance.SetActive(false);
 		otherIndicatorInstance.SetActive(false);
-
-		ActivateIndicator();
 	}
 
 	public void ActivateIndicator(GameObject target = null)
