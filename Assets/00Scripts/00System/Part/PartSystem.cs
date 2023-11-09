@@ -22,7 +22,6 @@ public class PartSystem : MonoBehaviour
 	// Active Part Variable
 	[SerializeField, Header("액티브 파츠")]
 	public SpecialMoveType activePartType = SpecialMoveType.Basic;
-
 	public bool isStartActivePart = false; 
 		
 	// Part가 계산된 Status
@@ -46,8 +45,6 @@ public class PartSystem : MonoBehaviour
 		TryGetComponent(out player);
 
 		comboGaugeSystem.OnGaugeChanged?.AddListener(UpdatePartActivate);
-
-		EquipActivePart(2202);
 	}
 
 	private void Start()
@@ -62,6 +59,7 @@ public class PartSystem : MonoBehaviour
 
 	private void LoadPartData()
 	{
+		// Passive Part
 		for (int i = 0; i < 3; ++i)
 		{
 			var data = PlayerPrefs.GetInt($"PassivePart{i}");
