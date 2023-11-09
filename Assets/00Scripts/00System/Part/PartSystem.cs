@@ -171,7 +171,8 @@ public class PartSystem : MonoBehaviour
 				player.onAttackEvent?.AddListener(passivePart.AddCoreAbilityToAttackEvent);
 			}
 		}
-
+		
+		Debug.Log(index);
 		onPartActive?.Invoke(index - 1);
 	}
 
@@ -214,7 +215,7 @@ public class PartSystem : MonoBehaviour
 	{
 		if (index == ACTIVE_PART_INDEX)
 		{
-			return activePartType == SpecialMoveType.None;
+			return activePartType != SpecialMoveType.None;
 		}
 		else
 		{
