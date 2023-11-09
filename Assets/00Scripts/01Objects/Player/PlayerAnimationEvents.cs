@@ -344,12 +344,12 @@ public class PlayerAnimationEvents : MonoBehaviour
 		currentVoice = AudioManager.Instance.CreateInstance(voice);
 		currentVoice.set3DAttributes(RuntimeUtils.To3DAttributes(pc.gameObject));
 		currentVoice.start();
-
-
 	}
 
 	public void RumbleCurrentAttackNode()
 	{
+		if (!CheckEnemyInAttackRange()) { return; }
+
 		RumbleManager.Instance.RumblePulse(attackNode.rumbleLow, attackNode.rumbleHigh, attackNode.rumbleDuration);
 	}
 
