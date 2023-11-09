@@ -353,6 +353,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 		RumbleManager.Instance.RumblePulse(attackNode.rumbleLow, attackNode.rumbleHigh, attackNode.rumbleDuration);
 	}
 
+	#region Collider
 	public void DisableCollider()
 	{
 		pc.SetCollider(false);
@@ -381,4 +382,5 @@ public class PlayerAnimationEvents : MonoBehaviour
 			pc.playerData.DisableAllCollider();
 		}
 	}
+	#endregion
 }
