@@ -1,19 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
-public enum ESpawnerType
-{
-	NONEVENT = -1,
-	CHAPTER1_AREA1,
-	CHAPTER1_AREA2,
-	CHAPTER1_AREA3,
-	CHAPTER2_AREA1,
-	CHAPTER2_AREA2,
-	CHAPTER_BOSS
-}
 
 public class SpawnerManager : MonoBehaviour
 {
@@ -28,8 +16,8 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private Transform enemyContainer;
 	[SerializeField] private DialogData dialogData;
 
-	[Header("Event")]
-	[SerializeField] private ESpawnerType spawnerType;
+	[Header("Event")] 
+	[SerializeField] private bool isUseEvent = true;
 	[SerializeField] private int dialogCondition;
 	[SerializeField] private UnityEvent spawnEndEvent;
 	[SerializeField] private UnityEvent<DialogData> interimEvent;
@@ -140,7 +128,7 @@ public class SpawnerManager : MonoBehaviour
 	{
 		MinusWaveSpawnCount();
 
-		if (curWaveSpawnCount <= 0 && spawnerList.Count <= 0 && spawnerType != ESpawnerType.CHAPTER_BOSS)
+		if (curWaveSpawnCount <= 0 && spawnerList.Count <= 0 && isUseEvent == true)
 		{
 			spawnEndEvent?.Invoke();
 			CheckIndicatorDeActivation();
@@ -198,13 +186,8 @@ public class SpawnerManager : MonoBehaviour
 	{
 		curWaveSpawnCount--;
 		CheckIndicatorActivation();
-
-		if (spawnerType == ESpawnerType.NONEVENT || isEventEnable == true)
-		{
-			return;
-		}
-
-		if (curWaveSpawnCount <= dialogCondition)
+		
+		if (curWaveSpawnCount <= dialogCondition || isEventEnable == true)
 		{
 			return;
 		}
