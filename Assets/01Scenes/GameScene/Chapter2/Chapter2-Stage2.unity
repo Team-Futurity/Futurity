@@ -2589,6 +2589,10 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: indicatorTarget
+      value: 
+      objectReference: {fileID: 1397247059}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: isImmediatelySpawn
       value: 0
       objectReference: {fileID: 0}
@@ -4333,6 +4337,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1845335352}
     m_Modifications:
+    - target: {fileID: 251518734982114095, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
+      propertyPath: enemies
+      value: 
+      objectReference: {fileID: 1413100397}
     - target: {fileID: 983584537862922632, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
       propertyPath: camera
       value: 
@@ -4779,6 +4787,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1216295985}
         m_TargetAssemblyTypeName: InteractionCutScene, Assembly-CSharp
         m_MethodName: MoveStage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1933705454}
+        m_TargetAssemblyTypeName: ObjectIndicator, Assembly-CSharp
+        m_MethodName: DeactiveIndicator
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5364,6 +5384,10 @@ PrefabInstance:
       propertyPath: spawnerType
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
+      propertyPath: indicatorTarget
+      value: 
+      objectReference: {fileID: 2093371793}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: isImmediatelySpawn
       value: 1
@@ -6798,6 +6822,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1933705454 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 251518734982114095, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
+  m_PrefabInstance: {fileID: 1173309210}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc85348e22e94e54e99976ef91e0443d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1954809234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6891,10 +6926,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
       propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
       propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
+      propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
@@ -6902,7 +6941,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 854518135}
     - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
+      propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1933705454}
+    - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
       propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
+      propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
@@ -6910,11 +6957,23 @@ PrefabInstance:
       value: SpawnEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
+      propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DeactiveIndicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
       propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SpawnerManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
+      propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: ObjectIndicator, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
       propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252798079483354430, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}
+      propertyPath: endEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1252798079483354431, guid: bb40e8c00ecb0fe4da82f5e9d0e664ab, type: 3}

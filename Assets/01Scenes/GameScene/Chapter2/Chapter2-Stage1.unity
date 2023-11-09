@@ -10231,6 +10231,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1845335352}
     m_Modifications:
+    - target: {fileID: 251518734982114095, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
+      propertyPath: enemies
+      value: 
+      objectReference: {fileID: 1413100397}
     - target: {fileID: 983584537862922632, guid: 42840f3ad3c41d345b04584d5ff4dc5f, type: 3}
       propertyPath: camera
       value: 
@@ -12538,7 +12542,21 @@ MonoBehaviour:
   isUseSkeleton: 0
   skeletonParent: {fileID: 0}
   interactionCollider: {fileID: 227387372}
-  chapterTrigger: {fileID: 1913249726}
+  disableEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1913249728}
+        m_TargetAssemblyTypeName: ExitAniamtion, Assembly-CSharp
+        m_MethodName: PlusCurCount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1400966877
 GameObject:
   m_ObjectHideFlags: 0
@@ -16542,7 +16560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1913249727
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16552,7 +16570,7 @@ BoxCollider:
   m_GameObject: {fileID: 1913249726}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -16570,7 +16588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimation: {fileID: 1047238524}
   delayTime: 1.5
-  enableCondition: 2
+  enableCondition: 1
   curCount: 0
 --- !u!4 &1913249729
 Transform:
