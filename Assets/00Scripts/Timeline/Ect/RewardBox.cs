@@ -13,7 +13,10 @@ public class RewardBox : MonoBehaviour
 	public int[] partCodes;
 	private bool isEnter;
 
-	public int[] partDataBase = { 2201, 2202, 2101, 2102, 2103, 2104, 2105, 2106 };
+	public int[] partDataBase = { 
+		2201, 2202,							// Active
+		2101, 2102, 2103, 2104, 2105, 2106	// Passive
+	};
 
 	private void OnDisable()
 	{
@@ -33,7 +36,7 @@ public class RewardBox : MonoBehaviour
 		}
 		
 		ChapterMoveController.Instance.EnableInteractionUI(EUIType.OPENBOX);
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
+		// InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 
 	private void OnTriggerExit(Collider other)
@@ -66,7 +69,8 @@ public class RewardBox : MonoBehaviour
 			yield return null;
 		}
 
-		passivePartSelect.SetPartData(GetPlayerEquipPartList());
+		//		passivePartSelect.SetPartData(GetPlayerEquipPartList());
+		Debug.Log(GetPlayerEquipPartList());
 		UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
 		gameObject.GetComponent<BoxCollider>().enabled = false;
 	}
@@ -77,6 +81,7 @@ public class RewardBox : MonoBehaviour
 		var secondPassivePart = PlayerPrefs.GetInt("Passive1");
 		var thirdPassivePart = PlayerPrefs.GetInt("Passive2");
 		var activePart = PlayerPrefs.GetInt("ActivePart");
+		Debug.Log(" LOAD + " + firstPassivePart + " : " + secondPassivePart + " : " + thirdPassivePart + " : " + activePart);
 		
 		var temp = partDataBase.ToList();
 		
