@@ -31,11 +31,14 @@ public class SpawnerManager : MonoBehaviour
 	[Header("Event")]
 	[SerializeField] private ESpawnerType spawnerType;
 	[SerializeField] private int dialogCondition;
-	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> spawnEndEvent;
-	[SerializeField] private UnityEvent ectEvent;
+	[SerializeField] private UnityEvent spawnEndEvent;
 	[SerializeField] private UnityEvent<DialogData> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
-	public ESpawnerType SpawnerType => spawnerType;
+
+	[Header("인디케이터")]
+	[SerializeField] private int indicatorCondition = 5;
+	[SerializeField] private GameObject indicatorTarget = null;
+	private ObjectIndicator objectIndicator;
 
 	[Header("이미 배치된 적이 있다면 사용")] 
 	[SerializeField] private List<PlaceEnemy> placeEnemies = null;
@@ -46,10 +49,6 @@ public class SpawnerManager : MonoBehaviour
 	[ReadOnly(false), SerializeField] private int[] totalSpawnCount;
 	
 	private readonly List<Queue<GameObject>> enemyPool = new List<Queue<GameObject>>();
-
-	// Property
-	public int CurWaveSpawnCount => curWaveSpawnCount;
-	public int SpawnerListCount => spawnerList.Count;
 	
 	private void Awake()
 	{
@@ -65,7 +64,9 @@ public class SpawnerManager : MonoBehaviour
 		CreateEnemyObject(totalSpawnCount[(int)EnemyType.RangedDefault], EnemyType.RangedDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MinimalDefault], EnemyType.MinimalDefault);
 		CreateEnemyObject(totalSpawnCount[(int)EnemyType.EliteDefault], EnemyType.EliteDefault);
-
+		
+		objectIndicator = GameObject.FindWithTag("Player").GetComponentInChildren<ObjectIndicator>();
+		
 		if (placeEnemies.Count == 0)
 		{
 			return;
@@ -139,12 +140,11 @@ public class SpawnerManager : MonoBehaviour
 	{
 		MinusWaveSpawnCount();
 
-		if (curWaveSpawnCount <= 0 && SpawnerListCount <= 0 && spawnerType != ESpawnerType.CHAPTER_BOSS)
+		if (curWaveSpawnCount <= 0 && spawnerList.Count <= 0 && spawnerType != ESpawnerType.CHAPTER_BOSS)
 		{
-			spawnEndEvent?.Invoke(this, spawnerType);
-			ectEvent?.Invoke();
+			spawnEndEvent?.Invoke();
+			CheckIndicatorDeActivation();
 		}
-		
 		
 		if (curWaveSpawnCount > nextWaveCondition || spawnerList.Count <= 0)
 		{
@@ -157,6 +157,7 @@ public class SpawnerManager : MonoBehaviour
 			curWaveSpawnCount += spawner.GetCurrentSpawnCount();
 		}
 		
+		objectIndicator.DeactiveIndicator();
 		UpdateSpawnerList();
 	}
 
@@ -196,6 +197,7 @@ public class SpawnerManager : MonoBehaviour
 	private void MinusWaveSpawnCount()
 	{
 		curWaveSpawnCount--;
+		CheckIndicatorActivation();
 
 		if (spawnerType == ESpawnerType.NONEVENT || isEventEnable == true)
 		{
@@ -209,6 +211,29 @@ public class SpawnerManager : MonoBehaviour
 		
 		isEventEnable = true;
 		interimEvent?.Invoke(dialogData);
+	}
+
+	private void CheckIndicatorActivation()
+	{
+		if (curWaveSpawnCount > indicatorCondition || objectIndicator.IsActive == true)
+		{
+			return;
+		}
+		
+		objectIndicator.ActivateIndicator();
+	}
+
+	private void CheckIndicatorDeActivation()
+	{
+		if (indicatorTarget == null)
+		{
+			objectIndicator.DeactiveIndicator();
+		}
+		else
+		{
+			objectIndicator.DeactiveIndicator();
+			objectIndicator.ActivateIndicator(indicatorTarget);
+		}
 	}
 	
 	private void EnablePlayerInput()
