@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -51,6 +52,9 @@ public abstract class UnitBase : MonoBehaviour
 	private Collider[] colliders;
 	private bool[] collidersAreEnabled;
 
+	// boolean
+	public bool isKnockbaking;
+
 	protected virtual void Start()
 	{
 		if (unitAnimator == null) { FDebug.LogWarning("Animator is Null.", GetType()); }
@@ -58,6 +62,7 @@ public abstract class UnitBase : MonoBehaviour
 		attackCheckWFS = new WaitForSeconds(Time.fixedDeltaTime * AttackCheckFrameCount);
 		StartCoroutine(AttackProcessCorotutine());
 		StartCoroutine(AnimationStopCoroutine());
+		StartCoroutine(CheckKnockbackCoroutine());
 
 		// colliders
 		colliders = GetComponentsInChildren<Collider>();
@@ -229,7 +234,25 @@ public abstract class UnitBase : MonoBehaviour
 	{
 		rigid.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 		rigid.AddForce(direction * power, ForceMode.Impulse);
+		isKnockbaking = true;
+		FDebug.Log("활성화!");
 	}
+	protected IEnumerator CheckKnockbackCoroutine()
+	{
+		while (true)
+		{
+			if(isKnockbaking)
+			{
+				yield return null;
+				if (rigid.velocity.magnitude < math.EPSILON)
+				{
+					isKnockbaking = false;
+				}
+			}
+			yield return null;
+		}
+	}
+
 
 	protected IEnumerator StartCriticalImage()
 	{
