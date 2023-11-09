@@ -353,10 +353,32 @@ public class PlayerAnimationEvents : MonoBehaviour
 		RumbleManager.Instance.RumblePulse(attackNode.rumbleLow, attackNode.rumbleHigh, attackNode.rumbleDuration);
 	}
 
+	public void DisableCollider()
+	{
+		pc.SetCollider(false);
+	}
+
+	public void EnableCollider()
+	{
+		pc.SetCollider(true);
+	}
+
+	public void EnableAttackCollider(int type)
+	{
+		pc.attackColliderChanger.EnableCollider((ColliderType)type);
+	}
+
 	public void SetCollider(int isActiveInteager)
 	{
 		bool isActive = isActiveInteager == 1;
 
-		pc.SetCollider(isActive);
+		if(isActive)
+		{
+			pc.playerData.RestoreCollider();
+		}
+		else
+		{
+			pc.playerData.DisableAllCollider();
+		}
 	}
 }

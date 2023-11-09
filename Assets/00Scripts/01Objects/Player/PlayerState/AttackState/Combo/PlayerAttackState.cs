@@ -38,8 +38,7 @@ public class PlayerAttackState : PlayerComboAttackState
 
 		//pc.playerData.EnableAttackTiming();
 
-		pc.SetCollider(true);
-		pc.autoTargetColliderChanger.DisableAllCollider();
+		pc.SetCollider(false);
 	}
 
 	public override void Update(PlayerController pc)
