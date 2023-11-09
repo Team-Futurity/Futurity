@@ -24,8 +24,11 @@ public class ObjectIndicator : MonoBehaviour
 
 	private GameObject defaultIndicatorInstance;
 	private GameObject otherIndicatorInstance;
+	private GameObject currentIndicator;
 	private bool isActive;
 	public bool IsActive => isActive;
+
+	private IEnumerator enemyTracking;
 
 	private void Start()
 	{
@@ -39,16 +42,25 @@ public class ObjectIndicator : MonoBehaviour
 	{
 		isActive = true;
 
-		GameObject currentIndicator = target != null ? otherIndicatorInstance : defaultIndicatorInstance;	
+		currentIndicator = target != null ? otherIndicatorInstance : defaultIndicatorInstance;	
 
 		currentIndicator.SetActive(true);
-		
-		StartCoroutine(EnemyTrackingCoroutine(currentIndicator, target));
+
+		enemyTracking = EnemyTrackingCoroutine(currentIndicator, target);
+		StartCoroutine(enemyTracking);
 	}
 
 	public void DeactiveIndicator()
 	{
+		if (enemyTracking == null)
+		{
+			return;
+		}
+		
 		isActive = false;
+		currentIndicator.SetActive(false);
+		currentIndicator = null;
+		StopCoroutine(enemyTracking);
 	}
 
 	private Transform GetNearestEnemy()
@@ -93,6 +105,7 @@ public class ObjectIndicator : MonoBehaviour
 			Vector3 dir = (target.position - player.transform.position).normalized;
 
 			indicator.transform.rotation = Quaternion.LookRotation(dir);
+			indicator.transform.eulerAngles = new Vector3(0, indicator.transform.eulerAngles.y, 0);
 
 			float distance = (target.position - player.transform.position).magnitude;
 
