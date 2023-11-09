@@ -106,6 +106,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public ColliderChanger attackColliderChanger;
 	public ColliderChanger autoTargetColliderChanger;
 	public CapsuleCollider basicCollider;
+	public BoxCollider chargeCollider;
 	public EffectController effectController;
 	public EffectDatas effectSO;
 	//public BuffProvider buffProvider;
@@ -191,6 +192,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		curNode = commandTree.Top;
 		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
+		chargeCollider.enabled = false;
 		//comboTree.SetTree(comboTree.top, null);
 
 		// Glove Init
@@ -719,6 +721,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (attackColliderChanger == null) { msgs.Add("attackColliderChanger is Null."); }
 		if (autoTargetColliderChanger == null) { msgs.Add("autoTargetColliderChanger is Null."); }
 		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
+		if (chargeCollider == null) { msgs.Add("chargeCollider is Null."); }
 		if (effectController == null) { msgs.Add("effectManager is Null."); }
 		if (effectSO == null) { msgs.Add("effectSO is Null."); }
 		//if (buffProvider == null) { msgs.Add("buffProvider is Null."); }

@@ -83,6 +83,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		pc = unit;
 		unit.playerData.EnableAttackTime();
 		unit.playerData.EnableAttackTiming();
+
+		// collider
+		unit.chargeCollider.enabled = true;
 	}
 
 	public override void End(PlayerController unit)
@@ -99,6 +102,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		pc.basicCollider.radius = originScale;
 		pc.rigid.velocity = Vector3.zero;
+
+		unit.chargeCollider.enabled = false;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
