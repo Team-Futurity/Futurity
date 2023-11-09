@@ -58,8 +58,11 @@ public class ObjectIndicator : MonoBehaviour
 		}
 		
 		isActive = false;
-		currentIndicator.SetActive(false);
-		currentIndicator = null;
+		if (currentIndicator != null)
+		{
+			currentIndicator.SetActive(false);
+			currentIndicator = null;
+		}
 		StopCoroutine(enemyTracking);
 	}
 

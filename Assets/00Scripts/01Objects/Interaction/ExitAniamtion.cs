@@ -1,6 +1,5 @@
 using Spine.Unity;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +14,8 @@ public class ExitAniamtion : MonoBehaviour
 	[SerializeField] private int enableCondition;
 	[SerializeField, ReadOnly(false)] private int curCount;
 
+	private ObjectIndicator objectIndicator;
+
 	public void PlusCurCount()
 	{
 		curCount++;
@@ -25,11 +26,13 @@ public class ExitAniamtion : MonoBehaviour
 		}
 
 		gameObject.GetComponent<BoxCollider>().enabled = true;
+		Invoke(nameof(ActiveIndicator), 1.8f);
 	}
 	
 	private void Start()
 	{
 		chapterMoveController = ChapterMoveController.Instance;
+		objectIndicator = GameObject.FindWithTag("Player").GetComponentInChildren<ObjectIndicator>();
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -62,6 +65,7 @@ public class ExitAniamtion : MonoBehaviour
 	private IEnumerator WaitDoorOpen()
 	{
 		doorAnimation.AnimationState.SetAnimation(0, "open", false);
+		objectIndicator.DeactiveIndicator();
 
 		yield return new WaitForSeconds(delayTime);
 		
@@ -69,5 +73,10 @@ public class ExitAniamtion : MonoBehaviour
 		chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 		gameObject.SetActive(false);
+	}
+
+	private void ActiveIndicator()
+	{
+		objectIndicator.ActivateIndicator(gameObject);
 	}
 }
