@@ -31,7 +31,7 @@ public class SpawnerManager : MonoBehaviour
 	[Header("Event")]
 	[SerializeField] private ESpawnerType spawnerType;
 	[SerializeField] private int dialogCondition;
-	[SerializeField] private UnityEvent<SpawnerManager, ESpawnerType> spawnEndEvent;
+	[SerializeField] private UnityEvent spawnEndEvent;
 	[SerializeField] private UnityEvent ectEvent;
 	[SerializeField] private UnityEvent<DialogData> interimEvent;
 	[HideInInspector] public bool isEventEnable = false;
@@ -42,6 +42,7 @@ public class SpawnerManager : MonoBehaviour
 
 	[Header("Debug 패널")] 
 	[Tooltip("다음 웨이브 조건"), SerializeField] private int nextWaveCondition = 3;
+	[Tooltip("인디케이터 활성화 조건"), SerializeField] private int indicatorCondition = 5;
 	[SerializeField] private int curWaveSpawnCount = 0;
 	[ReadOnly(false), SerializeField] private int[] totalSpawnCount;
 	
@@ -141,7 +142,7 @@ public class SpawnerManager : MonoBehaviour
 
 		if (curWaveSpawnCount <= 0 && SpawnerListCount <= 0 && spawnerType != ESpawnerType.CHAPTER_BOSS)
 		{
-			spawnEndEvent?.Invoke(this, spawnerType);
+			spawnEndEvent?.Invoke();
 			ectEvent?.Invoke();
 		}
 		
