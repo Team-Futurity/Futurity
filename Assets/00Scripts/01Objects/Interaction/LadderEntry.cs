@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class LadderEntry : MonoBehaviour
@@ -9,6 +10,7 @@ public class LadderEntry : MonoBehaviour
 	[SerializeField] private float fadeTime = 0.8f;
 	[SerializeField] private GameObject interactionUI;
 	[SerializeField] private Transform movePos;
+	[SerializeField] private UnityEvent disableEvent;
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -41,6 +43,7 @@ public class LadderEntry : MonoBehaviour
 
 	private void DownLadder()
 	{
+		disableEvent?.Invoke();
 		InputActionManager.Instance.DisableActionMap();
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckInput);
 		
