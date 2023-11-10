@@ -14,7 +14,9 @@ public class UIPerformBoard : MonoBehaviour
 	private bool[] moveType = new bool[4];
 
 	[HideInInspector]
-	public UnityAction onEndedAction; 
+	public UnityAction onEndedAction;
+
+	public UnityEvent onShow;
 
 	public bool EnterPlayerEventType(PlayerInputEnum type)
 	{
@@ -24,6 +26,11 @@ public class UIPerformBoard : MonoBehaviour
 	public void Active(bool isOn)
 	{
 		gameObject.SetActive(isOn);
+
+		if (isOn)
+		{
+			onShow.Invoke();
+		}
 	}
 
 	private bool CheckCondition(PlayerInputEnum type)
