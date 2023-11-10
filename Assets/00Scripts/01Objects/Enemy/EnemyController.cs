@@ -37,6 +37,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public CapsuleCollider chaseRange;						//추적 반경
 	public SphereCollider atkCollider;                      //타격 Collider
+	public List<SphereCollider> atkColliders = new List<SphereCollider>();
 	[HideInInspector] public BoxCollider enemyCollider;     //피격 Collider
 
 	public SkinnedMeshRenderer skinnedMeshRenderer;
@@ -140,6 +141,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 			case EnemyType.EliteDefault:
 				return EnemyState.EliteDefaultChase;
+
+			case EnemyType.D_BF:
+				return EnemyState.D_BFChase;
 
 			default:
 				FDebug.Log("ERROR_ChangeChaseState()");

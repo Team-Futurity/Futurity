@@ -59,6 +59,17 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public AttackColliders attackTrigger;
 
 	public float chaseDistance = 7.0f;
+	public float dashPower = 8000f;
+
+	[Space(8)]
+	[Header("Type6 Skill")]
+	[Tooltip("개별 장판 출력 타이밍")] public float flooringTiming = 0f;
+	[Tooltip("개별 공격 이펙트 타이밍")] public float atkEffectTiming = 0f;
+	[Tooltip("개별 공격 활성화 타이밍")] public float atktTiming = 0f;
+	[Tooltip("개별 공격 비활성화 타이밍")] public float deActiveTiming = 0f;
+	[Tooltip("공격 간격")] public float attackSpeed = 0f;
+	[Tooltip("공격 개수")] public int maxCount = 0;
+	[Tooltip("랜덤 범위")] public float maxRandomDistance = 0f;
 
 
 	#region Animator Parameter
@@ -117,10 +128,10 @@ public class BossController : UnitFSM<BossController>, IFSM
 			listEffectData.Add(data);
 		}
 	}
-	public void ActiveEffect(int activeIndex = 0)
+	public void ActiveDashEffect(EffectActiveData eData, int activeIndex = 0)
 	{
-		EffectActiveData data = currentEffectData;
-		EffectKey key = effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
+		EffectActiveData data = eData;
+		EffectKey key = effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, this.gameObject, data.index, activeIndex, false);
 
 		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
 

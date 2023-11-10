@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAttackBaseState : StateBase
 {
-	private bool isAttack = false;
+	protected bool isAttack = false;
 
 
 	public override void Begin(EnemyController unit)
@@ -41,7 +41,7 @@ public class EnemyAttackBaseState : StateBase
 	}
 
 
-	private void AttackAnim(EnemyController unit, float curTime, float maxTime)
+	protected void AttackAnim(EnemyController unit, float curTime, float maxTime)
 	{
 		if (curTime > maxTime)
 		{
