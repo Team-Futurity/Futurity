@@ -7,6 +7,7 @@ public class ColliderChanger : MonoBehaviour
 {
 	public ColliderData[] colliderDatas;
 	private Dictionary<ColliderType, ColliderData> colliderDictionary;
+	private bool isLock;
 
 	private void Start()
 	{
@@ -57,12 +58,22 @@ public class ColliderChanger : MonoBehaviour
 		return colliderData.colliderScript;
 	}
 
+	public void LockColliderEnable()
+	{
+		isLock = true;
+	}
+
+	public void UnlockColliderEnable()
+	{
+		isLock = false;
+	}
 
 	public bool EnableCollider(ColliderType type, out ColliderBase collider)
 	{
 		ColliderData colliderToEnable = GetColliderWithDictionary(type);
 		collider = colliderToEnable.colliderScript;
 
+		if(isLock) { return false; }
 		if(colliderToEnable == null) { return false; }
 		
 		foreach(var colliderValue in colliderDictionary.Values)
@@ -77,6 +88,8 @@ public class ColliderChanger : MonoBehaviour
 
 	public bool EnableCollider(ColliderType type)
 	{
+		if (isLock) { return false; }
+
 		ColliderBase colliderBase;
 		return EnableCollider(type, out colliderBase);
 	}
@@ -86,6 +99,7 @@ public class ColliderChanger : MonoBehaviour
 		ColliderData colliderToEnable = GetColliderWithDictionary(type); 
 		collider = colliderToEnable.colliderScript;
 
+		if (isLock) { return false; }
 		if (colliderToEnable == null) { return false; }
 
 		colliderToEnable.collider.enabled = false;
@@ -95,12 +109,15 @@ public class ColliderChanger : MonoBehaviour
 
 	public bool DisableCollider(ColliderType type)
 	{
+		if (isLock) { return false; }
+
 		ColliderBase colliderBase;
 		return DisableCollider(type, out colliderBase);
 	}
 
 	public void DisableAllCollider()
 	{
+		if (isLock) { return; }
 		foreach (var colliderData in colliderDictionary.Values)
 		{
 			colliderData.collider.enabled = false;
