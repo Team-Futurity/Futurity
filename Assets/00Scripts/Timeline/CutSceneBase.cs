@@ -15,6 +15,7 @@ public abstract class CutSceneBase : MonoBehaviour
 	[Space(3)]
 	[Header("컷씬 타입")]
 	[SerializeField] protected ECutSceneType cutSceneType;
+	[SerializeField] protected bool isActiveCutScene;
 
 	[Space(3)] [Header("스크립트 데이터")] 
 	[SerializeField] private bool isUseScripting;
@@ -30,7 +31,9 @@ public abstract class CutSceneBase : MonoBehaviour
 	protected virtual void Init()
 	{
 		chapterManager = gameObject.GetComponentInParent<ChapterCutSceneManager>();
-		cutScene = gameObject.GetComponent<PlayableDirector>();
+
+		cutScene = isActiveCutScene
+			? gameObject.GetComponentInChildren<PlayableDirector>() : gameObject.GetComponent<PlayableDirector>();
 
 		if (isUseScripting == true)
 		{

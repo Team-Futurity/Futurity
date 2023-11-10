@@ -7,7 +7,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 {
 	private const float explosionEffectUnitSize = 0.1f;
 	private const float maxAngle = 360;
-	private readonly string IsActivePartAnimKey = "IsActivePart";
 	private List<UnitBase> enemies = new List<UnitBase>();
 
 	// effects
@@ -37,7 +36,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		minSize = proccessor.minRange * MathPlus.cm2m;
 		maxSize = proccessor.maxRange * MathPlus.cm2m;
 		TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_ALPHA);
-		//unit.animator.SetBool(IsActivePartAnimKey, true);
 
 		pc = unit;
 		
@@ -98,7 +96,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 	{
 		base.End(unit);
 		unit.rigid.velocity = Vector3.zero;
-		unit.animator.SetBool(IsActivePartAnimKey, false);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

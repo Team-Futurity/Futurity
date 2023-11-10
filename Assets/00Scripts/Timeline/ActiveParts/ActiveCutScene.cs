@@ -3,7 +3,8 @@ using UnityEngine;
 public class ActiveCutScene : CutSceneBase
 {
 	private Animator playerAnimator;
-	private readonly int ACTIVE_ALPHA_KEY = Animator.StringToHash("IsActivePart");
+	private readonly int ACTIVE_ALPHA_KEY = Animator.StringToHash("AlphaTrigger");
+	private readonly int ACTIVE_BETA_KEY = Animator.StringToHash("BetaTrigger");
 
 	protected override void Init()
 	{
@@ -24,7 +25,15 @@ public class ActiveCutScene : CutSceneBase
 
 	public void TimeStop()
 	{
-		playerAnimator.SetBool(ACTIVE_ALPHA_KEY, true);
+		if (cutSceneType == ECutSceneType.ACTIVE_ALPHA)
+		{
+			playerAnimator.SetTrigger(ACTIVE_ALPHA_KEY);
+		}
+		else
+		{
+			playerAnimator.SetTrigger(ACTIVE_BETA_KEY);
+		}
+		
 		Time.timeScale = 0.0f;
 	}
 }

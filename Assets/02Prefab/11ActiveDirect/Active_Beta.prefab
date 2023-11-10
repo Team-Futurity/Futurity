@@ -9,13 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5357561265612628941}
+  - component: {fileID: 8845328602810632466}
   m_Layer: 0
   m_Name: Active_Beta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5357561265612628941
 Transform:
   m_ObjectHideFlags: 0
@@ -32,6 +33,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8845328602810632466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6577572822779351257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b88b9dc1add20f44b1d7977eeac55c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chapterManager: {fileID: 0}
+  cutScene: {fileID: 0}
+  cutSceneType: 13
+  isActiveCutScene: 1
+  isUseScripting: 0
+  scriptingList: []
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
 --- !u!1 &7000644387104029842
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +270,7 @@ MonoBehaviour:
   isGlobal: 1
   blendDistance: 0
   weight: 1
-  priority: 0
+  priority: 10
 --- !u!1 &7000644387119442748
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7000644388623934448}
   - component: {fileID: 7000644388623934449}
+  - component: {fileID: 8428291113478237132}
   m_Layer: 0
   m_Name: ult3_direct
   m_TagString: Untagged
@@ -905,6 +927,8 @@ PlayableDirector:
     value: {fileID: 3480681437325965645}
   - key: {fileID: 8935086263343106703, guid: 21792914d1a3946408668f34a0435d72, type: 2}
     value: {fileID: 3480681437325965645}
+  - key: {fileID: -6648377027509584076, guid: 21792914d1a3946408668f34a0435d72, type: 2}
+    value: {fileID: 8428291113478237132}
   m_ExposedReferences:
     m_References:
     - c4894c740b7b66c4cb594468618ce43e: {fileID: 3453945469677757528}
@@ -918,6 +942,51 @@ PlayableDirector:
     - 34e6d0db635d1784888aec1fd02e95fa: {fileID: 9122762569570231444}
     - 6fc254d7599b1764c8d98af4ea5f4223: {fileID: 4549320660416049143}
     - 14d4e5e179c45ac4fa8deaac72f8799f: {fileID: 4549320661631737135}
+--- !u!114 &8428291113478237132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7000644388623934222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 41c3a9a1825e34f47893f98c32a7be66, type: 2}
+    - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8845328602810632466}
+          m_TargetAssemblyTypeName: ActiveCutScene, Assembly-CSharp
+          m_MethodName: TimeStop
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6577572822779351257}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &7000644386620966981
 PrefabInstance:
   m_ObjectHideFlags: 0

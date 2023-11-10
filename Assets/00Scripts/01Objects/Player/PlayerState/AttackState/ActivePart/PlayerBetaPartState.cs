@@ -25,7 +25,8 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	private BetaProcess currentProcess;
 	private bool isPlaying = false;
 
-	private readonly string BetaAnimKey = "IsBetaActive";
+	private readonly string BetaAnimKey = "BetaTrigger";
+	
 	
 	// Phase 1
 	private float firstMaxAngle = .0f;
@@ -51,7 +52,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	{
 		base.Begin(unit);
 
-		Debug.Log("Beta State ÁøÀÔ");
+		Debug.Log("Beta State ï¿½ï¿½ï¿½ï¿½");
 
 		enemyList.Clear();
 
@@ -90,7 +91,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		isPlaying = true;
 		
 		// Animation Play
-		unit.animator.SetBool(BetaAnimKey, true);
+		TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_BETA);
 		capsuleColl.SetCollider(firstMaxAngle, firstMinSize);
 	}
 
@@ -103,7 +104,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 
 	public override void End(PlayerController unit)
 	{
-		pc.animator.SetBool(BetaAnimKey, false);
+		
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
@@ -119,7 +120,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		}
 	}
 
-	// ÀÌÆåÆ® µ¿½Ã¿¡ µ¥¹ÌÁö Ã³¸®
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	public void OnFirstPhase()
 	{
 		// Collider Open
@@ -168,7 +169,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		proccessor.thirdAttackObjectPool.ActiveObject(proccessor.thirdEffectPos.position, proccessor.thirdEffectPos.rotation).
 		GetComponent<ParticleController>().Initialize(proccessor.thirdAttackObjectPool);
 		
-		// µ¥¹ÌÁö Àü´Þ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		AddDamageEnemy(pc, thirdDamage);
 	}
 
@@ -182,7 +183,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 		pc.ChangeState(PlayerState.Idle);
 	}
 
-	// Enemy¿¡°Ô µ¥¹ÌÁö Àü´Þ
+	// Enemyï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private void AddDamageEnemy(PlayerController unit, float damage)
 	{
 		foreach (var enemy in enemyList)
@@ -192,7 +193,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 			info.SetDamage(damage);
 			enemy.Hit(info);
 			
-			Debug.Log("¸ó½ºÅÍ °ø°Ý ¼º°ø!");
+			Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 		}
 
 		enemyList.Clear();
