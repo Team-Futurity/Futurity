@@ -36,7 +36,7 @@ public class RewardBox : MonoBehaviour
 		}
 		
 		ChapterMoveController.Instance.EnableInteractionUI(EUIType.OPENBOX);
-		// InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 
 	private void OnTriggerExit(Collider other)
@@ -69,8 +69,7 @@ public class RewardBox : MonoBehaviour
 			yield return null;
 		}
 
-		//		passivePartSelect.SetPartData(GetPlayerEquipPartList());
-		Debug.Log(GetPlayerEquipPartList());
+		passivePartSelect.SetPartData(GetPlayerEquipPartList());
 		UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
 		gameObject.GetComponent<BoxCollider>().enabled = false;
 	}
@@ -81,7 +80,6 @@ public class RewardBox : MonoBehaviour
 		var secondPassivePart = PlayerPrefs.GetInt("Passive1");
 		var thirdPassivePart = PlayerPrefs.GetInt("Passive2");
 		var activePart = PlayerPrefs.GetInt("ActivePart");
-		Debug.Log(" LOAD + " + firstPassivePart + " : " + secondPassivePart + " : " + thirdPassivePart + " : " + activePart);
 		
 		var temp = partDataBase.ToList();
 		
