@@ -170,12 +170,7 @@ public class TimelineScripting : MonoBehaviour
 		isEnd = true;
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 	}
-
-	private void CheckImageDark()
-	{
-		
-	}
-
+	
 	#region EmotionCheck
 	
 	private void MiraeEmotionCheck(ScriptingStruct.EMiraeExpression type)
