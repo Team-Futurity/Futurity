@@ -168,7 +168,7 @@ public class PartSystem : MonoBehaviour
 			AddStatus(passivePart.GetSubAbility());
 
 			// 2. Core Ability
-			if(index == CORE_ACTIVE_INDEX)
+			if(index == CORE_ACTIVE_INDEX + 1)
 			{
 				player.onAttackEvent?.AddListener(passivePart.AddCoreAbilityToAttackEvent);
 			}
