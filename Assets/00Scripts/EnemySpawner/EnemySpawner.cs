@@ -53,10 +53,10 @@ public class EnemySpawner : MonoBehaviour
 		
 		spawnIndex = 0;
 
-		PlaceEnemy(melee, EnemyType.MeleeDefault);
-		PlaceEnemy(ranged, EnemyType.RangedDefault);
-		PlaceEnemy(minimal, EnemyType.MinimalDefault);
-		PlaceEnemy(eliteDefault, EnemyType.EliteDefault);
+		PlaceEnemy(melee, EnemyType.M_CF);
+		PlaceEnemy(ranged, EnemyType.D_LF);
+		PlaceEnemy(minimal, EnemyType.T_DF);
+		PlaceEnemy(eliteDefault, EnemyType.E_DF);
 		
 		curWaveCount++;
 	}

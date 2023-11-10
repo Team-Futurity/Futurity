@@ -17,7 +17,7 @@ public class EnemySpawnState : StateBase
 		if (unit.atkCollider != null)
 			unit.atkCollider.enabled = false;
 
-		if (unit.ThisEnemyType == EnemyType.RangedDefault)
+		if (unit.ThisEnemyType == EnemyType.D_LF)
 			unit.SettingProjectile();
 
 		unit.skinnedMeshRenderer.materials = new Material[1] { unit.copyDMat };
