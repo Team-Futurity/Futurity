@@ -60,7 +60,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	public AttackColliders attackTrigger;
 
 	public float chaseDistance = 7.0f;
-	public float dashPower = 8000f;
+	//public float dashPower = 8000f;
 
 	[Space(8)]
 	[Header("Type6 Skill")]

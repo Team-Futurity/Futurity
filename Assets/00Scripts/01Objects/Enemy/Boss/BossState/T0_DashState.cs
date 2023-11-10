@@ -37,7 +37,8 @@ public class T0_DashState : B_PatternBase
 		{
 			unit.attackTrigger.type0Collider.SetActive(true);
 			unit.ActiveDashEffect(effectData);
-			unit.rigid.AddForce(unit.transform.forward * unit.dashPower, ForceMode.Acceleration);
+			unit.rigid.velocity = unit.transform.forward.normalized * unit.bossData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
+			//unit.rigid.AddForce(unit.transform.forward * unit.dashPower, ForceMode.Acceleration);
 			isAttackDone = true;
 		}
 

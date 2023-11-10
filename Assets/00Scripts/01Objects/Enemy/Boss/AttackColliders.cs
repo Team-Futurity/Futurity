@@ -14,7 +14,6 @@ public class AttackColliders : MonoBehaviour
 	public GameObject type0Collider;
 	public GameObject type1Collider;
 	public GameObject type2Collider;
-	public List<GameObject> type2ExtraColliders;
 	public List<GameObject> type3Colliders;
 	public List<GameObject> type4Colliders;
 	public SpawnerManager type5Manager;
@@ -37,13 +36,10 @@ public class AttackColliders : MonoBehaviour
 		type0Collider.transform.SetParent(bc.transform, true);
 		type1Collider.transform.SetParent(bc.transform, true);
 		type2Collider.transform.SetParent(bc.transform, true);
-		foreach(GameObject o in type2ExtraColliders)
-			o.transform.SetParent(type2Collider.transform, true);
 		type3StartPos.transform.SetParent(null, true);
 		type0Collider.SetActive(false);
 		type1Collider.SetActive(false);
 		type2Collider.SetActive(false);
-		AttackListSetting(type2ExtraColliders);
 		AttackListSetting(type3Colliders);
 		AttackListSetting(type4Colliders);
 		AttackListSetting(type6Colliders);

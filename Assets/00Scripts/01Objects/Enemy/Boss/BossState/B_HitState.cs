@@ -46,13 +46,6 @@ public class B_HitState : UnitState<BossController>
 		if (!unit.isPhase2EventDone && curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * unit.phaseDataSO.GetHPPercentage(Phase.Phase2))
 		{
 			unit.curPhase = Phase.Phase2;
-			if(unit.attackTrigger.type2ExtraColliders.Count> 0)
-			{
-				foreach (GameObject o in unit.attackTrigger.type2ExtraColliders)
-					o.SetActive(true);
-			}
-			foreach (GameObject g in unit.attackTrigger.type2ExtraColliders)
-				unit.attackTrigger.type6Colliders.Add(g);
 			unit.ChangeState(BossState.Phase2Event);
 		}
 		if (!is25PerEventDone && curHP <= unit.bossData.status.GetStatus(StatusType.MAX_HP).GetValue() * 0.25f)
