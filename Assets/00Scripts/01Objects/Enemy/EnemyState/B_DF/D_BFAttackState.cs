@@ -9,24 +9,23 @@ public class D_BFAttackState : EnemyAttackBaseState
 {
 	private List<EffectActiveData> floorEffects = new List<EffectActiveData>();
 	private List<EffectActiveData> atkEffects = new List<EffectActiveData>();
-
-	public GameObject colliderParent;
-	public static float zFarDistance;
-	public static float flooringTiming = 0f;
-	public static float atkTiming = 0f;
-	public static float deActiveTiming = 0f;
-	public static float attackSpeed = 0f;
+	private List<FlooringAttackProcess> attackProcesses;
 
 	private bool atk1stDone = false;
 	private bool atk2ndDone = false;
 	private bool atk3rdDone = false;
 
-
 	public override void Begin(EnemyController unit)
 	{
 		base.Begin(unit);
+
+		FDebug.Log("dddd");
+
 		EffectSetting(unit);
-		unit.test.transform.localPosition = new Vector3(0, 0, zFarDistance);
+		ProcessSetting(unit);
+		unit.test.transform.localPosition = new Vector3(0, 0, unit.D_BFData.data.zFarDistance);
+
+		FDebug.Log(floorEffects.Count);
 	}
 
 	public override void Update(EnemyController unit)
@@ -36,21 +35,21 @@ public class D_BFAttackState : EnemyAttackBaseState
 		{
 			AttackAnim(unit, curTime, unit.attackBeforeDelay);
 		}
-		else
+		else if(isAttack)
 		{
-			if (!atk1stDone && curTime > attackSpeed)
+			if (!atk1stDone && curTime > 1.0f +  unit.D_BFData.data.attackSpeed)
 			{
-				AttackProcessing(unit, 0);
+				Attack(0);
 				atk1stDone = true;
 			}
-			else if (!atk2ndDone && curTime > attackSpeed * 2)
+			else if (!atk2ndDone && curTime > 1.0f + unit.D_BFData.data.attackSpeed * 2)
 			{
-				AttackProcessing(unit, 1);
+				Attack(1);
 				atk2ndDone = true;
 			}
-			else if (!atk3rdDone && curTime > attackSpeed * 3)
+			else if (!atk3rdDone && curTime > 1.0f + unit.D_BFData.data.attackSpeed * 3)
 			{
-				AttackProcessing(unit, 2);
+				Attack(2);
 				atk3rdDone = true;
 			}
 			else
@@ -62,12 +61,12 @@ public class D_BFAttackState : EnemyAttackBaseState
 	public override void End(EnemyController unit)
 	{
 		base.End(unit);
+		floorEffects.Clear();
+		atkEffects.Clear();
+		attackProcesses.Clear();
 		atk1stDone = false;
 		atk2ndDone = false;
 		atk3rdDone = false;
-
-		floorEffects.Clear();
-		atkEffects.Clear();
 	}
 
 	private void EffectSetting(EnemyController unit)
@@ -79,7 +78,7 @@ public class D_BFAttackState : EnemyAttackBaseState
 			effectData.target = EffectTarget.Ground;
 			effectData.index = 0;
 			effectData.position = unit.atkColliders[i].transform.position;
-			effectData.rotation = unit.atkColliders[i].transform.rotation;
+			effectData.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 			effectData.parent = null;
 
 			floorEffects.Add(effectData);
@@ -99,11 +98,20 @@ public class D_BFAttackState : EnemyAttackBaseState
 		}
 	}
 
-	private void AttackProcessing(EnemyController unit, int index)
+	private void ProcessSetting(EnemyController unit)
 	{
-		FlooringAttackProcess atkProcess = new FlooringAttackProcess();
+		attackProcesses = new List<FlooringAttackProcess>();
 
-		//atkProcess.Setting(floorEffects[index], atkEffects[index], unit.atkColliders[index], flooringTiming, atkTiming, deActiveTiming, unit);
-		atkProcess.StartProcess();
+		for (int i = 0; i < unit.atkColliders.Count; i++)
+		{
+			GameObject obj = new GameObject("DBF_Process" + i);
+			obj.AddComponent<FlooringAttackProcess>();
+			attackProcesses.Add(obj.GetComponent<FlooringAttackProcess>());
+			attackProcesses[i].Setting(floorEffects[i], atkEffects[i], unit.atkColliders[i], unit.D_BFData.data.flooringTiming, unit.D_BFData.data.atkEffectTiming, unit.D_BFData.data.atktTiming, unit.D_BFData.data.deActiveTiming, i, unit, null);
+		}
+	}
+	private void Attack(int index)
+	{
+		attackProcesses[index].StartProcess();
 	}
 }
