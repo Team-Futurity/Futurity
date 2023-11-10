@@ -141,7 +141,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	{
 		base.OnCollisionEnter(unit, collision);
 
-		if(!isReleased) { return; }
+		if(!isReleased)
+		{
+			if (!unit.specialIsReleased) { return; }
+
+			Update(unit);
+		}
 
 		bool isEnemy = collision.transform.CompareTag(unit.EnemyTag);
 		if (isEnemy || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
@@ -224,6 +229,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			// 별도 처리
 			originScale = unit.basicCollider.radius;
+
+			unit.chargeCollider.enabled = false;
+			unit.chargeCollider.enabled = true;
 		}
 
 		currentTime += Time.deltaTime;
