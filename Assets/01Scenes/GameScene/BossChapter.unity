@@ -4976,22 +4976,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 53189751119722205, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: areaType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 53189751119722205, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: spawnerType
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 53189751119722205, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: dialogCondition
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 53189751119722205, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: indicatorCondition
-      value: -5
-      objectReference: {fileID: 0}
     - target: {fileID: 6949875964783629124, guid: 600df2b89b94fea48899a892139891a4, type: 3}
       propertyPath: m_Name
       value: Boss
@@ -5041,29 +5025,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7658714702427283326, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: chapterMove
-      value: 
-      objectReference: {fileID: 948618598}
-    - target: {fileID: 7658714702427283326, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: dialogWindow
-      value: 
-      objectReference: {fileID: 1782970954}
-    - target: {fileID: 7658714702427283326, guid: 600df2b89b94fea48899a892139891a4, type: 3}
       propertyPath: dialogController
       value: 
       objectReference: {fileID: 1698532520}
-    - target: {fileID: 7658714702427283326, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: dialogConditions.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7658714702427283326, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: dialogConditions.Array.data[2]
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7658714702427283326, guid: 600df2b89b94fea48899a892139891a4, type: 3}
-      propertyPath: dialogConditions.Array.data[3]
-      value: 8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 600df2b89b94fea48899a892139891a4, type: 3}
 --- !u!114 &374806685 stripped
@@ -5190,6 +5154,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 12
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 0
@@ -10236,6 +10201,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 827545650}
   cutSceneType: 9
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 1
@@ -12153,17 +12119,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4934e84ec27ee494d95bcc9cd1536956, type: 3}
---- !u!114 &948618598 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5245959868886681680, guid: 4934e84ec27ee494d95bcc9cd1536956, type: 3}
-  m_PrefabInstance: {fileID: 948618597}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d0bac76c48319b4fa3e2a8622ea6e8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &950219422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22376,6 +22331,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 1738514120}
   cutSceneType: 8
+  isActiveCutScene: 0
   isUseScripting: 1
   scriptingList:
   - {fileID: 11400000, guid: a1610de82fd41ef41aa28477a7558774, type: 2}
@@ -22509,11 +22465,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5345922529325413024, guid: a6810c18121dfe84a8514a2974bb352e, type: 3}
   m_PrefabInstance: {fileID: 1758370706}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1782970954 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5525774813634845786, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
-  m_PrefabInstance: {fileID: 1698532519}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1785825256
 GameObject:
@@ -29587,6 +29538,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 7
+  isActiveCutScene: 0
   isUseScripting: 1
   scriptingList:
   - {fileID: 11400000, guid: 0a53aaa8d6c44354c89493642b01a28a, type: 2}
@@ -29924,6 +29876,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 10
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 0
@@ -30135,6 +30088,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 11
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 0
