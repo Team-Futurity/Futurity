@@ -26,9 +26,8 @@ public class AttackCoreCustomEditor : Editor
 		
 		EditorGUILayout.Space(10);
 		EditorGUILayout.LabelField("부품 효과 설정");
-		
-		layerNum = EditorGUILayout.LayerField("타겟 레이어", layerNum);
-		attackCore.targetLayer = 1 << layerNum;
+
+		attackCore.targetLayer = LayerMask.GetMask("Enemy");	
 		
 		EditorGUILayout.Space(10);
 
