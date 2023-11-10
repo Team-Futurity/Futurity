@@ -16,6 +16,8 @@ public class TutorialController : MonoBehaviour
 
 	public TutorialCutScene cutScene;
 
+	public ComboGaugeSystem combo;
+
 	private void Awake()
 	{
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
@@ -25,6 +27,11 @@ public class TutorialController : MonoBehaviour
 	{
 		SetEvent();
 		FadeManager.Instance.FadeOut(fadeTime);
+		
+		uiPerformBoards[6].onShow?.AddListener(() =>
+		{
+			combo.ChangeComboGauge(100);
+		});
 	}
 
 	private void Update()
