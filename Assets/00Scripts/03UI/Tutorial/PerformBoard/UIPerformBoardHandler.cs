@@ -8,90 +8,95 @@ using UnityEngine.UI;
 public class UIPerformBoardHandler : MonoBehaviour
 {
 	// Data를 전달받는 타겟 오브젝트
-	[field: Header("플레이어 데이터")]
-	
-	[field: SerializeField] 
-	public PlayerInputManager Target { get; private set; }
+	[SerializeField, Header("플레이어 데이터")]
+	private PlayerInputManager target;
 
-	[field: Header("Board 목록")] 
-	[field: SerializeField]
-	public List<UIPerformBoard> PerformBoardList { get; private set; }
+	private Dictionary<int, List<UIPerformBoard>> performBoardDic = new Dictionary<int, List<UIPerformBoard>>();
 
-	// Current Board
-	[SerializeField]
 	private UIPerformBoard currentBoard;
-	
-	// Index
-	private int currentIndex;
-	private int maxIndex;
-	
-	[HideInInspector] 
-	public UnityEvent OnChangePerformBoard;
+	private int currentType = -1;
 
 	[HideInInspector]
-	public UnityEvent OnEnded;
-	
+	public UnityEvent onEnded;
+
 	private void Awake()
 	{
-		if(PerformBoardList is null)
-		{
-			FDebug.LogError($"{PerformBoardList.GetType()}이 존재하지 않습니다.");
-			Debug.Break();
-		}
-
-		foreach (var board in PerformBoardList)
-		{
-			board.SetActive(false);
-		}
-		
-		currentIndex = 0;
-		maxIndex = PerformBoardList.Count - 1;
+		target.onChangeStateEvent?.AddListener(GetTargetInputData);
 	}
 
-	public void SetPerfrom()
+	public void CreateGroup(int type)
 	{
-		currentBoard = PerformBoardList[currentIndex];
-		currentBoard.SetActive(true);
+		performBoardDic.Add(type, new List<UIPerformBoard>());
 	}
 
-	public void Run()
+	public bool HasGroup(int type)
 	{
-		Target.onChangeStateEvent?.AddListener(UpdateAction);
+		return performBoardDic.ContainsKey(type);
 	}
 
-	public void Stop()
+	public void AddPerformBoard(int type, UIPerformBoard board)
 	{
-		currentBoard.SetActive(false);
-		Target.onChangeStateEvent?.RemoveListener(UpdateAction);
+		performBoardDic[type].Add(board);
 	}
 
-	private void UpdateAction(PlayerInputEnum data)
+	public void SetPerformBoard(int type, List<UIPerformBoard> boards)
 	{
-		var isComplate = currentBoard.SetPerformAction(data);
-		
-		if (!isComplate)
+		performBoardDic[type] = boards;
+	}
+
+	public void OpenPerform(int type)
+	{
+		currentBoard = Pop(type);
+
+		if (currentBoard == null)
 		{
 			return;
 		}
-		
-		Stop();
-		
-		if (currentIndex >= maxIndex)
+
+		currentType = type;
+		currentBoard.Active(true);
+	}
+
+	private void GetTargetInputData(PlayerInputEnum type)
+	{
+		if (currentBoard == null || currentType == -1)
 		{
-			OnEnded?.Invoke();
 			return;
 		}
-		else
+
+		var isClear = currentBoard.EnterPlayerEventType(type);
+
+		if (isClear)
 		{
-			OnChangePerformBoard?.Invoke();
+			ChangeBoard();
 		}
 	}
 
-	public void ChangeToNextBoard()
+	private void ChangeBoard()
 	{
-		Run();
-		
-		currentIndex++;
-		SetPerfrom();
+		currentBoard.Active(false);
+
+		currentBoard = Pop(currentType);
+
+		if (currentBoard == null)
+		{
+			onEnded?.Invoke();
+			return;
+		}
+
+		currentBoard.Active(true);
+	}
+
+	private UIPerformBoard Pop(int type)
+	{
+		if (performBoardDic[type].Count <= 0)
+		{
+			return null;
+		}
+
+		var data = performBoardDic[type][0];
+		performBoardDic[type].RemoveAt(0);
+
+		return data;
 	}
 }

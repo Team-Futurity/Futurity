@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{bc0ca46f-af4d-457d-8636-20eb679dc5f4}">
 		<property name="name">
-			<value>F_S_01_02_attack_j-j</value>
+			<value>P_Atttack_JJ</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
 		</property>
 		<relationship name="folder">
-			<destination>{dc4d44cd-c23b-47c6-b9ec-04778276fb83}</destination>
+			<destination>{e14ee96b-4f48-4983-ae97-fdc472d378fe}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{a98519c8-b8ff-4e69-8688-5289a16708cd}</destination>
@@ -37,6 +37,7 @@
 		</relationship>
 		<relationship name="banks">
 			<destination>{838d6e88-fef1-4ec9-af62-947bc6675114}</destination>
+			<destination>{cb0e62d4-8627-41fd-9e4f-24d644e10bb9}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixer" id="{a98519c8-b8ff-4e69-8688-5289a16708cd}">
@@ -57,7 +58,7 @@
 			<destination>{180ce216-0364-4120-8de0-f4926255ccc5}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{e48e98cb-7934-476a-ab92-f30252466e50}</destination>
+			<destination>{8e5c46e4-6d42-49e2-ab83-c896180ad69e}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{85d5e390-bee3-48f1-97d3-016f27900714}" />
@@ -325,6 +326,9 @@
 		<relationship name="automators">
 			<destination>{b74fa114-9128-49f1-a358-446405bd294e}</destination>
 		</relationship>
+		<relationship name="modulators">
+			<destination>{039865c7-752b-444d-b724-6a0bafffc90e}</destination>
+		</relationship>
 		<relationship name="fadeOutCurve">
 			<destination>{a312ee6b-c36b-4659-8c76-253558efb88f}</destination>
 		</relationship>
@@ -501,6 +505,14 @@
 		<relationship name="automationCurves">
 			<destination>{d246d719-0ef3-4de7-b49b-791387e62489}</destination>
 		</relationship>
+	</object>
+	<object class="RandomizerModulator" id="{039865c7-752b-444d-b724-6a0bafffc90e}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="amount">
+			<value>2.5</value>
+		</property>
 	</object>
 	<object class="FadeCurve" id="{a312ee6b-c36b-4659-8c76-253558efb88f}">
 		<relationship name="startPoint">

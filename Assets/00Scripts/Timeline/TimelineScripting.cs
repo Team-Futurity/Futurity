@@ -1,52 +1,150 @@
+using FMOD.Studio;
 using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+public enum EName
+{
+	MIRAE,
+	SONGSARI,
+	BOSS
+}
 
 public class TimelineScripting : MonoBehaviour
 {
-	[Header("스크립트 출력 UI")]
-	[SerializeField] private SkeletonGraphic miraeAnimation;
+	[Header("스크립트 출력 UI")] 
+	[SerializeField] private SkeletonGraphic[] skeletons;
 	[SerializeField] private TextMeshProUGUI textInput;
-	[SerializeField] private TextMeshProUGUI nameField;
+	[SerializeField] private GameObject[] nameText;
 	[SerializeField] private float textOutputDelay = 0.05f;
 	[HideInInspector] public bool isEnd = false;
 	private bool isInput = false;
+
+	[Header("스크립트 패널 교체")] 
+	[SerializeField] private Image scriptsPenal;
+	[SerializeField] private Sprite[] scriptsImage;
+
+	[Header("Sound")] 
+	[SerializeField] private FMODUnity.EventReference typingSound;
+	private EventInstance soundInst;
 
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private IEnumerator textPrint;
 	private IEnumerator inputCheck;
 
+	private readonly Color ORIGIN_COLOR = new Color(255f, 255f, 255f);
+	private readonly Color DARK_COLOR = new Color(68f, 68f, 68f);
+	
 	private void Start()
 	{
 		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
+		
+		soundInst = AudioManager.Instance.CreateInstance(typingSound);
+		soundInst.setParameterByName("Time", 0, true);
 	}
 
 	public void StartPrintingScript(List<ScriptingStruct> scriptsStruct)
 	{
 		textPrint = PrintingScript(scriptsStruct);
+		isEnd = false;
+		
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 		StartCoroutine(textPrint);
-		StartInputCheck();
 	}
 
-	public void InitNameField(string inputName)
+	public void EnableNameText(int index)
 	{
-		nameField.text = inputName;
+		for (int i = 0; i < nameText.Length; ++i)
+		{
+			if (index == i)
+			{
+				nameText[i].SetActive(true);
+				continue;
+			}
+			
+			nameText[i].SetActive(false);
+		}
+		
+		if (index == (int)ScriptingStruct.ENameType.MIRAE)
+		{
+			scriptsPenal.sprite = scriptsImage[0];
+			return;
+		}
+		
+		scriptsPenal.sprite = scriptsImage[1];
 	}
+	
+	public void DisableAllNameObject()
+	{
+		foreach (GameObject names in nameText)
+		{
+			names.SetActive(false);
+		}
+	}
+	
+	public void EnableStandingImg(string imgName)
+	{
+		int enableIndex = -1;
+		
+		switch (imgName)
+		{
+			case "SONGSARI":
+			case "SARI":
+				enableIndex = (int)EName.SONGSARI;
+				break;
+			
+			case "BOSS":
+			case "SUNKYOUNG":
+				enableIndex = (int)EName.BOSS;
+				break;
+			
+			default: 
+				return;
+		}
 
+		for (int i = 1; i < skeletons.Length; ++i)
+		{
+			if (i == enableIndex)
+			{
+				skeletons[i].gameObject.SetActive(true);
+				continue;
+			}
+			
+			skeletons[i].gameObject.SetActive(false);
+		}
+	}
+	
 	private IEnumerator PrintingScript(List<ScriptingStruct> scriptsStruct)
 	{
 		foreach (ScriptingStruct scripts in scriptsStruct)
 		{
-			EmotionCheck(scripts.expressionType);
-			nameField.text = scripts.name;
+			EnableStandingImg(scripts.nameType.ToString()); 
+			MiraeEmotionCheck(scripts.miraeExpression);
+
+			if (skeletons[(int)EName.SONGSARI].gameObject.activeSelf == true)
+			{
+				SariEmotionCheck(scripts.sariExpression);
+			}
+			else
+			{
+				BossEmotionCheck(scripts.bossExpression);
+			}
+			
+			EnableNameText((int)scripts.nameType);
+			textInput.text = "";
 
 			foreach (char text in scripts.scripts)
 			{
 				textInput.text += text;
-
+				soundInst.start();
+				
 				if (isInput == true)
 				{
 					textInput.text = scripts.scripts;
@@ -67,44 +165,79 @@ public class TimelineScripting : MonoBehaviour
 
 				yield return null;
 			}
-
-			textInput.text = "";
 		}
 
 		isEnd = true;
-		StopInputCheck();
-		textInput.text = "";
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputChange, true);
 	}
 	
-	private void EmotionCheck(ScriptingStruct.EExpressionType type)
+	#region EmotionCheck
+	
+	private void MiraeEmotionCheck(ScriptingStruct.EMiraeExpression type)
 	{
+		const int index = (int)EName.MIRAE;
+		
 		switch (type)
 		{
-			case ScriptingStruct.EExpressionType.NONE:
+			case ScriptingStruct.EMiraeExpression.NONE:
 				break;
 			
-			case ScriptingStruct.EExpressionType.ANGRY:
-				miraeAnimation.AnimationState.SetAnimation(0, "angry", true);
+			case ScriptingStruct.EMiraeExpression.ANGRY:
+				skeletons[index].AnimationState.SetAnimation(0, "angry", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.NORMAL:
-				miraeAnimation.AnimationState.SetAnimation(0, "normal", true);
+			case ScriptingStruct.EMiraeExpression.IDLE:
+				skeletons[index].AnimationState.SetAnimation(0, "idle", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.PANIC:
-				miraeAnimation.AnimationState.SetAnimation(0, "panic", true);
+			case ScriptingStruct.EMiraeExpression.PANIC:
+				skeletons[index].AnimationState.SetAnimation(0, "panic", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.SMILE:
-				miraeAnimation.AnimationState.SetAnimation(0, "smile", true);
+			case ScriptingStruct.EMiraeExpression.SHORT_SURPRISE:
+				skeletons[index].AnimationState.SetAnimation(0, "short_surprise", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.SURPRISE:
-				miraeAnimation.AnimationState.SetAnimation(0, "surprise", true);
+			case ScriptingStruct.EMiraeExpression.SMILE:
+				skeletons[index].AnimationState.SetAnimation(0, "smile", true);
 				break;
 			
-			case ScriptingStruct.EExpressionType.TRUST_ME:
-				miraeAnimation.AnimationState.SetAnimation(0, "trust_me", true);
+			case ScriptingStruct.EMiraeExpression.SURPRISE:
+				skeletons[index].AnimationState.SetAnimation(0, "surprise", true);
+				break;
+			
+			case ScriptingStruct.EMiraeExpression.TRUST_ME:
+				skeletons[index].AnimationState.SetAnimation(0, "trust_me", true);
+				break;
+			
+			default:
+				return;
+		}
+	}
+
+	private void SariEmotionCheck(ScriptingStruct.ESariExpression type)
+	{
+		const int index = (int)EName.SONGSARI;
+		
+		switch (type)
+		{
+			case ScriptingStruct.ESariExpression.NONE:
+				break;
+			
+			case ScriptingStruct.ESariExpression.ANGRY:
+				skeletons[index].AnimationState.SetAnimation(0, "angry", true);
+				break;
+			
+			case ScriptingStruct.ESariExpression.EMBARRASSED:
+				skeletons[index].AnimationState.SetAnimation(0, "embarrassed", true);
+				break;
+			
+			case ScriptingStruct.ESariExpression.IDLE:
+				skeletons[index].AnimationState.SetAnimation(0, "idle", true);
+				break;
+			
+			case ScriptingStruct.ESariExpression.SURPRISE:
+				skeletons[index].AnimationState.SetAnimation(0, "surprise", true);
 				break;
 			
 			default:
@@ -112,30 +245,50 @@ public class TimelineScripting : MonoBehaviour
 		}
 	}
 	
-	private void StartInputCheck()
+	private void BossEmotionCheck(ScriptingStruct.EBossExpression type)
 	{
-		inputCheck = InputCheck();
-		StartCoroutine(inputCheck);
-	}
-
-	private void StopInputCheck()
-	{
-		if (inputCheck != null)
+		const int index = (int)EName.BOSS;
+		
+		switch (type)
 		{
-			StopCoroutine(inputCheck);
+			case ScriptingStruct.EBossExpression.NONE:
+				break;
+			
+			case ScriptingStruct.EBossExpression.ANGRY:
+				skeletons[index].AnimationState.SetAnimation(0, "angry", true);
+				break;
+			
+			case ScriptingStruct.EBossExpression.IDLE:
+				skeletons[index].AnimationState.SetAnimation(0, "idle", true);
+				break;
+			
+			case ScriptingStruct.EBossExpression.LAUGH:
+				skeletons[index].AnimationState.SetAnimation(0, "laugh", true);
+				break;
+
+			default:
+				return;
 		}
 	}
 	
-	private IEnumerator InputCheck()
+	public void ResetEmotion()
 	{
-		while (true)
-		{
-			if (Input.GetKeyDown(KeyCode.F))
-			{
-				isInput = true;
-			}
+		MiraeEmotionCheck(ScriptingStruct.EMiraeExpression.IDLE);
 
-			yield return null;
+		if (skeletons[(int)EName.SONGSARI].gameObject.activeSelf == true)
+		{
+			SariEmotionCheck(ScriptingStruct.ESariExpression.IDLE);
 		}
+
+		if (skeletons[(int)EName.BOSS].gameObject.activeSelf == true)
+		{
+			SariEmotionCheck(ScriptingStruct.ESariExpression.IDLE);
+		}
+	}
+	#endregion
+	
+	private void InputChange(InputAction.CallbackContext context)
+	{
+		isInput = true;
 	}
 }

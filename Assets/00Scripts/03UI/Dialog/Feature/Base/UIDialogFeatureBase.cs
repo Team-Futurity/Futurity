@@ -5,13 +5,14 @@ using UnityEngine;
 public abstract class UIDialogFeatureBase : MonoBehaviour
 {
 	protected UIDialogController controller;
+	
 	protected DialogDataGroup dialogData;
 
 	protected virtual void Awake()
 	{
 		TryGetComponent(out controller);
 
-		controller.OnShow?.AddListener(UpdateDialogData);
+		controller.onShow?.AddListener(UpdateDialogData);
 	}
 
 	private void UpdateDialogData(DialogDataGroup data)
@@ -21,8 +22,5 @@ public abstract class UIDialogFeatureBase : MonoBehaviour
 		UpdateFeature();
 	}
 
-	protected virtual void UpdateFeature()
-	{
-
-	}
+	protected virtual void UpdateFeature() {}
 }

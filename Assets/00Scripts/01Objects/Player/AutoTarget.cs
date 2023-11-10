@@ -38,14 +38,14 @@ public class AutoTarget : Singleton<AutoTarget>
 	}
 
 	// 공격 범위 거르기
-	public GameObject[] GetObjectsInAttackRange(GameObject[] objectList, TruncatedCapsuleCollider collider)
+	public GameObject[] GetObjectsInAttackRange(GameObject[] objectList, ColliderBase collider)
 	{
 		if (objectList.Length == 0) { return null; }
 
 		List<GameObject> list = new List<GameObject>();
 		for (int length = 0; length < objectList.Length; length++)
 		{
-			if (collider.IsInCuttedCollider(objectList[length]))
+			if (collider.IsInCuttedCollider(objectList[length], !(collider is TruncatedCapsuleCollider)))
 			{
 				list.Add(objectList[length]);
 			}
@@ -90,7 +90,13 @@ public class AutoTarget : Singleton<AutoTarget>
 					closestObject = obj;
 				}
 			}
+			/*else if (objectList.Length == 1)
+			{
+				FDebug.LogWarning($"Distnace:{(objectList[0].transform.position - origin.transform.position).normalized}, Dot: {dot}");
+			}*/
 		}
+
+		
 
 		return closestObject;
 	}
@@ -113,7 +119,10 @@ public class AutoTarget : Singleton<AutoTarget>
 	public void MoveToTarget(Vector3 targetPosition, GameObject origin, float margin, float time)
 	{
 		movingObject = origin;
+
 		targetPos = targetPosition;
+		targetPos.y = origin.transform.position.y;
+
 		this.margin = margin * MathPlus.cm2m;
 		timeSpent = time;
 		isMoving = true;
@@ -126,12 +135,27 @@ public class AutoTarget : Singleton<AutoTarget>
 			if (isMoving)
 			{
 				float timeRatio = Time.deltaTime / timeSpent;
-				movingObject.transform.position = Vector3.Lerp(movingObject.transform.position, targetPos, timeRatio);
+				Vector3 currentPosition = movingObject.transform.position;
+				Vector3 nextPosition = Vector3.Lerp(movingObject.transform.position, targetPos, timeRatio);
+
+				if(!Physics.Linecast(currentPosition, nextPosition, 8))
+				{
+					movingObject.transform.position = nextPosition;
+				}
+				else
+				{
+					isMoving = false;
+
+					continue;
+				}
 
 				float distance = Vector3.Distance(movingObject.transform.position, targetPos);
 				if (distance <= margin)
 				{
-					Vector3 forward = -(movingObject.transform.position - targetPos).normalized;
+					Vector3 forward = (targetPos - movingObject.transform.position).normalized;
+
+					if(forward == Vector3.zero) { forward = -movingObject.transform.forward; }
+
 					movingObject.transform.position = targetPos - forward * margin;
 					isMoving = false;
 				}
@@ -151,30 +175,30 @@ public class AutoTarget : Singleton<AutoTarget>
 	/// <param name="margin">이동 시 멈춰설 거리</param>
 	/// <param name="time">이동 시 이동에 소모하는 시간</param>
 	/// <returns>이동을 수행했는가</returns>
-	public bool AutoTargetProcess(List<GameObject> objects, GameObject origin, TruncatedCapsuleCollider attackCollider, float autoTargetAngle, float margin, float time, bool isMovable)
+	public bool AutoTargetProcess(List<GameObject> objects, GameObject origin, ColliderBase attackCollider, float autoTargetAngle, float margin, float time, bool isMovable)
 	{
 		if(objects.Count == 0) { return false; }
 		if(autoTargetAngle > MaxAngle) { autoTargetAngle %= MaxAngle; }
 
 		float halfAngle = autoTargetAngle * 0.5f;
 		GameObject[] objectsArray = objects.Distinct().ToArray();
-		GameObject[] objectInAttackRange = GetObjectsInAttackRange(objectsArray, attackCollider);
+		/*GameObject[] objectInAttackRange = GetObjectsInAttackRange(objectsArray, attackCollider);
 
 		// 공격 범위 내에 있는 경우는 무시
 		if(objectInAttackRange.Length > 0)
 		{
 			return false;
-			/*SetDistance(ObjectsInAttackRange, origin);
+			*//*SetDistance(ObjectsInAttackRange, origin);
 			int[] ascendingIndexes = ascendingDistances.Values.ToArray();
 
-			TurnToTarget(objects[ascendingIndexes[0]], origin);*/
-		}
+			TurnToTarget(objects[ascendingIndexes[0]], origin);*//*
+		}*/
 
 		// 상대적 거리 연산
 		ObjectDistanceInCollection[] distances = GetObjectDistance(objectsArray, origin);
 
 		// 공격 사거리에 있는 경우 그 방향으로 회전
-		int nearestIndex = GetObjectsInAttackLength(distances, attackCollider.Radius);
+		int nearestIndex = GetObjectsInAttackLength(distances, attackCollider.Length);
 		if(nearestIndex >= 0)
 		{
 			GameObject objectInAttackLength = objects[nearestIndex];
@@ -199,10 +223,11 @@ public class AutoTarget : Singleton<AutoTarget>
 			
 			return true;
 		}
-		else // 조준범위 내에 없는 경우는 코딩 잘못한 거  
+		/*else // 조준범위 내에 없는 경우는 코딩 잘못한 거  
 		{
+			FDebug.LogWarning($"objects : {objects.Count}, array : {objectsArray.Length}");
 			FDebug.LogWarning("[AutoTarget]Target Is NULL");
-		}
+		}*/
 
 		return false;
 	}

@@ -5,109 +5,174 @@ using UnityEngine.InputSystem;
 
 public class UIInputManager : Singleton<UIInputManager>
 {
-	private Dictionary<int, UIButton> buttonDic = new Dictionary<int, UIButton>();
-	private PlayerInput playerInput;
+	// Button List
+	private Dictionary<int, UIButton> currentActiveButtons = new Dictionary<int, UIButton>();
 
+	// Button Index
 	private int currentIndex = 0;
+	private int saveIndex = 0;
+	private int maxMoveIndex = 0;
 
-	protected override void Awake()
-	{
-		base.Awake();
-
-		TryGetComponent(out playerInput);
-
-		playerInput.ActivateInput();
-	}
+	private bool isUnableMoveButton = false;
 
 	private void Start()
 	{
-		InputActionManager.Instance.OnEnableEvent.AddListener(SetInputActionAsset);
-		InputActionManager.Instance.OnDisableEvent.AddListener(RemoveInputActionAsset);
+		maxMoveIndex = -1;
+		
+		CombinedInputActions.UIBehaviourActions map = InputActionManager.Instance.InputActions.UIBehaviour;
+		InputActionManager.Instance.ToggleActionMap(map);
+		InputActionManager.Instance.RegisterCallback(map.MoveToPreviousUI, (context) => OnMoveToPreviousUI(context), true);
+		InputActionManager.Instance.RegisterCallback(map.MoveToNextUI, (context) => OnMoveToNextUI(context), true);
+		InputActionManager.Instance.RegisterCallback(map.ClickUI, (context) => OnClickUI(context), true);
+		
+		// Left & Right
+		InputActionManager.Instance.RegisterCallback(map.LeftKey, (context) => OnLeftKey(context), true);
+		InputActionManager.Instance.RegisterCallback(map.RightKey, (context) => OnRightKey(context), true);
+		
+		// Esc Key
+		InputActionManager.Instance.RegisterCallback(map.ESC, (context) => OnESC(context), true);
 	}
 
-	private void SetInputActionAsset(InputActionData actionData)
+	#region Button
+
+	public void SetButtonList(List<UIButton> buttons, bool isDefaultFocus = true)
 	{
-		if (actionData.actionType == InputActionType.UI)
+		for (int i = 0; i < buttons.Count; ++i)
 		{
-			playerInput.actions = actionData.actionAsset;
+			currentActiveButtons?.Add(i, buttons[i]);
+		}
+
+		if (isDefaultFocus)
+		{
+			DefaultFocus();
 		}
 	}
 
-	private void RemoveInputActionAsset()
+	public void SetDefaultFocusForced(int index)
 	{
-		playerInput.actions = null;
+		currentIndex = index;
+		SelectUI();
 	}
 
-	private void Update()
+	public void DefaultFocus()
 	{
-		if(Input.GetKeyDown(KeyCode.R))
-		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
-		}
-		if (Input.GetKeyDown(KeyCode.T))
-		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.UI);
-		}
+		currentIndex = 0;
+		SelectUI();
 	}
-
-	public void SetInputAction(InputActionAsset asset)
-	{
-		playerInput.actions = asset;
-	}
-
-	public void AddButton(int order, UIButton button)
-	{
-		buttonDic?.Add(order, button);
-	}
-
+	
 	public void ClearAll()
 	{
-		buttonDic.Clear();
+		currentActiveButtons.Clear();
 	}
 
 	public void SelectUI()
 	{
-		buttonDic[currentIndex].Select();
+		if(!currentActiveButtons.ContainsKey(currentIndex))
+		{
+			FDebug.Log($"버튼이 없다.", GetType());
+			return;
+		}
+		currentActiveButtons[currentIndex].Select(true);
+	}
+
+	public void SetUnableMoveButton(bool isOn)
+	{
+		isUnableMoveButton = isOn;
+	}
+
+	public void SaveIndex()
+	{
+		if (saveIndex > 0)
+			return;
+		
+		saveIndex = currentIndex;
+	}
+
+	public void SetMaxMoveIndex(int index)
+	{
+		maxMoveIndex = index;
+	}
+
+	public void SetSaveIndexToCurrentIndex()
+	{
+		if (saveIndex < 0)
+		{
+			FDebug.Log("Save처리 된 Index가 존재하지 않음.");
+		}
+		
+		currentIndex = saveIndex;
+		saveIndex = -1;
 	}
 
 	private void ChangeToIndex(int num)
 	{
 		var result = currentIndex + num;
 
-		if (result < 0 || result >= buttonDic.Count)
+		if (result < 0 || result >= currentActiveButtons.Count || (maxMoveIndex > result && maxMoveIndex != -1))
 		{
 			return;
 		}
 
+		currentActiveButtons[currentIndex].Select(false);
 		currentIndex = result;
 	}
 
+	#endregion
+
 	#region Input Action
 
-	public void OnMoveToNextUI()
+	public void OnMoveToNextUI(InputAction.CallbackContext context)
 	{
+		if (isUnableMoveButton) { return;}
 		ChangeToIndex(1);
 
 		SelectUI();
 	}
 
-	public void OnMoveToPreviousUI()
+	public void OnMoveToPreviousUI(InputAction.CallbackContext context)
 	{
+		if (isUnableMoveButton) { return;}
+		
 		ChangeToIndex(-1);
 
 		SelectUI();
 	}
 
-	public void OnClickUI()
+	public void OnLeftKey(InputAction.CallbackContext context)
 	{
-		if (buttonDic == null)
+		if (!currentActiveButtons[currentIndex].usedLeftRight || !currentActiveButtons.ContainsKey(currentIndex))
+			return;
+
+		currentActiveButtons[currentIndex].OnLeft();
+	}
+
+	public void OnRightKey(InputAction.CallbackContext context)
+	{
+		if (!currentActiveButtons[currentIndex].usedLeftRight || !currentActiveButtons.ContainsKey(currentIndex))
+			return;
+
+		currentActiveButtons[currentIndex].OnRight();
+	}
+
+	public void OnClickUI(InputAction.CallbackContext context)
+	{
+		if (currentActiveButtons == null || !currentActiveButtons.ContainsKey(currentIndex))
 		{
 			return;
 		}
 
-		buttonDic[currentIndex].Active();
+		currentActiveButtons[currentIndex].Active();
+	}
+
+	public void OnESC(InputAction.CallbackContext context)
+	{
+		if (UIManager.Instance.IsOpenWindow(WindowList.PAUSE))
+		{
+			return;
+		}
+
+		Time.timeScale = .0f;
+		UIManager.Instance.OpenWindow(WindowList.PAUSE);
 	}
 	#endregion
 }

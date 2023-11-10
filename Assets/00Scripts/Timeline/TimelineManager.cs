@@ -1,182 +1,67 @@
-using Cinemachine;
-using System.Collections;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Playables;
-using UnityEngine.Rendering;
-using URPGlitch.Runtime.AnalogGlitch;
+
+public enum ECutSceneType
+{
+	NONE,
+	INTRO_SCENE,
+	CHAPTER1_AREA1_ENTRY,
+	CHAPTER1_AREA3_ENTRY,
+	CHAPTER1_AREA3_SPAWN,
+	CHAPTER2_AREA1_ENTRY,
+	CHAPTER2_AREA1_INTERACTION_MAIN,
+	BOSS_ENTRY,
+	BOSS_ENDPHASE,
+	BOSS_DEATH,
+	PLAYER_DEATH,
+	LASTKILL,
+	ACTIVE_ALPHA
+}
+
+[Serializable]
+public class CutSceneContainer : SerializationDictionary<ECutSceneType, GameObject> {}
 
 public class TimelineManager : Singleton<TimelineManager>
 {
-	public enum ECutScene
+	[Header("런타임 자동 초기화")]
+	[ReadOnly(false)] public CutSceneContainer cutSceneContainer = new CutSceneContainer();
+	
+	public void InitCutSceneManager(List<CutSceneBase> list)
 	{
-		AREA1_ENTRYCUTSCENE = 0,
-		AREA1_EXITCUTSCENE = 1,
-		AREA3_ENTRYCUTSCENE = 2,
-		LASTKILLCUTSCENE = 3,
-		PLYAERDEATHCUTSCENE = 4,
-	}
-	
-	[Header("DebugMode")] 
-	[SerializeField] private bool enableDebugMode;
-	public bool IsDebugMode => enableDebugMode;
-	[SerializeField] private SpawnerManager spawnerManager;
-	private const float StartPos = -12.5f;
-	
-	[Header("Component")]
-	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	[SerializeField] private PlayerInput playerInput;
-	public GameObject uiCanvas;
-	public TimelineScripting scripting;
-	private PlayerController playerController;
-	public PlayerController PlayerController => playerController;
+		cutSceneContainer.Clear();
 
-	[Header("슬로우 타임")] 
-	[SerializeField] [Tooltip("슬로우 모션 도달 시간")] private float timeToSlowMotion;
-	[SerializeField] [Tooltip("복귀 시간")] private float recoveryTime;
-	[Tooltip("타임 스케일 목표값")] private readonly float targetTimeScale = 0.2f;
-
-	[Header("컷신 목록")] 
-	[SerializeField] private GameObject[] cutSceneList;
-
-	[Header("추적 대상")]
-	[SerializeField] private Transform playerModelTf;
-	private Transform originTarget;
-	
-	// reset offset value
-	private Vector3 originOffset;
-	private float originOrthoSize;
-
-	private CinemachineFramingTransposer cameraBody;
-	private IEnumerator timeSlow;
-	private IEnumerator lerpTimeScale;
-	private WaitForSecondsRealtime waitForSecondsRealtime;
-	
-	private AnalogGlitchVolume analogGlitch;
-	public AnalogGlitchVolume AnalogGlitch => analogGlitch;
-	
-	private void Start()
-	{
-		var player = GameObject.FindWithTag("Player");
-		playerController = player.GetComponent<PlayerController>();
-		playerInput.enabled = false;
-
-		cameraBody = playerCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-		
-		originTarget = playerCamera.m_Follow;
-		originOffset = cameraBody.m_TrackedObjectOffset;
-		originOrthoSize = playerCamera.m_Lens.OrthographicSize;
-		
-		Camera.main.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
-
-		if (enableDebugMode == false)
+		foreach (CutSceneBase cutScene in list)
 		{
+			cutSceneContainer.Add(cutScene.CutSceneType, cutScene.gameObject);
+		}
+		
+		FDebug.Log($"Init Done!(Count : {cutSceneContainer.Count})");
+	}
+
+	public void EnableCutScene(ECutSceneType type)
+	{
+		cutSceneContainer.GetValue(type)?.gameObject.SetActive(true);
+	}
+
+	public void EnableNonPlayOnAwakeCutScene(ECutSceneType type)
+	{
+		GameObject cutScene = cutSceneContainer.GetValue(type);
+
+		if (cutScene == null)
+		{
+			FDebug.LogError("CutScene Not Found");
+			return;
+		}
+
+		if (cutScene.TryGetComponent(out PlayableDirector director) == true)
+		{
+			director.Play();
 			return;
 		}
 		
-		cutSceneList[(int)ECutScene.AREA1_ENTRYCUTSCENE].gameObject.SetActive(false);
-		playerModelTf.position = new Vector3(StartPos, playerModelTf.position.y, -0.98f);
-		spawnerManager.SpawnEnemy();
+		FDebug.LogError("Playable Director Not Found");
 	}
 	
-	public void EnableCutScene(ECutScene cutScene)
-	{
-		if (cutScene == ECutScene.AREA1_ENTRYCUTSCENE)
-		{
-			cutSceneList[(int)cutScene].GetComponent<PlayableDirector>().Play();
-		}
-		
-		cutSceneList[(int)cutScene].SetActive(true);
-	}
-
-	public void ResetCameraValue()
-	{
-		cameraBody.m_TrackedObjectOffset = originOffset;
-		playerCamera.m_Lens.OrthographicSize = originOrthoSize;
-	}
-
-	public void ResetCameraTarget() => playerCamera.m_Follow = playerController.transform;
-
-	public Vector3 GetOffsetVector(float distance, Vector3 forward = default(Vector3))
-	{
-		forward = (forward == Vector3.zero) ? playerModelTf.forward : forward;
-		
-		var offset = distance * forward;
-		return playerModelTf.position + offset;
-	}
-
-	public void ChangeFollowTarget(bool isNewTarget = false, Transform newTarget = null)
-	{
-		playerCamera.m_Follow = (isNewTarget) ? newTarget : originTarget;
-	}
-
-	public void SetActivePlayerInput(bool active)
-	{
-		playerInput.enabled = active;
-	}
-
-	#region TimeScale
-	public void ResetTimeScale()
-	{
-		Time.timeScale = 1.0f;
-	}
-
-	public void StartLerpTimeScale()
-	{
-		lerpTimeScale = LerpTimeScale();
-		StartCoroutine(lerpTimeScale);
-	}
-	
-	public void StartSlowMotion()
-	{
-		timeSlow = TimeSlow();
-		StartCoroutine(timeSlow);
-	}
-	
-	private IEnumerator TimeSlow()
-	{
-		var time = 0.0f;
-
-		while (time < timeToSlowMotion)
-		{
-			Time.timeScale = Mathf.Lerp(Time.timeScale, targetTimeScale, time / timeToSlowMotion);
-			time += Time.unscaledDeltaTime;
-
-			yield return null;
-		}
-
-		Time.timeScale = targetTimeScale;
-	}
-
-	private IEnumerator LerpTimeScale()
-	{
-		var time = 0.0f;
-
-		while (time < recoveryTime)
-		{
-			Time.timeScale = Mathf.Lerp(Time.timeScale, 1.0f, time / recoveryTime);
-			time += Time.unscaledDeltaTime;
-
-			yield return null;
-		}
-
-		Time.timeScale = 1.0f;
-	}
-	
-	
-	#endregion
-
-	// test signal
-	public void PlayerMoveStage()
-	{
-		SteageMove.Instance.MoveStage(SteageMove.EStageType.STAGE_2);
-
-		playerCamera.m_Follow = playerController.transform;
-		playerInput.enabled = true;
-	}
-
-	public void EnableUI()
-	{
-		uiCanvas.SetActive(true);
-	}
 }

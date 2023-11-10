@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-
 public class PlayerController : UnitFSM<PlayerController>, IFSM
 {
+	#region Fields
 	// Constants
 	public readonly string EnemyTag = "Enemy";
 	public readonly string ComboAttackAnimaKey = "ComboParam";
@@ -34,6 +34,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	[Header("이동")]
 	[Tooltip("회전하는 속도")]
 	public float rotatePower;
+	[Tooltip("멈춰설 벽과의 거리")]
+	public float stopDistance;
+	[Range(0, 90)] public float stopAngle;
 
 	// dash
 	[Space(5)]
@@ -82,43 +85,45 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerState currentAttackState;
 	[HideInInspector] public string currentAttackAnimKey;
 
-	// hit
-	[Space(5)]
-	[Header("피격 관련")]
-	public bool hitCoolTimeIsEnd = false;
-
 	[Space(15)]
 	[Header("[최초 1회 할당]──────────────────────────────────────────────────────────────────────────────────────────")]
 
 	// reference
 	[Space(2)]
 	[Header("References")]
-	public GameObject glove;
-	public GameObject rushGlove;
+	public GameObject[] gloveObjects;
+	public GameObject[] hands;
 	public Player playerData;
 	public CommandTreeLoader commandTreeLoader;
 	public SpecialMoveController activePartController;
 	public ComboGaugeSystem comboGaugeSystem;
 	public HitCountSystem hitCountSystem;
-	public TruncatedCapsuleCollider attackCollider;
-	public TruncatedCapsuleCollider autoTargetCollider;
+	public ColliderChanger attackColliderChanger;
+	public ColliderChanger autoTargetColliderChanger;
 	public CapsuleCollider basicCollider;
+	public BoxCollider chargeCollider;
 	public EffectController effectController;
 	public EffectDatas effectSO;
 	//public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
-	public PlayerCameraEffect cameraEffect;
+	public PlayerCamera camera;
+	public PartSystem partSystem;
+	public TraceObject sariObject;
+	public GameObject playerEffectParent;
 	[HideInInspector] public CameraFollowTarget followTarget;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public Rigidbody rigid;
+	/*[HideInInspector] public TruncatedCapsuleCollider attackCollider;
+	[HideInInspector] public TruncatedCapsuleCollider autoTargetCollider;*/
 	private WaitForSeconds dashCoolTimeWFS;
-	private WaitForSeconds hitCoolTimeWFS;
 
 	// event
 	[HideInInspector] public UnityEvent<PlayerState> nextStateEvent;
 	[HideInInspector] public InputAction moveAction;
 	[HideInInspector] public UnityEvent<string> attackEndEvent;
+	[HideInInspector] public UnityEvent moveEvent;
+	[HideInInspector] public UnityEvent moveStopEvent;
 
 	// Temporary
 	[Serializable]
@@ -142,10 +147,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	// etc
 	[HideInInspector] public bool activePartIsActive; // 액티브 부품이 사용가능한지
+	#endregion
 
 	private void Start()
 	{
-		animator = GetComponent<Animator>();
+		animator = GetComponentInChildren<Animator>();
 		rigid = GetComponent<Rigidbody>();
 
 		// effect
@@ -166,6 +172,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
 		animator.SetInteger(ChargedAttackAnimaKey, NullState);
+		rmController.SetStopDistance(moveMargin * MathPlus.cm2m);
 
 		// UnitFSM Init
 		SetFSM();
@@ -179,10 +186,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		curNode = commandTree.Top;
 		nextCombo = PlayerInputEnum.None;
 		firstBehaiviorNode = null;
+		chargeCollider.enabled = false;
 		//comboTree.SetTree(comboTree.top, null);
 
 		// Glove Init
-		glove.SetActive(false);
+		SetGauntlet(false);
 
 		// dash
 		dashPoolManager = new ObjectPoolManager<Transform>(dashEffect, gameObject);
@@ -190,11 +198,22 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		currentDashCount = maxDashCount;
 		StartCoroutine(DashDelayCoroutine());
 
+		// move
+		moveEvent.AddListener(sariObject.OnDelayPreMove);
+		moveStopEvent.AddListener(sariObject.OnStop);
+		sariObject.SetTargetTransform();
+
 		// hit
-		hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
-		StartCoroutine(HitDelayCoroutine());
+		//hitCoolTimeWFS = new WaitForSeconds(hitCoolTime);
+		//StartCoroutine(HitDelayCoroutine());
 
 		followTarget = gameObject.GetComponentInChildren<CameraFollowTarget>();
+
+		// debug
+		DebugManager.Instance.AddNewCommand(new DebugCommand<int>("AddAttackPointToPlayer", "플레이어에게 AttackPoint를 더합니다", "AddAttackPointToPlayer", (v1) => { playerData.status.GetStatus(StatusType.ATTACK_POINT).AddValue(v1); }));
+		DebugManager.Instance.AddNewCommand(new DebugCommand("PlayerATK100", "플레이어에게 AttackPoint를 100으로 만듭니다", "PlayerATK100", () => { playerData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(100); }));
+		DebugManager.Instance.AddNewCommand(new DebugCommand("PlayerATK1000", "플레이어에게 AttackPoint를 1000으로 만듭니다", "PlayerATK1000", () => { playerData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(1000); }));
+		DebugManager.Instance.AddNewCommand(new DebugCommand("UltraMirae", "플레이어를 아주 강력하게 만듭니다", "UltraMirae", () => { playerData.status.GetStatus(StatusType.CURRENT_HP).SetValue(1000000); playerData.status.GetStatus(StatusType.ATTACK_POINT).SetValue(1000000); }));
 	}
 
 	public void SetFSM()
@@ -243,13 +262,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
+		if (IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
+
 		// 예외처리
 		if (!IsCurrentState(PlayerState.Idle))
 		{
 			// 돌진 중 이동 기능
 			if (IsAttackProcess())
 			{
-				if (IsCurrentState(PlayerState.ChargedAttack))
+				if (IsCurrentState(PlayerState.ChargedAttack) && !specialIsReleased)
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
@@ -259,7 +280,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString());
 		}
 
-		if (playerData.isStun || !hitCoolTimeIsEnd)
+		if (playerData.isStun)
 		{
 			return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); ;
 		}
@@ -276,7 +297,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public PlayerInputData DashProcess(InputAction.CallbackContext context)
 	{
-		if (IsCurrentState(PlayerState.Hit) || playerData.isStun || !hitCoolTimeIsEnd || currentDashCount <= 0) 
+		if (/*IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) ||*/ playerData.isStun || currentDashCount <= 0) 
+		if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM) || playerData.isStun || currentDashCount <= 0) 
 		{ 
 			return GetInputData(PlayerInputEnum.Dash, false); 
 		}
@@ -299,7 +321,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerInputData NAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
-		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+		if (playerData.isStun || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true) && IsCurrentState(PlayerState.ChargedAttack)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
@@ -314,7 +336,10 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		else // 공격 중이라면
 		{
 			SetNextCombo(PlayerInputEnum.NormalAttack);
-			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", FindInput(PlayerInputEnum.NormalAttack).name);
+
+			var findedInput = FindInput(PlayerInputEnum.NormalAttack);
+
+			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", findedInput?.name);
 		}
 	}
 
@@ -322,7 +347,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public PlayerInputData SAProcess(InputAction.CallbackContext context)
 	{
 		// 피격 중이거나, 스턴 상태면 리턴
-		if (playerData.isStun || !hitCoolTimeIsEnd) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
+		if (playerData.isStun || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
 		if (!IsCurrentState(PlayerState.Move) && !IsCurrentState(PlayerState.Idle) && !IsAttackProcess(true)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
@@ -359,9 +384,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Special Move
 	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
-		//if (!activePartIsActive) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+		if (!partSystem.isStartActivePart) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
+		if (comboGaugeSystem.CurrentGauge < 100) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+		if (IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
+
+		// 해당 부분에서 Part Data를 받아와서 Part가 실행될 수 있도록 해야함.
+		// PartCode에 따라서 Switch 필요 
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
+		
 		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
 	}
 	#endregion
@@ -502,11 +533,28 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		return node;
 	}
 
+	public void SetGauntlet(bool isEnabled)
+	{
+		foreach (var gloveObj in gloveObjects)
+		{
+			gloveObj.SetActive(isEnabled);
+		}
+	}
+
 	public void SetCollider(bool isEnabled)
 	{
 		basicCollider.enabled = isEnabled;
-		attackCollider.enabled = isEnabled;
-		autoTargetCollider.enabled = isEnabled;
+
+		if(isEnabled)
+		{
+			attackColliderChanger.EnableCollider(curNode.attackColliderType);
+			autoTargetColliderChanger.EnableCollider(curNode.attackColliderType);
+		}
+		else
+		{
+			attackColliderChanger.DisableAllCollider();
+			autoTargetColliderChanger.DisableAllCollider();
+		}
 	}
 
 	public bool IsAttackProcess(bool isContainedAfterDelay = false)
@@ -524,19 +572,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 				yield return dashCoolTimeWFS;
 				dashCoolTimeIsEnd = true;
 				currentDashCount = maxDashCount;
-			}
-			yield return null;
-		}
-	}
-
-	private IEnumerator HitDelayCoroutine()
-	{
-		while (true)
-		{
-			if (!hitCoolTimeIsEnd)
-			{
-				yield return hitCoolTimeWFS;
-				hitCoolTimeIsEnd = true;
 			}
 			yield return null;
 		}
@@ -599,7 +634,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	
 	public void StartNextComboAttack(PlayerInputEnum input, PlayerState nextAttackState)
 	{
-		if (nextCombo != PlayerInputEnum.None) input = nextCombo;
+		if (nextCombo != PlayerInputEnum.None) { input = nextCombo; }
 		if (!NodeTransitionProc(input, nextAttackState)) { return; }
 
 		nextCombo = PlayerInputEnum.None;
@@ -637,6 +672,17 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		return rotVec;
 	}
+
+	public void SetLandingAnimation()
+	{
+		animator.SetTrigger("Landing");
+		animator.speed = 0.0f;
+	}
+
+	public void PlayLandingAnimation()
+	{
+		animator.speed = 1.0f;
+	}
 	#endregion
 
 	#region Util
@@ -646,16 +692,17 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		msgs = new List<string>();
 
-		if (glove == null) { msgs.Add("glove is Null."); }
-		if (rushGlove == null) { msgs.Add("rushGlove is Null."); }
+		if (gloveObjects == null) { msgs.Add("gloveObjects is Null."); }
+		if (hands == null) { msgs.Add("hands is Null."); }
 		if (playerData == null) { msgs.Add("playerData is Null."); }
 		if (commandTreeLoader == null) { msgs.Add("commandTreeLoader is Null."); }
 		if (activePartController == null) { msgs.Add("activePartController is Null."); }
 		if (comboGaugeSystem == null) { msgs.Add("comboGaugeSystem is Null."); }
 		if (hitCountSystem == null) { msgs.Add("hitCountSystem is Null."); }
-		if (attackCollider == null) { msgs.Add("attackCollider is Null."); }
-		if (autoTargetCollider == null) { msgs.Add("autoTargetCollider is Null."); }
+		if (attackColliderChanger == null) { msgs.Add("attackColliderChanger is Null."); }
+		if (autoTargetColliderChanger == null) { msgs.Add("autoTargetColliderChanger is Null."); }
 		if (basicCollider == null) { msgs.Add("basicCollider is Null."); }
+		if (chargeCollider == null) { msgs.Add("chargeCollider is Null."); }
 		if (effectController == null) { msgs.Add("effectManager is Null."); }
 		if (effectSO == null) { msgs.Add("effectSO is Null."); }
 		//if (buffProvider == null) { msgs.Add("buffProvider is Null."); }
@@ -664,6 +711,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (animator == null) { msgs.Add("animator is Null."); }
 		if (rigid == null) { msgs.Add("rigid is Null."); }
 		if (rmController == null) { msgs.Add("rmController is Null."); }
+		if (partSystem == null) { msgs.Add("partSystem is Null"); }
+		if (sariObject == null) { msgs.Add("sariObject is Null"); }
+		if (playerEffectParent == null) { msgs.Add("playerEffectParent is Null"); }
 
 		isClear = msgs.Count == 0;
 		if (isClear)

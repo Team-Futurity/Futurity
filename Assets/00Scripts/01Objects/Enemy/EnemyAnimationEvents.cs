@@ -7,17 +7,13 @@ public class EnemyAnimationEvents : MonoBehaviour
 {
 	public EnemyController ec;
 
-	public bool isCharging = false;//
-	
-	private void Start()
-	{
-		
-	}
-
 	public void ActiveEffect(int activeIndex)
 	{
 		EffectActiveData data = ec.currentEffectData;
 		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
+		if (ec.currentEffectKey == null)
+			ec.currentEffectKey = new EffectKey();
+		ec.currentEffectKey = key;
 
 		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
 
@@ -27,10 +23,20 @@ public class EnemyAnimationEvents : MonoBehaviour
 		}
 	}
 
+	#region Attack
 	public void MeleeAttack()
 	{
 		ec.enemyData.EnableAttackTiming();
 		ec.atkCollider.enabled = true;
+	}
+	public void RangedAttack()
+	{
+		ec.enemyData.EnableAttackTiming();
+		ec.atkCollider.enabled = true;
+	}
+	public void EndRangedAttack()
+	{
+		ec.atkCollider.enabled = false;
 	}
 	public void EndAttack()
 	{
@@ -43,12 +49,30 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.currentEffectData.rotation = Quaternion.Euler(new Vector3(-3.162f, 131.496f, 11.622f));
 	}
 
+	public void EliteFlooring()
+	{
+		ec.currentEffectData.activationTime = EffectActivationTime.AttackReady;
+		ec.currentEffectData.target = EffectTarget.Ground;
+		ec.currentEffectData.index = 0;
+		ec.currentEffectData.position = ec.target.transform.position;
+		ec.currentEffectData.parent = null;
+
+		ec.atkCollider.transform.position = ec.currentEffectData.position;
+	}
+
 	public void EliteRangedPositioning()
 	{
-		isCharging = false;
-		ec.currentEffectData.parent = null;
-		ec.atkCollider.transform.position = ec.target.transform.position;
-		ec.currentEffectData.position = ec.target.transform.position;
-		//ec.effects[1].effectTransform.position = ec.target.transform.position;
+		ec.currentEffectData.activationTime = EffectActivationTime.InstanceAttack;
+		ec.currentEffectData.target = EffectTarget.Target;
+	}
+	#endregion
+
+	public void KnockBack()
+	{
+		if (ec.ThisEnemyType != EnemyType.TutorialDummy)
+		{
+			Vector3 direction = ec.transform.position - ec.target.transform.position;
+			ec.enemyData.Knockback(direction.normalized, ec.knockbackPower);
+		}
 	}
 }

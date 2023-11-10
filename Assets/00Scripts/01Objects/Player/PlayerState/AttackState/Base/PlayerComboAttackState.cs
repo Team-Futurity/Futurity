@@ -7,6 +7,9 @@ public class PlayerComboAttackState : PlayerAttackBaseState
 	protected bool isNextAttackState;
 	protected AttackNode attackNode;
 
+	public PlayerComboAttackState() { }
+	public PlayerComboAttackState(StateData stateData) { }
+
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);

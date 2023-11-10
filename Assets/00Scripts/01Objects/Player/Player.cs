@@ -14,11 +14,17 @@ public class Player : UnitBase
 
 	protected override void AttackProcess(DamageInfo info)
 	{
+		//if(info.HitEffectPoolManager != null) { info.HitEffectPoolManager.ActiveObject(); }
+		
 		float criticalConf = GetCritical();
-		info.Defender.Hit(this, GetDamage(info.AttackST) * criticalConf);
+		info.SetDamage(GetDamage(info.AttackST) * criticalConf);
+		info.isCritical = (criticalConf > 1.0f);
+
+		info.Defender.Hit(info);
+		onAttackEvent?.Invoke(info);
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	public override void Hit(DamageInfo damageInfo)
 	{
 		//if (attacker.GetComponent<TestRangedEnemyAttackType>() != null)
 		//{
@@ -29,14 +35,40 @@ public class Player : UnitBase
 		//	AudioManager.instance.PlayOneShot(pc.hitMelee, transform.position);
 		//}
 
+		if (pc.IsCurrentState(PlayerState.Death)) { return; }
+
+
 		float remainingDamageRatio = Mathf.Clamp(1 - GetDefensePoint() * 0.01f, 0, 100);
-		float finalDamage = damage * remainingDamageRatio;
+		float finalDamage = damageInfo.Damage * remainingDamageRatio;
 
 		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
 
-		if(!pc.hitCoolTimeIsEnd) { return; }
+		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
+		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
+		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
 
-		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
+		if(damageInfo.KnockbackPower > 0)
+		{
+			Knockback((damageInfo.Defender.transform.position - damageInfo.Attacker.transform.position).normalized, damageInfo.KnockbackPower);
+		}
+
+		Vector3 vec = damageInfo.Attacker.transform.position - damageInfo.Defender.transform.position;
+		pc.transform.rotation = Quaternion.LookRotation(vec);
+
+		if(pc.IsCurrentState(PlayerState.Hit))
+		{
+			UnitState<PlayerController> state = null;
+			pc.GetState(PlayerState.Hit, ref state);
+
+			if(state != null)
+			{
+				var hitState = (PlayerHitState)state;
+				hitState.HitProduction(pc);
+
+			}
+		}
+
+		if(/*!pc.IsAttackProcess(true) &&*/ !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}

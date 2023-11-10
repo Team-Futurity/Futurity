@@ -7,68 +7,55 @@ using UnityEngine.UI;
 
 public class UIPerformBoard : MonoBehaviour
 {
+	// TargetCondition
 	[SerializeField]
-	private UIPerformActionData[] actionDatas;
+	private PlayerInputEnum targetCondition;
 
-	private Dictionary<PlayerInputEnum, UIPerformActionDataGroup> actionDic;
+	private bool[] moveType = new bool[4];
 
-	private int activeActionCount;
-	
-	private bool isClear = false;
+	[HideInInspector]
+	public UnityAction onEndedAction; 
 
-	private void Awake()
+	public bool EnterPlayerEventType(PlayerInputEnum type)
 	{
-		actionDic = new Dictionary<PlayerInputEnum, UIPerformActionDataGroup>();
-		
-		for (int i = 0; i < actionDatas.Length; ++i)
-		{
-			var condition = actionDatas[i].conditionAction;
-			var imageObject = transform.GetChild(i).GetComponent<Image>();
-
-			if (imageObject == null)
-			{
-				return;
-			}
-
-			var dataGroup = new UIPerformActionDataGroup(actionDatas[i], imageObject);
-			
-			actionDic.Add(condition, dataGroup);
-			actionDic[condition].SetImage(ActionImageType.NORMAL);
-		}
-
-		activeActionCount = actionDic.Count;
+		return CheckCondition(type);
 	}
 
-	public bool SetPerformAction(PlayerInputEnum data)
-	{
-		var index = UpdatePerformAction(data);
-
-		isClear = (index <= 0);
-		
-		return isClear;
-	}
-
-	public void SetActive(bool isOn)
+	public void Active(bool isOn)
 	{
 		gameObject.SetActive(isOn);
 	}
 
-	private int UpdatePerformAction(PlayerInputEnum data)
+	private bool CheckCondition(PlayerInputEnum type)
 	{
-		if (!actionDic.ContainsKey(data))
+		if (targetCondition == PlayerInputEnum.Move)
 		{
-			FDebug.Log($"[{GetType()}] {data}에 해당하는 Key가 존재하지 않습니다 ");
-			return 1000;
-		}
-		
-		if (actionDic[data].GetChecked())
-		{
-			return activeActionCount;
-		}
-		
-		actionDic[data].SetImage(ActionImageType.CLEAR);
-		actionDic[data].SetChecked(true);
+			if (type == PlayerInputEnum.Move_Up)
+				moveType[0] = true;
+			if (type == PlayerInputEnum.Move_Down)
+				moveType[1] = true;
+			if (type == PlayerInputEnum.Move_Left)
+				moveType[2] = true;
+			if (type == PlayerInputEnum.Move_Right)
+				moveType[3] = true;
 
-		return --activeActionCount;
+			for (int i = 0; i < 4; ++i)
+			{
+				if (moveType[i] == false)
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			if (targetCondition != type)
+			{
+				return false;
+			}
+		}
+
+		onEndedAction?.Invoke();
+		return true;
 	}
 }

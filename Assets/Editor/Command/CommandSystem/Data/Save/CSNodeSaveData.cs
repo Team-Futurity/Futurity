@@ -23,8 +23,11 @@ public class CSNodeSaveData
 	[field: SerializeField] public float AttackST { get; set; }
 	[field: SerializeField] public float AttackKnockback { get; set; }
 	[field: SerializeField] public bool IgnoresAutoTargetMove { get; set; }
+	[field: SerializeField] public ColliderType AttackColliderType { get; set; }
 
-	// Attack Effect
+	[field: SerializeField] public List<CSAttackAssetSaveData> AttackAssets { get; set;}
+
+	/*// Attack Effect
 	[field: SerializeField] public Vector3 EffectOffset { get; set; }
 	[field: SerializeField] public Vector3 EffectRotOffset { get; set; }
 	[field: SerializeField] public GameObject EffectPrefab { get; set; }
@@ -34,7 +37,7 @@ public class CSNodeSaveData
 	[field: SerializeField] public Vector3 HitEffectOffset { get; set; }
 	[field: SerializeField] public Vector3 HitEffectRotOffset { get; set; }
 	[field: SerializeField] public GameObject HitEffectPrefab { get; set; }
-	[field: SerializeField] public EffectParent HitEffectParent { get; set; }
+	[field: SerializeField] public EffectParent HitEffectParent { get; set; }*/
 
 	// Production
 	[field: SerializeField] public int AnimInteger { get; set; }
@@ -42,9 +45,12 @@ public class CSNodeSaveData
 	[field: SerializeField] public float ShakeTime { get; set; }
 	[field: SerializeField] public float SlowTime { get; set; }
 	[field: SerializeField] public float SlowScale { get; set; }
+	[field: SerializeField] public float RumbleLow { get; set; }
+	[field: SerializeField] public float RumbleHigh { get; set; }
+	[field: SerializeField] public float RumbleDuration { get; set; }
 
 	// Sound
-	[field: SerializeField] public EventReference AttackSound { get; set; }
+	[field: SerializeField] public EventReference AttackVoice { get; set; }
 
 	// ETC
 
@@ -70,8 +76,31 @@ public class CSNodeSaveData
 		AttackST = node.AttackST;
 		AttackKnockback = node.AttackKnockback;
 		IgnoresAutoTargetMove = node.IgnoresAutoTargetMove;
+		AttackColliderType = node.AttackColliderType;
 
-		EffectOffset = node.EffectOffset;
+		AttackAssets = new List<CSAttackAssetSaveData>();
+		foreach (var asset in node.AttackAssets)
+		{
+			CSAttackAssetSaveData data = new CSAttackAssetSaveData();
+
+			data.PartCode = asset.PartCode;
+
+			data.EffectOffset = asset.EffectOffset;
+			data.EffectRotOffset = asset.EffectRotOffset;
+			data.EffectPrefab = asset.EffectPrefab;
+			data.AttackEffectParent = asset.AttackEffectParent;
+
+			data.HitEffectOffset = asset.HitEffectOffset;
+			data.HitEffectRotOffset = asset.HitEffectRotOffset;
+			data.HitEffectPrefab = asset.HitEffectPrefab;
+			data.HitEffectParent = asset.HitEffectParent;
+
+			data.AttackSound = asset.AttackSound;
+
+			AttackAssets.Add(data);
+		}
+
+		/*EffectOffset = node.EffectOffset;
 		EffectRotOffset = node.EffectRotOffset;
 		EffectPrefab = node.EffectPrefab;
 		AttackEffectParent = node.AttackEffectParent;
@@ -79,15 +108,18 @@ public class CSNodeSaveData
 		HitEffectOffset = node.HitEffectOffset;
 		HitEffectRotOffset = node.HitEffectRotOffset;
 		HitEffectPrefab = node.HitEffectPrefab;
-		HitEffectParent = node.HitEffectParent;
+		HitEffectParent = node.HitEffectParent;*/
 
 		AnimInteger = node.AnimInteger;
 		ShakePower = node.ShakePower;
 		ShakeTime = node.ShakeTime;
 		SlowTime = node.SlowTime;
 		SlowScale = node.SlowScale;
+		RumbleLow = node.RumbleLow;
+		RumbleHigh = node.RumbleHigh;
+		RumbleDuration = node.RumbleDuration;
 
-		AttackSound = node.AttackSound;
+		AttackVoice = node.AttackVoice;
 
 		IsStartingNode = node.IsStartingNode();
 	}

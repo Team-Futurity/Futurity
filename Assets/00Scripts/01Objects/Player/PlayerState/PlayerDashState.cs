@@ -27,9 +27,11 @@ public class PlayerDashState : UnitState<PlayerController>
 
 		pc.currentDashCount--;
 
-		pc.glove.SetActive(false);
+		pc.SetGauntlet(false);
 
-		AudioManager.instance.PlayOneShot(pc.dash, pc.transform.position);
+		AudioManager.Instance.PlayOneShot(pc.dash, pc.transform.position);
+
+		pc.moveEvent.Invoke();
 	}
 
 	public override void Update(PlayerController pc)
@@ -53,6 +55,7 @@ public class PlayerDashState : UnitState<PlayerController>
 		pc.rigid.velocity = Vector3.zero;
 		pc.dashCoolTimeIsEnd = false;
 		pc.dashPoolManager.DeactiveObject(dashEffect);
+		pc.moveStopEvent.Invoke();
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

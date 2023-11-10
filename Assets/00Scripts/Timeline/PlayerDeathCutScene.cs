@@ -4,55 +4,38 @@ using UnityEngine.Rendering;
 
 public class PlayerDeathCutScene : CutSceneBase
 {
-	[Header("Component")]
-	[SerializeField] private GameObject[] disableUI;
-	[SerializeField] private GameObject gameOverUI;
-	[SerializeField] private float endPosDistance = 0.0f;
-
-	[Header("흑백 전환 시간")] 
+	[Space(6)] 
+	[Header("GayScale")]
 	[SerializeField] private float grayScaleTime = 0.5f;
-
-	[Header("사망 거리 저장")]
-	[SerializeField] private Transform endPos;
-	[SerializeField] private Transform newFollowTarget;
-	
-	private GrayScale grayScale = null;
 	private IEnumerator enableGrayScale;
 
 	protected override void Init()
 	{
-		if (grayScale == null && Camera.main != null)
-		{
-			Camera.main.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
-		}
+		base.Init();
 	}
 	
 	protected override void EnableCutScene()
 	{
-		endPos.position = TimelineManager.Instance.GetOffsetVector(endPosDistance);
-		TimelineManager.Instance.ChangeFollowTarget(true, newFollowTarget);
-
-		foreach (var ui in disableUI)
-		{
-			ui.gameObject.SetActive(false);		
-		}
-		
+		chapterManager.SetActiveMainUI(false);
 		StartGrayScaleRoutine();
 	}
 
-	public override void DisableCutScene()
+	protected override void DisableCutScene()
 	{
-		TimelineManager.Instance.ResetCameraValue();
-		TimelineManager.Instance.ChangeFollowTarget();
+		chapterManager.playerCamera.RevertCameraValue();
+
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		UIManager.Instance.OpenWindow(WindowList.GAME_OVER);
 		
-		gameOverUI.SetActive(true);
-		grayScale.amount.value = 0.0f;
-		grayScale.active = false;
+		chapterManager.GrayScale.amount.value = 0.0f;
+		chapterManager.GrayScale.active = false;
+
+		Time.timeScale = 1.0f;
 	}
 	
 	private void StartGrayScaleRoutine()
 	{
-		grayScale.active = true;
+		chapterManager.GrayScale.active = true;
 		
 		enableGrayScale = EnableGrayScale();
 		StartCoroutine(enableGrayScale);
@@ -64,12 +47,12 @@ public class PlayerDeathCutScene : CutSceneBase
 
 		while (time < grayScaleTime)
 		{
-			grayScale.amount.value = Mathf.Lerp(grayScale.amount.value, 1.0f, time / grayScaleTime);
+			chapterManager.GrayScale.amount.value = Mathf.Lerp(chapterManager.GrayScale.amount.value, 1.0f, time / grayScaleTime);
 			time += Time.unscaledDeltaTime;
 			
 			yield return null;
 		}
 
-		grayScale.amount.value = 1.0f;
+		chapterManager.GrayScale.amount.value = 1.0f;
 	}
 }

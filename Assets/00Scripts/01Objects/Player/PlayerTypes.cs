@@ -3,23 +3,24 @@ using UnityEngine;
 
 public enum PlayerState : int
 {
-	Idle,           // ´ë±â
+	Idle,           // ëŒ€ê¸°
 
-	// ÄŞº¸ °ø°İ
-	AttackDelay,        // °ø°İ Àü µô·¹ÀÌ
-	NormalAttack,       // ÀÏ¹İ°ø°İ 
-	ChargedAttack,      // Â÷Áö°ø°İ
-	AttackAfterDelay,   // °ø°İ ÈÄ µô·¹ÀÌ
+	// ì½¤ë³´ ê³µê²©
+	AttackDelay,        // ê³µê²© ì „ ë”œë ˆì´
+	NormalAttack,       // ì¼ë°˜ê³µê²© 
+	ChargedAttack,      // ì°¨ì§€ê³µê²©
+	AttackAfterDelay,   // ê³µê²© í›„ ë”œë ˆì´
 
-	Hit,            // ÇÇ°İ
-	Move,           // ÀÌµ¿
-	Dash,           // ´ë½Ã
-	Death,          // »ç¸Á
+	Hit,            // í”¼ê²©
+	Move,           // ì´ë™
+	Dash,           // ëŒ€ì‹œ
+	Death,          // ì‚¬ë§
 
-	// ¾×Æ¼ºê ºÎÇ°(ÇÊ»ì±â)
-	BasicSM,      // ±âº» ºÎÇ°
+	// ì•¡í‹°ë¸Œ ë¶€í’ˆ(í•„ì‚´ê¸°)
+	BasicSM,      // ê¸°ë³¸ ë¶€í’ˆ
+	BetaSM,
 
-	// ±âÅ¸ À¯Æ¿
+	// ê¸°íƒ€ ìœ í‹¸
 	AutoMove
 }
 

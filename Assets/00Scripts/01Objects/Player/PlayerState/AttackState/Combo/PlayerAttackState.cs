@@ -14,6 +14,12 @@ public class PlayerAttackState : PlayerComboAttackState
 
 	private int hittedEnemyCount;
 
+	protected PlayerAttackState(StateData stateData, string attackTriggerKey, string attackTypeKey) : base(stateData)
+	{
+		AttackTriggerAnimKey = attackTriggerKey;
+		AttackTypeAnimaKey = attackTypeKey;
+	}
+
 	protected PlayerAttackState(string attackTriggerKey, string attackTypeKey)
 	{
 		AttackTriggerAnimKey = attackTriggerKey;
@@ -30,9 +36,10 @@ public class PlayerAttackState : PlayerComboAttackState
 			TimeScaleController.Instance.SetTimeScale(attackNode.slowScale, attackNode.slowTime, pc.transform.forward);
 		}
 
-		pc.playerData.EnableAttackTiming();
+		//pc.playerData.EnableAttackTiming();
 
 		pc.SetCollider(true);
+		pc.autoTargetColliderChanger.DisableAllCollider();
 	}
 
 	public override void Update(PlayerController pc)
@@ -54,7 +61,7 @@ public class PlayerAttackState : PlayerComboAttackState
 
 		unit.rigid.velocity = Vector3.zero;
 
-		unit.attackCollider.truncatedCollider.enabled = false;
+		unit.attackColliderChanger.DisableAllCollider();
 
 		bool isAttack = hittedEnemyCount > 0;
 		unit.comboGaugeSystem.SetComboGaugeProc(isAttack, hittedEnemyCount);
@@ -68,17 +75,21 @@ public class PlayerAttackState : PlayerComboAttackState
 	{
 		if (other.CompareTag(unit.EnemyTag))
 		{
-			if (unit.attackCollider.IsInCuttedCollider(other.gameObject))
+			if (unit.attackColliderChanger.GetCollider(attackNode.attackColliderType).IsInCuttedCollider(other.gameObject, attackNode.attackColliderType != ColliderType.Capsule))
 			{
 				var enemy = other.gameObject.GetComponent<UnitBase>();
 				var enemyController = other.gameObject.GetComponent<EnemyController>();
 
-				unit.playerData.Attack(enemy, attackNode.attackST);
-				HitEffectPooling(unit, enemy.transform);
-				if(!enemyController.isTutorialDummy)
+				DamageInfo info = new DamageInfo(unit.playerData, enemy, attackNode.attackST, attackNode.attackKnockback);
+				AttackAsset asset = attackNode.GetAttackAsset(unit.partSystem.GetEquiped75PercentPointPartCode());
+				info.SetHitEffect(asset.hitEffectPoolManager, asset.effectOffset);
+				unit.playerData.Attack(info);
+				//HitEffectPooling(unit, enemy.transform);
+				/*if(enemyController.ThisEnemyType != EnemyType.TutorialDummy)
 				{
-					enemy.Knockback(unit.transform.forward, enemyController.hitPower);
-				}
+					Vector3 direction = enemy.transform.position - unit.transform.position;
+					enemy.Knockback(direction.normalized, attackNode.attackKnockback);
+				}*/
 					
 				hittedEnemyCount++;
 			}
@@ -93,22 +104,5 @@ public class PlayerAttackState : PlayerComboAttackState
 	public override void OnCollisionStay(PlayerController unit, Collision collision)
 	{
 
-	}
-
-	public void HitEffectPooling(PlayerController unit, Transform target)
-	{
-		attackNode = unit.curNode;
-
-		if (attackNode.hitEffectPoolManager == null) { return; }
-
-		Vector3 rot = target.rotation.eulerAngles;
-		rot.y *= -1;
-		effect = attackNode.hitEffectPoolManager.ActiveObject(target.position + attackNode.hitEffectOffset, Quaternion.Euler(rot));
-		var particles = effect.GetComponent<ParticleController>();
-
-		if(particles != null) 
-		{
-			particles.Initialize(attackNode.hitEffectPoolManager);
-		}
 	}
 }

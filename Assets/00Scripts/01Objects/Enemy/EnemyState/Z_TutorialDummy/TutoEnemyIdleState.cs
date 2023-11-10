@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[FSMState((int)EnemyController.EnemyState.TutorialIdle)]
+[FSMState((int)EnemyState.TutorialIdle)]
 public class TutoEnemyIdleState : UnitState<EnemyController>
 {
+
 	public override void Begin(EnemyController unit)
 	{
+		if(unit.target == null)
+			unit.target = GameObject.FindWithTag("Player").GetComponent<UnitBase>();
 	}
 
 	public override void End(EnemyController unit)

@@ -7,9 +7,7 @@ public enum UIDialogType
 	NONE = 0,
 	
 	NORMAL = 1,
-	STANDING = 2,
-	RANGE = 3,
-	CUTSCENE = 4,
+	RANGE = 2,
 	
 	MAX
 }

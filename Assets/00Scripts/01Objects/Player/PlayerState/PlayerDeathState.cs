@@ -9,7 +9,7 @@ public class PlayerDeathState : UnitState<PlayerController>
 
 	public override void Begin(PlayerController pc)
 	{
-		TimelineManager.Instance.EnableCutScene(TimelineManager.ECutScene.PLYAERDEATHCUTSCENE);
+		TimelineManager.Instance.EnableCutScene(ECutSceneType.PLAYER_DEATH);
 		
 		pc.animator.SetBool(DeathAnimKey, true);
 		pc.rmController.SetRootMotion("Death");
@@ -31,11 +31,11 @@ public class PlayerDeathState : UnitState<PlayerController>
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
 	{
-		throw new System.NotImplementedException();
+
 	}
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-		throw new System.NotImplementedException();
+
 	}
 }

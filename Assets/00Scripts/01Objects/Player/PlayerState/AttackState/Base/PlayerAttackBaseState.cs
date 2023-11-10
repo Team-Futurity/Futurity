@@ -5,6 +5,9 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 {
 	protected float currentTime;
 
+	public PlayerAttackBaseState() { }
+	public PlayerAttackBaseState(StateData stateData) { }
+
 	public override void Begin(PlayerController unit)
 	{
 		currentTime = 0;
@@ -12,7 +15,7 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 
 	public override void Update(PlayerController unit)
 	{
-		currentTime += Time.deltaTime;
+		currentTime += Time.deltaTime * unit.animator.speed;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -21,8 +24,8 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 
 	public override void End(PlayerController unit)
 	{
-		unit.autoTargetCollider.truncatedCollider.enabled = false;
-		unit.attackCollider.truncatedCollider.enabled = false;
+		unit.autoTargetColliderChanger.DisableAllCollider();
+		unit.attackColliderChanger.DisableAllCollider();
 
 		unit.animator.SetBool(unit.IsAttackingAnimKey, false);
 		unit.animator.SetInteger(unit.currentAttackAnimKey, NullState);

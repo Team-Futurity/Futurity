@@ -1,0 +1,133 @@
+{
+"skeleton": {
+	"hash": "HnAPgTf77hg",
+	"spine": "4.1.21",
+	"x": -554,
+	"y": -1,
+	"width": 1108,
+	"height": 716,
+	"images": "./images/",
+	"audio": "C:/Users/juhee/Desktop/ck_work/3-2/퓨처리티/리소스/스트리트/car_1"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "car", "parent": "root", "x": -38.5, "y": 358 },
+	{ "name": "wheel_f", "parent": "car", "x": 79, "y": -211 },
+	{ "name": "wheel_b", "parent": "car", "x": -354.5, "y": 27 },
+	{ "name": "shadow", "parent": "root", "x": -37, "y": 319.5 }
+],
+"slots": [
+	{ "name": "shadow", "bone": "shadow", "attachment": "shadow" },
+	{ "name": "wheel_f", "bone": "wheel_f", "attachment": "wheel_f" },
+	{ "name": "wheel_b", "bone": "wheel_b", "attachment": "wheel_b" },
+	{ "name": "car", "bone": "car", "attachment": "car" },
+	{ "name": "light", "bone": "car", "attachment": "light", "blend": "additive" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"car": {
+				"car": { "width": 927, "height": 594 }
+			},
+			"light": {
+				"light": { "x": 38.5, "y": -1, "width": 1108, "height": 716 }
+			},
+			"shadow": {
+				"shadow": { "width": 940, "height": 607 }
+			},
+			"wheel_b": {
+				"wheel_b": { "width": 112, "height": 98 }
+			},
+			"wheel_f": {
+				"wheel_f": { "width": 109, "height": 98 }
+			}
+		}
+	}
+],
+"animations": {
+	"animation": {
+		"slots": {
+			"light": {
+				"rgba": [
+					{
+						"color": "ffffffff",
+						"curve": [ 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 0.54 ]
+					},
+					{
+						"time": 1,
+						"color": "ffffff8a",
+						"curve": [ 1.333, 1, 1.667, 1, 1.333, 1, 1.667, 1, 1.333, 1, 1.667, 1, 1.333, 0.54, 1.667, 1 ]
+					},
+					{ "time": 2, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"car": {
+				"translate": [
+					{
+						"curve": [ 0.333, 0, 0.667, 0, 0.333, 0, 0.667, 29.84 ]
+					},
+					{
+						"time": 1,
+						"y": 29.84,
+						"curve": [ 1.333, 0, 1.667, 0, 1.333, 29.84, 1.667, 0 ]
+					},
+					{ "time": 2 }
+				]
+			},
+			"shadow": {
+				"scale": [
+					{
+						"curve": [ 0.333, 1, 0.667, 0.981, 0.333, 1, 0.667, 0.981 ]
+					},
+					{
+						"time": 1,
+						"x": 0.981,
+						"y": 0.981,
+						"curve": [ 1.333, 0.981, 1.667, 1, 1.333, 0.981, 1.667, 1 ]
+					},
+					{ "time": 2 }
+				]
+			},
+			"wheel_b": {
+				"translate": [
+					{
+						"y": -8.51,
+						"curve": [ 0.036, 0, 0.068, 0, 0.036, -8.66, 0.068, -8.75 ]
+					},
+					{
+						"time": 0.1,
+						"y": -8.75,
+						"curve": [ 0.433, 0, 0.767, 0, 0.433, -8.75, 0.767, 0 ]
+					},
+					{
+						"time": 1.1,
+						"curve": [ 1.401, 0, 1.702, 0, 1.401, 0, 1.702, -7.13 ]
+					},
+					{ "time": 2, "y": -8.51 }
+				]
+			},
+			"wheel_f": {
+				"translate": [
+					{
+						"y": -5.21,
+						"curve": [ 0.036, 0, 0.068, 0, 0.036, -5.3, 0.068, -5.36 ]
+					},
+					{
+						"time": 0.1,
+						"y": -5.36,
+						"curve": [ 0.433, 0, 0.767, 0, 0.433, -5.36, 0.767, 0 ]
+					},
+					{
+						"time": 1.1,
+						"curve": [ 1.401, 0, 1.702, 0, 1.401, 0, 1.702, -4.36 ]
+					},
+					{ "time": 2, "y": -5.21 }
+				]
+			}
+		}
+	}
+}
+}

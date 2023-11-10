@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8395583359093026290}
   - component: {fileID: 3812850354790753625}
   - component: {fileID: 3447199611411212445}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_crack_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4881,7 +4881,7 @@ GameObject:
   - component: {fileID: 7640943390395928258}
   - component: {fileID: 9220697922285831435}
   - component: {fileID: 1544851871222503045}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9894,7 +9894,7 @@ GameObject:
   - component: {fileID: 6216602171021725536}
   - component: {fileID: 6707818283130123992}
   - component: {fileID: 2819081499699687228}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_elect (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14764,7 +14764,7 @@ GameObject:
   - component: {fileID: 849354355468851513}
   - component: {fileID: 4672688718585226442}
   - component: {fileID: 3909128572757808697}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_elect_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19643,7 +19643,7 @@ GameObject:
   - component: {fileID: 1474931956892829027}
   - component: {fileID: 2973192134461530550}
   - component: {fileID: 811148470216586570}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_elect_ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24522,7 +24522,7 @@ GameObject:
   - component: {fileID: 6930593104493963584}
   - component: {fileID: 4722885183624987653}
   - component: {fileID: 2879912575631387021}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_punch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29405,7 +29405,7 @@ GameObject:
   - component: {fileID: 4152557983820816629}
   - component: {fileID: 4522215882823004213}
   - component: {fileID: 176858710973807708}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_exp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34226,7 +34226,7 @@ GameObject:
   - component: {fileID: 4865665247618451956}
   - component: {fileID: 5513992334185801776}
   - component: {fileID: 3802456207279953571}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39105,7 +39105,7 @@ GameObject:
   - component: {fileID: 9167056549176803133}
   - component: {fileID: 6537785758973054232}
   - component: {fileID: 1568508559127936715}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_elect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39210,8 +39210,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.2
+      scalar: 0.15
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -39379,8 +39379,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.05
+      scalar: 10
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -39432,8 +39432,8 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.05
+      scalar: 10
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -39485,8 +39485,8 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.1
+      scalar: 10
+      minScalar: 25
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -43410,7 +43410,7 @@ ParticleSystem:
   CustomDataModule:
     enabled: 1
     mode0: 1
-    vectorComponentCount0: 2
+    vectorComponentCount0: 4
     color0:
       serializedVersion: 2
       minMaxState: 0
@@ -43477,6 +43477,78 @@ ParticleSystem:
     colorLabel0: Color
     vector0_0:
       serializedVersion: 2
+      minMaxState: 2
+      scalar: 1
+      minScalar: 0
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0.80772346
+          inSlope: 0.7290091
+          outSlope: 0.11626181
+          tangentMode: 69
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.12689392
+        - serializedVersion: 3
+          time: 0.60388315
+          value: 0.877932
+          inSlope: 0.11626181
+          outSlope: 0.30816156
+          tangentMode: 69
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0.30816156
+          outSlope: 0.23654126
+          tangentMode: 69
+          weightedMode: 0
+          inWeight: 0.111742616
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0.55410796
+          inSlope: 0.23583303
+          outSlope: 0.14549424
+          tangentMode: 69
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.16098481
+        - serializedVersion: 3
+          time: 0.6
+          value: 0.6414045
+          inSlope: 0.14549424
+          outSlope: 0.3964888
+          tangentMode: 69
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0.8
+          inSlope: 0.3964888
+          outSlope: 0.22003601
+          tangentMode: 69
+          weightedMode: 0
+          inWeight: 0.14015174
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    vectorLabel0_0: X
+    vector0_1:
+      serializedVersion: 2
       minMaxState: 1
       scalar: 1
       minScalar: 0
@@ -43485,21 +43557,21 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.1643801
-          inSlope: 1.8837887
-          outSlope: 1.8837887
-          tangentMode: 0
+          value: 1
+          inSlope: -1
+          outSlope: -1
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
-          outWeight: 0.08655616
+          outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: -0.18575045
-          outSlope: -0.18575045
-          tangentMode: 0
+          value: 0
+          inSlope: -1
+          outSlope: -1
+          tangentMode: 34
           weightedMode: 0
-          inWeight: 0.09833026
+          inWeight: 0
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -43528,8 +43600,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    vectorLabel0_0: X
-    vector0_1:
+    vectorLabel0_1: Y
+    vector0_2:
       serializedVersion: 2
       minMaxState: 3
       scalar: 1
@@ -43582,65 +43654,11 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    vectorLabel0_1: Y
-    vector0_2:
-      serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
-      minScalar: 0
-      maxCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      minCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
     vectorLabel0_2: Z
     vector0_3:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 3
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -43994,7 +44012,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e8fba1555c938b44daec5325975247de, type: 2}
+  - {fileID: 2100000, guid: a272b9d4e08646e458313e6a97c3a8ad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -44035,9 +44053,9 @@ ParticleSystemRenderer:
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
-  m_VertexStreams: 0001030420
-  m_Mesh: {fileID: -951608786083511892, guid: cbc808afdaea8364d9dddb5e6aafe1b1, type: 3}
-  m_Mesh1: {fileID: -951608786083511892, guid: a3adb0dfededb1848abf8bd64e92040d, type: 3}
+  m_VertexStreams: 0001030422
+  m_Mesh: {fileID: -951608786083511892, guid: 42fdaf582161e664bbce5e5014c8f307, type: 3}
+  m_Mesh1: {fileID: -951608786083511892, guid: 7677604d82acab54f8bb44d68961b682, type: 3}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MeshWeighting: 1
@@ -44056,7 +44074,7 @@ GameObject:
   - component: {fileID: 933685802393411384}
   - component: {fileID: 7264924497401133750}
   - component: {fileID: 8604276691433042298}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48984,7 +49002,7 @@ GameObject:
   - component: {fileID: 7540769424406346547}
   - component: {fileID: 6880054864661802085}
   - component: {fileID: 6505366714933716471}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_line_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53854,7 +53872,7 @@ GameObject:
   - component: {fileID: 3588037217500362164}
   - component: {fileID: 8169204965434260401}
   - component: {fileID: 6160225580892288553}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58666,7 +58684,7 @@ GameObject:
   - component: {fileID: 5789170291782046788}
   - component: {fileID: 3320306637537300624}
   - component: {fileID: 6990573302638436241}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_ground_hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63536,7 +63554,7 @@ GameObject:
   - component: {fileID: 8392780161335367063}
   - component: {fileID: 1488015346479660220}
   - component: {fileID: 6789261683063385370}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_crack_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68416,7 +68434,7 @@ GameObject:
   - component: {fileID: 860680747671019943}
   - component: {fileID: 6542016450039773640}
   - component: {fileID: 6807778552616310359}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73313,7 +73331,7 @@ GameObject:
   - component: {fileID: 8307665907235408400}
   - component: {fileID: 8352033593858016174}
   - component: {fileID: 6889580383978928914}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_pre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78183,7 +78201,8 @@ GameObject:
   - component: {fileID: 8013883921123738471}
   - component: {fileID: 1526101440412617355}
   - component: {fileID: 8092194452037478223}
-  m_Layer: 0
+  - component: {fileID: -7120234278639479507}
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82989,6 +83008,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-7120234278639479507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6631993031953438826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a398fb1a9a8f06c46ae7bd86278ae12c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  removeMode: 0
 --- !u!1 &7506045724453757729
 GameObject:
   m_ObjectHideFlags: 0
@@ -83000,7 +83032,7 @@ GameObject:
   - component: {fileID: 7480271500505843896}
   - component: {fileID: 1547193760104339074}
   - component: {fileID: 1773223686506845071}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_gline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87923,7 +87955,7 @@ GameObject:
   - component: {fileID: 8047255764364266476}
   - component: {fileID: 8047255764364266478}
   - component: {fileID: 8047255764364266479}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_elect (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92793,7 +92825,7 @@ GameObject:
   - component: {fileID: 5261705720920958899}
   - component: {fileID: 1990994486670471364}
   - component: {fileID: 3776118817881809838}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93067,7 +93099,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.25
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -97139,7 +97171,7 @@ ParticleSystem:
     vector0_1:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 15
+      scalar: 7
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -97663,7 +97695,7 @@ GameObject:
   - component: {fileID: 7409564240554996521}
   - component: {fileID: 1315939647880081836}
   - component: {fileID: 9168255105654134820}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102533,7 +102565,7 @@ GameObject:
   - component: {fileID: 674516445734196483}
   - component: {fileID: 7142163796935063365}
   - component: {fileID: 57899749257092788}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_elect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102638,8 +102670,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.1
+      scalar: 0.15
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -102807,8 +102839,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.25
-      minScalar: 0.05
+      scalar: 10
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -102860,8 +102892,8 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.25
-      minScalar: 0.05
+      scalar: 10
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -102913,8 +102945,8 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.1
+      scalar: 10
+      minScalar: 25
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -106820,7 +106852,7 @@ ParticleSystem:
   CustomDataModule:
     enabled: 1
     mode0: 1
-    vectorComponentCount0: 2
+    vectorComponentCount0: 4
     color0:
       serializedVersion: 2
       minMaxState: 0
@@ -106887,7 +106919,7 @@ ParticleSystem:
     colorLabel0: Color
     vector0_0:
       serializedVersion: 2
-      minMaxState: 1
+      minMaxState: 2
       scalar: 1
       minScalar: 0
       maxCurve:
@@ -106895,21 +106927,30 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.1643801
-          inSlope: 1.8837887
-          outSlope: 1.8837887
-          tangentMode: 0
+          value: 0.80772346
+          inSlope: 0.7290091
+          outSlope: 0.11626181
+          tangentMode: 69
           weightedMode: 0
           inWeight: 0
-          outWeight: 0.08655616
+          outWeight: 0.12689392
+        - serializedVersion: 3
+          time: 0.60388315
+          value: 0.877932
+          inSlope: 0.11626181
+          outSlope: 0.30816156
+          tangentMode: 69
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: -0.18575045
-          outSlope: -0.18575045
-          tangentMode: 0
+          inSlope: 0.30816156
+          outSlope: 0.23654126
+          tangentMode: 69
           weightedMode: 0
-          inWeight: 0.09833026
+          inWeight: 0.111742616
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -106919,21 +106960,30 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
+          value: 0.55410796
+          inSlope: 0.23583303
+          outSlope: 0.14549424
+          tangentMode: 69
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.16098481
+        - serializedVersion: 3
+          time: 0.6
+          value: 0.6414045
+          inSlope: 0.14549424
+          outSlope: 0.3964888
+          tangentMode: 69
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
+          value: 0.8
+          inSlope: 0.3964888
+          outSlope: 0.22003601
+          tangentMode: 69
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.14015174
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -106941,30 +106991,30 @@ ParticleSystem:
     vectorLabel0_0: X
     vector0_1:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 2
+      minMaxState: 1
+      scalar: 1
       minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
+          value: 1
+          inSlope: -1
+          outSlope: -1
+          tangentMode: 34
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
           value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
+          inSlope: -1
+          outSlope: -1
+          tangentMode: 34
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -106995,8 +107045,8 @@ ParticleSystem:
     vectorLabel0_1: Y
     vector0_2:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 3
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -107049,8 +107099,8 @@ ParticleSystem:
     vectorLabel0_2: Z
     vector0_3:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 3
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -107404,7 +107454,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e8fba1555c938b44daec5325975247de, type: 2}
+  - {fileID: 2100000, guid: a272b9d4e08646e458313e6a97c3a8ad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107445,9 +107495,9 @@ ParticleSystemRenderer:
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
-  m_VertexStreams: 0001030420
-  m_Mesh: {fileID: -951608786083511892, guid: cbc808afdaea8364d9dddb5e6aafe1b1, type: 3}
-  m_Mesh1: {fileID: -951608786083511892, guid: a3adb0dfededb1848abf8bd64e92040d, type: 3}
+  m_VertexStreams: 0001030422
+  m_Mesh: {fileID: -951608786083511892, guid: 42fdaf582161e664bbce5e5014c8f307, type: 3}
+  m_Mesh1: {fileID: -951608786083511892, guid: 7677604d82acab54f8bb44d68961b682, type: 3}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MeshWeighting: 1
@@ -107466,7 +107516,7 @@ GameObject:
   - component: {fileID: 769630665535211663}
   - component: {fileID: 5209026823730989689}
   - component: {fileID: 6193055652918517036}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: passive_epsilon_j-k-k_particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

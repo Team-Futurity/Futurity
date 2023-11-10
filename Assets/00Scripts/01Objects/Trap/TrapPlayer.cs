@@ -15,7 +15,7 @@ public class TrapPlayer : UnitBase
 
 	private bool isTrapActive = true;
 
-	[Header("Æ®·¦ µ¥ÀÌÅÍ")]
+	[Header("Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
 	[SerializeField] private LayerMask searchLayer;
 
 	private void Awake()
@@ -28,18 +28,10 @@ public class TrapPlayer : UnitBase
 		SetupTrapData();
 	}
 
-	private void Start()
+	protected override void Start()
 	{
+		base.Start();
 		behaviour.trapEnd.AddListener(EndProceed);
-	}
-
-	private void Update()
-	{
-		// Trap Test¿ë ÄÚµå
-		if (Input.GetKeyDown(KeyCode.M))
-		{
-			ActiveTrap(objectDetectList);
-		}
 	}
 
 	private void FixedUpdate()
@@ -69,7 +61,7 @@ public class TrapPlayer : UnitBase
 		ActiveTrap(objectDetectList);
 	}
 
-	public override void Hit(UnitBase attacker, float damage, bool isDot = false)
+	public override void Hit(DamageInfo damageInfo)
 	{
 		if (isTrapActive && trapData.TrapCondition == TrapCondition.ATTACK)
 		{

@@ -1,135 +1,266 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class DebugManager : MonoBehaviour
+public class DebugManager : Singleton<DebugManager>
 {
-    private bool isShowConsole;
-    private bool isShowHelp;
+	// Constants
+	[field: SerializeField] public float OriginalFontSize { get; private set; }
+	private const float OriginalWidth = 1080;
+	private const float OriginalLogSpacing = 5;
 
-    private string input;
-    private Vector2 scroll;
+	// Debug Only
+	private bool isShowConsole;
 
-    public static DebugCommand Help;
-    public static DebugCommand KillAll;
-    public static DebugCommand<int> PrintInt;
+	private string input;
+	private Vector2 scroll;
 
-    public List<object> commandList;
+	public static DebugCommand Help;
+	public static DebugCommand Clear;
+	public static DebugCommand<int> PrintInt;
 
-    [Header("Customize")]
-    [SerializeField, Tooltip("Debug UIÀÇ °¡·Î ±æÀÌÀÔ´Ï´Ù")] 
-    private float width;
-    //[SerializeField, Tooltip("Debug UIÀÇ ¼¼·Î ±æÀÌÀÔ´Ï´Ù")] 
-    private float height;
-    [SerializeField, Tooltip("°¡·Î ±æÀÌ¸¦ °¨»ê¸ðµå·Î ¼³Á¤ÇÕ´Ï´Ù\nTrue·Î º¯°æÇÏ¸é È­¸é °¡·Î ±æÀÌ¿¡¼­ Width¸¦ »®´Ï´Ù")]
-    private bool isReduceMode_Width;
-    //[SerializeField, Tooltip("¼¼·Î ±æÀÌ¸¦ °¨»ê¸ðµå·Î ¼³Á¤ÇÕ´Ï´Ù\nTrue·Î º¯°æÇÏ¸é È­¸é ¼¼·Î ±æÀÌ¿¡¼­ Height¸¦ »®´Ï´Ù")]
-    private bool isReduceMode_Height;
+	public List<object> commandList;
+	public List<string> commandIDList;
 
-    private void Awake()
-    {
-        Help = new DebugCommand("help", "¸í·É¾î ¸ñ·ÏÀ» Ãâ·ÂÇÕ´Ï´Ù.", "help", () => { isShowHelp = true; });
-        DebugCommand t1 = new DebugCommand("test1", "Å×½ºÆ®¿ë.", "test", () => { FDebug.Log("Test01"); });
-        DebugCommand t2 = new DebugCommand("test2", "Å×½ºÆ®¿ë.", "test", () => { FDebug.Log("Test02"); });
-        DebugCommand t3 = new DebugCommand("test3", "Å×½ºÆ®¿ë.", "test", () => { FDebug.Log("Test03"); });
-        DebugCommand t4 = new DebugCommand("test4", "Å×½ºÆ®¿ë.", "test", () => { FDebug.Log("Test04"); });
-        KillAll = new DebugCommand("killAll", "Removes all Enemy(Debug Test Only)", "killAll", () => { FDebug.Log("All Kill for Enemy"); });
-        PrintInt = new DebugCommand<int>("print", "Print Inteager", "print", (v1) => { FDebug.Log(v1); });
-       
-        commandList = new List<object>
-        {
-            Help,
-            KillAll,
-            PrintInt,
-            t1,
-            t2,
-            t3,
-            t4
-        };
-    }
+	// data
+	private Queue<string> logs = new Queue<string>();
+	private List<string> inputs = new List<string>();
+	private int currentInputIndex;
+	private float screenRatio;
+	private float logHeight;
+	private float logSpacing;
 
-    public void OnToggleDebug(InputValue value)
+	[Header("Customize")]
+	[SerializeField] private GUIPanelData InputPanel;
+	[SerializeField] private GUIPanelData logPanel;
+
+	// etc
+	private InputActionMap previousMap;
+	private bool isOnDebugInput;
+
+	protected override void Awake()
+	{
+		base.Awake();
+
+		Help = new DebugCommand("help", "ï¿½ï¿½É¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.", "help", AddHelpLog);
+		Clear = new DebugCommand("clear", "ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.", "clear", logs.Clear);
+		PrintInt = new DebugCommand<int>("print", "Print Inteager", "print", (v1) => { FDebug.Log(v1); });
+
+		commandList = new List<object>
+		{
+			Help,
+			Clear,
+			PrintInt,
+		};
+
+		commandIDList = new List<string>
+		{
+			Help.CommandID,
+			Clear.CommandID,
+			PrintInt.CommandID
+		};
+	}
+
+	private void Start()
+	{
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.MoveInput, OnMoveInput, true);
+
+		//SceneManager.sceneUnloaded += RemoveAllCallbacks;
+		SceneManager.sceneLoaded += RegisterAllCallbacks;
+	}
+
+	protected override void OnEnable()
+	{
+		base.OnEnable();
+
+		if(InputActionManager.Instance.InputActions == null) { return; }
+
+		RegisterAllCallbacks(new Scene(), LoadSceneMode.Single);
+	}
+
+	protected override void OnDisable()
+	{
+		base.OnDisable();
+
+		if (InputActionManager.Instance == null) { return; }
+
+		RemoveAllCallbacks(new Scene());
+	}
+
+	private void RemoveAllCallbacks(Scene scene)
+	{
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Debug.MoveInput, OnMoveInput, true);
+	}
+
+	private void RegisterAllCallbacks(Scene scene, LoadSceneMode mode)
+	{
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.ToggleDebug, OnToggleDebug, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.Return, OnReturn, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Debug.MoveInput, OnMoveInput, true);
+	}
+
+	public void AddNewCommand(DebugCommand command)
+	{
+		if (commandIDList.Contains(command.CommandID)) { return; }
+
+		commandList.Add(command);
+		commandIDList.Add(command.CommandID);
+	}
+
+	public void AddNewCommand<V1>(DebugCommand<V1> command)
+	{
+		if (commandIDList.Contains(command.CommandID)) { return; }
+
+		commandList.Add(command);
+		commandIDList.Add(command.CommandID);
+	}
+
+	#region InputCallbacks
+
+	public void OnToggleDebug(InputAction.CallbackContext context)
     {
         isShowConsole = !isShowConsole;
+		input = null;
     }
 
-    public void OnReturn(InputValue value)
+    public void OnReturn(InputAction.CallbackContext context)
     {
         if (isShowConsole && input != "")
         {
+			inputs.Add(input);
             HandleInput();
             input = "";
-        }
+			currentInputIndex = inputs.Count;
+		}
     }
 
-    private Vector2 GetDebugUISize()
-    {
-        float uiWidth;
-        float uiHeight;
+	public void OnMoveInput(InputAction.CallbackContext context)
+	{
+		if (isShowConsole)
+		{
+			float axis = context.ReadValue<float>();
 
-        if (isReduceMode_Width)
-        {
-            uiWidth = Screen.width - width;
-        }
-        else
-        {
-            uiWidth = width;
-        }
+			currentInputIndex = axis < 0 ? currentInputIndex + 1 : currentInputIndex - 1;
 
-        if (isReduceMode_Height)
-        {
-            uiHeight = Screen.height - height;
-        }
-        else
-        {
-            uiHeight = height;
-        }
+			currentInputIndex = Mathf.Clamp(currentInputIndex, 0, inputs.Count);
+			input = currentInputIndex == inputs.Count ? "" : inputs[currentInputIndex];
+		}
+	}
+	#endregion
 
-        return new Vector2(uiWidth, uiHeight);
-    }
-      
-    private void OnGUI()
+	private void AddLog(string log)
+	{
+		logs.Enqueue(log);
+		scroll.y = (logHeight + logSpacing) * logs.Count;
+	}
+
+
+	private void DrawLog(ref float yPos)
+	{
+		Vector2 uiSize = logPanel.GetGUIPanelSize();
+		float spacedLogHeight = logHeight + logSpacing;
+
+		GUI.Box(new Rect(0, yPos, uiSize.x, uiSize.y), "");
+
+		var viewport = new Rect(0, 0, uiSize.x - 30, spacedLogHeight * logs.Count);
+
+		scroll = GUI.BeginScrollView(new Rect(0, yPos + 5f, uiSize.x, uiSize.y - 10 * screenRatio), scroll, viewport);
+
+		Queue<string> logQueue = new Queue<string>(logs);
+
+		//int logCount = 0;
+		float y = 0;
+		while (logQueue.Count > 0)
+		{
+			float logWidth = viewport.width - 100;
+			GUIStyle style = new GUIStyle(GUI.skin.label);
+			style.alignment = TextAnchor.MiddleLeft;
+			style.fontSize = (int)logHeight;
+			style.wordWrap = true;
+
+			float height = style.CalcHeight(new GUIContent(logQueue.Peek()), logWidth);
+			
+			Rect labelRect = new Rect(5f, y, logWidth, height);
+
+			GUI.Label(labelRect, logQueue.Dequeue(), style);
+
+			y += height;
+		}
+
+		GUI.EndScrollView();
+
+		yPos += uiSize.y + logSpacing;
+	}
+
+	private Rect GetInputFieldRect(ref float yPos, out GUIStyle style)
+	{
+		Vector2 uiSize = InputPanel.GetGUIPanelSize();
+
+		style = new GUIStyle(GUI.skin.textField);
+		Rect panelRect = new Rect(0f, yPos + 5f, uiSize.x, logHeight);
+		style.fontSize = (int)logHeight;
+		style.alignment = TextAnchor.MiddleLeft;
+		style.wordWrap = true;
+
+		panelRect.height = style.CalcHeight(new GUIContent(input), panelRect.width);
+
+		return panelRect;
+	}
+
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Backslash))
+		{
+			InputActionMap map = previousMap;
+			if (!isOnDebugInput)
+			{
+				previousMap = InputActionManager.Instance.currentActionMap;
+				map = InputActionManager.Instance.InputActions.Debug;
+			}
+
+			isOnDebugInput = !isOnDebugInput;
+
+			InputActionManager.Instance.ToggleActionMap(map);
+		}
+	}
+
+	private void OnGUI()
     {
         if (!isShowConsole) return;
 
-        var y = .0f;
+        var y = 0f;
 
-        Vector2 uiSize = GetDebugUISize();
+		screenRatio = Screen.width / OriginalWidth;
+		logHeight = screenRatio * OriginalFontSize;
+		logSpacing = OriginalLogSpacing * screenRatio;
 
-        if (isShowHelp)
-        {
-            GUI.Box(new Rect(0, y, Screen.width, 100), "");
+		Vector2 uiSize = InputPanel.GetGUIPanelSize();
 
-            var viewport = new Rect(0, 0, uiSize.x - 30, 20 * commandList.Count);
+		DrawLog(ref y);
 
-            scroll = GUI.BeginScrollView(new Rect(0, y + 5f, uiSize.x, 90), scroll, viewport);
+		GUIStyle panelStyle;
+		Rect inputPanelRect = new Rect(0f, y, uiSize.x, uiSize.y);
+		Rect inputFieldRect = GetInputFieldRect(ref y, out panelStyle);
+		inputPanelRect.height = inputFieldRect.height + 10 * screenRatio;
 
-            for(int commandCount = 0;  commandCount < commandList.Count; commandCount++)
-            {
-                DebugCommandBase command = commandList[commandCount] as DebugCommandBase;
-
-                string label = $"{command.CommandFormat} - {command.CommandDescription}";
-
-                Rect labelRect = new Rect(5f, 20 * commandCount, viewport.width - 100, 20);
-
-                GUI.Label(labelRect, label);
-            }
-
-            GUI.EndScrollView();
-            y += 100;
-        }
-
-        GUI.Box(new Rect(0f, y, uiSize.x, 30), "");
+		GUI.Box(inputPanelRect, "");
         GUI.backgroundColor = new Color(0, 0, 0, 0.05f);
-        input = GUI.TextField(new Rect(0f, y + 5f, uiSize.x, 20f), input);
+		
+		input = GUI.TextField(inputFieldRect, input, panelStyle);
     }
 
     private void HandleInput()
     {
         string[] devidedInput = input.Trim().Split(" ");
+
         if (devidedInput.Length <= 1 && devidedInput[0].Equals("")) { return; }
+		if (input.FirstOrDefault() != '/') { AddLog(input); return; }
         for (int commandCount = 0; commandCount < commandList.Count; commandCount++)
         {
             DebugCommandBase commandBase = commandList[commandCount] as DebugCommandBase;
@@ -146,4 +277,21 @@ public class DebugManager : MonoBehaviour
             }
         }
     }
+
+	#region CommandCallbacks
+	private void AddHelpLog()
+	{
+		AddLog("");
+		AddLog("~ Debug Commands ~");
+
+		for (int commandCount = 0; commandCount < commandList.Count; commandCount++)
+		{
+			DebugCommandBase command = commandList[commandCount] as DebugCommandBase;
+
+			string label = $"{command.CommandFormat} - {command.CommandDescription}";
+
+			AddLog(label);
+		}
+	}
+	#endregion
 }

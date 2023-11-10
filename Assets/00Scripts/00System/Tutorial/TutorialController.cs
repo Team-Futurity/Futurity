@@ -6,134 +6,63 @@ using UnityEngine.AddressableAssets;
 
 public class TutorialController : MonoBehaviour
 {
-	[SerializeField] private float fadeTime = 1f;
+	[SerializeField]
+	private float fadeTime = 1f;
 
-	[SerializeField] private UIPerformBoardHandler performHandler;
-	[SerializeField] private UIDialogController dialogController;
+	[SerializeField]
+	private UIPerformBoardHandler performHandler;
 
-	
-	// Dialog Data Set
-	private List<DialogData> tutorialDialogList = new List<DialogData>();
-	private readonly string dialogPath = "Assets/04Data/Dialog/Tutorial/";
-	private readonly string[] dialogKey =
-	{
-		"TutorialData1",
-		"TutorialData2",
-		"TutorialData3"
-	};
+	public List<UIPerformBoard> uiPerformBoards;
 
-	// Dialog Index
-	private int currentDialogIndex = 0;
-	private int maxDialogIndex = 0;
-	
-	// Only Debug
-	[Space(10), Header("Debug 모드 전용")]
-	public bool isDebugMode = false;
+	public TutorialCutScene cutScene;
 
 	private void Awake()
 	{
-		if (!isDebugMode)
-		{
-			InputActionManager.Instance.DisableAllInputActionAsset();
-			InputActionManager.Instance.EnableInputActionAsset(InputActionType.Player);
-		}
-
-		LoadTutorialDialogData();
-
-		currentDialogIndex = 0;
-		maxDialogIndex = tutorialDialogList.Count - 1;
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
 	}
 
 	private void Start()
 	{
-		if (isDebugMode)
+		SetEvent();
+		FadeManager.Instance.FadeOut(fadeTime);
+	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F9))
 		{
-			StartTutorial();
-		}
-		else
-		{
-			FadeManager.Instance.FadeOut(fadeTime, StartTutorial);
+			SceneLoader.Instance.LoadScene(ChapterSceneName.CHAPTER1_1);
 		}
 	}
 
-	private void StartTutorial()
+	private void SetEvent()
 	{
-		// First Settings
-		dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
-		performHandler.SetPerfrom();
-		
-		// Event - Dialog Ended
-		dialogController.OnEnded?.AddListener(() =>
-		{
-			switch (currentDialogIndex)
-			{
-				case 0:
-					WindowManager.Instance.ShowWindow("Perform");
-					performHandler.Run();
-					break;
+		performHandler.CreateGroup(1);
+		performHandler.CreateGroup(2);
+		performHandler.CreateGroup(3);
 
-				case 1:
-					performHandler.ChangeToNextBoard();
-					break;
-			}
-		});
-
-		// Event - Perform Changed
-		performHandler.OnChangePerformBoard?.AddListener(() =>
+		for (int i = 0; i < 2; ++i)
 		{
-			switch (currentDialogIndex)
-			{
-				case 0:
-					currentDialogIndex++;
-					dialogController.SetDialogData(tutorialDialogList[currentDialogIndex]);
-					
-					dialogController.PlayDialog();
-					break;
-				
-				case 1:
-					performHandler.ChangeToNextBoard();
-					currentDialogIndex++;
-					break;
-			}
-		});
+			performHandler.AddPerformBoard(1, uiPerformBoards[i]);
+		}
 		
-		// Event - Perform Ended
-		performHandler.OnEnded?.AddListener(() =>
+		for (int i = 2; i < 8; ++i)
 		{
-			dialogController.SetDialogData(tutorialDialogList[maxDialogIndex]);
-			dialogController.PlayDialog();
+			performHandler.AddPerformBoard(2, uiPerformBoards[i]);
+		}
+		
+		for (int i = 8; i < 9; ++i)
+		{
+			performHandler.AddPerformBoard(3, uiPerformBoards[i]);
+		}
+
+		int next = 1;
+		cutScene.onPauseEvent?.AddListener(() =>
+		{
+			performHandler.OpenPerform(next);
+			next++;
 			
-			dialogController.OnEnded?.RemoveAllListeners();
-			dialogController.OnEnded?.AddListener(() =>
-			{
-				if (isDebugMode)
-				{
-					SceneLoader.Instance.LoadScene("Chapter1-Stage1");
-				}
-				else
-				{
-					FadeManager.Instance.FadeIn(fadeTime, () =>
-					{
-						SceneLoader.Instance.LoadScene("Chapter1-Stage1");
-					});
-				}
-			});
+			performHandler.onEnded?.AddListener(cutScene.Resume);
 		});
-		
-		// Play
-		dialogController.PlayDialog();
-	}
-
-	private void LoadTutorialDialogData()
-	{
-		Debug.Log("Tutorial Data Load");
-		
-		foreach (var key in dialogKey)
-		{
-			var path = dialogPath + key + ".asset";
-
-			DialogData dialogData = Addressables.LoadAsset<DialogData>(path).WaitForCompletion();
-			tutorialDialogList.Add(dialogData);
-		}
 	}
 }

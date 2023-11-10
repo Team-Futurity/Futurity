@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3735043386139340176}
   - component: {fileID: 3735043386139340181}
   - component: {fileID: 3735043386139340178}
-  - component: {fileID: 3735043386139340179}
   m_Layer: 5
   m_Name: Fade Manager
   m_TagString: Untagged
@@ -77,20 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3735043386139340179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3735043386139340177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46f1d738b0f25db4d9fa8f7a04127da0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeImage: {fileID: 0}
-  isFading: 0
 --- !u!1 &3735043386707417191
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,6 +88,7 @@ GameObject:
   - component: {fileID: 3735043386707417208}
   - component: {fileID: 3735043386707417209}
   - component: {fileID: 3735043386707417190}
+  - component: {fileID: 1202807187}
   m_Layer: 5
   m_Name: Fade Canvas
   m_TagString: Untagged
@@ -192,3 +178,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1202807187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3735043386707417191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f1d738b0f25db4d9fa8f7a04127da0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeImage: {fileID: 3735043386139340178}
+  isFading: 0

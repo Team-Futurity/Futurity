@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIHPGauge : MonoBehaviour
 {
@@ -8,36 +10,53 @@ public class UIHPGauge : MonoBehaviour
 	public UIGauge Gauge { get; private set; }
 
 	[field: SerializeField]
-	public StatusManager StatusManager { get; private set; }
+	public UnitBase playerUnitBase { get; private set; }
 
+	public Image realImage;
+
+	[SerializeField]
+	private bool isBillboard = false;
+
+	private Camera mainCam;
+	
 	private void Awake()
 	{
-		if (Gauge == null || StatusManager == null)
+		if (Gauge == null || playerUnitBase == null)
 		{
 			FDebug.Log($"[{GetType()}] 필요한 Instance가 존재하지 않습니다.");
 			FDebug.Break();
 
 			return;
 		}
+
+		playerUnitBase.status.updateHPEvent?.AddListener((current, max) =>
+		{
+			UpdateHPGauge(current,max);
+			
+			if(realImage != null)
+				realImage.fillAmount = current / max;
+		});
+
+		mainCam = Camera.main;
 	}
 
-	private void Start()
+	private void LateUpdate()
 	{
-		StatusManager.GetStatus(StatusType.CURRENT_HP).UpdateStatus += (x) =>
+		if(!isBillboard)
 		{
-			UpdateHPGauge(x);
-		};
-	}
-
-	private void UpdateHPGauge(float gauge)
-	{
-		var maxHpElement = StatusManager.GetStatus(StatusType.MAX_HP).GetValue();
-
-		if (gauge > maxHpElement)
-		{
-			gauge = maxHpElement;
+			return;
 		}
 
-		// Gauge.StartFillGauge(gauge);
+		transform.LookAt(transform.position + mainCam.transform.rotation * Vector3.forward, mainCam.transform.rotation * Vector3.up);
+	}
+
+	private void UpdateHPGauge(float currentGauge, float maxGauge)
+	{
+		if (currentGauge > maxGauge)
+		{
+			currentGauge = maxGauge;
+		}
+
+		Gauge.StartFillGauge(currentGauge, maxGauge);
 	}
 }

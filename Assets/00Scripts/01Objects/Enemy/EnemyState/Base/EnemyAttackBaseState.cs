@@ -2,47 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackBaseState : UnitState<EnemyController>
+public class EnemyAttackBaseState : StateBase
 {
-	protected float curTime = .0f;
+	protected bool isAttack = false;
+
 
 	public override void Begin(EnemyController unit)
 	{
-		unit.animator.SetTrigger(unit.atkAnimParam);
 		unit.enemyData.EnableAttackTime();
+		unit.rigid.velocity = Vector3.zero;
 	}
 
 	public override void Update(EnemyController unit)
 	{
 		curTime += Time.deltaTime;
-		unit.DelayChangeState(curTime, unit.attackChangeDelay, unit, unit.UnitChaseState());
-	}
-
-	public override void FixedUpdate(EnemyController unit)
-	{
-
+		if(!isAttack)
+		{
+			AttackAnim(unit, curTime, unit.attackBeforeDelay);
+		}
+		else
+			unit.DelayChangeState(curTime, unit.attackingDelay, unit, unit.UnitChaseState());
 	}
 
 	public override void End(EnemyController unit)
 	{
 		curTime = 0f;
+		isAttack = false;
 		unit.enemyData.DisableAttackTime();
-		/*unit.effectManager.HitEffectDeActive(unit.hitEffect.indexNum);
-		foreach(var i in unit.effects)
-		{
-			if (unit.effectManager.copySpecific[i.indexNum] != null)
-				unit.effectManager.SpecificEffectDeActive(i.indexNum);
-		}*/
-	}
-
-	public override void OnCollisionEnter(EnemyController unit, Collision collision)
-	{
-		
 	}
 
 	public override void OnTriggerEnter(EnemyController unit, Collider other)
 	{
 		if (other.CompareTag(unit.playerTag))
-			unit.enemyData.Attack(unit.target);
+		{
+			DamageInfo info = new DamageInfo(unit.enemyData, unit.target, 1);
+			unit.enemyData.Attack(info);
+		}
+	}
+
+
+	protected void AttackAnim(EnemyController unit, float curTime, float maxTime)
+	{
+		if (curTime > maxTime)
+		{
+			if(unit.ThisEnemyType == EnemyType.MeleeDefault)
+				AudioManager.Instance.PlayOneShot(unit.attackSound1, unit.transform.position);
+			unit.animator.SetTrigger(unit.atkAnimParam);
+			curTime = 0f;
+			isAttack = true;
+		}
 	}
 }

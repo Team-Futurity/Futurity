@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Windows;
-using UnityEngine.XR;
-using static PlayerController;
 
 [FSMState((int)PlayerState.AttackAfterDelay)]
 public class PlayerAttackAfterDelayState : PlayerComboAttackState
@@ -33,6 +30,7 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 		base.Update(unit);
 		if(unit.nextCombo != PlayerInputEnum.None)
 		{
+			if (attackNode.childNodes.Count == 0 && currentTime < attackNode.attackAfterDelay) { return; }
 			//unit.StartNextComboAttack(unit.nextCombo, PlayerState.NormalAttack);
 			if (!unit.NodeTransitionProc(unit.nextCombo, PlayerState.NormalAttack)) { /*unit.ChangeState(PlayerState.Idle);*/ return; }
 
@@ -45,6 +43,8 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 		if (currentTime >= attackNode.attackAfterDelay)
 		{
 			SendAttackEndMessage(unit);
+
+			unit.sariObject.OnStop();
 
 			unit.RotatePlayer(unit.lastMoveDir);
 			unit.ChangeState(PlayerState.Idle);

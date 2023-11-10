@@ -1,22 +1,58 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System;
 using UnityEngine;
 using FMODUnity;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
+
+[Serializable]
+public class AttackAsset
+{
+	[Header("íƒ€ê²© ì´í™íŠ¸")]
+	public Vector3 effectOffset;
+	public Quaternion effectRotOffset;
+	public GameObject effectPrefab;
+	public GameObject effectParent;
+	public EffectParent effectParentType;
+	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
+
+	[Header("í”¼ê²© ì´í™íŠ¸")]
+	public Vector3 hitEffectOffset;
+	public Quaternion hitEffectRotOffset;
+	public GameObject hitEffectPrefab;
+	public GameObject hitEffectParent;
+	public EffectParent hitEffectParentType;
+	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
+
+	[Header("ì‚¬ìš´ë“œ")]
+	public EventReference attackSound;
+
+	public void AddPoolManager()
+	{
+		if (effectPrefab != null)
+		{
+			effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
+		}
+
+		if (hitEffectPrefab != null)
+		{
+			hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
+		}
+	}
+}
+
 
 [Serializable]
 public class AttackNode
 {
-	[Header("³ëµå ÀÌ¸§")]
+	[Header("ëª…ë ¹ì–´ëª…")]
 	public string name;
 
-	[Header("°ø°İ Å¸ÀÔ")]
+	[Header("ì…ë ¥ ì»¤ë§¨ë“œ")]
 	public PlayerInputEnum command;
-	[Header("´ÙÀ½ °ø°İ(ÄŞº¸)")]
+	[Header("ìƒí•˜ìœ„ ë…¸ë“œ")]
 	public List<AttackNode> childNodes;
 	public AttackNode parent;
 
-	[Header("ÄŞº¸ µ¥ÀÌÅÍ")]
+	[Header("ê³µê²© ê´€ë ¨")]
 	public float attackLength;
 	public float attackAngle;
 	public float attackLengthMark;
@@ -26,68 +62,56 @@ public class AttackNode
 	public float attackST;
 	public float attackKnockback;
 	public bool ignoresAutoTargetMove;
+	public ColliderType attackColliderType;
 
-	[Header("°ø°İ ÀÌÆåÆ®")]
-	public Vector3 effectOffset;
-	public Quaternion effectRotOffset;
-	public GameObject effectPrefab;
-	public GameObject effectParent;
-	[HideInInspector] public ObjectPoolManager<Transform> effectPoolManager;
+	public Dictionary<int, AttackAsset> attackAssetsByPart; 
 
-	[Header("Àû ÇÇ°İ ÀÌÆåÆ®")]
-	public Vector3 hitEffectOffset;
-	public Quaternion hitEffectRotOffset;
-	public GameObject hitEffectPrefab;
-	public GameObject hitEffectParent;
-	[HideInInspector] public ObjectPoolManager<Transform> hitEffectPoolManager;
-
-	[Header("¿¬Ãâ¿ë µ¥ÀÌÅÍ")]
+	[Header("ì—°ì¶œ ê´€ë ¨")]
 	public int animInteger;
 
 	public float shakePower;
 	public float shakeTime;
 	public float slowTime;
 	public float slowScale;
+	public float rumbleLow;
+	public float rumbleHigh;
+	public float rumbleDuration;
 
-	[Header("°ø°İ »ç¿îµå")]
-	public EventReference attackSound;
+	[Header("ì‚¬ìš´ë“œ")]
+	public EventReference attackVoice;
 
 	public AttackNode(PlayerInputEnum command)
 	{
 		this.command = command;
 		childNodes = new List<AttackNode>();
+		attackAssetsByPart = new Dictionary<int, AttackAsset>();
 	}
 
-	public void AddPoolManager()
+	public AttackAsset GetAttackAsset(int partCode)
 	{
-		if(effectPrefab != null)
-		{
-			effectPoolManager = new ObjectPoolManager<Transform>(effectPrefab, effectParent);
-		}
-		
-		if(hitEffectPrefab != null)
-		{
-			hitEffectPoolManager = new ObjectPoolManager<Transform>(hitEffectPrefab, hitEffectParent);
-		}
+		AttackAsset asset;
+		if (!attackAssetsByPart.TryGetValue(partCode, out asset)) { return null; }
+
+		return asset;
 	}
 }
 
 [Serializable]
 public class CommandTree
 {
-	[field:SerializeField] public AttackNode Top { get; private set; } // ÃÖ»ó´Ü ³ëµå
+	[field:SerializeField] public AttackNode Top { get; private set; } // ï¿½Ö»ï¿½ï¿½ ï¿½ï¿½ï¿½
 
 	public CommandTree()
 	{
 		Top = new AttackNode(PlayerInputEnum.None);
 	}
 
-	public void AddNode(AttackNode newNode, AttackNode parent)
+	public void AddNode(AttackNode newNode, AttackNode parent, int partCode)
 	{
 		if (!IsNodeInTree(parent)) { FDebug.LogError("[CommandTree] This Node is not Node in This Tree"); return; }
 
 		newNode.parent = parent;
-		newNode.AddPoolManager();
+		newNode.GetAttackAsset(partCode).AddPoolManager();
 		parent.childNodes.Add(newNode);
 	}
 
@@ -138,7 +162,7 @@ public class CommandTree
 	public AttackNode FindNode(PlayerInputEnum targetInput, AttackNode curNode = null)
 	{
 		AttackNode resultNode = null;
-		if (Top != null) // topÀÌ Á¸ÀçÇÏ°í
+		if (Top != null) // topï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
 		{
 			resultNode = FindProc(targetInput, curNode.childNodes == null ? Top : curNode);
 		}

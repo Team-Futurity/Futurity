@@ -4,50 +4,32 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
+public abstract class TruncatedCollider<T> : ColliderBase where T : Collider
 {
-	[SerializeField] protected float angle;
+	public T ColliderReference { get; private set; }
 
-	public float Angle
+	protected virtual void Awake()
 	{
-		get { return angle; }
-		protected set
-		{
-			if (value == 360) { angle = 360; }
-			else { angle = value % 360;	}
-		}
-	}
-	[field : SerializeField] public float Radius { get; protected set; }
-	[field: SerializeField] public bool IsTrigger { get; protected set; }
-	public T truncatedCollider { get; private set; }
-	[SerializeField] protected Color colliderColor = Color.red;
-
-	protected virtual void Start()
-	{
-		truncatedCollider = gameObject.AddComponent<T>();
-		truncatedCollider.isTrigger = IsTrigger;
-		truncatedCollider.enabled = false;
+		ColliderReference = gameObject.AddComponent<T>();
+		ColliderReference.isTrigger = IsTrigger;
+		ColliderReference.enabled = false;
 	}
 
-	// 콜라이더 기본 설정
-	/*public void SetCollider(float angle, float radius)
-	{
-		this.angle = angle;
-		this.radius = radius;
+	public override abstract void SetColliderActivation(bool isActive);
 
-		radiusCollider.radius = radius;
-	}
-	*/
+	public override abstract void SetCollider(float angle, float radius);
 
 	// 원본 콜라이더 내에 들어왔는지 검증하는 메소드
-	public abstract bool IsInCollider(GameObject target);
+	public override abstract bool IsInCollider(GameObject target);
 
 	// 잘라낸 콜라이더 내에 있는지 검증하는 메소드
-	public virtual bool IsInCuttedCollider(GameObject target)
+	public override bool IsInCuttedCollider(GameObject target, bool ignoresCut = false)
 	{
+		if (ignoresCut) { return true; }
+
 		Vector3 targetVec = target.transform.position - transform.position;
 
-		if (targetVec.magnitude > Radius) { return false; }
+		if (targetVec.magnitude > Length) { return false; }
 
 		float dot = Vector3.Dot(targetVec.normalized, transform.forward);
 		float theta = Mathf.Acos(dot);
@@ -60,8 +42,8 @@ public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
 		Ray leftRay = new Ray(transform.position, (leftPos - transform.position).normalized);
 		Ray rightRay = new Ray(transform.position, (rightPos - transform.position).normalized);
 
-		var leftRayCaster = Physics.Raycast(leftRay, Radius);
-		var rightRayCaster = Physics.Raycast(rightRay, Radius);
+		var leftRayCaster = Physics.Raycast(leftRay, Length);
+		var rightRayCaster = Physics.Raycast(rightRay, Length);
 
 		if (leftRayCaster || rightRayCaster) { return true; }
 
@@ -97,20 +79,15 @@ public abstract class TruncatedCollider<T> : MonoBehaviour where T : Collider
 		float theta = 90 - transform.eulerAngles.y;
 
 		// right
-		posX = Mathf.Cos((theta - halfAngle) * Mathf.Deg2Rad) * Radius;
-		posZ = Mathf.Sin((theta - halfAngle) * Mathf.Deg2Rad) * Radius;
+		posX = Mathf.Cos((theta - halfAngle) * Mathf.Deg2Rad) * Length;
+		posZ = Mathf.Sin((theta - halfAngle) * Mathf.Deg2Rad) * Length;
 		vecs[0] = new Vector3(posX, posY, posZ) + origin;
 
 		// left
-		posX = Mathf.Cos((theta + halfAngle) * Mathf.Deg2Rad) * Radius;
-		posZ = Mathf.Sin((theta + halfAngle) * Mathf.Deg2Rad) * Radius;
+		posX = Mathf.Cos((theta + halfAngle) * Mathf.Deg2Rad) * Length;
+		posZ = Mathf.Sin((theta + halfAngle) * Mathf.Deg2Rad) * Length;
 		vecs[1] = new Vector3(posX, posY, posZ) + origin;
 
 		return vecs;
 	}
-
-	// 공격 범위 표시
-#if UNITY_EDITOR
-	protected abstract void OnDrawGizmos();
-#endif
 }

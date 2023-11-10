@@ -17,6 +17,15 @@ public class FSMStateAttribute : Attribute
 
 public abstract class UnitState<T> where T : IFSM
 {
+	public readonly StateData stateData;
+
+	public UnitState() { }
+	public UnitState(StateData stateData)
+	{
+		this.stateData = stateData;
+	}
+
+	public virtual bool IsChangable(T Unit, UnitState<T> nextState) { return true; }
 	public abstract void Begin(T unit);
 	public abstract void Update(T unit);
 	public abstract void FixedUpdate(T unit);

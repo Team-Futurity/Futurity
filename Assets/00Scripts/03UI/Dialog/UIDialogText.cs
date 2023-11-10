@@ -8,89 +8,57 @@ using UnityEngine.Events;
 
 public class UIDialogText : MonoBehaviour
 {
-	[SerializeField] 
+	[SerializeField]
 	private bool usedTypingAnimation = false;
 
 	private int currentAccessIndex = 0;
 	private string copyText;
 
-	private bool isRunning = false;
-	
-	private TMP_Text dialogText;
+	public bool isRunning = false;
+
+	public TMP_Text dialogText;
 	private WaitForSeconds typingPrintSpeed;
 
 	[HideInInspector]
-	public UnityEvent OnEnd;
+	public UnityEvent onEnded;
 
 	private void Awake()
 	{
 		TryGetComponent(out dialogText);
-		
+
 		typingPrintSpeed = new WaitForSeconds(0.1f);
 		isRunning = false;
-
-		ClearText();
 	}
 
 	public void Show(string text)
 	{
-		if (isRunning)
-		{
-			return;
-		}
+		// 진행중일 경우, Return
+		if (isRunning) { return; }
 
+		// 초기화 해주고
 		ClearText();
+
+		// 텍스트 적용
 		copyText = text;
 		isRunning = true;
-		
+
 		if (usedTypingAnimation)
 		{
 			StartTyping();
-			
-			return;
 		}
-
-		Pass();
 	}
 
 	public void Pass()
 	{
-		if (!isRunning)
-		{
-			return;
-		}
-		
-		if (usedTypingAnimation)
-		{
-			Stop();
-		}
+		if (!isRunning) { return; }
 
+		StopCoroutine("StartTypingAnimation");
 		dialogText.text = copyText;
-		
+
 		ResetData();
 	}
 
-	public void Restart()
-	{
-		if (!isRunning)
-		{
-			return;
-		}
-		
-		StartTyping();
-	}
-	
-	public void Stop()
-	{
-		if (!isRunning)
-		{
-			return;
-		}
-		
-		StopCoroutine("StartTypingAnimation");
-	}
-
-	public void ClearText()
+	private void ClearText()
 	{
 		dialogText.text = "";
 	}
@@ -105,11 +73,10 @@ public class UIDialogText : MonoBehaviour
 		for (; currentAccessIndex < copyText.Length; ++currentAccessIndex)
 		{
 			dialogText.text += copyText[currentAccessIndex].ToString();
-			
+
 			yield return typingPrintSpeed;
 		}
-		
-		// End
+
 		ResetData();
 	}
 
@@ -119,6 +86,6 @@ public class UIDialogText : MonoBehaviour
 		isRunning = false;
 		currentAccessIndex = 0;
 
-		OnEnd?.Invoke();
+		onEnded?.Invoke();
 	}
 }

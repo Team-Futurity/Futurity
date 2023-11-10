@@ -1,0 +1,126 @@
+{
+"skeleton": {
+	"hash": "0UUxQ1Vs/5Y",
+	"spine": "4.1.21",
+	"x": -325,
+	"width": 642,
+	"height": 1180,
+	"images": "./images/",
+	"audio": "C:/Users/juhee/Desktop/ck_work/3-2/퓨처리티/리소스/리소스/2-1/ketro_energy"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "ketro_energy_bubble", "parent": "root", "x": 37, "y": 466 },
+	{ "name": "ketro_energy_bubble3", "parent": "root", "x": -13, "y": 991.5 },
+	{ "name": "ketro_energy_bubble2", "parent": "root", "x": -54.5, "y": 544.5 }
+],
+"slots": [
+	{ "name": "ketro_energy", "bone": "root", "attachment": "ketro_energy" },
+	{ "name": "ketro_energy_bubble", "bone": "ketro_energy_bubble", "attachment": "ketro_energy_bubble" },
+	{ "name": "ketro_energy_bubble2", "bone": "ketro_energy_bubble2", "attachment": "ketro_energy_bubble2" },
+	{ "name": "ketro_energy_bubble3", "bone": "ketro_energy_bubble3", "attachment": "ketro_energy_bubble3" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"ketro_energy": {
+				"ketro_energy": { "x": -4, "y": 590, "width": 642, "height": 1180 }
+			},
+			"ketro_energy_bubble": {
+				"ketro_energy_bubble": { "width": 68, "height": 132 }
+			},
+			"ketro_energy_bubble2": {
+				"ketro_energy_bubble2": { "width": 39, "height": 119 }
+			},
+			"ketro_energy_bubble3": {
+				"ketro_energy_bubble3": { "width": 52, "height": 123 }
+			}
+		}
+	}
+],
+"animations": {
+	"ketro_engery": {
+		"slots": {
+			"ketro_energy_bubble": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.111, 1, 0.222, 1, 0.111, 1, 0.222, 1, 0.111, 1, 0.222, 1, 0.111, 0, 0.222, 1 ]
+					},
+					{
+						"time": 0.3333,
+						"color": "ffffffff",
+						"curve": [ 0.667, 1, 1, 1, 0.667, 1, 1, 1, 0.667, 1, 1, 1, 0.667, 1, 1, 0 ]
+					},
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"ketro_energy_bubble2": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 1.6667,
+						"color": "ffffff00",
+						"curve": [ 1.889, 1, 2.111, 1, 1.889, 1, 2.111, 1, 1.889, 1, 2.111, 1, 1.889, 0.33, 2.111, 1 ]
+					},
+					{
+						"time": 2.3333,
+						"color": "fffffffe",
+						"curve": [ 2.556, 1, 2.778, 1, 2.556, 1, 2.778, 1, 2.556, 1, 2.778, 1, 2.556, 1, 2.778, 0.33 ]
+					},
+					{ "time": 3, "color": "ffffff00" }
+				]
+			},
+			"ketro_energy_bubble3": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.6667,
+						"color": "ffffff00",
+						"curve": [ 0.889, 1, 1.111, 1, 0.889, 1, 1.111, 1, 0.889, 1, 1.111, 1, 0.889, 0, 1.111, 1 ]
+					},
+					{
+						"time": 1.3333,
+						"color": "ffffffff",
+						"curve": [ 1.556, 1, 1.778, 1, 1.556, 1, 1.778, 1, 1.556, 1, 1.778, 1, 1.556, 1, 1.778, 0.33 ]
+					},
+					{ "time": 2, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"ketro_energy_bubble": {
+				"translate": [
+					{
+						"curve": [ 0.444, 0, 0.889, 0, 0.444, 0, 0.889, 83.22 ]
+					},
+					{ "time": 1.3333, "y": 83.22 }
+				]
+			},
+			"ketro_energy_bubble2": {
+				"translate": [
+					{ "y": -111.51, "curve": "stepped" },
+					{
+						"time": 1.6667,
+						"y": -111.51,
+						"curve": [ 2.111, 0, 2.556, 0, 2.111, -111.51, 2.556, 38.28 ]
+					},
+					{ "time": 3, "y": 38.28 }
+				]
+			},
+			"ketro_energy_bubble3": {
+				"translate": [
+					{ "y": -131.6, "curve": "stepped" },
+					{
+						"time": 0.6667,
+						"y": -131.6,
+						"curve": [ 1.111, 0, 1.556, 0, 1.111, -131.6, 1.556, 0 ]
+					},
+					{ "time": 2 }
+				]
+			}
+		}
+	}
+}
+}

@@ -27,7 +27,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	[field : SerializeField] private int currentGauge;
 	private int maxGauge;
 	public List<ComboCountData> comboData;
-	[HideInInspector] public UnityEvent<float> OnGaugeChanged;
+	[HideInInspector] public UnityEvent<float, float> OnGaugeChanged;
 
 	public int ComboCount { get { return comboCount; } }
 	public int CurrentGauge { get { return currentGauge;} }
@@ -85,7 +85,7 @@ public class ComboGaugeSystem : MonoBehaviour
 	{
 		currentGauge = Mathf.Clamp(gauge, minComboGauge, maxComboGauge);
 		
-		//OnGaugeChanged?.Invoke(currentGauge);
+		OnGaugeChanged?.Invoke(currentGauge, maxComboGauge);
 	}
 
 	public void ResetComboGauge()

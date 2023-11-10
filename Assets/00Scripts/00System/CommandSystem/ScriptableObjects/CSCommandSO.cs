@@ -6,6 +6,7 @@ using FMODUnity;
 public class CSCommandSO : ScriptableObject
 {
 	[field: SerializeField] public string CommandName { get; set; }
+	[field: SerializeField] public List<CSCommandAssetData> AttackAssets { get; set; }
 	[field: SerializeField] public List<CSCommandData> NextCommands { get; set; }
 	[field: SerializeField] public CSCommandType CommandType { get; set; }
 	[field: SerializeField] public bool IsStartingCommand { get; set; }
@@ -20,8 +21,9 @@ public class CSCommandSO : ScriptableObject
 	[field: SerializeField] public float AttackST { get; set; }
 	[field: SerializeField] public float AttackKnockback { get; set; }
 	[field: SerializeField] public bool IgnoresAutoTargetMove { get; set; }
+	[field: SerializeField] public ColliderType AttackColliderType { get; set; }
 
-	// Attack Effect
+	/*// Attack Effect
 	[field: SerializeField] public Vector3 EffectOffset { get; set; }
 	[field: SerializeField] public Vector3 EffectRotOffset { get; set; }
 	[field: SerializeField] public GameObject EffectPrefab { get; set; }
@@ -32,7 +34,7 @@ public class CSCommandSO : ScriptableObject
 	[field: SerializeField] public Vector3 HitEffectOffset { get; set; }
 	[field: SerializeField] public Vector3 HitEffectRotOffset { get; set; }
 	[field: SerializeField] public GameObject HitEffectPrefab { get; set; }
-	[field: SerializeField] public EffectParent HitEffectParent { get; set; }
+	[field: SerializeField] public EffectParent HitEffectParent { get; set; }*/
 
 	// Production
 	[field: SerializeField] public int AnimInteger { get; set; }
@@ -40,13 +42,17 @@ public class CSCommandSO : ScriptableObject
 	[field: SerializeField] public float ShakeTime { get; set; }
 	[field: SerializeField] public float SlowTime { get; set; }
 	[field: SerializeField] public float SlowScale { get; set; }
+	[field: SerializeField] public float RumbleLow { get; set; }
+	[field: SerializeField] public float RumbleHigh { get; set; }
+	[field: SerializeField] public float RumbleDuration { get; set; }
 
 	// Attack Sound
-	[field: SerializeField] public EventReference AttackSound { get; set; }
+	[field: SerializeField] public EventReference AttackVoice { get; set; }
 
-	public void Initialize(string commandName, List<CSCommandData> nextCommands, CSCommandType type, bool isStartingCommand)
+	public void Initialize(string commandName, List<CSCommandAssetData> attackAssets, List<CSCommandData> nextCommands, CSCommandType type, bool isStartingCommand)
 	{
 		CommandName = commandName;
+		AttackAssets = attackAssets;
 		CommandType = type;
 		NextCommands = nextCommands;
 		IsStartingCommand = isStartingCommand;

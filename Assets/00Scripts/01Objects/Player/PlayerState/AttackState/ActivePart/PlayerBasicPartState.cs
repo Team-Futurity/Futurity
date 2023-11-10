@@ -21,20 +21,36 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 	private PlayerController pc;
 	private Transform colliderOriginParent;
-	private float initialYPosition;
+	private float initialYPosition = 0.001f;
 
 	private float lastFrameTime;
+
+	// collider
+	private TruncatedCapsuleCollider currentCollider;
 
 	public override void Begin(PlayerController unit)
 	{
 		base.Begin(unit);
 		enemies.Clear();
+		
+		// Size 조정
 		minSize = proccessor.minRange * MathPlus.cm2m;
 		maxSize = proccessor.maxRange * MathPlus.cm2m;
-		unit.animator.SetBool(IsActivePartAnimKey, true);
-		unit.attackCollider.SetCollider(maxAngle, minSize);
+		TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_ALPHA);
+		//unit.animator.SetBool(IsActivePartAnimKey, true);
 
 		pc = unit;
+		
+		if(unit.attackColliderChanger.GetCollider(ColliderType.Capsule) is TruncatedCapsuleCollider capsuleCollider)
+		{
+			currentCollider = capsuleCollider;
+			currentCollider.SetCollider(maxAngle, minSize);
+		}
+		else
+		{
+			FDebug.LogWarning("Collider could not Type Conversion.", GetType());
+			return;
+		}
 	}
 
 	public override void Update(PlayerController unit)
@@ -45,18 +61,22 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 		if(isExplosion)
 		{
-			float radius = Mathf.Lerp(unit.attackCollider.Radius, maxSize, proccessor.duration / Time.deltaTime);
+			// 점점 원형이 커지게 설정하기 위해서 사용됨
+			float radius = Mathf.Lerp(currentCollider.Length, maxSize, proccessor.duration / Time.deltaTime);
 			float effectRadius = 2 * radius * explosionEffectUnitSize;
-			unit.attackCollider.SetCollider(maxAngle, radius);
+			currentCollider.SetCollider(maxAngle, radius);
 			
 			explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
-			pc.attackCollider.transform.position = explosionEffect.transform.position;
+			currentCollider.transform.position = explosionEffect.transform.position;
 
+			// 실행 시간이 지났다면
 			if (currentTime >= proccessor.duration)
 			{
 				effectRadius = 2 * maxSize * explosionEffectUnitSize;
 
-				unit.attackCollider.SetCollider(maxAngle, maxSize);
+				// Max Size로 Collider를 설정한다.
+				currentCollider.SetCollider(maxAngle, maxSize);
+				// Effect 위치는 반경만큼
 				explosionEffect.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
 
 				isExplosion = false;
@@ -77,6 +97,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 	public override void End(PlayerController unit)
 	{
 		base.End(unit);
+		unit.rigid.velocity = Vector3.zero;
 		unit.animator.SetBool(IsActivePartAnimKey, false);
 	}
 
@@ -107,11 +128,13 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 	private void EndExtension(PlayerController unit)
 	{
-		unit.attackCollider.SetCollider(maxAngle, proccessor.maxRange * MathPlus.cm2m);
+		currentCollider.SetCollider(maxAngle, proccessor.maxRange * MathPlus.cm2m);
 
 		foreach(var enemy in enemies)
 		{
-			enemy.Hit(unit.playerData, proccessor.damage);
+			DamageInfo info = new DamageInfo(unit.playerData, enemy, 1);
+			info.SetDamage(proccessor.damage);
+			enemy.Hit(info);
 		}
 	}
 
@@ -122,9 +145,7 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 	public void PreAttack()
 	{
-		pc.attackCollider.truncatedCollider.enabled = true;
-
-		
+		currentCollider.ColliderReference.enabled = true;
 
 		FDebug.Log("Pre : " + currentTime);
 	}
@@ -137,28 +158,29 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 
 		explosionEffect = proccessor.explosionEffectObjectPool.ActiveObject(vec, Quaternion.identity);
 		explosionEffect.GetComponent<ParticleController>().Initialize(proccessor.explosionEffectObjectPool);
-		proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
+		//proccessor.chargeEffectObjectPool.DeactiveObject(chargeEffect);
 
 		float diameter = 2 * minSize * explosionEffectUnitSize;
 		explosionEffect.localScale = new Vector3(diameter, diameter, diameter);
 		currentTime = 0;
 
-		pc.attackCollider.transform.position = explosionEffect.transform.position;
+		currentCollider.transform.position = explosionEffect.transform.position;
 
 		isExplosion = true;
 	}
 
+	// Player Landing 시, 데미지 처리
 	public void Landing()
 	{
 		proccessor.landingEffectObjectPool.ActiveObject(proccessor.landingEffectPos.position, proccessor.landingEffectPos.rotation).
 			GetComponent<ParticleController>().Initialize(proccessor.landingEffectObjectPool);
-		pc.attackCollider.transform.localPosition = Vector3.zero;
+		currentCollider.transform.localPosition = Vector3.zero;
 		EndExtension(pc);
 	}
 
 	public void AttackEnd()
 	{
-		pc.attackCollider.transform.localPosition = Vector3.zero;
+		currentCollider.transform.localPosition = Vector3.zero;
 		pc.ChangeState(PlayerState.Idle);
 	}
 }

@@ -11,19 +11,46 @@ public class ScriptingList : ScriptableObject
 [Serializable]
 public struct ScriptingStruct
 {
-	public enum EExpressionType
+	public enum EMiraeExpression
 	{
 		NONE,	// Not Change prev expression
 		ANGRY,
-		NORMAL,
+		IDLE,
 		PANIC,
+		SHORT_SURPRISE,
 		SMILE,
 		SURPRISE,
 		TRUST_ME
 	}
+	
+	public enum ESariExpression
+	{
+		NONE,
+		ANGRY,
+		EMBARRASSED,
+		IDLE,
+		SURPRISE
+	}
+	
+	public enum EBossExpression
+	{
+		NONE,
+		ANGRY,
+		IDLE,
+		LAUGH
+	}
+	public enum ENameType
+	{
+		MIRAE,
+		SONGSARI,
+		BOSS,
+		SUNKYOUNG
+	}
 
-	public EExpressionType expressionType;
-	public string name;
+	public EMiraeExpression miraeExpression;
+	public ESariExpression sariExpression;
+	public EBossExpression bossExpression;
+	public ENameType nameType;
 	public string scripts;
 }
 

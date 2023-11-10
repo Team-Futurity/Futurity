@@ -1,40 +1,46 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LoadingSystem : MonoBehaviour
 {
-	[SerializeField]
-	private UIGauge loadingGauge;
-
-	[SerializeField]
+	[SerializeField, Header("씬 Fade 시간")]
 	private float fadeTime = 1f;
 
-	private bool isFillGaugeStart = false;
+	[SerializeField, Header("로딩 아이콘")]
+	private LoadingIconMove loadIcon;
 
 	private string nextScene = "";
-	private void Update()
-	{
-		if (!isFillGaugeStart)
-			return;
 
-		FillLoadingGauge(SceneLoader.Instance.sceneProgress);
+	public Image img;
+	public TMP_Text cctvText;
+	public TMP_Text newsText;
+
+
+	public void SetLoadData(LoadingData data)
+	{
+		if (data == null) return;
+
+		img.sprite = data.cctveImage;
+		cctvText.text = data.cctvText;
+		newsText.text = data.newsText;
 	}
 
 	public void SetNextScene(string sceneName)
 	{
 		nextScene = sceneName;
 
+		UIManager.Instance.RemoveAllWindow();
+
 		FadeManager.Instance.FadeOut(fadeTime, () =>
 		{
-			SceneLoader.Instance.LoadSceneAsync(nextScene);
-			isFillGaugeStart = true;
-		});
-	}
+			AudioManager.Instance.CleanUp();
 
-	private void FillLoadingGauge(float targetValue)
-	{
-		loadingGauge.StartFillGauge(targetValue * 100f, 1f);
+			SceneLoader.Instance.updateProgress?.AddListener(loadIcon.MoveIcon);
+			SceneLoader.Instance.LoadSceneAsync(nextScene);
+		});
 	}
 }

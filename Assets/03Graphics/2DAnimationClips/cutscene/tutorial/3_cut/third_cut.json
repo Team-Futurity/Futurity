@@ -1,0 +1,174 @@
+{
+"skeleton": {
+	"hash": "S4uFjGIeMd8",
+	"spine": "4.1.21",
+	"x": -959.03,
+	"y": -539.04,
+	"width": 1920.03,
+	"height": 1080.06,
+	"images": "./images/",
+	"audio": "D:/퓨처리티/컷씬/3번 컷씬"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "3_text", "parent": "root", "length": 325.75, "rotation": 109.65, "x": -502.04, "y": -173.93 },
+	{ "name": "3_dust_b", "parent": "root", "x": 14, "y": -230.62 },
+	{ "name": "3_dust", "parent": "root", "x": 132, "y": -0.5 },
+	{ "name": "3_boss", "parent": "root", "x": 166.5, "y": -76.5 }
+],
+"slots": [
+	{ "name": "out", "bone": "root", "attachment": "out" },
+	{ "name": "3_back", "bone": "root", "attachment": "3_back" },
+	{ "name": "3_dust_b", "bone": "3_dust_b", "attachment": "3_dust_b" },
+	{ "name": "3_boss", "bone": "3_boss", "attachment": "3_boss" },
+	{ "name": "3_dust", "bone": "3_dust", "attachment": "3_dust" },
+	{ "name": "3_text", "bone": "3_text", "attachment": "3_text" },
+	{ "name": "3_shadow", "bone": "root", "attachment": "3_shadow", "blend": "multiply" },
+	{ "name": "3_frame", "bone": "root", "attachment": "3_frame" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"3_back": {
+				"3_back": { "x": 1, "y": 1, "width": 1922, "height": 1082 }
+			},
+			"3_boss": {
+				"3_boss": { "width": 1228, "height": 959 }
+			},
+			"3_dust": {
+				"3_dust": { "width": 1660, "height": 1079 }
+			},
+			"3_dust_b": {
+				"3_dust_b": {
+					"type": "mesh",
+					"uvs": [ 1, 0.58589, 0, 0.58589, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1128, -389.62, -1128, -389.62, -1128, 389.62, 1128, 389.62 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 2256,
+					"height": 1330
+				}
+			},
+			"3_frame": {
+				"3_frame": { "x": 1, "y": 1, "width": 1922, "height": 1082 }
+			},
+			"3_shadow": {
+				"3_shadow": { "x": 1, "y": -6.5, "width": 1922, "height": 1067 }
+			},
+			"3_text": {
+				"3_text": { "x": 203.44, "y": -15.89, "rotation": -109.65, "width": 547, "height": 744 }
+			},
+			"out": {
+				"out": {
+					"type": "clipping",
+					"end": "out",
+					"vertexCount": 4,
+					"vertices": [ -959.02, 541.03, -959.03, -538.99, 961, -539.04, 960.99, 541 ],
+					"color": "ce3a3aff"
+				}
+			}
+		}
+	}
+],
+"animations": {
+	"thirdcut": {
+		"slots": {
+			"3_boss": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0.333, 1, 0.667, 1, 0, 0.3, 0.667, 1 ]
+					},
+					{ "time": 1, "color": "ffffffff" }
+				]
+			},
+			"3_dust": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.1667,
+						"color": "ffffff00",
+						"curve": [ 0.556, 1, 0.944, 1, 0.556, 1, 0.944, 1, 0.556, 1, 0.944, 1, 0.556, 0, 0.944, 1 ]
+					},
+					{ "time": 1.3333, "color": "ffffffff" }
+				]
+			},
+			"3_dust_b": {
+				"rgba": [
+					{
+						"color": "ffffff00",
+						"curve": [ 0.256, 1, 0.511, 1, 0.256, 1, 0.511, 1, 0.256, 1, 0.511, 1, 0, 0.29, 0.511, 1 ]
+					},
+					{
+						"time": 0.7667,
+						"color": "ffffffff",
+						"curve": [ 1.067, 1, 1.367, 1, 1.067, 1, 1.367, 1, 1.067, 1, 1.367, 1, 1.067, 1, 1.367, 0 ]
+					},
+					{ "time": 1.6667, "color": "ffffff00" }
+				]
+			},
+			"3_text": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{
+						"time": 0.1667,
+						"color": "ffffff00",
+						"curve": [ 0.722, 1, 1.111, 1, 0.722, 1, 1.111, 1, 0.722, 1, 1.111, 1, 0.167, 0.42, 1.111, 1 ]
+					},
+					{ "time": 1.6667, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"3_boss": {
+				"translate": [
+					{
+						"x": -189.17,
+						"y": 45.23,
+						"curve": [ 0, -53.44, 0.667, 0, 0.333, 45.23, 0.667, 41.61 ]
+					},
+					{ "time": 1, "y": 41.61 }
+				]
+			},
+			"3_dust_b": {
+				"translate": [
+					{
+						"x": 157.69,
+						"curve": [ 0, 96.07, 0.889, -28.99, 0.444, 0, 0.889, 0 ]
+					},
+					{ "time": 1.3333, "x": -28.99 }
+				]
+			},
+			"3_dust": {
+				"translate": [
+					{
+						"x": 181.09,
+						"curve": [ 0.556, 181.09, 1.111, 0, 0.556, 0, 1.111, 0 ]
+					},
+					{ "time": 1.6667 }
+				]
+			},
+			"3_text": {
+				"translate": [
+					{ "x": 41.11, "y": -115.12, "curve": "stepped" },
+					{
+						"time": 0.1667,
+						"x": 41.11,
+						"y": -115.12,
+						"curve": [ 0.167, 26.66, 1.111, 13.8, 0.167, -74.64, 1.111, -38.64 ]
+					},
+					{ "time": 1.6667, "x": 13.8, "y": -38.64 }
+				],
+				"scale": [
+					{
+						"curve": [ 0, 1.069, 1.111, 1.18, 0.556, 1, 1.111, 1 ]
+					},
+					{ "time": 1.6667, "x": 1.18 }
+				]
+			}
+		}
+	}
+}
+}
