@@ -346,12 +346,23 @@ public class PlayerAnimationEvents : MonoBehaviour
 		currentVoice.start();
 	}
 
+	#region Rumble
 	public void RumbleCurrentAttackNode()
 	{
 		if (!CheckEnemyInAttackRange()) { return; }
 
 		RumbleManager.Instance.RumblePulse(attackNode.rumbleLow, attackNode.rumbleHigh, attackNode.rumbleDuration);
 	}
+
+	public void RumbleCurrentAttackNode(string rumbleValues)
+	{
+		if (!CheckEnemyInAttackRange()) { return; }
+
+		float[] value = ConvertStringToFloatArray(rumbleValues);
+
+		RumbleManager.Instance.RumblePulse(value[0], value[1], value[2]);
+	}
+	#endregion
 
 	#region Collider
 	public void DisableCollider()
