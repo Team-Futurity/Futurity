@@ -67,7 +67,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		
 		playerOriginalSpeed = unit.playerData.status.GetStatus(StatusType.SPEED).GetValue();
 		attackLengthMark = unit.curNode.attackLengthMark + IncreasesByLevel[currentLevel].LengthMarkIncreasing; // 0 Level Length Mark
-		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * 0.5f);
+		unit.playerData.status.GetStatus(StatusType.SPEED).SetValue(playerOriginalSpeed * MoveSpeedInCharging);
 		currentTime = 0;
 		currentLevel = 0;
 
@@ -83,6 +83,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		pc = unit;
 		unit.playerData.EnableAttackTime();
 		unit.playerData.EnableAttackTiming();
+
+		// collider
+		unit.chargeCollider.enabled = true;
 	}
 
 	public override void End(PlayerController unit)
@@ -99,6 +102,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 		pc.basicCollider.radius = originScale;
 		pc.rigid.velocity = Vector3.zero;
+
+		unit.chargeCollider.enabled = false;
 	}
 
 	public override void FixedUpdate(PlayerController unit)

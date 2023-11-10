@@ -344,19 +344,52 @@ public class PlayerAnimationEvents : MonoBehaviour
 		currentVoice = AudioManager.Instance.CreateInstance(voice);
 		currentVoice.set3DAttributes(RuntimeUtils.To3DAttributes(pc.gameObject));
 		currentVoice.start();
-
-
 	}
 
 	public void RumbleCurrentAttackNode()
 	{
+		if (!CheckEnemyInAttackRange()) { return; }
+
 		RumbleManager.Instance.RumblePulse(attackNode.rumbleLow, attackNode.rumbleHigh, attackNode.rumbleDuration);
+	}
+
+	#region Collider
+	public void DisableCollider()
+	{
+		pc.SetCollider(false);
+		pc.attackColliderChanger.LockColliderEnable();
+		pc.autoTargetColliderChanger.LockColliderEnable();
+	}
+
+	public void EnableCollider()
+	{
+		pc.autoTargetColliderChanger.UnlockColliderEnable();
+		pc.attackColliderChanger.UnlockColliderEnable();
+		pc.SetCollider(true);
+	}
+
+	public void EnableAttackCollider(int type)
+	{
+		pc.attackColliderChanger.UnlockColliderEnable();
+		pc.attackColliderChanger.EnableCollider((ColliderType)type);
 	}
 
 	public void SetCollider(int isActiveInteager)
 	{
 		bool isActive = isActiveInteager == 1;
 
-		pc.SetCollider(isActive);
+		if(isActive)
+		{
+			pc.playerData.RestoreCollider();
+			pc.attackColliderChanger.LockColliderEnable();
+			pc.autoTargetColliderChanger.LockColliderEnable();
+		}
+		else
+		{
+			pc.playerData.DisableAllCollider();
+			pc.attackColliderChanger.UnlockColliderEnable();
+			pc.autoTargetColliderChanger.UnlockColliderEnable();
+		}
 	}
+	#endregion
 }

@@ -10,7 +10,7 @@ public class ObjectIndicator : MonoBehaviour
 	[SerializeField] private Transform enemies;
 
 	[Header("Effect")]
-	[SerializeField] private GameObject defualtIndicatorEffect;
+	[SerializeField] private GameObject defaultIndicatorEffect;
 	[SerializeField] private GameObject otherIndicatorEffect;
 
 	[Header("Distance")]
@@ -22,35 +22,48 @@ public class ObjectIndicator : MonoBehaviour
 	[SerializeField] private float minSize;
 	[SerializeField] private float maxSize;
 
-
 	private GameObject defaultIndicatorInstance;
 	private GameObject otherIndicatorInstance;
+	private GameObject currentIndicator;
 	private bool isActive;
+	public bool IsActive => isActive;
+
+	private IEnumerator enemyTracking;
 
 	private void Start()
 	{
-		defaultIndicatorInstance = Instantiate(defualtIndicatorEffect, transform);
-		otherIndicatorInstance = Instantiate(defualtIndicatorEffect, transform);
+		defaultIndicatorInstance = Instantiate(defaultIndicatorEffect, transform);
+		otherIndicatorInstance = Instantiate(otherIndicatorEffect, transform);
 		defaultIndicatorInstance.SetActive(false);
 		otherIndicatorInstance.SetActive(false);
-
-		ActivateIndicator();
 	}
 
 	public void ActivateIndicator(GameObject target = null)
 	{
 		isActive = true;
 
-		GameObject currentIndicator = target != null ? otherIndicatorInstance : defaultIndicatorInstance;	
+		currentIndicator = target != null ? otherIndicatorInstance : defaultIndicatorInstance;	
 
 		currentIndicator.SetActive(true);
-		
-		StartCoroutine(EnemyTrackingCoroutine(currentIndicator, target));
+
+		enemyTracking = EnemyTrackingCoroutine(currentIndicator, target);
+		StartCoroutine(enemyTracking);
 	}
 
 	public void DeactiveIndicator()
 	{
+		if (enemyTracking == null)
+		{
+			return;
+		}
+		
 		isActive = false;
+		if (currentIndicator != null)
+		{
+			currentIndicator.SetActive(false);
+			currentIndicator = null;
+		}
+		StopCoroutine(enemyTracking);
 	}
 
 	private Transform GetNearestEnemy()
@@ -95,6 +108,7 @@ public class ObjectIndicator : MonoBehaviour
 			Vector3 dir = (target.position - player.transform.position).normalized;
 
 			indicator.transform.rotation = Quaternion.LookRotation(dir);
+			indicator.transform.eulerAngles = new Vector3(0, indicator.transform.eulerAngles.y, 0);
 
 			float distance = (target.position - player.transform.position).magnitude;
 

@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class LastKillCutScene : CutSceneBase
 {
-	protected override void Init() { }
+	protected override void Init()
+	{
+		base.Init();
+	}
 
 	protected override void EnableCutScene()
 	{

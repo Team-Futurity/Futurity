@@ -52,7 +52,6 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 			(attackNode.attackLengthMark + PlayerAttackState_Charged.IncreasesByLevel[PlayerAttackState_Charged.MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m;
 
 		// Collider
-		
 		pc.attackColliderChanger.EnableCollider(attackNode.attackColliderType, out attackColliderData);
 		pc.autoTargetColliderChanger.EnableCollider(attackNode.attackColliderType, out autotargetColliderData);
 		attackColliderData.SetCollider(attackNode.attackAngle, attackNode.attackLength * MathPlus.cm2m);

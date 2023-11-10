@@ -29,7 +29,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &292770055
 GameObject:
@@ -155,7 +155,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &508675300
 ParticleSystem:
@@ -5024,7 +5024,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &567384639
 MonoBehaviour:
@@ -5040,7 +5040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 5328251835375101389}
   enemies: {fileID: 0}
-  defualtIndicatorEffect: {fileID: 8740780731416899671, guid: 0bb3f7389a778964a8ed38387ff1bf6d, type: 3}
+  defaultIndicatorEffect: {fileID: 0}
   otherIndicatorEffect: {fileID: 8740780731416899671, guid: ebc5c833c45891a4596fd86e9e05ce62, type: 3}
   invisibleDistance: 3
   maxVisibleDistance: 30
@@ -5102,7 +5102,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2092668479919039194
 MonoBehaviour:
@@ -5187,7 +5187,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1222493729
 MeshFilter:
@@ -5375,7 +5375,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &874886228775221727
 GameObject:
@@ -5437,7 +5437,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014832257133555647
 GameObject:
@@ -5501,7 +5501,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &2014832257151512452
 Light:
@@ -5621,7 +5621,7 @@ Transform:
   - {fileID: 889913450049863105}
   - {fileID: 754880094299586548}
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7125660760934964662
 MonoBehaviour:
@@ -5635,6 +5635,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a4ac48f5ec3dc409e4d48344978b38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3496751051386563315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2456333288994777412}
+  - component: {fileID: 5059480837882135986}
+  m_Layer: 0
+  m_Name: ChargeCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2456333288994777412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3496751051386563315}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5328251835375101389}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5059480837882135986
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3496751051386563315}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6, y: 1, z: 0.25}
+  m_Center: {x: 0.11, y: 0.67, z: 0.5}
 --- !u!1 &4068547685948332289
 GameObject:
   m_ObjectHideFlags: 0
@@ -5667,7 +5712,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5949228477894162052
 MonoBehaviour:
@@ -5749,7 +5794,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5062377700635100484
 GameObject:
@@ -5906,7 +5951,7 @@ Transform:
   - {fileID: 6056033157355613526}
   - {fileID: 1612703979}
   m_Father: {fileID: 5328251835375101389}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6544570711493734300
 GameObject:
@@ -6024,6 +6069,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 818289511444318749}
+  - {fileID: 2456333288994777412}
   - {fileID: 774150179230461155}
   - {fileID: 625353276}
   - {fileID: 3806605646931967196}
@@ -6089,13 +6135,13 @@ MonoBehaviour:
   moveTime: 0.1
   moveMargin: 150
   rotatePower: 18
-  stopDistance: 0.05
-  stopAngle: 30
+  stopDistance: 0.001
+  stopAngle: 40
   dashCoolTime: 0.8
   dashEffect: {fileID: 6896061726418441343, guid: 7e59af500395e6a4a9650ef3fc3b14a0, type: 3}
   dashPos: {fileID: 9054446365584314615}
   maxDashCount: 1
-  hitCoolTime: 0.001
+  hitCoolTime: 0.6
   moveDir: {x: 0, y: 0, z: 0}
   lastMoveDir: {x: 0, y: 0, z: 0}
   dashCoolTimeIsEnd: 0
@@ -6221,7 +6267,6 @@ MonoBehaviour:
       Path: 
   currentAttackState: 0
   currentAttackAnimKey: 
-  hitCoolTimeIsEnd: 0
   gloveObjects:
   - {fileID: 71485536562590071}
   - {fileID: 4424329996713672680}
@@ -6240,6 +6285,7 @@ MonoBehaviour:
   attackColliderChanger: {fileID: 5949228477894162052}
   autoTargetColliderChanger: {fileID: 2092668479919039194}
   basicCollider: {fileID: 1070719927369175189}
+  chargeCollider: {fileID: 5059480837882135986}
   effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
   rmController: {fileID: 389426774204208751}
   playerAnimationEvents: {fileID: 8346341091200553560}
@@ -6357,6 +6403,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   criticalImages: {fileID: 0}
+  isKnockbaking: 0
 --- !u!114 &1921549218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6437,11 +6484,11 @@ MonoBehaviour:
   currentGauge: 100
   comboData:
   - <ComboCount>k__BackingField: 0
-    <AddedGauge>k__BackingField: 7
-  - <ComboCount>k__BackingField: 1
     <AddedGauge>k__BackingField: 4
-  - <ComboCount>k__BackingField: 2
+  - <ComboCount>k__BackingField: 1
     <AddedGauge>k__BackingField: 2
+  - <ComboCount>k__BackingField: 2
+    <AddedGauge>k__BackingField: 1
   OnGaugeChanged:
     m_PersistentCalls:
       m_Calls: []
