@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackColliders : MonoBehaviour
 {
 	[SerializeField] private BossController bc;
-	[SerializeField] private GameObject objParent;
+	public GameObject objParent;
 	public Transform type3StartPos;
 	[SerializeField] private float type6Radius = 7f;
 
