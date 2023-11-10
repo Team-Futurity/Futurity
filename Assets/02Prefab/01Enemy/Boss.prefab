@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: 6949875964783629121}
   - component: {fileID: 6949875964783629120}
   - component: {fileID: 6949875964783629127}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -954,6 +954,8 @@ MonoBehaviour:
   onAttackEvent:
     m_PersistentCalls:
       m_Calls: []
+  criticalImages: {fileID: 0}
+  isKnockbaking: 0
   bc: {fileID: 6949875964783629116}
 --- !u!114 &6949875964783629116
 MonoBehaviour:
@@ -968,9 +970,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateDatas: []
+  stateChangeConditions: {fileID: 0}
   isActive: 0
   isDead: 0
   isPhase2EventDone: 0
+  isInPhase2Event: 0
   curState: 0
   curPhase: 0
   nextState: 0
