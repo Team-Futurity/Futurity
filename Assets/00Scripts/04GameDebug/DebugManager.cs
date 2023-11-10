@@ -228,6 +228,11 @@ public class DebugManager : Singleton<DebugManager>
 
 			InputActionManager.Instance.ToggleActionMap(map);
 		}
+
+		if (Input.GetKeyDown(KeyCode.F5))
+		{
+			SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().name);
+		}
 	}
 
 	private void OnGUI()
