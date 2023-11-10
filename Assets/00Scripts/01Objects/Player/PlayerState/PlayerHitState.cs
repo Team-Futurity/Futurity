@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerHitState : UnitState<PlayerController>
 {
 	private readonly string HitTriggerAnim = "HitTrigger";
+	private float currentTime;
 
 	public override void Begin(PlayerController pc)
 	{
@@ -15,22 +16,30 @@ public class PlayerHitState : UnitState<PlayerController>
 		pc.specialIsReleased = false;
 		pc.curNode = pc.commandTree.Top;
 
+		currentTime = 0;
+
 		pc.SetGauntlet(false);
 
-		if(pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
-		{
-			pc.ChangeState(PlayerState.Death);
-		}
-		else
+		if (pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() > 0)
 		{
 			pc.camera?.StartHitEffectVignette();
-			pc.ChangeState(PlayerState.Idle);
 		}
 	}
 
 	public override void Update(PlayerController pc)
 	{
-
+		if(currentTime >= pc.hitCoolTime)
+		{
+			if (pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
+			{
+				pc.ChangeState(PlayerState.Death);
+			}
+			else
+			{
+				pc.ChangeState(PlayerState.Idle);
+			}
+		}
+		currentTime += Time.deltaTime;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -41,7 +50,7 @@ public class PlayerHitState : UnitState<PlayerController>
 	{
 		//base.End(pc);
 		pc.rigid.velocity = Vector3.zero;
-		pc.hitCoolTimeIsEnd = false;
+		//pc.hitCoolTimeIsEnd = false;
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

@@ -47,9 +47,6 @@ public class Player : UnitBase
 		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
 		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
 
-
-		if(!pc.hitCoolTimeIsEnd) { return; }
-
 		if(damageInfo.KnockbackPower > 0)
 		{
 			Knockback((damageInfo.Defender.transform.position - damageInfo.Attacker.transform.position).normalized, damageInfo.KnockbackPower);
