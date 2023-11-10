@@ -393,7 +393,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// PartCode에 따라서 Switch 필요 
 		activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
 		
-		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
+		return GetInputData(PlayerInputEnum.SpecialMove, true, SpecialMoveType.Basic.ToString());
 	}
 	#endregion
 
