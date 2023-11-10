@@ -9,6 +9,7 @@ public class RumbleManager : Singleton<RumbleManager>
 {
 	private Gamepad pad;
 	private bool isActive;
+	private Coroutine rumbleCoroutine;
 
 	public void RumblePulse(float lowFrequency, float highFrequency, float duration)
 	{
@@ -19,7 +20,9 @@ public class RumbleManager : Singleton<RumbleManager>
 
 		pad.SetMotorSpeeds(lowFrequency, highFrequency);
 
-		StartCoroutine(StopRumble(duration, pad));
+		if(rumbleCoroutine != null) { StopCoroutine(rumbleCoroutine); }
+
+		rumbleCoroutine = StartCoroutine(StopRumble(duration, pad));
 	}
 	
 	private IEnumerator StopRumble(float duration, Gamepad gamePad)
