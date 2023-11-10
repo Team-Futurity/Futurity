@@ -32,7 +32,9 @@ public class UIHPGauge : MonoBehaviour
 		playerUnitBase.status.updateHPEvent?.AddListener((current, max) =>
 		{
 			UpdateHPGauge(current,max);
-			realImage.fillAmount = current / max;
+			
+			if(realImage != null)
+				realImage.fillAmount = current / max;
 		});
 
 		mainCam = Camera.main;
