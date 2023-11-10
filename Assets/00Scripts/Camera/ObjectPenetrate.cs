@@ -48,10 +48,14 @@ public class ObjectPenetrate : MonoBehaviour
 			{
 				prevSpriteRenderer = spriteRenderer;
 				spriteRenderer.color = new Color(255f, 255f, 255f, newAlpha);
+				
+				ClearMaterialChanger();
 			}
 			else if (hit.collider.TryGetComponent(out alphaChanger))
 			{
 				alphaChanger.SetObjectAlpha(newAlpha);
+				
+				ClearMaterialChanger();
 			}
 		}
 		else
@@ -79,6 +83,7 @@ public class ObjectPenetrate : MonoBehaviour
 			if (hit.collider.TryGetComponent(out matChanger) == true)
 			{
 				matChanger.ChangeAlpha(true);
+				ClearSpriteRenderer();
 			}
 		}
 		else
@@ -88,6 +93,32 @@ public class ObjectPenetrate : MonoBehaviour
 				matChanger.ChangeAlpha(false);
 				matChanger = null;
 			}
+		}
+	}
+
+	private void ClearMaterialChanger()
+	{
+		if (matChanger == null)
+		{
+			return;
+		}
+		
+		matChanger.ChangeAlpha(false);
+		matChanger = null;
+	}
+
+	private void ClearSpriteRenderer()
+	{
+		if (alphaChanger != null)
+		{
+			alphaChanger.SetObjectAlpha(ORIGIN_ALPHA);
+			alphaChanger = null;
+		}
+
+		if (prevSpriteRenderer != null)
+		{
+			prevSpriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
+			prevSpriteRenderer = null;
 		}
 	}
 }
