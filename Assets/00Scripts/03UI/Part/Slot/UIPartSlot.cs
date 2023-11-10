@@ -13,13 +13,16 @@ public class UIPartSlot : MonoBehaviour
 	public UIPassiveSlot[] passiveSlots;
 	public UIActiveSlot activeSlot;
 
+	public ParticleSystem activeParticle;
+
 	private void Awake()
 	{
 		partSystem.onPartActive?.AddListener((index) =>
 	   {
 		   if (index == 3)
 		   {
-			  // activeSlot.SetSlot();
+			   activeSlot.SetSlot();
+			   activeParticle.Play();
 			   return;
 		   }
 
@@ -42,7 +45,6 @@ public class UIPartSlot : MonoBehaviour
 			if (index == 999)
 			{
 				if (code == 2201) activeSlot.BasicSet(); else activeSlot.BetaSet();
-				activeSlot.SetSlot();
 				return;
 			}
 

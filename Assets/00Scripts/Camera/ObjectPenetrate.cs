@@ -19,6 +19,7 @@ public class ObjectPenetrate : MonoBehaviour
 	private SpriteRenderer prevSpriteRenderer;
 	private Material mat;
 	private AlphaChanger alphaChanger;
+	private MaterialAlphaChanger matChanger;
 
 	private void Start()
 	{
@@ -31,6 +32,7 @@ public class ObjectPenetrate : MonoBehaviour
 		Ray ray = new Ray(rayOffset.position, dir);
 		
 		SpritePenetrate(ray);
+		MaterialPenetrate(ray);
 	}
 
 	private void SpritePenetrate(Ray ray)
@@ -46,10 +48,14 @@ public class ObjectPenetrate : MonoBehaviour
 			{
 				prevSpriteRenderer = spriteRenderer;
 				spriteRenderer.color = new Color(255f, 255f, 255f, newAlpha);
+				
+				ClearMaterialChanger();
 			}
 			else if (hit.collider.TryGetComponent(out alphaChanger))
 			{
 				alphaChanger.SetObjectAlpha(newAlpha);
+				
+				ClearMaterialChanger();
 			}
 		}
 		else
@@ -67,6 +73,52 @@ public class ObjectPenetrate : MonoBehaviour
 				alphaChanger.SetObjectAlpha(ORIGIN_ALPHA);
 				alphaChanger = null;
 			}
+		}
+	}
+
+	private void MaterialPenetrate(Ray ray)
+	{
+		if (Physics.Raycast(ray, out RaycastHit hit, rayLength, layerMask))
+		{
+			if (hit.collider.TryGetComponent(out matChanger) == true)
+			{
+				matChanger.ChangeAlpha(true);
+				ClearSpriteRenderer();
+			}
+		}
+		else
+		{
+			if (matChanger != null)
+			{
+				matChanger.ChangeAlpha(false);
+				matChanger = null;
+			}
+		}
+	}
+
+	private void ClearMaterialChanger()
+	{
+		if (matChanger == null)
+		{
+			return;
+		}
+		
+		matChanger.ChangeAlpha(false);
+		matChanger = null;
+	}
+
+	private void ClearSpriteRenderer()
+	{
+		if (alphaChanger != null)
+		{
+			alphaChanger.SetObjectAlpha(ORIGIN_ALPHA);
+			alphaChanger = null;
+		}
+
+		if (prevSpriteRenderer != null)
+		{
+			prevSpriteRenderer.color = new Color(255f, 255f, 255f, ORIGIN_ALPHA);
+			prevSpriteRenderer = null;
 		}
 	}
 }

@@ -23,7 +23,7 @@ public class SpawnerEvent : MonoBehaviour
 		dialogController.Play();
 	}
 
-	public void SpawnerEndEvent(SpawnerManager manager, ESpawnerType spawnerType)
+	public void SpawnerEndEvent()
 	{
 		chapterMoveTrigger.SetActive(true);
 		timeline.EnableCutScene(ECutSceneType.LASTKILL);

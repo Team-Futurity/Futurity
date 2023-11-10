@@ -20,7 +20,5 @@ public class MDefaultAttackState : EnemyAttackBaseState
 		base.Begin(unit);
 		atk1.parent = unit.gameObject;
 		unit.currentEffectData = atk1;
-
-		AudioManager.Instance.PlayOneShot(unit.attackSound1, unit.transform.position);
 	}
 }
