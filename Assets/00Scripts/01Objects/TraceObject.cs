@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TraceObject : MonoBehaviour
 {
+	private const string MoveAnimKey = "isMove";
+
 	[SerializeField] private GameObject targetObject;
 	[SerializeField] private float moveDelay;
 	[SerializeField] private float moveSpeed;
@@ -10,6 +12,7 @@ public class TraceObject : MonoBehaviour
 	[SerializeField] private float timeToReachMaximumSpeed;
 	[SerializeField] private float allowingDistance;
 	[SerializeField] private AnimationCurve speedCurve;
+	[SerializeField] private Animator animator;
 
 	private float currentTime;
 	private bool isMoveDelayTime; // move Delay가 시작되었는지 여부
@@ -59,6 +62,7 @@ public class TraceObject : MonoBehaviour
 				isMoveDelayTime = false;
 				isMoveStart = true;
 				currentTime = 0;
+				animator.SetBool(MoveAnimKey, true);
 			}
 		}
 
@@ -82,6 +86,7 @@ public class TraceObject : MonoBehaviour
 					isMoveStart = false;
 					isMoveDelayTime = false;
 					currentTime = 0;
+					animator.SetBool(MoveAnimKey, false);
 				}
 			}
 		}
