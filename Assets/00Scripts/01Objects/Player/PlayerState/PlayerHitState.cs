@@ -5,18 +5,16 @@ using UnityEngine;
 [FSMState((int)PlayerState.Hit)]
 public class PlayerHitState : UnitState<PlayerController>
 {
-	public readonly string HitTriggerAnim = "HitTrigger";
-	public float currentTime;
+	private readonly string HitTriggerAnim = "HitTrigger";
+	private float currentTime;
 
 	public override void Begin(PlayerController pc)
 	{
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
-		pc.animator.SetTrigger(HitTriggerAnim);
+		HitProduction(pc);
 		pc.rmController.SetRootMotion("Hit");
 		pc.specialIsReleased = false;
 		pc.curNode = pc.commandTree.Top;
-
-		currentTime = 0;
 
 		pc.SetGauntlet(false);
 
@@ -61,5 +59,11 @@ public class PlayerHitState : UnitState<PlayerController>
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
 		throw new System.NotImplementedException();
+	}
+
+	public void HitProduction(PlayerController unit)
+	{
+		unit.animator.SetTrigger(HitTriggerAnim);
+		currentTime = 0;
 	}
 }

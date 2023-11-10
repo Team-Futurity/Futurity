@@ -52,6 +52,9 @@ public class Player : UnitBase
 			Knockback((damageInfo.Defender.transform.position - damageInfo.Attacker.transform.position).normalized, damageInfo.KnockbackPower);
 		}
 
+		Vector3 vec = damageInfo.Attacker.transform.position - damageInfo.Defender.transform.position;
+		pc.transform.rotation = Quaternion.LookRotation(vec);
+
 		if(pc.IsCurrentState(PlayerState.Hit))
 		{
 			UnitState<PlayerController> state = null;
@@ -60,12 +63,12 @@ public class Player : UnitBase
 			if(state != null)
 			{
 				var hitState = (PlayerHitState)state;
-				hitState.currentTime = 0;
-				pc.animator.SetTrigger(hitState.HitTriggerAnim);
+				hitState.HitProduction(pc);
+
 			}
 		}
 
-		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
+		if(/*!pc.IsAttackProcess(true) &&*/ !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}
