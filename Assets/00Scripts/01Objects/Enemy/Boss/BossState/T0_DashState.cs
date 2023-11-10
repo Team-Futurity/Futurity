@@ -5,8 +5,6 @@ using UnityEngine;
 [FSMState((int)BossState.T0_Dash)]
 public class T0_DashState : B_PatternBase
 {
-	private float dashPower = 800f;
-
 	private EffectActiveData effectData = new EffectActiveData();
 	public T0_DashState()
 	{
@@ -21,9 +19,6 @@ public class T0_DashState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T0_Dash;
-		effectData.parent = unit.gameObject;
-		unit.currentEffectData = effectData;
-
 		unit.animator.SetBool(unit.moveAnim, true);
 	}
 
@@ -41,8 +36,9 @@ public class T0_DashState : B_PatternBase
 		if(isAttackDelayDone && !isAttackDone)
 		{
 			unit.attackTrigger.type0Collider.SetActive(true);
-			unit.ActiveEffect();
-			unit.rigid.AddForce(unit.transform.forward * dashPower, ForceMode.Impulse);
+			unit.ActiveDashEffect(effectData);
+			unit.rigid.velocity = unit.transform.forward.normalized * unit.bossData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
+			//unit.rigid.AddForce(unit.transform.forward * unit.dashPower, ForceMode.Acceleration);
 			isAttackDone = true;
 		}
 

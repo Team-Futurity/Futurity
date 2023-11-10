@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAttackBaseState : StateBase
 {
-	private bool isAttack = false;
+	protected bool isAttack = false;
 
 
 	public override void Begin(EnemyController unit)
@@ -41,10 +41,12 @@ public class EnemyAttackBaseState : StateBase
 	}
 
 
-	private void AttackAnim(EnemyController unit, float curTime, float maxTime)
+	protected void AttackAnim(EnemyController unit, float curTime, float maxTime)
 	{
 		if (curTime > maxTime)
 		{
+			if(unit.ThisEnemyType == EnemyType.MeleeDefault)
+				AudioManager.Instance.PlayOneShot(unit.attackSound1, unit.transform.position);
 			unit.animator.SetTrigger(unit.atkAnimParam);
 			curTime = 0f;
 			isAttack = true;

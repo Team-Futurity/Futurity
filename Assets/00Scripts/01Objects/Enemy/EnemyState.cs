@@ -30,6 +30,10 @@ public enum EnemyState : int
 	EliteMeleeAttack,
 	EliteRangedAttack,
 
+	//B_DF
+	D_BFChase,
+	D_BFAttack,
+
 	//Tutorial
 	TutorialIdle,
 
