@@ -47,15 +47,28 @@ public class Player : UnitBase
 		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
 		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
 
-
-		if(!pc.hitCoolTimeIsEnd) { return; }
-
 		if(damageInfo.KnockbackPower > 0)
 		{
 			Knockback((damageInfo.Defender.transform.position - damageInfo.Attacker.transform.position).normalized, damageInfo.KnockbackPower);
 		}
 
-		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
+		Vector3 vec = damageInfo.Attacker.transform.position - damageInfo.Defender.transform.position;
+		pc.transform.rotation = Quaternion.LookRotation(vec);
+
+		if(pc.IsCurrentState(PlayerState.Hit))
+		{
+			UnitState<PlayerController> state = null;
+			pc.GetState(PlayerState.Hit, ref state);
+
+			if(state != null)
+			{
+				var hitState = (PlayerHitState)state;
+				hitState.HitProduction(pc);
+
+			}
+		}
+
+		if(/*!pc.IsAttackProcess(true) &&*/ !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}

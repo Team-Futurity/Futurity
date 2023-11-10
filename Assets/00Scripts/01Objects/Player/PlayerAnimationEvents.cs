@@ -357,15 +357,20 @@ public class PlayerAnimationEvents : MonoBehaviour
 	public void DisableCollider()
 	{
 		pc.SetCollider(false);
+		pc.attackColliderChanger.LockColliderEnable();
+		pc.autoTargetColliderChanger.LockColliderEnable();
 	}
 
 	public void EnableCollider()
 	{
+		pc.autoTargetColliderChanger.UnlockColliderEnable();
+		pc.attackColliderChanger.UnlockColliderEnable();
 		pc.SetCollider(true);
 	}
 
 	public void EnableAttackCollider(int type)
 	{
+		pc.attackColliderChanger.UnlockColliderEnable();
 		pc.attackColliderChanger.EnableCollider((ColliderType)type);
 	}
 
@@ -376,10 +381,14 @@ public class PlayerAnimationEvents : MonoBehaviour
 		if(isActive)
 		{
 			pc.playerData.RestoreCollider();
+			pc.attackColliderChanger.LockColliderEnable();
+			pc.autoTargetColliderChanger.LockColliderEnable();
 		}
 		else
 		{
 			pc.playerData.DisableAllCollider();
+			pc.attackColliderChanger.UnlockColliderEnable();
+			pc.autoTargetColliderChanger.UnlockColliderEnable();
 		}
 	}
 	#endregion
