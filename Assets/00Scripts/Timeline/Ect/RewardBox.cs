@@ -36,7 +36,7 @@ public class RewardBox : MonoBehaviour
 		}
 		
 		ChapterMoveController.Instance.EnableInteractionUI(EUIType.OPENBOX);
-		// InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 
 	private void OnTriggerExit(Collider other)
