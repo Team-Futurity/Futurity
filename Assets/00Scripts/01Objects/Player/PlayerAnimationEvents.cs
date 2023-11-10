@@ -346,6 +346,25 @@ public class PlayerAnimationEvents : MonoBehaviour
 		currentVoice.start();
 	}
 
+	private const string ALPHA = "ALPHA";
+	private const string BETA = "BETA";
+	
+	public void EnableActiveCutScene(string type)
+	{
+		ECutSceneType cutSceneType = ECutSceneType.NONE;
+		
+		if (Equals(type, ALPHA) == true)
+		{
+			cutSceneType = ECutSceneType.ACTIVE_ALPHA;
+		}
+		else if (Equals(type, BETA) == true)
+		{
+			cutSceneType = ECutSceneType.ACTIVE_BETA;
+		}
+		
+		TimelineManager.Instance.EnableCutScene(cutSceneType);
+	}
+
 	#region Rumble
 	public void RumbleCurrentAttackNode()
 	{
