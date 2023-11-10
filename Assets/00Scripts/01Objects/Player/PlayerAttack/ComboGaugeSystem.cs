@@ -88,6 +88,13 @@ public class ComboGaugeSystem : MonoBehaviour
 		OnGaugeChanged?.Invoke(currentGauge, maxComboGauge);
 	}
 
+	public void ChangeComboGauge(int gauge)
+	{
+		currentGauge = gauge;
+		
+		OnGaugeChanged?.Invoke(currentGauge, maxComboGauge);
+	}
+
 	public void ResetComboGauge()
 	{
 		SetComboGauge(minComboGauge);
