@@ -19,7 +19,7 @@ public class AttackColliders : MonoBehaviour
 	public List<GameObject> type4Colliders;
 	public SpawnerManager type5Manager;
 	public List<GameObject> type6Colliders;
-	public List<GameObject> type6ExtraColliders;
+	public GameObject type6ColliderOrigin;
 
 
 	private void Awake()
@@ -67,23 +67,23 @@ public class AttackColliders : MonoBehaviour
 		}
 	}
 
-	public void DeActiveListAttacks(List<GameObject> list)
+	public void DeActiveListAttacks(List<EffectActiveData> effectList, List<GameObject> attackList)
 	{
-		bc.listEffectData.Clear();
-		for (int i = 0; i < list.Count; i++)
+		effectList.Clear();
+		for (int i = 0; i < attackList.Count; i++)
 		{
-			list[i].transform.SetParent(this.transform, true);
-			list[i].SetActive(false);
+			attackList[i].transform.SetParent(this.transform, true);
+			attackList[i].SetActive(false);
 		}
 	}
 
-	public void SetRandomVector(BossController unit)
+	public void SetT6RandomVector(BossController unit)
 	{
 		Vector2 randomPos;
-		for (int i = 0; i < unit.attackTrigger.type6Colliders.Count; i++)
+		for (int i = 0; i < type6Colliders.Count; i++)
 		{
-			randomPos = Random.insideUnitCircle * type6Radius;
-			unit.attackTrigger.type6Colliders[i].transform.position = new Vector3(randomPos.x, 0, randomPos.y) + unit.transform.position;
+			randomPos = Random.insideUnitCircle * unit.maxRandomDistance;
+			type6Colliders[i].transform.position = new Vector3(randomPos.x, 0, randomPos.y) + unit.transform.position;
 		}
 	}
 	#endregion

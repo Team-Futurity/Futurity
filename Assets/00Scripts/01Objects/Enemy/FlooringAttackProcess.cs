@@ -10,6 +10,7 @@ public class FlooringAttackProcess : MonoBehaviour
 	private float atkEffectTiming = 0f;
 	private float atkTiming = 0f;
 	private float deActiveTiming = 0f;
+	private int index = 0;
 
 	private bool isFlooringDone = false;
 	private bool isAtkDone = false;
@@ -17,9 +18,9 @@ public class FlooringAttackProcess : MonoBehaviour
 
 	private EffectActiveData floorEffectData = new EffectActiveData();
 	private EffectActiveData attackEffectData = new EffectActiveData();
-	private SphereCollider atkCollider;
+	private GameObject atkCollider;
 
-	public void Setting(EffectActiveData floorEffect, EffectActiveData attackEffect, SphereCollider collider, float flooringT,float atkEffectT, float attackT, float deActiveT, EnemyController ec = null, BossController bc = null)
+	public void Setting(EffectActiveData floorEffect, EffectActiveData attackEffect, GameObject collider, float flooringT,float atkEffectT, float attackT, float deActiveT,int index, EnemyController ec = null, BossController bc = null)
 	{
 		this.floorEffectData = floorEffect;
 		this.attackEffectData = attackEffect;
@@ -28,6 +29,7 @@ public class FlooringAttackProcess : MonoBehaviour
 		this.atkEffectTiming= atkEffectT;
 		this.atkTiming = attackT;
 		this.deActiveTiming = deActiveT;
+		this.index = index;
 		this.ec = ec;
 		this.bc = bc;
 	}
@@ -35,6 +37,8 @@ public class FlooringAttackProcess : MonoBehaviour
 	public void StartProcess(bool start = true)
 	{
 		isSystemEnable = start;
+		if (bc != null)
+			bc.attackTrigger.type6Colliders[index].transform.SetParent(bc.transform);
 	}
 
 	private void Update()
@@ -50,12 +54,13 @@ public class FlooringAttackProcess : MonoBehaviour
 			else if (isFlooringDone && !isAtkDone && curTime > flooringTiming + atkTiming)
 			{
 				ActiveEffect(attackEffectData);
-				atkCollider.enabled = true;
+				atkCollider.SetActive(true);
 				isAtkDone = true;
 			}
 			else if (isFlooringDone && isAtkDone && curTime > flooringTiming + atkTiming + deActiveTiming)
 			{
-				atkCollider.enabled = false;
+				bc.attackTrigger.type6Colliders[index].transform.SetParent(null);
+				atkCollider.SetActive(false);
 				isSystemEnable = false;
 			}
 		}

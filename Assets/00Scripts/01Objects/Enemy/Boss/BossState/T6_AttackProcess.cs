@@ -3,49 +3,42 @@ using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
+
 public class T6_AttackProcess : MonoBehaviour
 {
-	private List<FlooringAttackProcess> attackProcessBase = new List<FlooringAttackProcess>();
-	private float attackSpeed;
+	private List<FlooringAttackProcess> attackProcesss;
 	private int maxCount;
-	private int curCount;
-	private float maxRandomDistance;
+	private WaitForSeconds attackWFS;
 
-	private bool isEnable = false;
-
-
-	public void T6Setting(EffectActiveData floorEffect, EffectActiveData attackEffect, SphereCollider collider, float flooringT, float atkEffectT, float attackT, float deActiveT, float attackSpeed, int maxCount, float maxRandomDistance, EnemyController ec = null, BossController bc = null)
+	public void T6Setting(List<EffectActiveData> floorEffects, List<EffectActiveData> attackEffects, List<GameObject> colliders, float flooringT, float atkEffectT, float attackT, float deActiveT, float attackSpeed, EnemyController ec = null, BossController bc = null)
 	{
-		for(int i = 0;i < maxCount; i++)
+		this.maxCount = attackEffects.Count;
+		attackWFS = new WaitForSeconds(attackSpeed);
+		attackProcesss = new List<FlooringAttackProcess>();
+
+		for (int i = 0;i < attackEffects.Count; i++)
 		{
-			attackProcessBase.Add(new FlooringAttackProcess());
-			attackProcessBase[i].Setting(floorEffect, attackEffect, collider, flooringT, atkEffectT, attackT, deActiveT, ec, bc);
+			GameObject obj = new GameObject("T6_Process" + i);
+			obj.AddComponent<FlooringAttackProcess>();
+			attackProcesss.Add(obj.GetComponent<FlooringAttackProcess>());
+			attackProcesss[i].Setting(floorEffects[i], attackEffects[i], colliders[i], flooringT, atkEffectT, attackT, deActiveT,i, ec, bc);
 		}
-		this.attackSpeed = attackSpeed;
-		this.maxCount = maxCount;
-		this.maxRandomDistance = maxRandomDistance;
-		curCount = 0;
 	}
 
 	public void StartProcess()
 	{
-		isEnable = true;
+		StopCoroutine(ActiveProcess());
+		StartCoroutine(ActiveProcess());
 	}
 
-
-	private void Start()
+	private IEnumerator ActiveProcess()
 	{
-
-	}
-
-	private IEnumerator T6Attack()
-	{
-		while(curCount != maxCount - 1)
+		for(int i = 0; i<maxCount; i++)
 		{
-			attackProcessBase[curCount].StartProcess();
-
-			yield return ;
+			attackProcesss[i].StartProcess();
+			yield return attackWFS;
 		}
-		yield return null;
+
+		yield break;
 	}
 }
