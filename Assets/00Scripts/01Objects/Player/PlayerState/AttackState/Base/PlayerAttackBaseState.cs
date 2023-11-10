@@ -15,7 +15,7 @@ public class PlayerAttackBaseState : UnitState<PlayerController>
 
 	public override void Update(PlayerController unit)
 	{
-		currentTime += Time.deltaTime;
+		currentTime += Time.deltaTime * unit.animator.speed;
 	}
 
 	public override void FixedUpdate(PlayerController unit)
