@@ -10,7 +10,7 @@ public class UIGauge : MonoBehaviour
 
 	private Image gaugeImage;
 
-	[Range(0.01f, 1f), SerializeField]
+	[Range(0.01f, 2f), SerializeField]
 	private float gaugeOffset = 0.5f;
 
 	private float currentGauge = .0f;
@@ -38,7 +38,7 @@ public class UIGauge : MonoBehaviour
 			StopCoroutine("FillGauge");
 			currentGauge = progressGauge;
 		}
-
+		
 		isFilling = true;
 
 		targetGauge = targetGaugeValue;

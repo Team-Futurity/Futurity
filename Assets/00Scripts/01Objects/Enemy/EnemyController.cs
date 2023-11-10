@@ -37,6 +37,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	public CapsuleCollider chaseRange;						//추적 반경
 	public SphereCollider atkCollider;                      //타격 Collider
+	public List<GameObject> atkColliders = new List<GameObject>();
 	[HideInInspector] public BoxCollider enemyCollider;     //피격 Collider
 
 	public SkinnedMeshRenderer skinnedMeshRenderer;
@@ -55,6 +56,7 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	public float attackRange = 7f;
 	public float attackBeforeDelay;
 	public float attackingDelay = 4f;
+	public D_BFScriptableObj D_BFData;
 
 	[Space(3)]
 	[Header("Hitted")]
@@ -140,6 +142,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 			case EnemyType.EliteDefault:
 				return EnemyState.EliteDefaultChase;
+
+			case EnemyType.D_BF:
+				return EnemyState.D_BFChase;
 
 			default:
 				FDebug.Log("ERROR_ChangeChaseState()");

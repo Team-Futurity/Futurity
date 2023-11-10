@@ -22,7 +22,7 @@ public class BossAnimationEvents : MonoBehaviour
 
 	public void ActiveAllEffects()
 	{
-		List<EffectActiveData> dataList = bc.listEffectData;
+		List<EffectActiveData> dataList = bc.attackEffectDatas;
 		for (int index = 0; index < dataList.Count; index++)
 		{
 			EffectKey key = bc.effectController.ActiveEffect(dataList[index].activationTime, dataList[index].target, dataList[index].position, dataList[index].rotation, dataList[index].parent, dataList[index].index, dataList[index].index, true);
@@ -70,8 +70,8 @@ public class BossAnimationEvents : MonoBehaviour
 	}
 	public void Type6RandomVector()
 	{
-		bc.attackTrigger.SetRandomVector(bc);
-		bc.SetEffectData(bc.attackTrigger.type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, false);
+		bc.attackTrigger.SetT6RandomVector(bc);
+		bc.SetListEffectData(bc.attackEffectDatas, bc.attackTrigger.type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, false);
 	}
 	#endregion
 
@@ -87,16 +87,16 @@ public class BossAnimationEvents : MonoBehaviour
 	}
 	public void DeActiveType3Attacks()
 	{
-		bc.attackTrigger.DeActiveListAttacks(bc.attackTrigger.type3Colliders);
+		bc.attackTrigger.DeActiveListAttacks(bc.attackEffectDatas, bc.attackTrigger.type3Colliders);
 	}
 	public void DeActiveType4Attacks()
 	{
-		bc.attackTrigger.DeActiveListAttacks(bc.attackTrigger.type4Colliders);
+		bc.attackTrigger.DeActiveListAttacks(bc.attackEffectDatas, bc.attackTrigger.type4Colliders);
 	}
 
 	public void DeActiveType6Attacks()
 	{
-		bc.attackTrigger.DeActiveListAttacks(bc.attackTrigger.type6Colliders);
+		bc.attackTrigger.DeActiveListAttacks(bc.attackEffectDatas, bc.attackTrigger.type6Colliders);
 	}
 	#endregion
 }

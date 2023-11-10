@@ -14,7 +14,7 @@ public class B_SetUpState : BossStateBase
 		//Effect
 		unit.effectController = ECManager.Instance.GetEffectManager(unit.effectSO);
 		unit.currentEffectData = new EffectActiveData();
-		unit.listEffectData = new List<EffectActiveData>();
+		unit.attackEffectDatas = new List<EffectActiveData>();
 
 		//Material
 		unit.copyUMat = new Material(unit.unlitMaterial);

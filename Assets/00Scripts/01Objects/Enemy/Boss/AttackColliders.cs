@@ -14,12 +14,11 @@ public class AttackColliders : MonoBehaviour
 	public GameObject type0Collider;
 	public GameObject type1Collider;
 	public GameObject type2Collider;
-	public List<GameObject> type2ExtraColliders;
 	public List<GameObject> type3Colliders;
 	public List<GameObject> type4Colliders;
 	public SpawnerManager type5Manager;
 	public List<GameObject> type6Colliders;
-	public List<GameObject> type6ExtraColliders;
+	public GameObject type6ColliderOrigin;
 
 
 	private void Awake()
@@ -37,13 +36,10 @@ public class AttackColliders : MonoBehaviour
 		type0Collider.transform.SetParent(bc.transform, true);
 		type1Collider.transform.SetParent(bc.transform, true);
 		type2Collider.transform.SetParent(bc.transform, true);
-		foreach(GameObject o in type2ExtraColliders)
-			o.transform.SetParent(type2Collider.transform, true);
 		type3StartPos.transform.SetParent(null, true);
 		type0Collider.SetActive(false);
 		type1Collider.SetActive(false);
 		type2Collider.SetActive(false);
-		AttackListSetting(type2ExtraColliders);
 		AttackListSetting(type3Colliders);
 		AttackListSetting(type4Colliders);
 		AttackListSetting(type6Colliders);
@@ -67,23 +63,23 @@ public class AttackColliders : MonoBehaviour
 		}
 	}
 
-	public void DeActiveListAttacks(List<GameObject> list)
+	public void DeActiveListAttacks(List<EffectActiveData> effectList, List<GameObject> attackList)
 	{
-		bc.listEffectData.Clear();
-		for (int i = 0; i < list.Count; i++)
+		effectList.Clear();
+		for (int i = 0; i < attackList.Count; i++)
 		{
-			list[i].transform.SetParent(this.transform, true);
-			list[i].SetActive(false);
+			attackList[i].transform.SetParent(this.transform, true);
+			attackList[i].SetActive(false);
 		}
 	}
 
-	public void SetRandomVector(BossController unit)
+	public void SetT6RandomVector(BossController unit)
 	{
 		Vector2 randomPos;
-		for (int i = 0; i < unit.attackTrigger.type6Colliders.Count; i++)
+		for (int i = 0; i < type6Colliders.Count; i++)
 		{
-			randomPos = Random.insideUnitCircle * type6Radius;
-			unit.attackTrigger.type6Colliders[i].transform.position = new Vector3(randomPos.x, 0, randomPos.y) + unit.transform.position;
+			randomPos = Random.insideUnitCircle * unit.maxRandomDistance;
+			type6Colliders[i].transform.position = new Vector3(randomPos.x, 0, randomPos.y) + unit.transform.position;
 		}
 	}
 	#endregion

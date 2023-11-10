@@ -10,7 +10,7 @@ public class T3_LaserState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T3_Laser;
-		unit.SetEffectData(unit.attackTrigger.type3Colliders, EffectActivationTime.InstanceAttack, EffectTarget.Ground, false);
+		unit.SetListEffectData(unit.attackEffectDatas, unit.attackTrigger.type3Colliders, EffectActivationTime.InstanceAttack, EffectTarget.Ground, false);
 		unit.navMesh.enabled = true;
 	}
 	public override void Update(BossController unit)

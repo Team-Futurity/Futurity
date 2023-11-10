@@ -67,6 +67,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   criticalImages: {fileID: 2961680695700247010}
+  isKnockbaking: 0
   ec: {fileID: 4439521067689912933}
 --- !u!114 &4439521067689912933
 MonoBehaviour:
@@ -361,6 +362,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Noraml Enemy HP Gauge Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2897346938788283187, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
+      propertyPath: <playerUnitBase>k__BackingField
+      value: 
+      objectReference: {fileID: 4439521067689912932}
     - target: {fileID: 3984881096106995528, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -445,6 +450,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4949836235022197391, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
+      propertyPath: gaugeOffset
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7052544353070961381, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -456,37 +465,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3984881096106995528, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
   m_PrefabInstance: {fileID: 1247793709524438567}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6289680666847752833 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5050895810178448550, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
-  m_PrefabInstance: {fileID: 1247793709524438567}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2897346938788283187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6289680666847752833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 388d29b3f5fc7634788aded2c6cf5db5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Gauge>k__BackingField: {fileID: 8977383008617321127}
-  <playerUnitBase>k__BackingField: {fileID: 4439521067689912932}
-  isBillboard: 1
---- !u!114 &8977383008617321127 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7910325959615093888, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
-  m_PrefabInstance: {fileID: 1247793709524438567}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a3c55c395da66b4d85420d3c79323b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4439521066951061027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -693,11 +671,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4339682825407687606, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4339682825407687606, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4339682825407687606, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
       propertyPath: m_LocalPosition.x
@@ -733,7 +711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4339682825407687606, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.52
+      value: 4.36
       objectReference: {fileID: 0}
     - target: {fileID: 4339682825407687606, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -746,22 +724,6 @@ PrefabInstance:
     - target: {fileID: 4339682825407687606, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5641380096964075350, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6799139508051445713, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6909289771296118648, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6909289771296118648, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
