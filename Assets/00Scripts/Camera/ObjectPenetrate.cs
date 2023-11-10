@@ -19,6 +19,7 @@ public class ObjectPenetrate : MonoBehaviour
 	private SpriteRenderer prevSpriteRenderer;
 	private Material mat;
 	private AlphaChanger alphaChanger;
+	private MaterialAlphaChanger matChanger;
 
 	private void Start()
 	{
@@ -31,6 +32,7 @@ public class ObjectPenetrate : MonoBehaviour
 		Ray ray = new Ray(rayOffset.position, dir);
 		
 		SpritePenetrate(ray);
+		MaterialPenetrate(ray);
 	}
 
 	private void SpritePenetrate(Ray ray)
@@ -66,6 +68,25 @@ public class ObjectPenetrate : MonoBehaviour
 			{
 				alphaChanger.SetObjectAlpha(ORIGIN_ALPHA);
 				alphaChanger = null;
+			}
+		}
+	}
+
+	private void MaterialPenetrate(Ray ray)
+	{
+		if (Physics.Raycast(ray, out RaycastHit hit, rayLength, layerMask))
+		{
+			if (hit.collider.TryGetComponent(out matChanger) == true)
+			{
+				matChanger.ChangeAlpha(true);
+			}
+		}
+		else
+		{
+			if (matChanger != null)
+			{
+				matChanger.ChangeAlpha(false);
+				matChanger = null;
 			}
 		}
 	}
