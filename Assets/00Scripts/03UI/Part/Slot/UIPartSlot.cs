@@ -45,7 +45,6 @@ public class UIPartSlot : MonoBehaviour
 			if (index == 999)
 			{
 				if (code == 2201) activeSlot.BasicSet(); else activeSlot.BetaSet();
-				activeSlot.SetSlot();
 				return;
 			}
 

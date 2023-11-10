@@ -134,7 +134,6 @@ public class PartSystem : MonoBehaviour
 	{
 		int activePartCount = (int)Math.Floor(currentGauge / 25f);
 		
-
 		for (int i = 1; i <= activePartCount; ++i)
 		{
 			ActivatePart(i);
@@ -150,8 +149,11 @@ public class PartSystem : MonoBehaviour
 	{
 		// 존재하지 않는 Part Return
 		if (IsIndexPartEmpty(index - 1)) return;
-		// 실행중인 Part Return
-		if (IsIndexPartActivate(index - 1)) return;
+		if (index == 4)
+		{
+			if(isStartActivePart) return;
+		}
+		else if (IsIndexPartActivate(index - 1)) return;
 
 		if(index == ACTIVE_PART_INDEX + 1)
 		{
@@ -172,14 +174,17 @@ public class PartSystem : MonoBehaviour
 			}
 		}
 		
-		Debug.Log(index);
 		onPartActive?.Invoke(index - 1);
 	}
 
 	private void DeactivatePart(int index)
 	{
 		if (IsIndexPartEmpty(index - 1)) return;
-		if (!IsIndexPartActivate(index - 1)) return;
+		if (index == 4)
+		{
+			if(!isStartActivePart) return;
+		}
+		else if (!IsIndexPartActivate(index - 1)) return;
 
 		if (index == ACTIVE_PART_INDEX + 1)
 		{
@@ -215,7 +220,7 @@ public class PartSystem : MonoBehaviour
 	{
 		if (index == ACTIVE_PART_INDEX)
 		{
-			return activePartType != SpecialMoveType.None;
+			return activePartType == SpecialMoveType.None;
 		}
 		else
 		{
