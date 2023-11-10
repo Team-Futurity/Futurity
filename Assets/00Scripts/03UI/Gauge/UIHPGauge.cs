@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIHPGauge : MonoBehaviour
 {
@@ -11,12 +12,13 @@ public class UIHPGauge : MonoBehaviour
 	[field: SerializeField]
 	public UnitBase playerUnitBase { get; private set; }
 
+	public Image realImage;
+
 	[SerializeField]
 	private bool isBillboard = false;
 
 	private Camera mainCam;
-
-
+	
 	private void Awake()
 	{
 		if (Gauge == null || playerUnitBase == null)
@@ -30,6 +32,7 @@ public class UIHPGauge : MonoBehaviour
 		playerUnitBase.status.updateHPEvent?.AddListener((current, max) =>
 		{
 			UpdateHPGauge(current,max);
+			realImage.fillAmount = current / max;
 		});
 
 		mainCam = Camera.main;
