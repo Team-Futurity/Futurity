@@ -32,7 +32,7 @@ public abstract class CoreAbility : MonoBehaviour
 	
 	// protected Buff
 
-	public void ExcutePart(UnitBase enemy)
+	public void ExecutePart(UnitBase enemy)
 	{
 		OnPartAbility(enemy);
 	}

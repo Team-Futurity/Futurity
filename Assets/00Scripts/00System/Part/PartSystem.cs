@@ -22,7 +22,6 @@ public class PartSystem : MonoBehaviour
 	// Active Part Variable
 	[SerializeField, Header("액티브 파츠")]
 	public SpecialMoveType activePartType = SpecialMoveType.Basic;
-
 	public bool isStartActivePart = false; 
 		
 	// Part가 계산된 Status
@@ -60,6 +59,7 @@ public class PartSystem : MonoBehaviour
 
 	private void LoadPartData()
 	{
+		// Passive Part
 		for (int i = 0; i < 3; ++i)
 		{
 			var data = PlayerPrefs.GetInt($"PassivePart{i}");
@@ -168,7 +168,7 @@ public class PartSystem : MonoBehaviour
 			AddStatus(passivePart.GetSubAbility());
 
 			// 2. Core Ability
-			if(index == CORE_ACTIVE_INDEX)
+			if(index == CORE_ACTIVE_INDEX + 1)
 			{
 				player.onAttackEvent?.AddListener(passivePart.AddCoreAbilityToAttackEvent);
 			}

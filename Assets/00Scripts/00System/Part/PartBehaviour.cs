@@ -53,6 +53,6 @@ public class PartBehaviour : MonoBehaviour
 
 	private void GetPassiveCoreAbility(UnitBase enemy)
 	{
-		coreAbility.ExcutePart(enemy);
+		coreAbility.ExecutePart(enemy);
 	}
 }
