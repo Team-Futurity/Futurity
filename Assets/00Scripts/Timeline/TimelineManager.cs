@@ -17,7 +17,8 @@ public enum ECutSceneType
 	BOSS_DEATH,
 	PLAYER_DEATH,
 	LASTKILL,
-	ACTIVE_ALPHA
+	ACTIVE_ALPHA,
+	ACTIVE_BETA
 }
 
 [Serializable]
