@@ -35,5 +35,10 @@ public class BossStateBase : UnitState<BossController>
 
 	public override void OnTriggerEnter(BossController unit, Collider other)
 	{
+		if (other.CompareTag("Player"))
+		{
+			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
+			unit.bossData.Attack(info);
+		}
 	}
 }

@@ -4,5 +4,8 @@ public enum EnemyType : int
 	RangedDefault,
 	MinimalDefault,
 	EliteDefault,
+
+	D_BF,
+
 	TutorialDummy,
 }
