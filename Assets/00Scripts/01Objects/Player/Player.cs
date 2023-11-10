@@ -52,6 +52,19 @@ public class Player : UnitBase
 			Knockback((damageInfo.Defender.transform.position - damageInfo.Attacker.transform.position).normalized, damageInfo.KnockbackPower);
 		}
 
+		if(pc.IsCurrentState(PlayerState.Hit))
+		{
+			UnitState<PlayerController> state = null;
+			pc.GetState(PlayerState.Hit, ref state);
+
+			if(state != null)
+			{
+				var hitState = (PlayerHitState)state;
+				hitState.currentTime = 0;
+				pc.animator.SetTrigger(hitState.HitTriggerAnim);
+			}
+		}
+
 		if(!pc.IsAttackProcess(true) && !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
 		{
 			pc.ChangeState(PlayerState.Hit);

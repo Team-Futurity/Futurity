@@ -5,8 +5,8 @@ using UnityEngine;
 [FSMState((int)PlayerState.Hit)]
 public class PlayerHitState : UnitState<PlayerController>
 {
-	private readonly string HitTriggerAnim = "HitTrigger";
-	private float currentTime;
+	public readonly string HitTriggerAnim = "HitTrigger";
+	public float currentTime;
 
 	public override void Begin(PlayerController pc)
 	{
