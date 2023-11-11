@@ -18,7 +18,6 @@ public class SpawnerEvent : MonoBehaviour
 
 	public void InterimEvent(DialogData dialogData)
 	{
-		dialogController.gameObject.SetActive(true);
 		dialogController.SetDialogData(dialogData);
 		dialogController.Play();
 	}
