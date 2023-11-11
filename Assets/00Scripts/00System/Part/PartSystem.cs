@@ -11,6 +11,9 @@ public class PartSystem : MonoBehaviour
 	[SerializeField, Header("Combo 시스템")]
 	private ComboGaugeSystem comboGaugeSystem;
 
+	[SerializeField, Header("Player Status")]
+	private StatusManager status;
+
 	private Player player;
 
 	// Passive Part Variable
@@ -172,6 +175,8 @@ public class PartSystem : MonoBehaviour
 			{
 				player.onAttackEvent?.AddListener(passivePart.AddCoreAbilityToAttackEvent);
 			}
+			
+			status.AddStatus(calcStatus);
 		}
 		
 		onPartActive?.Invoke(index - 1);
@@ -204,6 +209,7 @@ public class PartSystem : MonoBehaviour
 			}
 
 			passivePart.SetPartActive(false);
+			status.SubStatus(passivePart.GetSubAbility());
 		}
 
 		onPartDeactive?.Invoke(index - 1);
