@@ -19,6 +19,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 	public PlayerCamera playerCamera;
 	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
+	public AutoSkipButton autoSkipButton;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 
@@ -67,6 +68,8 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
+		
+		autoSkipButton.InitAutoSkipButton(scripting);
 	}
 
 	private void Update()
