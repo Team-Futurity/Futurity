@@ -83,9 +83,9 @@ public class UIDialogText : MonoBehaviour
 	private void ResetData()
 	{
 		copyText = "";
+		isRunning = false;
 		currentAccessIndex = 0;
 
 		onEnded?.Invoke();
-		isRunning = false;
 	}
 }
