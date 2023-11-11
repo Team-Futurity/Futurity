@@ -24,6 +24,7 @@ public class TimelineScripting : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI textInput;
 	[SerializeField] private GameObject[] nameText;
 	[SerializeField] private float textOutputDelay = 0.05f;
+	[SerializeField] private float autoWaitingTime = 1.0f;
 	[HideInInspector] public bool isEnd = false;
 	private bool isInput = false;
 
@@ -34,6 +35,9 @@ public class TimelineScripting : MonoBehaviour
 	[Header("Sound")] 
 	[SerializeField] private FMODUnity.EventReference typingSound;
 	private EventInstance soundInst;
+
+	[HideInInspector] public bool isSkip = false;
+	[HideInInspector] public bool isAuto = false;
 
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private IEnumerator textPrint;
@@ -157,9 +161,15 @@ public class TimelineScripting : MonoBehaviour
 
 			while (true)
 			{
-				if (isInput == true)
+				if (isInput == true || isSkip == true)
 				{
 					isInput = false;
+					break;
+				}
+
+				if (isAuto == true)
+				{
+					yield return new WaitForSeconds(autoWaitingTime);
 					break;
 				}
 

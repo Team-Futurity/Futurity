@@ -34,6 +34,7 @@ public abstract class CutSceneBase : MonoBehaviour
 
 		cutScene = isActiveCutScene
 			? gameObject.GetComponentInChildren<PlayableDirector>() : gameObject.GetComponent<PlayableDirector>();
+		chapterManager.autoSkipButton.InitPlayCutScene(cutScene);
 
 		if (isUseScripting == true)
 		{
@@ -52,8 +53,12 @@ public abstract class CutSceneBase : MonoBehaviour
 
 	protected void StartScripting(int index = -1)
 	{
-		cutScene.Pause();
+		if (chapterManager.scripting.isSkip == true)
+		{
+			return;
+		}
 		
+		cutScene.Pause();
 		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
 
 		if (index == -1)
@@ -87,6 +92,14 @@ public abstract class CutSceneBase : MonoBehaviour
 		
 		chapterManager.scripting.DisableAllNameObject();
 		chapterManager.scripting.ResetEmotion();
+
+		if (chapterManager.scripting.isAuto == true || chapterManager.scripting.isSkip == true)
+		{
+			chapterManager.scripting.isAuto = chapterManager.scripting.isSkip = false;
+			cutScene.playableGraph.GetRootPlayable(0).SetSpeed(1.0f);
+			
+			FadeManager.Instance.FadeOut(0.5f);
+		}
 	}
 
 	private void InitSkeletonQueue()
