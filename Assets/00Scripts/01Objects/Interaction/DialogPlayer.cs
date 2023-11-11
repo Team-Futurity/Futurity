@@ -17,7 +17,8 @@ public class DialogPlayer : MonoBehaviour
 		{
 			return;
 		}
-		
+
+		curDialogData = dialogData[index];
 		StartCoroutine(DialogPlay());
 	}
 	
@@ -25,9 +26,11 @@ public class DialogPlayer : MonoBehaviour
 	{
 		while (dialogController.DialogText.isRunning == true)
 		{
+			Debug.Log("is Playing Dialog");
 			yield return null;
 		}
 		
+		Debug.Log("Dialog Done");
 		dialogController.SetDialogData(curDialogData);
 		dialogController.Play();
 	}
