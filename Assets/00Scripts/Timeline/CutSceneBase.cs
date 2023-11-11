@@ -27,6 +27,8 @@ public abstract class CutSceneBase : MonoBehaviour
 	public bool isUseSkeleton;
 	[SerializeField] protected Transform skeletonParent;
 	protected Queue<SkeletonGraphic> skeletonQueue;
+
+	private bool isCutSceneEnable = false;
 	
 	protected virtual void Init()
 	{
@@ -72,11 +74,25 @@ public abstract class CutSceneBase : MonoBehaviour
 		}
 	}
 
+	private void Update()
+	{
+		if (isCutSceneEnable == false)
+		{
+			return;
+		}
+
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+			chapterManager.autoSkipButton.SkipCutScene();
+		}
+	}
+
 	private void OnEnable()
 	{
 		Init();
 		EnableCutScene();
-		
+
+		isCutSceneEnable = true;
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 	}
 
@@ -92,7 +108,8 @@ public abstract class CutSceneBase : MonoBehaviour
 		
 		chapterManager.scripting.DisableAllNameObject();
 		chapterManager.scripting.ResetEmotion();
-
+		isCutSceneEnable = false;
+		
 		if (chapterManager.scripting.isAuto == true || chapterManager.scripting.isSkip == true)
 		{
 			chapterManager.scripting.isAuto = chapterManager.scripting.isSkip = false;
