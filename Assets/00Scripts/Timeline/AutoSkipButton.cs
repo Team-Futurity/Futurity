@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class AutoSkipButton : MonoBehaviour
 {
 	[Header("Component : 수동할당")] 
+	[SerializeField] private bool isTutorial = false;
 	[SerializeField] private Button skipButton;
 	[SerializeField] private Button autoButton;
 	
@@ -26,6 +27,11 @@ public class AutoSkipButton : MonoBehaviour
 	
 	public void SkipCutScene()
 	{
+		if (isTutorial == true)
+		{
+			SceneLoader.Instance.LoadScene(ChapterSceneName.CHAPTER1_1);	
+		}
+		
 		if (playCutScene == null)
 		{
 			return;
