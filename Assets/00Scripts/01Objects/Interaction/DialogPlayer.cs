@@ -11,6 +11,14 @@ public class DialogPlayer : MonoBehaviour
 	[SerializeField] private List<DialogData> dialogData;
 	private DialogData curDialogData;
 
+	[Header("다이얼로그 Play중인지")] 
+	[ReadOnly(false)] public bool isDialogPlay = false;
+
+	public void SetDialogPlay(bool play)
+	{
+		isDialogPlay = play;
+	}
+	
 	public void StartPlayDialog(int index)
 	{
 		if (index >= dialogData.Count)
@@ -24,13 +32,11 @@ public class DialogPlayer : MonoBehaviour
 	
 	private IEnumerator DialogPlay()
 	{
-		while (dialogController.DialogText.isRunning == true)
+		while (isDialogPlay == true)
 		{
-			Debug.Log("is Playing Dialog");
 			yield return null;
 		}
 		
-		Debug.Log("Dialog Done");
 		dialogController.SetDialogData(curDialogData);
 		dialogController.Play();
 	}
