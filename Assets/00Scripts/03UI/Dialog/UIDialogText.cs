@@ -32,13 +32,13 @@ public class UIDialogText : MonoBehaviour
 
 	public void Show(string text)
 	{
-		// ÁøÇàÁßÀÏ °æ¿ì, Return
+		// ì§„í–‰ì¤‘ì¼ ê²½ìš°, Return
 		if (isRunning) { return; }
 
-		// ÃÊ±âÈ­ ÇØÁÖ°í
+		// ì´ˆê¸°í™” í•´ì£¼ê³ 
 		ClearText();
 
-		// ÅØ½ºÆ® Àû¿ë
+		// í…ìŠ¤íŠ¸ ì ìš©
 		copyText = text;
 		isRunning = true;
 
@@ -83,9 +83,9 @@ public class UIDialogText : MonoBehaviour
 	private void ResetData()
 	{
 		copyText = "";
-		isRunning = false;
 		currentAccessIndex = 0;
 
 		onEnded?.Invoke();
+		isRunning = false;
 	}
 }
