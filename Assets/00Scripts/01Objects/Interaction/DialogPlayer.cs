@@ -36,7 +36,8 @@ public class DialogPlayer : MonoBehaviour
 		{
 			yield return null;
 		}
-		
+
+		yield return new WaitForSeconds(1.0f);
 		dialogController.SetDialogData(curDialogData);
 		dialogController.Play();
 	}
