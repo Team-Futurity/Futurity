@@ -11,7 +11,7 @@ public class SpawnerManager : MonoBehaviour
 	[SerializeField] private bool isImmediatelySpawn = false;
 	
 	[Header("컴포넌트")] 
-	[SerializeField] private List<EnemySpawner> spawnerList;
+	[SerializeField, ReadOnly()] private List<EnemySpawner> spawnerList = new List<EnemySpawner>();
 	[SerializeField] private GameObject[] enemyPrefabs;
 	[SerializeField] private Transform enemyContainer;
 	[SerializeField] private DialogData dialogData;
@@ -40,6 +40,8 @@ public class SpawnerManager : MonoBehaviour
 	
 	private void Awake()
 	{
+		InitSpawnerList();
+		
 		for (int i = 0; i < MAX_ENEMY_TYPE; ++i)
 		{
 			enemyPool.Add(new Queue<GameObject>());
@@ -222,6 +224,19 @@ public class SpawnerManager : MonoBehaviour
 	private void EnablePlayerInput()
 	{
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+	}
+
+	private void InitSpawnerList()
+	{
+		spawnerList.Clear();
+		
+		for (int i = 0; i < transform.childCount; ++i)
+		{
+			if (transform.GetChild(i).TryGetComponent(out EnemySpawner enemySpawner) == true)
+			{
+				spawnerList.Add(enemySpawner);
+			}
+		}
 	}
 }
 
