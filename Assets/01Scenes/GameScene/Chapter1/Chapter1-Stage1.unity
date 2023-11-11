@@ -7873,6 +7873,66 @@ PrefabInstance:
       propertyPath: <PartSystem>k__BackingField
       value: 
       objectReference: {fileID: 1173309214}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onEnded.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1325555217}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1325555217}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onEnded.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onEnded.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetDialogPlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetDialogPlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onEnded.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DialogPlayer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DialogPlayer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 25148977391622290, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 644333228073490107, guid: 4703f6fc71dd64f4c945794935af04cb, type: 3}
       propertyPath: <PartIconImage>k__BackingField
       value: 
@@ -29560,6 +29620,8 @@ MonoBehaviour:
   dialogController: {fileID: 1520716533}
   dialogData:
   - {fileID: 11400000, guid: b71b70d45c8c10d45998aefe0544c2ef, type: 2}
+  - {fileID: 11400000, guid: eff273f64a6d7b04a91ee63c5ef90eb9, type: 2}
+  isDialogPlay: 0
 --- !u!1 &1331073190
 GameObject:
   m_ObjectHideFlags: 0
@@ -31593,6 +31655,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionUI: {fileID: 83321773}
   fenceSkeleton: {fileID: 1187513613}
+  rewardBox: {fileID: 866167998}
+  dialogPlayer: {fileID: 1325555217}
   fadeTime: 0.8
   delayTime: 1.2
   movePos: {fileID: 180120521}
