@@ -5609,17 +5609,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
---- !u!114 &433799141 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 806329222224163496, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
-  m_PrefabInstance: {fileID: 433799140}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2be241e2cda564d8eed4908d93a6f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &441290052
 GameObject:
   m_ObjectHideFlags: 0
@@ -7689,6 +7678,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 12
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 0
@@ -8179,30 +8169,6 @@ PrefabInstance:
       propertyPath: isImmediatelySpawn
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
-      propertyPath: spawnerList.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
-      propertyPath: spawnerList.Array.data[0]
-      value: 
-      objectReference: {fileID: 889272243}
-    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
-      propertyPath: spawnerList.Array.data[1]
-      value: 
-      objectReference: {fileID: 433799141}
-    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
-      propertyPath: spawnerList.Array.data[2]
-      value: 
-      objectReference: {fileID: 785213037}
-    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
-      propertyPath: spawnerList.Array.data[3]
-      value: 
-      objectReference: {fileID: 1877981359}
-    - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
-      propertyPath: spawnerList.Array.data[4]
-      value: 
-      objectReference: {fileID: 1537146129}
     - target: {fileID: 128474171715111944, guid: ee15b142e1f47044aad772a5a2c9e3fb, type: 3}
       propertyPath: totalSpawnCount.Array.size
       value: 0
@@ -10016,17 +9982,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
---- !u!114 &785213037 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 806329222224163496, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
-  m_PrefabInstance: {fileID: 785213036}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2be241e2cda564d8eed4908d93a6f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &795790569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11234,17 +11189,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
---- !u!114 &889272243 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 806329222224163496, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
-  m_PrefabInstance: {fileID: 889272242}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2be241e2cda564d8eed4908d93a6f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &893201004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13888,6 +13832,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 10
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 0
@@ -18744,17 +18689,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
---- !u!114 &1537146129 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 806329222224163496, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
-  m_PrefabInstance: {fileID: 1537146128}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2be241e2cda564d8eed4908d93a6f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1540618697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24142,17 +24076,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
---- !u!114 &1877981359 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 806329222224163496, guid: 8f57a080ffb1d414294fcdb01a303205, type: 3}
-  m_PrefabInstance: {fileID: 1877981358}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a2be241e2cda564d8eed4908d93a6f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1882695477
 GameObject:
   m_ObjectHideFlags: 0
@@ -27858,6 +27781,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 11
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 0
