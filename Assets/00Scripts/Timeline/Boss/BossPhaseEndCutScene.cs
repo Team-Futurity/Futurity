@@ -5,7 +5,8 @@ using UnityEngine;
 public class BossPhaseEndCutScene : CutSceneBase
 {
 	[Header("추가 Component")]
-	[SerializeField] private Animator bossController;
+	[SerializeField] private Animator bossAnimator;
+	[SerializeField] private BossController bossController;
 	
 	[Header("Init Text")] 
 	[SerializeField] private TextMeshProUGUI textField;
@@ -34,6 +35,7 @@ public class BossPhaseEndCutScene : CutSceneBase
 		chapterManager.scripting.ResetEmotion();
 		
 		chapterManager.SetActiveMainUI(true);
+		bossController.isActive = true;
 	}
 	
 	public void StartScripting()
@@ -48,7 +50,7 @@ public class BossPhaseEndCutScene : CutSceneBase
 
 	public void BossDeathAnimation(bool enable)
 	{
-		bossController.SetBool(BOSS_DEATH_KEY, enable);
+		bossAnimator.SetBool(BOSS_DEATH_KEY, enable);
 	}
 	
 	public void StartPrintText()

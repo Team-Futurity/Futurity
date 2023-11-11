@@ -11,6 +11,8 @@ public class B_NoneState : UnitState<BossController>
 		unit.isPhase2EventDone = true;
 		unit.isInPhase2Event = true;
 		unit.nextState = BossState.T5_EnemySpawn;
+		
+		TimelineManager.Instance.EnableCutScene(ECutSceneType.BOSS_ENDPHASE);
 	}
 
 	public override void End(BossController unit)
