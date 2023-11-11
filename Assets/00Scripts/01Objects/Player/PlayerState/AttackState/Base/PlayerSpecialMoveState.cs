@@ -27,6 +27,7 @@ public class PlayerSpecialMoveState<T> : PlayerAttackBaseState where T : Special
 	{
 		base.End(unit);
 
+		SendAttackEndMessage(unit);
 		unit.comboGaugeSystem.ResetComboGauge();
 	}
 
@@ -49,4 +50,11 @@ public class PlayerSpecialMoveState<T> : PlayerAttackBaseState where T : Special
 	{
 		this.proccessor = proccessor;
 	}
+
+	private void SendAttackEndMessage(PlayerController unit)
+	{
+		string msg = unit.GetInputData(PlayerInputEnum.SpecialMove, true, GetType().ToString(), "Complete").inputMsg;
+		unit.attackEndEvent.Invoke(msg);
+	}
+
 }
