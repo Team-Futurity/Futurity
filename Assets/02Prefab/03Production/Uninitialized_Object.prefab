@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252798078743005284}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 1252798079483354431}
   - component: {fileID: 1252798079483354428}
   m_Layer: 0
-  m_Name: SubInteraction
+  m_Name: SubInteraction_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,13 +78,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b40e162ab8db9c4885f39e7769a716a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutSceneType: 0
   chapterManager: {fileID: 0}
   cutScene: {fileID: 1252798079483354431}
-  scriptingList:
-  - {fileID: 11400000, guid: 2c7b407740a5c7b42a2b69a762a2b400, type: 2}
-  - {fileID: 11400000, guid: dfb18ba11c0732d43aab5578f5bfd3ef, type: 2}
-  firstName: 0100000000000000
+  cutSceneType: 0
+  isActiveCutScene: 0
+  isUseScripting: 0
+  scriptingList: []
+  isUseSkeleton: 0
+  skeletonParent: {fileID: 0}
+  firstName: 
   endEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -116,9 +118,11 @@ PlayableDirector:
   - key: {fileID: -3909613488386750766, guid: b644f5b8e05447647b65bb66855b676c, type: 2}
     value: {fileID: 0}
   - key: {fileID: -5628099863930945641, guid: b644f5b8e05447647b65bb66855b676c, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1252798079483354426}
   - key: {fileID: -5488694383954805722, guid: b644f5b8e05447647b65bb66855b676c, type: 2}
     value: {fileID: 1252798079483354428}
+  - key: {fileID: -766197098249975148, guid: b644f5b8e05447647b65bb66855b676c, type: 2}
+    value: {fileID: 1252798079483354426}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &1252798079483354428
@@ -135,8 +139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Events:
     m_Signals:
-    - {fileID: 11400000, guid: 173110145f196184088321b795e627e6, type: 2}
-    - {fileID: 11400000, guid: 3454cc6a0944cfd4e803d4803d5dde82, type: 2}
+    - {fileID: 11400000, guid: f263dc5bc612ac94ca37f2dfa51f6c2e, type: 2}
+    - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:

@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class RewardBox : MonoBehaviour
 {
+	[Header("컷신 재생")] 
+	[SerializeField] private bool isPlayCutScene;
+	[SerializeField] private UnityEvent cutSceneEvent;
+	public void IsPlayCutScene(bool active) => isPlayCutScene = active;
+	
 	[Header("부품 컴포넌트")]
 	public UIPassivePartSelect passivePartSelect;
 	public int[] partCodes;
@@ -52,6 +58,12 @@ public class RewardBox : MonoBehaviour
 
 	private void OnInteractRewardBox(InputAction.CallbackContext context)
 	{
+		if (isPlayCutScene == true)
+		{
+			cutSceneEvent?.Invoke();
+			return;
+		}
+		
 		startAnimation = PlayAnimation();
 		StartCoroutine(startAnimation);
 	}

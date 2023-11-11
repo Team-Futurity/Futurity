@@ -13,6 +13,7 @@ public class UIDialogController : MonoBehaviour
 
 	[Space(10), Header("텍스트가 출력되는 오브젝트"), SerializeField]
 	private UIDialogText dialogText;
+	public UIDialogText DialogText => dialogText;
 
 	private int currentIndex;
 

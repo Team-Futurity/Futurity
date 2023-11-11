@@ -189,7 +189,7 @@ public class SpawnerManager : MonoBehaviour
 		curWaveSpawnCount--;
 		CheckIndicatorActivation();
 		
-		if (curWaveSpawnCount <= dialogCondition || isEventEnable == true)
+		if (curWaveSpawnCount >= dialogCondition || isEventEnable == true)
 		{
 			return;
 		}

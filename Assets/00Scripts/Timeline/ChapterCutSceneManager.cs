@@ -72,6 +72,12 @@ public class ChapterCutSceneManager : MonoBehaviour
 		autoSkipButton.InitAutoSkipButton(scripting);
 	}
 
+	public void ResetGlitch()
+	{
+		analogGlitch.scanLineJitter.value = 0;
+		analogGlitch.colorDrift.value = 0;
+	}
+
 	private void Update()
 	{
 		if (isCutScenePlay == false)
@@ -81,14 +87,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		analogGlitch.scanLineJitter.value = scanLineJitter;
 		analogGlitch.colorDrift.value = colorDrift;
-	}
-	
-	public Vector3 GetTargetPosition(float distance, Vector3 forward = default(Vector3))
-	{
-		forward = (forward == Vector3.zero) ? playerModelTf.forward : forward;
-		
-		var offset = distance * forward;
-		return playerModelTf.position + offset;
 	}
 	
 	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);
