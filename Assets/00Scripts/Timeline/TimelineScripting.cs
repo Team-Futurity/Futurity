@@ -149,7 +149,7 @@ public class TimelineScripting : MonoBehaviour
 				textInput.text += text;
 				soundInst.start();
 				
-				if (isInput == true)
+				if (isInput == true || isSkip == true)
 				{
 					textInput.text = scripts.scripts;
 					isInput = false;
