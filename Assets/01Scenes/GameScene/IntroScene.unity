@@ -2664,6 +2664,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 0
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 0
@@ -2853,6 +2854,8 @@ PlayableDirector:
     value: {fileID: 777136855}
   - key: {fileID: -802907220136892597, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
     value: {fileID: 777136855}
+  - key: {fileID: -4744723658860538156, guid: 9729601db641d2d4c8df4ffc4c6dedb6, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &777136857
@@ -4712,6 +4715,7 @@ MonoBehaviour:
   chapterManager: {fileID: 0}
   cutScene: {fileID: 0}
   cutSceneType: 4
+  isActiveCutScene: 0
   isUseScripting: 0
   scriptingList: []
   isUseSkeleton: 1
@@ -5762,6 +5766,7 @@ GameObject:
   - component: {fileID: 1888966098}
   - component: {fileID: 1888966097}
   - component: {fileID: 1888966099}
+  - component: {fileID: 1888966100}
   m_Layer: 0
   m_Name: IntroCutSceneManager
   m_TagString: Untagged
@@ -5786,6 +5791,7 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   mainUICanvas: {fileID: 0}
   scripting: {fileID: 1888966099}
+  autoSkipButton: {fileID: 1888966100}
   timeToSlowMotion: 0
   recoveryTime: 0
   playerModelTf: {fileID: 0}
@@ -5820,12 +5826,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a6d4ba54549c84ea9a0d3c7679db6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  miraeAnimation: {fileID: 0}
-  sariAnimation: {fileID: 0}
-  bossAnimation: {fileID: 0}
+  skeletons: []
   textInput: {fileID: 0}
   nameText: []
   textOutputDelay: 0.05
+  autoWaitingTime: 1
   isEnd: 0
   scriptsPenal: {fileID: 0}
   scriptsImage: []
@@ -5836,6 +5841,27 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  isSkip: 0
+  isAuto: 0
+--- !u!114 &1888966100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888966096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb3823f315563a44bf30620b8ba7502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTutorial: 0
+  skipButton: {fileID: 0}
+  autoButton: {fileID: 0}
+  timelineScripting: {fileID: 0}
+  playCutScene: {fileID: 0}
+  skipSpeed: 100
+  fadeInTime: 0.5
 --- !u!1 &1992969791
 GameObject:
   m_ObjectHideFlags: 0
