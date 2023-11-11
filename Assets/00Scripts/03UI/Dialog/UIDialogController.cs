@@ -39,28 +39,32 @@ public class UIDialogController : MonoBehaviour
 		
 		SetUp();
 	}
-	
+
+	private void OnDisable()
+	{
+		dialogText.onEnded?.RemoveListener(UpdateNextDialog);
+	}
+
 	private void SetUp()
 	{
-		currentDialogData = dialogDatas[currentIndex];
-		currentDialogData.Init();
+		if (dialogText == null)
+		{
+			FDebug.Log($"{dialogText}가 존재하지 않습니다.", GetType());
+			FDebug.Break();
 
+			return;
+		}
+		
 		dialogText.onEnded?.AddListener(UpdateNextDialog);
-
-		OpenBoard(true);
-		onStarted?.Invoke();
 	}
-
-	public void SetDialogData(List<DialogData> datas)
-	{
-		dialogDatas = datas;
-	}
-
+	
 	public void SetDialogData(DialogData data)
 	{
 		dialogDatas.Add(data);
+		
+		InitDialog();
 	}
-
+	
 	public void Play()
 	{
 		if (dialogText.isRunning) { return; }
@@ -68,28 +72,23 @@ public class UIDialogController : MonoBehaviour
 		dialogText.Show(currentDialogData.GetDialogDataGroup().descripton);
 		onShow?.Invoke(currentDialogData.GetDialogDataGroup());
 	}
-
-	public void RemoveDialogEventAll()
-	{
-		for (int i = 0; i < dialogDatas.Count; ++i)
-		{
-			dialogDatas[i].onInit.RemoveAllListeners();
-			dialogDatas[i].onChanged.RemoveAllListeners();
-			dialogDatas[i].onEnded.RemoveAllListeners();
-		}
-	}
-
-
-
+	
 	private void OpenBoard(bool isOn)
 	{
 		gameObject.SetActive(isOn);
 	}
-
-	private void CloseDialog()
+	
+	private void InitDialog()
 	{
-		OpenBoard(false);
-		RemoveDialogEventAll();
+		if (currentDialogData == null)
+		{
+			currentDialogData = dialogDatas[currentIndex];
+			currentDialogData.Init();
+		}
+
+		OpenBoard(true);
+		
+		onStarted?.Invoke();
 	}
 
 	private void UpdateNextDialog()
@@ -102,7 +101,7 @@ public class UIDialogController : MonoBehaviour
 
 			if (currentIndex >= dialogDatas.Count)
 			{
-				CloseDialog();
+				OpenBoard(false);
 
 				onEnded?.Invoke();
 				return;
