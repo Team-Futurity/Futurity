@@ -80,24 +80,6 @@ public class UIDialogController : MonoBehaviour
 		}
 	}
 
-	public void SetDialogInitEvent(int index, UnityAction action)
-	{
-		if (index >= dialogDatas.Count) return;
-		dialogDatas[index].onInit?.AddListener(action);
-	}
-
-	public void SetDialogChangedEvent(int index, UnityAction action)
-	{
-		if (index >= dialogDatas.Count) return;
-		dialogDatas[index].onChanged?.AddListener(action);
-	}
-
-	public void SetDialogEndedEvent(int index, UnityAction action)
-	{
-		if (index >= dialogDatas.Count) return;
-		dialogDatas[index].onEnded?.AddListener(action);
-	}
-
 	public void RemoveDialogEventAll()
 	{
 		for (int i = 0; i < dialogDatas.Count; ++i)
