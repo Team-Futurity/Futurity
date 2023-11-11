@@ -153,7 +153,7 @@ public class PlayerInputManager : MonoBehaviour
 				result = SetCorrectEnum(data.inputState, GetDirection(data.inputMsg));
 				break;
 			case "5":
-				result = splitedDatas[2] == "T" ? PlayerInputEnum.SpecialMove : PlayerInputEnum.None; 
+				result = SetCorrectEnum(data.inputState, splitedDatas[2] == "T" ? PlayerInputEnum.SpecialMove_Complete : PlayerInputEnum.None); 
 				break;
 		}
 
@@ -163,14 +163,12 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		string[] splitedDatas = msg.Split("_");
 
-		if (splitedDatas[3] != "NormalAttack") { return PlayerInputEnum.None; }
-		else if(splitedDatas[3] == "ChargedAttack")
-		{
-			return splitedDatas[4] == "Release" ? PlayerInputEnum.SpecialAttack : PlayerInputEnum.None;
-		}
-		if (splitedDatas[5] != "Complete") { return PlayerInputEnum.None; }
+		if (splitedDatas[2] == "F" || splitedDatas[5] != "Complete") { return PlayerInputEnum.None; }
 
-		return GetComboEnum(splitedDatas[4]);
+		if (splitedDatas[3] == "NormalAttack") { return GetComboEnum(splitedDatas[4]); }
+		else if(splitedDatas[3] == "ChargedAttack") { return PlayerInputEnum.SpecialAttack_Complete;	}
+
+		return PlayerInputEnum.None;
 	}
 
 	private PlayerInputEnum GetDirection(string msg)
@@ -189,6 +187,15 @@ public class PlayerInputManager : MonoBehaviour
 		}
 
 		return PlayerInputEnum.Move;
+	}
+
+	public PlayerInputEnum GetActivePartEnum(string msg)
+	{
+		string[] splitedDatas = msg.Split("_");
+
+		if (splitedDatas[2] == "F" || splitedDatas[5] != "Complete") { return PlayerInputEnum.None; }
+
+		return PlayerInputEnum.SpecialMove_Complete;
 	}
 
 	private PlayerInputEnum GetDirectionEnum(float angle)
@@ -224,9 +231,6 @@ public class PlayerInputManager : MonoBehaviour
 				break;
 			case "JKK":
 				enumData = PlayerInputEnum.NormalAttack_JKK;
-				break;
-			case "ChargedAttack":
-				enumData = PlayerInputEnum.SpecialAttack;
 				break;
 			default:
 				FDebug.LogError("Invalid Combo", GetType());
