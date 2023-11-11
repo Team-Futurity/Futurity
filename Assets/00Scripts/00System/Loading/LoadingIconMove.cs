@@ -41,7 +41,7 @@ public class LoadingIconMove : MonoBehaviour
 
 			yield return new WaitForSeconds(0.01f);
 
-			slider.value = Mathf.Lerp(0, 1, timer / 2.0f);
+			slider.value = Mathf.Lerp(0, 1, timer / 1.5f);
 		}
 	}
 }
