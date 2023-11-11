@@ -21,9 +21,6 @@ public class UIDialogController : MonoBehaviour
 	private List<DialogData> dialogDatas;
 	private DialogData currentDialogData;
 
-	[SerializeField]
-	private bool usedPass = false;
-
 	#region Dialog Events
 
 	[Space(15)]
@@ -39,24 +36,18 @@ public class UIDialogController : MonoBehaviour
 	{
 		dialogDatas = new List<DialogData>();
 		currentIndex = 0;
+		
+		InitDialog();
 	}
 
 	public void SetDialogData(List<DialogData> datas)
 	{
 		dialogDatas = datas;
-		InitDialog();
 	}
 
 	public void SetDialogData(DialogData data)
 	{
 		dialogDatas.Add(data);
-		InitDialog();
-	}
-
-	public void SetDialogData(string code)
-	{
-		LoadDialogData(code);
-		InitDialog();
 	}
 
 	public void Play()
@@ -65,19 +56,6 @@ public class UIDialogController : MonoBehaviour
 
 		dialogText.Show(currentDialogData.GetDialogDataGroup().descripton);
 		onShow?.Invoke(currentDialogData.GetDialogDataGroup());
-
-	}
-
-	public void Pass()
-	{
-		if (dialogText.isRunning)
-		{
-			dialogText.Pass();
-		}
-		else
-		{
-			UpdateNextDialog();
-		}
 	}
 
 	public void RemoveDialogEventAll()
@@ -90,14 +68,27 @@ public class UIDialogController : MonoBehaviour
 		}
 	}
 
+	public void ClearDialog()
+	{
+		currentDialogData = null;
+		currentIndex = 0;
+		
+	}
+
+	private void OnDisable()
+	{
+		isFirstSetting = false;
+	}
+
+	private bool isFirstSetting = false;
 	private void InitDialog()
 	{
-		currentDialogData = dialogDatas[currentIndex];
-
-		currentDialogData.Init();
-
-		if (!usedPass)
+		if (isFirstSetting == false)
 		{
+			isFirstSetting = true;
+			currentDialogData = dialogDatas[currentIndex];
+			currentDialogData.Init();
+			
 			dialogText.onEnded?.AddListener(UpdateNextDialog);
 		}
 
@@ -139,10 +130,5 @@ public class UIDialogController : MonoBehaviour
 		}
 
 		Play();
-	}
-
-	private DialogData LoadDialogData(string code)
-	{
-		return Addressables.LoadAssetAsync<DialogData>(code).WaitForCompletion();
 	}
 }
