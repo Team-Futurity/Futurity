@@ -37,7 +37,18 @@ public class UIDialogController : MonoBehaviour
 		dialogDatas = new List<DialogData>();
 		currentIndex = 0;
 		
-		InitDialog();
+		SetUp();
+	}
+	
+	private void SetUp()
+	{
+		currentDialogData = dialogDatas[currentIndex];
+		currentDialogData.Init();
+
+		dialogText.onEnded?.AddListener(UpdateNextDialog);
+
+		OpenBoard(true);
+		onStarted?.Invoke();
 	}
 
 	public void SetDialogData(List<DialogData> datas)
@@ -68,42 +79,16 @@ public class UIDialogController : MonoBehaviour
 		}
 	}
 
-	public void ClearDialog()
-	{
-		currentDialogData = null;
-		currentIndex = 0;
-		
-	}
 
-	private void OnDisable()
-	{
-		isFirstSetting = false;
-	}
 
-	private bool isFirstSetting = false;
-	private void InitDialog()
-	{
-		if (isFirstSetting == false)
-		{
-			isFirstSetting = true;
-			currentDialogData = dialogDatas[currentIndex];
-			currentDialogData.Init();
-			
-			dialogText.onEnded?.AddListener(UpdateNextDialog);
-		}
-
-		OpenDialogBoard(true);
-		onStarted?.Invoke();
-	}
-
-	private void OpenDialogBoard(bool isOn)
+	private void OpenBoard(bool isOn)
 	{
 		gameObject.SetActive(isOn);
 	}
 
 	private void CloseDialog()
 	{
-		OpenDialogBoard(false);
+		OpenBoard(false);
 		RemoveDialogEventAll();
 	}
 
