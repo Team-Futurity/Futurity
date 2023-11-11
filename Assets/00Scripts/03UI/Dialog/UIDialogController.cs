@@ -25,7 +25,6 @@ public class UIDialogController : MonoBehaviour
 
 	[Space(15)]
 	public UnityEvent onStarted;
-	public UnityEvent onChanged;
 	public UnityEvent onEnded;
 
 	[HideInInspector] public UnityEvent<DialogDataGroup> onShow;
@@ -38,11 +37,6 @@ public class UIDialogController : MonoBehaviour
 		currentIndex = 0;
 		
 		SetUp();
-	}
-
-	private void OnDisable()
-	{
-		dialogText.onEnded?.RemoveListener(UpdateNextDialog);
 	}
 
 	private void SetUp()
@@ -61,15 +55,16 @@ public class UIDialogController : MonoBehaviour
 	public void SetDialogData(DialogData data)
 	{
 		dialogDatas.Add(data);
-		
 		InitDialog();
 	}
 	
 	public void Play()
 	{
 		if (dialogText.isRunning) { return; }
+		if(currentDialogData != null) { OpenBoard(true);}
 
 		dialogText.Show(currentDialogData.GetDialogDataGroup().descripton);
+		
 		onShow?.Invoke(currentDialogData.GetDialogDataGroup());
 	}
 	
@@ -93,23 +88,28 @@ public class UIDialogController : MonoBehaviour
 
 	private void UpdateNextDialog()
 	{
+		// 중간에 등록이 되었을 경우, Play를 통해서 열어준다.
 		var isEnd = currentDialogData.Next();
 
+		// CurrentDialog가 종료되었을 때,
 		if (isEnd)
 		{
-			currentIndex += 1;
+			OpenBoard(false);
 
-			if (currentIndex >= dialogDatas.Count)
+			if (currentIndex >= dialogDatas.Count - 1)
 			{
-				OpenBoard(false);
+				currentDialogData = null;
+				currentIndex = 0;
+				dialogDatas.Clear();
 
 				onEnded?.Invoke();
 				return;
 			}
+			
+			currentIndex++;
 
 			currentDialogData = dialogDatas[currentIndex];
-			onChanged?.Invoke();
-
+			currentDialogData.Init();
 			return;
 		}
 
