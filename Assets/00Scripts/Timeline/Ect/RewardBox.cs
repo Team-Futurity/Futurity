@@ -33,6 +33,9 @@ public class RewardBox : MonoBehaviour
 	[SerializeField] private Animation boxAnimations;
 	[SerializeField] private float waitTime = 0.6f;
 	private IEnumerator startAnimation;
+
+	[Header("상호작용 정보 저장")] 
+	[ReadOnly(false)] public bool isInteraction = false;
 	
 	private void OnTriggerEnter(Collider other)
 	{
@@ -61,6 +64,7 @@ public class RewardBox : MonoBehaviour
 		if (isPlayCutScene == true)
 		{
 			cutSceneEvent?.Invoke();
+			ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
 			return;
 		}
 		
@@ -84,6 +88,7 @@ public class RewardBox : MonoBehaviour
 		passivePartSelect.SetPartData(GetPlayerEquipPartList());
 		UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
 		gameObject.GetComponent<BoxCollider>().enabled = false;
+		isInteraction = true;
 	}
 
 	private int[] GetPlayerEquipPartList()
