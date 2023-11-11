@@ -22,6 +22,8 @@ public class C1_A1_EntryCutScene : CutSceneBase
 	{
 		chapterManager.SetActiveMainUI(true);
 		chapterManager.isCutScenePlay = false;
+		
+		chapterManager.ResetGlitch();
 	}
 
 	public void Area1_StartSkeletonCutScene()
