@@ -21,6 +21,7 @@ public class PlayerInputManager : MonoBehaviour
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.BasicAttack, OnNormalAttack);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.SpecialAttack, OnSpecialAttack);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.ActiveSkill, OnSpecialMove);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.ESC, OnESC);
 	}
 
 	private void OnDisable()
@@ -117,6 +118,18 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		QueueingProcess(pc.SAProcess(context));
 	}
+	
+	public void OnESC(InputAction.CallbackContext context)
+	{
+		if (UIManager.Instance.IsOpenWindow(WindowList.PAUSE))
+		{
+			return;
+		}
+
+		Time.timeScale = .0f;
+		UIManager.Instance.OpenWindow(WindowList.PAUSE);
+	}
+	
 	#endregion
 
 	private void QueueingProcess(PlayerInputData data)
