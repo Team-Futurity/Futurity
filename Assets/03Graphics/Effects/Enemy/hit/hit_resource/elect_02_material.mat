@@ -7,10 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: passive_epsilon_j-j-k_elect_material
-  m_Shader: {fileID: -6465566751694194690, guid: 5edb53bfaa30fe843aa0da83415ceb82, type: 3}
+  m_Name: elect_02_material
+  m_Shader: {fileID: -6465566751694194690, guid: 7b57c47d71d7f814b85330fbdc0b0e6f, type: 3}
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _TOGGLESWITCH0_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,12 +21,36 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _F_00_01_02_ult_cloud_02_texture:
+        m_Texture: {fileID: 2800000, guid: b91d495881ca8e4438479cfb341729d2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_298d6106d8c44e6996685cd6a1efcd35_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 9b96e34f30722064abc566f3cfe31b31, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _elect2:
+        m_Texture: {fileID: 2800000, guid: 2eeaac9587fd69c4ca0cbae5e5d34444, type: 3}
+        m_Scale: {x: 1, y: 0.22}
+        m_Offset: {x: 0, y: 0.44}
+    - _elect_line:
+        m_Texture: {fileID: 2800000, guid: 2eeaac9587fd69c4ca0cbae5e5d34444, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _frame:
         m_Texture: {fileID: 2800000, guid: fd315cbeaef8c0449a176cb81652dce5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _maintex:
         m_Texture: {fileID: 2800000, guid: 85f9eadde3fd4404cbf1d285ee7859ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _position:
+        m_Texture: {fileID: 2800000, guid: b91d495881ca8e4438479cfb341729d2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -42,12 +67,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaCutoff: 0.5
+    - _Float0: 1
+    - _Float1: 0.82
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _inten: 10
-    m_Colors: []
+    - _ToggleSwitch0: 1
+    - __dirty: 0
+    - _inten: 25.51
+    m_Colors:
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Vector0: {r: 0.5, g: 0, b: 0, a: 0}
+    - _pos_panner: {r: 0.01, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &3977475002109161068
+--- !u!114 &8316304108487434327
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
