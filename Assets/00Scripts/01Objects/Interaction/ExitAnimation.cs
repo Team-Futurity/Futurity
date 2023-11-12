@@ -20,6 +20,7 @@ public class ExitAnimation : MonoBehaviour
 	[SerializeField, ReadOnly(false)] private int curCount;
 
 	private ObjectIndicator objectIndicator;
+	private IEnumerator doorOpen;
 
 	public void PlusCurCount()
 	{
@@ -36,7 +37,8 @@ public class ExitAnimation : MonoBehaviour
 
 	public void DoorOpenWait(UnityAction action = null)
 	{
-		StartCoroutine(WaitDoorOpen(action));
+		doorOpen = DoorOpen(action);
+		StartCoroutine(doorOpen);
 	}
 	
 	private void Start()
@@ -75,8 +77,8 @@ public class ExitAnimation : MonoBehaviour
 			
 			chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
 			InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
-			gameObject.SetActive(false);
-			
+			TimelineManager.Instance.EnableCutScene(cutSceneType);
+
 			return;
 		}
 		
@@ -96,8 +98,9 @@ public class ExitAnimation : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 
-	private IEnumerator WaitDoorOpen(UnityAction action)
+	private IEnumerator DoorOpen(UnityAction action)
 	{
+		InputActionManager.Instance.DisableActionMap();
 		doorAnimation.AnimationState.SetAnimation(0, "open", false);
 		
 		yield return new WaitForSeconds(delayTime);
