@@ -25,8 +25,13 @@ public class ExecuteAfterDeath : MonoBehaviour
 
 		if((timer / enemyCheckCycle) >= enemyCheckCycle)
 		{
-			var catchEnemys = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
+			var catchEnemies = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
 
+			foreach (var enemy in catchEnemies)
+			{
+				enemy.GetComponent<Enemy>().Hit(new DamageInfo(null, null, 10f));
+			}
+			
 			if(timer >= colliderActiveTIme)
 			{
 				Destroy(this.gameObject);
