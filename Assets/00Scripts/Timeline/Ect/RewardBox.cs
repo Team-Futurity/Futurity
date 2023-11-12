@@ -19,6 +19,10 @@ public class RewardBox : MonoBehaviour
 	public int[] partCodes;
 	private bool isEnter;
 
+	[Header("Effect")] 
+	[SerializeField] private GameObject boxEffect;
+
+	public int[] partDataBase = { 
 	private int[] partDataBase = { 
 		2201, 2202,							// Active
 		2101, 2102, 2103, 2104, 2105	// Passive
@@ -36,6 +40,12 @@ public class RewardBox : MonoBehaviour
 
 	[Header("상호작용 정보 저장")] 
 	[ReadOnly(false)] public bool isInteraction = false;
+
+	public void EnableRewardBox()
+	{
+		boxEffect.SetActive(true);
+		gameObject.GetComponent<BoxCollider>().enabled = true;
+	}
 	
 	private void OnTriggerEnter(Collider other)
 	{
@@ -76,6 +86,7 @@ public class RewardBox : MonoBehaviour
 	{
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
+		boxEffect.SetActive(false);
 		boxAnimations.Play();
 		
 		yield return new WaitForSeconds(waitTime);

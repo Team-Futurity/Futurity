@@ -29,7 +29,8 @@ public struct ScriptingStruct
 		ANGRY,
 		EMBARRASSED,
 		IDLE,
-		SURPRISE
+		SURPRISE,
+		SAD
 	}
 	
 	public enum EBossExpression

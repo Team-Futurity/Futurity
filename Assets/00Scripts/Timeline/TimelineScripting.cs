@@ -250,6 +250,10 @@ public class TimelineScripting : MonoBehaviour
 				skeletons[index].AnimationState.SetAnimation(0, "surprise", true);
 				break;
 			
+			case ScriptingStruct.ESariExpression.SAD:
+				skeletons[index].AnimationState.SetAnimation(0, "sad", true);
+				break;
+			
 			default:
 				return;
 		}

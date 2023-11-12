@@ -104,6 +104,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public BoxCollider chargeCollider;
 	public EffectController effectController;
 	public EffectDatas effectSO;
+	public HitEffectDatabase hitEffectDatabase;
 	//public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
@@ -168,6 +169,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			DebugLogger.PrintDebugErros(msgs, typeof(PlayerController), DebugTypeEnum.Log);
 		}
+
+		// effect 2
+		hitEffectDatabase.SetHitEffectDatabase();
 
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
@@ -719,6 +723,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (partSystem == null) { msgs.Add("partSystem is Null"); }
 		if (sariObject == null) { msgs.Add("sariObject is Null"); }
 		if (playerEffectParent == null) { msgs.Add("playerEffectParent is Null"); }
+		if (hitEffectDatabase == null) { msgs.Add("hitEffectDatabase is Null"); }
 
 		isClear = msgs.Count == 0;
 		if (isClear)
