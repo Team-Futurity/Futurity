@@ -66,9 +66,6 @@ public class BossPhaseEndCutScene : CutSceneBase
 
 		while (curIndex < 2)
 		{
-			Animation ani = skeletonGraphic.Skeleton.Data.Animations.Items[curIndex];
-			skeletonGraphic.AnimationState.SetAnimation(0, ani, false);
-
 			foreach (char text in initText[curIndex])
 			{
 				textField.text += text;
@@ -78,6 +75,12 @@ public class BossPhaseEndCutScene : CutSceneBase
 			yield return new WaitForSeconds(waitTime);
 			textField.text = "";
 			curIndex++;
+
+			if (curIndex < 2)
+			{
+				Animation ani = skeletonGraphic.Skeleton.Data.Animations.Items[curIndex];
+				skeletonGraphic.AnimationState.SetAnimation(0, ani, false);
+			}
 		}
 		
 		cutScene.Resume();
