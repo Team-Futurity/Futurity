@@ -176,7 +176,8 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		string[] splitedDatas = msg.Split("_");
 
-		if (splitedDatas[2] == "F" || splitedDatas[5] != "Complete") { return PlayerInputEnum.None; }
+		FDebug.Log(msg);
+		if (splitedDatas[2] == "F" || splitedDatas[3] == "Queueing" || splitedDatas[5] != "Complete") { return PlayerInputEnum.None; }
 
 		if (splitedDatas[3] == "NormalAttack") { return GetComboEnum(splitedDatas[4]); }
 		else if(splitedDatas[3] == "ChargedAttack") { return PlayerInputEnum.SpecialAttack_Complete;	}

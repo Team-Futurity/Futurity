@@ -213,7 +213,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 		float[] value = ConvertStringToFloatArray(str);
 
 		// attackNode = pc.curNode;
-		pc.camera.CameraShake(value[0], value[1]);
+		if(pc.camera != null)
+		{
+			pc.camera.CameraShake(value[0], value[1]);
+		}
 	}
 	
 	// 플레이어 피격에 대한 HitStop
