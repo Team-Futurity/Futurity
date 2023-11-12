@@ -14,11 +14,13 @@ public class C1_A3_ExitCutScene : CutSceneBase
 
 	protected override void EnableCutScene()
 	{
+		chapterManager.SetActiveMainUI(false);
 		base.EnableCutScene();
 	}
 
 	protected override void DisableCutScene()
 	{
+		chapterManager.SetActiveMainUI(true);
 		exitAnimation.DoorOpenWait(() => ChapterMoveController.Instance.MoveNextChapter());
 	}
 
