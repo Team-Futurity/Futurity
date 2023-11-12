@@ -29,7 +29,7 @@ public class AutoSkipButton : MonoBehaviour
 	{
 		if (isTutorial == true)
 		{
-			SceneLoader.Instance.LoadScene(ChapterSceneName.CHAPTER1_1);	
+			SceneLoader.Instance.LoadScene(ChapterSceneName.CHAPTER1_1, true);	
 		}
 		
 		if (playCutScene == null)

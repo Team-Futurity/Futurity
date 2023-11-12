@@ -33,7 +33,7 @@ public class IntroCutScene : CutSceneBase
 	{
 		FadeManager.Instance.FadeIn(fadeOutTime, () =>
 		{
-			SceneLoader.Instance.LoadScene(nextSceneName);
+			SceneLoader.Instance.LoadScene(nextSceneName, true);
 		});
 	}
 

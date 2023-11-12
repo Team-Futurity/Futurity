@@ -23,8 +23,9 @@ public class RewardBox : MonoBehaviour
 	[SerializeField] private GameObject boxEffect;
 
 	public int[] partDataBase = { 
+	private int[] partDataBase = { 
 		2201, 2202,							// Active
-		2101, 2102, 2103, 2104, 2105, 2106	// Passive
+		2101, 2102, 2103, 2104, 2105	// Passive
 	};
 
 	private void OnDisable()
@@ -98,6 +99,7 @@ public class RewardBox : MonoBehaviour
 		passivePartSelect.SetPartData(GetPlayerEquipPartList());
 		UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
 		gameObject.GetComponent<BoxCollider>().enabled = false;
+
 		isInteraction = true;
 	}
 
@@ -107,6 +109,8 @@ public class RewardBox : MonoBehaviour
 		var secondPassivePart = PlayerPrefs.GetInt("Passive1");
 		var thirdPassivePart = PlayerPrefs.GetInt("Passive2");
 		var activePart = PlayerPrefs.GetInt("ActivePart");
+
+		if (activePart == 0) { PlayerPrefs.SetInt("ActivePart", 2201);}
 		
 		var temp = partDataBase.ToList();
 		
@@ -114,28 +118,31 @@ public class RewardBox : MonoBehaviour
 		RandNum(secondPassivePart, ref temp);
 		RandNum(thirdPassivePart, ref temp);
 		RandNum(activePart, ref temp);
-
+		
 		var key1 = Random.Range(0, temp.Count);
 		partCodes[0] = temp[key1];
 		temp.Remove(key1);
+		
+		RandNum(partCodes[0], ref temp);
 		
 		var key2 = Random.Range(0, temp.Count);
 		partCodes[1] = temp[key2];
 		temp.Remove(key2);
 		
+		RandNum(partCodes[1], ref temp);
+
 		var key3 = Random.Range(0, temp.Count);
 		partCodes[2] = temp[key3];
 		temp.Remove(key3);
+		
+		temp.Clear();
 		
 		return partCodes;
 	}
 
 	private void RandNum(int num, ref List<int> index)
 	{
-		if (num == 0)
-			return;
-
 		var cindex = index.FindIndex((x) => x.Equals(num));
-		index.Remove(cindex);
+		if(cindex != -1) index.RemoveAt(cindex);
 	}
 }
