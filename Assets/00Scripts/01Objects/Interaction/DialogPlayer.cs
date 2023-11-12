@@ -13,6 +13,7 @@ public class DialogPlayer : MonoBehaviour
 
 	[Header("다이얼로그 Play중인지")] 
 	[ReadOnly(false)] public bool isDialogPlay = false;
+	private bool isDialogEnd = false;
 
 	public void SetDialogPlay(bool play)
 	{
@@ -34,10 +35,16 @@ public class DialogPlayer : MonoBehaviour
 	{
 		while (isDialogPlay == true)
 		{
+			isDialogEnd = true;
 			yield return null;
 		}
 
-		yield return new WaitForSeconds(1.0f);
+		if (isDialogEnd == true)
+		{
+			isDialogEnd = false;
+			yield return new WaitForSeconds(1.0f);	
+		}
+		
 		dialogController.SetDialogData(curDialogData);
 		dialogController.Play();
 	}
