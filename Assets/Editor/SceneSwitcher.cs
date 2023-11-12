@@ -45,7 +45,7 @@ namespace UnityToolbarExtender.Examples
 
             if (GUILayout.Button(new GUIContent("StartGame", "최초 세팅 씬부터 게임을 진입합니다."), ToolbarStyles.commandButtonStyle))
             {
-                string[] guids = AssetDatabase.FindAssets("TitleScene", new[] { "Assets/01Scenes/GameScene" });
+                string[] guids = AssetDatabase.FindAssets("InitScene", new[] { "Assets/01Scenes/GameScene" });
                 SceneHelper.StartScene(guids[0], true);
             }
         }

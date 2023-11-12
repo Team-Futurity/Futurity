@@ -1,20 +1,26 @@
 using Spine.Unity;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class ExitAniamtion : MonoBehaviour
+public class ExitAnimation : MonoBehaviour
 {
-	[Header("Component")] 
-	private ChapterMoveController chapterMoveController;
+	[Header("컷 씬 사용 여부")]
+	[SerializeField] private bool isUseCutScene;
+	[SerializeField] private ECutSceneType cutSceneType;
+	
+	[Header("Component")]
 	[SerializeField] private SkeletonAnimation doorAnimation;
 	[SerializeField] private float delayTime = 1.5f;
+	private ChapterMoveController chapterMoveController;
 
 	[Header("조건")] 
 	[SerializeField] private int enableCondition;
 	[SerializeField, ReadOnly(false)] private int curCount;
 
 	private ObjectIndicator objectIndicator;
+	private IEnumerator doorOpen;
 
 	public void PlusCurCount()
 	{
@@ -27,6 +33,12 @@ public class ExitAniamtion : MonoBehaviour
 
 		gameObject.GetComponent<BoxCollider>().enabled = true;
 		Invoke(nameof(ActiveIndicator), 1.8f);
+	}
+
+	public void DoorOpenWait(UnityAction action = null)
+	{
+		doorOpen = DoorOpen(action);
+		StartCoroutine(doorOpen);
 	}
 	
 	private void Start()
@@ -59,6 +71,17 @@ public class ExitAniamtion : MonoBehaviour
 	
 	private void CheckMoveStage(InputAction.CallbackContext context)
 	{
+		if (isUseCutScene == true)
+		{
+			objectIndicator.DeactiveIndicator();
+			
+			chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
+			InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
+			TimelineManager.Instance.EnableCutScene(cutSceneType);
+
+			return;
+		}
+		
 		StartCoroutine(WaitDoorOpen());
 	}
 
@@ -75,6 +98,16 @@ public class ExitAniamtion : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 
+	private IEnumerator DoorOpen(UnityAction action)
+	{
+		InputActionManager.Instance.DisableActionMap();
+		doorAnimation.AnimationState.SetAnimation(0, "open", false);
+		
+		yield return new WaitForSeconds(delayTime);
+		
+		action?.Invoke();
+	}
+	
 	private void ActiveIndicator()
 	{
 		objectIndicator.ActivateIndicator(gameObject);
