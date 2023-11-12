@@ -9,6 +9,10 @@ public class ExitAnimation : MonoBehaviour
 	[Header("컷 씬 사용 여부")]
 	[SerializeField] private bool isUseCutScene;
 	[SerializeField] private ECutSceneType cutSceneType;
+
+	[Header("조건 불만족 컷 씬 사용 여부")] 
+	[SerializeField] private bool isConditionCutScene = false;
+	[SerializeField] private UnityEvent conditionEvent;
 	
 	[Header("Component")]
 	[SerializeField] private SkeletonAnimation doorAnimation;
@@ -34,7 +38,7 @@ public class ExitAnimation : MonoBehaviour
 		gameObject.GetComponent<BoxCollider>().enabled = true;
 		Invoke(nameof(ActiveIndicator), 1.8f);
 	}
-
+	
 	public void DoorOpenWait(UnityAction action = null)
 	{
 		doorOpen = DoorOpen(action);
@@ -78,6 +82,16 @@ public class ExitAnimation : MonoBehaviour
 			chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
 			InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 			TimelineManager.Instance.EnableCutScene(cutSceneType);
+
+			return;
+		}
+
+		if (isConditionCutScene == true && curCount < enableCondition)
+		{
+			conditionEvent?.Invoke();
+			
+			chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
+			gameObject.GetComponent<BoxCollider>().enabled = false;
 
 			return;
 		}
