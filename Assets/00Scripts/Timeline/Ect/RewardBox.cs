@@ -21,8 +21,7 @@ public class RewardBox : MonoBehaviour
 
 	[Header("Effect")] 
 	[SerializeField] private GameObject boxEffect;
-
-	public int[] partDataBase = { 
+	
 	private int[] partDataBase = { 
 		2201, 2202,							// Active
 		2101, 2102, 2103, 2104, 2105	// Passive
