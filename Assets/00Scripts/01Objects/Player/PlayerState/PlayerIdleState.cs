@@ -15,6 +15,8 @@ public class PlayerIdleState : UnitState<PlayerController>
 		{
 			pc.ChangeState(PlayerState.Move);
 		}
+
+		FDebug.Log("Enter IDle");
 	}
 
 	public override void Update(PlayerController pc)
@@ -31,7 +33,7 @@ public class PlayerIdleState : UnitState<PlayerController>
 
 	public override void End(PlayerController pc)
 	{
-
+		FDebug.Log("Exit IDle");
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

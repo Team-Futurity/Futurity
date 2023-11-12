@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 using System.Linq;
+using Unity.VisualScripting;
 
 public interface IFSM{ }
 
@@ -115,6 +116,28 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		}
 	}
 
+	public bool IsChangableState(ValueType nextEnumState)
+	{
+		UnitState<Unit> state = null;
+		if (GetState(nextEnumState, ref state))
+		{
+			return IsChangableState(state);
+		}
+
+		return false;
+	}
+
+	public bool IsChangableState(UnitState<Unit> nextState)
+	{
+		int currentStateIndex = GetStateOrder(currentState);
+		int nextStateIndex = GetStateOrder(nextState);
+
+		if (currentState == null || nextState == null) { return false; }
+		if (stateChangeConditions == null) { return false; }
+
+		return stateChangeConditions.GetChangable(currentStateIndex, nextStateIndex) && currentState.IsChangable(unit, nextState);
+	}
+
 	public void ChangeState(ValueType nextEnumState)
 	{
 		UnitState<Unit> state = null;
@@ -130,8 +153,6 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		{
 			int currentStateIndex = GetStateOrder(currentState);
 			int nextStateIndex = GetStateOrder(nextState);
-
-			
 
 			if (currentState != null)
 			{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -324,7 +325,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Normal Attack
 	public PlayerInputData NAProcess(InputAction.CallbackContext context)
 	{
-		// 피격 중이거나, 스턴 상태면 리턴
+		/*// 피격 중이거나, 스턴 상태면 리턴
 		if (playerData.isStun || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
@@ -344,7 +345,28 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			var findedInput = FindInput(PlayerInputEnum.NormalAttack);
 
 			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", findedInput?.name);
+		}*/
+
+		if(playerData.isStun) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+
+		bool isAttackProcess = IsAttackProcess(true);
+		if (IsChangableState(PlayerState.AttackDelay) && !isAttackProcess)
+		{
+			StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack);
+
+			return GetInputData(PlayerInputEnum.NormalAttack, true, currentAttackState.ToString(), curNode.name);
 		}
+
+		if(isAttackProcess)
+		{
+			SetNextCombo(PlayerInputEnum.NormalAttack);
+
+			var findedInput = FindInput(PlayerInputEnum.NormalAttack);
+
+			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", findedInput?.name);
+		}
+
+		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
 	// Special Attack
