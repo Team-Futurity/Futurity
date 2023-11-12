@@ -39,7 +39,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		AttackAsset attackAsset = attackNode.GetAttackAsset(pc.partSystem.GetEquiped75PercentPointPartCode());
 
 		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
-		if(attackAsset == null || attackAsset.effectPoolManager == null ) { FDebug.LogError("[PlayerAnimationEvents] attackAsset or attackAsset.effectPoolManager is Null. Please Check to Command Graph or Script"); return; }
+		if(attackAsset == null || attackAsset.effectPoolManager == null ) 
+		{ 
+			FDebug.Log("[PlayerAnimationEvents] attackAsset or attackAsset.effectPoolManager is Null. If process is not working, Please Check to Command Graph or Script"); 
+			return; 
+		}
 
 		Quaternion rotation = Quaternion.identity;
 		Vector3 position = Vector3.zero;
