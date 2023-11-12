@@ -56,8 +56,10 @@ public class UIPartSelectButton : UIButton
 			partTypeImage.sprite = activeImage;
 			activeObj.SetActive(true);
 			passiveObj.SetActive(false);
-
-			infoText.text = LoadPartData(code).coreInfoText;
+			
+			var data = LoadPartData(code);
+			infoText.text = data.coreInfoText;
+			ChangeResource(data, true);
 		}
 		else
 		{
@@ -65,7 +67,7 @@ public class UIPartSelectButton : UIButton
 			passiveObj.SetActive(true);
 			activeObj.SetActive(false);
 			
-			ChangeResource(LoadPartData(code), true);
+			ChangeResource(LoadPartData(code));
 		}
 		
 		partCode = code;
