@@ -12,7 +12,7 @@ public class EnemyHittedState : StateBase
 
 	Vector3 direction;
 
-	private EffectActiveData effectData = new EffectActiveData();
+/*	private EffectActiveData effectData = new EffectActiveData();
 	public EnemyHittedState()
 	{
 		effectData.activationTime = EffectActivationTime.Hit;
@@ -20,18 +20,15 @@ public class EnemyHittedState : StateBase
 		effectData.index = 0;
 		effectData.parent = null;
 		effectData.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
-	}
+	}*/
 
 	public override void Begin(EnemyController unit)
 	{
 		curTime = 0;
 		
 		unit.copyUMat.SetColor(unit.matColorProperty, unit.damagedColor);
-		effectData.position = unit.transform.position + new Vector3(0, 1.0f, 0);
-		unit.currentEffectData = effectData;
-
-		unit.effectController.ActiveEffect(effectData.activationTime, effectData.target, effectData.position, effectData.rotation, effectData.parent, effectData.index, 0, false);
-
+		//effectData.position = unit.transform.position + new Vector3(0, 1.0f, 0);
+		//unit.currentEffectData = effectData;
 
 		PrintAnimation(unit);
 		unit.enemyData.AlterAnimationSpeed(unit.stopFrameCount, unit.skipFrameCountBeforeStop, 0, 1);

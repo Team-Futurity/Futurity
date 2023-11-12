@@ -6049,6 +6049,7 @@ GameObject:
   - component: {fileID: 1070719927369175189}
   - component: {fileID: 1070719927369175188}
   - component: {fileID: 8474775642207685257}
+  - component: {fileID: 3804070668992339993}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -6287,6 +6288,7 @@ MonoBehaviour:
   basicCollider: {fileID: 1070719927369175189}
   chargeCollider: {fileID: 5059480837882135986}
   effectSO: {fileID: 11400000, guid: c255091b71c6cb0458bca0957821ffd2, type: 2}
+  hitEffectDatabase: {fileID: 3804070668992339993}
   rmController: {fileID: 389426774204208751}
   playerAnimationEvents: {fileID: 8346341091200553560}
   camera: {fileID: 0}
@@ -6602,6 +6604,31 @@ MonoBehaviour:
   onPartDeactive:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3804070668992339993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199333450892302302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2313c28da7133148a16d0e52caee222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffectByParts:
+  - partCode: 404
+    hitEffectPrefab: {fileID: 829699877072059709, guid: 82fb583d481bbca4daad235721e4ac7e, type: 3}
+    hitEffectOffset: {x: 0, y: 0, z: 0}
+  - partCode: 2106
+    hitEffectPrefab: {fileID: 4395905317358071674, guid: 30895a7d7cd2e6d4f8297fa818ac5c90, type: 3}
+    hitEffectOffset: {x: 0, y: 0, z: 0}
+  - partCode: 2104
+    hitEffectPrefab: {fileID: 8976240204836363956, guid: 0f6fbff72d1af034c8db2f51853e73e1, type: 3}
+    hitEffectOffset: {x: 0, y: 0, z: 0}
+  - partCode: 2103
+    hitEffectPrefab: {fileID: 5629541814004231293, guid: c346ba84de672bc48bdc616688797aa7, type: 3}
+    hitEffectOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &923691493022789110
 PrefabInstance:
   m_ObjectHideFlags: 0
