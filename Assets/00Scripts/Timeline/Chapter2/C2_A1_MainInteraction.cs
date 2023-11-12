@@ -4,7 +4,6 @@ using UnityEngine.Events;
 public class C2_A1_MainInteraction : CutSceneBase
 {
 	[Header("추가 Component")]
-	[SerializeField] private Collider interactionCollider;
 	[SerializeField] private UnityEvent disableEvent;
 	
 	protected override void Init()
@@ -15,12 +14,15 @@ public class C2_A1_MainInteraction : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		base.EnableCutScene();
+		
+		chapterManager.SetActiveMainUI(false);
 	}
 
 	protected override void DisableCutScene()
 	{
-		interactionCollider.enabled = false;
 		disableEvent?.Invoke();
+		
+		chapterManager.SetActiveMainUI(true);
 	}
 
 	public void C2A1_InteractionScripting()
