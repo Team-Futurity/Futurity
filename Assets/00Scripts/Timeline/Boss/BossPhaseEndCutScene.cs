@@ -1,17 +1,23 @@
+using Spine.Unity;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Animation = Spine.Animation;
 
 public class BossPhaseEndCutScene : CutSceneBase
 {
 	[Header("추가 Component")]
 	[SerializeField] private Animator bossAnimator;
 	[SerializeField] private BossController bossController;
+
+	[Header("일러스트 컷 씬")] 
+	[SerializeField] private SkeletonGraphic skeletonGraphic;
 	
 	[Header("Init Text")] 
 	[SerializeField] private TextMeshProUGUI textField;
-	[SerializeField] private string initText;
+	[SerializeField] private string[] initText;
 	[SerializeField] private float delayTime = 0.05f;
+	[SerializeField] private float waitTime = 1.5f;
 
 	private readonly int BOSS_DEATH_KEY = Animator.StringToHash("Death");
 	private IEnumerator printText;
@@ -43,32 +49,35 @@ public class BossPhaseEndCutScene : CutSceneBase
 		base.StartScripting();
 	}
 
-	public void StartStartSkeletonCutScene()
+	public void StartSkeletonCutSceneWithText()
 	{
-		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
+		cutScene.Pause();
+		StartCoroutine(PrintTextAndPlaySkeleton());
 	}
 
 	public void BossDeathAnimation(bool enable)
 	{
 		bossAnimator.SetBool(BOSS_DEATH_KEY, enable);
 	}
-	
-	public void StartPrintText()
-	{
-		textField.text = "";
-		cutScene.Pause();
 
-		printText = PrintText();
-		StartCoroutine(printText);
-	}
-
-	private IEnumerator PrintText()
+	private IEnumerator PrintTextAndPlaySkeleton()
 	{
-		foreach (char text in initText)
+		int curIndex = 0;
+
+		while (curIndex < 2)
 		{
-			textField.text += text;
+			Animation ani = skeletonGraphic.Skeleton.Data.Animations.Items[curIndex];
+			skeletonGraphic.AnimationState.SetAnimation(0, ani, false);
 
-			yield return waitForSeconds;
+			foreach (char text in initText[curIndex])
+			{
+				textField.text += text;
+				yield return delayTime;
+			}
+
+			yield return new WaitForSeconds(waitTime);
+			textField.text = "";
+			curIndex++;
 		}
 		
 		cutScene.Resume();
