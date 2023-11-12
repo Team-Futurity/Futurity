@@ -372,7 +372,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Special Attack
 	public PlayerInputData SAProcess(InputAction.CallbackContext context)
 	{
-		// 피격 중이거나, 스턴 상태면 리턴
+		/*// 피격 중이거나, 스턴 상태면 리턴
 		if (playerData.isStun || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
@@ -404,7 +404,44 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 		}
 		
-		return GetInputData(PlayerInputEnum.SpecialAttack, false);
+		return GetInputData(PlayerInputEnum.SpecialAttack, false);*/
+
+		if (playerData.isStun) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+
+		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
+
+		if (context.started)
+		{
+			bool isAttackProcess = IsAttackProcess(true);
+			if (IsChangableState(PlayerState.AttackDelay) && !isAttackProcess)
+			{
+				StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
+
+				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), state == PlayerState.NormalAttack ? curNode.name : "Pressed");
+			}
+
+			if (isAttackProcess)
+			{
+				if (firstBehaiviorNode.command == PlayerInputEnum.NormalAttack)
+				{
+					SetNextCombo(PlayerInputEnum.SpecialAttack);
+					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
+				}
+			}
+		}
+		else
+		{
+			if (context.canceled && IsChangableState(PlayerState.AttackAfterDelay) && currentAttackState == PlayerState.ChargedAttack)
+			{
+				specialIsReleased = true;
+				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), "Released");
+			}
+		}
+
+
+		
+
+		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
 	// Special Move

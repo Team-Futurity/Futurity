@@ -83,9 +83,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		pc = unit;
 		unit.playerData.EnableAttackTime();
 		unit.playerData.EnableAttackTiming();
-
-		// collider
-		unit.chargeCollider.enabled = true;
 	}
 
 	public override void End(PlayerController unit)
@@ -184,8 +181,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			level = currentTime > IncreasesByLevel[currentLevel].LevelStandard ? currentLevel + 1 : currentLevel;
 			//level = (int)(currentTime / LevelStandard);
 			level = Mathf.Clamp(level, 0, MaxLevel - 1);
-
-			FDebug.Log(rangeEffect);
+			
 			if (rangeEffect != null)
 			{
 				float spendingTime = currentLevel == 0 ? IncreasesByLevel[currentLevel].LevelStandard : IncreasesByLevel[currentLevel].LevelStandard - IncreasesByLevel[currentLevel - 1].LevelStandard;
@@ -199,12 +195,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 				unit.effectController.SetEffectLevel(ref chargeEffectKey, currentLevel);
 
-				FDebug.Log(currentLevel + "_" + chargeEffectKey.EffectObject.name + "_" + chargeEffectKey.IsTrackingEffect());
-
 				unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
 				rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * attackLengthMark * MathPlus.cm2m);
 				attackLengthMark = unit.curNode.attackLengthMark + IncreasesByLevel[currentLevel].LengthMarkIncreasing;
 			}
+
+			unit.rigid.velocity = Vector3.zero;
 		}
 		else
 		{
@@ -229,6 +225,9 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			// 별도 처리
 			originScale = unit.basicCollider.radius;
+
+			// collider
+			unit.chargeCollider.enabled = true;
 
 			unit.chargeCollider.enabled = false;
 			unit.chargeCollider.enabled = true;
