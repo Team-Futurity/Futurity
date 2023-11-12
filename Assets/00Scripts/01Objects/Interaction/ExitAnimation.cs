@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ExitAniamtion : MonoBehaviour
+public class ExitAnimation : MonoBehaviour
 {
 	[Header("컷 씬 사용 여부")]
 	[SerializeField] private bool isUseCutScene;
