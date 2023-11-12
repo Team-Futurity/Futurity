@@ -41,7 +41,7 @@ public class EnemyAttackBaseState : StateBase
 	}
 
 
-	protected void AttackAnim(EnemyController unit, float curTime, float maxTime)
+	protected virtual void AttackAnim(EnemyController unit, float curTime, float maxTime)
 	{
 		if (curTime > maxTime)
 		{
