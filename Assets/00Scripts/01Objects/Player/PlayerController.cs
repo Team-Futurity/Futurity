@@ -438,9 +438,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 		}
 
-
-		
-
 		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
