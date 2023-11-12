@@ -58,6 +58,16 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 		{
 			MoveNextChapter();
 		}
+		
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_BETA);
+		}
+		
+		if (Input.GetKeyDown(KeyCode.N))
+		{
+			TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_ALPHA);
+		}
 	}
 	
 	public void MoveNextChapter()
