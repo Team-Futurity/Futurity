@@ -20,6 +20,7 @@ public enum ECutSceneType
 	ACTIVE_ALPHA,
 	ACTIVE_BETA,
 	CHAPTER1_AREA3_SPAWN_2,
+	CHAPTER1_AREA3_EXIT,
 }
 
 [Serializable]

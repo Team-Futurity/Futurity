@@ -5,10 +5,14 @@ using UnityEngine.InputSystem;
 
 public class ExitAniamtion : MonoBehaviour
 {
-	[Header("Component")] 
-	private ChapterMoveController chapterMoveController;
+	[Header("컷 씬 사용 여부")]
+	[SerializeField] private bool isUseCutScene;
+	[SerializeField] private ECutSceneType cutSceneType;
+	
+	[Header("Component")]
 	[SerializeField] private SkeletonAnimation doorAnimation;
 	[SerializeField] private float delayTime = 1.5f;
+	private ChapterMoveController chapterMoveController;
 
 	[Header("조건")] 
 	[SerializeField] private int enableCondition;
@@ -59,6 +63,17 @@ public class ExitAniamtion : MonoBehaviour
 	
 	private void CheckMoveStage(InputAction.CallbackContext context)
 	{
+		if (isUseCutScene == true)
+		{
+			objectIndicator.DeactiveIndicator();
+			
+			chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
+			InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
+			gameObject.SetActive(false);
+			
+			return;
+		}
+		
 		StartCoroutine(WaitDoorOpen());
 	}
 
@@ -74,7 +89,7 @@ public class ExitAniamtion : MonoBehaviour
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 		gameObject.SetActive(false);
 	}
-
+	
 	private void ActiveIndicator()
 	{
 		objectIndicator.ActivateIndicator(gameObject);
