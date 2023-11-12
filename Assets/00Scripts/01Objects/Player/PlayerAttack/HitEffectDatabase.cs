@@ -17,7 +17,7 @@ public class HitEffectDatabase : MonoBehaviour
 
 			var hitEffect = part;
 			hitEffect.poolManager = new ObjectPoolManager<Transform>(part.hitEffectPrefab);
-			hitEffectByPartDictionary.Add(part.partCode, part);	
+			hitEffectByPartDictionary.Add(part.partCode, hitEffect);	
 		}
 	}
 
