@@ -19,6 +19,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 	public PlayerCamera playerCamera;
 	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
+	public AutoSkipButton autoSkipButton;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 
@@ -67,6 +68,14 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
+		
+		autoSkipButton.InitAutoSkipButton(scripting);
+	}
+
+	public void ResetGlitch()
+	{
+		analogGlitch.scanLineJitter.value = 0;
+		analogGlitch.colorDrift.value = 0;
 	}
 
 	private void Update()
@@ -78,14 +87,6 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		analogGlitch.scanLineJitter.value = scanLineJitter;
 		analogGlitch.colorDrift.value = colorDrift;
-	}
-	
-	public Vector3 GetTargetPosition(float distance, Vector3 forward = default(Vector3))
-	{
-		forward = (forward == Vector3.zero) ? playerModelTf.forward : forward;
-		
-		var offset = distance * forward;
-		return playerModelTf.position + offset;
 	}
 	
 	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);

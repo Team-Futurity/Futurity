@@ -11,6 +11,8 @@ public class LadderEntry : MonoBehaviour
 	[Header("Component")]
 	[SerializeField] private GameObject interactionUI;
 	[SerializeField] private SkeletonAnimation fenceSkeleton;
+	[SerializeField] private RewardBox rewardBox;
+	[SerializeField] private DialogPlayer dialogPlayer;
 	
 	[Header("설정값")]
 	[SerializeField] private float fadeTime = 0.8f;
@@ -29,7 +31,7 @@ public class LadderEntry : MonoBehaviour
 			return;
 		}
 		
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, StartDownLadder);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, StartDownLadder, true);
 		interactionUI.SetActive(true);
 	}
 	
@@ -40,12 +42,20 @@ public class LadderEntry : MonoBehaviour
 			return;
 		}
 		
-		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, StartDownLadder);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, StartDownLadder, true);
 		interactionUI.SetActive(false);
 	}
 
 	private void StartDownLadder(InputAction.CallbackContext context)
 	{
+		if (rewardBox.isInteraction == false)
+		{
+			dialogPlayer.StartPlayDialog(1);
+			rewardBox.isInteraction = true;
+			
+			return;
+		}
+		
 		disableEvent?.Invoke();
 		interactionUI.SetActive(false);
 		

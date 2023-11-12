@@ -213,7 +213,10 @@ public class PlayerAnimationEvents : MonoBehaviour
 		float[] value = ConvertStringToFloatArray(str);
 
 		// attackNode = pc.curNode;
-		pc.camera.CameraShake(value[0], value[1]);
+		if(pc.camera != null)
+		{
+			pc.camera.CameraShake(value[0], value[1]);
+		}
 	}
 	
 	// 플레이어 피격에 대한 HitStop
@@ -250,6 +253,17 @@ public class PlayerAnimationEvents : MonoBehaviour
 		}
 		
 		pc.camera.TimeScaleManager.StartAttackSlowMotion(index);
+	}
+
+	public void StartChromaticAberration(string values)
+	{
+		if (CheckEnemyInAttackRange() == false)
+		{
+			return;
+		}
+		
+		float[] value = ConvertStringToFloatArray(values);
+		pc.camera.StartChromaticAberration(value[0], value[1]);
 	}
 	
 	private IEnumerator HitStopWithCamShake(float hitStopTime, float velocity, float duration)

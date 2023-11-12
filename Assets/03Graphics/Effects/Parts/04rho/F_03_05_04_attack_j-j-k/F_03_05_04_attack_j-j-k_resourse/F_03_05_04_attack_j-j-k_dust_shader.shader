@@ -7,7 +7,9 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[ASEBegin]_TextureSample0("Texture Sample 0", 2D) = "white" {}
-		[ASEEnd]_color_intensity("color_intensity", Float) = 1
+		_color_intensity("color_intensity", Float) = 1
+		[Toggle]_ToggleSwitch0("Toggle Switch0", Float) = 0
+		[ASEEnd]_Color0("Color 0", Color) = (0.3584906,0.3584906,0.3584906,0)
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -197,7 +199,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceData.hlsl"
 
-			
+			#define ASE_NEEDS_FRAG_COLOR
+
 
 			struct VertexInput
 			{
@@ -228,6 +231,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample0_ST;
+			float4 _Color0;
+			float _ToggleSwitch0;
 			float _color_intensity;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -403,8 +408,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
-				float3 Color = ( ( IN.ase_color * _color_intensity ) * ( tex2DNode10.a * ( 1.0 - pow( saferPower11 , 10.0 ) ) ) ).rgb;
-				float Alpha = saturate( tex2DNode10.a );
+				float3 Color = (( _ToggleSwitch0 )?( _Color0 ):( ( ( IN.ase_color * _color_intensity ) * ( tex2DNode10.a * ( 1.0 - pow( saferPower11 , 10.0 ) ) ) ) )).rgb;
+				float Alpha = saturate( ( IN.ase_color.a * tex2DNode10.a ) );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -470,6 +475,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -483,6 +489,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 					float4 shadowCoord : TEXCOORD1;
 				#endif
+				float4 ase_color : COLOR;
 				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -490,6 +497,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample0_ST;
+			float4 _Color0;
+			float _ToggleSwitch0;
 			float _color_intensity;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -515,6 +524,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -575,6 +585,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -593,6 +604,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -632,6 +644,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -673,7 +686,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				float4 tex2DNode10 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				float Alpha = saturate( tex2DNode10.a );
+				float Alpha = saturate( ( IN.ase_color.a * tex2DNode10.a ) );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -725,6 +738,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -738,6 +752,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 				float4 shadowCoord : TEXCOORD1;
 				#endif
+				float4 ase_color : COLOR;
 				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -745,6 +760,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample0_ST;
+			float4 _Color0;
+			float _ToggleSwitch0;
 			float _color_intensity;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -767,6 +784,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -810,6 +828,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -828,6 +847,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -867,6 +887,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -908,7 +929,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				float4 tex2DNode10 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				float Alpha = saturate( tex2DNode10.a );
+				float Alpha = saturate( ( IN.ase_color.a * tex2DNode10.a ) );
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -960,6 +981,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -967,6 +989,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -974,6 +997,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample0_ST;
+			float4 _Color0;
+			float _ToggleSwitch0;
 			float _color_intensity;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1007,6 +1032,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1039,6 +1065,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -1057,6 +1084,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -1096,6 +1124,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1122,7 +1151,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				float4 tex2DNode10 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.Alpha = saturate( tex2DNode10.a );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * tex2DNode10.a ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1174,6 +1203,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1181,6 +1211,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -1188,6 +1219,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample0_ST;
+			float4 _Color0;
+			float _ToggleSwitch0;
 			float _color_intensity;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1221,6 +1254,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1248,6 +1282,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -1266,6 +1301,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -1305,6 +1341,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1331,7 +1368,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				float4 tex2DNode10 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.Alpha = saturate( tex2DNode10.a );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * tex2DNode10.a ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1392,6 +1429,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1400,6 +1438,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 clipPos : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -1407,6 +1446,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample0_ST;
+			float4 _Color0;
+			float _ToggleSwitch0;
 			float _color_intensity;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1437,6 +1478,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord1.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1471,6 +1513,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -1489,6 +1532,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -1528,6 +1572,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1554,7 +1599,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				float4 tex2DNode10 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.Alpha = saturate( tex2DNode10.a );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * tex2DNode10.a ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1616,6 +1661,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1624,6 +1670,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 clipPos : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -1631,6 +1678,8 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample0_ST;
+			float4 _Color0;
+			float _ToggleSwitch0;
 			float _color_intensity;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1660,6 +1709,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord1.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1694,6 +1744,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -1712,6 +1763,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -1751,6 +1803,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1777,7 +1830,7 @@ Shader "F_03_05_04_attack_j-j-k_dust_shader"
 				float4 tex2DNode10 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.Alpha = saturate( tex2DNode10.a );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * tex2DNode10.a ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1817,23 +1870,30 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.SamplerNode;10;-774.9668,-17.71994;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;001e6371834fd4e4bbf427adcc316f24;001e6371834fd4e4bbf427adcc316f24;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.OneMinusNode;12;-248.1821,210.3588;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-73.59695,18.01921;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;15;-323.4111,-325.5977;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.VertexColorNode;14;-530.0856,-421.5131;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;-120.8369,-265.6672;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;378.7793,-277.8962;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;F_03_05_04_attack_j-j-k_dust_shader;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638339051893896858;  Blend;0;0;Two Sided;0;638339051906554996;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.SaturateNode;18;0.09677029,-165.3544;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;16;-524.9724,-221.9602;Inherit;False;Property;_color_intensity;color_intensity;1;0;Create;True;0;0;0;False;0;False;1;10;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PowerNode;11;-486.5414,205.6347;Inherit;True;True;2;0;FLOAT;0;False;1;FLOAT;10;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;19;-169.0872,-160.2809;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;402.6512,-268.9442;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;F_03_05_04_attack_j-j-k_dust_shader;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638339051893896858;  Blend;0;0;Two Sided;0;638339051906554996;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;15;-627.8624,-275.8043;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.VertexColorNode;14;-834.5366,-371.7197;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;16;-829.4235,-172.1668;Inherit;False;Property;_color_intensity;color_intensity;1;0;Create;True;0;0;0;False;0;False;1;10;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;20;100.9351,-272.4146;Inherit;False;Property;_ToggleSwitch0;Toggle Switch0;2;0;Create;True;0;0;0;False;0;False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;21;-170.2948,-437.4848;Inherit;False;Property;_Color0;Color 0;3;0;Create;True;0;0;0;False;0;False;0.3584906,0.3584906,0.3584906,0;0.3584906,0.3584906,0.3584906,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;12;0;11;0
 WireConnection;13;0;10;4
 WireConnection;13;1;12;0
-WireConnection;15;0;14;0
-WireConnection;15;1;16;0
 WireConnection;17;0;15;0
 WireConnection;17;1;13;0
-WireConnection;1;2;17;0
-WireConnection;1;3;18;0
-WireConnection;18;0;10;4
+WireConnection;18;0;19;0
 WireConnection;11;0;10;4
+WireConnection;19;0;14;4
+WireConnection;19;1;10;4
+WireConnection;1;2;20;0
+WireConnection;1;3;18;0
+WireConnection;15;0;14;0
+WireConnection;15;1;16;0
+WireConnection;20;0;17;0
+WireConnection;20;1;21;0
 ASEEND*/
-//CHKSM=CF6429C636FF3D77C7983D4403B169A0899153AF
+//CHKSM=62B8D776D5C8DBC6F5AA6410784583785B7BCFC5

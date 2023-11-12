@@ -28,13 +28,19 @@ public class PlayerCamera : MonoBehaviour
 	[Header("Vignette")]
 	[SerializeField] private float maxIntensity = 0.6f;
 	[SerializeField] private float changeSpeed = 1.5f;
-	[SerializeField, ReadOnly(false)] private bool isVignetteActive = false; 
+	[SerializeField, ReadOnly(false)] private bool isVignetteActive = false;
+
+	[Space(3)] 
+	[Header("Chromatic Aberration")] 
+	[SerializeField] private float fadeOutTime = 0.3f;
 	private Volume volume;
 	private Vignette vignette;
+	private ChromaticAberration chromaticAberration;
 	public Vignette Vignette => vignette;
 
 	// Coroutine
 	private IEnumerator playerHitEffect;
+	private IEnumerator chromaticEffect;
 	private WaitForSeconds waitForSeconds;
 	
 	public void Awake()
@@ -59,7 +65,31 @@ public class PlayerCamera : MonoBehaviour
 		impulseSource.m_ImpulseDefinition.m_ImpulseDuration = duration;
 		impulseSource.GenerateImpulseWithForce(velocity);
 	}
-	
+
+	public void StartChromaticAberration(float intensity, float duration)
+	{
+		chromaticEffect = ChromaticAberration(intensity, duration);
+		StartCoroutine(chromaticEffect);
+	}
+
+	private IEnumerator ChromaticAberration(float intensity, float duration)
+	{
+		chromaticAberration.intensity.value = intensity;
+
+		yield return new WaitForSeconds(duration);
+
+		float curTime = 0;
+		while (chromaticAberration.intensity.value > 0)
+		{
+			curTime += Time.deltaTime;
+			chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, 0,
+				curTime / fadeOutTime);
+			
+			yield return null;
+		}
+
+		chromaticAberration.intensity.value = 0;
+	}
 	#endregion
 	
 	#region Vignette
@@ -122,7 +152,7 @@ public class PlayerCamera : MonoBehaviour
 		
 		// vignette
 		volume = Camera.main.GetComponent<Volume>();
-		if (volume != null && volume.profile.TryGet(out vignette))
+		if (volume != null && volume.profile.TryGet(out vignette) && volume.profile.TryGet(out chromaticAberration))
 		{
 			FDebug.Log("Init Success");
 		}

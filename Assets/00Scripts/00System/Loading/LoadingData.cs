@@ -6,7 +6,7 @@ using UnityEngine;
 public class LoadingData : ScriptableObject
 {
 	public Sprite cctveImage;
+	
+	[TextArea]
 	public string cctvText;
-
-	public string newsText;
 }

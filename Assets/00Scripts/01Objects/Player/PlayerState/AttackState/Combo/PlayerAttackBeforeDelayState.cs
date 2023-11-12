@@ -70,7 +70,12 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		// sound
 		if (isCombo)
 		{
-			AudioManager.Instance.PlayOneShot(attackNode.GetAttackAsset(pc.partSystem.GetEquiped75PercentPointPartCode()).attackSound, pc.transform.position);
+			var asset = attackNode.GetAttackAsset(pc.partSystem.GetEquiped75PercentPointPartCode());
+
+			if(asset != null)
+			{
+				AudioManager.Instance.PlayOneShot(asset.attackSound, pc.transform.position);
+			}
 		}
 	}
 

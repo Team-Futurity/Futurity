@@ -104,6 +104,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public BoxCollider chargeCollider;
 	public EffectController effectController;
 	public EffectDatas effectSO;
+	public HitEffectDatabase hitEffectDatabase;
 	//public BuffProvider buffProvider;
 	public RootMotionContoller rmController;
 	public PlayerAnimationEvents playerAnimationEvents;
@@ -168,6 +169,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		{
 			DebugLogger.PrintDebugErros(msgs, typeof(PlayerController), DebugTypeEnum.Log);
 		}
+
+		// effect 2
+		hitEffectDatabase.SetHitEffectDatabase();
 
 		// Animator Init
 		animator.SetInteger(ComboAttackAnimaKey, NullState);
@@ -392,13 +396,15 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		// 해당 부분에서 Part Data를 받아와서 Part가 실행될 수 있도록 해야함.
 		// PartCode에 따라서 Switch 필요 
 		if(partSystem.GetActivePartCode() == 2202)
+		{
 			activePartController.RunActivePart(this, playerData, SpecialMoveType.Beta);
+			return GetInputData(PlayerInputEnum.SpecialMove, true, SpecialMoveType.Beta.ToString());
+		}
 		else
 		{
 			activePartController.RunActivePart(this, playerData, SpecialMoveType.Basic);
+			return GetInputData(PlayerInputEnum.SpecialMove, true, SpecialMoveType.Basic.ToString());
 		}
-		
-		return GetInputData(PlayerInputEnum.SpecialAttack, true, SpecialMoveType.Basic.ToString());
 	}
 	#endregion
 
@@ -518,26 +524,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}*/
 	#endregion
 
-	public AttackNode FindInput(PlayerInputEnum input)
-	{
-		AttackNode compareNode = curNode.childNodes.Count == 0 ? commandTree.Top : curNode;
-		PlayerInputEnum nextNodeInput = input;
-
-		if(commandTree.IsTopNode(compareNode)															// 하나의 콤보가 모두 끝난 상태이고,
-			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // 콤보를 진행 중이며,
-			&& firstBehaiviorNode.command != input)											// 해당 콤보가 입력값과 다르다면
-		{
-			nextNodeInput = firstBehaiviorNode.command;
-
-			return null;
-		}
-
-		AttackNode node = commandTree.FindNode(nextNodeInput, compareNode);
-
-
-		return node;
-	}
-
 	public void SetGauntlet(bool isEnabled)
 	{
 		foreach (var gloveObj in gloveObjects)
@@ -562,12 +548,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 	}
 
-	public bool IsAttackProcess(bool isContainedAfterDelay = false)
-	{
-		bool isAttack = IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
-		return (isContainedAfterDelay ? (isAttack || IsCurrentState(PlayerState.AttackAfterDelay)) : (isAttack));
-	}
-
 	private IEnumerator DashDelayCoroutine()
 	{
 		while(true)
@@ -582,6 +562,31 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 	}
 
+	#region Combo
+	public AttackNode FindInput(PlayerInputEnum input)
+	{
+		AttackNode compareNode = curNode.childNodes.Count == 0 ? commandTree.Top : curNode;
+		PlayerInputEnum nextNodeInput = input;
+
+		if (commandTree.IsTopNode(compareNode)                                                          // 하나의 콤보가 모두 끝난 상태이고,
+			&& firstBehaiviorNode != null && firstBehaiviorNode.command != PlayerInputEnum.None // 콤보를 진행 중이며,
+			&& firstBehaiviorNode.command != input)                                         // 해당 콤보가 입력값과 다르다면
+		{
+			nextNodeInput = firstBehaiviorNode.command;
+
+			return null;
+		}
+
+		AttackNode node = commandTree.FindNode(nextNodeInput, compareNode);
+
+
+		return node;
+	}
+	public bool IsAttackProcess(bool isContainedAfterDelay = false)
+	{
+		bool isAttack = IsCurrentState(PlayerState.AttackDelay) || (IsCurrentState(PlayerState.NormalAttack) || IsCurrentState(PlayerState.ChargedAttack));
+		return (isContainedAfterDelay ? (isAttack || IsCurrentState(PlayerState.AttackAfterDelay)) : (isAttack));
+	}
 	public void ResetCombo()
 	{
 		nextCombo = PlayerInputEnum.None;
@@ -593,7 +598,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		comboGaugeSystem.ResetComboCount();
 	}
-
 	public bool NodeTransitionProc(PlayerInputEnum input, PlayerState nextAttackState)
 	{
 		if(comboIsLock) { return false; }
@@ -647,7 +651,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		lastMoveDir = Vector3.zero;
 		ChangeState(PlayerState.AttackDelay);
 	}
-
+	#endregion
 
 	#region Move
 	public void LerpToWorldPosition(Vector3 worldPos, float time)
@@ -719,6 +723,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		if (partSystem == null) { msgs.Add("partSystem is Null"); }
 		if (sariObject == null) { msgs.Add("sariObject is Null"); }
 		if (playerEffectParent == null) { msgs.Add("playerEffectParent is Null"); }
+		if (hitEffectDatabase == null) { msgs.Add("hitEffectDatabase is Null"); }
 
 		isClear = msgs.Count == 0;
 		if (isClear)

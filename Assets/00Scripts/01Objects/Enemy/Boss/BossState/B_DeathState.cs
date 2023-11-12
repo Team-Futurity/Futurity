@@ -9,6 +9,8 @@ public class B_DeathState : UnitState<BossController>
 	{
 		unit.animator.SetTrigger(unit.deathAnim);
 		unit.isDead = true;
+		
+		TimelineManager.Instance.EnableCutScene(ECutSceneType.BOSS_DEATH);
 	}
 
 	public override void End(BossController unit)
