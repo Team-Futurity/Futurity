@@ -9,6 +9,10 @@ public class BossPhaseEndCutScene : CutSceneBase
 	[Header("추가 Component")]
 	[SerializeField] private Animator bossAnimator;
 	[SerializeField] private BossController bossController;
+	[SerializeField] private UIDialogController dialogController;
+
+	[Header("다이얼로그 데이터")] 
+	[SerializeField] private DialogData dialogData;
 
 	[Header("일러스트 컷 씬")] 
 	[SerializeField] private SkeletonGraphic skeletonGraphic;
@@ -42,6 +46,9 @@ public class BossPhaseEndCutScene : CutSceneBase
 		
 		chapterManager.SetActiveMainUI(true);
 		bossController.isActive = true;
+		
+		dialogController.SetDialogData(dialogData);
+		dialogController.Play();
 	}
 	
 	public void StartScripting()
@@ -69,7 +76,7 @@ public class BossPhaseEndCutScene : CutSceneBase
 			foreach (char text in initText[curIndex])
 			{
 				textField.text += text;
-				yield return delayTime;
+				yield return waitForSeconds;
 			}
 
 			yield return new WaitForSeconds(waitTime);
