@@ -38,6 +38,9 @@ public class InteractionCutScene : CutSceneBase
 		StartScripting(enableIndex);
 	}
 
-	public void SetIndex(int index) => enableIndex = index;
+	public void SetIndex(int index)
+	{
+		enableIndex = index;
+	}
 	public void MoveStage() => ChapterMoveController.Instance.MoveNextChapter();
 }

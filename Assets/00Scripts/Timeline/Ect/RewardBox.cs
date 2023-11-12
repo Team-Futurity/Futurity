@@ -3,15 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class RewardBox : MonoBehaviour
 {
+	[Header("컷신 재생")] 
+	[SerializeField] private bool isPlayCutScene;
+	[SerializeField] private UnityEvent cutSceneEvent;
+	public void IsPlayCutScene(bool active) => isPlayCutScene = active;
+	
 	[Header("부품 컴포넌트")]
 	public UIPassivePartSelect passivePartSelect;
 	public int[] partCodes;
 	private bool isEnter;
+
+	[Header("Effect")] 
+	[SerializeField] private GameObject boxEffect;
 
 	public int[] partDataBase = { 
 		2201, 2202,							// Active
@@ -27,6 +36,15 @@ public class RewardBox : MonoBehaviour
 	[SerializeField] private Animation boxAnimations;
 	[SerializeField] private float waitTime = 0.6f;
 	private IEnumerator startAnimation;
+
+	[Header("상호작용 정보 저장")] 
+	[ReadOnly(false)] public bool isInteraction = false;
+
+	public void EnableRewardBox()
+	{
+		boxEffect.SetActive(true);
+		gameObject.GetComponent<BoxCollider>().enabled = true;
+	}
 	
 	private void OnTriggerEnter(Collider other)
 	{
@@ -52,6 +70,13 @@ public class RewardBox : MonoBehaviour
 
 	private void OnInteractRewardBox(InputAction.CallbackContext context)
 	{
+		if (isPlayCutScene == true)
+		{
+			cutSceneEvent?.Invoke();
+			ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
+			return;
+		}
+		
 		startAnimation = PlayAnimation();
 		StartCoroutine(startAnimation);
 	}
@@ -60,6 +85,7 @@ public class RewardBox : MonoBehaviour
 	{
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
+		boxEffect.SetActive(false);
 		boxAnimations.Play();
 		
 		yield return new WaitForSeconds(waitTime);
@@ -72,6 +98,7 @@ public class RewardBox : MonoBehaviour
 		passivePartSelect.SetPartData(GetPlayerEquipPartList());
 		UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
 		gameObject.GetComponent<BoxCollider>().enabled = false;
+		isInteraction = true;
 	}
 
 	private int[] GetPlayerEquipPartList()

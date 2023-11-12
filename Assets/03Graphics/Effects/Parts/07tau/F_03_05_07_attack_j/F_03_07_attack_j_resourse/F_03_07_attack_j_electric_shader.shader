@@ -411,7 +411,7 @@ Shader "F_03_07_attack_j_electric_shader"
 				float4 texCoord28 = IN.ase_texcoord3;
 				texCoord28.xy = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 texCoord15 = IN.ase_texcoord4.xy * float2( 1,2 ) + float2( 0,0 );
-				float2 panner18 = ( 1.0 * _Time.y * float2( -1,1 ) + texCoord15);
+				float2 panner18 = ( 1.0 * _Time.y * float2( -0.5,0.5 ) + texCoord15);
 				float2 uv_TextureSample1 = IN.ase_texcoord4.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
 				float smoothstepResult31 = smoothstep( 0.0 , 0.02 , tex2D( _TextureSample1, uv_TextureSample1 ).r);
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , ( tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).r * smoothstepResult31 ));
@@ -701,7 +701,7 @@ Shader "F_03_07_attack_j_electric_shader"
 				float4 texCoord28 = IN.ase_texcoord2;
 				texCoord28.xy = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 texCoord15 = IN.ase_texcoord3.xy * float2( 1,2 ) + float2( 0,0 );
-				float2 panner18 = ( 1.0 * _Time.y * float2( -1,1 ) + texCoord15);
+				float2 panner18 = ( 1.0 * _Time.y * float2( -0.5,0.5 ) + texCoord15);
 				float2 uv_TextureSample1 = IN.ase_texcoord3.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
 				float smoothstepResult31 = smoothstep( 0.0 , 0.02 , tex2D( _TextureSample1, uv_TextureSample1 ).r);
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , ( tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).r * smoothstepResult31 ));
@@ -955,7 +955,7 @@ Shader "F_03_07_attack_j_electric_shader"
 				float4 texCoord28 = IN.ase_texcoord2;
 				texCoord28.xy = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 texCoord15 = IN.ase_texcoord3.xy * float2( 1,2 ) + float2( 0,0 );
-				float2 panner18 = ( 1.0 * _Time.y * float2( -1,1 ) + texCoord15);
+				float2 panner18 = ( 1.0 * _Time.y * float2( -0.5,0.5 ) + texCoord15);
 				float2 uv_TextureSample1 = IN.ase_texcoord3.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
 				float smoothstepResult31 = smoothstep( 0.0 , 0.02 , tex2D( _TextureSample1, uv_TextureSample1 ).r);
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , ( tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).r * smoothstepResult31 ));
@@ -1188,7 +1188,7 @@ Shader "F_03_07_attack_j_electric_shader"
 				float4 texCoord28 = IN.ase_texcoord;
 				texCoord28.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 texCoord15 = IN.ase_texcoord1.xy * float2( 1,2 ) + float2( 0,0 );
-				float2 panner18 = ( 1.0 * _Time.y * float2( -1,1 ) + texCoord15);
+				float2 panner18 = ( 1.0 * _Time.y * float2( -0.5,0.5 ) + texCoord15);
 				float2 uv_TextureSample1 = IN.ase_texcoord1.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
 				float smoothstepResult31 = smoothstep( 0.0 , 0.02 , tex2D( _TextureSample1, uv_TextureSample1 ).r);
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , ( tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).r * smoothstepResult31 ));
@@ -1416,7 +1416,7 @@ Shader "F_03_07_attack_j_electric_shader"
 				float4 texCoord28 = IN.ase_texcoord;
 				texCoord28.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 texCoord15 = IN.ase_texcoord1.xy * float2( 1,2 ) + float2( 0,0 );
-				float2 panner18 = ( 1.0 * _Time.y * float2( -1,1 ) + texCoord15);
+				float2 panner18 = ( 1.0 * _Time.y * float2( -0.5,0.5 ) + texCoord15);
 				float2 uv_TextureSample1 = IN.ase_texcoord1.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
 				float smoothstepResult31 = smoothstep( 0.0 , 0.02 , tex2D( _TextureSample1, uv_TextureSample1 ).r);
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , ( tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).r * smoothstepResult31 ));
@@ -1658,7 +1658,7 @@ Shader "F_03_07_attack_j_electric_shader"
 				float4 texCoord28 = IN.ase_texcoord1;
 				texCoord28.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 texCoord15 = IN.ase_texcoord2.xy * float2( 1,2 ) + float2( 0,0 );
-				float2 panner18 = ( 1.0 * _Time.y * float2( -1,1 ) + texCoord15);
+				float2 panner18 = ( 1.0 * _Time.y * float2( -0.5,0.5 ) + texCoord15);
 				float2 uv_TextureSample1 = IN.ase_texcoord2.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
 				float smoothstepResult31 = smoothstep( 0.0 , 0.02 , tex2D( _TextureSample1, uv_TextureSample1 ).r);
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , ( tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).r * smoothstepResult31 ));
@@ -1900,7 +1900,7 @@ Shader "F_03_07_attack_j_electric_shader"
 				float4 texCoord28 = IN.ase_texcoord1;
 				texCoord28.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 texCoord15 = IN.ase_texcoord2.xy * float2( 1,2 ) + float2( 0,0 );
-				float2 panner18 = ( 1.0 * _Time.y * float2( -1,1 ) + texCoord15);
+				float2 panner18 = ( 1.0 * _Time.y * float2( -0.5,0.5 ) + texCoord15);
 				float2 uv_TextureSample1 = IN.ase_texcoord2.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
 				float smoothstepResult31 = smoothstep( 0.0 , 0.02 , tex2D( _TextureSample1, uv_TextureSample1 ).r);
 				float smoothstepResult27 = smoothstep( texCoord28.z , 1.0 , ( tex2D( _line_03, ( ( texCoord28.w * tex2D( _TextureSample0, panner18 ).r ) + texCoord15 ) ).r * smoothstepResult31 ));
@@ -1952,14 +1952,14 @@ Node;AmplifyShaderEditor.TextureCoordinatesNode;28;-1607.884,466.2931;Inherit;Fa
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-1090.79,565.3195;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;27;-252.0389,523.6648;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;30;-473.5472,638.1595;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;29;-1364.549,637.3013;Inherit;True;Property;_TextureSample1;Texture Sample 1;3;0;Create;True;0;0;0;False;0;False;-1;None;a087d351406501f4294db16d0bd11f2d;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;29;-1364.549,637.3013;Inherit;True;Property;_TextureSample1;Texture Sample 1;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SmoothstepOpNode;31;-712.9609,659.683;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0.02;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PannerNode;18;-1587.047,298.7263;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-1,1;False;1;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.VertexColorNode;25;-649.6063,59.89444;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;24;-631.9163,313.9462;Inherit;False;Property;_color_inten;color_inten;0;0;Create;True;0;0;0;False;0;False;1;3;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;194.4812,304.3292;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;F_03_07_attack_j_electric_shader;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638293359162591084;  Blend;0;0;Two Sided;0;638293359192013767;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;26;-85.18912,398.8625;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;32;49.19296,400.0429;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PannerNode;18;-1587.047,298.7263;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-0.5,0.5;False;1;FLOAT;1;False;1;FLOAT2;0
 WireConnection;23;0;25;0
 WireConnection;23;1;24;0
 WireConnection;11;1;16;0
@@ -1973,11 +1973,11 @@ WireConnection;27;1;28;3
 WireConnection;30;0;11;1
 WireConnection;30;1;31;0
 WireConnection;31;0;29;1
-WireConnection;18;0;15;0
 WireConnection;1;2;23;0
 WireConnection;1;3;32;0
 WireConnection;26;0;25;4
 WireConnection;26;1;27;0
 WireConnection;32;0;26;0
+WireConnection;18;0;15;0
 ASEEND*/
-//CHKSM=DEA8AFDF66534D02B6ABD85EF7EA08315C3E4F81
+//CHKSM=78039DB18CBAD535E2BA07822B984B53AD8824BD
