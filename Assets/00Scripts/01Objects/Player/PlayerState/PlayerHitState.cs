@@ -22,14 +22,10 @@ public class PlayerHitState : UnitState<PlayerController>
 		{
 			pc.camera?.StartHitEffectVignette();
 		}
-
-		FDebug.Log("Enter Hit");
 	}
 
 	public override void Update(PlayerController pc)
 	{
-		FDebug.Log("Hit State");
-
 		if(currentTime >= pc.hitCoolTime)
 		{
 			if (pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
@@ -53,8 +49,6 @@ public class PlayerHitState : UnitState<PlayerController>
 		//base.End(pc);
 		pc.rigid.velocity = Vector3.zero;
 		//pc.hitCoolTimeIsEnd = false;
-
-		FDebug.Log("Exit Hit");
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
