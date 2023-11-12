@@ -17,7 +17,7 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 
 	public override void Begin(EnemyController unit)
 	{
-		unit.animator.SetTrigger(unit.ragnedAnimParam);
+		//unit.animator.SetTrigger(unit.ragnedAnimParam);
 		
 		atk1.parent = unit.test.gameObject;
 		unit.currentEffectData = atk1;
@@ -28,9 +28,31 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 		
 	}
 
+	public override void Update(EnemyController unit)
+	{
+		curTime += Time.deltaTime;
+		if (!isAttack)
+		{
+			AttackAnim(unit, curTime, unit.attackBeforeDelay);
+		}
+		else
+			unit.DelayChangeState(curTime, unit.attackingDelay, unit, unit.UnitChaseState());
+	}
+
+
 	public override void End(EnemyController unit)
 	{
 		unit.atkCollider.transform.position = unit.transform.position;
 		base.End(unit);
+	}
+
+	protected override void AttackAnim(EnemyController unit, float curTime, float maxTime)
+	{
+		if (curTime > maxTime)
+		{
+			unit.animator.SetTrigger(unit.ragnedAnimParam);
+			curTime = 0f;
+			isAttack = true;
+		}
 	}
 }

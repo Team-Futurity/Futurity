@@ -58,7 +58,7 @@ public class PlayerHitState : UnitState<PlayerController>
 
 	public override void OnCollisionEnter(PlayerController unit, Collision collision)
 	{
-		throw new System.NotImplementedException();
+
 	}
 
 	public void HitProduction(PlayerController unit)
