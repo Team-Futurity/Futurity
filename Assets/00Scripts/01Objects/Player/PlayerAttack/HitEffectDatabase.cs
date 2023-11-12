@@ -15,8 +15,10 @@ public class HitEffectDatabase : MonoBehaviour
 		{
 			if (hitEffectByPartDictionary.ContainsKey(part.partCode)) { continue; }
 
+			var hitEffect = part;
+			hitEffect.poolManager = new ObjectPoolManager<Transform>(part.hitEffectPrefab);
 			hitEffectByPartDictionary.Add(part.partCode, part);	
-		}	
+		}
 	}
 
 	public HitEffectByPart? GetHitEffect(int partCode)
@@ -27,6 +29,8 @@ public class HitEffectDatabase : MonoBehaviour
 	}
 }
 
+
+[System.Serializable]
 public struct HitEffectByPart
 {
 	public int partCode;

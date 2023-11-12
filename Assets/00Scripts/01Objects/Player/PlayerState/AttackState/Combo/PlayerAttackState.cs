@@ -87,7 +87,9 @@ public class PlayerAttackState : PlayerComboAttackState
 
 				if (!hitEffect.HasValue) { FDebug.LogWarning("Database has not Correctly Effect. Please Check Part Code or Database"); return; }
 
+				info.SetHitEffecByPart(hitEffect.Value.poolManager, hitEffect.Value.hitEffectOffset);
 				info.SetHitEffect(asset.hitEffectPoolManager, asset.effectOffset);
+				info.SetHitPoint(other.bounds.ClosestPoint(unit.transform.position));
 				unit.playerData.Attack(info);
 				//HitEffectPooling(unit, enemy.transform);
 				/*if(enemyController.ThisEnemyType != EnemyType.TutorialDummy)
