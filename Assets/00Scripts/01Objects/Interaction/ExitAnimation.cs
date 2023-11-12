@@ -1,6 +1,7 @@
 using Spine.Unity;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class ExitAnimation : MonoBehaviour
@@ -31,6 +32,11 @@ public class ExitAnimation : MonoBehaviour
 
 		gameObject.GetComponent<BoxCollider>().enabled = true;
 		Invoke(nameof(ActiveIndicator), 1.8f);
+	}
+
+	public void DoorOpenWait(UnityAction action = null)
+	{
+		StartCoroutine(WaitDoorOpen(action));
 	}
 	
 	private void Start()
@@ -88,6 +94,15 @@ public class ExitAnimation : MonoBehaviour
 		chapterMoveController.DisableInteractionUI(EUIType.NEXTSTAGE);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, CheckMoveStage);
 		gameObject.SetActive(false);
+	}
+
+	private IEnumerator WaitDoorOpen(UnityAction action)
+	{
+		doorAnimation.AnimationState.SetAnimation(0, "open", false);
+		
+		yield return new WaitForSeconds(delayTime);
+		
+		action?.Invoke();
 	}
 	
 	private void ActiveIndicator()
