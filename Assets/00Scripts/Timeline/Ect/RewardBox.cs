@@ -29,6 +29,11 @@ public class RewardBox : MonoBehaviour
 
 	private void OnDisable()
 	{
+		if (InputActionManager.Instance == null)
+		{
+			return;
+		}
+		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 

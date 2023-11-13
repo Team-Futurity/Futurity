@@ -21,6 +21,11 @@ public class ActiveCutScene : CutSceneBase
 	{
 		chapterManager.SetActiveMainUI(false);
 
+		if (dialogWindow == null)
+		{
+			return;
+		}
+		
 		originYPos = dialogWindow.anchoredPosition.y;
 		SetRectYPos(MOVE_YPOS);
 	}
@@ -29,6 +34,12 @@ public class ActiveCutScene : CutSceneBase
 	{
 		Time.timeScale = 1.0f;
 		chapterManager.SetActiveMainUI(true);
+		
+		if (dialogWindow == null)
+		{
+			return;
+		}
+		
 		SetRectYPos(originYPos);
 	}
 
