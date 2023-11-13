@@ -117,6 +117,8 @@ public abstract class CutSceneBase : MonoBehaviour
 			
 			FadeManager.Instance.FadeOut(0.5f);
 		}
+
+		TimelineManager.Instance.isCutScenePlaying = false;
 	}
 
 	private void InitSkeletonQueue()
