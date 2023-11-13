@@ -145,6 +145,9 @@ public class PlayerAnimationEvents : MonoBehaviour
 			case 4:
 				chargeState.PreAttack();
 				break;
+			case 5:
+				chargeState.EndExtension();
+				break;
 		}
 	}
  
