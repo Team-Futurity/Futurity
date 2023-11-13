@@ -21,7 +21,7 @@ public class ActiveCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.SetActiveMainUI(false);
-		effectTimer.StartInitUnScaldTime();
+		effectTimer.StartInitUnScaldTime(cutSceneType);
 
 		if (dialogWindow == null)
 		{
