@@ -30,6 +30,9 @@ public class TimelineManager : Singleton<TimelineManager>
 {
 	[Header("런타임 자동 초기화")]
 	[ReadOnly(false)] public CutSceneContainer cutSceneContainer = new CutSceneContainer();
+
+	[Header("컷 씬 재생 확인")] 
+	[ReadOnly(false)] public bool isCutScenePlaying = false;
 	
 	public void InitCutSceneManager(List<CutSceneBase> list)
 	{
@@ -46,6 +49,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	public void EnableCutScene(ECutSceneType type)
 	{
 		cutSceneContainer.GetValue(type)?.gameObject.SetActive(true);
+		isCutScenePlaying = true;
 	}
 
 	public void EnableNonPlayOnAwakeCutScene(ECutSceneType type)

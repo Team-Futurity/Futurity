@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,10 +43,8 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 		Init();
 		CheckPenetrate();
 		EnableEntryCutScene();
-		
-		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status
-			.updateHPEvent.Invoke(230f, 230f);
-		
+		StartUpdateHpGauge();
+
 		Time.timeScale = 1.0f;
 	}
 
@@ -82,6 +81,35 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 			objectPenetrate.enabled = false;
 		});
 	}
+
+	#region UpdateHpGauge
+	private void StartUpdateHpGauge()
+	{
+		if (chapterData[(int)curChapter].CutSceneType == ECutSceneType.NONE)
+		{
+			UpdateHpEvent();
+			return;
+		}
+
+		StartCoroutine(WaitCutSceneEnd());
+	}
+
+	private IEnumerator WaitCutSceneEnd()
+	{
+		while (TimelineManager.Instance.isCutScenePlaying == true)
+		{
+			yield return null;
+		}
+		
+		UpdateHpEvent();
+	}
+
+	private void UpdateHpEvent()
+	{
+		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status
+			.updateHPEvent.Invoke(230f, 230f);
+	}
+	#endregion
 
 	private void EnableEntryCutScene()
 	{

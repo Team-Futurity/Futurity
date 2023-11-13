@@ -88,8 +88,16 @@ public class ChapterCutSceneManager : MonoBehaviour
 		analogGlitch.scanLineJitter.value = scanLineJitter;
 		analogGlitch.colorDrift.value = colorDrift;
 	}
-	
-	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);
+
+	public void SetActiveMainUI(bool active)
+	{
+		if (mainUICanvas == null)
+		{
+			return;
+		}
+		
+		mainUICanvas.SetActive(active);
+	}
 
 	private List<CutSceneBase> GetChildCutScene()
 	{
