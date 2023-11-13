@@ -95,6 +95,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	private void Start()
 	{
+		if (enemyType == EnemyType.M_JF)
+			return;
+
 		if(effectSO)
 			effectController = ECManager.Instance.GetEffectManager(effectSO);
 		currentEffectData = new EffectActiveData();
@@ -131,20 +134,23 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	{
 		switch (enemyType)
 		{
-			case EnemyType.MeleeDefault:
+			case EnemyType.M_CF:
 				return EnemyState.MDefaultChase;
 
-			case EnemyType.RangedDefault:
+			case EnemyType.D_LF:
 				return EnemyState.RDefaultChase;
 
-			case EnemyType.MinimalDefault:
+			case EnemyType.T_DF:
 				return EnemyState.MiniDefaultChase;
 
-			case EnemyType.EliteDefault:
+			case EnemyType.E_DF:
 				return EnemyState.EliteDefaultChase;
 
 			case EnemyType.D_BF:
 				return EnemyState.D_BFChase;
+
+			case EnemyType.M_JF:
+				return EnemyState.M_JFChase;
 
 			default:
 				FDebug.Log("ERROR_ChangeChaseState()");
