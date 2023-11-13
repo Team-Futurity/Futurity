@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.UIElements;
-using static PlayerController;
 
 public class EffectController
 {
@@ -243,6 +239,24 @@ public class EffectController
 		foreach (var data in list)
 		{
 			trackingEffects.Remove(data);
+		}
+	}
+
+	public void ResetPoolManager()
+	{
+		foreach(var datas in effectPoolingDictionary)
+		{
+			var list = datas.Value;
+
+			foreach(var managers in list)
+			{
+				var managerList = managers.poolManagers;
+
+				foreach( var manager in managerList)
+				{
+					manager.Reset();
+				}	
+			}
 		}
 	}
 }

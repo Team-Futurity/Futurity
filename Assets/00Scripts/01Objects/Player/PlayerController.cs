@@ -265,6 +265,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		
 		moveAction = context.action;
 
+		bool prevPressed = moveIsPressed;
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
 		if (IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
@@ -275,7 +276,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			// 돌진 중 이동 기능
 			if (IsAttackProcess())
 			{
-				if (IsCurrentState(PlayerState.ChargedAttack) && !specialIsReleased)
+				if (IsCurrentState(PlayerState.ChargedAttack) && !specialIsReleased && !prevPressed)
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
