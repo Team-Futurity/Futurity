@@ -72,7 +72,7 @@ public abstract class CrowdBase : MonoBehaviour
 	{
 		ExitCrowd();
 
-		targetSystem.RemoveCrowdName(this);
+		targetSystem.RemoveCrowdData(this);
 		buffEnd?.Invoke();
 	}
 
