@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(BuffProvider))]
+//[RequireComponent(typeof(BuffProvider))]
 public abstract class TrapBehaviour : MonoBehaviour
 {
 	// Event 
@@ -12,12 +12,12 @@ public abstract class TrapBehaviour : MonoBehaviour
 	[SerializeField] public UnityEvent trapReset;
 	[field: SerializeField] public TrapData TrapData { get; private set; }
 
-	protected BuffProvider buffProvider;
+//	protected BuffProvider buffProvider;
 	protected UnitBase trapUnit;
 
 	protected void Awake()
 	{
-		TryGetComponent(out buffProvider);
+//		TryGetComponent(out buffProvider);
 		TryGetComponent(out trapUnit);
 	}
 

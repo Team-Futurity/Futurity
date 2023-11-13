@@ -2,20 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffStun : BuffBehaviour
+public class CrowdStun : CrowdBase
 {
-	public override void Active()
+	protected override void StartCrowd()
 	{
-		base.Active();
-
 		targetUnit.isStun = true;
-
 	}
 
-	public override void UnActive()
+	protected override void ExitCrowd()
 	{
 		targetUnit.isStun = false;
-		
-		base.UnActive();
 	}
 }
