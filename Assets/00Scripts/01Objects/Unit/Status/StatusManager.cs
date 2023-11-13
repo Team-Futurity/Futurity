@@ -22,7 +22,7 @@ public class StatusManager : MonoBehaviour
 		var hpElement = copyStatus.Find((x) => x.type == StatusType.CURRENT_HP);
 		var maxHpElement = copyStatus.Find((x) => x.type == StatusType.MAX_HP);
 
-		updateHPEvent?.Invoke(hpElement.GetValue(), maxHpElement.GetValue());
+		//updateHPEvent?.Invoke(hpElement.GetValue(), maxHpElement.GetValue());
 	}
 
 	#endregion

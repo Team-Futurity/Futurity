@@ -93,12 +93,21 @@ public abstract class CutSceneBase : MonoBehaviour
 		EnableCutScene();
 
 		isCutSceneEnable = true;
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+
+		if (InputActionManager.Instance != null)
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);;
+		}
 	}
 
 	private void OnDisable()
 	{
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		if (InputActionManager.Instance != null)
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions
+				.Player);
+		}
+
 		DisableCutScene();
 
 		if (isUseScripting == false)
@@ -117,6 +126,8 @@ public abstract class CutSceneBase : MonoBehaviour
 			
 			FadeManager.Instance.FadeOut(0.5f);
 		}
+
+		TimelineManager.Instance.isCutScenePlaying = false;
 	}
 
 	private void InitSkeletonQueue()
