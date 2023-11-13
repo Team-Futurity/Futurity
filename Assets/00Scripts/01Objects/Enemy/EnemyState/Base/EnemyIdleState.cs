@@ -25,7 +25,8 @@ public class EnemyIdleState : StateBase
 	{
 		if (other.CompareTag(unit.playerTag))
 		{
-			unit.target = other.GetComponent<UnitBase>();
+			if(unit.target == null)
+				unit.target = other.GetComponent<UnitBase>();
 			unit.ChangeState(unit.UnitChaseState());
 		}
 	}
