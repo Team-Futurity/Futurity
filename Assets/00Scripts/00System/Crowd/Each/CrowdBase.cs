@@ -12,8 +12,9 @@ public abstract class CrowdBase : MonoBehaviour
 
 	[Space(10)]
 	[Header("Event")]
-	public UnityEvent buffStart;
-	public UnityEvent buffEnd;
+	public UnityEvent onStart;
+	public UnityEvent onStay;
+	public UnityEvent onEnded;
 
 	private float activeTime = .0f;
 	private float currTime;
@@ -40,10 +41,12 @@ public abstract class CrowdBase : MonoBehaviour
 		
 		// Timer ม๘วเ
 		currTime += Time.deltaTime;
-
+		
 		if (currTime > activeTime)
 		{
 			UnActive();
+			
+			Destroy(this.gameObject);
 		}
 	}
 
@@ -59,7 +62,7 @@ public abstract class CrowdBase : MonoBehaviour
 	{
 		if (isStart) return;
 		
-		buffStart?.Invoke();
+		onStart?.Invoke();
 		
 		isStart = true;
 		StartCrowd();
@@ -70,7 +73,7 @@ public abstract class CrowdBase : MonoBehaviour
 		ExitCrowd();
 
 		targetSystem.RemoveCrowdData(this);
-		buffEnd?.Invoke();
+		onEnded?.Invoke();
 	}
 
 	public void SetCrowdTime(float time)
