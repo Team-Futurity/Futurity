@@ -410,9 +410,11 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
 
+
+		bool isAttackProcess = IsAttackProcess(true);
+
 		if (context.started)
 		{
-			bool isAttackProcess = IsAttackProcess(true);
 			if (IsChangableState(PlayerState.AttackDelay) && !isAttackProcess)
 			{
 				StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
@@ -431,7 +433,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 		else
 		{
-			if (context.canceled && IsChangableState(PlayerState.AttackAfterDelay) && currentAttackState == PlayerState.ChargedAttack)
+			if (context.canceled && isAttackProcess && currentAttackState == PlayerState.ChargedAttack)
 			{
 				specialIsReleased = true;
 				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), "Released");
