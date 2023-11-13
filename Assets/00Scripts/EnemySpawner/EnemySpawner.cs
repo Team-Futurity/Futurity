@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
 	[HideInInspector] public UnityEvent<EnemySpawner> spawnerDisableEvent;
 	
 	// 실제 소환 개수 저장
-	[ReadOnly(false)] public int[] curWaveEnemyCount = new int[4];
+	[ReadOnly(false)] public int[] curWaveEnemyCount = new int[SpawnerManager.MAX_ENEMY_TYPE];
 	private int spawnIndex = 0;
 
 	private void Awake()
@@ -50,6 +50,8 @@ public class EnemySpawner : MonoBehaviour
 		int ranged = spawnData.waveSpawnCounts[curWaveCount].rangedCnt;
 		int minimal = spawnData.waveSpawnCounts[curWaveCount].minimalCnt;
 		int eliteDefault = spawnData.waveSpawnCounts[curWaveCount].eliteDefault;
+		int dbfCount = spawnData.waveSpawnCounts[curWaveCount].D_BF;
+		int mjfCount = spawnData.waveSpawnCounts[curWaveCount].M_JF;
 		
 		spawnIndex = 0;
 
@@ -57,6 +59,8 @@ public class EnemySpawner : MonoBehaviour
 		PlaceEnemy(ranged, EnemyType.D_LF);
 		PlaceEnemy(minimal, EnemyType.T_DF);
 		PlaceEnemy(eliteDefault, EnemyType.E_DF);
+		PlaceEnemy(dbfCount, EnemyType.D_BF);
+		PlaceEnemy(mjfCount, EnemyType.M_JF);
 		
 		curWaveCount++;
 	}
