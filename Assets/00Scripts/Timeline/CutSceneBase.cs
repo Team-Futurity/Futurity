@@ -96,7 +96,7 @@ public abstract class CutSceneBase : MonoBehaviour
 
 		if (InputActionManager.Instance != null)
 		{
-			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);;
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		}
 	}
 
