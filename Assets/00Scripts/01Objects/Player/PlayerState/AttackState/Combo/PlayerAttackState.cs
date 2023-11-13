@@ -85,7 +85,11 @@ public class PlayerAttackState : PlayerComboAttackState
 				HitEffectByPart? hitEffect = unit.hitEffectDatabase.GetHitEffect(partCode);
 				AttackAsset asset = attackNode.GetAttackAsset(partCode);
 
-				if (!hitEffect.HasValue) { FDebug.LogWarning("Database has not Correctly Effect. Please Check Part Code or Database"); return; }
+				if (!hitEffect.HasValue)
+				{
+					hitEffect = unit.hitEffectDatabase.GetHitEffect(404);
+					asset = attackNode.GetAttackAsset(404);
+				}
 
 				info.SetHitEffecByPart(hitEffect.Value.poolManager, hitEffect.Value.hitEffectOffset);
 				info.SetHitEffect(asset.hitEffectPoolManager, asset.hitEffectOffset);
