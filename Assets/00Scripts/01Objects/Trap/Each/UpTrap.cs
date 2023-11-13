@@ -59,14 +59,14 @@ public class UpTrap : TrapBehaviour
 		DamageInfo info = new DamageInfo(trapUnit, unit, 1);
 		info.SetDamage(0);
 		unit.Hit(info);
-		buffProvider.SetBuff(unit, 1001);
+		//buffProvider.SetBuff(unit, 1001);
 	}
 
 	private IEnumerator ActivePlayerEffect(UnitBase unit)
 	{
 		var unitObj = unit.gameObject;
 
-		buffProvider.SetBuff(unit, 1001);
+		//buffProvider.SetBuff(unit, 1001);
 
 		while (timer <= activeTime)
 		{

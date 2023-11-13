@@ -8,7 +8,7 @@ public class StunnedTrap : TrapBehaviour
 	{
 		foreach (var unit in units) 
 		{
-			buffProvider.SetBuff(unit, 1002);
+	//		buffProvider.SetBuff(unit, 1002);
 		}
 	}
 }
