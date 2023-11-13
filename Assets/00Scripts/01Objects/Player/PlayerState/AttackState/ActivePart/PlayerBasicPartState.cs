@@ -123,14 +123,22 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		base.OnCollisionStay(unit, collision);
 	}
 
-	private void EndExtension(PlayerController unit)
+	public void EndExtension()
 	{
 		currentCollider.SetCollider(maxAngle, proccessor.maxRange * MathPlus.cm2m);
 
 		foreach(var enemy in enemies)
 		{
-			DamageInfo info = new DamageInfo(unit.playerData, enemy, 1);
+			DamageInfo info = new DamageInfo(pc.playerData, enemy, 1);
 			info.SetDamage(proccessor.damage);
+
+			var effect = pc.hitEffectDatabase.GetHitEffect(404);
+
+			if(effect != null)
+			{
+				info.SetHitEffecByPart(effect.Value.poolManager, effect.Value.hitEffectOffset);
+			}
+			
 			enemy.Hit(info);
 		}
 	}
@@ -172,7 +180,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		proccessor.landingEffectObjectPool.ActiveObject(proccessor.landingEffectPos.position, proccessor.landingEffectPos.rotation).
 			GetComponent<ParticleController>().Initialize(proccessor.landingEffectObjectPool);
 		currentCollider.transform.localPosition = Vector3.zero;
-		EndExtension(pc);
 	}
 
 	public void AttackEnd()
