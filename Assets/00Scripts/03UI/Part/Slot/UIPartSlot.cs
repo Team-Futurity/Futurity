@@ -14,6 +14,7 @@ public class UIPartSlot : MonoBehaviour
 	public UIActiveSlot activeSlot;
 
 	public ParticleSystem activeParticle;
+	public GameObject activeBackground;
 
 	private void Awake()
 	{
@@ -23,6 +24,7 @@ public class UIPartSlot : MonoBehaviour
 		   {
 			   activeSlot.SetSlot();
 			   activeParticle.Play();
+			   activeBackground.SetActive(true);
 			   return;
 		   }
 
@@ -34,6 +36,7 @@ public class UIPartSlot : MonoBehaviour
 			if(index == 3)
 			{
 				activeSlot.ClearSlot();
+				activeBackground.SetActive(false);
 				return;
 			}
 

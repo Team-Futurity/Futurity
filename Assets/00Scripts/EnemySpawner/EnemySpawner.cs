@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
 	[HideInInspector] public UnityEvent<EnemySpawner> spawnerDisableEvent;
 	
 	// 실제 소환 개수 저장
-	[ReadOnly(false)] public int[] curWaveEnemyCount = new int[3];
+	[ReadOnly(false)] public int[] curWaveEnemyCount = new int[4];
 	private int spawnIndex = 0;
 
 	private void Awake()
@@ -45,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
 	public void SpawnEnemy()
 	{
 		curWaveEnemyCount = curWaveEnemyCount.Select(x => 0).ToArray();
-	
+		
 		int melee = spawnData.waveSpawnCounts[curWaveCount].meleeCnt;
 		int ranged = spawnData.waveSpawnCounts[curWaveCount].rangedCnt;
 		int minimal = spawnData.waveSpawnCounts[curWaveCount].minimalCnt;

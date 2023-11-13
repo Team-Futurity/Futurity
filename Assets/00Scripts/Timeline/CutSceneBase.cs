@@ -15,6 +15,7 @@ public abstract class CutSceneBase : MonoBehaviour
 	[Space(3)]
 	[Header("컷씬 타입")]
 	[SerializeField] protected ECutSceneType cutSceneType;
+	[SerializeField] protected bool isActiveCutScene;
 
 	[Space(3)] [Header("스크립트 데이터")] 
 	[SerializeField] private bool isUseScripting;
@@ -26,11 +27,16 @@ public abstract class CutSceneBase : MonoBehaviour
 	public bool isUseSkeleton;
 	[SerializeField] protected Transform skeletonParent;
 	protected Queue<SkeletonGraphic> skeletonQueue;
+
+	private bool isCutSceneEnable = false;
 	
 	protected virtual void Init()
 	{
 		chapterManager = gameObject.GetComponentInParent<ChapterCutSceneManager>();
-		cutScene = gameObject.GetComponent<PlayableDirector>();
+
+		cutScene = isActiveCutScene
+			? gameObject.GetComponentInChildren<PlayableDirector>() : gameObject.GetComponent<PlayableDirector>();
+		chapterManager.autoSkipButton.InitPlayCutScene(cutScene);
 
 		if (isUseScripting == true)
 		{
@@ -49,8 +55,12 @@ public abstract class CutSceneBase : MonoBehaviour
 
 	protected void StartScripting(int index = -1)
 	{
-		cutScene.Pause();
+		if (chapterManager.scripting.isSkip == true)
+		{
+			return;
+		}
 		
+		cutScene.Pause();
 		chapterManager.PauseCutSceneUntilScriptsEnd(cutScene);
 
 		if (index == -1)
@@ -64,17 +74,40 @@ public abstract class CutSceneBase : MonoBehaviour
 		}
 	}
 
+	private void Update()
+	{
+		if (isCutSceneEnable == false)
+		{
+			return;
+		}
+
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+			chapterManager.autoSkipButton.SkipCutScene();
+		}
+	}
+
 	private void OnEnable()
 	{
 		Init();
 		EnableCutScene();
-		
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+
+		isCutSceneEnable = true;
+
+		if (InputActionManager.Instance != null)
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+		}
 	}
 
 	private void OnDisable()
 	{
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		if (InputActionManager.Instance != null)
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions
+				.Player);
+		}
+
 		DisableCutScene();
 
 		if (isUseScripting == false)
@@ -84,6 +117,17 @@ public abstract class CutSceneBase : MonoBehaviour
 		
 		chapterManager.scripting.DisableAllNameObject();
 		chapterManager.scripting.ResetEmotion();
+		isCutSceneEnable = false;
+		
+		if (chapterManager.scripting.isAuto == true || chapterManager.scripting.isSkip == true)
+		{
+			chapterManager.scripting.isAuto = chapterManager.scripting.isSkip = false;
+			cutScene.playableGraph.GetRootPlayable(0).SetSpeed(1.0f);
+			
+			FadeManager.Instance.FadeOut(0.5f);
+		}
+
+		TimelineManager.Instance.isCutScenePlaying = false;
 	}
 
 	private void InitSkeletonQueue()

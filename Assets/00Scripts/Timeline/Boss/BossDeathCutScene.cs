@@ -13,7 +13,7 @@ public class BossDeathCutScene : CutSceneBase
 
 	protected override void DisableCutScene()
 	{
-		
+		SceneLoader.Instance.LoadScene("CreditScene");
 	}
 
 	public void BossDeath_StartSkeleton()

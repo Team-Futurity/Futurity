@@ -13,6 +13,7 @@ public class UIDialogController : MonoBehaviour
 
 	[Space(10), Header("텍스트가 출력되는 오브젝트"), SerializeField]
 	private UIDialogText dialogText;
+	public UIDialogText DialogText => dialogText;
 
 	private int currentIndex;
 
@@ -20,14 +21,10 @@ public class UIDialogController : MonoBehaviour
 	private List<DialogData> dialogDatas;
 	private DialogData currentDialogData;
 
-	[SerializeField]
-	private bool usedPass = false;
-
 	#region Dialog Events
 
 	[Space(15)]
 	public UnityEvent onStarted;
-	public UnityEvent onChanged;
 	public UnityEvent onEnded;
 
 	[HideInInspector] public UnityEvent<DialogDataGroup> onShow;
@@ -38,128 +35,84 @@ public class UIDialogController : MonoBehaviour
 	{
 		dialogDatas = new List<DialogData>();
 		currentIndex = 0;
+		
+		SetUp();
 	}
 
-	public void SetDialogData(List<DialogData> datas)
+	private void SetUp()
 	{
-		dialogDatas = datas;
-		InitDialog();
-	}
+		if (dialogText == null)
+		{
+			FDebug.Log($"{dialogText}가 존재하지 않습니다.", GetType());
+			FDebug.Break();
 
+			return;
+		}
+		
+		dialogText.onEnded?.AddListener(UpdateNextDialog);
+	}
+	
 	public void SetDialogData(DialogData data)
 	{
 		dialogDatas.Add(data);
 		InitDialog();
 	}
-
-	public void SetDialogData(string code)
-	{
-		LoadDialogData(code);
-		InitDialog();
-	}
-
+	
 	public void Play()
 	{
 		if (dialogText.isRunning) { return; }
+		if(currentDialogData != null) { OpenBoard(true);}
 
 		dialogText.Show(currentDialogData.GetDialogDataGroup().descripton);
+		
 		onShow?.Invoke(currentDialogData.GetDialogDataGroup());
-
 	}
-
-	public void Pass()
-	{
-		if (dialogText.isRunning)
-		{
-			dialogText.Pass();
-		}
-		else
-		{
-			UpdateNextDialog();
-		}
-	}
-
-	public void SetDialogInitEvent(int index, UnityAction action)
-	{
-		if (index >= dialogDatas.Count) return;
-		dialogDatas[index].onInit?.AddListener(action);
-	}
-
-	public void SetDialogChangedEvent(int index, UnityAction action)
-	{
-		if (index >= dialogDatas.Count) return;
-		dialogDatas[index].onChanged?.AddListener(action);
-	}
-
-	public void SetDialogEndedEvent(int index, UnityAction action)
-	{
-		if (index >= dialogDatas.Count) return;
-		dialogDatas[index].onEnded?.AddListener(action);
-	}
-
-	public void RemoveDialogEventAll()
-	{
-		for (int i = 0; i < dialogDatas.Count; ++i)
-		{
-			dialogDatas[i].onInit.RemoveAllListeners();
-			dialogDatas[i].onChanged.RemoveAllListeners();
-			dialogDatas[i].onEnded.RemoveAllListeners();
-		}
-	}
-
-	private void InitDialog()
-	{
-		currentDialogData = dialogDatas[currentIndex];
-
-		currentDialogData.Init();
-
-		if (!usedPass)
-		{
-			dialogText.onEnded?.AddListener(UpdateNextDialog);
-		}
-
-		OpenDialogBoard(true);
-		onStarted?.Invoke();
-	}
-
-	private void OpenDialogBoard(bool isOn)
+	
+	private void OpenBoard(bool isOn)
 	{
 		gameObject.SetActive(isOn);
 	}
-
-	private void CloseDialog()
+	
+	private void InitDialog()
 	{
-		OpenDialogBoard(false);
-		RemoveDialogEventAll();
+		if (currentDialogData == null)
+		{
+			currentDialogData = dialogDatas[currentIndex];
+			currentDialogData.Init();
+		}
+
+		OpenBoard(true);
+		
+		onStarted?.Invoke();
 	}
 
 	private void UpdateNextDialog()
 	{
+		// 중간에 등록이 되었을 경우, Play를 통해서 열어준다.
 		var isEnd = currentDialogData.Next();
 
+		// CurrentDialog가 종료되었을 때,
 		if (isEnd)
 		{
-			currentIndex += 1;
+			OpenBoard(false);
 
-			if (currentIndex >= dialogDatas.Count)
+			if (currentIndex >= dialogDatas.Count - 1)
 			{
-				CloseDialog();
+				currentDialogData = null;
+				currentIndex = 0;
+				dialogDatas.Clear();
 
 				onEnded?.Invoke();
 				return;
 			}
+			
+			currentIndex++;
 
 			currentDialogData = dialogDatas[currentIndex];
-			onChanged?.Invoke();
-
+			currentDialogData.Init();
 			return;
 		}
 
 		Play();
-	}
-
-	private DialogData LoadDialogData(string code)
-	{
-		return Addressables.LoadAssetAsync<DialogData>(code).WaitForCompletion();
 	}
 }

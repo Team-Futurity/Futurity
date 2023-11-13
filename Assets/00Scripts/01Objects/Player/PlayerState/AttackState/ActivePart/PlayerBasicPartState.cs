@@ -7,7 +7,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 {
 	private const float explosionEffectUnitSize = 0.1f;
 	private const float maxAngle = 360;
-	private readonly string IsActivePartAnimKey = "IsActivePart";
 	private List<UnitBase> enemies = new List<UnitBase>();
 
 	// effects
@@ -37,7 +36,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		minSize = proccessor.minRange * MathPlus.cm2m;
 		maxSize = proccessor.maxRange * MathPlus.cm2m;
 		TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_ALPHA);
-		//unit.animator.SetBool(IsActivePartAnimKey, true);
 
 		pc = unit;
 		
@@ -98,7 +96,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 	{
 		base.End(unit);
 		unit.rigid.velocity = Vector3.zero;
-		unit.animator.SetBool(IsActivePartAnimKey, false);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)
@@ -126,14 +123,22 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		base.OnCollisionStay(unit, collision);
 	}
 
-	private void EndExtension(PlayerController unit)
+	public void EndExtension()
 	{
 		currentCollider.SetCollider(maxAngle, proccessor.maxRange * MathPlus.cm2m);
 
 		foreach(var enemy in enemies)
 		{
-			DamageInfo info = new DamageInfo(unit.playerData, enemy, 1);
+			DamageInfo info = new DamageInfo(pc.playerData, enemy, 1);
 			info.SetDamage(proccessor.damage);
+
+			var effect = pc.hitEffectDatabase.GetHitEffect(404);
+
+			if(effect != null)
+			{
+				info.SetHitEffecByPart(effect.Value.poolManager, effect.Value.hitEffectOffset);
+			}
+			
 			enemy.Hit(info);
 		}
 	}
@@ -175,7 +180,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		proccessor.landingEffectObjectPool.ActiveObject(proccessor.landingEffectPos.position, proccessor.landingEffectPos.rotation).
 			GetComponent<ParticleController>().Initialize(proccessor.landingEffectObjectPool);
 		currentCollider.transform.localPosition = Vector3.zero;
-		EndExtension(pc);
 	}
 
 	public void AttackEnd()

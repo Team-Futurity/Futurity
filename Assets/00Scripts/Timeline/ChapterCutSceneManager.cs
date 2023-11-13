@@ -11,14 +11,16 @@ using Animation = Spine.Animation;
 
 public class ChapterCutSceneManager : MonoBehaviour
 {
-	[Header("Intro씬이라면 체크")] 
+	[Header("Intro씬 혹은 튜토리얼 이라면 체크")] 
 	[SerializeField] private bool isIntroScene = false;
+	[SerializeField] private bool isTutorialScene = false;
 
 	[Header("Component")] 
 	[SerializeField] private Camera mainCamera;
 	public PlayerCamera playerCamera;
 	[SerializeField] private GameObject mainUICanvas;
 	public TimelineScripting scripting;
+	public AutoSkipButton autoSkipButton;
 	private PlayerController playerController;
 	public PlayerController PlayerController => playerController;
 
@@ -50,6 +52,12 @@ public class ChapterCutSceneManager : MonoBehaviour
 	
 	public void Start()
 	{
+		if (isTutorialScene == true)
+		{
+			TimelineManager.Instance.InitCutSceneManager(GetChildCutScene());
+			transform.GetChild(0).gameObject.SetActive(true);
+		}
+		
 		if (isIntroScene == false)
 		{
 			return;
@@ -67,6 +75,14 @@ public class ChapterCutSceneManager : MonoBehaviour
 		
 		mainCamera.GetComponent<Volume>().profile.TryGet<AnalogGlitchVolume>(out analogGlitch);
 		mainCamera.GetComponent<Volume>().profile.TryGet<GrayScale>(out grayScale);
+		
+		autoSkipButton.InitAutoSkipButton(scripting);
+	}
+
+	public void ResetGlitch()
+	{
+		analogGlitch.scanLineJitter.value = 0;
+		analogGlitch.colorDrift.value = 0;
 	}
 
 	private void Update()
@@ -79,16 +95,16 @@ public class ChapterCutSceneManager : MonoBehaviour
 		analogGlitch.scanLineJitter.value = scanLineJitter;
 		analogGlitch.colorDrift.value = colorDrift;
 	}
-	
-	public Vector3 GetTargetPosition(float distance, Vector3 forward = default(Vector3))
+
+	public void SetActiveMainUI(bool active)
 	{
-		forward = (forward == Vector3.zero) ? playerModelTf.forward : forward;
+		if (mainUICanvas == null)
+		{
+			return;
+		}
 		
-		var offset = distance * forward;
-		return playerModelTf.position + offset;
+		mainUICanvas.SetActive(active);
 	}
-	
-	public void SetActiveMainUI(bool active) => mainUICanvas.SetActive(active);
 
 	private List<CutSceneBase> GetChildCutScene()
 	{

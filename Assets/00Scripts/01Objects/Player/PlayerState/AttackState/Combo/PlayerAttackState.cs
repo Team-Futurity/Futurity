@@ -81,8 +81,15 @@ public class PlayerAttackState : PlayerComboAttackState
 				var enemyController = other.gameObject.GetComponent<EnemyController>();
 
 				DamageInfo info = new DamageInfo(unit.playerData, enemy, attackNode.attackST, attackNode.attackKnockback);
-				AttackAsset asset = attackNode.GetAttackAsset(unit.partSystem.GetEquiped75PercentPointPartCode());
-				info.SetHitEffect(asset.hitEffectPoolManager, asset.effectOffset);
+				int partCode = unit.partSystem.GetEquiped75PercentPointPartCode();
+				HitEffectByPart? hitEffect = unit.hitEffectDatabase.GetHitEffect(partCode);
+				AttackAsset asset = attackNode.GetAttackAsset(partCode);
+
+				if (!hitEffect.HasValue) { FDebug.LogWarning("Database has not Correctly Effect. Please Check Part Code or Database"); return; }
+
+				info.SetHitEffecByPart(hitEffect.Value.poolManager, hitEffect.Value.hitEffectOffset);
+				info.SetHitEffect(asset.hitEffectPoolManager, asset.hitEffectOffset);
+				info.SetHitPoint(other.bounds.ClosestPoint(unit.transform.position));
 				unit.playerData.Attack(info);
 				//HitEffectPooling(unit, enemy.transform);
 				/*if(enemyController.ThisEnemyType != EnemyType.TutorialDummy)

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 
@@ -21,6 +20,7 @@ public class T6_AttackProcess : MonoBehaviour
 			GameObject obj = new GameObject("T6_Process" + i);
 			obj.AddComponent<FlooringAttackProcess>();
 			attackProcesss.Add(obj.GetComponent<FlooringAttackProcess>());
+			attackProcesss[i].transform.SetParent(bc.attackTrigger.objParent.transform);
 			attackProcesss[i].Setting(floorEffects[i], attackEffects[i], colliders[i], flooringT, atkEffectT, attackT, deActiveT,i, ec, bc);
 		}
 	}

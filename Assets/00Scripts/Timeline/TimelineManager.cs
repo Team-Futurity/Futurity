@@ -9,7 +9,7 @@ public enum ECutSceneType
 	INTRO_SCENE,
 	CHAPTER1_AREA1_ENTRY,
 	CHAPTER1_AREA3_ENTRY,
-	CHAPTER1_AREA3_SPAWN,
+	CHAPTER1_AREA3_SPAWN_1,
 	CHAPTER2_AREA1_ENTRY,
 	CHAPTER2_AREA1_INTERACTION_MAIN,
 	BOSS_ENTRY,
@@ -17,7 +17,10 @@ public enum ECutSceneType
 	BOSS_DEATH,
 	PLAYER_DEATH,
 	LASTKILL,
-	ACTIVE_ALPHA
+	ACTIVE_ALPHA,
+	ACTIVE_BETA,
+	CHAPTER1_AREA3_SPAWN_2,
+	CHAPTER1_AREA3_EXIT,
 }
 
 [Serializable]
@@ -27,6 +30,9 @@ public class TimelineManager : Singleton<TimelineManager>
 {
 	[Header("런타임 자동 초기화")]
 	[ReadOnly(false)] public CutSceneContainer cutSceneContainer = new CutSceneContainer();
+
+	[Header("컷 씬 재생 확인")] 
+	[ReadOnly(false)] public bool isCutScenePlaying = false;
 	
 	public void InitCutSceneManager(List<CutSceneBase> list)
 	{
@@ -43,6 +49,7 @@ public class TimelineManager : Singleton<TimelineManager>
 	public void EnableCutScene(ECutSceneType type)
 	{
 		cutSceneContainer.GetValue(type)?.gameObject.SetActive(true);
+		isCutScenePlaying = true;
 	}
 
 	public void EnableNonPlayOnAwakeCutScene(ECutSceneType type)

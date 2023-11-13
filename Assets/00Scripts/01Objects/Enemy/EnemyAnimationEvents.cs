@@ -54,7 +54,8 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.currentEffectData.activationTime = EffectActivationTime.AttackReady;
 		ec.currentEffectData.target = EffectTarget.Ground;
 		ec.currentEffectData.index = 0;
-		ec.currentEffectData.position = ec.target.transform.position;
+		ec.currentEffectData.position = ec.target.transform.position + new Vector3(0, 1.0f, 0);
+		ec.currentEffectData.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
 		ec.currentEffectData.parent = null;
 
 		ec.atkCollider.transform.position = ec.currentEffectData.position;
@@ -64,6 +65,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 	{
 		ec.currentEffectData.activationTime = EffectActivationTime.InstanceAttack;
 		ec.currentEffectData.target = EffectTarget.Target;
+		ec.currentEffectData.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 	}
 	#endregion
 

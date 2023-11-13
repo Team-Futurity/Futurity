@@ -21,6 +21,7 @@ public class PlayerInputManager : MonoBehaviour
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.BasicAttack, OnNormalAttack);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.SpecialAttack, OnSpecialAttack);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.ActiveSkill, OnSpecialMove);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.ESC, OnESC);
 	}
 
 	private void OnDisable()
@@ -117,6 +118,18 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		QueueingProcess(pc.SAProcess(context));
 	}
+	
+	public void OnESC(InputAction.CallbackContext context)
+	{
+		if (UIManager.Instance.IsOpenWindow(WindowList.PAUSE))
+		{
+			return;
+		}
+
+		Time.timeScale = .0f;
+		UIManager.Instance.OpenWindow(WindowList.PAUSE);
+	}
+	
 	#endregion
 
 	private void QueueingProcess(PlayerInputData data)
@@ -152,6 +165,9 @@ public class PlayerInputManager : MonoBehaviour
 			case "4":
 				result = SetCorrectEnum(data.inputState, GetDirection(data.inputMsg));
 				break;
+			case "5":
+				result = SetCorrectEnum(data.inputState, splitedDatas[2] == "T" ? PlayerInputEnum.SpecialMove_Complete : PlayerInputEnum.None); 
+				break;
 		}
 
 		return result;
@@ -160,10 +176,12 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		string[] splitedDatas = msg.Split("_");
 
-		if (splitedDatas[3] != "NormalAttack") { return PlayerInputEnum.None; }
-		if (splitedDatas[5] != "Complete") { return PlayerInputEnum.None; }
+		if (splitedDatas[2] == "F" || splitedDatas[3] == "Queueing" || splitedDatas[5] != "Complete") { return PlayerInputEnum.None; }
 
-		return GetComboEnum(splitedDatas[4]);
+		if (splitedDatas[3] == "NormalAttack") { return GetComboEnum(splitedDatas[4]); }
+		else if(splitedDatas[3] == "ChargedAttack") { return PlayerInputEnum.SpecialAttack_Complete;	}
+
+		return PlayerInputEnum.None;
 	}
 
 	private PlayerInputEnum GetDirection(string msg)
@@ -182,6 +200,15 @@ public class PlayerInputManager : MonoBehaviour
 		}
 
 		return PlayerInputEnum.Move;
+	}
+
+	public PlayerInputEnum GetActivePartEnum(string msg)
+	{
+		string[] splitedDatas = msg.Split("_");
+
+		if (splitedDatas[2] == "F" || splitedDatas[5] != "Complete") { return PlayerInputEnum.None; }
+
+		return PlayerInputEnum.SpecialMove_Complete;
 	}
 
 	private PlayerInputEnum GetDirectionEnum(float angle)

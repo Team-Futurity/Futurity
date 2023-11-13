@@ -11,7 +11,7 @@ Shader "bossring"
 		_TextureSample1("Texture Sample 1", 2D) = "white" {}
 		_TextureSample2("Texture Sample 2", 2D) = "white" {}
 		_TextureSample3("Texture Sample 3", 2D) = "white" {}
-		[ASEEnd]_Vector0("Vector 0", Vector) = (0,0,0,0)
+		[ASEEnd]_Vector0("Vector 0", Vector) = (4,1,0,0)
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -211,7 +211,7 @@ Shader "bossring"
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -265,7 +265,7 @@ Shader "bossring"
 
 				o.ase_color = v.ase_color;
 				o.ase_texcoord3.xy = v.ase_texcoord.xy;
-				o.ase_texcoord4 = v.ase_texcoord4;
+				o.ase_texcoord4 = v.ase_texcoord2;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord3.zw = 0;
@@ -316,7 +316,7 @@ Shader "bossring"
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
+				float4 ase_texcoord2 : TEXCOORD2;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -336,7 +336,7 @@ Shader "bossring"
 				o.ase_normal = v.ase_normal;
 				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord4 = v.ase_texcoord4;
+				o.ase_texcoord2 = v.ase_texcoord2;
 				return o;
 			}
 
@@ -377,7 +377,7 @@ Shader "bossring"
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord4 = patch[0].ase_texcoord4 * bary.x + patch[1].ase_texcoord4 * bary.y + patch[2].ase_texcoord4 * bary.z;
+				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -417,22 +417,19 @@ Shader "bossring"
 				float2 uv_TextureSample3 = IN.ase_texcoord3.xy * _TextureSample3_ST.xy + _TextureSample3_ST.zw;
 				float2 texCoord20 = IN.ase_texcoord3.xy * float2( 6,1 ) + float2( 0,0 );
 				float2 panner19 = ( 1.0 * _Time.y * float2( 0,-1 ) + ( tex2D( _TextureSample3, uv_TextureSample3 ).r + texCoord20 ));
-				float4 tex2DNode17 = tex2D( _TextureSample0, panner19 );
 				float2 uv_TextureSample1 = IN.ase_texcoord3.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
 				float4 tex2DNode22 = tex2D( _TextureSample1, uv_TextureSample1 );
-				float temp_output_48_0 = ( ( tex2DNode17.r * tex2DNode22.r ) + tex2DNode22.r );
 				
+				float4 texCoord59 = IN.ase_texcoord4;
+				texCoord59.xy = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult58 = (float2(1.0 , texCoord59.z));
 				float2 texCoord39 = IN.ase_texcoord3.xy * _Vector0 + float2( 0,0 );
-				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + texCoord39);
-				float smoothstepResult32 = smoothstep( 0.0 , 0.1 , ( tex2DNode17.r * tex2DNode22.r * tex2D( _TextureSample2, panner38 ).r ));
-				float4 texCoord51 = IN.ase_texcoord4;
-				texCoord51.xy = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
-				float smoothstepResult50 = smoothstep( 0.07 , 0.26 , temp_output_48_0);
+				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + ( appendResult58 + texCoord39 ));
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
-				float3 Color = ( ( IN.ase_color * _color_intensity ) * temp_output_48_0 ).rgb;
-				float Alpha = saturate( ( IN.ase_color.a * ( ( smoothstepResult32 * texCoord51.z ) + smoothstepResult50 ) ) );
+				float3 Color = ( ( IN.ase_color * _color_intensity ) * ( ( tex2D( _TextureSample0, panner19 ).r * tex2DNode22.r ) + tex2DNode22.r ) ).rgb;
+				float Alpha = saturate( ( IN.ase_color.a * ( (0.0 + (tex2D( _TextureSample2, panner38 ).r - 0.45) * (1.0 - 0.0) / (1.0 - 0.45)) * 5.0 ) ) );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -495,8 +492,8 @@ Shader "bossring"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -531,9 +528,6 @@ Shader "bossring"
 			#endif
 			CBUFFER_END
 
-			sampler2D _TextureSample0;
-			sampler2D _TextureSample3;
-			sampler2D _TextureSample1;
 			sampler2D _TextureSample2;
 
 
@@ -546,11 +540,11 @@ Shader "bossring"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_color = v.ase_color;
-				o.ase_texcoord2.xy = v.ase_texcoord.xy;
-				o.ase_texcoord3 = v.ase_texcoord4;
+				o.ase_texcoord2 = v.ase_texcoord2;
+				o.ase_texcoord3.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord2.zw = 0;
+				o.ase_texcoord3.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -591,8 +585,8 @@ Shader "bossring"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -611,8 +605,8 @@ Shader "bossring"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_color = v.ase_color;
+				o.ase_texcoord2 = v.ase_texcoord2;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord4 = v.ase_texcoord4;
 				return o;
 			}
 
@@ -652,8 +646,8 @@ Shader "bossring"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord4 = patch[0].ase_texcoord4 * bary.x + patch[1].ase_texcoord4 * bary.y + patch[2].ase_texcoord4 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -690,22 +684,14 @@ Shader "bossring"
 					#endif
 				#endif
 
-				float2 uv_TextureSample3 = IN.ase_texcoord2.xy * _TextureSample3_ST.xy + _TextureSample3_ST.zw;
-				float2 texCoord20 = IN.ase_texcoord2.xy * float2( 6,1 ) + float2( 0,0 );
-				float2 panner19 = ( 1.0 * _Time.y * float2( 0,-1 ) + ( tex2D( _TextureSample3, uv_TextureSample3 ).r + texCoord20 ));
-				float4 tex2DNode17 = tex2D( _TextureSample0, panner19 );
-				float2 uv_TextureSample1 = IN.ase_texcoord2.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
-				float4 tex2DNode22 = tex2D( _TextureSample1, uv_TextureSample1 );
-				float2 texCoord39 = IN.ase_texcoord2.xy * _Vector0 + float2( 0,0 );
-				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + texCoord39);
-				float smoothstepResult32 = smoothstep( 0.0 , 0.1 , ( tex2DNode17.r * tex2DNode22.r * tex2D( _TextureSample2, panner38 ).r ));
-				float4 texCoord51 = IN.ase_texcoord3;
-				texCoord51.xy = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
-				float temp_output_48_0 = ( ( tex2DNode17.r * tex2DNode22.r ) + tex2DNode22.r );
-				float smoothstepResult50 = smoothstep( 0.07 , 0.26 , temp_output_48_0);
+				float4 texCoord59 = IN.ase_texcoord2;
+				texCoord59.xy = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult58 = (float2(1.0 , texCoord59.z));
+				float2 texCoord39 = IN.ase_texcoord3.xy * _Vector0 + float2( 0,0 );
+				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + ( appendResult58 + texCoord39 ));
 				
 
-				float Alpha = saturate( ( IN.ase_color.a * ( ( smoothstepResult32 * texCoord51.z ) + smoothstepResult50 ) ) );
+				float Alpha = saturate( ( IN.ase_color.a * ( (0.0 + (tex2D( _TextureSample2, panner38 ).r - 0.45) * (1.0 - 0.0) / (1.0 - 0.45)) * 5.0 ) ) );
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -759,8 +745,8 @@ Shader "bossring"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -789,9 +775,6 @@ Shader "bossring"
 			#endif
 			CBUFFER_END
 
-			sampler2D _TextureSample0;
-			sampler2D _TextureSample3;
-			sampler2D _TextureSample1;
 			sampler2D _TextureSample2;
 
 
@@ -815,11 +798,11 @@ Shader "bossring"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_color = v.ase_color;
-				o.ase_texcoord.xy = v.ase_texcoord.xy;
-				o.ase_texcoord1 = v.ase_texcoord4;
+				o.ase_texcoord = v.ase_texcoord2;
+				o.ase_texcoord1.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord.zw = 0;
+				o.ase_texcoord1.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -849,8 +832,8 @@ Shader "bossring"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -869,8 +852,8 @@ Shader "bossring"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_color = v.ase_color;
+				o.ase_texcoord2 = v.ase_texcoord2;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord4 = v.ase_texcoord4;
 				return o;
 			}
 
@@ -910,8 +893,8 @@ Shader "bossring"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord4 = patch[0].ase_texcoord4 * bary.x + patch[1].ase_texcoord4 * bary.y + patch[2].ase_texcoord4 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -933,22 +916,14 @@ Shader "bossring"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float2 uv_TextureSample3 = IN.ase_texcoord.xy * _TextureSample3_ST.xy + _TextureSample3_ST.zw;
-				float2 texCoord20 = IN.ase_texcoord.xy * float2( 6,1 ) + float2( 0,0 );
-				float2 panner19 = ( 1.0 * _Time.y * float2( 0,-1 ) + ( tex2D( _TextureSample3, uv_TextureSample3 ).r + texCoord20 ));
-				float4 tex2DNode17 = tex2D( _TextureSample0, panner19 );
-				float2 uv_TextureSample1 = IN.ase_texcoord.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
-				float4 tex2DNode22 = tex2D( _TextureSample1, uv_TextureSample1 );
-				float2 texCoord39 = IN.ase_texcoord.xy * _Vector0 + float2( 0,0 );
-				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + texCoord39);
-				float smoothstepResult32 = smoothstep( 0.0 , 0.1 , ( tex2DNode17.r * tex2DNode22.r * tex2D( _TextureSample2, panner38 ).r ));
-				float4 texCoord51 = IN.ase_texcoord1;
-				texCoord51.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
-				float temp_output_48_0 = ( ( tex2DNode17.r * tex2DNode22.r ) + tex2DNode22.r );
-				float smoothstepResult50 = smoothstep( 0.07 , 0.26 , temp_output_48_0);
+				float4 texCoord59 = IN.ase_texcoord;
+				texCoord59.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult58 = (float2(1.0 , texCoord59.z));
+				float2 texCoord39 = IN.ase_texcoord1.xy * _Vector0 + float2( 0,0 );
+				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + ( appendResult58 + texCoord39 ));
 				
 
-				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( ( smoothstepResult32 * texCoord51.z ) + smoothstepResult50 ) ) );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( (0.0 + (tex2D( _TextureSample2, panner38 ).r - 0.45) * (1.0 - 0.0) / (1.0 - 0.45)) * 5.0 ) ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1002,8 +977,8 @@ Shader "bossring"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1032,9 +1007,6 @@ Shader "bossring"
 			#endif
 			CBUFFER_END
 
-			sampler2D _TextureSample0;
-			sampler2D _TextureSample3;
-			sampler2D _TextureSample1;
 			sampler2D _TextureSample2;
 
 
@@ -1058,11 +1030,11 @@ Shader "bossring"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_color = v.ase_color;
-				o.ase_texcoord.xy = v.ase_texcoord.xy;
-				o.ase_texcoord1 = v.ase_texcoord4;
+				o.ase_texcoord = v.ase_texcoord2;
+				o.ase_texcoord1.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord.zw = 0;
+				o.ase_texcoord1.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1087,8 +1059,8 @@ Shader "bossring"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1107,8 +1079,8 @@ Shader "bossring"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_color = v.ase_color;
+				o.ase_texcoord2 = v.ase_texcoord2;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord4 = v.ase_texcoord4;
 				return o;
 			}
 
@@ -1148,8 +1120,8 @@ Shader "bossring"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord4 = patch[0].ase_texcoord4 * bary.x + patch[1].ase_texcoord4 * bary.y + patch[2].ase_texcoord4 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1171,22 +1143,14 @@ Shader "bossring"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float2 uv_TextureSample3 = IN.ase_texcoord.xy * _TextureSample3_ST.xy + _TextureSample3_ST.zw;
-				float2 texCoord20 = IN.ase_texcoord.xy * float2( 6,1 ) + float2( 0,0 );
-				float2 panner19 = ( 1.0 * _Time.y * float2( 0,-1 ) + ( tex2D( _TextureSample3, uv_TextureSample3 ).r + texCoord20 ));
-				float4 tex2DNode17 = tex2D( _TextureSample0, panner19 );
-				float2 uv_TextureSample1 = IN.ase_texcoord.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
-				float4 tex2DNode22 = tex2D( _TextureSample1, uv_TextureSample1 );
-				float2 texCoord39 = IN.ase_texcoord.xy * _Vector0 + float2( 0,0 );
-				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + texCoord39);
-				float smoothstepResult32 = smoothstep( 0.0 , 0.1 , ( tex2DNode17.r * tex2DNode22.r * tex2D( _TextureSample2, panner38 ).r ));
-				float4 texCoord51 = IN.ase_texcoord1;
-				texCoord51.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
-				float temp_output_48_0 = ( ( tex2DNode17.r * tex2DNode22.r ) + tex2DNode22.r );
-				float smoothstepResult50 = smoothstep( 0.07 , 0.26 , temp_output_48_0);
+				float4 texCoord59 = IN.ase_texcoord;
+				texCoord59.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult58 = (float2(1.0 , texCoord59.z));
+				float2 texCoord39 = IN.ase_texcoord1.xy * _Vector0 + float2( 0,0 );
+				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + ( appendResult58 + texCoord39 ));
 				
 
-				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( ( smoothstepResult32 * texCoord51.z ) + smoothstepResult50 ) ) );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( (0.0 + (tex2D( _TextureSample2, panner38 ).r - 0.45) * (1.0 - 0.0) / (1.0 - 0.45)) * 5.0 ) ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1249,8 +1213,8 @@ Shader "bossring"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1280,9 +1244,6 @@ Shader "bossring"
 			#endif
 			CBUFFER_END
 
-			sampler2D _TextureSample0;
-			sampler2D _TextureSample3;
-			sampler2D _TextureSample1;
 			sampler2D _TextureSample2;
 
 
@@ -1303,11 +1264,11 @@ Shader "bossring"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_color = v.ase_color;
-				o.ase_texcoord1.xy = v.ase_texcoord.xy;
-				o.ase_texcoord2 = v.ase_texcoord4;
+				o.ase_texcoord1 = v.ase_texcoord2;
+				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord1.zw = 0;
+				o.ase_texcoord2.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1339,8 +1300,8 @@ Shader "bossring"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1359,8 +1320,8 @@ Shader "bossring"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_color = v.ase_color;
+				o.ase_texcoord2 = v.ase_texcoord2;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord4 = v.ase_texcoord4;
 				return o;
 			}
 
@@ -1400,8 +1361,8 @@ Shader "bossring"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord4 = patch[0].ase_texcoord4 * bary.x + patch[1].ase_texcoord4 * bary.y + patch[2].ase_texcoord4 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1423,22 +1384,14 @@ Shader "bossring"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float2 uv_TextureSample3 = IN.ase_texcoord1.xy * _TextureSample3_ST.xy + _TextureSample3_ST.zw;
-				float2 texCoord20 = IN.ase_texcoord1.xy * float2( 6,1 ) + float2( 0,0 );
-				float2 panner19 = ( 1.0 * _Time.y * float2( 0,-1 ) + ( tex2D( _TextureSample3, uv_TextureSample3 ).r + texCoord20 ));
-				float4 tex2DNode17 = tex2D( _TextureSample0, panner19 );
-				float2 uv_TextureSample1 = IN.ase_texcoord1.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
-				float4 tex2DNode22 = tex2D( _TextureSample1, uv_TextureSample1 );
-				float2 texCoord39 = IN.ase_texcoord1.xy * _Vector0 + float2( 0,0 );
-				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + texCoord39);
-				float smoothstepResult32 = smoothstep( 0.0 , 0.1 , ( tex2DNode17.r * tex2DNode22.r * tex2D( _TextureSample2, panner38 ).r ));
-				float4 texCoord51 = IN.ase_texcoord2;
-				texCoord51.xy = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float temp_output_48_0 = ( ( tex2DNode17.r * tex2DNode22.r ) + tex2DNode22.r );
-				float smoothstepResult50 = smoothstep( 0.07 , 0.26 , temp_output_48_0);
+				float4 texCoord59 = IN.ase_texcoord1;
+				texCoord59.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult58 = (float2(1.0 , texCoord59.z));
+				float2 texCoord39 = IN.ase_texcoord2.xy * _Vector0 + float2( 0,0 );
+				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + ( appendResult58 + texCoord39 ));
 				
 
-				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( ( smoothstepResult32 * texCoord51.z ) + smoothstepResult50 ) ) );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( (0.0 + (tex2D( _TextureSample2, panner38 ).r - 0.45) * (1.0 - 0.0) / (1.0 - 0.45)) * 5.0 ) ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1502,8 +1455,8 @@ Shader "bossring"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1532,9 +1485,6 @@ Shader "bossring"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			sampler2D _TextureSample0;
-			sampler2D _TextureSample3;
-			sampler2D _TextureSample1;
 			sampler2D _TextureSample2;
 
 
@@ -1555,11 +1505,11 @@ Shader "bossring"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_color = v.ase_color;
-				o.ase_texcoord1.xy = v.ase_texcoord.xy;
-				o.ase_texcoord2 = v.ase_texcoord4;
+				o.ase_texcoord1 = v.ase_texcoord2;
+				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord1.zw = 0;
+				o.ase_texcoord2.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1591,8 +1541,8 @@ Shader "bossring"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord4 : TEXCOORD4;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1611,8 +1561,8 @@ Shader "bossring"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_color = v.ase_color;
+				o.ase_texcoord2 = v.ase_texcoord2;
 				o.ase_texcoord = v.ase_texcoord;
-				o.ase_texcoord4 = v.ase_texcoord4;
 				return o;
 			}
 
@@ -1652,8 +1602,8 @@ Shader "bossring"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord2 = patch[0].ase_texcoord2 * bary.x + patch[1].ase_texcoord2 * bary.y + patch[2].ase_texcoord2 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_texcoord4 = patch[0].ase_texcoord4 * bary.x + patch[1].ase_texcoord4 * bary.y + patch[2].ase_texcoord4 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1675,22 +1625,14 @@ Shader "bossring"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float2 uv_TextureSample3 = IN.ase_texcoord1.xy * _TextureSample3_ST.xy + _TextureSample3_ST.zw;
-				float2 texCoord20 = IN.ase_texcoord1.xy * float2( 6,1 ) + float2( 0,0 );
-				float2 panner19 = ( 1.0 * _Time.y * float2( 0,-1 ) + ( tex2D( _TextureSample3, uv_TextureSample3 ).r + texCoord20 ));
-				float4 tex2DNode17 = tex2D( _TextureSample0, panner19 );
-				float2 uv_TextureSample1 = IN.ase_texcoord1.xy * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
-				float4 tex2DNode22 = tex2D( _TextureSample1, uv_TextureSample1 );
-				float2 texCoord39 = IN.ase_texcoord1.xy * _Vector0 + float2( 0,0 );
-				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + texCoord39);
-				float smoothstepResult32 = smoothstep( 0.0 , 0.1 , ( tex2DNode17.r * tex2DNode22.r * tex2D( _TextureSample2, panner38 ).r ));
-				float4 texCoord51 = IN.ase_texcoord2;
-				texCoord51.xy = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float temp_output_48_0 = ( ( tex2DNode17.r * tex2DNode22.r ) + tex2DNode22.r );
-				float smoothstepResult50 = smoothstep( 0.07 , 0.26 , temp_output_48_0);
+				float4 texCoord59 = IN.ase_texcoord1;
+				texCoord59.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult58 = (float2(1.0 , texCoord59.z));
+				float2 texCoord39 = IN.ase_texcoord2.xy * _Vector0 + float2( 0,0 );
+				float2 panner38 = ( 1.0 * _Time.y * float2( 0,-0.1 ) + ( appendResult58 + texCoord39 ));
 				
 
-				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( ( smoothstepResult32 * texCoord51.z ) + smoothstepResult50 ) ) );
+				surfaceDescription.Alpha = saturate( ( IN.ase_color.a * ( (0.0 + (tex2D( _TextureSample2, panner38 ).r - 0.45) * (1.0 - 0.0) / (1.0 - 0.45)) * 5.0 ) ) );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1727,59 +1669,54 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ScenePickingPass;0;7;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormals;0;8;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormalsOnly;0;9;DepthNormalsOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.SamplerNode;22;-989.3395,375.5029;Inherit;True;Property;_TextureSample1;Texture Sample 1;2;0;Create;True;0;0;0;False;0;False;-1;650e66febe6884c45bf6fbd28159f195;d9cc1c3743f0cbd4f840340f44f67358;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;17;-997.4652,180.9194;Inherit;True;Property;_TextureSample0;Texture Sample 0;1;0;Create;True;0;0;0;False;0;False;-1;c237d61787c73c94c8dce79f09e1b0f4;94c60aebd81501e44a5d6242bc014817;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;21;-615.5992,208.7156;Inherit;True;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;31;-1337.506,80.70484;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SamplerNode;30;-1648.286,-5.165799;Inherit;True;Property;_TextureSample3;Texture Sample 3;4;0;Create;True;0;0;0;False;0;False;-1;None;39da32845d2a12d4f9c5237af2b001e3;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;23;-1035.862,646.4173;Inherit;True;Property;_TextureSample2;Texture Sample 2;3;0;Create;True;0;0;0;False;0;False;-1;092a06312c86d684f8cf1ceb3749579c;44216b68f6dc85b448829b0342570308;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TextureCoordinatesNode;39;-1452.783,636.9275;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.Vector2Node;40;-1610.975,628.2067;Inherit;False;Property;_Vector0;Vector 0;5;0;Create;True;0;0;0;False;0;False;0,0;10,1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.PannerNode;19;-1168.912,208.669;Inherit;False;3;0;FLOAT2;0,1;False;2;FLOAT2;0,-1;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;-614.7151,427.9548;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;48;-367.0345,382.2923;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PannerNode;38;-1219.258,640.3463;Inherit;False;3;0;FLOAT2;0,1;False;2;FLOAT2;0,-0.1;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SmoothstepOpNode;50;-146.5931,381.7784;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0.07;False;2;FLOAT;0.26;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;20;-1580.414,219.0229;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;6,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SmoothstepOpNode;32;-307.6018,-19.54189;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0.1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;51;-335.4254,211.976;Inherit;False;4;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SaturateNode;46;599.3612,-32.977;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;49;336.6755,-11.95894;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;16;471.7864,-33.18255;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;34;146.222,-9.849887;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-145.8775,-225.3623;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;66.41965,-223.6557;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;795.468,-211.8254;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;bossring;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638314982456496831;  Blend;0;638314984697925241;Two Sided;0;638314982489978906;Forward Only;0;0;Cast Shadows;0;638314982505791984;  Use Shadow Threshold;0;0;Receive Shadows;0;638314982512649800;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;False;True;False;False;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.VertexColorNode;11;-357.0399,-433.0431;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;10;-356.045,-209.4115;Inherit;False;Property;_color_intensity;color_intensity;0;0;Create;True;0;0;0;False;0;False;0;2;0;0;0;1;FLOAT;0
-WireConnection;17;1;19;0
-WireConnection;21;0;17;1
-WireConnection;21;1;22;1
-WireConnection;21;2;23;1
-WireConnection;31;0;30;1
-WireConnection;31;1;20;0
-WireConnection;23;1;38;0
-WireConnection;39;0;40;0
-WireConnection;19;0;31;0
-WireConnection;47;0;17;1
-WireConnection;47;1;22;1
-WireConnection;48;0;47;0
-WireConnection;48;1;22;1
-WireConnection;38;0;39;0
-WireConnection;50;0;48;0
-WireConnection;32;0;21;0
+Node;AmplifyShaderEditor.RangedFloatNode;10;-356.045,-209.4115;Inherit;False;Property;_color_intensity;color_intensity;0;0;Create;True;0;0;0;False;0;False;0;0.88;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;34;149.222,-6.849888;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;23;-868.0673,-34.921;Inherit;True;Property;_TextureSample2;Texture Sample 2;3;0;Create;True;0;0;0;False;0;False;-1;092a06312c86d684f8cf1ceb3749579c;44216b68f6dc85b448829b0342570308;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.PannerNode;38;-1051.463,-40.99183;Inherit;False;3;0;FLOAT2;0,1;False;2;FLOAT2;0,-0.1;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TFHCRemapNode;52;-551.5547,-7.789709;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0.45;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;22;-833.6822,368.0331;Inherit;True;Property;_TextureSample1;Texture Sample 1;2;0;Create;True;0;0;0;False;0;False;-1;650e66febe6884c45bf6fbd28159f195;d9cc1c3743f0cbd4f840340f44f67358;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;17;-841.8079,173.4496;Inherit;True;Property;_TextureSample0;Texture Sample 0;1;0;Create;True;0;0;0;False;0;False;-1;c237d61787c73c94c8dce79f09e1b0f4;94c60aebd81501e44a5d6242bc014817;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.PannerNode;19;-1013.253,201.1991;Inherit;False;3;0;FLOAT2;0,1;False;2;FLOAT2;0,-1;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;-459.0572,420.4849;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;48;-211.3761,374.8224;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;31;-1159.625,201.6318;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SamplerNode;30;-1470.405,115.7611;Inherit;True;Property;_TextureSample3;Texture Sample 3;4;0;Create;True;0;0;0;False;0;False;-1;None;39da32845d2a12d4f9c5237af2b001e3;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TextureCoordinatesNode;20;-1402.533,339.9498;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;6,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.Vector2Node;56;-1615.085,-26.1575;Inherit;False;Property;_Vector0;Vector 0;5;0;Create;True;0;0;0;False;0;False;4,1;4,1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.TextureCoordinatesNode;39;-1445.988,-45.41077;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleAddOpNode;57;-1188.058,-106.2243;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.DynamicAppendNode;58;-1365.878,-217.1574;Inherit;False;FLOAT2;4;0;FLOAT;1;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;59;-1616.491,-267.0821;Inherit;False;2;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;46;0;16;0
-WireConnection;49;0;34;0
-WireConnection;49;1;50;0
 WireConnection;16;0;11;4
-WireConnection;16;1;49;0
-WireConnection;34;0;32;0
-WireConnection;34;1;51;3
+WireConnection;16;1;34;0
 WireConnection;13;0;11;0
 WireConnection;13;1;10;0
 WireConnection;33;0;13;0
 WireConnection;33;1;48;0
 WireConnection;1;2;33;0
 WireConnection;1;3;46;0
+WireConnection;34;0;52;0
+WireConnection;23;1;38;0
+WireConnection;38;0;57;0
+WireConnection;52;0;23;1
+WireConnection;17;1;19;0
+WireConnection;19;0;31;0
+WireConnection;47;0;17;1
+WireConnection;47;1;22;1
+WireConnection;48;0;47;0
+WireConnection;48;1;22;1
+WireConnection;31;0;30;1
+WireConnection;31;1;20;0
+WireConnection;39;0;56;0
+WireConnection;57;0;58;0
+WireConnection;57;1;39;0
+WireConnection;58;1;59;3
 ASEEND*/
-//CHKSM=60444B1EF221B575654FD371516547A2D922EAB1
+//CHKSM=A84C7E3A0878B88295B847F7EC997B34D29C935B

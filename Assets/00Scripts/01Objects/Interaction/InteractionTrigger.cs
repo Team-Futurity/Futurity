@@ -29,7 +29,7 @@ public class InteractionTrigger : MonoBehaviour
 		}
 		
 		ChapterMoveController.Instance.EnableInteractionUI(EUIType.NEXTSTAGE);
-		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
+		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck, true);
 	}
 	
 	private void OnTriggerExit(Collider other)
@@ -40,7 +40,7 @@ public class InteractionTrigger : MonoBehaviour
 		}
 		
 		ChapterMoveController.Instance.DisableInteractionUI(EUIType.NEXTSTAGE);
-		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck,true);
 	}
 
 	private void InputCheck(InputAction.CallbackContext context)
@@ -48,7 +48,7 @@ public class InteractionTrigger : MonoBehaviour
 		ChapterMoveController.Instance.DisableInteractionUI(EUIType.NEXTSTAGE);
 		interactionEvent?.Invoke();
 		
-		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck);
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck,true);
 		
 		gameObject.GetComponent<BoxCollider>().enabled = false;
 		isInteraction = true;

@@ -24,6 +24,7 @@ public class TimelineScripting : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI textInput;
 	[SerializeField] private GameObject[] nameText;
 	[SerializeField] private float textOutputDelay = 0.05f;
+	[SerializeField] private float autoWaitingTime = 1.0f;
 	[HideInInspector] public bool isEnd = false;
 	private bool isInput = false;
 
@@ -34,6 +35,9 @@ public class TimelineScripting : MonoBehaviour
 	[Header("Sound")] 
 	[SerializeField] private FMODUnity.EventReference typingSound;
 	private EventInstance soundInst;
+
+	[HideInInspector] public bool isSkip = false;
+	[HideInInspector] public bool isAuto = false;
 
 	private WaitForSecondsRealtime waitForSecondsRealtime;
 	private IEnumerator textPrint;
@@ -145,7 +149,7 @@ public class TimelineScripting : MonoBehaviour
 				textInput.text += text;
 				soundInst.start();
 				
-				if (isInput == true)
+				if (isInput == true || isSkip == true)
 				{
 					textInput.text = scripts.scripts;
 					isInput = false;
@@ -157,9 +161,15 @@ public class TimelineScripting : MonoBehaviour
 
 			while (true)
 			{
-				if (isInput == true)
+				if (isInput == true || isSkip == true)
 				{
 					isInput = false;
+					break;
+				}
+
+				if (isAuto == true)
+				{
+					yield return new WaitForSeconds(autoWaitingTime);
 					break;
 				}
 
@@ -238,6 +248,10 @@ public class TimelineScripting : MonoBehaviour
 			
 			case ScriptingStruct.ESariExpression.SURPRISE:
 				skeletons[index].AnimationState.SetAnimation(0, "surprise", true);
+				break;
+			
+			case ScriptingStruct.ESariExpression.SAD:
+				skeletons[index].AnimationState.SetAnimation(0, "sad", true);
 				break;
 			
 			default:
