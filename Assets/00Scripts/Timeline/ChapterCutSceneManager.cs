@@ -11,8 +11,9 @@ using Animation = Spine.Animation;
 
 public class ChapterCutSceneManager : MonoBehaviour
 {
-	[Header("Intro씬이라면 체크")] 
+	[Header("Intro씬 혹은 튜토리얼 이라면 체크")] 
 	[SerializeField] private bool isIntroScene = false;
+	[SerializeField] private bool isTutorialScene = false;
 
 	[Header("Component")] 
 	[SerializeField] private Camera mainCamera;
@@ -51,6 +52,12 @@ public class ChapterCutSceneManager : MonoBehaviour
 	
 	public void Start()
 	{
+		if (isTutorialScene == true)
+		{
+			TimelineManager.Instance.InitCutSceneManager(GetChildCutScene());
+			transform.GetChild(0).gameObject.SetActive(true);
+		}
+		
 		if (isIntroScene == false)
 		{
 			return;
