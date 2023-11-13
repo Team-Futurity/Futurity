@@ -20,6 +20,13 @@ public class ObjectAddressablePoolManager<PoolingClass> : OBJAddressablePoolPare
         activeObjCount = 0;
     }
 
+	public void Reset()
+	{
+		nonActivedObjects.Clear();
+		activedPoolingObjects.Clear();
+		activeObjCount = 0;
+	}
+
 	public void SetManager(AssetReference prefab, GameObject parent = null)
 	{
 		this.prefab = prefab;
