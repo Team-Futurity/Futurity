@@ -12,8 +12,9 @@ public abstract class CrowdBase : MonoBehaviour
 
 	[Space(10)]
 	[Header("Event")]
-	public UnityEvent buffStart;
-	public UnityEvent buffEnd;
+	public UnityEvent onStart;
+	public UnityEvent onStay;
+	public UnityEvent onEnded;
 
 	private float activeTime = .0f;
 	private float currTime;
@@ -40,17 +41,17 @@ public abstract class CrowdBase : MonoBehaviour
 		
 		// Timer 진행
 		currTime += Time.deltaTime;
-
+		
 		if (currTime > activeTime)
 		{
 			UnActive();
+			
+			Destroy(this.gameObject);
 		}
 	}
 
 	public void SetData(CrowdSystem crowdSystem, UnitBase unit)
 	{
-		Debug.Log("데이터 수신");
-		
 		targetSystem = crowdSystem;
 		targetUnit = unit;
 		
@@ -61,9 +62,8 @@ public abstract class CrowdBase : MonoBehaviour
 	{
 		if (isStart) return;
 		
-		buffStart?.Invoke();
+		onStart?.Invoke();
 		
-		Debug.Log("또 왜");
 		isStart = true;
 		StartCrowd();
 	}
@@ -72,13 +72,12 @@ public abstract class CrowdBase : MonoBehaviour
 	{
 		ExitCrowd();
 
-		targetSystem.RemoveCrowdName(this);
-		buffEnd?.Invoke();
+		targetSystem.RemoveCrowdData(this);
+		onEnded?.Invoke();
 	}
 
 	public void SetCrowdTime(float time)
 	{
-		Debug.Log(transform.parent + " : 한글을 보여줘");
 		activeTime = time;
 	}
 
