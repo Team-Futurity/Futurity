@@ -32,6 +32,7 @@ public class EffectTimer : MonoBehaviour
 
 		isActive = false;
 		unScaldTime = 0.0f;
+		auraMat.SetFloat("_UnTimeScale", unScaldTime);
 		
 		StopCoroutine(InitUnScaldTime());
 	}
