@@ -95,6 +95,9 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 
 	private void Start()
 	{
+		if (enemyType == EnemyType.M_JF)
+			return;
+
 		if(effectSO)
 			effectController = ECManager.Instance.GetEffectManager(effectSO);
 		currentEffectData = new EffectActiveData();
