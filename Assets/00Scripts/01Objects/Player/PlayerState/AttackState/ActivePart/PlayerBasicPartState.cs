@@ -180,7 +180,6 @@ public class PlayerBasicPartState : PlayerSpecialMoveState<BasicActivePart>
 		proccessor.landingEffectObjectPool.ActiveObject(proccessor.landingEffectPos.position, proccessor.landingEffectPos.rotation).
 			GetComponent<ParticleController>().Initialize(proccessor.landingEffectObjectPool);
 		currentCollider.transform.localPosition = Vector3.zero;
-		EndExtension(pc);
 	}
 
 	public void AttackEnd()
