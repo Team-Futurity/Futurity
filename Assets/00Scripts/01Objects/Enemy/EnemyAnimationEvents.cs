@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EnemyAnimationEvents : MonoBehaviour
 {
@@ -67,6 +66,18 @@ public class EnemyAnimationEvents : MonoBehaviour
 		ec.currentEffectData.target = EffectTarget.Target;
 		ec.currentEffectData.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 	}
+
+	public void M_JFUp(float yPos)
+	{
+		ec.transform.position = new Vector3(ec.transform.position.x, yPos, ec.transform.position.z);
+	}
+
+	public void M_JFDown()
+	{
+		Vector3 targetPos = ec.target.transform.position;
+		ec.transform.position = targetPos;
+	}
+
 	#endregion
 
 	public void KnockBack()

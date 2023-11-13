@@ -34,6 +34,10 @@ public enum EnemyState : int
 	D_BFChase,
 	D_BFAttack,
 
+	//M_JF
+	M_JFChase,
+	M_JFAttack,
+
 	//Tutorial
 	TutorialIdle,
 

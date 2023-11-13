@@ -45,7 +45,7 @@ public class EnemyAttackBaseState : StateBase
 	{
 		if (curTime > maxTime)
 		{
-			if(unit.ThisEnemyType == EnemyType.MeleeDefault)
+			if(unit.ThisEnemyType == EnemyType.M_CF)
 				AudioManager.Instance.PlayOneShot(unit.attackSound1, unit.transform.position);
 			unit.animator.SetTrigger(unit.atkAnimParam);
 			curTime = 0f;

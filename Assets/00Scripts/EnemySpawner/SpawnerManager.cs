@@ -50,10 +50,10 @@ public class SpawnerManager : MonoBehaviour
 		totalSpawnCount = new int[MAX_ENEMY_TYPE];
 		InitSpawnerData();
 		
-		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MeleeDefault], EnemyType.MeleeDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyType.RangedDefault], EnemyType.RangedDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MinimalDefault], EnemyType.MinimalDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyType.EliteDefault], EnemyType.EliteDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.M_CF], EnemyType.M_CF);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.D_LF], EnemyType.D_LF);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.T_DF], EnemyType.T_DF);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.E_DF], EnemyType.E_DF);
 		
 		objectIndicator = GameObject.FindWithTag("Player").GetComponentInChildren<ObjectIndicator>();
 		

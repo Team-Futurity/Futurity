@@ -4,6 +4,7 @@ public class ActiveCutScene : CutSceneBase
 {
 	[Header("추가 컴포넌트")] 
 	[SerializeField] private RectTransform dialogWindow;
+	[SerializeField] private EffectTimer effectTimer;
 	private float originYPos;
 	private const float MOVE_YPOS = -1000.0f;
 	
@@ -20,6 +21,7 @@ public class ActiveCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.SetActiveMainUI(false);
+		effectTimer.StartInitUnScaldTime(cutSceneType);
 
 		if (dialogWindow == null)
 		{
@@ -34,6 +36,7 @@ public class ActiveCutScene : CutSceneBase
 	{
 		Time.timeScale = 1.0f;
 		chapterManager.SetActiveMainUI(true);
+		effectTimer.StopInitTimer();
 		
 		if (dialogWindow == null)
 		{
