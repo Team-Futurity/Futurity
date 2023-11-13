@@ -13,23 +13,8 @@ public class CrowdSystem : MonoBehaviour
 	// Crowd Receiver : 전달 받은 버프를 적용한다.
 	private List<CrowdBase> recCrowdList = new List<CrowdBase>();
 
-	public UnitBase debugTest;
-	
 	private void Awake()
 	{
-		if (debugTest != null)
-		{
-			SendCrowd(debugTest, 0);
-		}
-	}
-
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			if(debugTest != null)
-				SendCrowd(debugTest, 1);
-		}
 	}
 
 	public bool AddCrowdData(CrowdBase crowd)

@@ -49,8 +49,6 @@ public abstract class CrowdBase : MonoBehaviour
 
 	public void SetData(CrowdSystem crowdSystem, UnitBase unit)
 	{
-		Debug.Log("데이터 수신");
-		
 		targetSystem = crowdSystem;
 		targetUnit = unit;
 		
@@ -63,7 +61,6 @@ public abstract class CrowdBase : MonoBehaviour
 		
 		buffStart?.Invoke();
 		
-		Debug.Log("또 왜");
 		isStart = true;
 		StartCrowd();
 	}
@@ -78,7 +75,6 @@ public abstract class CrowdBase : MonoBehaviour
 
 	public void SetCrowdTime(float time)
 	{
-		Debug.Log(transform.parent + " : 한글을 보여줘");
 		activeTime = time;
 	}
 
