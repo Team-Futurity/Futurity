@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
@@ -39,6 +40,8 @@ public class SceneLoader : Singleton<SceneLoader>
 		}
 
 		loadSystemObject.TryGetComponent<LoadingSystem>(out var loadSystem);
+
+		data = Addressables.LoadAssetAsync<LoadingData>(nextSceneName).WaitForCompletion();
 
 		if(data != null) loadSystem.SetLoadData(data);
 		loadSystem.SetNextScene(nextSceneName);

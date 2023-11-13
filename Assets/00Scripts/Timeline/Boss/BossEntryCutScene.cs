@@ -6,6 +6,10 @@ public class BossEntryCutScene : CutSceneBase
 	[Header("추가 Component")]
 	[SerializeField] private BossController boss;
 	private Animator bossAnimator;
+	[SerializeField] private UIDialogController dialogController;
+
+	[Header("다이얼로그 데이터")] 
+	[SerializeField] private DialogData dialogData;
 	
 	[Header("플레이어 이동값")] 
 	[SerializeField] private Transform endPos;
@@ -36,6 +40,9 @@ public class BossEntryCutScene : CutSceneBase
 		
 		chapterManager.scripting.ResetEmotion();
 		chapterManager.scripting.DisableAllNameObject();
+		
+		dialogController.SetDialogData(dialogData);
+		dialogController.Play();
 		
 		endEvent?.Invoke();
 	}

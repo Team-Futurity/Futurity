@@ -39,7 +39,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		AttackAsset attackAsset = attackNode.GetAttackAsset(pc.partSystem.GetEquiped75PercentPointPartCode());
 
 		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
-		if(attackAsset == null || attackAsset.effectPoolManager == null ) { FDebug.LogError("[PlayerAnimationEvents] attackAsset or attackAsset.effectPoolManager is Null. Please Check to Command Graph or Script"); return; }
+		if(attackAsset == null || attackAsset.effectPoolManager == null ) 
+		{ 
+			FDebug.Log("[PlayerAnimationEvents] attackAsset or attackAsset.effectPoolManager is Null. If process is not working, Please Check to Command Graph or Script"); 
+			return; 
+		}
 
 		Quaternion rotation = Quaternion.identity;
 		Vector3 position = Vector3.zero;
@@ -251,8 +255,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		{
 			return;
 		}
-		
-		pc.camera.TimeScaleManager.StartAttackSlowMotion(index);
+
+		if (pc.camera != null)
+		{
+			pc.camera.TimeScaleManager.StartAttackSlowMotion(index);
+		}
 	}
 
 	public void StartChromaticAberration(string values)
@@ -263,7 +270,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		}
 		
 		float[] value = ConvertStringToFloatArray(values);
-		pc.camera.StartChromaticAberration(value[0], value[1]);
+
+		if(pc.camera != null)
+		{
+			pc.camera.StartChromaticAberration(value[0], value[1]);
+		}
 	}
 	
 	private IEnumerator HitStopWithCamShake(float hitStopTime, float velocity, float duration)
@@ -272,7 +283,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		yield return new WaitForSecondsRealtime(hitStopTime);
 		
 		Time.timeScale = 1.0f;
-		pc.camera.CameraShake(velocity, duration);
+
+		if (pc.camera != null)
+		{
+			pc.camera.CameraShake(velocity, duration);
+		}
 	}
 
 	private IEnumerator HitStop(float duration)
@@ -353,7 +368,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 		if(currentVoice.isValid())
 		{
 			currentVoice.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-			FDebug.Log("FADE");
 		}
 		currentVoice = AudioManager.Instance.CreateInstance(voice);
 		currentVoice.set3DAttributes(RuntimeUtils.To3DAttributes(pc.gameObject));
