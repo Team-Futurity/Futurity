@@ -41,9 +41,10 @@ public class Player : UnitBase
 		float remainingDamageRatio = Mathf.Clamp(1 - GetDefensePoint() * 0.01f, 0, 100);
 		float finalDamage = damageInfo.Damage * remainingDamageRatio;
 
-		status.GetStatus(StatusType.CURRENT_HP).SubValue(finalDamage);
+		var currentHP = status.GetStatus(StatusType.CURRENT_HP);
+		currentHP.SubValue(finalDamage);
 
-		var hpElement = status.GetStatus(StatusType.CURRENT_HP).GetValue();
+		var hpElement = currentHP.GetValue();
 		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
 		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
 
@@ -55,6 +56,13 @@ public class Player : UnitBase
 		Vector3 vec = damageInfo.Attacker.transform.position - damageInfo.Defender.transform.position;
 		pc.transform.rotation = Quaternion.LookRotation(vec);
 
+		if(currentHP.GetValue() <= 0)
+		{
+			pc.ChangeState(PlayerState.Death);
+
+			return;
+		}
+
 		if(pc.IsCurrentState(PlayerState.Hit))
 		{
 			UnitState<PlayerController> state = null;
@@ -64,11 +72,9 @@ public class Player : UnitBase
 			{
 				var hitState = (PlayerHitState)state;
 				hitState.HitProduction(pc);
-
 			}
 		}
-
-		if(/*!pc.IsAttackProcess(true) &&*/ !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
+		else if(/*!pc.IsAttackProcess(true) &&*/ !pc.IsCurrentState(PlayerState.Dash) && !pc.playerData.isStun && !pc.IsCurrentState(PlayerState.BasicSM))
 		{
 			pc.ChangeState(PlayerState.Hit);
 		}
