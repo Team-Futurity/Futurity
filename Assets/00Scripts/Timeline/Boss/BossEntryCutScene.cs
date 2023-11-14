@@ -64,7 +64,7 @@ public class BossEntryCutScene : CutSceneBase
 
 	public void BossEntry_PlayStartAni()
 	{
-		bossAnimator.SetTrigger("Type3");
+		bossAnimator.SetTrigger("StartProduction");
 	}
 	
 	public void MovePlayer()
