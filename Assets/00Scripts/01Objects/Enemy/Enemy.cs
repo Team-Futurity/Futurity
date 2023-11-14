@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static PlayerController;
 
 public class Enemy : UnitBase
 {
@@ -55,11 +54,26 @@ public class Enemy : UnitBase
 	private void PoolEffect(DamageInfo damageInfo)
 	{
 		GameObject obj;
-		Vector3 pos = ec.transform.position + new Vector3(0, 1.0f, 0);
+		Vector3 pos = damageInfo.HitPoint;
 
 		if (damageInfo.HitEffectPoolManager != null)
 		{
-			obj = damageInfo.HitEffectPoolManager.ActiveObject(pos + damageInfo.HitEffectOffset).gameObject;
+			Quaternion rotation = Quaternion.identity;
+			Vector3 position = Vector3.zero;
+
+
+			Quaternion enemyRoatation = Quaternion.LookRotation(damageInfo.Attacker.transform.forward.normalized);
+			if (enemyRoatation.y > 180f) { enemyRoatation.y -= 360f; }
+			rotation = enemyRoatation;
+			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
+
+			position = pos + rotation * damageInfo.HitEffectOffset;
+			position.y = pos.y + damageInfo.HitEffectOffset.y;
+			obj = damageInfo.HitEffectPoolManager.ActiveObject(position, rotation).gameObject;
+
+
+
+			//obj = damageInfo.HitEffectPoolManager.ActiveObject(pos + damageInfo.HitEffectOffset, ec.target.transform.rotation).gameObject;
 
 			InitializeEffect(obj, damageInfo.HitEffectPoolManager);
 		}
