@@ -11,6 +11,7 @@ public abstract class UIButton : MonoBehaviour
 
 
 	public bool usedLeftRight = false;
+	public bool usedExitKey = false;
 
 	protected abstract void ActiveFunc();
 	protected virtual void OnLeftActive() {}
