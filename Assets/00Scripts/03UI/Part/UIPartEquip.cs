@@ -34,6 +34,13 @@ public class UIPartEquip : MonoBehaviour
 
 	public List<GameObject> canvasList;
 
+	public GameObject lockPassive;
+	public GameObject lockActive;
+
+	public Image active1;
+	public Image active2;
+	public Image active3;
+	
 	public void OnDisable()
 	{
 		if (canvasList == null && !UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP))
@@ -57,18 +64,25 @@ public class UIPartEquip : MonoBehaviour
 			// Active
 			UIInputManager.Instance.SetDefaultFocusForced(3);
 			UIInputManager.Instance.SetUnableMoveButton(true);
+			
+			lockPassive.SetActive(true);
+			lockActive.SetActive(false);
 
 			if (activetype == 1)
 				activeIconImage.sprite = selectBasicActive;
 			else if (activetype == 2)
 				activeIconImage.sprite = selectBetaActive;
-				
 		}
 		else
 		{
+			lockActive.SetActive(true);
+			lockPassive.SetActive(false);
+			
 			// Passive
 			UIInputManager.Instance.SetUnableMoveButton(false);
 			UIInputManager.Instance.SetMaxMoveIndex(3);
+
+			active3.color = active2.color = active1.color = Define.noneSelectcolor;
 		}
 	}
 
@@ -110,6 +124,7 @@ public class UIPartEquip : MonoBehaviour
 		else activetype = 0;
 		
 		activeButton.InitResource(true);
+		activeButton.SetButtonData(activePartData);
 	}
 
 	// 버튼을 눌렀다는 것은 해당 Index에 부품을 장착하겠다는 소리임.
