@@ -40,6 +40,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		for (int i = 0; i < buttons.Count; ++i)
 		{
 			currentActiveButtons?.Add(i, buttons[i]);
+			buttons[i].Init();
 		}
 
 		if (isDefaultFocus)

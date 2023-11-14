@@ -42,9 +42,31 @@ public class UIPartSelectButton : UIButton
 	[SerializeField]
 	private int buttonIndex = 0;
 
+	public Image activeTypeImage;
+	public Image passiveTypeImage;
+	
+
 	protected override void ActiveFunc()
 	{
 		onSelected?.Invoke(partCode, buttonIndex);
+	}
+
+	public override void Init()
+	{
+		if(PartIconImage != null)
+			PartIconImage.color = Define.noneSelectcolor;
+		if (PartNameImage != null)
+			PartNameImage.color = Define.noneSelectcolor;
+		if (CoreInfoText != null)
+			CoreInfoText.color = SubInfoText.color = Define.noneSelectcolor;
+		if (partTypeImage != null)
+			partTypeImage.color = Define.noneSelectcolor;
+		if(infoText != null)
+			infoText.color = Define.noneSelectcolor;
+		if(activeTypeImage != null)
+			activeTypeImage.color = Define.noneSelectcolor;
+		if(passiveTypeImage != null)
+			passiveTypeImage.color = Define.noneSelectcolor;
 	}
 
 	public override void SelectActive(bool isOn)
@@ -61,6 +83,10 @@ public class UIPartSelectButton : UIButton
 				partTypeImage.color = Define.selectColor;
 			if (infoText != null)
 				infoText.color = Define.selectColor;
+			if(activeTypeImage != null)
+				activeTypeImage.color = Define.selectColor;
+			if(passiveTypeImage != null)
+				passiveTypeImage.color = Define.selectColor;
 		}
 		else
 		{
@@ -74,6 +100,10 @@ public class UIPartSelectButton : UIButton
 				partTypeImage.color = Define.noneSelectcolor;
 			if(infoText != null)
 				infoText.color = Define.noneSelectcolor;
+			if(activeTypeImage != null)
+				activeTypeImage.color = Define.noneSelectcolor;
+			if(passiveTypeImage != null)
+				passiveTypeImage.color = Define.noneSelectcolor;
 		}
 	}
 

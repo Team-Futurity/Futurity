@@ -18,6 +18,8 @@ public abstract class UIButton : MonoBehaviour
 
 	private bool isSelected = false;
 
+	public virtual void Init() {}
+
 	public void Active()
 	{
 		ActiveFunc();
