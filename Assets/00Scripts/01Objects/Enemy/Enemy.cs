@@ -59,14 +59,14 @@ public class Enemy : UnitBase
 
 		if (damageInfo.HitEffectPoolManager != null)
 		{
-			obj = damageInfo.HitEffectPoolManager.ActiveObject(pos).gameObject;
+			obj = damageInfo.HitEffectPoolManager.ActiveObject(pos + damageInfo.HitEffectOffset).gameObject;
 
 			InitializeEffect(obj, damageInfo.HitEffectPoolManager);
 		}
 
 		if (damageInfo.HitEffectPoolManagerByPart != null)
 		{
-			obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(pos).gameObject;
+			obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(pos + damageInfo.HitEffectOffsetByPart).gameObject;
 
 			InitializeEffect(obj, damageInfo.HitEffectPoolManagerByPart);
 		}
