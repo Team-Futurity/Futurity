@@ -24,7 +24,7 @@ public class T6_CircleState : B_PatternBase
 		unit.SetListEffectData(unit.floorEffectDatas, unit.attackTrigger.type6Colliders, EffectActivationTime.AttackReady, EffectTarget.Ground, false);
 		foreach (var o in unit.floorEffectDatas)
 		{
-			o.position = new Vector3(0f, 1.0f, 0f);
+			o.position += new Vector3(0f, 1.0f, 0f);
 			o.rotation = Quaternion.Euler(new Vector3(-90f, 0, 0));
 		}
 		unit.SetListEffectData(unit.attackEffectDatas, unit.attackTrigger.type6Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Target, false);
