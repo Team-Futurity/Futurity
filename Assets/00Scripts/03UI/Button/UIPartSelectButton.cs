@@ -47,6 +47,36 @@ public class UIPartSelectButton : UIButton
 		onSelected?.Invoke(partCode, buttonIndex);
 	}
 
+	public override void SelectActive(bool isOn)
+	{
+		if(isOn)
+		{
+			if (PartIconImage != null)
+				PartIconImage.color = Define.selectColor;
+			if (PartNameImage != null)
+				PartNameImage.color = Define.selectColor;
+			if (CoreInfoText != null)
+				CoreInfoText.color = SubInfoText.color = Define.selectColor;
+			if (partTypeImage != null)
+				partTypeImage.color = Define.selectColor;
+			if (infoText != null)
+				infoText.color = Define.selectColor;
+		}
+		else
+		{
+			if(PartIconImage != null)
+				PartIconImage.color = Define.noneSelectcolor;
+			if (PartNameImage != null)
+				PartNameImage.color = Define.noneSelectcolor;
+			if (CoreInfoText != null)
+				CoreInfoText.color = SubInfoText.color = Define.noneSelectcolor;
+			if (partTypeImage != null)
+				partTypeImage.color = Define.noneSelectcolor;
+			if(infoText != null)
+				infoText.color = Define.noneSelectcolor;
+		}
+	}
+
 	public void SetButtonData(int code)
 	{
 		PartIconImage.enabled = PartNameImage.enabled = true;
@@ -73,7 +103,6 @@ public class UIPartSelectButton : UIButton
 		partCode = code;
 	}
 
-	// Addressable¿ª ≈Î«— Data Load
 	private UIPassiveSelectData LoadPartData(int code)
 	{
 		UIPassiveSelectData data = Addressables.LoadAssetAsync<UIPassiveSelectData>(code.ToString()).WaitForCompletion();

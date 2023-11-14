@@ -11,6 +11,8 @@ public class UIManager : Singleton<UIManager>
 
 	private Stack<UIWindow> windowStack;
 
+	public List<UIWindow> defaultWindow = new List<UIWindow>();
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -21,6 +23,24 @@ public class UIManager : Singleton<UIManager>
 	}
 	
 	#region Window
+
+	public void OpenDefaultWindow()
+	{
+		for(int i=0;i<defaultWindow.Count;++i)
+		{
+			defaultWindow[i].OpenWindow();
+			AddWindow(defaultWindow[i].WindowType, defaultWindow[i]);
+		}
+	}
+
+	public void CloseDefaultWindow()
+	{
+		for (int i = 0; i < defaultWindow.Count; ++i)
+		{
+			defaultWindow[i].CloseWindow();
+			CloseWindow(defaultWindow[i].WindowType);
+		}
+	}
 
 	public void AddWindow(WindowList type, UIWindow window)
 	{

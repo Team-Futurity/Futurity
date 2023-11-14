@@ -6,11 +6,14 @@ using UnityEngine.Events;
 public class UIPassivePartSelect : MonoBehaviour
 {
 	public UIPartSelectButton[] passiveSelectButtons;
+
 	[field: SerializeField, Space(15)]
 	public UIPartEquip Equip { get; private set; }
 
 	public void SetPartData(params int[] partCodes)
 	{
+		UIManager.Instance.CloseDefaultWindow();
+
 		if (partCodes.Length > 3)
 		{
 			FDebug.Log("잘못된 인자입니다.");

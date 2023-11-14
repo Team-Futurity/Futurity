@@ -20,10 +20,8 @@ public class UIPartEquip : MonoBehaviour
 	private int selectButtonIndex = 0;
 
 	private bool isSelect = false;
-	private int partType = 0;
 
-	public GameObject passiveDim;
-	public GameObject activeDim;
+	private int partType = 0;
 
 	public void SetSelectPart(int code)
 	{
@@ -33,19 +31,17 @@ public class UIPartEquip : MonoBehaviour
 
 		if (partType == 1)
 		{
+			// Dim 
+
 			// Active
-			activeDim.SetActive(false);
-			passiveDim.SetActive(true);
-			
 			UIInputManager.Instance.SetDefaultFocusForced(3);
 			UIInputManager.Instance.SetUnableMoveButton(true);
 		}
 		else
 		{
+			// Dim
+
 			// Passive
-			passiveDim.SetActive(false);
-			activeDim.SetActive(true);
-			
 			UIInputManager.Instance.SetUnableMoveButton(false);
 			UIInputManager.Instance.SetMaxMoveIndex(3);
 		}
