@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,19 @@ public class UIPassivePartSelect : MonoBehaviour
 
 	[field: SerializeField, Space(15)]
 	public UIPartEquip Equip { get; private set; }
+
+	public List<GameObject> canvasList;
+
+	private void OnEnable()
+	{
+		if (canvasList == null && !UIManager.Instance.IsOpenWindow(WindowList.PASSIVE_PART))
+			return;
+		
+		foreach (var canvas in canvasList)
+		{
+			canvas.SetActive(false);
+		}
+	}
 
 	public void SetPartData(params int[] partCodes)
 	{
