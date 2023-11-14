@@ -107,6 +107,21 @@ public class RewardBox : MonoBehaviour
 		isInteraction = true;
 	}
 
+	public void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+			ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
+			
+			passivePartSelect.SetPartData(GetPlayerEquipPartList());
+			UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
+			gameObject.GetComponent<BoxCollider>().enabled = false;
+
+			isInteraction = true;
+		}
+	}
+
 	private int[] GetPlayerEquipPartList()
 	{
 		var firstPassivePart = PlayerPrefs.GetInt("Passive0");
