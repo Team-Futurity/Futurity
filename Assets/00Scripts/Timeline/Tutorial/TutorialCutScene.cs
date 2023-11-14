@@ -30,6 +30,11 @@ public class TutorialCutScene : CutSceneBase
 		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
 	}
 
+	public void EnableUIInput()
+	{
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+	}
+		
 	public void Pause()
 	{
 		cutScene.Pause();
