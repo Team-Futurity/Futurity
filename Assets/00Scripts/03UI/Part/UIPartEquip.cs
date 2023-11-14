@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIPartEquip : MonoBehaviour
 {
@@ -20,10 +21,36 @@ public class UIPartEquip : MonoBehaviour
 	private int selectButtonIndex = 0;
 
 	private bool isSelect = false;
+
 	private int partType = 0;
 
-	public GameObject passiveDim;
-	public GameObject activeDim;
+	public Image activeIconImage;
+	public Sprite normalBasicActive;
+	public Sprite selectBasicActive;
+	public Sprite normalBetaActive;
+	public Sprite selectBetaActive;
+
+	private int activetype = 0;
+
+	public List<GameObject> canvasList;
+
+	public GameObject lockPassive;
+	public GameObject lockActive;
+
+	public Image active1;
+	public Image active2;
+	public Image active3;
+	
+	public void OnDisable()
+	{
+		if (canvasList == null && !UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP))
+			return;
+
+		foreach (var canvas in canvasList)
+		{
+			canvas.SetActive(true);
+		}
+	}
 
 	public void SetSelectPart(int code)
 	{
@@ -33,21 +60,29 @@ public class UIPartEquip : MonoBehaviour
 
 		if (partType == 1)
 		{
+			// Dim 
 			// Active
-			activeDim.SetActive(false);
-			passiveDim.SetActive(true);
-			
 			UIInputManager.Instance.SetDefaultFocusForced(3);
 			UIInputManager.Instance.SetUnableMoveButton(true);
+			
+			lockPassive.SetActive(true);
+			lockActive.SetActive(false);
+
+			if (activetype == 1)
+				activeIconImage.sprite = selectBasicActive;
+			else if (activetype == 2)
+				activeIconImage.sprite = selectBetaActive;
 		}
 		else
 		{
-			// Passive
-			passiveDim.SetActive(false);
-			activeDim.SetActive(true);
+			lockActive.SetActive(true);
+			lockPassive.SetActive(false);
 			
+			// Passive
 			UIInputManager.Instance.SetUnableMoveButton(false);
 			UIInputManager.Instance.SetMaxMoveIndex(3);
+
+			active3.color = active2.color = active1.color = Define.noneSelectcolor;
 		}
 	}
 
@@ -68,23 +103,23 @@ public class UIPartEquip : MonoBehaviour
 
 			return;
 		}
+
 		
-		// Passive Sync
-		for (int i = 0; i < passivePartDatas.Length; ++i)
-		{
-			if (PartSystem.IsIndexPartEmpty(i))
-			{
-				passiveButton[i].InitResource();
-			}
-			else
-			{
-				passiveButton[i].SetButtonData(passivePartDatas[i].partCode);
-			}
-		}
-		
+		if (PartSystem.IsIndexPartEmpty(2)) { passiveButton[0].InitResource(); }
+		else { passiveButton[0].SetButtonData(passivePartDatas[2].partCode); }
+		if (PartSystem.IsIndexPartEmpty(1)) { passiveButton[1].InitResource(); }
+		else { passiveButton[1].SetButtonData(passivePartDatas[1].partCode); }
+		if (PartSystem.IsIndexPartEmpty(0)) { passiveButton[2].InitResource(); }
+		else { passiveButton[2].SetButtonData(passivePartDatas[0].partCode); }
+
 		// Active Sync
 		// 현재 PartSystem의 데이터와 Active UI를 맞추는 작업이 필요로 함.
+		if (activePartData == 2201) { activeIconImage.sprite = normalBasicActive; activetype = 1; }
+		else if (activePartData == 2202) {activeIconImage.sprite = normalBetaActive; activetype = 2; }
+		else activetype = 0;
+		
 		activeButton.InitResource(true);
+		activeButton.SetButtonData(activePartData);
 	}
 
 	// 버튼을 눌렀다는 것은 해당 Index에 부품을 장착하겠다는 소리임.
@@ -120,14 +155,13 @@ public class UIPartEquip : MonoBehaviour
 		// Yes
 		if (isEquip)
 		{
-			if(partType == 2)
+			if (partType == 2)
 				PartSystem.EquipPassivePart(selectButtonIndex, selectPartCode);
 			else
 				PartSystem.EquipActivePart(selectPartCode);
 
 			DisableSelectEvent();
 			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
-
 		}
 		else // 다시 선택할 경우
 		{
@@ -150,6 +184,7 @@ public class UIPartEquip : MonoBehaviour
 			activeButton.onSelected?.AddListener(SelectButton);
 		}
 	}
+
 	private void DisableSelectEvent()
 	{
 		if (partType == 2)
