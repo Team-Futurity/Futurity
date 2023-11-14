@@ -105,6 +105,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		
 		currentIndex = saveIndex;
 		saveIndex = -1;
+		SelectUI();
 	}
 
 	private void ChangeToIndex(int num)
