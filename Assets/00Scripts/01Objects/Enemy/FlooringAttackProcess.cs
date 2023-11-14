@@ -37,8 +37,14 @@ public class FlooringAttackProcess : MonoBehaviour
 	public void StartProcess(bool start = true)
 	{
 		isSystemEnable = start;
+
 		if (bc != null)
+		{
+			bc.bossData.EnableAttackTiming();
 			bc.attackTrigger.type6Colliders[index].transform.SetParent(bc.transform);
+		}
+		else if (ec != null)
+			ec.enemyData.EnableAttackTiming();
 	}
 
 	private void Update()

@@ -48,13 +48,4 @@ public class T1_MeleeState : B_PatternBase
 	{
 		base.End(unit);
 	}
-
-	public override void OnTriggerEnter(BossController unit, Collider other)
-	{
-		if (other.CompareTag("Player"))
-		{
-			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
-			unit.bossData.Attack(info);
-		}
-	}
 }
