@@ -120,7 +120,9 @@ public class UIPartSelectButton : UIButton
 				passiveObj.SetActive(false);
 			
 			var data = LoadPartData(code);
-			infoText.text = data.coreInfoText;
+			
+			if(infoText != null)
+				infoText.text = data.coreInfoText;
 			ChangeResource(data, true);
 		}
 		else
