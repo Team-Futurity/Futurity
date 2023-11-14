@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIPartEquip : MonoBehaviour
 {
@@ -22,6 +23,14 @@ public class UIPartEquip : MonoBehaviour
 	private bool isSelect = false;
 
 	private int partType = 0;
+
+	public Image activeIconImage;
+	public Sprite normalBasicActive;
+	public Sprite selectBasicActive;
+	public Sprite normalBetaActive;
+	public Sprite selectBetaActive;
+
+	private int activetype = 0;
 
 	public List<GameObject> canvasList;
 
@@ -45,15 +54,18 @@ public class UIPartEquip : MonoBehaviour
 		if (partType == 1)
 		{
 			// Dim 
-
 			// Active
 			UIInputManager.Instance.SetDefaultFocusForced(3);
 			UIInputManager.Instance.SetUnableMoveButton(true);
+
+			if (activetype == 1)
+				activeIconImage.sprite = selectBasicActive;
+			else if (activetype == 2)
+				activeIconImage.sprite = selectBetaActive;
+				
 		}
 		else
 		{
-			// Dim
-
 			// Passive
 			UIInputManager.Instance.SetUnableMoveButton(false);
 			UIInputManager.Instance.SetMaxMoveIndex(3);
@@ -93,6 +105,10 @@ public class UIPartEquip : MonoBehaviour
 
 		// Active Sync
 		// 현재 PartSystem의 데이터와 Active UI를 맞추는 작업이 필요로 함.
+		if (activePartData == 2201) { activeIconImage.sprite = normalBasicActive; activetype = 1; }
+		else if (activePartData == 2202) {activeIconImage.sprite = normalBetaActive; activetype = 2; }
+		else activetype = 0;
+		
 		activeButton.InitResource(true);
 	}
 
