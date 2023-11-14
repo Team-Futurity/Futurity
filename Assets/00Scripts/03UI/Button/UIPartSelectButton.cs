@@ -114,8 +114,10 @@ public class UIPartSelectButton : UIButton
 		if (code == 2201 || code == 2202)
 		{
 			partTypeImage.sprite = activeImage;
-			activeObj.SetActive(true);
-			passiveObj.SetActive(false);
+			if(activeObj != null)
+				activeObj.SetActive(true);
+			if(passiveObj != null)
+				passiveObj.SetActive(false);
 			
 			var data = LoadPartData(code);
 			infoText.text = data.coreInfoText;
@@ -124,8 +126,11 @@ public class UIPartSelectButton : UIButton
 		else
 		{
 			partTypeImage.sprite = passiveImage;
-			passiveObj.SetActive(true);
-			activeObj.SetActive(false);
+			if(passiveObj != null)
+				passiveObj.SetActive(true);
+			
+			if(activeObj != null)
+				activeObj.SetActive(false);
 			
 			ChangeResource(LoadPartData(code));
 		}

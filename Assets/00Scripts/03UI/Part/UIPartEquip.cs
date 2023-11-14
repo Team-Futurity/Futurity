@@ -23,6 +23,19 @@ public class UIPartEquip : MonoBehaviour
 
 	private int partType = 0;
 
+	public List<GameObject> canvasList;
+
+	public void OnDisable()
+	{
+		if (canvasList == null && !UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP))
+			return;
+
+		foreach (var canvas in canvasList)
+		{
+			canvas.SetActive(true);
+		}
+	}
+
 	public void SetSelectPart(int code)
 	{
 		selectPartCode = code;
@@ -64,7 +77,7 @@ public class UIPartEquip : MonoBehaviour
 
 			return;
 		}
-		
+
 		// Passive Sync
 		for (int i = 0; i < passivePartDatas.Length; ++i)
 		{
@@ -77,7 +90,7 @@ public class UIPartEquip : MonoBehaviour
 				passiveButton[i].SetButtonData(passivePartDatas[i].partCode);
 			}
 		}
-		
+
 		// Active Sync
 		// 현재 PartSystem의 데이터와 Active UI를 맞추는 작업이 필요로 함.
 		activeButton.InitResource(true);
@@ -116,14 +129,13 @@ public class UIPartEquip : MonoBehaviour
 		// Yes
 		if (isEquip)
 		{
-			if(partType == 2)
+			if (partType == 2)
 				PartSystem.EquipPassivePart(selectButtonIndex, selectPartCode);
 			else
 				PartSystem.EquipActivePart(selectPartCode);
 
 			DisableSelectEvent();
 			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
-
 		}
 		else // 다시 선택할 경우
 		{
@@ -146,6 +158,7 @@ public class UIPartEquip : MonoBehaviour
 			activeButton.onSelected?.AddListener(SelectButton);
 		}
 	}
+
 	private void DisableSelectEvent()
 	{
 		if (partType == 2)
