@@ -29,5 +29,11 @@ public class B_PatternBase : BossStateBase
 
 	public override void OnTriggerEnter(BossController unit, Collider other)
 	{
+		base.OnTriggerEnter(unit, other);
+		/*if (other.CompareTag("Player"))
+		{
+			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
+			unit.bossData.Attack(info);
+		}*/
 	}
 }
