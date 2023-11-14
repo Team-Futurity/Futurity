@@ -6,8 +6,8 @@ using UnityEngine;
 public class EffectTimer : MonoBehaviour
 {
 	[Header("Component")]
-	[SerializeField] private Material alphaMat;
-	[SerializeField] private Material betaMat;
+	[SerializeField] private List<Material> alphaMat;
+	[SerializeField] private List<Material> betaMat;
 
 	[Header("컷 씬 타입")] 
 	[SerializeField] private ECutSceneType type;
@@ -51,8 +51,8 @@ public class EffectTimer : MonoBehaviour
 		isActive = false;
 		unScaldTime = 0.0f;
 		
-		alphaMat.SetFloat("_UnTimeScale", unScaldTime);
-		betaMat.SetFloat("_UnTimeScale", unScaldTime);
+		alphaMat.ForEach(x => x.SetFloat("_UnTimeScale", unScaldTime));
+		betaMat.ForEach(x => x.SetFloat("_UnTimeScale", unScaldTime));
 	}
 	
 	private IEnumerator InitUnScaldTimeForAlpha()
@@ -60,7 +60,7 @@ public class EffectTimer : MonoBehaviour
 		while (isActive == true)
 		{
 			unScaldTime += Time.unscaledDeltaTime * delayTime;
-			alphaMat.SetFloat("_UnTimeScale", unScaldTime);
+			alphaMat.ForEach(x => x.SetFloat("_UnTimeScale", unScaldTime));
 
 			yield return null;
 		}
@@ -71,9 +71,7 @@ public class EffectTimer : MonoBehaviour
 		while (isActive == true)
 		{
 			unScaldTime += Time.unscaledDeltaTime * delayTime;
-
-			alphaMat.SetFloat("_UnTimeScale", unScaldTime);
-			betaMat.SetFloat("_UnTimeScale", unScaldTime);
+			betaMat.ForEach(x => x.SetFloat("_UnTimeScale", unScaldTime));
 
 			yield return null;
 		}
@@ -81,14 +79,7 @@ public class EffectTimer : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (alphaMat != null)
-		{
-			alphaMat.SetFloat("_UnTimeScale", 0);
-		}
-
-		if (betaMat != null)
-		{
-			betaMat.SetFloat("_UnTimeScale", 0);
-		}
+		alphaMat?.ForEach(x => x.SetFloat("_UnTimeScale", unScaldTime)); 
+		betaMat?.ForEach(x => x.SetFloat("_UnTimeScale", unScaldTime));
 	}
 }
