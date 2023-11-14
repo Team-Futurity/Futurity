@@ -55,7 +55,7 @@ public class B_HitState : UnitState<BossController>
 		//Death event
 		if (unit.bossData.status.GetStatus(StatusType.CURRENT_HP).GetValue() <= 0)
 		{
-			unit.ChangeState(EnemyState.Death);
+			unit.ChangeState(BossState.Death);
 		}
 	}
 
