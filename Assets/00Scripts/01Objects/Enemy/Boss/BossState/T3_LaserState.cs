@@ -13,8 +13,8 @@ public class T3_LaserState : B_PatternBase
 		effectData.activationTime = EffectActivationTime.AttackReady;
 		effectData.target = EffectTarget.Target;
 		effectData.index = 0;
-		effectData.position = new Vector3(0f, 0f, 0f);
-		effectData.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+		effectData.position = new Vector3(0f, 1.5f, 0f);
+		effectData.rotation = Quaternion.Euler(new Vector3(-90f, 0f, 0f));
 	}
 
 	public override void Begin(BossController unit)
