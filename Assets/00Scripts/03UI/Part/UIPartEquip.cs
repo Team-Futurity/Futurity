@@ -104,18 +104,13 @@ public class UIPartEquip : MonoBehaviour
 			return;
 		}
 
-		// Passive Sync
-		for (int i = 0; i < passivePartDatas.Length; ++i)
-		{
-			if (PartSystem.IsIndexPartEmpty(i))
-			{
-				passiveButton[i].InitResource();
-			}
-			else
-			{
-				passiveButton[i].SetButtonData(passivePartDatas[i].partCode);
-			}
-		}
+		
+		if (PartSystem.IsIndexPartEmpty(2)) { passiveButton[0].InitResource(); }
+		else { passiveButton[0].SetButtonData(passivePartDatas[2].partCode); }
+		if (PartSystem.IsIndexPartEmpty(1)) { passiveButton[1].InitResource(); }
+		else { passiveButton[1].SetButtonData(passivePartDatas[1].partCode); }
+		if (PartSystem.IsIndexPartEmpty(0)) { passiveButton[2].InitResource(); }
+		else { passiveButton[2].SetButtonData(passivePartDatas[0].partCode); }
 
 		// Active Sync
 		// 현재 PartSystem의 데이터와 Active UI를 맞추는 작업이 필요로 함.
