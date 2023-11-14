@@ -63,11 +63,14 @@ public class UIPartSelectButton : UIButton
 		}
 		else
 		{
+			ChangeResource(LoadPartData(code));
+
+			if (partTypeImage == null || passiveObj == null || activeObj == null)
+				return;
+			
 			partTypeImage.sprite = passiveImage;
 			passiveObj.SetActive(true);
 			activeObj.SetActive(false);
-			
-			ChangeResource(LoadPartData(code));
 		}
 		
 		partCode = code;
