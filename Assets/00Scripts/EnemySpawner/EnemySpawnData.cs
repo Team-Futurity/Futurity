@@ -17,4 +17,6 @@ public struct SpawnCount
 	public int eliteDefault;
 	public int D_BF;
 	public int M_JF;
+
+	public int[] spawnCount;
 }
