@@ -21,17 +21,6 @@ public enum BossState : int
 	T6_Circle,
 }
 
-//public enum BossAttackState : int
-//{
-//	T0_Dash,
-//	T1_Melee,
-//	T2_Ranged,
-//	T3_Laser,
-//	T4_Laser,
-//	T5_EnemySpawn,
-//	T6_Circle,
-//}
-
 public enum Phase
 {
 	Phase1,
