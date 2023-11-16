@@ -11,6 +11,8 @@ public class UISceneLoadButton : UIButton
 
 	public LoadingData data;
 
+	public GameObject obj;
+
 	protected override void ActiveFunc()
 	{
 		UIInputManager.Instance.ClearAll();
@@ -22,5 +24,11 @@ public class UISceneLoadButton : UIButton
 			InputActionManager.Instance.DisableActionMap();
 			UIInputManager.Instance.ClearAll();
 		});
+	}
+
+	public override void SelectActive(bool isOn)
+	{
+		if(obj != null)
+			obj.SetActive(isOn);
 	}
 }
