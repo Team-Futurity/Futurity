@@ -63,8 +63,8 @@ public class FMODBackgroundEvents: Singleton<FMODBackgroundEvents>
 		EventReferenceInScene? ambience = GetAmbience(scene.name);
 		EventReferenceInScene? music = GetMusic(scene.name);
 
-		if (ambience.HasValue && !ambience.Value.eventReference.IsNull) { RunEventRefernceInScene(ambience.Value); }
-		if (music.HasValue && !music.Value.eventReference.IsNull) { RunEventRefernceInScene(music.Value); }
+		if (ambience.HasValue) { RunEventRefernceInScene(ambience.Value); }
+		if (music.HasValue) { RunEventRefernceInScene(music.Value); }
 
 		currentSceneName = scene.name;
 	}
@@ -74,6 +74,8 @@ public class FMODBackgroundEvents: Singleton<FMODBackgroundEvents>
 		switch(eventRef.backgroundPlayableType)
 		{
 			case BackgroundPlayableType.None:
+				if (eventRef.eventReference.IsNull) { return; }
+
 				if (eventRef.isAMB) { AudioManager.Instance.RunAmbientSound(eventRef.eventReference); }
 				else { AudioManager.Instance.RunBackgroundMusic(eventRef.eventReference); }
 				break;
