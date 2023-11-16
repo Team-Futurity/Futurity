@@ -32,5 +32,7 @@ public enum WindowList
 
 	GAME_OVER,
 	
+	PART_EXIT,
+	
 	MAX
 }
