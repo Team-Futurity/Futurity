@@ -84,6 +84,8 @@ public class AudioManager : Singleton<AudioManager>
 		//ambientInstance.set3DAttributes(RuntimeUtils.To3DAttributes(cameraTransform));
 		if (CheckPlayerTransform())
 		{
+			StopAmbientSound();
+
 			ambientInstance = CreateInstance(ambientReference);
 			eventInstances.Add(ambientInstance);
 			RuntimeManager.AttachInstanceToGameObject(ambientInstance, playerTransform);
@@ -94,6 +96,8 @@ public class AudioManager : Singleton<AudioManager>
 	public void RunBackgroundMusic(EventReference backgroundMusicReference)
 	{
 		if (backgroundMusicReference.IsNull) { return; }
+
+		StopBackgroundMusic();
 
 		backgroundMusicInstance = CreateInstance(backgroundMusicReference);
 		eventInstances.Add(backgroundMusicInstance);
@@ -116,18 +120,20 @@ public class AudioManager : Singleton<AudioManager>
 		ambientInstance.setParameterByName(param.Name, param.Value, ignoreSeekSpeed);
 	}
 
-	public void StopBackgroundMusic(FMOD.Studio.STOP_MODE stopMode)
+	public void StopBackgroundMusic(FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.ALLOWFADEOUT)
 	{
 		if (!backgroundMusicInstance.isValid()) { return; }
 
-		backgroundMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		backgroundMusicInstance.stop(stopMode);
+		backgroundMusicInstance.release();
 	}
 
-	public void StopAmbientSound(FMOD.Studio.STOP_MODE stopMode)
+	public void StopAmbientSound(FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.ALLOWFADEOUT)
 	{
 		if (!ambientInstance.isValid()) { return; }
 
-		ambientInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		ambientInstance.stop(stopMode);
+		ambientInstance.release();
 	}
 
 
@@ -135,6 +141,8 @@ public class AudioManager : Singleton<AudioManager>
 	{
 		foreach (EventInstance eventInstance in eventInstances)
 		{
+			if(eventInstance.handle == backgroundMusicInstance.handle || eventInstance.handle == ambientInstance.handle) { continue; }
+
 			eventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			eventInstance.release();
 		}
