@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,9 @@ public class BossEntryCutScene : CutSceneBase
 	[SerializeField] private Transform endPos;
 	[SerializeField] private float moveTime = 1.5f;
 
+	[Header("Sound")] 
+	[SerializeField] private FMODUnity.EventReference bg;
+	
 	[Header("Event")] 
 	[SerializeField] private UnityEvent endEvent;
 	
@@ -44,6 +48,7 @@ public class BossEntryCutScene : CutSceneBase
 		dialogController.SetDialogData(dialogData);
 		dialogController.Play();
 		
+		AudioManager.Instance.RunBackgroundMusic(bg);
 		endEvent?.Invoke();
 	}
 

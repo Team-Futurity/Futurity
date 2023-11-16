@@ -40,9 +40,6 @@ public class TimelineScripting : MonoBehaviour
 	private IEnumerator textPrint;
 	private IEnumerator inputCheck;
 
-	private readonly Color ORIGIN_COLOR = new Color(255f, 255f, 255f);
-	private readonly Color DARK_COLOR = new Color(68f, 68f, 68f);
-	
 	private void Start()
 	{
 		waitForSecondsRealtime = new WaitForSecondsRealtime(textOutputDelay);
