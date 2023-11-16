@@ -15,25 +15,29 @@ public class UIPartEquipSelect : MonoBehaviour
 
 	private void Awake()
 	{
-		if (isExitMode)
-		{
-			buttons[0].onSelected?.AddListener((x) =>
-			{
-				UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
-				UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
-			});
-			
-			buttons[1].onSelected?.AddListener((x) =>
-			{
-				UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
-				
-				UIManager.Instance.RefreshWindow(UIManager.Instance.GetBefroeWindow());
-				UIInputManager.Instance.SetSaveIndexToCurrentIndex();
-			});
+	}
 
-			return;
-		}
-		
+	public void SetExitMode()
+	{
+		UIInputManager.Instance.SetUnableMoveButton(false);
+
+		buttons[0].onSelected?.AddListener((x) =>
+		{
+			UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
+			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
+		});
+
+		buttons[1].onSelected?.AddListener((x) =>
+		{
+			UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
+
+			UIManager.Instance.RefreshWindow(UIManager.Instance.GetBefroeWindow());
+			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
+		});
+	}
+
+	public void SetNormalMode()
+	{
 		for (int i = 0; i < buttons.Length; ++i)
 		{
 			buttons[i].onSelected?.AddListener(OnActiveButton);
