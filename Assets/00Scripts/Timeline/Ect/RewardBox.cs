@@ -82,6 +82,8 @@ public class RewardBox : MonoBehaviour
 			return;
 		}
 		
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
+		
 		startAnimation = PlayAnimation();
 		StartCoroutine(startAnimation);
 	}
