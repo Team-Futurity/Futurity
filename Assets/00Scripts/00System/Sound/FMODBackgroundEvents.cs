@@ -60,7 +60,16 @@ public class FMODBackgroundEvents: Singleton<FMODBackgroundEvents>
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		if(scene.name == currentSceneName || scene.name == "LoadingScene") { return; }
+		if(scene.name == currentSceneName) { return; }
+
+		if(scene.name == "LoadingScene")
+		{
+			EventReferenceInScene? nextAmbience = GetAmbience(scene.name);
+			EventReferenceInScene? nextMusic = GetMusic(scene.name);
+
+			if(nextAmbience.HasValue) { CheckSoundChange(nextAmbience.Value); }
+			if(nextMusic.HasValue) { CheckSoundChange(nextMusic.Value); }
+		}
 
 		EventReferenceInScene? ambience = GetAmbience(scene.name);
 		EventReferenceInScene? music = GetMusic(scene.name);
@@ -95,6 +104,17 @@ public class FMODBackgroundEvents: Singleton<FMODBackgroundEvents>
 		}
 	}
 
+	private void CheckSoundChange(EventReferenceInScene eventRef)
+	{
+		switch (eventRef.backgroundPlayableType)
+		{
+			case BackgroundPlayableType.None:
+			case BackgroundPlayableType.Stop:
+				if (eventRef.isAMB) { AudioManager.Instance.RegistDeletingInstance(AudioManager.Instance.ambientInstance); }
+				else { AudioManager.Instance.RegistDeletingInstance(AudioManager.Instance.backgroundMusicInstance); }
+				break;
+		}
+	}
 	public EventReferenceInScene? GetAmbience(string sceneName)
 	{
 		bool isSuccess = ambienceSoundsBySceneName.TryGetValue(sceneName, out EventReferenceInScene returnValue);
