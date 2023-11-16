@@ -3,10 +3,23 @@ using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
+
+// 이전 상태에서 뭐만 바꿀지.
+public enum BackgroundPlayableType
+{
+	None,
+	Continuous,
+	ChangeVariable
+}
+
 [System.Serializable]
 public struct EventReferenceInScene
 {
 	public string sceneName;
+	public string prevSceneName;
+	public BackgroundPlayableType backgroundPlayableType;
+	public ParamRef variable;
+	public bool isAMB;
 	public EventReference eventReference;
 }
 
@@ -18,8 +31,10 @@ public class FMODBackgroundEvents: Singleton<FMODBackgroundEvents>
 	[Header("Bacground Music")]
 	[SerializeField] private List<EventReferenceInScene> backgroundMusics;
 
-	private Dictionary<string, EventReference> ambienceSoundsBySceneName = new Dictionary<string, EventReference>();
-	private Dictionary<string, EventReference> backgroundMusicBySceneName = new Dictionary<string, EventReference>();
+	private Dictionary<string, EventReferenceInScene> ambienceSoundsBySceneName = new Dictionary<string, EventReferenceInScene>();
+	private Dictionary<string, EventReferenceInScene> backgroundMusicBySceneName = new Dictionary<string, EventReferenceInScene>();
+
+	private string currentSceneName;
 
 	protected override void Awake()
 	{
@@ -29,40 +44,58 @@ public class FMODBackgroundEvents: Singleton<FMODBackgroundEvents>
 		{
 			if (ambienceSoundsBySceneName.ContainsKey(ambience.sceneName)) { continue; }
 
-			ambienceSoundsBySceneName.Add(ambience.sceneName, ambience.eventReference);
+			ambienceSoundsBySceneName.Add(ambience.sceneName, ambience);
 		}
 
 		foreach (var music in backgroundMusics)
 		{
 			if (backgroundMusicBySceneName.ContainsKey(music.sceneName)) { continue; }
 
-			backgroundMusicBySceneName.Add(music.sceneName, music.eventReference);
+			backgroundMusicBySceneName.Add(music.sceneName, music);
 		}
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
-		
 	}
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		EventReference ambience = GetAmbience(scene.name);
-		EventReference music = GetMusic(scene.name);
+		EventReferenceInScene? ambience = GetAmbience(scene.name);
+		EventReferenceInScene? music = GetMusic(scene.name);
 
-		if (!ambience.IsNull) { AudioManager.Instance.RunAmbientSound(ambience); }
-		if (!music.IsNull) { AudioManager.Instance.RunBackgroundMusic(music); }
+		if (ambience.HasValue && !ambience.Value.eventReference.IsNull) { RunEventRefernceInScene(ambience.Value); }
+		if (music.HasValue && !music.Value.eventReference.IsNull) { RunEventRefernceInScene(music.Value); }
+
+		currentSceneName = scene.name;
 	}
 
-	public EventReference GetAmbience(string sceneName)
+	private void RunEventRefernceInScene(EventReferenceInScene eventRef)
 	{
-		ambienceSoundsBySceneName.TryGetValue(sceneName, out EventReference returnValue);
-
-		return returnValue;
+		switch(eventRef.backgroundPlayableType)
+		{
+			case BackgroundPlayableType.None:
+				if (eventRef.isAMB) { AudioManager.Instance.RunAmbientSound(eventRef.eventReference); }
+				else { AudioManager.Instance.RunBackgroundMusic(eventRef.eventReference); }
+				break;
+			case BackgroundPlayableType.Continuous:
+				break;
+			case BackgroundPlayableType.ChangeVariable:
+				if (eventRef.isAMB) { AudioManager.Instance.SetParameterForAmbientSound(eventRef.variable); }
+				else { AudioManager.Instance.SetParameterForBackgroundMusic(eventRef.variable); }
+				break;
+		}
 	}
 
-	public EventReference GetMusic(string sceneName)
+	public EventReferenceInScene? GetAmbience(string sceneName)
 	{
-		backgroundMusicBySceneName.TryGetValue(sceneName, out EventReference returnValue);
+		bool isSuccess = ambienceSoundsBySceneName.TryGetValue(sceneName, out EventReferenceInScene returnValue);
 
-		return returnValue;
+		return isSuccess ? returnValue : null;
+	}
+
+	public EventReferenceInScene? GetMusic(string sceneName)
+	{
+		bool isSuccess = backgroundMusicBySceneName.TryGetValue(sceneName, out EventReferenceInScene returnValue);
+
+		return isSuccess ? returnValue : null;
 	}
 }
