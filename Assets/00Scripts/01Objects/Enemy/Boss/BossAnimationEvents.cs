@@ -36,6 +36,11 @@ public class BossAnimationEvents : MonoBehaviour
 	#endregion
 
 	#region Activate Attack
+
+	public void ActiveDash()
+	{
+		bc.rigid.velocity = bc.transform.forward.normalized * bc.bossData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
+	}
 	public void ActivateType1Attack()
 	{
 		bc.bossData.EnableAttackTiming();
