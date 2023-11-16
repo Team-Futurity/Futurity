@@ -19,8 +19,8 @@ public class AudioManager : Singleton<AudioManager>
 
 	private List<EventInstance> eventInstances = new List<EventInstance>();
 	private List<EventInstance> deletingInstances = new List<EventInstance>();
-	private EventInstance ambientInstance;
-	private EventInstance backgroundMusicInstance;
+	public EventInstance ambientInstance { get; private set; }
+	public EventInstance backgroundMusicInstance { get; private set; }
 
 	protected override void Awake()
 	{
