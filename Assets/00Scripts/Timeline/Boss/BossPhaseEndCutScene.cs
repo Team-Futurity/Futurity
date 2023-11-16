@@ -41,6 +41,9 @@ public class BossPhaseEndCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.SetActiveMainUI(false);
+		
+		AudioManager.Instance.SetParameterForBackgroundMusic(bgParamRef);
+		bgParamRef.Value = 2;
 	}
 
 	protected override void DisableCutScene()
