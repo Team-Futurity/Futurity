@@ -43,6 +43,8 @@ public class EnemySpawner : MonoBehaviour
 
 	public void SpawnEnemy()
 	{
+		ClearCurWaveSpawnCounts();
+		
 		int melee = spawnData.waveSpawnCounts[curWaveCount].meleeCnt;
 		int ranged = spawnData.waveSpawnCounts[curWaveCount].rangedCnt;
 		int minimal = spawnData.waveSpawnCounts[curWaveCount].minimalCnt;
@@ -70,6 +72,8 @@ public class EnemySpawner : MonoBehaviour
 			result[1] += data.rangedCnt;
 			result[2] += data.minimalCnt;
 			result[3] += data.eliteDefault;
+			result[4] += data.D_BF;
+			result[5] += data.M_JF;
 		}
 		
 		return result;
@@ -127,6 +131,14 @@ public class EnemySpawner : MonoBehaviour
 	private void OnDisable()
 	{
 		spawnerDisableEvent?.Invoke(this);
+	}
+
+	private void ClearCurWaveSpawnCounts()
+	{
+		for (int i = 0; i < curWaveEnemyCount.Length; ++i)
+		{
+			curWaveEnemyCount[i] = 0;
+		}
 	}
 	
 	#region Editor
