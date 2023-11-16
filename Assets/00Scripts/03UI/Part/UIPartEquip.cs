@@ -62,8 +62,7 @@ public class UIPartEquip : MonoBehaviour
 		{
 			// Dim 
 			// Active
-			UIInputManager.Instance.SetDefaultFocusForced(3);
-			UIInputManager.Instance.SetUnableMoveButton(true);
+			
 			
 			lockPassive.SetActive(true);
 			lockActive.SetActive(false);
@@ -125,6 +124,19 @@ public class UIPartEquip : MonoBehaviour
 	// 버튼을 눌렀다는 것은 해당 Index에 부품을 장착하겠다는 소리임.
 	private void SelectButton(int partCode, int selectIndex)
 	{
+		if (selectIndex == 999)
+		{
+			selectButtonIndex = selectIndex;
+			UIInputManager.Instance.SaveIndex();
+			
+			SelectModal.SetExitMode();
+
+			UIManager.Instance.OpenWindow(WindowList.PART_EQUIP_SELECT);
+			SelectModal.onClose?.AddListener(EquipSelectPart);
+
+			return;
+		}
+		
 		// 해당 인덱스의 파츠의 Empty 여부
 		var emptyPart = PartSystem.IsIndexPartEmpty(selectIndex);
 
@@ -141,6 +153,7 @@ public class UIPartEquip : MonoBehaviour
 		}
 		else
 		{
+			SelectModal.SetNormalMode();
 			UIManager.Instance.OpenWindow(WindowList.PART_EQUIP_SELECT);
 			SelectModal.onClose?.AddListener(EquipSelectPart);
 		}
@@ -167,6 +180,9 @@ public class UIPartEquip : MonoBehaviour
 		{
 			UIManager.Instance.RefreshWindow(WindowList.PART_EQUIP);
 			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
+			
+			if(selectPartCode == 2201 || selectPartCode == 2202)
+				UIInputManager.Instance.SetUnableMoveButton(true);
 		}
 	}
 
