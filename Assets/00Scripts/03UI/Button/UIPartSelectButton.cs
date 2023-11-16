@@ -44,7 +44,6 @@ public class UIPartSelectButton : UIButton
 
 	public Image activeTypeImage;
 	public Image passiveTypeImage;
-	
 
 	protected override void ActiveFunc()
 	{
@@ -68,9 +67,6 @@ public class UIPartSelectButton : UIButton
 		if (passiveTypeImage != null)
 		{
 			passiveTypeImage.color = Define.noneSelectColor;
-			Debug.Log("CALL");
-			
-			Debug.Log(Define.noneSelectColor);
 		}
 	}
 
