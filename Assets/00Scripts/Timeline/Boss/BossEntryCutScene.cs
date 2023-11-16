@@ -17,7 +17,7 @@ public class BossEntryCutScene : CutSceneBase
 	[SerializeField] private float moveTime = 1.5f;
 
 	[Header("Sound")] 
-	[SerializeField] private ParamRef paramRef;
+	[SerializeField] private FMODUnity.EventReference bg;
 	
 	[Header("Event")] 
 	[SerializeField] private UnityEvent endEvent;
@@ -48,6 +48,7 @@ public class BossEntryCutScene : CutSceneBase
 		dialogController.SetDialogData(dialogData);
 		dialogController.Play();
 		
+		AudioManager.Instance.RunBackgroundMusic(bg);
 		endEvent?.Invoke();
 	}
 
@@ -69,11 +70,6 @@ public class BossEntryCutScene : CutSceneBase
 	public void BossEntry_PlayStartAni()
 	{
 		bossAnimator.SetTrigger("StartProduction");
-	}
-
-	public void PlayBossBackGroundMusic()
-	{
-		AudioManager.Instance.SetParameterForBackgroundMusic(paramRef);
 	}
 	
 	public void MovePlayer()
