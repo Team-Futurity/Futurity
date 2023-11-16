@@ -18,6 +18,7 @@ public class AudioManager : Singleton<AudioManager>
 	private Bus userInterfaceBus;
 
 	private List<EventInstance> eventInstances = new List<EventInstance>();
+	private List<EventInstance> deletingInstances = new List<EventInstance>();
 	private EventInstance ambientInstance;
 	private EventInstance backgroundMusicInstance;
 
@@ -52,6 +53,8 @@ public class AudioManager : Singleton<AudioManager>
 		return eventInstance;
 	}
 
+
+	#region Volume
 	public float GetVolume(BusType busType)
 	{
 		if(busType == BusType.None) { return -1f; }
@@ -75,7 +78,10 @@ public class AudioManager : Singleton<AudioManager>
 
 		bus.setVolume(soundVolume);
 	}
+	#endregion
 
+	#region BackgroundSounds
+	#region RunBacgroundSounds
 	public void RunAmbientSound(EventReference ambientReference)
 	{
 		if (ambientReference.IsNull) { return; }
@@ -84,6 +90,8 @@ public class AudioManager : Singleton<AudioManager>
 		//ambientInstance.set3DAttributes(RuntimeUtils.To3DAttributes(cameraTransform));
 		if (CheckPlayerTransform())
 		{
+			StopAmbientSound();
+
 			ambientInstance = CreateInstance(ambientReference);
 			eventInstances.Add(ambientInstance);
 			RuntimeManager.AttachInstanceToGameObject(ambientInstance, playerTransform);
@@ -95,17 +103,23 @@ public class AudioManager : Singleton<AudioManager>
 	{
 		if (backgroundMusicReference.IsNull) { return; }
 
+		StopBackgroundMusic();
+
 		backgroundMusicInstance = CreateInstance(backgroundMusicReference);
 		eventInstances.Add(backgroundMusicInstance);
 		backgroundMusicInstance.start();
 	}
+	#endregion
 
+	#region SetParameterBackgroundSounds
 	public void SetParameterForBackgroundMusic(ParamRef param, bool ignoreSeekSpeed = false)
 	{
 		if (!backgroundMusicInstance.isValid()) { return; }
 		if (param == null) { return; }
 
-		backgroundMusicInstance.setParameterByName(param.Name, param.Value, ignoreSeekSpeed);
+		var result = backgroundMusicInstance.setParameterByName(param.Name, param.Value, ignoreSeekSpeed);
+
+		FDebug.Log("BGM : " + result);
 	}
 
 	public void SetParameterForAmbientSound(ParamRef param, bool ignoreSeekSpeed = false)
@@ -113,28 +127,50 @@ public class AudioManager : Singleton<AudioManager>
 		if (!ambientInstance.isValid()) { return; }
 		if (param == null) { return; }
 
-		ambientInstance.setParameterByName(param.Name, param.Value, ignoreSeekSpeed);
-	}
+		var result = ambientInstance.setParameterByName(param.Name, param.Value, ignoreSeekSpeed);
 
-	public void StopBackgroundMusic(FMOD.Studio.STOP_MODE stopMode)
+		FDebug.Log("AMB : " + result);
+	}
+	#endregion
+
+	#region StopBackgroundSounds
+	public void StopBackgroundMusic(FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.ALLOWFADEOUT)
 	{
 		if (!backgroundMusicInstance.isValid()) { return; }
 
-		backgroundMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		backgroundMusicInstance.stop(stopMode);
+		backgroundMusicInstance.release();
 	}
 
-	public void StopAmbientSound(FMOD.Studio.STOP_MODE stopMode)
+	public void StopAmbientSound(FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.ALLOWFADEOUT)
 	{
 		if (!ambientInstance.isValid()) { return; }
 
-		ambientInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		ambientInstance.stop(stopMode);
+		ambientInstance.release();
 	}
+	#endregion
+	#endregion
 
+	public void RegistDeletingInstance(EventInstance instance)
+	{
+		deletingInstances.Add(instance);
+	}
 
 	public void CleanUp()
 	{
+		foreach(EventInstance instance in deletingInstances)
+		{
+			if (!instance.isValid()) { continue; }
+
+			instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			instance.release();
+		}
+
 		foreach (EventInstance eventInstance in eventInstances)
 		{
+			if(eventInstance.handle == backgroundMusicInstance.handle || eventInstance.handle == ambientInstance.handle) { continue; }
+
 			eventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			eventInstance.release();
 		}
