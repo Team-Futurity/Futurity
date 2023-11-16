@@ -9,7 +9,8 @@ public enum BackgroundPlayableType
 {
 	None,
 	Continuous,
-	ChangeVariable
+	ChangeVariable,
+	Stop
 }
 
 [System.Serializable]
@@ -81,6 +82,11 @@ public class FMODBackgroundEvents: Singleton<FMODBackgroundEvents>
 			case BackgroundPlayableType.ChangeVariable:
 				if (eventRef.isAMB) { AudioManager.Instance.SetParameterForAmbientSound(eventRef.variable); }
 				else { AudioManager.Instance.SetParameterForBackgroundMusic(eventRef.variable); }
+				break;
+			case BackgroundPlayableType.Stop:
+				if (eventRef.isAMB) { AudioManager.Instance.StopAmbientSound(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); }
+				else { AudioManager.Instance.StopBackgroundMusic(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); }
+				currentSceneName = "";
 				break;
 		}
 	}
