@@ -58,6 +58,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 
 	[Space(8)]
 	[Header("Pattern")]
+	public GameObject cube;
 	public BossActiveDatas activeDataSO;
 	public BossPhaseDatas phaseDataSO;
 	[HideInInspector] public BossAttackData curAttackData;
@@ -79,6 +80,7 @@ public class BossController : UnitFSM<BossController>, IFSM
 	#region Animator Parameter
 	//Animator Parameter
 	public readonly string moveAnim = "Move";
+	public readonly string dashAnim = "Dash";
 	public readonly string hitAnim = "Hit";
 	public readonly string deathAnim = "Death";
 	public readonly string type1Anim = "Type1";
