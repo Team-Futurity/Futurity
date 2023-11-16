@@ -95,7 +95,7 @@ public class EnemySpawner : MonoBehaviour
 			Collider[] colliders = Physics.OverlapSphere(spawnPos, inspectionRange);
 
 			bool isEnemyFound = colliders.Any(col => col.CompareTag("Enemy"));
-			curCheckCount = (isEnemyFound) ? curCheckCount++ : curCheckCount;
+			curCheckCount = (isEnemyFound) ? ++curCheckCount : curCheckCount;
 
 			if (isEnemyFound == true && curCheckCount <= maxCheckCount)
 			{
