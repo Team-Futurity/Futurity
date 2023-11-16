@@ -11,8 +11,29 @@ public class UIPartEquipSelect : MonoBehaviour
 	[HideInInspector]
 	public UnityEvent<bool> onClose;
 
+	public bool isExitMode = false;
+
 	private void Awake()
 	{
+		if (isExitMode)
+		{
+			buttons[0].onSelected?.AddListener((x) =>
+			{
+				UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
+				UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
+			});
+			
+			buttons[1].onSelected?.AddListener((x) =>
+			{
+				UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
+				
+				UIManager.Instance.RefreshWindow(UIManager.Instance.GetBefroeWindow());
+				UIInputManager.Instance.SetSaveIndexToCurrentIndex();
+			});
+
+			return;
+		}
+		
 		for (int i = 0; i < buttons.Length; ++i)
 		{
 			buttons[i].onSelected?.AddListener(OnActiveButton);

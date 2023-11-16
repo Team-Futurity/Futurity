@@ -82,7 +82,7 @@ public class UIPartEquip : MonoBehaviour
 			UIInputManager.Instance.SetUnableMoveButton(false);
 			UIInputManager.Instance.SetMaxMoveIndex(3);
 
-			active3.color = active2.color = active1.color = Define.noneSelectcolor;
+			active3.color = active2.color = active1.color = Define.noneSelectColor;
 		}
 	}
 

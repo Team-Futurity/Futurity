@@ -54,19 +54,24 @@ public class UIPartSelectButton : UIButton
 	public override void Init()
 	{
 		if(PartIconImage != null)
-			PartIconImage.color = Define.noneSelectcolor;
+			PartIconImage.color = Define.noneSelectColor;
 		if (PartNameImage != null)
-			PartNameImage.color = Define.noneSelectcolor;
+			PartNameImage.color = Define.noneSelectColor;
 		if (CoreInfoText != null)
-			CoreInfoText.color = SubInfoText.color = Define.noneSelectcolor;
+			CoreInfoText.color = SubInfoText.color = Define.noneSelectColor;
 		if (partTypeImage != null)
-			partTypeImage.color = Define.noneSelectcolor;
+			partTypeImage.color = Define.noneSelectColor;
 		if(infoText != null)
-			infoText.color = Define.noneSelectcolor;
+			infoText.color = Define.noneSelectColor;
 		if(activeTypeImage != null)
-			activeTypeImage.color = Define.noneSelectcolor;
-		if(passiveTypeImage != null)
-			passiveTypeImage.color = Define.noneSelectcolor;
+			activeTypeImage.color = Define.noneSelectColor;
+		if (passiveTypeImage != null)
+		{
+			passiveTypeImage.color = Define.noneSelectColor;
+			Debug.Log("CALL");
+			
+			Debug.Log(Define.noneSelectColor);
+		}
 	}
 
 	public override void SelectActive(bool isOn)
@@ -91,19 +96,19 @@ public class UIPartSelectButton : UIButton
 		else
 		{
 			if(PartIconImage != null)
-				PartIconImage.color = Define.noneSelectcolor;
+				PartIconImage.color = Define.noneSelectColor;
 			if (PartNameImage != null)
-				PartNameImage.color = Define.noneSelectcolor;
+				PartNameImage.color = Define.noneSelectColor;
 			if (CoreInfoText != null)
-				CoreInfoText.color = SubInfoText.color = Define.noneSelectcolor;
+				CoreInfoText.color = SubInfoText.color = Define.noneSelectColor;
 			if (partTypeImage != null)
-				partTypeImage.color = Define.noneSelectcolor;
+				partTypeImage.color = Define.noneSelectColor;
 			if(infoText != null)
-				infoText.color = Define.noneSelectcolor;
+				infoText.color = Define.noneSelectColor;
 			if(activeTypeImage != null)
-				activeTypeImage.color = Define.noneSelectcolor;
+				activeTypeImage.color = Define.noneSelectColor;
 			if(passiveTypeImage != null)
-				passiveTypeImage.color = Define.noneSelectcolor;
+				passiveTypeImage.color = Define.noneSelectColor;
 		}
 	}
 
