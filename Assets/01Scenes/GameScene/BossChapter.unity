@@ -23370,6 +23370,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1f6b84a945392284d84bd4b87d35b405, type: 2}
     - {fileID: 11400000, guid: 1747697cb518dde4fa20afcb99992335, type: 2}
     - {fileID: 11400000, guid: 6a2964808d454cd469a0bc2b1f4a218e, type: 2}
+    - {fileID: 11400000, guid: 43fb4951cb73c664e852050cd0306f46, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -23493,6 +23494,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1738514121}
+          m_TargetAssemblyTypeName: BossPhaseEndCutScene, Assembly-CSharp
+          m_MethodName: PlayBackGroundMusic
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!320 &1738514120
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -23577,6 +23592,9 @@ MonoBehaviour:
   - "\uB0B4 \uB538 \uBBF8\uB798\uB97C \uCC3E\uC544\uC57C\uB9CC \uD55C\uB2E4\uACE0!!"
   delayTime: 0.05
   waitTime: 2
+  bgParamRef:
+    Name: Phase
+    Value: 1
 --- !u!1001 &1753886595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28042,7 +28060,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 507b32c0e25eab74eb7ca26d9127abe1, type: 2}
     - {fileID: 11400000, guid: 935c1b0353a9adf4292d73ee3ad0d066, type: 2}
     - {fileID: 11400000, guid: 0db962bd4462cf54db00d8e1f84204ed, type: 2}
-    - {fileID: 11400000, guid: 43fb4951cb73c664e852050cd0306f46, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -28203,20 +28220,6 @@ MonoBehaviour:
         - m_Target: {fileID: 4474135760169746939}
           m_TargetAssemblyTypeName: BossEntryCutScene, Assembly-CSharp
           m_MethodName: BossEntry_StartSkeleton
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4474135760169746939}
-          m_TargetAssemblyTypeName: BossEntryCutScene, Assembly-CSharp
-          m_MethodName: PlayBossBackGroundMusic
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -30471,9 +30474,13 @@ MonoBehaviour:
   dialogData: {fileID: 11400000, guid: c47d55f43fa79064b84abb7c0c8ac1d4, type: 2}
   endPos: {fileID: 5311579048703807246}
   moveTime: 1.5
-  paramRef:
-    Name: Phase
-    Value: 1
+  bg:
+    Guid:
+      Data1: -2050273098
+      Data2: 1330266862
+      Data3: -2051079288
+      Data4: -1445070739
+    Path: event:/BGM/Chapter3_Boss
   endEvent:
     m_PersistentCalls:
       m_Calls:
