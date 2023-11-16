@@ -11,10 +11,5 @@ public class EnemySpawnData : ScriptableObject
 [System.Serializable]
 public struct SpawnCount
 {
-	public int meleeCnt;
-	public int rangedCnt;
-	public int minimalCnt;
-	public int eliteDefault;
-	public int D_BF;
-	public int M_JF;
+	public int[] spawnCount;
 }

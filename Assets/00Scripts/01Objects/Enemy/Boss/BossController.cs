@@ -16,8 +16,8 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[Header("State")]
 	public BossState curState;
 	public Phase curPhase;
-	/*[HideInInspector]*/ public BossState nextState;
-	/*[HideInInspector]*/ public BossState previousState;
+	[HideInInspector] public BossState nextState;
+	[HideInInspector] public BossState previousState;
 
 	#region Base Parameter
 	[Space(8)]
@@ -45,6 +45,10 @@ public class BossController : UnitFSM<BossController>, IFSM
 	[HideInInspector] public EffectActiveData currentEffectData;
 	[HideInInspector] public List<EffectActiveData> attackEffectDatas;
 	[HideInInspector] public List<EffectActiveData> floorEffectDatas;
+
+	[Space(8)]
+	[Header("Sound")]
+	public BossSoundDatas soundDataSO;
 
 	[Space(8)]
 	[Header("Spawn Info & Event")]
