@@ -11,8 +11,15 @@ public class UIYesNoButton : UIButton
 	[HideInInspector]
 	public UnityEvent<bool> onSelected;
 
+	public GameObject obj;
+
 	protected override void ActiveFunc()
 	{
 		onSelected?.Invoke(isEquip);
+	}
+
+	public override void SelectActive(bool isOn)
+	{
+		obj.SetActive(isOn);
 	}
 }
