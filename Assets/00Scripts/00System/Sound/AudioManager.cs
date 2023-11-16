@@ -116,6 +116,21 @@ public class AudioManager : Singleton<AudioManager>
 		ambientInstance.setParameterByName(param.Name, param.Value, ignoreSeekSpeed);
 	}
 
+	public void StopBackgroundMusic(FMOD.Studio.STOP_MODE stopMode)
+	{
+		if (!backgroundMusicInstance.isValid()) { return; }
+
+		backgroundMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+	}
+
+	public void StopAmbientSound(FMOD.Studio.STOP_MODE stopMode)
+	{
+		if (!ambientInstance.isValid()) { return; }
+
+		ambientInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+	}
+
+
 	public void CleanUp()
 	{
 		foreach (EventInstance eventInstance in eventInstances)
