@@ -38,11 +38,15 @@ public class UIActiveSlot : MonoBehaviour
 	{
 		normalSpr = normalBeta;
 		swapSpr = swapBeta;
+
+		iconImage.sprite = normalSpr;
 	}
 
 	public void BasicSet()
 	{
 		normalSpr = normalBasic;
 		swapSpr = swapBasic;
+		
+		iconImage.sprite = normalSpr;
 	}
 }
