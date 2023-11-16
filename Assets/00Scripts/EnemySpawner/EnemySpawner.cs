@@ -34,6 +34,13 @@ public class EnemySpawner : MonoBehaviour
 	
 	// 실제 소환 개수 저장
 	[ReadOnly(false)] public int[] curWaveEnemyCount = new int[SpawnerManager.MAX_ENEMY_TYPE];
+	
+	// Enemy Type Array
+	private EnemyType[] enemyTypes = 
+	{
+		EnemyType.M_CF, EnemyType.D_LF, EnemyType.T_DF, EnemyType.E_DF, EnemyType.D_BF,
+		EnemyType.M_JF
+	};
 
 	private void Awake()
 	{
@@ -44,20 +51,12 @@ public class EnemySpawner : MonoBehaviour
 	public void SpawnEnemy()
 	{
 		ClearCurWaveSpawnCounts();
-		
-		int melee = spawnData.waveSpawnCounts[curWaveCount].meleeCnt;
-		int ranged = spawnData.waveSpawnCounts[curWaveCount].rangedCnt;
-		int minimal = spawnData.waveSpawnCounts[curWaveCount].minimalCnt;
-		int eliteDefault = spawnData.waveSpawnCounts[curWaveCount].eliteDefault;
-		int dbfCount = spawnData.waveSpawnCounts[curWaveCount].D_BF;
-		int mjfCount = spawnData.waveSpawnCounts[curWaveCount].M_JF;
-	
-		PlaceEnemy(melee, EnemyType.M_CF);
-		PlaceEnemy(ranged, EnemyType.D_LF);
-		PlaceEnemy(minimal, EnemyType.T_DF);
-		PlaceEnemy(eliteDefault, EnemyType.E_DF);
-		PlaceEnemy(dbfCount, EnemyType.D_BF);
-		PlaceEnemy(mjfCount, EnemyType.M_JF);
+		int[] curWave = GetCurrentWaveSpawnCount(curWaveCount);
+
+		for (int i = 0; i < curWave.Length; ++i)
+		{
+			PlaceEnemy(curWave[i], enemyTypes[i]);
+		}
 		
 		curWaveCount++;
 	}
@@ -66,14 +65,12 @@ public class EnemySpawner : MonoBehaviour
 	{
 		int[] result = new int[SpawnerManager.MAX_ENEMY_TYPE];
 
-		foreach (var data in spawnData.waveSpawnCounts)
+		foreach (SpawnCount data in spawnData.waveSpawnCounts)
 		{
-			result[0] += data.meleeCnt;
-			result[1] += data.rangedCnt;
-			result[2] += data.minimalCnt;
-			result[3] += data.eliteDefault;
-			result[4] += data.D_BF;
-			result[5] += data.M_JF;
+			for (int i = 0; i < SpawnerManager.MAX_ENEMY_TYPE; ++i)
+			{
+				result[i] += data.spawnCount[i];
+			}
 		}
 		
 		return result;
@@ -140,7 +137,9 @@ public class EnemySpawner : MonoBehaviour
 			curWaveEnemyCount[i] = 0;
 		}
 	}
-	
+
+	private int[] GetCurrentWaveSpawnCount(int index) => spawnData.waveSpawnCounts[index].spawnCount;
+
 	#region Editor
 	#if UNITY_EDITOR
 	private void OnDrawGizmos()
