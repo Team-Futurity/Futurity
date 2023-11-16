@@ -33,8 +33,7 @@ public class EnemySpawner : MonoBehaviour
 	[HideInInspector] public UnityEvent<EnemySpawner> spawnerDisableEvent;
 	
 	// 실제 소환 개수 저장
-	[ReadOnly(false)] public int[] curWaveEnemyCount = new int[4];
-	private int spawnIndex = 0;
+	[ReadOnly(false)] public int[] curWaveEnemyCount = new int[SpawnerManager.MAX_ENEMY_TYPE];
 
 	private void Awake()
 	{
@@ -44,19 +43,21 @@ public class EnemySpawner : MonoBehaviour
 
 	public void SpawnEnemy()
 	{
-		curWaveEnemyCount = curWaveEnemyCount.Select(x => 0).ToArray();
+		ClearCurWaveSpawnCounts();
 		
 		int melee = spawnData.waveSpawnCounts[curWaveCount].meleeCnt;
 		int ranged = spawnData.waveSpawnCounts[curWaveCount].rangedCnt;
 		int minimal = spawnData.waveSpawnCounts[curWaveCount].minimalCnt;
 		int eliteDefault = spawnData.waveSpawnCounts[curWaveCount].eliteDefault;
-		
-		spawnIndex = 0;
-
+		int dbfCount = spawnData.waveSpawnCounts[curWaveCount].D_BF;
+		int mjfCount = spawnData.waveSpawnCounts[curWaveCount].M_JF;
+	
 		PlaceEnemy(melee, EnemyType.M_CF);
 		PlaceEnemy(ranged, EnemyType.D_LF);
 		PlaceEnemy(minimal, EnemyType.T_DF);
 		PlaceEnemy(eliteDefault, EnemyType.E_DF);
+		PlaceEnemy(dbfCount, EnemyType.D_BF);
+		PlaceEnemy(mjfCount, EnemyType.M_JF);
 		
 		curWaveCount++;
 	}
@@ -71,6 +72,8 @@ public class EnemySpawner : MonoBehaviour
 			result[1] += data.rangedCnt;
 			result[2] += data.minimalCnt;
 			result[3] += data.eliteDefault;
+			result[4] += data.D_BF;
+			result[5] += data.M_JF;
 		}
 		
 		return result;
@@ -78,14 +81,14 @@ public class EnemySpawner : MonoBehaviour
 
 	public int GetCurrentSpawnCount() => (curWaveEnemyCount.Sum());
 	public bool IsSpawnEnd() => (curWaveCount >= totalWaveCount);
-	
+
 	private void PlaceEnemy(int count, EnemyType type)
 	{
 		if (count <= 0)
 		{
 			return;
 		}
-		
+
 		for (int i = 0; i < count; ++i)
 		{
 			Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
@@ -93,15 +96,16 @@ public class EnemySpawner : MonoBehaviour
 			spawnPos.y = yOffset;
 
 			Collider[] colliders = Physics.OverlapSphere(spawnPos, inspectionRange);
-			
+
 			bool isEnemyFound = colliders.Any(col => col.CompareTag("Enemy"));
 			curCheckCount = (isEnemyFound) ? curCheckCount++ : curCheckCount;
-			
+
 			if (isEnemyFound == true && curCheckCount <= maxCheckCount)
 			{
 				i--;
 				continue;
 			}
+
 			curCheckCount = 0;
 
 			GameObject enemy = GetEnemyEvent?.Invoke(type);
@@ -109,16 +113,15 @@ public class EnemySpawner : MonoBehaviour
 			{
 				return;
 			}
-			
+
 			enemy.transform.SetPositionAndRotation(spawnPos, Quaternion.Euler(0, yRotation, 0));
 			enemy.transform.SetParent(enemyParents);
 			enemy.SetActive(true);
-			
-			curWaveEnemyCount[spawnIndex]++;
+
+			curWaveEnemyCount[(int)type]++;
 		}
-		spawnIndex++;
 	}
-	
+
 	private void Init()
 	{
 		totalWaveCount = spawnData.waveSpawnCounts.Count;
@@ -128,6 +131,14 @@ public class EnemySpawner : MonoBehaviour
 	private void OnDisable()
 	{
 		spawnerDisableEvent?.Invoke(this);
+	}
+
+	private void ClearCurWaveSpawnCounts()
+	{
+		for (int i = 0; i < curWaveEnemyCount.Length; ++i)
+		{
+			curWaveEnemyCount[i] = 0;
+		}
 	}
 	
 	#region Editor

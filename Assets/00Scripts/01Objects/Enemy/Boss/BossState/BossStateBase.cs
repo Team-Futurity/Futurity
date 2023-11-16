@@ -37,6 +37,8 @@ public class BossStateBase : UnitState<BossController>
 	{
 		if (other.CompareTag("Player"))
 		{
+
+
 			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
 			unit.bossData.Attack(info);
 		}

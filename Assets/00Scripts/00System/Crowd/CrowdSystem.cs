@@ -13,26 +13,11 @@ public class CrowdSystem : MonoBehaviour
 	// Crowd Receiver : 전달 받은 버프를 적용한다.
 	private List<CrowdBase> recCrowdList = new List<CrowdBase>();
 
-	public UnitBase debugTest;
-	
 	private void Awake()
 	{
-		if (debugTest != null)
-		{
-			SendCrowd(debugTest, 0);
-		}
 	}
 
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			if(debugTest != null)
-				SendCrowd(debugTest, 1);
-		}
-	}
-
-	public bool AddCrowdName(CrowdBase crowd)
+	public bool AddCrowdData(CrowdBase crowd)
 	{
 		// 중복이 있을 경우, 제한다.
 		if (HasCrowd(crowd.data.CrowdName)) return false;
@@ -42,7 +27,7 @@ public class CrowdSystem : MonoBehaviour
 		return true;
 	}
 
-	public bool RemoveCrowdName(CrowdBase crowd)
+	public bool RemoveCrowdData(CrowdBase crowd)
 	{
 		if (!HasCrowd(crowd.data.CrowdName)) return false;
 		
@@ -93,18 +78,20 @@ public class CrowdSystem : MonoBehaviour
 	{
 		if (HasCrowd(crowd.data.CrowdName))
 		{
+			Debug.Log(transform.name);
+			
 			var tempCrowd = GetCrowd(crowd.data.CrowdName);
 			if (tempCrowd == null) return;
 			
-			Debug.Log("중첩 IN");
 			tempCrowd.SetCrowdTime(crowd.data.CrowdActiveTime);
 			
 			return;
 		}
 
-		AddCrowdName(crowd);
 		var copyCrowd = Instantiate(crowd, transform.position, quaternion.identity, transform);
 		copyCrowd.SetData(this, unit);
+		
+		AddCrowdData(copyCrowd);
 	}
 	
 	#endregion

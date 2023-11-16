@@ -31,6 +31,8 @@ public class UIInputManager : Singleton<UIInputManager>
 		
 		// Esc Key
 		InputActionManager.Instance.RegisterCallback(map.ESC, (context) => OnESC(context), true);
+		
+		InputActionManager.Instance.RegisterCallback(map.ExitKey, (context) => OnExitKey(context), true);
 	}
 
 	#region Button
@@ -40,6 +42,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		for (int i = 0; i < buttons.Count; ++i)
 		{
 			currentActiveButtons?.Add(i, buttons[i]);
+			buttons[i].Init();
 		}
 
 		if (isDefaultFocus)
@@ -102,6 +105,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		
 		currentIndex = saveIndex;
 		saveIndex = -1;
+		SelectUI();
 	}
 
 	private void ChangeToIndex(int num)
@@ -162,6 +166,23 @@ public class UIInputManager : Singleton<UIInputManager>
 		}
 
 		currentActiveButtons[currentIndex].Active();
+	}
+	
+	public void OnExitKey(InputAction.CallbackContext context)
+	{
+		if (UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP))
+		{
+			Debug.Log("??");
+			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		}
+		
+		if (UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP_SELECT))
+		{
+			Debug.Log("????");
+			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP_SELECT);
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		}
 	}
 
 	public void OnESC(InputAction.CallbackContext context)
