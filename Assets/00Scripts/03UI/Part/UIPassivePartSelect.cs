@@ -54,6 +54,12 @@ public class UIPassivePartSelect : MonoBehaviour
 		
 		// ¿­±â -> Part Equip Window
 		UIManager.Instance.OpenWindow(WindowList.PART_EQUIP);
+		
+		if (code == 2201 || code == 2202)
+		{
+			UIInputManager.Instance.SetDefaultFocusForced(3);
+			UIInputManager.Instance.SetUnableMoveButton(true);
+		}
 	}
 
 	private void EnableSelectEvent()
