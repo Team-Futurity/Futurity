@@ -62,8 +62,6 @@ public class UIPartEquip : MonoBehaviour
 		{
 			// Dim 
 			// Active
-			
-			
 			lockPassive.SetActive(true);
 			lockActive.SetActive(false);
 
@@ -102,7 +100,6 @@ public class UIPartEquip : MonoBehaviour
 
 			return;
 		}
-
 		
 		if (PartSystem.IsIndexPartEmpty(2)) { passiveButton[0].InitResource(); }
 		else { passiveButton[0].SetButtonData(passivePartDatas[2].partCode); }
@@ -129,8 +126,8 @@ public class UIPartEquip : MonoBehaviour
 			selectButtonIndex = selectIndex;
 			UIInputManager.Instance.SaveIndex();
 			
-			SelectModal.SetExitMode();
-
+			SelectModal.SetNormalMode();
+			
 			UIManager.Instance.OpenWindow(WindowList.PART_EQUIP_SELECT);
 			SelectModal.onClose?.AddListener(EquipSelectPart);
 

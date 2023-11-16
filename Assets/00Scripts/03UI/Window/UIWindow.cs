@@ -96,7 +96,7 @@ public class UIWindow : MonoBehaviour
 		UIInputManager.Instance.ClearAll();
 		
 		// Set this CurrentButton -> UIInputManager
-		if(CurrentWindowButtons != null)
+		if (CurrentWindowButtons != null)
 			UIInputManager.Instance.SetButtonList(CurrentWindowButtons, false);
 	}
 
