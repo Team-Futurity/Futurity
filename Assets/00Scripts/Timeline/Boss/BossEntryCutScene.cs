@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,9 @@ public class BossEntryCutScene : CutSceneBase
 	[SerializeField] private Transform endPos;
 	[SerializeField] private float moveTime = 1.5f;
 
+	[Header("Sound")] 
+	[SerializeField] private ParamRef paramRef;
+	
 	[Header("Event")] 
 	[SerializeField] private UnityEvent endEvent;
 	
@@ -65,6 +69,11 @@ public class BossEntryCutScene : CutSceneBase
 	public void BossEntry_PlayStartAni()
 	{
 		bossAnimator.SetTrigger("StartProduction");
+	}
+
+	public void PlayBossBackGroundMusic()
+	{
+		AudioManager.Instance.SetParameterForBackgroundMusic(paramRef);
 	}
 	
 	public void MovePlayer()
