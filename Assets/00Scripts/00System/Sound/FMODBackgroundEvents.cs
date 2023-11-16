@@ -17,7 +17,7 @@ public enum BackgroundPlayableType
 public struct EventReferenceInScene
 {
 	public string sceneName;
-	public string prevSceneName;
+	public string nextSceneName;
 	public BackgroundPlayableType backgroundPlayableType;
 	public ParamRef variable;
 	public bool isAMB;
@@ -60,6 +60,8 @@ public class FMODBackgroundEvents: Singleton<FMODBackgroundEvents>
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
+		if(scene.name == currentSceneName || scene.name == "LoadingScene") { return; }
+
 		EventReferenceInScene? ambience = GetAmbience(scene.name);
 		EventReferenceInScene? music = GetMusic(scene.name);
 
