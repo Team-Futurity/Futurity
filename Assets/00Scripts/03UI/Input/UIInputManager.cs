@@ -53,6 +53,8 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void SetDefaultFocusForced(int index)
 	{
+		currentActiveButtons[currentIndex].Select(false);
+
 		currentIndex = index;
 		SelectUI();
 	}
