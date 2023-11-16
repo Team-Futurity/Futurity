@@ -100,6 +100,22 @@ public class AudioManager : Singleton<AudioManager>
 		backgroundMusicInstance.start();
 	}
 
+	public void SetParameterForBackgroundMusic(ParamRef param, bool ignoreSeekSpeed = false)
+	{
+		if (!backgroundMusicInstance.isValid()) { return; }
+		if (param == null) { return; }
+
+		backgroundMusicInstance.setParameterByName(param.Name, param.Value, ignoreSeekSpeed);
+	}
+
+	public void SetParameterForAmbientSound(ParamRef param, bool ignoreSeekSpeed = false)
+	{
+		if (!ambientInstance.isValid()) { return; }
+		if (param == null) { return; }
+
+		ambientInstance.setParameterByName(param.Name, param.Value, ignoreSeekSpeed);
+	}
+
 	public void CleanUp()
 	{
 		foreach (EventInstance eventInstance in eventInstances)
