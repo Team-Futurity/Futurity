@@ -9,6 +9,10 @@ public class HitEffectDatabase : MonoBehaviour
 	public List<HitEffectByPart> hitEffectByParts = new List<HitEffectByPart>();
 	private Dictionary<int, HitEffectByPart> hitEffectByPartDictionary = new Dictionary<int, HitEffectByPart>();
 
+#if UNITY_EDITOR
+	[SerializeField] private bool triggerUpdateDatabase;
+#endif
+
 	public void SetHitEffectDatabase()
 	{
 		foreach(var part in hitEffectByParts)
@@ -27,6 +31,17 @@ public class HitEffectDatabase : MonoBehaviour
 
 		return hitEffectByPartDictionary[partCode];
 	}
+
+#if UNITY_EDITOR
+	private void Update()
+	{
+		if(triggerUpdateDatabase)
+		{
+			SetHitEffectDatabase();
+			triggerUpdateDatabase = false;
+		}
+	}
+#endif
 }
 
 
