@@ -6,6 +6,9 @@ public class EnemyAnimationEvents : MonoBehaviour
 {
 	public EnemyController ec;
 
+	private float mjfYpos;
+	private Vector3 mjfTargetPos;
+
 	public void ActiveEffect(int activeIndex)
 	{
 		EffectActiveData data = ec.currentEffectData;
@@ -69,13 +72,19 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void M_JFUp(float yPos)
 	{
-		ec.transform.position = new Vector3(ec.transform.position.x, yPos, ec.transform.position.z);
+		mjfYpos = yPos;
+		ec.transform.position = new Vector3(ec.transform.position.x, mjfYpos, ec.transform.position.z);
+	}
+
+	public void M_JFTargeting()
+	{
+		mjfTargetPos = ec.target.transform.position;
+		ec.currentEffectData.position = mjfTargetPos;
 	}
 
 	public void M_JFDown()
 	{
-		Vector3 targetPos = ec.target.transform.position;
-		ec.transform.position = targetPos;
+		ec.transform.position = mjfTargetPos;
 	}
 
 	#endregion
