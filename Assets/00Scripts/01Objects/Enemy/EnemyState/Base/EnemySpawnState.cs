@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static PlayerController;
 
 [FSMState((int)EnemyState.Spawn)]
 public class EnemySpawnState : StateBase
@@ -23,6 +24,9 @@ public class EnemySpawnState : StateBase
 		unit.skinnedMeshRenderer.materials = new Material[1] { unit.copyDMat };
 		unit.copyDMat.SetFloat(copyDMatProperty, 0f);
 		unit.skinnedMeshRenderer.gameObject.layer = 7;
+
+
+		ActiveSpawnEffect(unit);
 	}
 
 	public override void Update(EnemyController unit)
@@ -44,5 +48,28 @@ public class EnemySpawnState : StateBase
 
 		unit.skinnedMeshRenderer.materials = new Material [2] { unit.material, unit.copyUMat };
 		unit.skinnedMeshRenderer.gameObject.layer = 0;
+	}
+
+	public void ActiveSpawnEffect(EnemyController unit)
+	{
+		EffectActiveData data = new EffectActiveData();
+
+		data.activationTime = EffectActivationTime.Spawn;
+		data.target = EffectTarget.Ground;
+		data.index = 0;
+		data.parent = null;
+		data.position = unit.transform.position + unit.spawnEffectPos;
+		data.rotation = Quaternion.Euler(new Vector3(-90f, 0, 0));
+
+		EffectKey key = unit.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, 0, true);
+
+		key.EffectObject.transform.localScale = unit.spawnEffectScale;
+
+		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
+
+		if (particles != null)
+		{
+			particles.Initialize(unit.effectController, key);
+		}
 	}
 }
