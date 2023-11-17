@@ -80,7 +80,6 @@ public class BossAnimationEvents : MonoBehaviour
 	}
 	#endregion
 
-
 	#region DeActive Attack
 	public void DeActiveType1Attacks()
 	{
@@ -103,5 +102,11 @@ public class BossAnimationEvents : MonoBehaviour
 	{
 		bc.attackTrigger.DeActiveListAttacks(bc.attackEffectDatas, bc.attackTrigger.type6Colliders);
 	}
+	#endregion
+
+	#region Sound
+
+
+
 	#endregion
 }
