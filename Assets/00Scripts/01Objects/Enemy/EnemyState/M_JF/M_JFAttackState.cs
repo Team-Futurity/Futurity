@@ -12,14 +12,14 @@ public class M_JFAttackState : EnemyAttackBaseState
 		effectData.activationTime = EffectActivationTime.InstanceAttack;
 		effectData.target = EffectTarget.Ground;
 		effectData.index = 0;
-		effectData.position = new Vector3(0f, 0.6f, 0f);
+		effectData.parent= null;
+		
 		effectData.rotation = Quaternion.Euler(new Vector3(0,0,0));
 	}
 
 	public override void Begin(EnemyController unit)
 	{
 		base.Begin(unit);
-		effectData.parent = unit.gameObject;
 		unit.currentEffectData = effectData;
 	}
 }
