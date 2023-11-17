@@ -54,7 +54,7 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		// Collider
 		pc.attackColliderChanger.EnableCollider(attackNode.attackColliderType, out attackColliderData);
 		pc.autoTargetColliderChanger.EnableCollider(attackNode.attackColliderType, out autotargetColliderData);
-		attackColliderData.SetCollider(attackNode.attackAngle, attackNode.attackLength * MathPlus.cm2m);
+		attackColliderData.SetCollider(attackNode.attackAngle, (attackNode.attackLength + pc.playerData.status.GetStatus(StatusType.ATTACK_LENGTH).GetValue()) * MathPlus.cm2m);
 		autotargetColliderData.SetCollider(pc.autoAngle, range);
 
 		isAutoTargeted = false;

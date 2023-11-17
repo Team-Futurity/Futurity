@@ -5671,8 +5671,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3070080343336611051}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.08273126, y: -0.5, z: -0.028418839}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5933,16 +5933,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3bb385a5336ba34dbb64a36ad221e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <crowdSystem>k__BackingField: {fileID: 0}
   attackType: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1024
   colliderRadius: 3
   attackDamage: 50
   isStateTransition: 0
   transitionColliderRadius: 0
   transitionDamage: 0
   transitionCount: 0
+  effectPrefab: {fileID: 0}
 --- !u!1 &5180193562067198251
 GameObject:
   m_ObjectHideFlags: 0
@@ -6156,7 +6158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6328675c75318854884971e6c2bcbc04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <data>k__BackingField: {fileID: 11400000, guid: 7f06d060629143a40a6d67b7436d7fbf, type: 2}
+  <data>k__BackingField: {fileID: 11400000, guid: 983e8b7100161024f8b836756e78fafd, type: 2}
   onStart:
     m_PersistentCalls:
       m_Calls: []
@@ -6668,7 +6670,7 @@ MonoBehaviour:
   maxComboCount: 3
   minComboGauge: 0
   maxComboGauge: 100
-  currentGauge: 100
+  currentGauge: 0
   comboData:
   - <ComboCount>k__BackingField: 0
     <AddedGauge>k__BackingField: 4
@@ -6804,16 +6806,16 @@ MonoBehaviour:
   hitEffectByParts:
   - partCode: 404
     hitEffectPrefab: {fileID: 829699877072059709, guid: 82fb583d481bbca4daad235721e4ac7e, type: 3}
-    hitEffectOffset: {x: 0, y: 0, z: 0}
-  - partCode: 2106
+    hitEffectOffset: {x: 0, y: 1, z: 0}
+  - partCode: 2101
     hitEffectPrefab: {fileID: 4395905317358071674, guid: 30895a7d7cd2e6d4f8297fa818ac5c90, type: 3}
-    hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectOffset: {x: 0, y: 1, z: 0}
   - partCode: 2104
     hitEffectPrefab: {fileID: 8976240204836363956, guid: 0f6fbff72d1af034c8db2f51853e73e1, type: 3}
-    hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectOffset: {x: 0, y: 1, z: 0}
   - partCode: 2103
     hitEffectPrefab: {fileID: 5629541814004231293, guid: c346ba84de672bc48bdc616688797aa7, type: 3}
-    hitEffectOffset: {x: 0, y: 0, z: 0}
+    hitEffectOffset: {x: 0, y: 1, z: 0}
   triggerUpdateDatabase: 0
 --- !u!114 &6432825199896219761
 MonoBehaviour:
@@ -7632,9 +7634,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3578230960119294093, guid: 4b2943fe4173a3446a265a3f4035f320, type: 3}
-      propertyPath: targetLayer.m_Bits
-      value: 1024
-      objectReference: {fileID: 0}
+      propertyPath: effectPrefab
+      value: 
+      objectReference: {fileID: 8052871529305277348, guid: 3df84c3f75657db42b047426c2dcf6f1, type: 3}
     - target: {fileID: 3578230960119294095, guid: 4b2943fe4173a3446a265a3f4035f320, type: 3}
       propertyPath: partActiveEffect
       value: 

@@ -13,16 +13,16 @@ public class AttackCore : CoreAbility
 
 	public LayerMask targetLayer;
 
-	// Collider »ý¼º Áö¸§
+	// Collider ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public float colliderRadius = .0f;
 
-	// Á÷Á¢ µ¥¹ÌÁö¸¦ ÁÖ´Â °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	public float attackDamage = .0f;
 
-	// °ø°Ý ½Ã, ÀüÀÌ È¿°ú
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½
 	public bool isStateTransition;
 
-	// ÀüÀÌ È¿°ú°¡ Á¸ÀçÇÒ °æ¿ì, Ãæµ¹ Circle »çÀÌÁî
+	// ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½æµ¹ Circle ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public float transitionColliderRadius = .0f;
 	public float transitionDamage = .0f;
 	public int transitionCount = 0;
@@ -56,10 +56,10 @@ public class AttackCore : CoreAbility
 	private void AttackByDamage(UnitBase enemy)
 	{
 		var coll = PartCollider.DrawCircleCollider(enemy.transform.position, colliderRadius, targetLayer);
-
+		//effect = Instantiate(effectPrefab, enemy.transform.position, enemy.transform.rotation);
 		if (isStateTransition)
 		{
-			// °¡±î¿î ¼ø¼­´ë·Î ¸ó½ºÅÍ¸¦ Á¤¸®ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			var nearEnemies = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList();
 
 			if(nearEnemies.Count == 0) { return; }
@@ -89,12 +89,12 @@ public class AttackCore : CoreAbility
 		}
 		else
 		{
-			// ¹üÀ§ ¾È¿¡ ÀÖ´Â ¸ó½ºÅÍ¸¦ °ø°ÝÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			AttackAllEnemy(coll);
 		}
 	}
 
-	// ¹üÀ§ ¾È¿¡ ÀÖ´Â ¸ó½ºÅÍ¸¦ °ø°Ý
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private void AttackAllEnemy(Collider[] enemyCollider)
 	{
 		foreach (var enemy in enemyCollider)
