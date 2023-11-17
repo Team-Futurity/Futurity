@@ -11,8 +11,47 @@ public class UIPartEquipSelect : MonoBehaviour
 	[HideInInspector]
 	public UnityEvent<bool> onClose;
 
-	private void Awake()
+	public bool isExitMode = false;
+
+	private bool initExitMode = false;
+
+	private void Update()
 	{
+		if (UIManager.Instance.IsOpenWindow(WindowList.PART_EXIT) && isExitMode && !initExitMode)
+		{
+			initExitMode = true;
+			
+			SetExitMode();
+		}
+	}
+
+	public void SetExitMode()
+	{
+		Init();
+		
+
+		buttons[0].onSelected?.AddListener((x) =>
+		{
+			UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
+			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
+			
+			initExitMode = false;
+		});
+
+		buttons[1].onSelected?.AddListener((x) =>
+		{
+			UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
+
+			UIManager.Instance.RefreshWindow(UIManager.Instance.GetBefroeWindow());
+			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
+			initExitMode = false;
+		});
+	}
+
+	public void SetNormalMode()
+	{
+		Init();
+
 		for (int i = 0; i < buttons.Length; ++i)
 		{
 			buttons[i].onSelected?.AddListener(OnActiveButton);
@@ -22,6 +61,17 @@ public class UIPartEquipSelect : MonoBehaviour
 	private void OnActiveButton(bool isEquip)
 	{
 		UIManager.Instance.CloseWindow(WindowList.PART_EQUIP_SELECT);
+		Debug.Log("Part Equip Select Out");
 		onClose?.Invoke(isEquip);
+	}
+
+	private void Init()
+	{
+		UIInputManager.Instance.SetUnableMoveButton(false);
+
+		for (int i = 0; i < buttons.Length; ++i)
+		{
+			buttons[i].onSelected?.RemoveAllListeners();
+		}
 	}
 }

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class SpawnerManager : MonoBehaviour
 {
-	public readonly static int MAX_ENEMY_TYPE = 4;
+	public readonly static int MAX_ENEMY_TYPE = 6;
 	
 	[Header("즉시 스폰 여부")] 
 	[SerializeField] private bool isImmediatelySpawn = false;
@@ -50,10 +50,12 @@ public class SpawnerManager : MonoBehaviour
 		totalSpawnCount = new int[MAX_ENEMY_TYPE];
 		InitSpawnerData();
 		
-		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MeleeDefault], EnemyType.MeleeDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyType.RangedDefault], EnemyType.RangedDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyType.MinimalDefault], EnemyType.MinimalDefault);
-		CreateEnemyObject(totalSpawnCount[(int)EnemyType.EliteDefault], EnemyType.EliteDefault);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.M_CF], EnemyType.M_CF);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.D_LF], EnemyType.D_LF);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.T_DF], EnemyType.T_DF);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.E_DF], EnemyType.E_DF);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.D_BF], EnemyType.D_BF);
+		CreateEnemyObject(totalSpawnCount[(int)EnemyType.M_JF], EnemyType.M_JF);
 		
 		objectIndicator = GameObject.FindWithTag("Player").GetComponentInChildren<ObjectIndicator>();
 		

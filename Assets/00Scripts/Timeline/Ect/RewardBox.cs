@@ -21,7 +21,7 @@ public class RewardBox : MonoBehaviour
 
 	[Header("Effect")] 
 	[SerializeField] private GameObject boxEffect;
-
+	
 	private int[] partDataBase = { 
 		2201, 2202,							// Active
 		2101, 2102, 2103, 2104, 2105	// Passive
@@ -29,6 +29,11 @@ public class RewardBox : MonoBehaviour
 
 	private void OnDisable()
 	{
+		if (InputActionManager.Instance == null)
+		{
+			return;
+		}
+		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
 
@@ -77,6 +82,8 @@ public class RewardBox : MonoBehaviour
 			return;
 		}
 		
+		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
+		
 		startAnimation = PlayAnimation();
 		StartCoroutine(startAnimation);
 	}
@@ -100,6 +107,21 @@ public class RewardBox : MonoBehaviour
 		gameObject.GetComponent<BoxCollider>().enabled = false;
 
 		isInteraction = true;
+	}
+
+	public void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+			ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
+			
+			passivePartSelect.SetPartData(GetPlayerEquipPartList());
+			UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
+			gameObject.GetComponent<BoxCollider>().enabled = false;
+
+			isInteraction = true;
+		}
 	}
 
 	private int[] GetPlayerEquipPartList()

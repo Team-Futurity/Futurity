@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 using System.Linq;
+using Unity.VisualScripting;
 
 public interface IFSM{ }
 
@@ -23,6 +24,7 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 
 	public StateChangeConditions stateChangeConditions;
 
+	#region Setup
 	protected void SetUp(ValueType firstState)
 	{
 		states = new Dictionary<int, UnitState<Unit>>();
@@ -114,7 +116,9 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 			stateDataDictionary.Add(data.enumNumber, data);
 		}
 	}
+	#endregion
 
+	#region State Changes
 	public void ChangeState(ValueType nextEnumState)
 	{
 		UnitState<Unit> state = null;
@@ -130,8 +134,6 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		{
 			int currentStateIndex = GetStateOrder(currentState);
 			int nextStateIndex = GetStateOrder(nextState);
-
-			
 
 			if (currentState != null)
 			{
@@ -157,6 +159,16 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		}
 	}
 
+	public void BackToPreviousState()
+	{
+		if (prevState != null)
+		{
+			ChangeState(prevState);
+		}
+	}
+	#endregion
+
+	#region SubState
 	public void AddSubState(ValueType subEnumState)
 	{
 		UnitState<Unit> state = null;
@@ -189,13 +201,29 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 			subState = null;
 		}
 	}
+	#endregion
 
-	public void BackToPreviousState()
+	#region Getter
+	public bool IsChangableState(ValueType nextEnumState)
 	{
-		if (prevState != null)
+		UnitState<Unit> state = null;
+		if (GetState(nextEnumState, ref state))
 		{
-			ChangeState(prevState);
+			return IsChangableState(state);
 		}
+
+		return false;
+	}
+
+	public bool IsChangableState(UnitState<Unit> nextState)
+	{
+		int currentStateIndex = GetStateOrder(currentState);
+		int nextStateIndex = GetStateOrder(nextState);
+
+		if (currentState == null || nextState == null) { return false; }
+		if (stateChangeConditions == null) { return false; }
+
+		return stateChangeConditions.GetChangable(currentStateIndex, nextStateIndex) && currentState.IsChangable(unit, nextState);
 	}
 
 	public bool IsCurrentState(ValueType enumState)
@@ -238,7 +266,9 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 
 		return -1;
 	}
+	#endregion
 
+	#region UnityMethods
 	protected virtual void Update()
 	{
 		currentState?.Update(unit);
@@ -268,4 +298,5 @@ public class UnitFSM<Unit> : MonoBehaviour where Unit : IFSM
 		currentState?.OnCollisionStay(unit, collision);
 		subState?.OnCollisionStay(unit, collision);
 	}
+	#endregion
 }

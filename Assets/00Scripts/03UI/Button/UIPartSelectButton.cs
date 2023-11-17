@@ -42,9 +42,70 @@ public class UIPartSelectButton : UIButton
 	[SerializeField]
 	private int buttonIndex = 0;
 
+	public Image activeTypeImage;
+	public Image passiveTypeImage;
+
 	protected override void ActiveFunc()
 	{
 		onSelected?.Invoke(partCode, buttonIndex);
+	}
+
+	public override void Init()
+	{
+		if(PartIconImage != null)
+			PartIconImage.color = Define.noneSelectColor;
+		if (PartNameImage != null)
+			PartNameImage.color = Define.noneSelectColor;
+		if (CoreInfoText != null)
+			CoreInfoText.color = SubInfoText.color = Define.noneSelectColor;
+		if (partTypeImage != null)
+			partTypeImage.color = Define.noneSelectColor;
+		if(infoText != null)
+			infoText.color = Define.noneSelectColor;
+		if(activeTypeImage != null)
+			activeTypeImage.color = Define.noneSelectColor;
+		if (passiveTypeImage != null)
+		{
+			passiveTypeImage.color = Define.noneSelectColor;
+		}
+	}
+
+	public override void SelectActive(bool isOn)
+	{
+		if(isOn)
+		{
+			if (PartIconImage != null)
+				PartIconImage.color = Define.selectColor;
+			if (PartNameImage != null)
+				PartNameImage.color = Define.selectColor;
+			if (CoreInfoText != null)
+				CoreInfoText.color = SubInfoText.color = Define.selectColor;
+			if (partTypeImage != null)
+				partTypeImage.color = Define.selectColor;
+			if (infoText != null)
+				infoText.color = Define.selectColor;
+			if(activeTypeImage != null)
+				activeTypeImage.color = Define.selectColor;
+			if(passiveTypeImage != null)
+				passiveTypeImage.color = Define.selectColor;
+		}
+		else
+		{
+			if(PartIconImage != null)
+				PartIconImage.color = Define.noneSelectColor;
+			if (PartNameImage != null)
+				PartNameImage.color = Define.noneSelectColor;
+			if (CoreInfoText != null)
+				CoreInfoText.color = SubInfoText.color = Define.noneSelectColor;
+			if (partTypeImage != null)
+				partTypeImage.color = Define.noneSelectColor;
+			if(infoText != null)
+				infoText.color = Define.noneSelectColor;
+			if(activeTypeImage != null)
+				activeTypeImage.color = Define.noneSelectColor;
+			if(passiveTypeImage != null)
+				passiveTypeImage.color = Define.noneSelectColor;
+		}
 	}
 
 	public void SetButtonData(int code)
@@ -54,18 +115,25 @@ public class UIPartSelectButton : UIButton
 		if (code == 2201 || code == 2202)
 		{
 			partTypeImage.sprite = activeImage;
-			activeObj.SetActive(true);
-			passiveObj.SetActive(false);
+			if(activeObj != null)
+				activeObj.SetActive(true);
+			if(passiveObj != null)
+				passiveObj.SetActive(false);
 			
 			var data = LoadPartData(code);
-			infoText.text = data.coreInfoText;
+			
+			if(infoText != null)
+				infoText.text = data.coreInfoText;
 			ChangeResource(data, true);
 		}
 		else
 		{
 			partTypeImage.sprite = passiveImage;
-			passiveObj.SetActive(true);
-			activeObj.SetActive(false);
+			if(passiveObj != null)
+				passiveObj.SetActive(true);
+			
+			if(activeObj != null)
+				activeObj.SetActive(false);
 			
 			ChangeResource(LoadPartData(code));
 		}
@@ -73,7 +141,6 @@ public class UIPartSelectButton : UIButton
 		partCode = code;
 	}
 
-	// Addressable¿ª ≈Î«— Data Load
 	private UIPassiveSelectData LoadPartData(int code)
 	{
 		UIPassiveSelectData data = Addressables.LoadAssetAsync<UIPassiveSelectData>(code.ToString()).WaitForCompletion();

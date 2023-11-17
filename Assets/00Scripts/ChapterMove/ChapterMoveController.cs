@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public enum EUIType
 {
 	NEXTSTAGE,
 	OPENBOX,
+	INTERACION,
 }
 
 public class ChapterMoveController : Singleton<ChapterMoveController>
@@ -42,10 +44,8 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 		Init();
 		CheckPenetrate();
 		EnableEntryCutScene();
-		
-		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status
-			.updateHPEvent.Invoke(230f, 230f);
-		
+		StartUpdateHpGauge();
+
 		Time.timeScale = 1.0f;
 	}
 
@@ -57,6 +57,16 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 		if (Input.GetKeyDown(KeyCode.F7))
 		{
 			MoveNextChapter();
+		}
+		
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_BETA);
+		}
+		
+		if (Input.GetKeyDown(KeyCode.N))
+		{
+			TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_ALPHA);
 		}
 	}
 	
@@ -72,6 +82,70 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 			objectPenetrate.enabled = false;
 		});
 	}
+
+	public string GetCurrentChapter()
+	{
+		string curChapterName = "";
+
+		switch (curChapter)
+		{
+			case EChapterType.CHAPTER1_1:
+				curChapterName = ChapterSceneName.CHAPTER1_1;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER1_2:
+				curChapterName = ChapterSceneName.CHAPTER1_2;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER1_3:
+				curChapterName = ChapterSceneName.CHAPTER1_3;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER2_1:
+				curChapterName = ChapterSceneName.CHAPTER2_1;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER2_2:
+				curChapterName = ChapterSceneName.CHAPTER2_2;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER_BOSS:
+				curChapterName = ChapterSceneName.BOSS_CHAPTER;
+				return curChapterName;
+			
+			default:
+				return curChapterName;
+		}
+	}
+
+	#region UpdateHpGauge
+	private void StartUpdateHpGauge()
+	{
+		if (chapterData[(int)curChapter].CutSceneType == ECutSceneType.NONE)
+		{
+			UpdateHpEvent();
+			return;
+		}
+
+		StartCoroutine(WaitCutSceneEnd());
+	}
+
+	private IEnumerator WaitCutSceneEnd()
+	{
+		while (TimelineManager.Instance.isCutScenePlaying == true)
+		{
+			yield return null;
+		}
+		
+		UpdateHpEvent();
+	}
+
+	private void UpdateHpEvent()
+	{
+		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status
+			.updateHPEvent.Invoke(230f, 230f);
+	}
+	#endregion
 
 	private void EnableEntryCutScene()
 	{

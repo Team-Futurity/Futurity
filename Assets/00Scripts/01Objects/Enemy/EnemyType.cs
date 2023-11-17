@@ -1,11 +1,12 @@
 public enum EnemyType : int
 {
-	MeleeDefault,
-	RangedDefault,
-	MinimalDefault,
-	EliteDefault,
+	M_CF,
+	D_LF,
+	T_DF,
+	E_DF,
 
 	D_BF,
+	M_JF,
 
 	TutorialDummy,
 }

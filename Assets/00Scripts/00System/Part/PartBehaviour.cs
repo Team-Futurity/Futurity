@@ -29,6 +29,7 @@ public class PartBehaviour : MonoBehaviour
 	public void SetPartActive(bool isOn)
 	{
 		isActive = isOn;
+		subAbility.SetActiveEffect(isOn);
 	}
 
 	public bool GetPartActive()

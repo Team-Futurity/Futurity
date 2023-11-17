@@ -5,14 +5,35 @@ using UnityEngine;
 [FSMState((int)BossState.T3_Laser)]
 public class T3_LaserState : B_PatternBase
 {
+	private EffectActiveData effectData = new EffectActiveData();
+	public T3_LaserState()
+	{
+		//실드 이펙트임
+
+		effectData.activationTime = EffectActivationTime.AttackReady;
+		effectData.target = EffectTarget.Target;
+		effectData.index = 0;
+		effectData.position = new Vector3(0f, 1.5f, 0f);
+		effectData.rotation = Quaternion.Euler(new Vector3(-90f, 0f, 0f));
+	}
 
 	public override void Begin(BossController unit)
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T3_Laser;
+
+		//임시
+		EffectKey key = unit.effectController.ActiveEffect(effectData.activationTime, effectData.target, effectData.position, effectData.rotation, null, effectData.index, 0, true);
+		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
+		if (particles != null)
+		{
+			particles.Initialize(unit.effectController, key);
+		}
+
 		unit.SetListEffectData(unit.attackEffectDatas, unit.attackTrigger.type3Colliders, EffectActivationTime.InstanceAttack, EffectTarget.Ground, false);
 		unit.navMesh.enabled = true;
 	}
+
 	public override void Update(BossController unit)
 	{
 		base.Update(unit);
@@ -34,7 +55,7 @@ public class T3_LaserState : B_PatternBase
 
 			if (isAttackDelayDone && !isAttackDone)
 			{
-				unit.animator.SetTrigger(unit.type2Anim);
+				unit.animator.SetTrigger(unit.type3Anim);
 				isAttackDone = true;
 			}
 

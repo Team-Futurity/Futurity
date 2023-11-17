@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -264,6 +265,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		
 		moveAction = context.action;
 
+		bool prevPressed = moveIsPressed;
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
 		if (IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
@@ -274,7 +276,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			// 돌진 중 이동 기능
 			if (IsAttackProcess())
 			{
-				if (IsCurrentState(PlayerState.ChargedAttack) && !specialIsReleased)
+				if (IsCurrentState(PlayerState.ChargedAttack) && !specialIsReleased && !prevPressed)
 				{
 					animator.SetTrigger("MoveDuringRushPreparing");
 					AddSubState(PlayerState.Move);
@@ -324,7 +326,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Normal Attack
 	public PlayerInputData NAProcess(InputAction.CallbackContext context)
 	{
-		// 피격 중이거나, 스턴 상태면 리턴
+		/*// 피격 중이거나, 스턴 상태면 리턴
 		if (playerData.isStun || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
@@ -344,13 +346,34 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			var findedInput = FindInput(PlayerInputEnum.NormalAttack);
 
 			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", findedInput?.name);
+		}*/
+
+		if(playerData.isStun) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+
+		bool isAttackProcess = IsAttackProcess(true);
+		if (IsChangableState(PlayerState.AttackDelay) && !isAttackProcess)
+		{
+			StartNextComboAttack(PlayerInputEnum.NormalAttack, PlayerState.NormalAttack);
+
+			return GetInputData(PlayerInputEnum.NormalAttack, true, currentAttackState.ToString(), curNode.name);
 		}
+
+		if(isAttackProcess)
+		{
+			SetNextCombo(PlayerInputEnum.NormalAttack);
+
+			var findedInput = FindInput(PlayerInputEnum.NormalAttack);
+
+			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", findedInput?.name);
+		}
+
+		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
 	// Special Attack
 	public PlayerInputData SAProcess(InputAction.CallbackContext context)
 	{
-		// 피격 중이거나, 스턴 상태면 리턴
+		/*// 피격 중이거나, 스턴 상태면 리턴
 		if (playerData.isStun || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
 		// Idle, Move, Attack 관련 State가 아니면 리턴
@@ -382,7 +405,43 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			}
 		}
 		
-		return GetInputData(PlayerInputEnum.SpecialAttack, false);
+		return GetInputData(PlayerInputEnum.SpecialAttack, false);*/
+
+		if (playerData.isStun) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+
+		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
+
+
+		bool isAttackProcess = IsAttackProcess(true);
+
+		if (context.started)
+		{
+			if (IsChangableState(PlayerState.AttackDelay) && !isAttackProcess)
+			{
+				StartNextComboAttack(PlayerInputEnum.SpecialAttack, state);
+
+				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), state == PlayerState.NormalAttack ? curNode.name : "Pressed");
+			}
+
+			if (isAttackProcess)
+			{
+				if (firstBehaiviorNode.command == PlayerInputEnum.NormalAttack)
+				{
+					SetNextCombo(PlayerInputEnum.SpecialAttack);
+					return GetInputData(PlayerInputEnum.SpecialAttack, true, "Queueing");
+				}
+			}
+		}
+		else
+		{
+			if (context.canceled && isAttackProcess && currentAttackState == PlayerState.ChargedAttack)
+			{
+				specialIsReleased = true;
+				return GetInputData(PlayerInputEnum.SpecialAttack, true, state.ToString(), "Released");
+			}
+		}
+
+		return GetInputData(PlayerInputEnum.NormalAttack, false);
 	}
 
 	// Special Move

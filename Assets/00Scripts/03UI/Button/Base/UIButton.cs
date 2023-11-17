@@ -11,10 +11,15 @@ public abstract class UIButton : MonoBehaviour
 
 
 	public bool usedLeftRight = false;
+	public bool usedExitKey = false;
 
 	protected abstract void ActiveFunc();
 	protected virtual void OnLeftActive() {}
 	protected virtual void OnRightActive() {}
+
+	private bool isSelected = false;
+
+	public virtual void Init() {}
 
 	public void Active()
 	{
@@ -34,7 +39,15 @@ public abstract class UIButton : MonoBehaviour
 	public void Select(bool isOn)
 	{
 		SwapResources(isOn);
+
+		SelectActive(isOn);
 	}
+
+	public virtual void SelectActive(bool isOn)
+	{
+
+	}
+
 
 	public void SetDefault()
 	{

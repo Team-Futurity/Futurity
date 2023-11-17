@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static PlayerController;
 
 public class Enemy : UnitBase
 {
 	[SerializeField] private EnemyController ec;
+	private GameObject effectParent;
 
+	protected override void Start()
+	{
+		base.Start();
 
+		effectParent = new GameObject("Effects");
+		effectParent.transform.parent = transform;
+		effectParent.transform.localPosition = Vector3.zero;
+		effectParent.transform.localScale = Vector3.one;
+		effectParent.transform.localRotation = Quaternion.identity;
+	}
 
 	protected override void AttackProcess(DamageInfo damageInfo)
 	{
@@ -55,18 +64,44 @@ public class Enemy : UnitBase
 	private void PoolEffect(DamageInfo damageInfo)
 	{
 		GameObject obj;
-		Vector3 pos = ec.transform.position + new Vector3(0, 1.0f, 0);
+		Vector3 pos = damageInfo.HitPoint;
 
 		if (damageInfo.HitEffectPoolManager != null)
 		{
-			obj = damageInfo.HitEffectPoolManager.ActiveObject(pos).gameObject;
+			Quaternion rotation = Quaternion.identity;
+			Vector3 position = Vector3.zero;
+
+
+			Quaternion enemyRoatation = Quaternion.LookRotation(damageInfo.Attacker.transform.forward);
+			if (enemyRoatation.y > 180f) { enemyRoatation.y -= 360f; }
+			rotation = enemyRoatation;
+			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
+
+			position = pos + rotation * damageInfo.HitEffectOffset;
+			position.y = pos.y + damageInfo.HitEffectOffset.y;
+			obj = damageInfo.HitEffectPoolManager.ActiveObject(position, rotation).gameObject;
+
+			//obj = damageInfo.HitEffectPoolManager.ActiveObject(pos + damageInfo.HitEffectOffset, ec.target.transform.rotation).gameObject;
 
 			InitializeEffect(obj, damageInfo.HitEffectPoolManager);
 		}
 
 		if (damageInfo.HitEffectPoolManagerByPart != null)
 		{
-			obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(pos).gameObject;
+			Quaternion rotation = Quaternion.identity;
+			Vector3 position = Vector3.zero;
+
+			Quaternion enemyRoatation = Quaternion.LookRotation(damageInfo.Defender.transform.forward);
+			if (enemyRoatation.y > 180f) { enemyRoatation.y -= 360f; }
+			rotation = enemyRoatation;
+			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
+
+			position = pos + rotation * damageInfo.HitEffectOffsetByPart;
+			position.y = pos.y + damageInfo.HitEffectOffsetByPart.y;
+			damageInfo.HitEffectPoolManagerByPart.ChangeParent(effectParent);
+			obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(damageInfo.HitEffectOffsetByPart, rotation, false).gameObject;
+
+			//obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(pos + damageInfo.HitEffectOffsetByPart).gameObject;
 
 			InitializeEffect(obj, damageInfo.HitEffectPoolManagerByPart);
 		}

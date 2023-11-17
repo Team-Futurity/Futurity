@@ -24,6 +24,8 @@ public class TitleAnimationController : MonoBehaviour
 		ReserveAnimation(normalAnimatioName);
 
 		StartCoroutine(PlayNextAnimationCoroutine());
+		
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 	}
 
 	public void StartAnimation(string animationName)
