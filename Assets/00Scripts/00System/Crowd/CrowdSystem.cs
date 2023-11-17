@@ -78,8 +78,6 @@ public class CrowdSystem : MonoBehaviour
 	{
 		if (HasCrowd(crowd.data.CrowdName))
 		{
-			Debug.Log(transform.name);
-			
 			var tempCrowd = GetCrowd(crowd.data.CrowdName);
 			if (tempCrowd == null) return;
 			
