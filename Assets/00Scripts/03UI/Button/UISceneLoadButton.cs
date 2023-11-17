@@ -20,6 +20,7 @@ public class UISceneLoadButton : UIButton
 		{
 			string curChapter = ChapterMoveController.Instance.GetCurrentChapter();
 			
+			AudioManager.Instance.StopBackgroundMusic();
 			SceneLoader.Instance.data = data;
 			SceneLoader.Instance.LoadScene(curChapter, isLoadingScene);
 			InputActionManager.Instance.DisableActionMap();
