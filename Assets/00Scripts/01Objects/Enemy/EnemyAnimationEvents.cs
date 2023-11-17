@@ -82,7 +82,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void KnockBack()
 	{
-		if (ec.ThisEnemyType != EnemyType.TutorialDummy)
+		if (ec.ThisEnemyType != EnemyType.TutorialDummy && ec.target != null)
 		{
 			Vector3 direction = ec.transform.position - ec.target.transform.position;
 			ec.enemyData.Knockback(direction.normalized, ec.knockbackPower);

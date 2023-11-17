@@ -18,7 +18,8 @@ public class MiniDefaultChaseState : EnemyChaseBaseState
 	{
 		base.Update(unit);
 		
-		unit.transform.LookAt(unit.target.transform.position);
+		if(unit.target != null)
+			unit.transform.LookAt(unit.target.transform.position);
 
 		if (curTime > unit.beforeChaseDelay)
 		{
