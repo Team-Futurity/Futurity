@@ -7,6 +7,7 @@ public enum EUIType
 {
 	NEXTSTAGE,
 	OPENBOX,
+	INTERACION,
 }
 
 public class ChapterMoveController : Singleton<ChapterMoveController>
