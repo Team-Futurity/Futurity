@@ -17,6 +17,8 @@ public class ExecuteAfterDeath : MonoBehaviour
 
 	public ParticleSystem enableEffect;
 
+	private Player player;
+
 	private void Update()
 	{
 		if(!isActive)
@@ -38,11 +40,13 @@ public class ExecuteAfterDeath : MonoBehaviour
 				enableEffect.gameObject.SetActive(false);
 				enableEffect.gameObject.SetActive(true);
 				//enableEffect.Play();
-			}
 
-			foreach (var enemy in catchEnemys)
-			{
-				
+				foreach (var enemy in catchEnemys)
+				{
+					var crowd = enemy.gameObject.GetComponent<UnitBase>();
+					player.crowdSystem.SendCrowd(crowd, 0);
+					//crowd.AddCrowd(player.crowdSystem.GetCrowd(CrowdName.DOT), player);
+				}
 			}
 
 			if(timer >= colliderActiveTIme)
@@ -59,6 +63,11 @@ public class ExecuteAfterDeath : MonoBehaviour
 		enemyCheckCycle = checkCycle;
 		colliderActiveTIme = activeTime;
 		targetLayer = target;
+	}
+
+	public void SetAttacker(Player player)
+	{
+		this.player = player;
 	}
 
 	public void AddEnemyEvent(GameObject enableEffect)
