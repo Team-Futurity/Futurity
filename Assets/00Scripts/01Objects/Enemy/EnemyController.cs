@@ -48,7 +48,12 @@ public class EnemyController : UnitFSM<EnemyController>, IFSM
 	[HideInInspector] public Material copyDMat;
 
 	[Space(3)]
-	[Header("Hitted")]
+	[Header("Spawn")]
+	public Vector3 spawnEffectPos = new Vector3(0f, 0f, 0f);
+	public Vector3 spawnEffectScale = new Vector3(1f, 1f, 1f);
+
+	[Space(3)]
+	[Header("Chase")]
 	public float beforeChaseDelay = 1f;
 
 	[Space(3)]
