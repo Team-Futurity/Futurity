@@ -7,14 +7,8 @@ using UnityEngine;
 
 public class AttackCore : CoreAbility
 {
-	// 감마, 로우, 앱실론, 
-	// 감마 : 플레이어 어택 시, 버프 적용
-	// 로우 : 플레이어 어택 시, 범위 데미지 적용
-	// 앱실론 : 플레이어 어택 시, 최대 6번 전이되는 데미지 적용
-
-	// Attack Core Type
-	// 1. 상태 이상 부여
-	// 2. 직접 데미지
+	[field: SerializeField] public CrowdSystem crowdSystem { get; private set; }
+	
 	public AttackCoreType attackType;
 
 	public LayerMask targetLayer;
@@ -115,19 +109,11 @@ public class AttackCore : CoreAbility
 			attackST: attackDamage
 			));
 		
-		Debug.Log("HIT ENEMY" + enemyUnit.transform.name);
-
 		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit.gameObject);
 	}
 
 	private void AttackByOddState(UnitBase enemy)
 	{
-		// Buff Giver를 통한 상태 처리
-	}
-
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.green;
-		Gizmos.DrawWireSphere(transform.position, (isStateTransition) ? transitionColliderRadius: colliderRadius);
+		crowdSystem.SendCrowd(enemy, 0);
 	}
 }

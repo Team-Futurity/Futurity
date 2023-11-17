@@ -19,9 +19,17 @@ public class LambdaCore : CoreAbility
 
 	private float timer = .0f;
 
+	[field: SerializeField]
+	public CrowdSystem crowdSystem { get; private set; }
+
 	protected override void OnPartAbility(UnitBase enemy)
 	{
 		isActive = true;
+	}
+
+	private void OnDisable()
+	{
+		isActive = false;
 	}
 
 	private void Update()
@@ -44,8 +52,13 @@ public class LambdaCore : CoreAbility
 	// 몬스터 판별 -> 시점
 	private void ExploreEnemy()
 	{
-		var catchEnemys = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
-		
+		var catchEnemies = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
+
+		foreach (var enemy in catchEnemies)
+		{
+			crowdSystem.SendCrowd(enemy.GetComponent<UnitBase>(), 0);
+		}
+		Debug.Log("판별 완료!");
 	}
 
 	private void OnDrawGizmos()

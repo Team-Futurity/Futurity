@@ -49,6 +49,11 @@ public class ExecuteAfterDeath : MonoBehaviour
 				}
 			}
 
+			foreach (var enemy in catchEnemys)
+			{
+				enemy.GetComponent<Enemy>().Hit(new DamageInfo(null, null, 10f));
+			}
+			
 			if(timer >= colliderActiveTIme)
 			{
 				Destroy(enableEffect);
@@ -76,7 +81,7 @@ public class ExecuteAfterDeath : MonoBehaviour
 		this.enableEffect = effect.GetComponent<ParticleSystem>();
 		this.enableEffect.Pause();
 
-		// GameÀ¸·Î ¿Ã¸°´Ù.
+		// Gameï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½ï¿½.
 		transform.parent = GameObject.Find("Game").transform;
 
 		isActive = true;
