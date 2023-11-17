@@ -31,6 +31,9 @@ public class AttackCore : CoreAbility
 	// Monster Data
 	private Dictionary<int, GameObject> hitEnemyDic = new Dictionary<int, GameObject>();
 
+	[SerializeField]private GameObject effectPrefab;
+	private GameObject effect;
+
 	protected override void OnPartAbility(UnitBase enemy)
 	{
 		switch (attackType)
@@ -50,7 +53,7 @@ public class AttackCore : CoreAbility
 	private void AttackByDamage(UnitBase enemy)
 	{
 		var coll = PartCollider.DrawCircleCollider(enemy.transform.position, colliderRadius, targetLayer);
-
+		//effect = Instantiate(effectPrefab, enemy.transform.position, enemy.transform.rotation);
 		if (isStateTransition)
 		{
 			// 가까운 순서대로 몬스터를 정리한다.

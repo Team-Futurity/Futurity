@@ -22,14 +22,20 @@ public class LambdaCore : CoreAbility
 	[field: SerializeField]
 	public CrowdSystem crowdSystem { get; private set; }
 
+	public GameObject effectPrefab;
+	private GameObject effect;
+
 	protected override void OnPartAbility(UnitBase enemy)
 	{
 		isActive = true;
+
+		effect = Instantiate(effectPrefab, transform.position, transform.rotation, transform);
 	}
 
 	private void OnDisable()
 	{
 		isActive = false;
+		Destroy(effect);
 	}
 
 	private void Update()
