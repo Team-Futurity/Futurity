@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8498596222286459394}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -62,7 +62,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status:
   - type: 4
-    value: 10
+    value: 5
+  partActiveEffect: {fileID: 2723282391238712091, guid: 5ac274fbfbb73e04c91f8acc1dfe83d5, type: 3}
 --- !u!114 &8498596222286459401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,10 +76,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d0ebbcf40af72348bc2711905c6732b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderRadius: 0
-  enemyCheckCycle: 0
-  colliderActiveTime: 0
+  colliderRadius: 1.5
+  enemyCheckCycle: 0.35
+  colliderActiveTime: 1.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  afterDeathObj: {fileID: 0}
+    m_Bits: 1024
+  afterDeathObj: {fileID: 3728316319161658149, guid: 5bcbeb3403307e945a4f8ba5b88d75dd, type: 3}
+  afterDeathObjEnabled: {fileID: 7695908796536962081, guid: a3f9d9f52c33caf40bcabf62edbb8749, type: 3}
+  player: {fileID: 0}

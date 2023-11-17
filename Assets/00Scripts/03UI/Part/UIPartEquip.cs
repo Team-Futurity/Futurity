@@ -50,10 +50,15 @@ public class UIPartEquip : MonoBehaviour
 		{
 			canvas.SetActive(true);
 		}
+
+		isSelect = false;
 	}
 
 	public void SetSelectPart(int code)
 	{
+		if (isSelect)
+			return;
+		
 		selectPartCode = code;
 		isSelect = true;
 		partType = code > 2200 ? 1 : 2;

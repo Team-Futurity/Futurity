@@ -62,7 +62,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status:
   - type: 3
-    value: 2.5
+    value: 2.7
+  partActiveEffect: {fileID: 0}
 --- !u!114 &9184308023781581819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,13 +76,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3bb385a5336ba34dbb64a36ad221e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <crowdSystem>k__BackingField: {fileID: 0}
   attackType: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   colliderRadius: 3
   attackDamage: 50
   isStateTransition: 1
   transitionColliderRadius: 3
   transitionDamage: 20
   transitionCount: 6
+  effectPrefab: {fileID: 0}
