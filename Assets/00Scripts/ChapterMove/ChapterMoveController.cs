@@ -7,6 +7,7 @@ public enum EUIType
 {
 	NEXTSTAGE,
 	OPENBOX,
+	INTERACION,
 }
 
 public class ChapterMoveController : Singleton<ChapterMoveController>
@@ -80,6 +81,41 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 			curChapter++;
 			objectPenetrate.enabled = false;
 		});
+	}
+
+	public string GetCurrentChapter()
+	{
+		string curChapterName = "";
+
+		switch (curChapter)
+		{
+			case EChapterType.CHAPTER1_1:
+				curChapterName = ChapterSceneName.CHAPTER1_1;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER1_2:
+				curChapterName = ChapterSceneName.CHAPTER1_2;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER1_3:
+				curChapterName = ChapterSceneName.CHAPTER1_3;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER2_1:
+				curChapterName = ChapterSceneName.CHAPTER2_1;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER2_2:
+				curChapterName = ChapterSceneName.CHAPTER2_2;
+				return curChapterName;
+			
+			case EChapterType.CHAPTER_BOSS:
+				curChapterName = ChapterSceneName.BOSS_CHAPTER;
+				return curChapterName;
+			
+			default:
+				return curChapterName;
+		}
 	}
 
 	#region UpdateHpGauge

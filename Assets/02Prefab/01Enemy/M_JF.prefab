@@ -134,6 +134,8 @@ MonoBehaviour:
   deadMaterial: {fileID: 2100000, guid: 76a05afa32bd9f145ba0065671bce19a, type: 2}
   copyUMat: {fileID: 0}
   copyDMat: {fileID: 0}
+  spawnEffectPos: {x: 0, y: 0, z: 0}
+  spawnEffectScale: {x: 1.5, y: 1.5, z: 1.5}
   beforeChaseDelay: 1
   attackRange: 7
   attackBeforeDelay: 0.9
@@ -239,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d939ed33ca464e8633fa455fe2fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugBuffList: 
+  hasCrowdList: []
 --- !u!195 &8208145009997787124
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -468,6 +470,26 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6909289771296118648, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.92929
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909289771296118648, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.92929
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909289771296118648, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.92929
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909289771296118648, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909289771296118648, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.51
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9449d82f66a4124996dae477f4f71ad, type: 3}
 --- !u!224 &3642221806374511169 stripped
@@ -693,6 +715,10 @@ PrefabInstance:
     - target: {fileID: 4949836235022197391, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
       propertyPath: gaugeOffset
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5134302263231898020, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -33
       objectReference: {fileID: 0}
     - target: {fileID: 7052544353070961381, guid: 0e6406024ff780648bc149311be68ec8, type: 3}
       propertyPath: m_PresetInfoIsWorld

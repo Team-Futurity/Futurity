@@ -7,28 +7,22 @@ using UnityEngine;
 
 public class AttackCore : CoreAbility
 {
-	// °¨¸¶, ·Î¿ì, ¾Û½Ç·Ð, 
-	// °¨¸¶ : ÇÃ·¹ÀÌ¾î ¾îÅÃ ½Ã, ¹öÇÁ Àû¿ë
-	// ·Î¿ì : ÇÃ·¹ÀÌ¾î ¾îÅÃ ½Ã, ¹üÀ§ µ¥¹ÌÁö Àû¿ë
-	// ¾Û½Ç·Ð : ÇÃ·¹ÀÌ¾î ¾îÅÃ ½Ã, ÃÖ´ë 6¹ø ÀüÀÌµÇ´Â µ¥¹ÌÁö Àû¿ë
-
-	// Attack Core Type
-	// 1. »óÅÂ ÀÌ»ó ºÎ¿©
-	// 2. Á÷Á¢ µ¥¹ÌÁö
+	[field: SerializeField] public CrowdSystem crowdSystem { get; private set; }
+	
 	public AttackCoreType attackType;
 
 	public LayerMask targetLayer;
 
-	// Collider »ý¼º Áö¸§
+	// Collider ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public float colliderRadius = .0f;
 
-	// Á÷Á¢ µ¥¹ÌÁö¸¦ ÁÖ´Â °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	public float attackDamage = .0f;
 
-	// °ø°Ý ½Ã, ÀüÀÌ È¿°ú
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½
 	public bool isStateTransition;
 
-	// ÀüÀÌ È¿°ú°¡ Á¸ÀçÇÒ °æ¿ì, Ãæµ¹ Circle »çÀÌÁî
+	// ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½æµ¹ Circle ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public float transitionColliderRadius = .0f;
 	public float transitionDamage = .0f;
 	public int transitionCount = 0;
@@ -36,6 +30,12 @@ public class AttackCore : CoreAbility
 
 	// Monster Data
 	private Dictionary<int, GameObject> hitEnemyDic = new Dictionary<int, GameObject>();
+
+	public GameObject effect;
+
+	public LineRenderer transition;
+
+	public Transform enemyParent;
 
 	protected override void OnPartAbility(UnitBase enemy)
 	{
@@ -56,10 +56,10 @@ public class AttackCore : CoreAbility
 	private void AttackByDamage(UnitBase enemy)
 	{
 		var coll = PartCollider.DrawCircleCollider(enemy.transform.position, colliderRadius, targetLayer);
-
+		//effect = Instantiate(effectPrefab, enemy.transform.position, enemy.transform.rotation);
 		if (isStateTransition)
 		{
-			// °¡±î¿î ¼ø¼­´ë·Î ¸ó½ºÅÍ¸¦ Á¤¸®ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			var nearEnemies = coll.OrderBy((x) => Vector3.Distance(x.transform.position, transform.position)).ToList();
 
 			if(nearEnemies.Count == 0) { return; }
@@ -74,24 +74,27 @@ public class AttackCore : CoreAbility
 				transitionAttackCore = nearEnemy.AddComponent<TransitionAttackCore>();
 			}
 
+			var transObj = Instantiate<LineRenderer>(transition, transform.position, Quaternion.identity, enemyParent);
+
 			transitionAttackCore.SetTransitionData(new TransitionProtocol(
 				id: ++transitionAttackID,
 				radius: transitionColliderRadius,
 				damage: transitionDamage,
 				count : transitionCount,
-				layer : targetLayer
+				layer : targetLayer,
+				render : transObj
 				));
 			
 			transitionAttackCore.Play(1f);
 		}
 		else
 		{
-			// ¹üÀ§ ¾È¿¡ ÀÖ´Â ¸ó½ºÅÍ¸¦ °ø°ÝÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			AttackAllEnemy(coll);
 		}
 	}
 
-	// ¹üÀ§ ¾È¿¡ ÀÖ´Â ¸ó½ºÅÍ¸¦ °ø°Ý
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private void AttackAllEnemy(Collider[] enemyCollider)
 	{
 		foreach (var enemy in enemyCollider)
@@ -114,20 +117,15 @@ public class AttackCore : CoreAbility
 			defender: enemyUnit,
 			attackST: attackDamage
 			));
-		
-		Debug.Log("HIT ENEMY" + enemyUnit.transform.name);
 
+		if(effect != null)
+			Instantiate(effect, enemyUnit.transform.position, Quaternion.identity);
+		
 		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit.gameObject);
 	}
 
 	private void AttackByOddState(UnitBase enemy)
 	{
-		// Buff Giver¸¦ ÅëÇÑ »óÅÂ Ã³¸®
-	}
-
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.green;
-		Gizmos.DrawWireSphere(transform.position, (isStateTransition) ? transitionColliderRadius: colliderRadius);
+		crowdSystem.SendCrowd(enemy, 0);
 	}
 }

@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,8 +16,15 @@ public class BossEntryCutScene : CutSceneBase
 	[SerializeField] private Transform endPos;
 	[SerializeField] private float moveTime = 1.5f;
 
+	[Header("Sound")] 
+	[SerializeField] private EventReference bg;
+	
 	[Header("Event")] 
 	[SerializeField] private UnityEvent endEvent;
+	
+	// Parameter Hash Key
+	private readonly int BOSS_HIT_KEY = Animator.StringToHash("Hit");
+	private readonly int BOSS_START_KEY = Animator.StringToHash("StartProduction");
 	
 	protected override void Init()
 	{
@@ -57,18 +65,9 @@ public class BossEntryCutScene : CutSceneBase
 		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
 	}
 
-	public void BossEntry_PlayHitAni()
-	{
-		bossAnimator.SetTrigger("Hit");
-	}
-
-	public void BossEntry_PlayStartAni()
-	{
-		bossAnimator.SetTrigger("StartProduction");
-	}
+	public void BossEntry_PlayHitAni() => bossAnimator.SetTrigger(BOSS_HIT_KEY);
+	public void BossEntry_PlayStartAni() => bossAnimator.SetTrigger(BOSS_START_KEY);
+	public void MovePlayer() => chapterManager.PlayerController.LerpToWorldPosition(endPos.position, moveTime);
+	public void PlayBackGroundMusic() => AudioManager.Instance.RunBackgroundMusic(bg);
 	
-	public void MovePlayer()
-	{
-		chapterManager.PlayerController.LerpToWorldPosition(endPos.position, moveTime);
-	}
 }

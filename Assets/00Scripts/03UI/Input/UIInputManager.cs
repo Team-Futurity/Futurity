@@ -53,6 +53,8 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void SetDefaultFocusForced(int index)
 	{
+		currentActiveButtons[currentIndex].Select(false);
+
 		currentIndex = index;
 		SelectUI();
 	}
@@ -170,18 +172,10 @@ public class UIInputManager : Singleton<UIInputManager>
 	
 	public void OnExitKey(InputAction.CallbackContext context)
 	{
-		if (UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP))
+		if (UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP) || UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP_SELECT))
 		{
-			Debug.Log("??");
-			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
-			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
-		}
-		
-		if (UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP_SELECT))
-		{
-			Debug.Log("????");
-			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP_SELECT);
-			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+			SaveIndex();
+			UIManager.Instance.OpenWindow(WindowList.PART_EXIT);
 		}
 	}
 

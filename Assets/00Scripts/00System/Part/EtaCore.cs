@@ -19,14 +19,23 @@ public class EtaCore : CoreAbility
 	[SerializeField]
 	private GameObject afterDeathObj;
 
+	[SerializeField]
+	private GameObject afterDeathObjEnabled;
+
+	[SerializeField]
+	private Player player;
+
 	protected override void OnPartAbility(UnitBase enemy)
 	{
-		var deathObj = Instantiate(afterDeathObj);
+		if(enemy.status.GetStatus(StatusType.CURRENT_HP).GetValue() > 0) { return; }
+
+		var deathObj = Instantiate(afterDeathObj, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation);
+		deathObj.transform.eulerAngles = new Vector3(-90, deathObj.transform.rotation.eulerAngles.y, 0);
 		var execute = deathObj.AddComponent<ExecuteAfterDeath>();
 
+		execute.SetAttacker(player);
 		execute.SetCollider(colliderRadius, enemyCheckCycle, colliderActiveTime, targetLayer);
 
-		TryGetComponent<EnemyController>(out var enemyController);
-		enemyController.onDeathEvent.AddListener(execute.AddEnemyEvent);
+		execute.AddEnemyEvent(afterDeathObjEnabled);
 	}
 }

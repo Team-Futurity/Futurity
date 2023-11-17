@@ -50,10 +50,15 @@ public class UIPartEquip : MonoBehaviour
 		{
 			canvas.SetActive(true);
 		}
+
+		isSelect = false;
 	}
 
 	public void SetSelectPart(int code)
 	{
+		if (isSelect)
+			return;
+		
 		selectPartCode = code;
 		isSelect = true;
 		partType = code > 2200 ? 1 : 2;
@@ -62,9 +67,6 @@ public class UIPartEquip : MonoBehaviour
 		{
 			// Dim 
 			// Active
-			UIInputManager.Instance.SetDefaultFocusForced(3);
-			UIInputManager.Instance.SetUnableMoveButton(true);
-			
 			lockPassive.SetActive(true);
 			lockActive.SetActive(false);
 
@@ -82,7 +84,7 @@ public class UIPartEquip : MonoBehaviour
 			UIInputManager.Instance.SetUnableMoveButton(false);
 			UIInputManager.Instance.SetMaxMoveIndex(3);
 
-			active3.color = active2.color = active1.color = Define.noneSelectcolor;
+			active3.color = active2.color = active1.color = Define.noneSelectColor;
 		}
 	}
 
@@ -103,7 +105,6 @@ public class UIPartEquip : MonoBehaviour
 
 			return;
 		}
-
 		
 		if (PartSystem.IsIndexPartEmpty(2)) { passiveButton[0].InitResource(); }
 		else { passiveButton[0].SetButtonData(passivePartDatas[2].partCode); }
@@ -125,6 +126,19 @@ public class UIPartEquip : MonoBehaviour
 	// 버튼을 눌렀다는 것은 해당 Index에 부품을 장착하겠다는 소리임.
 	private void SelectButton(int partCode, int selectIndex)
 	{
+		if (selectIndex == 999)
+		{
+			selectButtonIndex = selectIndex;
+			UIInputManager.Instance.SaveIndex();
+			
+			SelectModal.SetNormalMode();
+			
+			UIManager.Instance.OpenWindow(WindowList.PART_EQUIP_SELECT);
+			SelectModal.onClose?.AddListener(EquipSelectPart);
+
+			return;
+		}
+		
 		// 해당 인덱스의 파츠의 Empty 여부
 		var emptyPart = PartSystem.IsIndexPartEmpty(selectIndex);
 
@@ -141,6 +155,7 @@ public class UIPartEquip : MonoBehaviour
 		}
 		else
 		{
+			SelectModal.SetNormalMode();
 			UIManager.Instance.OpenWindow(WindowList.PART_EQUIP_SELECT);
 			SelectModal.onClose?.AddListener(EquipSelectPart);
 		}
@@ -167,6 +182,9 @@ public class UIPartEquip : MonoBehaviour
 		{
 			UIManager.Instance.RefreshWindow(WindowList.PART_EQUIP);
 			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
+			
+			if(selectPartCode == 2201 || selectPartCode == 2202)
+				UIInputManager.Instance.SetUnableMoveButton(true);
 		}
 	}
 

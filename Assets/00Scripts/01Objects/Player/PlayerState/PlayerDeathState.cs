@@ -6,11 +6,13 @@ using UnityEngine;
 public class PlayerDeathState : UnitState<PlayerController>
 {
 	private readonly string DeathAnimKey = "IsDead";
+	private readonly string DeathAnimTriggerKey = "DeadTrigger";
 
 	public override void Begin(PlayerController pc)
 	{
 		TimelineManager.Instance.EnableCutScene(ECutSceneType.PLAYER_DEATH);
 		
+		pc.animator.SetTrigger(DeathAnimTriggerKey);
 		pc.animator.SetBool(DeathAnimKey, true);
 		pc.rmController.SetRootMotion("Death");
 	}

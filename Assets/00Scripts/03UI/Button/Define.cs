@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class Define
 {
-	public static Color noneSelectcolor = new Color(0f, 0f, 0f);
-	public static Color selectColor = new Color(255f, 255f, 255f);
+	public static Color32 noneSelectColor = new Color32(92, 92, 92,255);
+	public static Color32 selectColor = new Color32(255, 255, 255,255);
 }

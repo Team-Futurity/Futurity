@@ -1,3 +1,4 @@
+using FMODUnity;
 using Spine.Unity;
 using System.Collections;
 using TMPro;
@@ -23,6 +24,9 @@ public class BossPhaseEndCutScene : CutSceneBase
 	[SerializeField] private float delayTime = 0.05f;
 	[SerializeField] private float waitTime = 1.5f;
 
+	[Header("Sound")] 
+	[SerializeField] private ParamRef bgParamRef;
+
 	private readonly int BOSS_DEATH_KEY = Animator.StringToHash("Death");
 	private IEnumerator printText;
 	private WaitForSeconds waitForSeconds;
@@ -37,6 +41,9 @@ public class BossPhaseEndCutScene : CutSceneBase
 	protected override void EnableCutScene()
 	{
 		chapterManager.SetActiveMainUI(false);
+		
+		AudioManager.Instance.SetParameterForBackgroundMusic(bgParamRef);
+		bgParamRef.Value = 2;
 	}
 
 	protected override void DisableCutScene()
@@ -65,6 +72,11 @@ public class BossPhaseEndCutScene : CutSceneBase
 	public void BossDeathAnimation(bool enable)
 	{
 		bossAnimator.SetBool(BOSS_DEATH_KEY, enable);
+	}
+
+	public void PlayBackGroundMusic()
+	{
+		AudioManager.Instance.SetParameterForBackgroundMusic(bgParamRef);
 	}
 
 	private IEnumerator PrintTextAndPlaySkeleton()
