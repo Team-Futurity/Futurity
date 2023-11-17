@@ -33,7 +33,7 @@ public class EnemyHittedState : StateBase
 		PrintAnimation(unit);
 		unit.enemyData.AlterAnimationSpeed(unit.stopFrameCount, unit.skipFrameCountBeforeStop, 0, 1);
 
-		if(unit.currentEffectKey != null)
+		if(unit.currentEffectKey != null && unit.ThisEnemyType != EnemyType.E_DF)
 			unit.effectController.RemoveEffect(unit.currentEffectKey);
 
 		AudioManager.Instance.PlayOneShot(unit.hitSound, unit.transform.position);
