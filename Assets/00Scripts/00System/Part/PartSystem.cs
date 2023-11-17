@@ -200,6 +200,7 @@ public class PartSystem : MonoBehaviour
 			var passivePart = passiveParts[index - 1];
 
 			// 1. Sub Ability
+			status.SubStatus(calcStatus);
 			SubStatus(passivePart.GetSubAbility());
 
 			// 2. Core Ability
@@ -209,7 +210,6 @@ public class PartSystem : MonoBehaviour
 			}
 
 			passivePart.SetPartActive(false);
-			status.SubStatus(passivePart.GetSubAbility());
 		}
 
 		onPartDeactive?.Invoke(index - 1);
