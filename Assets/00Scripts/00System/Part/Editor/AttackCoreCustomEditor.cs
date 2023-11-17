@@ -21,7 +21,8 @@ public class AttackCoreCustomEditor : Editor
 		{
 			return;
 		}
-		
+
+
 		attackCore.attackType = (AttackCoreType)EditorGUILayout.EnumPopup("공격 타입", attackCore.attackType);
 		
 		EditorGUILayout.Space(10);
@@ -50,6 +51,10 @@ public class AttackCoreCustomEditor : Editor
 		
 		if (attackCore.isStateTransition)
 		{
+			attackCore.hitEffectObject = (GameObject)EditorGUILayout.ObjectField("임시 이펙트 캐싱", attackCore.hitEffectObject, typeof(GameObject), true);
+			attackCore.lineEffectObject = (GameObject)EditorGUILayout.ObjectField("임시 이펙트 캐싱", attackCore.lineEffectObject, typeof(GameObject), true);
+			EditorGUILayout.Space(10);
+
 			attackCore.transitionColliderRadius =
 				EditorGUILayout.FloatField("전이 콜라이더 범위", attackCore.transitionColliderRadius);
 			attackCore.transitionDamage = EditorGUILayout.FloatField("전이 데미지", attackCore.transitionDamage);

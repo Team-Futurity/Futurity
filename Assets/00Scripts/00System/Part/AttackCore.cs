@@ -7,6 +7,10 @@ using UnityEngine;
 
 public class AttackCore : CoreAbility
 {
+	//Effect 프리팹 캐싱
+	public GameObject hitEffectObject;
+	public GameObject lineEffectObject;
+
 	// 감마, 로우, 앱실론, 
 	// 감마 : 플레이어 어택 시, 버프 적용
 	// 로우 : 플레이어 어택 시, 범위 데미지 적용
