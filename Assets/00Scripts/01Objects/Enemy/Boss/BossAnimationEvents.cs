@@ -18,6 +18,8 @@ public class BossAnimationEvents : MonoBehaviour
 		{
 			particles.Initialize(bc.effectController, key);
 		}
+
+		ActiveEffectSound(bc);
 	}
 
 	public void ActiveAllEffects()
@@ -32,6 +34,8 @@ public class BossAnimationEvents : MonoBehaviour
 				particles.Initialize(bc.effectController, key);
 			}
 		}
+
+		ActiveEffectSound(bc);
 	}
 	#endregion
 
@@ -50,7 +54,7 @@ public class BossAnimationEvents : MonoBehaviour
 	{
 		bc.bossData.EnableAttackTiming();
 		bc.attackTrigger.type2Collider.SetActive(true);
-
+		ActiveEffectSound(bc);
 	}
 	public void ActivateType3Attack()
 	{
@@ -106,7 +110,10 @@ public class BossAnimationEvents : MonoBehaviour
 
 	#region Sound
 
-
+	public void ActiveEffectSound(BossController unit)
+	{
+		AudioManager.Instance.PlayOneShot(unit.soundDataSO.GetSoundReference(unit.curState, SoundType.ATTACK_EFFECT), unit.transform.position);
+	}
 
 	#endregion
 }
