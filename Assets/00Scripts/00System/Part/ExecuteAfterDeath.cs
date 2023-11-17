@@ -49,7 +49,7 @@ public class ExecuteAfterDeath : MonoBehaviour
 				}
 			}
 
-			foreach (var enemy in catchEnemies)
+			foreach (var enemy in catchEnemys)
 			{
 				enemy.GetComponent<Enemy>().Hit(new DamageInfo(null, null, 10f));
 			}
