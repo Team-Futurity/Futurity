@@ -5,7 +5,6 @@ using UnityEngine;
 public class UISceneLoadButton : UIButton
 {
 	public float fadeTime = .0f;
-	public string sceneName = "";
 
 	public bool isLoadingScene = true;
 
@@ -19,8 +18,10 @@ public class UISceneLoadButton : UIButton
 
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
-			SceneLoader.Instance.LoadScene(sceneName, isLoadingScene);
+			string curChapter = ChapterMoveController.Instance.GetCurrentChapter();
+			
 			SceneLoader.Instance.data = data;
+			SceneLoader.Instance.LoadScene(curChapter, isLoadingScene);
 			InputActionManager.Instance.DisableActionMap();
 			UIInputManager.Instance.ClearAll();
 		});
