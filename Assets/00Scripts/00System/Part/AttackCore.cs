@@ -74,7 +74,7 @@ public class AttackCore : CoreAbility
 				transitionAttackCore = nearEnemy.AddComponent<TransitionAttackCore>();
 			}
 
-			var transObj = Instantiate(transition, nearEnemy.transform.position, Quaternion.identity, enemyParent);
+			var transObj = Instantiate<LineRenderer>(transition, transform.position, Quaternion.identity, enemyParent);
 
 			transitionAttackCore.SetTransitionData(new TransitionProtocol(
 				id: ++transitionAttackID,
