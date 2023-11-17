@@ -19,6 +19,11 @@ public class UISceneLoadButton : UIButton
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
 			string curChapter = ChapterMoveController.Instance.GetCurrentChapter();
+
+			if (string.Equals(curChapter, ChapterSceneName.CHAPTER1_1) == true)
+			{
+				PlayerPrefs.SetInt("Chapter1", 1);
+			}
 			
 			AudioManager.Instance.StopBackgroundMusic();
 			SceneLoader.Instance.data = data;
