@@ -22,6 +22,9 @@ public class EtaCore : CoreAbility
 	[SerializeField]
 	private GameObject afterDeathObjEnabled;
 
+	[SerializeField]
+	private Player player;
+
 	protected override void OnPartAbility(UnitBase enemy)
 	{
 		if(enemy.status.GetStatus(StatusType.CURRENT_HP).GetValue() > 0) { return; }
@@ -30,6 +33,7 @@ public class EtaCore : CoreAbility
 		deathObj.transform.eulerAngles = new Vector3(-90, deathObj.transform.rotation.eulerAngles.y, 0);
 		var execute = deathObj.AddComponent<ExecuteAfterDeath>();
 
+		execute.SetAttacker(player);
 		execute.SetCollider(colliderRadius, enemyCheckCycle, colliderActiveTime, targetLayer);
 
 		execute.AddEnemyEvent(afterDeathObjEnabled);

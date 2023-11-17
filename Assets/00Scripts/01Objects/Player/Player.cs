@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : UnitBase
 {
 	private PlayerController pc;
+	public CrowdSystem crowdSystem;
 
 	protected override void Start()
 	{
