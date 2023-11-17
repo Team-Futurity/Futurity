@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CrowdDot : CrowdBase
 {
+	private WaitForSeconds dotDelay;
+
 	protected override void StartCrowd()
 	{
+		dotDelay = new WaitForSeconds(0.5f);
 		StartCoroutine(UpdateDotDamage());
 	}
 
@@ -18,10 +21,10 @@ public class CrowdDot : CrowdBase
 	{
 		while (true)
 		{
-			targetUnit.Hit(new DamageInfo(
-				null, null, data.BuffStatus.GetElement(StatusType.ATTACK_POINT).GetValue()
-				));	
-			yield return new WaitForSeconds(0.5f);
+			var info = new DamageInfo(null, null, 0);
+			info.SetDamage(data.BuffStatus.GetElement(StatusType.ATTACK_POINT).GetValue());
+			targetUnit.Hit(info);
+			yield return dotDelay;
 		}
 	}
 }

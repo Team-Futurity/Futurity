@@ -11,8 +11,13 @@ public class ExecuteAfterDeath : MonoBehaviour
 	private LayerMask targetLayer;
 
 	private float timer = .0f;
+	private int cycleCount = 0;
 
 	private bool isActive = false;
+
+	public ParticleSystem enableEffect;
+
+	private Player player;
 
 	private void Update()
 	{
@@ -23,12 +28,35 @@ public class ExecuteAfterDeath : MonoBehaviour
 
 		timer += Time.deltaTime;
 
-		if((timer / enemyCheckCycle) >= enemyCheckCycle)
+		if(timer >= cycleCount * enemyCheckCycle + enemyCheckCycle)
 		{
-			var catchEnemys = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
+			cycleCount++;
 
+			var catchEnemys = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
+			
+
+			if(catchEnemys.Length > 0)
+			{
+				enableEffect.gameObject.SetActive(false);
+				enableEffect.gameObject.SetActive(true);
+				//enableEffect.Play();
+
+				foreach (var enemy in catchEnemys)
+				{
+					var crowd = enemy.gameObject.GetComponent<UnitBase>();
+					player.crowdSystem.SendCrowd(crowd, 0);
+					//crowd.AddCrowd(player.crowdSystem.GetCrowd(CrowdName.DOT), player);
+				}
+			}
+
+			foreach (var enemy in catchEnemys)
+			{
+				enemy.GetComponent<Enemy>().Hit(new DamageInfo(null, null, 10f));
+			}
+			
 			if(timer >= colliderActiveTIme)
 			{
+				Destroy(enableEffect);
 				Destroy(this.gameObject);
 			}
 		}
@@ -42,9 +70,18 @@ public class ExecuteAfterDeath : MonoBehaviour
 		targetLayer = target;
 	}
 
-	public void AddEnemyEvent()
+	public void SetAttacker(Player player)
 	{
-		// GameÀ¸·Î ¿Ã¸°´Ù.
+		this.player = player;
+	}
+
+	public void AddEnemyEvent(GameObject enableEffect)
+	{
+		var effect = Instantiate(enableEffect, transform.position, transform.rotation, transform);
+		this.enableEffect = effect.GetComponent<ParticleSystem>();
+		this.enableEffect.Pause();
+
+		// Gameï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½ï¿½.
 		transform.parent = GameObject.Find("Game").transform;
 
 		isActive = true;
