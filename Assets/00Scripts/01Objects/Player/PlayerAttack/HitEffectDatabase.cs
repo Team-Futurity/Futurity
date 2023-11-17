@@ -25,6 +25,20 @@ public class HitEffectDatabase : MonoBehaviour
 		}
 	}
 
+#if UNITY_EDITOR
+	public void UpdateDatabase()
+	{
+		SetHitEffectDatabase();
+
+		foreach (var part in hitEffectByParts)
+		{
+			var effectData = hitEffectByPartDictionary[part.partCode];
+			effectData.hitEffectOffset = part.hitEffectOffset;
+			hitEffectByPartDictionary[part.partCode] = effectData;
+		}
+	}
+#endif
+
 	public HitEffectByPart? GetHitEffect(int partCode)
 	{
 		if (!hitEffectByPartDictionary.ContainsKey(partCode)) { return null; }
@@ -37,7 +51,7 @@ public class HitEffectDatabase : MonoBehaviour
 	{
 		if(triggerUpdateDatabase)
 		{
-			SetHitEffectDatabase();
+			UpdateDatabase();
 			triggerUpdateDatabase = false;
 		}
 	}

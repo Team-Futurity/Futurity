@@ -5,8 +5,18 @@ using UnityEngine;
 public class Enemy : UnitBase
 {
 	[SerializeField] private EnemyController ec;
+	private GameObject effectParent;
 
+	protected override void Start()
+	{
+		base.Start();
 
+		effectParent = new GameObject("Effects");
+		effectParent.transform.parent = transform;
+		effectParent.transform.localPosition = Vector3.zero;
+		effectParent.transform.localScale = Vector3.one;
+		effectParent.transform.localRotation = Quaternion.identity;
+	}
 
 	protected override void AttackProcess(DamageInfo damageInfo)
 	{
@@ -88,7 +98,8 @@ public class Enemy : UnitBase
 
 			position = pos + rotation * damageInfo.HitEffectOffsetByPart;
 			position.y = pos.y + damageInfo.HitEffectOffsetByPart.y;
-			obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(position, rotation).gameObject;
+			damageInfo.HitEffectPoolManagerByPart.ChangeParent(effectParent);
+			obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(damageInfo.HitEffectOffsetByPart, rotation, false).gameObject;
 
 			//obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(pos + damageInfo.HitEffectOffsetByPart).gameObject;
 
