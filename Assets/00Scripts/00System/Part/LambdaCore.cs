@@ -29,7 +29,8 @@ public class LambdaCore : CoreAbility
 	{
 		isActive = true;
 
-		effect = Instantiate(effectPrefab, transform.position, transform.rotation, transform);
+		effect = Instantiate(effectPrefab, transform.position, transform.rotation);
+		effect.transform.eulerAngles = new Vector3(-90, effect.transform.eulerAngles.y, 0);
 	}
 
 	private void OnDisable()
@@ -50,7 +51,7 @@ public class LambdaCore : CoreAbility
 		if(timer >= colliderCheckCycle)
 		{
 			timer = .0f;
-
+			Destroy(effect);
 			ExploreEnemy();
 		}
 	}
