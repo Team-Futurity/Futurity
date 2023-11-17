@@ -52,6 +52,7 @@ public class AttackCoreCustomEditor : Editor
 		if (attackCore.isStateTransition)
 		{
 			attackCore.hitEffectObject = (GameObject)EditorGUILayout.ObjectField("¿”Ω√ ¿Ã∆Â∆Æ ƒ≥ΩÃ", attackCore.hitEffectObject, typeof(GameObject), true);
+			attackCore.hitEffectExtraPos = EditorGUILayout.Vector3Field("Hit ¿Ã∆Â∆Æ ¿ßƒ°", attackCore.hitEffectExtraPos);
 			attackCore.lineEffectObject = (GameObject)EditorGUILayout.ObjectField("¿”Ω√ ¿Ã∆Â∆Æ ƒ≥ΩÃ", attackCore.lineEffectObject, typeof(GameObject), true);
 			EditorGUILayout.Space(10);
 

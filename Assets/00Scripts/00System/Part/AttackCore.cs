@@ -9,6 +9,7 @@ public class AttackCore : CoreAbility
 {
 	//Effect 프리팹 캐싱
 	public GameObject hitEffectObject;
+	public Vector3 hitEffectExtraPos;
 	public GameObject lineEffectObject;
 
 	// 감마, 로우, 앱실론, 
@@ -113,6 +114,10 @@ public class AttackCore : CoreAbility
 			return;
 		}
 
+		//임시 이펙트 생성
+		GameObject effect = Instantiate(hitEffectObject, enemyUnit.transform.position + hitEffectExtraPos, Quaternion.identity);
+		Destroy(effect, 3.0f);
+
 		enemyUnit.Hit(new DamageInfo(
 			attacker: null,
 			defender: enemyUnit,
@@ -133,5 +138,21 @@ public class AttackCore : CoreAbility
 	{
 		Gizmos.color = Color.green;
 		Gizmos.DrawWireSphere(transform.position, (isStateTransition) ? transitionColliderRadius: colliderRadius);
+	}
+
+
+
+	//임시 라인 이펙트 생성 메소드
+	public void InstantiateLineEffect(Collider[] colliders)
+	{
+		List<LineRenderer> effects = new List<LineRenderer>();
+		Vector3[] positions;
+
+		for(int i = 0; i < colliders.Length; i++)
+		{
+			effects.Add(Instantiate(lineEffectObject, Vector3.zero, Quaternion.identity).GetComponent<LineRenderer>());
+		}
+
+		//positions = new Vector3[]
 	}
 }
