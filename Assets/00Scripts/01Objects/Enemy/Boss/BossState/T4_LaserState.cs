@@ -23,7 +23,7 @@ public class T4_LaserState : B_PatternBase
 
 		if (isAttackDelayDone && !isAttackDone)
 		{
-			unit.animator.SetTrigger(unit.type4Anim);
+			ActiveAnimProcess(unit, unit.type4Anim);
 			isAttackDone = true;
 		}
 

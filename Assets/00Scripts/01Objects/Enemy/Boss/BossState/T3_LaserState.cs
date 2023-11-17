@@ -29,6 +29,7 @@ public class T3_LaserState : B_PatternBase
 		{
 			particles.Initialize(unit.effectController, key);
 		}
+		AudioManager.Instance.PlayOneShot(unit.soundDataSO.GetSoundReference(unit.curState, SoundType.ATTACK_EFFECT), key.EffectObject.transform.position);
 
 		unit.SetListEffectData(unit.attackEffectDatas, unit.attackTrigger.type3Colliders, EffectActivationTime.InstanceAttack, EffectTarget.Ground, false);
 		unit.navMesh.enabled = true;
@@ -55,7 +56,7 @@ public class T3_LaserState : B_PatternBase
 
 			if (isAttackDelayDone && !isAttackDone)
 			{
-				unit.animator.SetTrigger(unit.type3Anim);
+				ActiveAnimProcess(unit, unit.type3Anim);
 				isAttackDone = true;
 			}
 
