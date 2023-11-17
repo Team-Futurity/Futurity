@@ -18,8 +18,11 @@ public class SubAbility : MonoBehaviour
 			FDebug.Log("Status Data?? ???????? ??????.", GetType());
 		}
 
-		instantiatedEffect = Instantiate(partActiveEffect, transform);
-		instantiatedEffect.SetActive(false);
+		if(partActiveEffect != null)
+		{
+			instantiatedEffect = Instantiate(partActiveEffect, transform);
+			instantiatedEffect.SetActive(false);
+		}
 	}
 
 	public List<StatusData> GetSubAbilityData()
@@ -29,6 +32,9 @@ public class SubAbility : MonoBehaviour
 
 	public void SetActiveEffect(bool isActive)
 	{
-		instantiatedEffect.SetActive(isActive);
+		if(instantiatedEffect != null)
+		{
+			instantiatedEffect.SetActive(isActive);
+		}
 	}
 }
