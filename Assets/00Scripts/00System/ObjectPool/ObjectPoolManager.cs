@@ -58,6 +58,12 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
                 }
                 // È°¼ºÈ­
                 obj.gameObject.SetActive(true);
+
+				if(parent != null)
+				{
+					obj.transform.parent = parent.transform;
+				}
+
 				returnValue = obj;
             }
         }
