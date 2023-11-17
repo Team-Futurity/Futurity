@@ -77,6 +77,12 @@ public class EnemyHittedState : StateBase
 
 	public void PrintAnimation(EnemyController unit)
 	{
+		if(unit.target == null)
+		{
+			unit.animator.SetTrigger(unit.hitFAnimParam);
+			return;
+		}
+
 		direction = unit.transform.position - unit.target.transform.position;
 
 		if (direction.x > 0)
