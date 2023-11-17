@@ -109,7 +109,22 @@ public class PartSystem : MonoBehaviour
 			FDebug.Log($"{partCode}에 해당하는 Part가 존재하지 않습니다.", GetType());
 			return;
 		}
-		
+
+		if (index == 2)
+		{
+			player.onAttackEvent?.RemoveAllListeners();
+		}
+
+		if (passiveParts[index] != null)
+		{
+			if (passiveParts[index].GetPartActive())
+			{
+				status.SubStatus(calcStatus);
+				SubStatus(passiveParts[index].GetSubAbility());
+			}
+			passiveParts[index].SetPartActive(false);
+		}
+
 		passiveParts[index] = PartDatabase.GetPart(partCode);
 		PlayerPrefs.SetInt($"PassivePart{index}", partCode);
 

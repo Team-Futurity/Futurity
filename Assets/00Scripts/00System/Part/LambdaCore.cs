@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class LambdaCore : CoreAbility
 {
-	private bool isActive = false;
-
 	[SerializeField, Header("콜라이더 범위")]
 	private float colliderRadius = .0f;
 
@@ -24,12 +22,6 @@ public class LambdaCore : CoreAbility
 
 	protected override void OnPartAbility(UnitBase enemy)
 	{
-		isActive = true;
-	}
-
-	private void OnDisable()
-	{
-		isActive = false;
 	}
 
 	private void Update()
@@ -44,7 +36,6 @@ public class LambdaCore : CoreAbility
 		if(timer >= colliderCheckCycle)
 		{
 			timer = .0f;
-
 			ExploreEnemy();
 		}
 	}
@@ -58,7 +49,6 @@ public class LambdaCore : CoreAbility
 		{
 			crowdSystem.SendCrowd(enemy.GetComponent<UnitBase>(), 0);
 		}
-		Debug.Log("판별 완료!");
 	}
 
 	private void OnDrawGizmos()
