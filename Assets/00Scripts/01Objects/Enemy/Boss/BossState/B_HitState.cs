@@ -24,6 +24,8 @@ public class B_HitState : UnitState<BossController>
 			unit.animator.SetTrigger(unit.hitAnim);
 		}
 		unit.copyUMat.SetColor("_BaseColor", unit.damagedColor);
+
+		AudioManager.Instance.PlayOneShot(unit.soundDataSO.GetSoundReference(BossState.Hit, SoundType.ANIMATION), unit.transform.position);
 	}
 	public override void Update(BossController unit)
 	{

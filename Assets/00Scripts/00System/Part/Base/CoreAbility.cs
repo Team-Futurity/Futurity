@@ -32,6 +32,8 @@ public abstract class CoreAbility : MonoBehaviour
 	
 	// protected Buff
 
+	public bool isActive = false;
+
 	public void ExecutePart(UnitBase enemy)
 	{
 		OnPartAbility(enemy);

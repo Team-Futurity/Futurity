@@ -5,8 +5,18 @@ using UnityEngine;
 public class Enemy : UnitBase
 {
 	[SerializeField] private EnemyController ec;
+	private GameObject effectParent;
 
+	protected override void Start()
+	{
+		base.Start();
 
+		effectParent = new GameObject("Effects");
+		effectParent.transform.parent = transform;
+		effectParent.transform.localPosition = Vector3.zero;
+		effectParent.transform.localScale = Vector3.one;
+		effectParent.transform.localRotation = Quaternion.identity;
+	}
 
 	protected override void AttackProcess(DamageInfo damageInfo)
 	{
@@ -62,7 +72,7 @@ public class Enemy : UnitBase
 			Vector3 position = Vector3.zero;
 
 
-			Quaternion enemyRoatation = Quaternion.LookRotation(damageInfo.Attacker.transform.forward.normalized);
+			Quaternion enemyRoatation = Quaternion.LookRotation(damageInfo.Attacker.transform.forward);
 			if (enemyRoatation.y > 180f) { enemyRoatation.y -= 360f; }
 			rotation = enemyRoatation;
 			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
@@ -71,8 +81,6 @@ public class Enemy : UnitBase
 			position.y = pos.y + damageInfo.HitEffectOffset.y;
 			obj = damageInfo.HitEffectPoolManager.ActiveObject(position, rotation).gameObject;
 
-
-
 			//obj = damageInfo.HitEffectPoolManager.ActiveObject(pos + damageInfo.HitEffectOffset, ec.target.transform.rotation).gameObject;
 
 			InitializeEffect(obj, damageInfo.HitEffectPoolManager);
@@ -80,7 +88,20 @@ public class Enemy : UnitBase
 
 		if (damageInfo.HitEffectPoolManagerByPart != null)
 		{
-			obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(pos + damageInfo.HitEffectOffsetByPart).gameObject;
+			Quaternion rotation = Quaternion.identity;
+			Vector3 position = Vector3.zero;
+
+			Quaternion enemyRoatation = Quaternion.LookRotation(damageInfo.Defender.transform.forward);
+			if (enemyRoatation.y > 180f) { enemyRoatation.y -= 360f; }
+			rotation = enemyRoatation;
+			//FDebug.Log($"Player Rotation : {playerRot.eulerAngles}\nEffect Rotation Offset : {attackNode.effectRotOffset.eulerAngles}\nResult : {rotation.eulerAngles}");
+
+			position = pos + rotation * damageInfo.HitEffectOffsetByPart;
+			position.y = pos.y + damageInfo.HitEffectOffsetByPart.y;
+			damageInfo.HitEffectPoolManagerByPart.ChangeParent(effectParent);
+			obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(damageInfo.HitEffectOffsetByPart, rotation, false).gameObject;
+
+			//obj = damageInfo.HitEffectPoolManagerByPart.ActiveObject(pos + damageInfo.HitEffectOffsetByPart).gameObject;
 
 			InitializeEffect(obj, damageInfo.HitEffectPoolManagerByPart);
 		}

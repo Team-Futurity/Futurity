@@ -33,7 +33,7 @@ public class T2_RangedState : B_PatternBase
 
 		if (isAttackDelayDone && !isAttackDone)
 		{
-			unit.animator.SetTrigger(unit.type2Anim);
+			ActiveAnimProcess(unit, unit.type2Anim);
 			isAttackDone = true;
 		}
 

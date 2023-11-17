@@ -24,7 +24,12 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
 		activeObjCount = 0;
 	}
 
-    public PoolingClass ActiveObject(Vector3? startPos = null, Quaternion? startRot = null, bool isWorld = true)
+	public void ChangeParent(GameObject parent)
+	{
+		this.parent = parent;
+	}
+
+	public PoolingClass ActiveObject(Vector3? startPos = null, Quaternion? startRot = null, bool isWorld = true)
     {
 		PoolingClass returnValue = null;
 		startPos = startPos ?? Vector3.zero;
@@ -53,6 +58,12 @@ public class ObjectPoolManager<PoolingClass> : OBJPoolParent where PoolingClass 
                 }
                 // È°¼ºÈ­
                 obj.gameObject.SetActive(true);
+
+				if(parent != null)
+				{
+					obj.transform.parent = parent.transform;
+				}
+
 				returnValue = obj;
             }
         }

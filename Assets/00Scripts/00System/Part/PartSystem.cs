@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
+using UnityEngine.Video;
 
 public class PartSystem : MonoBehaviour
 {
@@ -108,7 +109,22 @@ public class PartSystem : MonoBehaviour
 			FDebug.Log($"{partCode}에 해당하는 Part가 존재하지 않습니다.", GetType());
 			return;
 		}
-		
+
+		if (index == 2)
+		{
+			player.onAttackEvent?.RemoveAllListeners();
+		}
+
+		if (passiveParts[index] != null)
+		{
+			if (passiveParts[index].GetPartActive())
+			{
+				status.SubStatus(calcStatus);
+				SubStatus(passiveParts[index].GetSubAbility());
+			}
+			passiveParts[index].SetPartActive(false);
+		}
+
 		passiveParts[index] = PartDatabase.GetPart(partCode);
 		PlayerPrefs.SetInt($"PassivePart{index}", partCode);
 
@@ -200,6 +216,7 @@ public class PartSystem : MonoBehaviour
 			var passivePart = passiveParts[index - 1];
 
 			// 1. Sub Ability
+			status.SubStatus(calcStatus);
 			SubStatus(passivePart.GetSubAbility());
 
 			// 2. Core Ability
@@ -209,7 +226,6 @@ public class PartSystem : MonoBehaviour
 			}
 
 			passivePart.SetPartActive(false);
-			status.SubStatus(passivePart.GetSubAbility());
 		}
 
 		onPartDeactive?.Invoke(index - 1);

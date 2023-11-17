@@ -9,7 +9,6 @@ public class C1_A1_EntryCutScene : CutSceneBase
 	protected override void Init()
 	{
 		base.Init();
-		chapterManager.PlayerController.SetLandingAnimation();
 	}
 
 	protected override void EnableCutScene()
@@ -44,5 +43,10 @@ public class C1_A1_EntryCutScene : CutSceneBase
 	public void Area1_SpawnEnemy()
 	{
 		spawnerManager.SpawnEnemy();
+	}
+
+	public void SetLandingAnimation()
+	{
+		chapterManager.PlayerController.SetLandingAnimation();
 	}
 }

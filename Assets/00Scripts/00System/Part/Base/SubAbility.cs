@@ -7,6 +7,9 @@ public class SubAbility : MonoBehaviour
 {
 	[SerializeField]
 	private List<StatusData> status;
+	[SerializeField]
+	private GameObject partActiveEffect;
+	private GameObject instantiatedEffect;
 
 	private void Awake()
 	{
@@ -14,10 +17,24 @@ public class SubAbility : MonoBehaviour
 		{
 			FDebug.Log("Status Data?? ???????? ??????.", GetType());
 		}
+
+		if(partActiveEffect != null)
+		{
+			instantiatedEffect = Instantiate(partActiveEffect, transform);
+			instantiatedEffect.SetActive(false);
+		}
 	}
 
 	public List<StatusData> GetSubAbilityData()
 	{
 		return status;
+	}
+
+	public void SetActiveEffect(bool isActive)
+	{
+		if(instantiatedEffect != null)
+		{
+			instantiatedEffect.SetActive(isActive);
+		}
 	}
 }

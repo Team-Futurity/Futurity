@@ -12,6 +12,11 @@ public class TransitionAttackCore : MonoBehaviour
 	public void SetTransitionData(TransitionProtocol receive)
 	{
 		protocol = receive;
+		protocol.lineRenderer.SetPosition(protocol.lineRenderer.positionCount++, transform.position);
+		var resultVector = Vector3.zero;
+		resultVector.y += 0.5f;
+		
+		protocol.lineRenderer.transform.position = resultVector;
 	}
 
 	public void Play(float delay = .0f)
@@ -65,6 +70,10 @@ public class TransitionAttackCore : MonoBehaviour
 		
 		if (coll.Length <= 1)
 		{
+			protocol.lineRenderer.TryGetComponent<RemoveRenderer>(out var remover);
+			remover.StartRemoveProcess();
+			
+			Debug.Log("End");
 			return;
 		}
 
@@ -79,6 +88,10 @@ public class TransitionAttackCore : MonoBehaviour
 
 			if (isFindNearEnemy)
 			{
+				protocol.lineRenderer.TryGetComponent<RemoveRenderer>(out var remover);
+				remover.StartRemoveProcess();
+			
+				Debug.Log("End");
 				return;
 			}
 		}
@@ -87,12 +100,15 @@ public class TransitionAttackCore : MonoBehaviour
 	private void AddDamage()
 	{
 		TryGetComponent(out Enemy enemyUnit);
-		
-		enemyUnit.Hit(new DamageInfo(
+
+		var damageinfo = new DamageInfo(
 			attacker: null,
 			defender: enemyUnit,
-			attackST: protocol.attackDamage
-		));
+			0
+		);
+
+		damageinfo.SetDamage(protocol.attackDamage);
+		enemyUnit.Hit(damageinfo);
 	}
 
 	private void OnDrawGizmos()

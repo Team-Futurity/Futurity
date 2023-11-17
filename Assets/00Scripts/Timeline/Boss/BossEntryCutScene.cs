@@ -17,7 +17,7 @@ public class BossEntryCutScene : CutSceneBase
 	[SerializeField] private float moveTime = 1.5f;
 
 	[Header("Sound")] 
-	[SerializeField] private FMODUnity.EventReference bg;
+	[SerializeField] private EventReference bg;
 	
 	[Header("Event")] 
 	[SerializeField] private UnityEvent endEvent;

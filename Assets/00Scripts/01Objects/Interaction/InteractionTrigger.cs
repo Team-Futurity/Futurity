@@ -28,7 +28,7 @@ public class InteractionTrigger : MonoBehaviour
 			return;
 		}
 		
-		ChapterMoveController.Instance.EnableInteractionUI(EUIType.NEXTSTAGE);
+		ChapterMoveController.Instance.EnableInteractionUI(EUIType.INTERACION);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck, true);
 	}
 	
@@ -39,13 +39,13 @@ public class InteractionTrigger : MonoBehaviour
 			return;
 		}
 		
-		ChapterMoveController.Instance.DisableInteractionUI(EUIType.NEXTSTAGE);
+		ChapterMoveController.Instance.DisableInteractionUI(EUIType.INTERACION);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck,true);
 	}
 
 	private void InputCheck(InputAction.CallbackContext context)
 	{
-		ChapterMoveController.Instance.DisableInteractionUI(EUIType.NEXTSTAGE);
+		ChapterMoveController.Instance.DisableInteractionUI(EUIType.INTERACION);
 		interactionEvent?.Invoke();
 		
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, InputCheck,true);

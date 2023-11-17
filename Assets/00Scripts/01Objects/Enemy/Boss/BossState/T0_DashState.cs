@@ -19,7 +19,7 @@ public class T0_DashState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T0_Dash;
-		unit.animator.SetTrigger(unit.dashAnim);
+		ActiveAnimProcess(unit, unit.dashAnim);
 	}
 
 	public override void Update(BossController unit)
