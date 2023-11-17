@@ -615,7 +615,9 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			{
 				yield return dashCoolTimeWFS;
 				dashCoolTimeIsEnd = true;
-				currentDashCount = maxDashCount;
+				currentDashCount = (int)playerData.status.GetStatus(StatusType.DASH_COUNT).GetValue();
+
+				if(currentDashCount == 0) { currentDashCount = 1; }
 			}
 			yield return null;
 		}
