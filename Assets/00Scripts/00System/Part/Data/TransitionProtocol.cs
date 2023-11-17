@@ -10,13 +10,15 @@ public struct TransitionProtocol
 	public float attackDamage;
 	public int transitionCount;
 	public LayerMask targetLayer;
+	public LineRenderer lineRenderer;
 
-	public TransitionProtocol(int id, float radius, float damage, int count, LayerMask layer)
+	public TransitionProtocol(int id, float radius, float damage, int count, LayerMask layer, LineRenderer render)
 	{
 		transitionID = id;
 		transitionColliderRadius = radius;
 		attackDamage = damage;
 		transitionCount = count;
 		targetLayer = layer;
+		lineRenderer = render;
 	}
 }

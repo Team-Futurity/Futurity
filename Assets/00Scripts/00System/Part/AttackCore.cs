@@ -31,6 +31,12 @@ public class AttackCore : CoreAbility
 	// Monster Data
 	private Dictionary<int, GameObject> hitEnemyDic = new Dictionary<int, GameObject>();
 
+	public GameObject effect;
+
+	public LineRenderer transition;
+
+	public Transform enemyParent;
+
 	protected override void OnPartAbility(UnitBase enemy)
 	{
 		switch (attackType)
@@ -68,12 +74,15 @@ public class AttackCore : CoreAbility
 				transitionAttackCore = nearEnemy.AddComponent<TransitionAttackCore>();
 			}
 
+			var transObj = Instantiate(transition, nearEnemy.transform.position, Quaternion.identity, enemyParent);
+
 			transitionAttackCore.SetTransitionData(new TransitionProtocol(
 				id: ++transitionAttackID,
 				radius: transitionColliderRadius,
 				damage: transitionDamage,
 				count : transitionCount,
-				layer : targetLayer
+				layer : targetLayer,
+				render : transObj
 				));
 			
 			transitionAttackCore.Play(1f);
@@ -108,6 +117,9 @@ public class AttackCore : CoreAbility
 			defender: enemyUnit,
 			attackST: attackDamage
 			));
+
+		if(effect != null)
+			Instantiate(effect, enemyUnit.transform.position, Quaternion.identity);
 		
 		hitEnemyDic.Add(enemyUnit.GetInstanceID(), enemyUnit.gameObject);
 	}

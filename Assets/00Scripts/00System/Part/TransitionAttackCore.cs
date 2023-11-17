@@ -12,6 +12,8 @@ public class TransitionAttackCore : MonoBehaviour
 	public void SetTransitionData(TransitionProtocol receive)
 	{
 		protocol = receive;
+		protocol.lineRenderer.SetPosition(protocol.transitionCount, transform.position);
+		Debug.Log(transform.position);
 	}
 
 	public void Play(float delay = .0f)
