@@ -10885,6 +10885,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 0db962bd4462cf54db00d8e1f84204ed, type: 2}
     - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
+    - {fileID: 11400000, guid: f9c5b58fb62e1664f9a8f1b0720c1eb6, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -10914,6 +10915,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 827545652}
+          m_TargetAssemblyTypeName: BossDeathCutScene, Assembly-CSharp
+          m_MethodName: StopBackGroundMusic
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &827545652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10934,6 +10949,13 @@ MonoBehaviour:
   scriptingList: []
   isUseSkeleton: 1
   skeletonParent: {fileID: 1567016165}
+  bgmSound:
+    Guid:
+      Data1: -1726645904
+      Data2: 1162735342
+      Data3: 1413237431
+      Data4: 157392092
+    Path: event:/BGM/CutScene/BossEnding
 --- !u!1 &836585823
 GameObject:
   m_ObjectHideFlags: 0
@@ -23159,7 +23181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3953504714333392600, guid: 58b6e6a5adfbd3d499c6bc920614d15a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3953504714333392601, guid: 58b6e6a5adfbd3d499c6bc920614d15a, type: 3}
       propertyPath: m_RootOrder
