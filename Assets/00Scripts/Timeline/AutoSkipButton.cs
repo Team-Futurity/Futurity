@@ -29,7 +29,14 @@ public class AutoSkipButton : MonoBehaviour
 	{
 		if (isTutorial == true)
 		{
-			SceneLoader.Instance.LoadScene(ChapterSceneName.CHAPTER1_1, true);	
+			InputActionManager.Instance.DisableActionMap();
+			
+			FadeManager.Instance.FadeIn(fadeInTime, () =>
+			{
+				SceneLoader.Instance.LoadScene(ChapterSceneName.CHAPTER1_1, true);	
+			});
+
+			return;
 		}
 		
 		if (playCutScene == null)
