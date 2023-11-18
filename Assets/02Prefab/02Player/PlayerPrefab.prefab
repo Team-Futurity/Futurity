@@ -5933,6 +5933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3bb385a5336ba34dbb64a36ad221e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
   <crowdSystem>k__BackingField: {fileID: 0}
   attackType: 1
   targetLayer:
@@ -5944,7 +5945,9 @@ MonoBehaviour:
   transitionColliderRadius: 0
   transitionDamage: 0
   transitionCount: 0
-  effectPrefab: {fileID: 0}
+  effect: {fileID: 0}
+  transition: {fileID: 0}
+  enemyParent: {fileID: 0}
 --- !u!1 &5180193562067198251
 GameObject:
   m_ObjectHideFlags: 0
@@ -6974,9 +6977,9 @@ MonoBehaviour:
     isApplyZ: 0
   - animationName: Idle
     isRootMotion: 1
-    isApplyX: 0
+    isApplyX: 1
     isApplyY: 0
-    isApplyZ: 0
+    isApplyZ: 1
   - animationName: Move
     isRootMotion: 1
     isApplyX: 0
