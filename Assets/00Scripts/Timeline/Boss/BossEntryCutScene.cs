@@ -88,7 +88,7 @@ public class BossEntryCutScene : CutSceneBase
 	{
 		switch (curPlayIndex)
 		{
-			case 0:
+			case 2:
 				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
 				soundInst.start();
 				break;
