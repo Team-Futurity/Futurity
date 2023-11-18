@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Rendering; 
@@ -144,16 +145,16 @@ public class ChapterCutSceneManager : MonoBehaviour
 	#endregion
 
 	#region SkeletonCutScene
-	public void StartSkeletonCutScene(PlayableDirector director, Queue<SkeletonGraphic> queue)
+	public void StartSkeletonCutScene(PlayableDirector director, Queue<SkeletonGraphic> queue, UnityAction action = null)
 	{
 		director.Pause();
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.UIBehaviour.ClickUI, InputCheck, true);
 
-		skeletonCutScene = SkeletonCutScene(director, queue);
+		skeletonCutScene = SkeletonCutScene(director, queue, action);
 		StartCoroutine(skeletonCutScene);
 	}
 	
-	private IEnumerator SkeletonCutScene(PlayableDirector director, Queue<SkeletonGraphic> queue)
+	private IEnumerator SkeletonCutScene(PlayableDirector director, Queue<SkeletonGraphic> queue, UnityAction action)
 	{
 		SkeletonGraphic skeleton = queue.Dequeue();
 		int curAniIndex = 0;
@@ -165,6 +166,7 @@ public class ChapterCutSceneManager : MonoBehaviour
 
 			Animation ani = skeleton.Skeleton.Data.Animations.Items[curAniIndex];
 			skeleton.AnimationState.SetAnimation(0, ani, false);
+			action?.Invoke();
 			
 			while (isInput == false)
 			{

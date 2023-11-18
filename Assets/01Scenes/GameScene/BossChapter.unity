@@ -10885,6 +10885,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 0db962bd4462cf54db00d8e1f84204ed, type: 2}
     - {fileID: 11400000, guid: 0c495b229212adf4cb2d6549c7fc5c0f, type: 2}
+    - {fileID: 11400000, guid: f9c5b58fb62e1664f9a8f1b0720c1eb6, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -10914,6 +10915,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 827545652}
+          m_TargetAssemblyTypeName: BossDeathCutScene, Assembly-CSharp
+          m_MethodName: StopBackGroundMusic
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &827545652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10934,6 +10949,13 @@ MonoBehaviour:
   scriptingList: []
   isUseSkeleton: 1
   skeletonParent: {fileID: 1567016165}
+  bgmSound:
+    Guid:
+      Data1: -1726645904
+      Data2: 1162735342
+      Data3: 1413237431
+      Data4: 157392092
+    Path: event:/BGM/CutScene/BossEnding
 --- !u!1 &836585823
 GameObject:
   m_ObjectHideFlags: 0
@@ -23912,6 +23934,19 @@ MonoBehaviour:
   bgParamRef:
     Name: Phase
     Value: 1
+  soundList:
+  - Guid:
+      Data1: -2136093085
+      Data2: 1104194633
+      Data3: 1867230393
+      Data4: -1460165319
+    Path: event:/SE/07ui/CutScene/Boss_Phase_Cut1
+  - Guid:
+      Data1: -1219778
+      Data2: 1226381853
+      Data3: 2057382824
+      Data4: -654718716
+    Path: event:/SE/07ui/CutScene/Boss_Phase_Cut2
 --- !u!1001 &1753886595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28608,6 +28643,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 935c1b0353a9adf4292d73ee3ad0d066, type: 2}
     - {fileID: 11400000, guid: 0db962bd4462cf54db00d8e1f84204ed, type: 2}
     - {fileID: 11400000, guid: 43fb4951cb73c664e852050cd0306f46, type: 2}
+    - {fileID: 11400000, guid: f9c5b58fb62e1664f9a8f1b0720c1eb6, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -28782,6 +28818,20 @@ MonoBehaviour:
         - m_Target: {fileID: 4474135760169746939}
           m_TargetAssemblyTypeName: BossEntryCutScene, Assembly-CSharp
           m_MethodName: PlayBackGroundMusic
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4474135760169746939}
+          m_TargetAssemblyTypeName: BossEntryCutScene, Assembly-CSharp
+          m_MethodName: StopSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -31021,6 +31071,37 @@ MonoBehaviour:
       Data3: -2051079288
       Data4: -1445070739
     Path: event:/BGM/Chapter3_Boss
+  cutSceneSound:
+  - Guid:
+      Data1: 1453830017
+      Data2: 1161119743
+      Data3: -1375477099
+      Data4: -1491764689
+    Path: event:/SE/07ui/CutScene/Boss_Ent_Bofore_Cut3
+  - Guid:
+      Data1: -1417148467
+      Data2: 1205940481
+      Data3: 1286146231
+      Data4: -756434176
+    Path: event:/BGM/CutScene/BossEntrance
+  - Guid:
+      Data1: -2001502336
+      Data2: 1166621859
+      Data3: 1098889879
+      Data4: -479744739
+    Path: event:/SE/07ui/CutScene/Boss_Ent_After_Cut1
+  - Guid:
+      Data1: 845506834
+      Data2: 1148899379
+      Data3: -1689069132
+      Data4: -1130957267
+    Path: event:/SE/07ui/CutScene/Boss_Ent_After_Cut2
+  - Guid:
+      Data1: 492414991
+      Data2: 1290652370
+      Data3: -2120534096
+      Data4: -211230837
+    Path: event:/SE/07ui/CutScene/Boss_Ent_Door_Cut
   endEvent:
     m_PersistentCalls:
       m_Calls:
