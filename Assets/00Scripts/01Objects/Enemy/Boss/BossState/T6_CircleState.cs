@@ -41,7 +41,7 @@ public class T6_CircleState : B_PatternBase
 
 		if (isAttackDelayDone && !isAttackDone)
 		{
-			unit.animator.SetTrigger(unit.type6Anim);
+			ActiveAnimProcess(unit, unit.type6Anim);
 			attackProcess.StartProcess();
 			isAttackDone = true;
 		}

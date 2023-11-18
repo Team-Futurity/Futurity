@@ -34,7 +34,7 @@ public class T1_MeleeState : B_PatternBase
 
 		if (isAttackDelayDone && !isAttackDone)
 		{
-			unit.animator.SetTrigger(unit.type1Anim);
+			ActiveAnimProcess(unit, unit.type1Anim);
 			isAttackDone = true;
 		}
 

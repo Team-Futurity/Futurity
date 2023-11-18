@@ -2,10 +2,15 @@ using System;
 using FMODUnity;
 
 
-public enum SoundType
+public enum SoundType : int
 {
-	EFFECT,
+	NONE = 0,
+
+	SHIELD_EFFECT,
+	ATTACK_EFFECT,
 	ANIMATION,
+
+	MAX
 }
 
 [Serializable]

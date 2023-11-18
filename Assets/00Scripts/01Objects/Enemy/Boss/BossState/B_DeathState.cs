@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [FSMState((int)BossState.Death)]
-public class B_DeathState : UnitState<BossController>
+public class B_DeathState : BossStateBase
 {
 	public override void Begin(BossController unit)
 	{
-		unit.animator.SetTrigger(unit.deathAnim);
+		unit.curState = BossState.Death;
+		ActiveAnimProcess(unit, unit.deathAnim);
 		unit.isDead = true;
 		
 		TimelineManager.Instance.EnableCutScene(ECutSceneType.BOSS_DEATH);
