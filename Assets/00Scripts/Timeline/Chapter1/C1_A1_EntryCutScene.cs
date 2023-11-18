@@ -67,7 +67,7 @@ public class C1_A1_EntryCutScene : CutSceneBase
 
 	private void PlaySound()
 	{
-		StopCutSceneSound();
+		soundInst.stop(STOP_MODE.IMMEDIATE);
 		
 		if (curIndex >= soundList.Count)
 		{
