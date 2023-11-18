@@ -1,6 +1,9 @@
+using FMOD.Studio;
 using FMODUnity;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class BossEntryCutScene : CutSceneBase
 {
@@ -18,7 +21,11 @@ public class BossEntryCutScene : CutSceneBase
 
 	[Header("Sound")] 
 	[SerializeField] private EventReference bg;
-	
+	[SerializeField] private List<EventReference> cutSceneSound;
+	private EventInstance soundInst;
+	private int curSoundIndex;
+	private int curPlayIndex;
+
 	[Header("Event")] 
 	[SerializeField] private UnityEvent endEvent;
 	
@@ -62,12 +69,54 @@ public class BossEntryCutScene : CutSceneBase
 
 	public void BossEntry_StartSkeleton()
 	{
-		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue);
+		chapterManager.StartSkeletonCutScene(cutScene, skeletonQueue, PlayCutSceneSound);
 	}
 
 	public void BossEntry_PlayHitAni() => bossAnimator.SetTrigger(BOSS_HIT_KEY);
 	public void BossEntry_PlayStartAni() => bossAnimator.SetTrigger(BOSS_START_KEY);
 	public void MovePlayer() => chapterManager.PlayerController.LerpToWorldPosition(endPos.position, moveTime);
 	public void PlayBackGroundMusic() => AudioManager.Instance.RunBackgroundMusic(bg);
-	
+	public void StopSound() => soundInst.stop(STOP_MODE.IMMEDIATE);
+
+	private void PlayCutSceneSound()
+	{
+		switch (curPlayIndex)
+		{
+			case 0:
+				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
+				soundInst.start();
+				Debug.Log($"PlaySound : {curPlayIndex}");
+				break;
+			
+			case 3:
+				soundInst.stop(STOP_MODE.IMMEDIATE);
+				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
+				soundInst.start();
+				Debug.Log($"PlaySound : {curPlayIndex}");
+				break;
+			
+			case 12:
+				soundInst.stop(STOP_MODE.IMMEDIATE);
+				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
+				soundInst.start();
+				Debug.Log($"PlaySound : {curPlayIndex}");
+				break;
+			
+			case 13:
+				soundInst.stop(STOP_MODE.IMMEDIATE);
+				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
+				soundInst.start();
+				Debug.Log($"PlaySound : {curPlayIndex}");
+				break;
+			
+			case 14:
+				soundInst.stop(STOP_MODE.IMMEDIATE);
+				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
+				soundInst.start();
+				Debug.Log($"PlaySound : {curPlayIndex}");
+				break;
+		}
+
+		curPlayIndex++;
+	}
 }
