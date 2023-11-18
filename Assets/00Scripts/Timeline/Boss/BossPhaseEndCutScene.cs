@@ -1,9 +1,12 @@
+using FMOD.Studio;
 using FMODUnity;
 using Spine.Unity;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Animation = Spine.Animation;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class BossPhaseEndCutScene : CutSceneBase
 {
@@ -26,6 +29,9 @@ public class BossPhaseEndCutScene : CutSceneBase
 
 	[Header("Sound")] 
 	[SerializeField] private ParamRef bgParamRef;
+	[SerializeField] private List<EventReference> soundList;
+	private EventInstance soundInst;
+	private int curIndex;
 
 	private readonly int BOSS_DEATH_KEY = Animator.StringToHash("Death");
 	private IEnumerator printText;
@@ -78,13 +84,16 @@ public class BossPhaseEndCutScene : CutSceneBase
 	{
 		AudioManager.Instance.SetParameterForBackgroundMusic(bgParamRef);
 	}
-
+	
 	private IEnumerator PrintTextAndPlaySkeleton()
 	{
 		int curIndex = 0;
 
 		while (curIndex < 2)
 		{
+			soundInst = AudioManager.Instance.CreateInstance(soundList[this.curIndex++]);
+			soundInst.start();
+			
 			foreach (char text in initText[curIndex])
 			{
 				textField.text += text;
@@ -101,7 +110,8 @@ public class BossPhaseEndCutScene : CutSceneBase
 				skeletonGraphic.AnimationState.SetAnimation(0, ani, false);
 			}
 		}
-		
+
+		soundInst.stop(STOP_MODE.IMMEDIATE);
 		cutScene.Resume();
 	}
 }
