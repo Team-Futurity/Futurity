@@ -85,35 +85,30 @@ public class BossEntryCutScene : CutSceneBase
 			case 0:
 				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
 				soundInst.start();
-				Debug.Log($"PlaySound : {curPlayIndex}");
 				break;
 			
 			case 3:
 				soundInst.stop(STOP_MODE.IMMEDIATE);
 				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
 				soundInst.start();
-				Debug.Log($"PlaySound : {curPlayIndex}");
 				break;
 			
 			case 12:
 				soundInst.stop(STOP_MODE.IMMEDIATE);
 				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
 				soundInst.start();
-				Debug.Log($"PlaySound : {curPlayIndex}");
 				break;
 			
 			case 13:
 				soundInst.stop(STOP_MODE.IMMEDIATE);
 				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
 				soundInst.start();
-				Debug.Log($"PlaySound : {curPlayIndex}");
 				break;
 			
 			case 14:
 				soundInst.stop(STOP_MODE.IMMEDIATE);
 				soundInst = AudioManager.Instance.CreateInstance(cutSceneSound[curSoundIndex++]);
 				soundInst.start();
-				Debug.Log($"PlaySound : {curPlayIndex}");
 				break;
 		}
 
