@@ -76,7 +76,13 @@ public class BossEntryCutScene : CutSceneBase
 	public void BossEntry_PlayStartAni() => bossAnimator.SetTrigger(BOSS_START_KEY);
 	public void MovePlayer() => chapterManager.PlayerController.LerpToWorldPosition(endPos.position, moveTime);
 	public void PlayBackGroundMusic() => AudioManager.Instance.RunBackgroundMusic(bg);
-	public void StopSound() => soundInst.stop(STOP_MODE.IMMEDIATE);
+
+	public void StopSound()
+	{
+		soundInst.stop(STOP_MODE.IMMEDIATE);
+		curSoundIndex = 0;
+		curPlayIndex = 0;
+	}
 
 	private void PlayCutSceneSound()
 	{

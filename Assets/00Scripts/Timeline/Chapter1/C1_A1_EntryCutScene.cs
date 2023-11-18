@@ -62,6 +62,7 @@ public class C1_A1_EntryCutScene : CutSceneBase
 	public void StopCutSceneSound()
 	{
 		soundInst.stop(STOP_MODE.IMMEDIATE);
+		curIndex = 0;
 	}
 
 	private void PlaySound()
