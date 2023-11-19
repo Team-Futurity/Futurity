@@ -19,7 +19,7 @@ public class BossAnimationEvents : MonoBehaviour
 			particles.Initialize(bc.effectController, key);
 		}
 
-		ActiveEffectSound(bc);
+		ActiveEffectSound(bc, bc.transform.position);
 	}
 
 	public void ActiveAllEffects()
@@ -28,6 +28,8 @@ public class BossAnimationEvents : MonoBehaviour
 		for (int index = 0; index < dataList.Count; index++)
 		{
 			EffectKey key = bc.effectController.ActiveEffect(dataList[index].activationTime, dataList[index].target, dataList[index].position, dataList[index].rotation, dataList[index].parent, dataList[index].index, dataList[index].index, true);
+			ActiveEffectSound(bc, key.EffectObject.transform.position);
+
 			var particles = key.EffectObject.GetComponent<ParticleActiveController>();
 			if (particles != null)
 			{
@@ -35,7 +37,6 @@ public class BossAnimationEvents : MonoBehaviour
 			}
 		}
 
-		ActiveEffectSound(bc);
 	}
 	#endregion
 
@@ -54,7 +55,7 @@ public class BossAnimationEvents : MonoBehaviour
 	{
 		bc.bossData.EnableAttackTiming();
 		bc.attackTrigger.type2Collider.SetActive(true);
-		ActiveEffectSound(bc);
+		ActiveEffectSound(bc, bc.transform.position);
 	}
 	public void ActivateType3Attack()
 	{
@@ -110,9 +111,9 @@ public class BossAnimationEvents : MonoBehaviour
 
 	#region Sound
 
-	public void ActiveEffectSound(BossController unit)
+	public void ActiveEffectSound(BossController unit, Vector3 position)
 	{
-		AudioManager.Instance.PlayOneShot(unit.soundDataSO.GetSoundReference(unit.curState, SoundType.ATTACK_EFFECT), unit.transform.position);
+		AudioManager.Instance.PlayOneShot(unit.soundDataSO.GetSoundReference(unit.curState, SoundType.ATTACK_EFFECT), position);
 	}
 
 	#endregion
