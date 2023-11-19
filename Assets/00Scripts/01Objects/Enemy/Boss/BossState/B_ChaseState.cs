@@ -9,7 +9,6 @@ using UnityEngine;
 public class B_ChaseState : BossStateBase
 {
 	private int random = 0;
-	private int dashPercentage = 60;
 	private EventInstance moveSoundInstance;
 
 	public override void Begin(BossController unit)
@@ -29,7 +28,7 @@ public class B_ChaseState : BossStateBase
 		distance = Vector3.Distance(unit.transform.position, unit.target.transform.position);
 		unit.transform.LookAt(unit.target.transform);
 
-		if (random < dashPercentage)
+		if (random < unit.dashPercentage)
 		{
 			unit.nextState = BossState.T0_Dash;
 			unit.ChangeState(unit.nextState);
