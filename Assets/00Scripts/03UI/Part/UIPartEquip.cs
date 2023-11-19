@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIPartEquip : MonoBehaviour
@@ -43,6 +44,9 @@ public class UIPartEquip : MonoBehaviour
 	public Image active3;
 
 	public TextMeshProUGUI activeText;
+
+	[HideInInspector]
+	public UnityAction<Animator> onEnded;
 
 	private readonly string[] activeInfoTexts = new string[2]
 	{
@@ -191,6 +195,7 @@ public class UIPartEquip : MonoBehaviour
 
 			DisableSelectEvent();
 			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
+			onEnded?.Invoke(null);
 		}
 		else // 다시 선택할 경우
 		{

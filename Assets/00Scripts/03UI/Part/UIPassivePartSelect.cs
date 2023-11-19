@@ -27,7 +27,7 @@ public class UIPassivePartSelect : MonoBehaviour
 	public void SetPartData(params int[] partCodes)
 	{
 		UIManager.Instance.CloseDefaultWindow();
-
+		
 		if (partCodes.Length > 3)
 		{
 			FDebug.Log("잘못된 인자입니다.");
@@ -36,6 +36,10 @@ public class UIPassivePartSelect : MonoBehaviour
 
 		for (int i = 0; i < passiveSelectButtons.Length; ++i)
 		{
+			if (partCodes[i] == 0)
+			{
+				return;
+			}
 			passiveSelectButtons[i].SetButtonData(partCodes[i]);
 		}
 
