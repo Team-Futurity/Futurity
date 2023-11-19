@@ -68,7 +68,7 @@ public class AttackColliders : MonoBehaviour
 		effectList.Clear();
 		for (int i = 0; i < attackList.Count; i++)
 		{
-			attackList[i].transform.SetParent(this.transform, true);
+			attackList[i].transform.SetParent(null, true);
 			attackList[i].SetActive(false);
 		}
 	}
