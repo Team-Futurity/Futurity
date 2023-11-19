@@ -63,6 +63,13 @@ public class BossAnimationEvents : MonoBehaviour
 		bc.attackTrigger.ActiveListAttacks(bc.attackTrigger.type3Colliders);
 	}
 
+	public void ActiveType4Flooring()
+	{
+		ActiveAllEffects();
+		bc.attackEffectDatas.Clear();
+		bc.SetListEffectData(bc.attackEffectDatas, bc.attackTrigger.type4Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Caster, false);
+	}
+
 	public void ActiveType4Attack()
 	{
 		bc.bossData.EnableAttackTiming();
