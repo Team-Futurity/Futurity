@@ -21,6 +21,16 @@ public class TutorialController : MonoBehaviour
 	private void Awake()
 	{
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+		ClearPartData();
+	}
+	
+	private void ClearPartData()
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			PlayerPrefs.SetInt($"PassivePart{i}", 0);
+		}
+		PlayerPrefs.SetInt("ActivePart", 0);
 	}
 
 	private void Start()
