@@ -16,7 +16,7 @@ public class Player : UnitBase
 	protected override void AttackProcess(DamageInfo info)
 	{
 		//if(info.HitEffectPoolManager != null) { info.HitEffectPoolManager.ActiveObject(); }
-		
+
 		float criticalConf = GetCritical();
 		info.SetDamage(GetDamage(info.AttackST) * criticalConf);
 		info.isCritical = (criticalConf > 1.0f);
@@ -49,13 +49,16 @@ public class Player : UnitBase
 		var maxHpElement = status.GetStatus(StatusType.MAX_HP).GetValue();
 		status.updateHPEvent?.Invoke(hpElement, maxHpElement);
 
-		if(damageInfo.KnockbackPower > 0)
+		if (damageInfo.KnockbackPower > 0)
 		{
 			Knockback((damageInfo.Defender.transform.position - damageInfo.Attacker.transform.position).normalized, damageInfo.KnockbackPower);
 		}
 
-		Vector3 vec = damageInfo.Attacker.transform.position - damageInfo.Defender.transform.position;
-		pc.transform.rotation = Quaternion.LookRotation(vec);
+		if (damageInfo.Attacker != null && damageInfo.Defender != null)
+		{
+			Vector3 vec = damageInfo.Attacker.transform.position - damageInfo.Defender.transform.position;
+			pc.transform.rotation = Quaternion.LookRotation(vec);
+		}
 
 		if(currentHP.GetValue() <= 0)
 		{
