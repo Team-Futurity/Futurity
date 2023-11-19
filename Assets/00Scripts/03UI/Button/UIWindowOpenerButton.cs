@@ -29,6 +29,7 @@ public class UIWindowOpenerButton : UIButton
 		}
 		else
 		{
+			UIInputManager.Instance.SaveIndex();
 			UIManager.Instance.OpenWindow(OpenWindowType);
 		}
 	}
