@@ -38,11 +38,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 		attackNode = pc.curNode;
 		AttackAsset attackAsset = attackNode.GetAttackAsset(pc.partSystem.GetEquiped75PercentPointPartCode());
 
-		if(attackAsset == null)
-		{
-			attackAsset = attackNode.GetAttackAsset(404);
-		}
-
 		if(attackNode == null ) { FDebug.LogError("[PlayerAnimationEvents] attackNode is Null. Please Check to Animation Event."); return; }
 		if(attackAsset == null || attackAsset.effectPoolManager == null ) 
 		{ 
