@@ -5,6 +5,7 @@ using UnityEngine;
 [FSMState((int)BossState.T0_Dash)]
 public class T0_DashState : B_PatternBase
 {
+	private float playerDistance = 0.5f;
 	private EffectActiveData effectData = new EffectActiveData();
 	public T0_DashState()
 	{
@@ -19,7 +20,7 @@ public class T0_DashState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T0_Dash;
-		unit.animator.SetTrigger(unit.dashAnim);
+		ActiveAnimProcess(unit, unit.dashAnim);
 	}
 
 	public override void Update(BossController unit)
@@ -35,6 +36,7 @@ public class T0_DashState : B_PatternBase
 
 		if(isAttackDelayDone && !isAttackDone)
 		{
+			unit.bossData.EnableAttackTiming();
 			unit.attackTrigger.type0Collider.SetActive(true);
 			unit.ActiveDashEffect(effectData);
 			unit.rigid.velocity = unit.transform.forward.normalized * unit.bossData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
@@ -64,8 +66,12 @@ public class T0_DashState : B_PatternBase
 		{
 			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
 			unit.bossData.Attack(info);
-			unit.nextState = BossState.T1_Melee;
-			unit.ChangeState(unit.nextState);
+
+			unit.rigid.velocity = Vector3.zero;
+			other.attachedRigidbody.velocity = Vector3.zero;
+			unit.transform.position += (unit.transform.position - other.transform.position).normalized * playerDistance;
+			/*unit.nextState = BossState.T1_Melee;
+			unit.ChangeState(unit.nextState);*/
 		}
 	}
 }

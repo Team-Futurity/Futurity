@@ -104,7 +104,7 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 
 	public override void End(PlayerController unit)
 	{
-		
+		base.End(unit);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

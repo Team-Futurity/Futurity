@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,6 +41,14 @@ public class UIPartEquip : MonoBehaviour
 	public Image active1;
 	public Image active2;
 	public Image active3;
+
+	public TextMeshProUGUI activeText;
+
+	private readonly string[] activeInfoTexts = new string[2]
+	{
+		"크로마 에너지를 구 형태로 차지한 뒤\n전방에 거대한 에너지 돔 폭발을 일으킨다.",
+		"2회 발차기 공격을 통해 크로마 에너지를\n증폭시킨 뒤, 전방을 향해 거대한 회오리\n형태의 에너지를 발산한다."
+	};
 	
 	public void OnDisable()
 	{
@@ -50,10 +59,15 @@ public class UIPartEquip : MonoBehaviour
 		{
 			canvas.SetActive(true);
 		}
+
+		isSelect = false;
 	}
 
 	public void SetSelectPart(int code)
 	{
+		if (isSelect)
+			return;
+		
 		selectPartCode = code;
 		isSelect = true;
 		partType = code > 2200 ? 1 : 2;
@@ -66,9 +80,13 @@ public class UIPartEquip : MonoBehaviour
 			lockActive.SetActive(false);
 
 			if (activetype == 1)
+			{
 				activeIconImage.sprite = selectBasicActive;
+			}
 			else if (activetype == 2)
+			{
 				activeIconImage.sprite = selectBetaActive;
+			}
 		}
 		else
 		{
@@ -110,8 +128,9 @@ public class UIPartEquip : MonoBehaviour
 
 		// Active Sync
 		// 현재 PartSystem의 데이터와 Active UI를 맞추는 작업이 필요로 함.
-		if (activePartData == 2201) { activeIconImage.sprite = normalBasicActive; activetype = 1; }
-		else if (activePartData == 2202) {activeIconImage.sprite = normalBetaActive; activetype = 2; }
+		if (activePartData == 2201) { activeIconImage.sprite = selectBasicActive;
+			activetype = 1; activeText.text = activeInfoTexts[0]; }
+		else if (activePartData == 2202) { activeIconImage.sprite = selectBetaActive; activetype = 2; activeText.text = activeInfoTexts[1]; }
 		else activetype = 0;
 		
 		activeButton.InitResource(true);

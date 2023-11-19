@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class LambdaCore : CoreAbility
 {
-	private bool isActive = false;
-
-	[SerializeField, Header("ÄÝ¶óÀÌ´õ ¹üÀ§")]
+	[SerializeField, Header("ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½")]
 	private float colliderRadius = .0f;
 
-	[SerializeField, Header("¸ó½ºÅÍ ÆÇº° ÁÖ±â")]
+	[SerializeField, Header("ï¿½ï¿½ï¿½ï¿½ ï¿½Çºï¿½ ï¿½Ö±ï¿½")]
 	private float colliderCheckCycle = .0f;
 
-	[SerializeField, Header("Å¸°Ù ·¹ÀÌ¾î")]
+	[SerializeField, Header("Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½")]
 	private LayerMask targetLayer;
 
 	public bool isDebug = false;
@@ -22,14 +20,11 @@ public class LambdaCore : CoreAbility
 	[field: SerializeField]
 	public CrowdSystem crowdSystem { get; private set; }
 
+	public GameObject effectPrefab;
+	private GameObject effect;
+
 	protected override void OnPartAbility(UnitBase enemy)
 	{
-		isActive = true;
-	}
-
-	private void OnDisable()
-	{
-		isActive = false;
 	}
 
 	private void Update()
@@ -44,12 +39,11 @@ public class LambdaCore : CoreAbility
 		if(timer >= colliderCheckCycle)
 		{
 			timer = .0f;
-
 			ExploreEnemy();
 		}
 	}
 
-	// ¸ó½ºÅÍ ÆÇº° -> ½ÃÁ¡
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Çºï¿½ -> ï¿½ï¿½ï¿½ï¿½
 	private void ExploreEnemy()
 	{
 		var catchEnemies = PartCollider.DrawCircleCollider(transform.position, colliderRadius, targetLayer);
@@ -58,7 +52,6 @@ public class LambdaCore : CoreAbility
 		{
 			crowdSystem.SendCrowd(enemy.GetComponent<UnitBase>(), 0);
 		}
-		Debug.Log("ÆÇº° ¿Ï·á!");
 	}
 
 	private void OnDrawGizmos()

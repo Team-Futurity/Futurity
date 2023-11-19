@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UnityLinker;
 using UnityEngine;
 
 [FSMState((int)BossState.T4_Laser)]
@@ -9,7 +10,19 @@ public class T4_LaserState : B_PatternBase
 	{
 		base.Begin(unit);
 		unit.curState = BossState.T4_Laser;
-		unit.SetListEffectData(unit.attackEffectDatas, unit.attackTrigger.type4Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Caster, false);
+
+		unit.SetListEffectData(unit.attackEffectDatas, unit.attackTrigger.type4Colliders, EffectActivationTime.AttackReady, EffectTarget.Caster, false);
+		if (unit.attackEffectDatas.Count > 3)
+		{
+			unit.attackEffectDatas[0].position.x += 15;
+			unit.attackEffectDatas[0].position.z += 34;
+			unit.attackEffectDatas[1].position.x += 15;
+			unit.attackEffectDatas[1].position.z -= 26;
+			unit.attackEffectDatas[2].position.x -= 15;
+			unit.attackEffectDatas[2].position.z += 30;
+			unit.attackEffectDatas[3].position.x -= 15;
+			unit.attackEffectDatas[3].position.z -= 30;
+		}
 	}
 	public override void Update(BossController unit)
 	{
@@ -23,7 +36,7 @@ public class T4_LaserState : B_PatternBase
 
 		if (isAttackDelayDone && !isAttackDone)
 		{
-			unit.animator.SetTrigger(unit.type4Anim);
+			ActiveAnimProcess(unit, unit.type4Anim);
 			isAttackDone = true;
 		}
 

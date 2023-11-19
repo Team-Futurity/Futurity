@@ -18,6 +18,8 @@ public class BossAnimationEvents : MonoBehaviour
 		{
 			particles.Initialize(bc.effectController, key);
 		}
+
+		ActiveEffectSound(bc, bc.transform.position);
 	}
 
 	public void ActiveAllEffects()
@@ -26,12 +28,15 @@ public class BossAnimationEvents : MonoBehaviour
 		for (int index = 0; index < dataList.Count; index++)
 		{
 			EffectKey key = bc.effectController.ActiveEffect(dataList[index].activationTime, dataList[index].target, dataList[index].position, dataList[index].rotation, dataList[index].parent, dataList[index].index, dataList[index].index, true);
+			ActiveEffectSound(bc, key.EffectObject.transform.position);
+
 			var particles = key.EffectObject.GetComponent<ParticleActiveController>();
 			if (particles != null)
 			{
 				particles.Initialize(bc.effectController, key);
 			}
 		}
+
 	}
 	#endregion
 
@@ -50,12 +55,19 @@ public class BossAnimationEvents : MonoBehaviour
 	{
 		bc.bossData.EnableAttackTiming();
 		bc.attackTrigger.type2Collider.SetActive(true);
-
+		ActiveEffectSound(bc, bc.transform.position);
 	}
 	public void ActivateType3Attack()
 	{
 		bc.bossData.EnableAttackTiming();
 		bc.attackTrigger.ActiveListAttacks(bc.attackTrigger.type3Colliders);
+	}
+
+	public void ActiveType4Flooring()
+	{
+		ActiveAllEffects();
+		bc.attackEffectDatas.Clear();
+		bc.SetListEffectData(bc.attackEffectDatas, bc.attackTrigger.type4Colliders, EffectActivationTime.MoveWhileAttack, EffectTarget.Caster, false);
 	}
 
 	public void ActiveType4Attack()
@@ -80,7 +92,6 @@ public class BossAnimationEvents : MonoBehaviour
 	}
 	#endregion
 
-
 	#region DeActive Attack
 	public void DeActiveType1Attacks()
 	{
@@ -103,5 +114,14 @@ public class BossAnimationEvents : MonoBehaviour
 	{
 		bc.attackTrigger.DeActiveListAttacks(bc.attackEffectDatas, bc.attackTrigger.type6Colliders);
 	}
+	#endregion
+
+	#region Sound
+
+	public void ActiveEffectSound(BossController unit, Vector3 position)
+	{
+		AudioManager.Instance.PlayOneShot(unit.soundDataSO.GetSoundReference(unit.curState, SoundType.ATTACK_EFFECT), position);
+	}
+
 	#endregion
 }

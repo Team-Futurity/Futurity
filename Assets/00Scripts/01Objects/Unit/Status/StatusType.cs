@@ -16,6 +16,7 @@ public enum StatusType
 	DASH_SPEED,
 	DASH_COUNT,
 	STATUS_AVOID_PERCENT,
+	ATTACK_LENGTH,
 
 	MAX
 }
