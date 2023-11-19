@@ -85,9 +85,9 @@ public class FlooringAttackProcess : MonoBehaviour
 		}
 
 		else if (ec != null)
-		{
-			particles = key.EffectObject.GetComponent<ParticleActiveController>();
+		{ 
 			key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, 0);
+			particles = key.EffectObject.GetComponent<ParticleActiveController>();
 		}
 
 
