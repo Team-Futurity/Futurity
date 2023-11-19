@@ -259,7 +259,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		moveDir = new Vector3(input.x, 0f, input.y);
 
-		if(lockAllInput) { GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
+		if(lockAllInput) { return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
 
 		if(moveDir != Vector3.zero)
 		{
