@@ -108,6 +108,7 @@ public class RewardBox : MonoBehaviour
 		boxAnimations.Play();
 
 		enteredPlayer.GetComponentInChildren<Animator>()?.SetTrigger("OpenTheBox");
+		enteredPlayer.GetComponent<PlayerController>()?.LockInput();
 
 		partEquip.onEnded += EndPlayerBoxOpen;
 

@@ -57,7 +57,8 @@ public class UIPartEquip : MonoBehaviour
 
 	public void OnEnable()
 	{
-		playerAnim = GameObject.Find("PlayerPrefab").GetComponentInChildren<Animator>(); 
+		var playerPrefab = GameObject.Find("PlayerPrefab");
+		playerAnim = playerPrefab.GetComponentInChildren<Animator>();
 	}
 
 	public void OnDisable()
