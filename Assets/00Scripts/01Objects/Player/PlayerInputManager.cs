@@ -126,6 +126,7 @@ public class PlayerInputManager : MonoBehaviour
 			return;
 		}
 
+		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
 		Time.timeScale = .0f;
 		UIManager.Instance.OpenWindow(WindowList.PAUSE);
 	}
