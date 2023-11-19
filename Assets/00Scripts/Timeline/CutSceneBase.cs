@@ -73,20 +73,7 @@ public abstract class CutSceneBase : MonoBehaviour
 			chapterManager.scripting.StartPrintingScript(scriptingList[index].scriptList);
 		}
 	}
-
-	private void Update()
-	{
-		if (isCutSceneEnable == false)
-		{
-			return;
-		}
-
-		if (Input.GetKeyDown(KeyCode.P))
-		{
-			chapterManager.autoSkipButton.SkipCutScene();
-		}
-	}
-
+	
 	private void OnEnable()
 	{
 		Init();
