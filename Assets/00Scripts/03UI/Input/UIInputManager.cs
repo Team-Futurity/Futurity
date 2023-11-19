@@ -51,11 +51,13 @@ public class UIInputManager : Singleton<UIInputManager>
 		}
 	}
 
-	public void SetDefaultFocusForced(int index)
+	public void SetDefaultFocusForced(int index = -1)
 	{
 		currentActiveButtons[currentIndex].Select(false);
 
-		currentIndex = index;
+		if (index != -1)
+			currentIndex = index;
+		
 		SelectUI();
 	}
 
@@ -63,6 +65,15 @@ public class UIInputManager : Singleton<UIInputManager>
 	{
 		currentIndex = 0;
 		SelectUI();
+	}
+
+
+	public void InitAll()
+	{
+		foreach (var button in currentActiveButtons)
+		{
+			button.Value.SetDefault();
+		}
 	}
 	
 	public void ClearAll()
@@ -191,6 +202,7 @@ public class UIInputManager : Singleton<UIInputManager>
 			return;
 		}
 
+		SaveIndex();
 		Time.timeScale = .0f;
 		UIManager.Instance.OpenWindow(WindowList.PAUSE);
 	}
