@@ -38,13 +38,12 @@ public class BossStateBase : UnitState<BossController>
 	{
 		if (other.CompareTag("Player"))
 		{
-
-
 			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
 			unit.bossData.Attack(info);
 		}
 	}
 
+	#region print resource
 	protected void ActiveAnimProcess(BossController unit, string animName)
 	{
 		unit.animator.SetTrigger(animName);
@@ -56,4 +55,5 @@ public class BossStateBase : UnitState<BossController>
 		EventReference soundRef = unit.soundDataSO.GetSoundReference(unit.curState, SoundType.ANIMATION);
 		AudioManager.Instance.PlayOneShot(soundRef, unit.transform.position);
 	}
+	#endregion
 }
