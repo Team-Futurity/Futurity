@@ -6,9 +6,17 @@ public class EnemyAnimationEvents : MonoBehaviour
 {
 	public EnemyController ec;
 
+	private float mjfYpos;
+	private Vector3 mjfTargetPos;
+	private EffectActiveData floorData = new EffectActiveData();
+
 	public void ActiveEffect(int activeIndex)
 	{
-		EffectActiveData data = ec.currentEffectData;
+		ActivationEffect(activeIndex, ec.currentEffectData);
+	}
+
+	public void ActivationEffect(int activeIndex, EffectActiveData data)
+	{
 		EffectKey key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, activeIndex, false);
 		if (ec.currentEffectKey == null)
 			ec.currentEffectKey = new EffectKey();
@@ -69,13 +77,28 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void M_JFUp(float yPos)
 	{
-		ec.transform.position = new Vector3(ec.transform.position.x, yPos, ec.transform.position.z);
+		mjfYpos = yPos;
+		ec.transform.position = new Vector3(ec.transform.position.x, mjfYpos, ec.transform.position.z);
+	}
+
+	public void M_JFTargeting()
+	{
+		mjfTargetPos = ec.target.transform.position;
+		ec.currentEffectData.position = mjfTargetPos + new Vector3(0f, 0.6f, 0f);
+
+		floorData.activationTime = EffectActivationTime.AttackReady;
+		floorData.target = EffectTarget.Ground;
+		floorData.index = 0;
+		floorData.position = mjfTargetPos + new Vector3(0, 1.0f, 0);
+		floorData.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
+		floorData.parent = null;
+
+		ActivationEffect(0, floorData);
 	}
 
 	public void M_JFDown()
 	{
-		Vector3 targetPos = ec.target.transform.position;
-		ec.transform.position = targetPos;
+		ec.transform.position = mjfTargetPos;
 	}
 
 	#endregion
