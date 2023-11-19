@@ -35,7 +35,7 @@ public enum PlayerInputEnum : int
 	NormalAttack_JK,
 	NormalAttack_JKK,
 	SpecialAttack = 2,
-	SpecialAttack_Complete,
+	SpecialAttack_Complete = 20,
 	Dash = 3,
 	Move = 4,
 	Move_Up = 40,
@@ -43,7 +43,7 @@ public enum PlayerInputEnum : int
 	Move_Right,
 	Move_Left,
 	SpecialMove = 5,
-	SpecialMove_Complete
+	SpecialMove_Complete = 50
 }
 
 [Serializable]
