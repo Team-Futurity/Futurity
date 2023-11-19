@@ -401,6 +401,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		pc.UnlockInput();
 	}
 
+	public void LockInput()
+	{
+		pc.LockInput();
+	}
+
 	#region Rumble
 	public void RumbleCurrentAttackNode()
 	{

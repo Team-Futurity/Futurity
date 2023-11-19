@@ -1,4 +1,6 @@
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 
 [FSMState((int)PlayerState.ChargedAttack)]
 public class PlayerAttackState_Charged : PlayerAttackState
@@ -12,6 +14,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 	public static float MoveSpeedInCharging = 0.5f;
 	public static ChargeCollisionData ChargeCollisionData;
 	public static GameObject ChargeCollisionEffect;
+	public static EventReference ChargeSound;
+	public static EventReference DashSound;
+	public static EventReference AttackSound;
+	public static EventReference WallSound;
 	private readonly string KReleaseAnimKey = "KIsReleased";
 	private readonly string DashEndAnimKey = "KDashEnded";
 	private readonly float Sqrt2;
@@ -52,12 +58,23 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		private Vector3 maxRangeEffectScale;
 		private GameObject chargeEffectPos;
 
+	// sound
+	private EventInstance chargeInstance;
+	private EventInstance dashInstance;
+	private EventInstance attackInstance;
+	private EventInstance wallInstance;
+
 	public PlayerAttackState_Charged(StateData stateData) : base(stateData, "ChargeTrigger", "Combo") 
 	{ 
 		Sqrt2 = Mathf.Sqrt(2);
 		stateData.SetDataToState();
 		chargeEffectPos = new GameObject("Charge Effect Position");
 		collisionToWallEffectPoolManager = new ObjectPoolManager<Transform>(ChargeCollisionEffect);
+
+		chargeInstance = AudioManager.Instance.CreateInstance(ChargeSound);
+		dashInstance = AudioManager.Instance.CreateInstance(DashSound);
+		attackInstance = AudioManager.Instance.CreateInstance(AttackSound);
+		wallInstance = AudioManager.Instance.CreateInstance(WallSound);
 	}
 
 	public override void Begin(PlayerController unit)
@@ -80,9 +97,15 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		maxRangeEffectScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * (unit.curNode.attackLengthMark + IncreasesByLevel[MaxLevel - 1].LengthMarkIncreasing) * MathPlus.cm2m);
 		rangeEffect.EffectObject.transform.localScale = new Vector3(rangeEffect.EffectObject.transform.localScale.x, rangeEffect.EffectObject.transform.localScale.y, RangeEffectUnitLength * unit.curNode.attackLengthMark * MathPlus.cm2m);
 
+		// sound
+		RuntimeManager.AttachInstanceToGameObject(chargeInstance, unit.transform);
+		chargeInstance.setParameterByName("ChargeLevel", 0);
+		chargeInstance.start();
+
 		pc = unit;
 		unit.playerData.EnableAttackTime();
 		unit.playerData.EnableAttackTiming();
+
 	}
 
 	public override void End(PlayerController unit)
@@ -151,6 +174,10 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			UnitBase unitData = null;
 			if(isEnemy)
 			{
+				RuntimeManager.AttachInstanceToGameObject(attackInstance, unit.transform);
+				attackInstance.start();
+				RuntimeManager.AttachInstanceToGameObject(wallInstance, collision.transform);
+
 				Vector3 knockbackDir = unit.transform.forward;
 
 				var gotoWall = collision.gameObject.GetComponent<ActiveEffectToWall>();
@@ -163,7 +190,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 				unitData.Knockback(knockbackDir, attackKnockback * 2);
 
 				DamageInfo wallDamageInfo = new DamageInfo(unit.playerData, unitData, unit.curNode.attackST);
-				gotoWall.RunCollision(ChargeCollisionData, wallDamageInfo, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera);
+				gotoWall.RunCollision(ChargeCollisionData, wallDamageInfo, collisionToWallEffectPoolManager, collision.rigidbody, unit.camera, wallInstance);
 			}
 
 			CollisionProcess(unit, unitData);
@@ -193,6 +220,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			{
 				currentLevel = level;
 
+				chargeInstance.setParameterByName("ChargeLevel", currentLevel);
+
 				unit.effectController.SetEffectLevel(ref chargeEffectKey, currentLevel);
 
 				unit.animator.SetInteger(unit.currentAttackAnimKey, currentLevel);
@@ -210,8 +239,11 @@ public class PlayerAttackState_Charged : PlayerAttackState
 			unit.animator.SetTrigger(KReleaseAnimKey);
 
 			unit.RemoveSubState();
+			FDebug.Log("Remove");
 
 			CalculateRushData(unit);
+
+			pc.sariObject.OnDelayPreMove();
 
 			// Remove Charge Effect
 			unit.effectController.RemoveEffect(chargeEffectKey, null, true);
@@ -231,6 +263,12 @@ public class PlayerAttackState_Charged : PlayerAttackState
 
 			unit.chargeCollider.enabled = false;
 			unit.chargeCollider.enabled = true;
+
+			// sound
+			RuntimeManager.AttachInstanceToGameObject(dashInstance, unit.transform);
+
+			chargeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			dashInstance.start();
 		}
 
 		currentTime += Time.deltaTime;
