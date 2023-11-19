@@ -17,9 +17,15 @@ public class UIWindowOpenerButton : UIButton
 			{
 				Time.timeScale = 1f;
 			}
+
+			if (UIManager.Instance.GetBefroeWindow() == WindowList.NONE)
+			{
+				InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.Player);
+			}
 			
 			UIManager.Instance.CloseWindow(OpenWindowType);
 			UIManager.Instance.RefreshWindow(UIManager.Instance.GetBefroeWindow());
+			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
 		}
 		else
 		{
