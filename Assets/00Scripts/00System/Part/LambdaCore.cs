@@ -51,6 +51,9 @@ public class LambdaCore : CoreAbility
 
 		foreach (var enemy in catchEnemies)
 		{
+			var obj = Instantiate(effectPrefab);
+			obj.transform.position = enemy.transform.position;
+			
 			crowdSystem.SendCrowd(enemy.GetComponent<UnitBase>(), 0);
 		}
 	}
