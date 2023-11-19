@@ -65,7 +65,8 @@ public class FlooringAttackProcess : MonoBehaviour
 			}
 			else if (isFlooringDone && isAtkDone && curTime > flooringTiming + atkTiming + deActiveTiming)
 			{
-				bc.attackTrigger.type6Colliders[index].transform.SetParent(null);
+				if (bc != null)
+					bc.attackTrigger.type6Colliders[index].transform.SetParent(null);
 				atkCollider.SetActive(false);
 				isSystemEnable = false;
 			}
@@ -85,9 +86,9 @@ public class FlooringAttackProcess : MonoBehaviour
 		}
 
 		else if (ec != null)
-		{
-			particles = key.EffectObject.GetComponent<ParticleActiveController>();
+		{ 
 			key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, 0);
+			particles = key.EffectObject.GetComponent<ParticleActiveController>();
 		}
 
 

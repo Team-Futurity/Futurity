@@ -78,7 +78,7 @@ public class D_BFAttackState : EnemyAttackBaseState
 			effectData.target = EffectTarget.Ground;
 			effectData.index = 0;
 			effectData.position = unit.atkColliders[i].transform.position;
-			effectData.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+			effectData.rotation = Quaternion.Euler(new Vector3(-90f, 0, 0));
 			effectData.parent = null;
 
 			floorEffects.Add(effectData);
