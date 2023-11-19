@@ -53,12 +53,12 @@ public class TutorialController : MonoBehaviour
 			performHandler.AddPerformBoard(1, uiPerformBoards[i]);
 		}
 		
-		for (int i = 2; i < 8; ++i)
+		for (int i = 2; i < 9; ++i)
 		{
 			performHandler.AddPerformBoard(2, uiPerformBoards[i]);
 		}
 		
-		for (int i = 8; i < 9; ++i)
+		for (int i = 9; i < 10; ++i)
 		{
 			performHandler.AddPerformBoard(3, uiPerformBoards[i]);
 		}
