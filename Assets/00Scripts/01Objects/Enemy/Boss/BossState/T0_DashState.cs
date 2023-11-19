@@ -35,6 +35,7 @@ public class T0_DashState : B_PatternBase
 
 		if(isAttackDelayDone && !isAttackDone)
 		{
+			unit.bossData.EnableAttackTiming();
 			unit.attackTrigger.type0Collider.SetActive(true);
 			unit.ActiveDashEffect(effectData);
 			unit.rigid.velocity = unit.transform.forward.normalized * unit.bossData.status.GetStatus(StatusType.DASH_SPEED).GetValue();
@@ -64,8 +65,8 @@ public class T0_DashState : B_PatternBase
 		{
 			DamageInfo info = new DamageInfo(unit.bossData, unit.target, unit.curAttackData.extraAttackPoint, unit.curAttackData.targetKnockbackPower);
 			unit.bossData.Attack(info);
-			unit.nextState = BossState.T1_Melee;
-			unit.ChangeState(unit.nextState);
+			/*unit.nextState = BossState.T1_Melee;
+			unit.ChangeState(unit.nextState);*/
 		}
 	}
 }
