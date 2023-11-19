@@ -11,8 +11,6 @@ public class UIWindowOpenerButton : UIButton
 
 	protected override void ActiveFunc()
 	{
-		UIInputManager.Instance.SaveIndex();
-		
 		if (isClose)
 		{
 			if (OpenWindowType == WindowList.PAUSE)
@@ -22,7 +20,6 @@ public class UIWindowOpenerButton : UIButton
 			
 			UIManager.Instance.CloseWindow(OpenWindowType);
 			UIManager.Instance.RefreshWindow(UIManager.Instance.GetBefroeWindow());
-			UIInputManager.Instance.SetSaveIndexToCurrentIndex();
 		}
 		else
 		{
