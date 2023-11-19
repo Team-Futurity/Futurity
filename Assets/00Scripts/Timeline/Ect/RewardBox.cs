@@ -16,6 +16,7 @@ public class RewardBox : MonoBehaviour
 	
 	[Header("부품 컴포넌트")]
 	public UIPassivePartSelect passivePartSelect;
+	public UIPartEquip partEquip;
 	public int[] partCodes;
 	private bool isEnter;
 
@@ -26,6 +27,8 @@ public class RewardBox : MonoBehaviour
 		2201, 2202,							// Active
 		2101, 2102, 2103, 2104, 2105	// Passive
 	};
+
+	private Collider enteredPlayer;
 
 	private void OnDisable()
 	{
@@ -57,7 +60,9 @@ public class RewardBox : MonoBehaviour
 		{
 			return;
 		}
-		
+
+		enteredPlayer = other;
+
 		ChapterMoveController.Instance.EnableInteractionUI(EUIType.OPENBOX);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
@@ -68,7 +73,9 @@ public class RewardBox : MonoBehaviour
 		{
 			return;
 		}
-		
+
+		enteredPlayer = null;
+
 		ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
@@ -87,6 +94,11 @@ public class RewardBox : MonoBehaviour
 		startAnimation = PlayAnimation();
 		StartCoroutine(startAnimation);
 	}
+
+	public void EndPlayerBoxOpen(Animator anim)
+	{
+		anim?.SetTrigger("CloseTheBox");
+	}
 	
 	private IEnumerator PlayAnimation()
 	{
@@ -94,7 +106,12 @@ public class RewardBox : MonoBehaviour
 		ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
 		boxEffect.SetActive(false);
 		boxAnimations.Play();
-		
+
+		enteredPlayer.GetComponentInChildren<Animator>()?.SetTrigger("OpenTheBox");
+		enteredPlayer.GetComponent<PlayerController>()?.LockInput();
+
+		partEquip.onEnded += EndPlayerBoxOpen;
+
 		yield return new WaitForSeconds(waitTime);
 		
 		if (UIManager.Instance.IsOpenWindow(WindowList.PASSIVE_PART))
