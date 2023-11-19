@@ -401,6 +401,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 		TimelineManager.Instance.EnableCutScene(cutSceneType);
 	}
 
+	public void UnlockInput()
+	{
+		pc.UnlockInput();
+	}
+
 	#region Rumble
 	public void RumbleCurrentAttackNode()
 	{

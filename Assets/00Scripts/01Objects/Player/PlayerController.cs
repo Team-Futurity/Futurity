@@ -75,6 +75,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public bool specialIsReleased = false;
 	public bool moveIsPressed = false;
 	private bool comboIsLock = false;
+	private bool lockAllInput = false;
 
 	// attack
 	[Space(5)]
@@ -258,6 +259,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		moveDir = new Vector3(input.x, 0f, input.y);
 
+		if(lockAllInput) { GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
+
 		if(moveDir != Vector3.zero)
 		{
 			lastMoveDir = new Vector3(input.x, 0f, input.y);
@@ -303,6 +306,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 	public PlayerInputData DashProcess(InputAction.CallbackContext context)
 	{
+		if (lockAllInput) { return GetInputData(PlayerInputEnum.Dash, false); }
+
 		if (/*IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) ||*/ playerData.isStun || currentDashCount <= 0) 
 		if (IsCurrentState(PlayerState.Hit) || IsCurrentState(PlayerState.Death) || IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM) || playerData.isStun || currentDashCount <= 0) 
 		{ 
@@ -348,7 +353,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 			return GetInputData(PlayerInputEnum.NormalAttack, true, "Queueing", findedInput?.name);
 		}*/
 
-		if(playerData.isStun) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+		if (lockAllInput) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+		if (playerData.isStun) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		bool isAttackProcess = IsAttackProcess(true);
 		if (IsChangableState(PlayerState.AttackDelay) && !isAttackProcess)
@@ -407,6 +413,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		
 		return GetInputData(PlayerInputEnum.SpecialAttack, false);*/
 
+		if (lockAllInput) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 		if (playerData.isStun) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
 
 		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
@@ -447,6 +454,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	// Special Move
 	public PlayerInputData SMProcess(InputAction.CallbackContext context)
 	{
+		if (lockAllInput) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 		if (!partSystem.isStartActivePart) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
 
 		if (comboGaugeSystem.CurrentGauge < 100) { return GetInputData(PlayerInputEnum.SpecialMove, false); }
@@ -793,6 +801,16 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		}
 
 		return isClear;
+	}
+
+	public void LockInput()
+	{
+		lockAllInput = true;
+	}
+
+	public void UnlockInput()
+	{
+		lockAllInput = false;
 	}
 	#endregion
 }
