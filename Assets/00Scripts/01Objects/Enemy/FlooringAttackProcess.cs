@@ -76,16 +76,21 @@ public class FlooringAttackProcess : MonoBehaviour
 	{
 		EffectActiveData data = effectData;
 		EffectKey key = new EffectKey();
+		var particles = new ParticleActiveController();
 		if (bc != null)
 		{
 			key = bc.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, 0);
+			particles = key.EffectObject.GetComponent<ParticleActiveController>();
 			AudioManager.Instance.PlayOneShot(bc.soundDataSO.GetSoundReference(bc.curState, SoundType.ATTACK_EFFECT), key.EffectObject.transform.position);
 		}
 
 		else if (ec != null)
+		{
+			particles = key.EffectObject.GetComponent<ParticleActiveController>();
 			key = ec.effectController.ActiveEffect(data.activationTime, data.target, data.position, data.rotation, data.parent, data.index, 0);
+		}
 
-		var particles = key.EffectObject.GetComponent<ParticleActiveController>();
+
 		if (particles != null)
 		{
 			particles.Initialize(bc.effectController, key);
