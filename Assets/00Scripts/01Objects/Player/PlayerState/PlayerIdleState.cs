@@ -19,14 +19,15 @@ public class PlayerIdleState : UnitState<PlayerController>
 
 	public override void Update(PlayerController pc)
 	{
-		if (!pc.playerData.isKnockbaking)
-		{
-			pc.rigid.velocity = Vector3.zero;
-		}
+		
 	}
 
 	public override void FixedUpdate(PlayerController unit)
 	{
+		if (!unit.playerData.isKnockbaking)
+		{
+			unit.rigid.velocity = Vector3.zero;
+		}
 	}
 
 	public override void End(PlayerController pc)

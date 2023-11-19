@@ -21,6 +21,8 @@ public class PlayerSpecialMoveState<T> : PlayerAttackBaseState where T : Special
 	public override void FixedUpdate(PlayerController unit)
 	{
 		base.FixedUpdate(unit);
+
+		unit.rigid.velocity = Vector3.zero;
 	}
 
 	public override void End(PlayerController unit)

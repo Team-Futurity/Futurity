@@ -80,6 +80,8 @@ public class AttackNode
 	[Header("사운드")]
 	public EventReference attackVoice;
 
+	private int DefaultPartCode = 404;
+
 	public AttackNode(PlayerInputEnum command)
 	{
 		this.command = command;
@@ -90,9 +92,10 @@ public class AttackNode
 	public AttackAsset GetAttackAsset(int partCode)
 	{
 		AttackAsset asset;
-		if (!attackAssetsByPart.TryGetValue(partCode, out asset)) { return null; }
+		if (attackAssetsByPart.TryGetValue(partCode, out asset)) { return asset; }
+		if(attackAssetsByPart.TryGetValue(DefaultPartCode, out asset)) { return asset; }
 
-		return asset;
+		return null;
 	}
 }
 

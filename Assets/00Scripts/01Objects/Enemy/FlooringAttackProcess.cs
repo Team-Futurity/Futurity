@@ -13,6 +13,7 @@ public class FlooringAttackProcess : MonoBehaviour
 	private int index = 0;
 
 	private bool isFlooringDone = false;
+	private bool isAtkEffectDone = false;
 	private bool isAtkDone = false;
 	private bool isSystemEnable = false;
 
@@ -57,15 +58,20 @@ public class FlooringAttackProcess : MonoBehaviour
 				ActiveEffect(floorEffectData);
 				isFlooringDone = true;
 			}
-			else if (isFlooringDone && !isAtkDone && curTime > flooringTiming + atkTiming)
+			else if (isFlooringDone && !isAtkEffectDone && curTime > flooringTiming + atkEffectTiming)
 			{
 				ActiveEffect(attackEffectData);
+				isAtkEffectDone = true;
+			}
+			else if (isFlooringDone && isAtkEffectDone && !isAtkDone && curTime > flooringTiming + atkEffectTiming + atkTiming)
+			{
 				atkCollider.SetActive(true);
 				isAtkDone = true;
 			}
-			else if (isFlooringDone && isAtkDone && curTime > flooringTiming + atkTiming + deActiveTiming)
+			else if (isFlooringDone && isAtkEffectDone && isAtkDone && curTime > flooringTiming + atkEffectTiming + atkTiming + deActiveTiming)
 			{
-				bc.attackTrigger.type6Colliders[index].transform.SetParent(null);
+				if (bc != null)
+					bc.attackTrigger.type6Colliders[index].transform.SetParent(null);
 				atkCollider.SetActive(false);
 				isSystemEnable = false;
 			}

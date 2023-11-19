@@ -16,6 +16,7 @@ public class RewardBox : MonoBehaviour
 	
 	[Header("부품 컴포넌트")]
 	public UIPassivePartSelect passivePartSelect;
+	public UIPartEquip partEquip;
 	public int[] partCodes;
 	private bool isEnter;
 
@@ -26,6 +27,8 @@ public class RewardBox : MonoBehaviour
 		2201, 2202,							// Active
 		2101, 2102, 2103, 2104, 2105	// Passive
 	};
+
+	private Collider enteredPlayer;
 
 	private void OnDisable()
 	{
@@ -57,7 +60,9 @@ public class RewardBox : MonoBehaviour
 		{
 			return;
 		}
-		
+
+		enteredPlayer = other;
+
 		ChapterMoveController.Instance.EnableInteractionUI(EUIType.OPENBOX);
 		InputActionManager.Instance.RegisterCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
@@ -68,7 +73,9 @@ public class RewardBox : MonoBehaviour
 		{
 			return;
 		}
-		
+
+		enteredPlayer = null;
+
 		ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
 		InputActionManager.Instance.RemoveCallback(InputActionManager.Instance.InputActions.Player.Interaction, OnInteractRewardBox, true);
 	}
@@ -87,6 +94,11 @@ public class RewardBox : MonoBehaviour
 		startAnimation = PlayAnimation();
 		StartCoroutine(startAnimation);
 	}
+
+	public void EndPlayerBoxOpen(Animator anim)
+	{
+		anim?.SetTrigger("CloseTheBox");
+	}
 	
 	private IEnumerator PlayAnimation()
 	{
@@ -94,7 +106,12 @@ public class RewardBox : MonoBehaviour
 		ChapterMoveController.Instance.DisableInteractionUI(EUIType.OPENBOX);
 		boxEffect.SetActive(false);
 		boxAnimations.Play();
-		
+
+		enteredPlayer.GetComponentInChildren<Animator>()?.SetTrigger("OpenTheBox");
+		enteredPlayer.GetComponent<PlayerController>()?.LockInput();
+
+		partEquip.onEnded += EndPlayerBoxOpen;
+
 		yield return new WaitForSeconds(waitTime);
 		
 		if (UIManager.Instance.IsOpenWindow(WindowList.PASSIVE_PART))
@@ -126,44 +143,52 @@ public class RewardBox : MonoBehaviour
 
 	private int[] GetPlayerEquipPartList()
 	{
-		var firstPassivePart = PlayerPrefs.GetInt("Passive0");
-		var secondPassivePart = PlayerPrefs.GetInt("Passive1");
-		var thirdPassivePart = PlayerPrefs.GetInt("Passive2");
+		var firstPassivePart = PlayerPrefs.GetInt("PassivePart0");
+		var secondPassivePart = PlayerPrefs.GetInt("PassivePart1");
+		var thirdPassivePart = PlayerPrefs.GetInt("PassivePart2");
 		var activePart = PlayerPrefs.GetInt("ActivePart");
 
 		if (activePart == 0) { PlayerPrefs.SetInt("ActivePart", 2201);}
 		
 		var temp = partDataBase.ToList();
 		
-		RandNum(firstPassivePart, ref temp);
-		RandNum(secondPassivePart, ref temp);
-		RandNum(thirdPassivePart, ref temp);
-		RandNum(activePart, ref temp);
+		Debug.Log(firstPassivePart + " : " + secondPassivePart + " : " + thirdPassivePart + " : " + activePart);
+
+		// 끼고 있는거 제거
+		temp = RandNum(firstPassivePart, temp);
+		temp = RandNum(secondPassivePart, temp);
+		temp = RandNum(thirdPassivePart, temp);
+		temp = RandNum(activePart, temp);
 		
+		// 픽된거 제거
 		var key1 = Random.Range(0, temp.Count);
 		partCodes[0] = temp[key1];
-		temp.Remove(key1);
+		temp.Remove(temp[key1]);
 		
-		RandNum(partCodes[0], ref temp);
+		temp = RandNum(partCodes[0], temp);
 		
+		// 픽된거 제거
 		var key2 = Random.Range(0, temp.Count);
 		partCodes[1] = temp[key2];
-		temp.Remove(key2);
+		temp.Remove(temp[key2]);
 		
-		RandNum(partCodes[1], ref temp);
-
+		temp = RandNum(partCodes[1], temp);
+		
+		// 픽된거 제거
 		var key3 = Random.Range(0, temp.Count);
 		partCodes[2] = temp[key3];
-		temp.Remove(key3);
+		temp.Remove(temp[key3]);
 		
 		temp.Clear();
 		
 		return partCodes;
 	}
 
-	private void RandNum(int num, ref List<int> index)
+	private List<int> RandNum(int num, List<int> index)
 	{
 		var cindex = index.FindIndex((x) => x.Equals(num));
 		if(cindex != -1) index.RemoveAt(cindex);
+
+		return index;
 	}
 }
