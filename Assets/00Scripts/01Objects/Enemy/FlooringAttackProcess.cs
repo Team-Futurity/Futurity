@@ -65,7 +65,8 @@ public class FlooringAttackProcess : MonoBehaviour
 			}
 			else if (isFlooringDone && isAtkDone && curTime > flooringTiming + atkTiming + deActiveTiming)
 			{
-				bc.attackTrigger.type6Colliders[index].transform.SetParent(null);
+				if (bc != null)
+					bc.attackTrigger.type6Colliders[index].transform.SetParent(null);
 				atkCollider.SetActive(false);
 				isSystemEnable = false;
 			}
