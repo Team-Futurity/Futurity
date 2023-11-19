@@ -88,11 +88,14 @@ public class PlayerAttackState : PlayerComboAttackState
 				if (!hitEffect.HasValue)
 				{
 					hitEffect = unit.hitEffectDatabase.GetHitEffect(404);
-					asset = attackNode.GetAttackAsset(404);
+				}
+
+				if(asset != null)
+				{
+					info.SetHitEffect(asset.hitEffectPoolManager, asset.hitEffectOffset);
 				}
 
 				info.SetHitEffecByPart(hitEffect.Value.poolManager, hitEffect.Value.hitEffectOffset);
-				info.SetHitEffect(asset.hitEffectPoolManager, asset.hitEffectOffset);
 				info.SetHitPoint(other.bounds.ClosestPoint(unit.transform.position));
 				unit.playerData.Attack(info);
 				//HitEffectPooling(unit, enemy.transform);
