@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LambdaCore : CoreAbility
 {
@@ -29,14 +30,14 @@ public class LambdaCore : CoreAbility
 
 	private void Update()
 	{
-		if(!isActive)
+		if(!isActive || InputActionManager.Instance.currentActionMap != (InputActionMap)InputActionManager.Instance.InputActions.Player)
 		{
 			return;
 		}
 
 		timer += Time.deltaTime;
 
-		if(timer >= colliderCheckCycle)
+		if (timer >= colliderCheckCycle) 
 		{
 			timer = .0f;
 			ExploreEnemy();
