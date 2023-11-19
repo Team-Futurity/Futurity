@@ -181,7 +181,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnESC(InputAction.CallbackContext context)
 	{
-		if (UIManager.Instance.IsOpenWindow(WindowList.PAUSE))
+		if (!UIManager.Instance.HasWindow(WindowList.PAUSE) && UIManager.Instance.IsOpenWindow(WindowList.PAUSE))
 		{
 			return;
 		}
