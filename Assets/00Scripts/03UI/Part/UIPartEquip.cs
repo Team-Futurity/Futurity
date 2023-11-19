@@ -47,13 +47,19 @@ public class UIPartEquip : MonoBehaviour
 
 	[HideInInspector]
 	public UnityAction<Animator> onEnded;
+	private Animator playerAnim;
 
 	private readonly string[] activeInfoTexts = new string[2]
 	{
 		"크로마 에너지를 구 형태로 차지한 뒤\n전방에 거대한 에너지 돔 폭발을 일으킨다.",
 		"2회 발차기 공격을 통해 크로마 에너지를\n증폭시킨 뒤, 전방을 향해 거대한 회오리\n형태의 에너지를 발산한다."
 	};
-	
+
+	public void OnEnable()
+	{
+		playerAnim = GameObject.Find("PlayerPrefab").GetComponentInChildren<Animator>(); 
+	}
+
 	public void OnDisable()
 	{
 		if (canvasList == null && !UIManager.Instance.IsOpenWindow(WindowList.PART_EQUIP))
@@ -195,7 +201,7 @@ public class UIPartEquip : MonoBehaviour
 
 			DisableSelectEvent();
 			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
-			onEnded?.Invoke(null);
+			onEnded?.Invoke(playerAnim);
 		}
 		else // 다시 선택할 경우
 		{
