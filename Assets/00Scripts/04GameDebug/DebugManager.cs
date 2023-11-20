@@ -213,9 +213,9 @@ public class DebugManager : Singleton<DebugManager>
 		return panelRect;
 	}
 
-	private void Update()
+	/*private void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Backslash))
+		if (Input.GetKeyDown(KeyCode.Backslash))
 		{
 			InputActionMap map = previousMap;
 			if (!isOnDebugInput)
@@ -228,7 +228,7 @@ public class DebugManager : Singleton<DebugManager>
 
 			InputActionManager.Instance.ToggleActionMap(map);
 		}
-	}
+	}*/
 
 	private void OnGUI()
     {
