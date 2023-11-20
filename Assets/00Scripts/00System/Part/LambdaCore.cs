@@ -23,22 +23,37 @@ public class LambdaCore : CoreAbility
 
 	public GameObject effectPrefab;
 	private GameObject effect;
+	private ParticleSystem effectSystem;
 
 	protected override void OnPartAbility(UnitBase enemy)
 	{
+		effect.SetActive(true);
+	}
+
+	private void Awake()
+	{
+		effect = Instantiate(effectPrefab);
+		TryGetComponent(out effectSystem);
+		effect.SetActive(false);
 	}
 
 	private void Update()
 	{
 		if(!isActive || InputActionManager.Instance.currentActionMap != (InputActionMap)InputActionManager.Instance.InputActions.Player)
 		{
+			effect.SetActive(false);
 			return;
 		}
 
 		timer += Time.deltaTime;
-
+		var resultTrans = transform.position;
+		resultTrans.y += 0.01f;
+		
+		effect.transform.position = resultTrans;
+		
 		if (timer >= colliderCheckCycle) 
 		{
+			
 			timer = .0f;
 			ExploreEnemy();
 		}
@@ -51,9 +66,6 @@ public class LambdaCore : CoreAbility
 
 		foreach (var enemy in catchEnemies)
 		{
-			var obj = Instantiate(effectPrefab);
-			obj.transform.position = enemy.transform.position;
-			
 			crowdSystem.SendCrowd(enemy.GetComponent<UnitBase>(), 0);
 		}
 	}
