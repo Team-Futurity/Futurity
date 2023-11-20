@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 
@@ -14,8 +15,11 @@ public class ActiveCutScene : CutSceneBase
 	private readonly int ACTIVE_BETA_KEY = Animator.StringToHash("BetaTrigger");
 
 	[Header("사운드")]
-	[SerializeField] private FMODUnity.EventReference activeCutsceneSound;
+	[SerializeField] private EventReference activeCutsceneSound;
 	[SerializeField] private Transform playerPosition;
+	private EventInstance activeCutsceneInstnace;
+
+	[SerializeField] private EventReference activeSound;
 
 	protected override void Init()
 	{
@@ -35,9 +39,9 @@ public class ActiveCutScene : CutSceneBase
 		
 		originYPos = dialogWindow.anchoredPosition.y;
 		SetRectYPos(MOVE_YPOS);
-		var soundInstance = AudioManager.Instance.CreateInstance(activeCutsceneSound);
-		RuntimeManager.AttachInstanceToGameObject(soundInstance, playerPosition);
-		soundInstance.start();
+		activeCutsceneInstnace = AudioManager.Instance.CreateInstance(activeCutsceneSound);
+		RuntimeManager.AttachInstanceToGameObject(activeCutsceneInstnace, playerPosition);
+		activeCutsceneInstnace.start();
 	}
 
 	protected override void DisableCutScene()
@@ -45,7 +49,10 @@ public class ActiveCutScene : CutSceneBase
 		Time.timeScale = 1.0f;
 		chapterManager.SetActiveMainUI(true);
 		effectTimer.StopInitTimer();
-		
+
+		RuntimeManager.AttachInstanceToGameObject(activeCutsceneInstnace, playerAnimator.transform);
+		AudioManager.Instance.PlayOneShot(activeSound, playerAnimator.transform.position);
+
 		if (dialogWindow == null)
 		{
 			return;
