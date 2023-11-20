@@ -72,8 +72,6 @@ public class TransitionAttackCore : MonoBehaviour
 		{
 			protocol.lineRenderer.TryGetComponent<RemoveRenderer>(out var remover);
 			remover.StartRemoveProcess();
-			
-			Debug.Log("End");
 			return;
 		}
 
@@ -90,8 +88,6 @@ public class TransitionAttackCore : MonoBehaviour
 			{
 				protocol.lineRenderer.TryGetComponent<RemoveRenderer>(out var remover);
 				remover.StartRemoveProcess();
-			
-				Debug.Log("End");
 				return;
 			}
 		}

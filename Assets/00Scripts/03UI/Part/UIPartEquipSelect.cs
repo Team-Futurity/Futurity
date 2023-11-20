@@ -61,7 +61,6 @@ public class UIPartEquipSelect : MonoBehaviour
 	private void OnActiveButton(bool isEquip)
 	{
 		UIManager.Instance.CloseWindow(WindowList.PART_EQUIP_SELECT);
-		Debug.Log("Part Equip Select Out");
 		onClose?.Invoke(isEquip);
 	}
 

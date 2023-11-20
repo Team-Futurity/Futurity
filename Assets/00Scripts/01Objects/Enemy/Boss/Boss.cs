@@ -19,12 +19,8 @@ public class Boss : UnitBase
 			status.GetStatus(StatusType.CURRENT_HP).SubValue(damageInfo.Damage);
 		}
 
-		Debug.Log("¹Û" + damageInfo.isCritical);
-
 		if (damageInfo.isCritical)
 		{
-			Debug.Log(damageInfo.isCritical);
-
 			criticalImages.gameObject.SetActive(true);
 			StartCoroutine("StartCriticalImage");
 		}
