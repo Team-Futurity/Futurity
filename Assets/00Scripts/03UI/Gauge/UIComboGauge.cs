@@ -27,6 +27,14 @@ public class UIComboGauge : MonoBehaviour
 		});
 	}
 
+	private void OnEnable()
+	{
+		if (ComboSystem != null)
+		{
+			Gauge.SetFill(ComboSystem.CurrentGauge, ComboSystem.maxComboGauge);
+		}
+	}
+
 	private void UpdateComboGauge(float currentGauge, float maxGauge)
 	{
 		if(currentGauge > maxGauge)

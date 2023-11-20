@@ -33,6 +33,11 @@ public class UIGauge : MonoBehaviour
 
 	public void StartFillGauge(float targetGaugeValue, float maxGaugeValue)
 	{
+		if (!gameObject.activeSelf)
+		{
+			return;
+		}
+		
 		if (isFilling)
 		{
 			StopCoroutine("FillGauge");
@@ -61,6 +66,11 @@ public class UIGauge : MonoBehaviour
 		activeTime = 3f;
 
 		StartCoroutine(FillLoadGauge());
+	}
+
+	public void SetFill(float target, float max)
+	{
+		gaugeImage.fillAmount = target / max;
 	}
 
 	private IEnumerator FillLoadGauge()

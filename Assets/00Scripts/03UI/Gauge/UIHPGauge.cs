@@ -40,6 +40,14 @@ public class UIHPGauge : MonoBehaviour
 		mainCam = Camera.main;
 	}
 
+	private void OnEnable()
+	{
+		if (playerUnitBase != null && !isBillboard)
+		{
+			Gauge.SetFill(playerUnitBase.status.GetStatus(StatusType.CURRENT_HP).GetValue(), playerUnitBase.status.GetStatus(StatusType.MAX_HP).GetValue());
+		}
+	}
+
 	private void LateUpdate()
 	{
 		if(!isBillboard)
