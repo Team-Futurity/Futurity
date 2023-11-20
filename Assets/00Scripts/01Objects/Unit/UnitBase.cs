@@ -176,29 +176,33 @@ public abstract class UnitBase : MonoBehaviour
 		{
 			if (isAlterSpeedForAnimation)
 			{
-				currentkipedFrameCount = 0;
-				while (isAlterSpeedForAnimation && currentkipedFrameCount < alterAnimationData.skipFrameCount)
+				if(unitAnimator != null)
 				{
-					yield return null;
-					currentkipedFrameCount++;
-				}
+					currentkipedFrameCount = 0;
+					while (isAlterSpeedForAnimation && currentkipedFrameCount < alterAnimationData.skipFrameCount)
+					{
+						yield return null;
+						currentkipedFrameCount++;
+					}
 
-				currentBlentFrameCount = 0;
-				while (isAlterSpeedForAnimation && currentBlentFrameCount < alterAnimationData.blendFrameCount)
-				{
-					yield return null;
-					currentBlentFrameCount++;
-					unitAnimator.speed = Mathf.Lerp(unitAnimator.speed, alterAnimationData.animationSpeed, currentBlentFrameCount / alterAnimationData.blendFrameCount);
-				}
+					currentBlentFrameCount = 0;
+					while (isAlterSpeedForAnimation && currentBlentFrameCount < alterAnimationData.blendFrameCount)
+					{
+						yield return null;
+						currentBlentFrameCount++;
+						unitAnimator.speed = Mathf.Lerp(unitAnimator.speed, alterAnimationData.animationSpeed, currentBlentFrameCount / alterAnimationData.blendFrameCount);
+					}
 
-				currentStopedFrameCount = 0;
-				unitAnimator.speed = alterAnimationData.animationSpeed;
-				while (isAlterSpeedForAnimation && currentStopedFrameCount < alterAnimationData.alterFrameCount)
-				{
-					yield return null;
-					currentStopedFrameCount++;
+					currentStopedFrameCount = 0;
+					unitAnimator.speed = alterAnimationData.animationSpeed;
+					while (isAlterSpeedForAnimation && currentStopedFrameCount < alterAnimationData.alterFrameCount)
+					{
+						yield return null;
+						currentStopedFrameCount++;
+					}
+					unitAnimator.speed = 1;
 				}
-				unitAnimator.speed = 1;
+				
 				isAlterSpeedForAnimation = false;
 			}
 

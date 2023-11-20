@@ -432,6 +432,12 @@ public class PlayerAnimationEvents : MonoBehaviour
 		pc.autoTargetColliderChanger.LockColliderEnable();
 	}
 
+	public void UnlockAllCollider()
+	{
+		pc.attackColliderChanger.UnlockColliderEnable();
+		pc.autoTargetColliderChanger.UnlockColliderEnable();
+	}
+
 	public void EnableCollider()
 	{
 		pc.autoTargetColliderChanger.UnlockColliderEnable();

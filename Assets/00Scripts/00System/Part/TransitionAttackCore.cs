@@ -95,7 +95,7 @@ public class TransitionAttackCore : MonoBehaviour
 
 	private void AddDamage()
 	{
-		TryGetComponent(out Enemy enemyUnit);
+		TryGetComponent(out UnitBase enemyUnit);
 
 		var damageinfo = new DamageInfo(
 			attacker: null,
