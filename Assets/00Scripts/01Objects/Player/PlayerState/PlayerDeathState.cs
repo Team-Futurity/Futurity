@@ -11,7 +11,9 @@ public class PlayerDeathState : UnitState<PlayerController>
 	public override void Begin(PlayerController pc)
 	{
 		TimelineManager.Instance.EnableCutScene(ECutSceneType.PLAYER_DEATH);
-		
+
+		AudioManager.Instance.PlayOneShot(pc.deathVoice, pc.transform.position);
+
 		pc.animator.SetTrigger(DeathAnimTriggerKey);
 		pc.animator.SetBool(DeathAnimKey, true);
 		pc.rmController.SetRootMotion("Death");

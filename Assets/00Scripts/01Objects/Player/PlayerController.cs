@@ -147,6 +147,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public FMODUnity.EventReference dash;
 	public FMODUnity.EventReference hitMelee;
 	public FMODUnity.EventReference hitRanged;
+	public FMODUnity.EventReference hitVoice;
+	public FMODUnity.EventReference deathVoice;
 
 	// etc
 	[HideInInspector] public bool activePartIsActive; // 액티브 부품이 사용가능한지
