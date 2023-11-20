@@ -67,14 +67,17 @@ public class FlooringAttackProcess : MonoBehaviour
 			}
 			else if (isFlooringDone && isAtkEffectDone && !isAtkDone && curTime > flooringTiming + atkEffectTiming + atkTiming)
 			{
-				atkCollider.SetActive(true);
+				if(atkCollider != null)
+					atkCollider.SetActive(true);
 				isAtkDone = true;
 			}
 			else if (isFlooringDone && isAtkEffectDone && isAtkDone && curTime > flooringTiming + atkEffectTiming + atkTiming + deActiveTiming)
 			{
 				if (bc != null)
 					bc.attackTrigger.type6Colliders[index].transform.SetParent(null);
-				atkCollider.SetActive(false);
+				if (atkCollider != null)
+					atkCollider.SetActive(false);
+				this.gameObject.SetActive(false);
 				isSystemEnable = false;
 			}
 		}
