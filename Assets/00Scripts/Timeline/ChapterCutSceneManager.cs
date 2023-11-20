@@ -101,8 +101,9 @@ public class ChapterCutSceneManager : MonoBehaviour
 			return;
 		}
 		
-		TryGetComponent<GaugeDisable>(out var test);
-		test.SetGauge(active);
+		var isOkay = TryGetComponent<GaugeDisable>(out var test);
+		if(isOkay)
+			test.SetGauge(active);
 		
 		mainUICanvas.SetActive(active);
 	}
