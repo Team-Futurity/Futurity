@@ -36,7 +36,6 @@ public abstract class CutSceneBase : MonoBehaviour
 
 		cutScene = isActiveCutScene
 			? gameObject.GetComponentInChildren<PlayableDirector>() : gameObject.GetComponent<PlayableDirector>();
-		chapterManager.autoSkipButton.InitPlayCutScene(cutScene);
 
 		if (isUseScripting == true)
 		{
