@@ -55,4 +55,6 @@ public class InteractionTrigger : MonoBehaviour
 		gameObject.GetComponent<BoxCollider>().enabled = false;
 		isInteraction = true;
 	}
+	
+	private void OnEnable() => interactionEffect.SetActive(true);
 }
