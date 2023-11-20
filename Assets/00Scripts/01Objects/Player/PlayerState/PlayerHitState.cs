@@ -18,6 +18,8 @@ public class PlayerHitState : UnitState<PlayerController>
 
 		pc.SetGauntlet(false);
 
+		AudioManager.Instance.PlayOneShot(pc.hitVoice, pc.transform.position);
+
 		if (pc.playerData.status.GetStatus(StatusType.CURRENT_HP).GetValue() > 0)
 		{
 			pc.camera?.StartHitEffectVignette();
