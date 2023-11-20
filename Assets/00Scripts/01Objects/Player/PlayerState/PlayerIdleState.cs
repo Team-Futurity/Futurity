@@ -11,7 +11,7 @@ public class PlayerIdleState : UnitState<PlayerController>
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
 		pc.rmController.SetRootMotion("Idle");
 
-		if (pc.moveIsPressed)
+		if (pc.moveIsPressed && !pc.lockAllInput)
 		{
 			pc.ChangeState(PlayerState.Move);
 		}

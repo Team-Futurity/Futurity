@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,8 +24,9 @@ public class ActiveEffectToWall : MonoBehaviour
 	private Rigidbody rigidbody;
 	private PlayerCamera playerCamera;
 	private bool isOnEffect;
+	private EventInstance collisionSound;
 
-	public void RunCollision( ChargeCollisionData collisionData, DamageInfo info, ObjectPoolManager<Transform> poolManager, Rigidbody rb, PlayerCamera cameraData)
+	public void RunCollision( ChargeCollisionData collisionData, DamageInfo info, ObjectPoolManager<Transform> poolManager, Rigidbody rb, PlayerCamera cameraData, EventInstance sound)
 	{
 		this.collisionData = collisionData;
 		this.poolManager = poolManager;
@@ -33,6 +35,8 @@ public class ActiveEffectToWall : MonoBehaviour
 		playerCamera = cameraData;
 		isOnEffect = false;
 		enabled = true;
+		collisionSound = sound;
+
 	}
 
 	private void FixedUpdate()
@@ -57,6 +61,7 @@ public class ActiveEffectToWall : MonoBehaviour
 			rigidbody.velocity = Vector3.zero;
 			damageInfo.Attacker.InstantAttack(damageInfo);
 			playerCamera?.CameraShake(collisionData.shakeVelocity, collisionData.shakeDuration);
+			collisionSound.start();
 			enabled = false;
 		}
 	}

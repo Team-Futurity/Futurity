@@ -75,7 +75,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	public bool specialIsReleased = false;
 	public bool moveIsPressed = false;
 	private bool comboIsLock = false;
-	private bool lockAllInput = false;
+	public bool lockAllInput { get; private set; }
 
 	// attack
 	[Space(5)]
@@ -156,6 +156,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 	{
 		animator = GetComponentInChildren<Animator>();
 		rigid = GetComponent<Rigidbody>();
+
+		lockAllInput = false;
 
 		// effect
 		effectController = ECManager.Instance.GetEffectManager(effectSO);
@@ -259,8 +261,6 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 
 		moveDir = new Vector3(input.x, 0f, input.y);
 
-		if(lockAllInput) { return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
-
 		if(moveDir != Vector3.zero)
 		{
 			lastMoveDir = new Vector3(input.x, 0f, input.y);
@@ -271,7 +271,7 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		bool prevPressed = moveIsPressed;
 		moveIsPressed = (!context.started || context.performed) ^ context.canceled && moveDir != Vector3.zero;
 
-		if (IsCurrentState(PlayerState.BasicSM) || IsCurrentState(PlayerState.BetaSM)) { return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
+		if (lockAllInput) { return GetInputData(PlayerInputEnum.Move, false, moveDir.ToString()); }
 
 		// 예외처리
 		if (!IsCurrentState(PlayerState.Idle))
