@@ -16,6 +16,7 @@ public class UISceneLoadButton : UIButton
 	protected override void ActiveFunc()
 	{
 		UIInputManager.Instance.ClearAll();
+		Time.timeScale = 1f;
 
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
