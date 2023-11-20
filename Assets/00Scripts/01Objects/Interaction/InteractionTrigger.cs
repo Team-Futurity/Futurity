@@ -9,8 +9,9 @@ public class InteractionTrigger : MonoBehaviour
 {
 	[Header("Component")]
 	[SerializeField] private UnityEvent interactionEvent;
+	[SerializeField] private GameObject interactionEffect;
 	[SerializeField, ReadOnly(false)] private bool isInteraction = false;
-
+	
 	public void CheckInteraction()
 	{
 		if (isInteraction == true)
@@ -19,6 +20,7 @@ public class InteractionTrigger : MonoBehaviour
 		}
 
 		gameObject.GetComponent<BoxCollider>().enabled = true;
+		interactionEffect.SetActive(true);
 	}
 	
 	private void OnTriggerEnter(Collider other)
@@ -53,4 +55,6 @@ public class InteractionTrigger : MonoBehaviour
 		gameObject.GetComponent<BoxCollider>().enabled = false;
 		isInteraction = true;
 	}
+	
+	private void OnEnable() => interactionEffect.SetActive(true);
 }
