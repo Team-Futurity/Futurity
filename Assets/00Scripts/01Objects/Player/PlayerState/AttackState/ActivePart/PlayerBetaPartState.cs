@@ -52,8 +52,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 	{
 		base.Begin(unit);
 
-		Debug.Log("Beta State ����");
-
 		enemyList.Clear();
 
 		pc = unit;
@@ -192,8 +190,6 @@ public class PlayerBetaPartState : PlayerSpecialMoveState<BetaActivePart>
 
 			info.SetDamage(damage);
 			enemy.Hit(info);
-			
-			Debug.Log("���� ���� ����!");
 		}
 
 		enemyList.Clear();
