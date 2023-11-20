@@ -52,24 +52,6 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 	public void EnableInteractionUI(EUIType type) => interactionUI[(int)type].SetActive(true);
 	public void DisableInteractionUI(EUIType type) => interactionUI[(int)type].SetActive(false);
 	
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.F7))
-		{
-			MoveNextChapter();
-		}
-		
-		if (Input.GetKeyDown(KeyCode.M))
-		{
-			TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_BETA);
-		}
-		
-		if (Input.GetKeyDown(KeyCode.N))
-		{
-			TimelineManager.Instance.EnableCutScene(ECutSceneType.ACTIVE_ALPHA);
-		}
-	}
-	
 	public void MoveNextChapter()
 	{
 		InputActionManager.Instance.DisableActionMap();
