@@ -57,7 +57,7 @@ public class FlooringAttackProcess : MonoBehaviour
 			{
 				ActiveEffect(floorEffectData);
 				if(ec != null && ec.ThisEnemyType == EnemyType.D_BF)
-					AudioManager.Instance.PlayOneShot(ec.attackSound2, this.transform.position);
+					AudioManager.Instance.PlayOneShot(ec.attackSound2, atkCollider.transform.position);
 				isFlooringDone = true;
 			}
 			else if (isFlooringDone && !isAtkEffectDone && curTime > flooringTiming + atkEffectTiming)
