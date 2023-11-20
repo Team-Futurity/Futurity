@@ -33,7 +33,7 @@ public class BossPhaseEndCutScene : CutSceneBase
 	private EventInstance soundInst;
 	private int curIndex;
 
-	private readonly int BOSS_DEATH_KEY = Animator.StringToHash("Death");
+	private readonly int BOSS_SCREAM_KEY = Animator.StringToHash("2Phase");
 	private IEnumerator printText;
 	private WaitForSeconds waitForSeconds;
 	
@@ -77,7 +77,7 @@ public class BossPhaseEndCutScene : CutSceneBase
 
 	public void BossDeathAnimation(bool enable)
 	{
-		bossAnimator.SetBool(BOSS_DEATH_KEY, enable);
+		bossAnimator.SetBool(BOSS_SCREAM_KEY, enable);
 	}
 
 	public void PlayBackGroundMusic()
