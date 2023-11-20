@@ -29,6 +29,17 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 		
 	}
 
+	public override void Update(EnemyController unit)
+	{
+		curTime += Time.deltaTime;
+		if (!isAttack)
+		{
+			AttackAnim(unit, curTime, unit.attackBeforeDelay);
+		}
+		else
+			unit.DelayChangeState(curTime, unit.attackingDelay, unit, unit.UnitChaseState());
+	}
+
 
 	public override void End(EnemyController unit)
 	{
@@ -41,7 +52,7 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 		if (curTime > maxTime)
 		{
 			AudioManager.Instance.PlayOneShot(unit.attackSound2, unit.transform.position);
-			unit.animator.SetTrigger(unit.atkAnimParam);
+			unit.animator.SetTrigger(unit.ragnedAnimParam);
 			curTime = 0f;
 			isAttack = true;
 		}
