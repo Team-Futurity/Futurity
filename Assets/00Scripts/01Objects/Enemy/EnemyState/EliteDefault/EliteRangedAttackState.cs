@@ -35,4 +35,15 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 		unit.atkCollider.transform.position = unit.transform.position;
 		base.End(unit);
 	}
+
+	protected override void AttackAnim(EnemyController unit, float curTime, float maxTime)
+	{
+		if (curTime > maxTime)
+		{
+			AudioManager.Instance.PlayOneShot(unit.attackSound2, unit.transform.position);
+			unit.animator.SetTrigger(unit.atkAnimParam);
+			curTime = 0f;
+			isAttack = true;
+		}
+	}
 }
