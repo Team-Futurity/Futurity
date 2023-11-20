@@ -45,6 +45,7 @@ public class DialogPlayer : MonoBehaviour
 			yield return new WaitForSeconds(1.0f);	
 		}
 		
+		UIManager.Instance.OpenWindow(WindowList.DIALOG_NORMAL);
 		dialogController.SetDialogData(curDialogData);
 		dialogController.Play();
 	}
