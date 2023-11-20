@@ -105,10 +105,18 @@ public class EnemyAnimationEvents : MonoBehaviour
 
 	public void KnockBack()
 	{
+		CheckTarget(ec);
+
 		if (ec.ThisEnemyType != EnemyType.TutorialDummy)
 		{
 			Vector3 direction = ec.transform.position - ec.target.transform.position;
 			ec.enemyData.Knockback(direction.normalized, ec.knockbackPower);
 		}
+	}
+
+	private void CheckTarget(EnemyController ec)
+	{
+		if(ec.target == null)
+			ec.target = GameObject.FindWithTag("Player").GetComponent<UnitBase>();
 	}
 }
