@@ -17,7 +17,7 @@ public class GaugeDisable : MonoBehaviour
 				playerGauge.Gauge.StopGauge();
 			if (comboGauge != null)
 				comboGauge.Gauge.StopGauge();
-			if (bossGauge != null)
+			if (bossGauge.playerUnitBase != null)
 				bossGauge.Gauge.StopGauge();
 		}
 		else
@@ -26,7 +26,7 @@ public class GaugeDisable : MonoBehaviour
 				playerGauge.SetDefault();
 			if(comboGauge != null)
 				comboGauge.SetDefault();
-			if(bossGauge != null)
+			if(bossGauge.playerUnitBase != null)
 				bossGauge.Gauge.StopGauge();
 		}
 	}
