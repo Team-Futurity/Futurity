@@ -19,13 +19,9 @@ public class D_BFAttackState : EnemyAttackBaseState
 	{
 		base.Begin(unit);
 
-		FDebug.Log("dddd");
-
-		EffectSetting(unit);
-		ProcessSetting(unit);
-		unit.test.transform.localPosition = new Vector3(0, 0, unit.D_BFData.data.zFarDistance);
-		unit.transform.LookAt(unit.target.transform.position);
-		FDebug.Log(floorEffects.Count);
+		//FDebug.Log("dddd");
+		unit.test.transform.localPosition = new Vector3(0, 0.6f, unit.D_BFData.data.zFarDistance);
+		//FDebug.Log(floorEffects.Count);
 	}
 
 	public override void Update(EnemyController unit)
@@ -34,6 +30,9 @@ public class D_BFAttackState : EnemyAttackBaseState
 		curTime += Time.deltaTime;
 		if (!isAttack)
 		{
+			unit.transform.LookAt(unit.target.transform.position);
+			EffectSetting(unit);
+			ProcessSetting(unit);
 			AttackAnim(unit, curTime, unit.attackBeforeDelay);
 		}
 		else if(isAttack)
