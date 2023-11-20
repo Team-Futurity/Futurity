@@ -51,6 +51,7 @@ public class EliteRangedAttackState : EnemyAttackBaseState
 	{
 		if (curTime > maxTime)
 		{
+			AudioManager.Instance.PlayOneShot(unit.attackSound2, unit.transform.position);
 			unit.animator.SetTrigger(unit.ragnedAnimParam);
 			curTime = 0f;
 			isAttack = true;

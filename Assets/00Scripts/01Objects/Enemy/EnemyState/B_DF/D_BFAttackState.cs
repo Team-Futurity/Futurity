@@ -24,12 +24,13 @@ public class D_BFAttackState : EnemyAttackBaseState
 		EffectSetting(unit);
 		ProcessSetting(unit);
 		unit.test.transform.localPosition = new Vector3(0, 0, unit.D_BFData.data.zFarDistance);
-
+		unit.transform.LookAt(unit.target.transform.position);
 		FDebug.Log(floorEffects.Count);
 	}
 
 	public override void Update(EnemyController unit)
 	{
+		
 		curTime += Time.deltaTime;
 		if (!isAttack)
 		{

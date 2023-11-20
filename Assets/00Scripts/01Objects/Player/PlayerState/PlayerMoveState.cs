@@ -14,10 +14,15 @@ public class PlayerMoveState : UnitState<PlayerController>
 		pc.animator.SetBool(pc.IsAttackingAnimKey, false);
 		pc.rmController.SetRootMotion("Move");
 		pc.moveEvent.Invoke();
+
+		FDebug.Log("Enter_Moving");
 	}
 
 	public override void Update(PlayerController pc)
 	{
+		FDebug.Log("Moving");
+
+
 		if(!pc.moveIsPressed)
 		{
 			if(pc.IsCurrentState(PlayerState.Move))
@@ -61,8 +66,8 @@ public class PlayerMoveState : UnitState<PlayerController>
 			pc.animator.SetBool(MoveAnimKey, true);
 			pc.transform.position += pc.playerData.status.GetStatus(StatusType.SPEED).GetValue() * Time.deltaTime * rotVec.normalized;
 		}
-		
-		
+
+
 	}
 
 	public override void End(PlayerController pc)
@@ -71,6 +76,8 @@ public class PlayerMoveState : UnitState<PlayerController>
 		pc.animator.SetBool(MoveAnimKey, false);
 		pc.rigid.velocity = Vector3.zero;
 		pc.moveStopEvent.Invoke();
+
+		FDebug.Log("End_Moving");
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

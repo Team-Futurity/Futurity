@@ -1,3 +1,4 @@
+using FMODUnity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +23,12 @@ public class ChargeStateData : StateData
 	[Header("벽 충돌 데이터")]
 	public ChargeCollisionData ChargeCollisionData;
 
+	[Header("사운드")]
+	public EventReference ChargeSound;
+	public EventReference DashSound;
+	public EventReference AttackSound;
+	public EventReference WallSound;
+
 	public override void SetDataToState()
 	{
 		if (IncreasesByLevel.Length > MaxLevel)
@@ -39,6 +46,11 @@ public class ChargeStateData : StateData
 		PlayerAttackState_Charged.MoveSpeedInCharging = MoveSpeedInCharging;
 		PlayerAttackState_Charged.ChargeCollisionData = ChargeCollisionData;
 		PlayerAttackState_Charged.ChargeCollisionEffect = ChargeCollisionEffect;
+
+		PlayerAttackState_Charged.ChargeSound = ChargeSound;
+		PlayerAttackState_Charged.DashSound = DashSound;
+		PlayerAttackState_Charged.AttackSound = AttackSound;
+		PlayerAttackState_Charged.WallSound = WallSound;
 	}
 
 	private ChargeIncreases[] SumPreviousIncreasing(ChargeIncreases[] increasesOrigin)

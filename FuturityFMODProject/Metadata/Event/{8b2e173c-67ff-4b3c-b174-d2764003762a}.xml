@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{8b2e173c-67ff-4b3c-b174-d2764003762a}">
 		<property name="name">
-			<value>F_S_01_06_hit_ranged</value>
+			<value>D_LF_Hit</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -272,6 +272,7 @@
 	<object class="MixerBusEffectChain" id="{17b3555c-bfde-4e48-a5fe-8291a5d58cf2}">
 		<relationship name="effects">
 			<destination>{01c13621-2bd5-4105-a736-a2de97670c01}</destination>
+			<destination>{fcd1064b-b5f1-4b18-ab4d-e5406d500cb5}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{4e7dca68-b6e2-4fde-91aa-497274f281d8}" />
@@ -365,6 +366,23 @@
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{01c13621-2bd5-4105-a736-a2de97670c01}" />
+	<object class="SFXReverbEffect" id="{fcd1064b-b5f1-4b18-ab4d-e5406d500cb5}">
+		<property name="decayTime">
+			<value>180</value>
+		</property>
+		<property name="earlyDelay">
+			<value>28.5</value>
+		</property>
+		<property name="lateDelay">
+			<value>52</value>
+		</property>
+		<property name="earlyLateMix">
+			<value>25</value>
+		</property>
+		<property name="wetLevel">
+			<value>-3</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{fae630e1-0c2d-4618-8a6d-67fff64e0623}">
 		<property name="position">
 			<value>0.40000000000000058</value>
