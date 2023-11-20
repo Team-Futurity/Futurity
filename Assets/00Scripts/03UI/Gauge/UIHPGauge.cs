@@ -40,11 +40,12 @@ public class UIHPGauge : MonoBehaviour
 		mainCam = Camera.main;
 	}
 
-	private void OnEnable()
+	public void SetDefault()
 	{
-		if (playerUnitBase != null && !isBillboard)
+		if (!isBillboard)
 		{
-			Gauge.SetFill(playerUnitBase.status.GetStatus(StatusType.CURRENT_HP).GetValue(), playerUnitBase.status.GetStatus(StatusType.MAX_HP).GetValue());
+			Gauge.SetFill(playerUnitBase.status.GetStatus(StatusType.CURRENT_HP).GetValue(),
+				playerUnitBase.status.GetStatus(StatusType.MAX_HP).GetValue());
 		}
 	}
 
@@ -65,6 +66,7 @@ public class UIHPGauge : MonoBehaviour
 			currentGauge = maxGauge;
 		}
 
-		Gauge.StartFillGauge(currentGauge, maxGauge);
+		if(Gauge.gameObject.activeSelf)
+			Gauge.StartFillGauge(currentGauge, maxGauge);
 	}
 }

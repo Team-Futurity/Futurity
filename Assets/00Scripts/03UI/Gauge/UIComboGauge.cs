@@ -27,21 +27,18 @@ public class UIComboGauge : MonoBehaviour
 		});
 	}
 
-	private void OnEnable()
+	public void SetDefault()
 	{
-		if (ComboSystem != null)
-		{
-			Gauge.SetFill(ComboSystem.CurrentGauge, ComboSystem.maxComboGauge);
-		}
+		Gauge.SetFill(ComboSystem.CurrentGauge, ComboSystem.maxComboGauge);
 	}
-
+	
 	private void UpdateComboGauge(float currentGauge, float maxGauge)
 	{
 		if(currentGauge > maxGauge)
 		{
 			currentGauge = maxGauge;
 		}
-
-		Gauge.StartFillGauge(currentGauge, maxGauge);
+		if(Gauge.gameObject.activeSelf)
+			Gauge.StartFillGauge(currentGauge, maxGauge);
 	}
 }

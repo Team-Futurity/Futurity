@@ -31,6 +31,11 @@ public class UIGauge : MonoBehaviour
 		TryGetComponent(out gaugeImage);
 	}
 
+	public void StopGauge()
+	{
+		StopCoroutine("FillGauge");
+	}
+
 	public void StartFillGauge(float targetGaugeValue, float maxGaugeValue)
 	{
 		if (!gameObject.activeSelf)
