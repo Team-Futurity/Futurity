@@ -56,11 +56,6 @@ public class UICriticalCombo : MonoBehaviour
 
 	}
 
-	private void LoadNumberSpriteImages()
-	{
-		FDebug.Log($"Number 이미지를 정상적으로 가져왔음", GetType());
-	}
-
 	private void InitNumbers()
 	{
 		for(int i = 0;i<  numberImages.Length; ++i)
