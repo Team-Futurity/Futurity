@@ -31,6 +31,11 @@ public class MiniDefaultAttackState : EnemyAttackBaseState
 		unit.rigid.AddForce(unit.transform.forward * dashPower, ForceMode.Impulse);
 	}
 
+	public override void Update(EnemyController unit)
+	{
+		curTime += Time.deltaTime;
+		unit.DelayChangeState(curTime, unit.attackingDelay, unit, unit.UnitChaseState());
+	}
 
 	public override void End(EnemyController unit)
 	{

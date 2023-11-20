@@ -30,6 +30,7 @@ public class D_BFAttackState : EnemyAttackBaseState
 
 	public override void Update(EnemyController unit)
 	{
+		unit.transform.LookAt(unit.target.transform.position);
 		curTime += Time.deltaTime;
 		if (!isAttack)
 		{
