@@ -11,6 +11,7 @@ public class EnemyChaseBaseState : StateBase
 
 	public override void Begin(EnemyController unit)
 	{
+		CheckTarget(unit);
 		unit.animator.SetBool(unit.moveAnimParam, true);
 		unit.chaseRange.enabled = false;
 		unit.navMesh.enabled = true;
