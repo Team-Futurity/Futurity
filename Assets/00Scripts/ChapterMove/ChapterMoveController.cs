@@ -132,8 +132,19 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 
 	private void UpdateHpEvent()
 	{
-		GameObject.FindWithTag("Player").GetComponent<PlayerController>().playerData.status
-			.updateHPEvent.Invoke(230f, 230f);
+		GameObject player = GameObject.FindWithTag("Player");
+
+		if (player == null)
+		{
+			return;
+		}
+
+		if (player.TryGetComponent(out PlayerController playerController) == false)
+		{
+			return;
+		}
+		
+		playerController.playerData.status.updateHPEvent?.Invoke(230f, 230f);
 	}
 	#endregion
 
