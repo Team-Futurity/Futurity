@@ -117,9 +117,19 @@ public class ColliderChanger : MonoBehaviour
 
 	public void DisableAllCollider()
 	{
+		/*Debug.Log("QQQEnter");*/
+
 		if (isLock) { return; }
+		if (colliderDictionary == null) { return; }
+/*
+		Debug.Log(gameObject.name + "QQQ");
+		Debug.Log(colliderDictionary + "_))");
+		Debug.Log(colliderDictionary.Values + "_))ffsadf");*/
+
 		foreach (var colliderData in colliderDictionary.Values)
 		{
+			/*Debug.Log(colliderData);
+			Debug.Log(colliderData.collider);*/
 			colliderData.collider.enabled = false;
 		}
 	}

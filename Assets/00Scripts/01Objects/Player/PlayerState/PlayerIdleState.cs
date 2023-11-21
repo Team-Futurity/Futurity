@@ -30,6 +30,8 @@ public class PlayerIdleState : UnitState<PlayerController>
 		pc.UnlockInput();
 		pc.attackColliderChanger.UnlockColliderEnable();
 		pc.autoTargetColliderChanger.UnlockColliderEnable();
+		/*Debug.Log(pc.attackColliderChanger + "__" );
+		Debug.Log(pc.autoTargetColliderChanger + "__" );*/
 		pc.attackColliderChanger.DisableAllCollider();
 		pc.autoTargetColliderChanger.DisableAllCollider();
 	}
