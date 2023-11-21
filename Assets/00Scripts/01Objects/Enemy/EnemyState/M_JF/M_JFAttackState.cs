@@ -22,4 +22,12 @@ public class M_JFAttackState : EnemyAttackBaseState
 		base.Begin(unit);
 		unit.currentEffectData = effectData;
 	}
+
+	public override void End(EnemyController unit)
+	{
+		var result = unit.transform.position;
+		result.y = .0f;
+
+		unit.transform.position = result;
+	}
 }
