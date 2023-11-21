@@ -72,6 +72,7 @@ public class UIPartEquip : MonoBehaviour
 		}
 
 		isSelect = false;
+		UIInputManager.Instance.SetMaxMoveIndex(-1);
 	}
 
 	public void SetSelectPart(int code)

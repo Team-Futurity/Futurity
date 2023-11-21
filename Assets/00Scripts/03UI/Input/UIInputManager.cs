@@ -11,14 +11,12 @@ public class UIInputManager : Singleton<UIInputManager>
 	// Button Index
 	private int currentIndex = 0;
 	private int saveIndex = 0;
-	private int maxMoveIndex = 0;
+	private int maxMoveIndex = -1;
 
 	private bool isUnableMoveButton = false;
 
 	private void Start()
 	{
-		maxMoveIndex = -1;
-		
 		CombinedInputActions.UIBehaviourActions map = InputActionManager.Instance.InputActions.UIBehaviour;
 		InputActionManager.Instance.ToggleActionMap(map);
 		InputActionManager.Instance.RegisterCallback(map.MoveToPreviousUI, (context) => OnMoveToPreviousUI(context), true);
@@ -114,6 +112,7 @@ public class UIInputManager : Singleton<UIInputManager>
 		if (saveIndex < 0)
 		{
 			FDebug.Log("Save처리 된 Index가 존재하지 않음.");
+			return;
 		}
 		
 		currentIndex = saveIndex;
@@ -125,7 +124,7 @@ public class UIInputManager : Singleton<UIInputManager>
 	{
 		var result = currentIndex + num;
 
-		if (result < 0 || result >= currentActiveButtons.Count || (maxMoveIndex > result && maxMoveIndex != -1))
+		if (result < 0 || result >= currentActiveButtons.Count || (maxMoveIndex <= result && maxMoveIndex != -1))
 		{
 			return;
 		}
