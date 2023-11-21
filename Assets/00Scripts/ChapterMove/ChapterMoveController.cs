@@ -17,7 +17,7 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 	
 	[Header("챕터 정보")] 
 	[SerializeField] private List<ChapterData> chapterData;
-	[SerializeField, ReadOnly(false)] private EChapterType curChapter = EChapterType.CHAPTER1_1;
+	private EChapterType curChapter;
 
 	[Header("Fade Out 시간")] 
 	[SerializeField] private float fadeOutTime = 0.5f;
@@ -25,22 +25,13 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 
 	[Header("상호작용 UI")] 
 	[SerializeField] private List<GameObject> interactionUI;
-
-	[Header("에디터에서만 사용")] 
-	[SerializeField] private EChapterType editorChapter;
+	
 	private ObjectPenetrate objectPenetrate;
-
-	private void Start()
+	
+	public void OnEnableController(EChapterType chapterType)
 	{
-#if UNITY_EDITOR
-		curChapter = editorChapter;
-#endif
+		curChapter = chapterType;
 		
-		OnEnableController();
-	}
-
-	public void OnEnableController()
-	{
 		Init();
 		CheckPenetrate();
 		EnableEntryCutScene();
@@ -67,8 +58,6 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 		FadeManager.Instance.FadeIn(fadeInTime, () =>
 		{
 			SceneLoader.Instance.LoadScene(chapterData[(int)curChapter].NextChapterName);
-			
-			curChapter++;
 			objectPenetrate.enabled = false;
 		});
 	}
