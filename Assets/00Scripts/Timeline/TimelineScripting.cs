@@ -83,7 +83,10 @@ public class TimelineScripting : MonoBehaviour
 	{
 		foreach (GameObject names in nameText)
 		{
-			names.SetActive(false);
+			if (names != null)
+			{
+				names.SetActive(false);
+			}
 		}
 	}
 	
@@ -281,14 +284,17 @@ public class TimelineScripting : MonoBehaviour
 	
 	public void ResetEmotion()
 	{
-		MiraeEmotionCheck(ScriptingStruct.EMiraeExpression.IDLE);
+		if (skeletons[(int)EName.MIRAE] != null)
+		{
+			MiraeEmotionCheck(ScriptingStruct.EMiraeExpression.IDLE);
+		}
 
-		if (skeletons[(int)EName.SONGSARI].gameObject.activeSelf == true)
+		if (skeletons[(int)EName.SONGSARI] != null && skeletons[(int)EName.SONGSARI].gameObject.activeSelf == true)
 		{
 			SariEmotionCheck(ScriptingStruct.ESariExpression.IDLE);
 		}
 
-		if (skeletons[(int)EName.BOSS].gameObject.activeSelf == true)
+		if (skeletons[(int)EName.BOSS] != null && skeletons[(int)EName.BOSS].gameObject.activeSelf == true)
 		{
 			SariEmotionCheck(ScriptingStruct.ESariExpression.IDLE);
 		}

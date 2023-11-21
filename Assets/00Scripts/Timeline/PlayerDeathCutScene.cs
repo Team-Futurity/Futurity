@@ -24,9 +24,17 @@ public class PlayerDeathCutScene : CutSceneBase
 	{
 		chapterManager.playerCamera.RevertCameraValue();
 
-		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
-		UIManager.Instance.OpenWindow(WindowList.GAME_OVER);
-		
+		if (InputActionManager.Instance != null)
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions
+				.UIBehaviour);
+		}
+
+		if (UIManager.Instance != null)
+		{
+			UIManager.Instance.OpenWindow(WindowList.GAME_OVER);	
+		}
+
 		chapterManager.GrayScale.amount.value = 0.0f;
 		chapterManager.GrayScale.active = false;
 
