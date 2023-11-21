@@ -41,9 +41,12 @@ public class SceneLoader : Singleton<SceneLoader>
 
 		loadSystemObject.TryGetComponent<LoadingSystem>(out var loadSystem);
 
-		data = Addressables.LoadAssetAsync<LoadingData>(nextSceneName).WaitForCompletion();
+		if (data != null)
+		{
+			data = Addressables.LoadAssetAsync<LoadingData>(nextSceneName).WaitForCompletion();
+			loadSystem.SetLoadData(data);
+		}
 
-		if(data != null) loadSystem.SetLoadData(data);
 		loadSystem.SetNextScene(nextSceneName);
 
 		DisableSceneLoadEvent();
@@ -54,6 +57,7 @@ public class SceneLoader : Singleton<SceneLoader>
 		nextSceneName = sceneName;
 
 		EnableSceneLoadEvent();
+		UIManager.Instance.RemoveWindow();
 		SceneManager.LoadScene(loadSceneName);
 	}
 
@@ -61,13 +65,13 @@ public class SceneLoader : Singleton<SceneLoader>
 	{
 		nextSceneName = sceneName;
 
+		UIManager.Instance.RemoveWindow();
 		SceneManager.LoadScene( 
 			(usedLoadScene == true) ? loadSceneName : nextSceneName, 
 			mode
 			);
 
 		if (usedLoadScene){ EnableSceneLoadEvent();}
-
 		endAction?.Invoke();
 	}
 

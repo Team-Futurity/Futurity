@@ -99,7 +99,21 @@ public class RewardBox : MonoBehaviour
 	{
 		anim?.SetTrigger("CloseTheBox");
 	}
-	
+
+	public void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F3))
+		{
+			InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);
+
+			passivePartSelect.SetPartData(GetPlayerEquipPartList());
+			UIManager.Instance.OpenWindow(WindowList.PASSIVE_PART);
+			gameObject.GetComponent<BoxCollider>().enabled = false;
+
+			isInteraction = true;
+		}
+	}
+
 	private IEnumerator PlayAnimation()
 	{
 		InputActionManager.Instance.ToggleActionMap(InputActionManager.Instance.InputActions.UIBehaviour);

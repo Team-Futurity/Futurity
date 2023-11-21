@@ -35,6 +35,8 @@ public class UIPartEquipSelect : MonoBehaviour
 			UIManager.Instance.CloseWindow(WindowList.PART_EXIT);
 			UIManager.Instance.CloseWindow(WindowList.PART_EQUIP);
 			
+			UIInputManager.Instance.InitSaveIndex();
+
 			initExitMode = false;
 		});
 

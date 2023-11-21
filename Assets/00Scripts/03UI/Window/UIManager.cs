@@ -42,6 +42,12 @@ public class UIManager : Singleton<UIManager>
 		}
 	}
 
+	public void RemoveWindow()
+	{
+		windowDic.Clear();
+		activeWindowList.Clear();
+	}
+
 	public void AddWindow(WindowList type, UIWindow window)
 	{
 		windowDic?.Add(type, window);

@@ -76,7 +76,6 @@ public class UIWindow : MonoBehaviour
 		// Set this CurrentButton -> UIInputManager
 		if (CurrentWindowButtons != null)
 		{
-			UIInputManager.Instance.SetMaxMoveIndex(-1);
 			UIInputManager.Instance.SetButtonList(CurrentWindowButtons, !isNotAddButtons);
 		}
 
