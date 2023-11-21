@@ -106,6 +106,8 @@ public class PlayerAttackBeforeDelayState : PlayerComboAttackState
 		base.End(pc);
 
 		attackColliderData.SetColliderActivation(false);
+
+		pc.animator.ResetTrigger(AttackTriggerAnimKey);
 	}
 
 	public override void OnTriggerEnter(PlayerController unit, Collider other)

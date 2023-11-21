@@ -105,7 +105,6 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		pc = unit;
 		unit.playerData.EnableAttackTime();
 		unit.playerData.EnableAttackTiming();
-
 	}
 
 	public override void End(PlayerController unit)
@@ -124,6 +123,8 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		pc.rigid.velocity = Vector3.zero;
 
 		unit.chargeCollider.enabled = false;
+
+		unit.animator.ResetTrigger(KReleaseAnimKey);
 	}
 
 	public override void FixedUpdate(PlayerController unit)
@@ -320,11 +321,7 @@ public class PlayerAttackState_Charged : PlayerAttackState
 		RemoveEffect(unit, rangeEffect);
 		RemoveEffect(unit, rushBodyEffect);
 		RemoveEffect(unit, rushGroundEffect);
-
-		if(currentLevel > 0)
-		{
-			RemoveEffect(unit, chargeEffectKey);
-		}
+		RemoveEffect(unit, chargeEffectKey);
 	}
 
 	private void SetPostionChargeEffect(PlayerController unit)
