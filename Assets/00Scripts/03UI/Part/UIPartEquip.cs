@@ -172,7 +172,6 @@ public class UIPartEquip : MonoBehaviour
 		selectButtonIndex = selectIndex;
 
 		// Button의 현재 UI를 저장한다.
-		UIInputManager.Instance.SaveIndex();
 
 		// 없을 경우
 		if (emptyPart)
@@ -181,6 +180,7 @@ public class UIPartEquip : MonoBehaviour
 		}
 		else
 		{
+			UIInputManager.Instance.SaveIndex();
 			SelectModal.SetNormalMode();
 			UIManager.Instance.OpenWindow(WindowList.PART_EQUIP_SELECT);
 			SelectModal.onClose?.AddListener(EquipSelectPart);
