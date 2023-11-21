@@ -49,6 +49,14 @@ public class ChapterMoveController : Singleton<ChapterMoveController>
 		Time.timeScale = 1.0f;
 	}
 
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F7))
+		{
+			MoveNextChapter();
+		}
+	}
+
 	public void EnableInteractionUI(EUIType type) => interactionUI[(int)type].SetActive(true);
 	public void DisableInteractionUI(EUIType type) => interactionUI[(int)type].SetActive(false);
 	

@@ -73,6 +73,15 @@ public class DebugManager : Singleton<DebugManager>
 		SceneManager.sceneLoaded += RegisterAllCallbacks;
 	}
 
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F5))
+		{
+			SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().name);
+		}
+	}
+	
+
 	protected override void OnEnable()
 	{
 		base.OnEnable();

@@ -43,6 +43,14 @@ public class TutorialController : MonoBehaviour
 			combo.ChangeComboGauge(100);
 		});
 	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F9))
+		{
+			SceneLoader.Instance.LoadScene(ChapterSceneName.CHAPTER1_1);
+		}
+	}
 	
 	private void SetEvent()
 	{
