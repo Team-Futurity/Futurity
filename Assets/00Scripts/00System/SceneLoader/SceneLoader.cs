@@ -41,9 +41,12 @@ public class SceneLoader : Singleton<SceneLoader>
 
 		loadSystemObject.TryGetComponent<LoadingSystem>(out var loadSystem);
 
-		data = Addressables.LoadAssetAsync<LoadingData>(nextSceneName).WaitForCompletion();
+		if (data != null)
+		{
+			data = Addressables.LoadAssetAsync<LoadingData>(nextSceneName).WaitForCompletion();
+			loadSystem.SetLoadData(data);
+		}
 
-		if(data != null) loadSystem.SetLoadData(data);
 		loadSystem.SetNextScene(nextSceneName);
 
 		DisableSceneLoadEvent();
