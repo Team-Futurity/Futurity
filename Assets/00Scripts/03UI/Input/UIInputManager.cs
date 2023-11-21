@@ -107,6 +107,11 @@ public class UIInputManager : Singleton<UIInputManager>
 		maxMoveIndex = index;
 	}
 
+	public void InitSaveIndex()
+	{
+		saveIndex = -1;
+	}
+
 	public void SetSaveIndexToCurrentIndex()
 	{
 		if (saveIndex < 0)
