@@ -20,27 +20,15 @@ public class UISceneLoadButton : UIButton
 
 		FadeManager.Instance.FadeIn(fadeTime, () =>
 		{
-			if (string.Equals(loadSceneName, "") == false)
-			{
-				SceneLoader.Instance.data = data;
-				SceneLoader.Instance.LoadScene(loadSceneName, isLoadingScene);
-				InputActionManager.Instance.DisableActionMap();
-				UIInputManager.Instance.ClearAll();
-			}
-			else
-			{
-				string curChapter = ChapterMoveController.Instance.GetCurrentChapter();
-				if (string.Equals(curChapter, ChapterSceneName.CHAPTER1_1) == true)
-				{
-					PlayerPrefs.SetInt("Chapter1", 1);
-				}
+			string curChapter = (string.Equals(loadSceneName, "") == true)
+				? ChapterMoveController.Instance.GetCurrentChapter()
+				: loadSceneName;
 			
-				AudioManager.Instance.StopBackgroundMusic();
-				SceneLoader.Instance.data = data;
-				SceneLoader.Instance.LoadScene(curChapter, isLoadingScene);
-				InputActionManager.Instance.DisableActionMap();
-				UIInputManager.Instance.ClearAll();	
-			}
+			AudioManager.Instance.StopBackgroundMusic();
+			SceneLoader.Instance.data = data;
+			SceneLoader.Instance.LoadScene(curChapter, isLoadingScene);
+			InputActionManager.Instance.DisableActionMap();
+			UIInputManager.Instance.ClearAll();
 		});
 	}
 
