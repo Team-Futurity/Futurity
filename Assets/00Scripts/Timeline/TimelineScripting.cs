@@ -289,12 +289,12 @@ public class TimelineScripting : MonoBehaviour
 			MiraeEmotionCheck(ScriptingStruct.EMiraeExpression.IDLE);
 		}
 
-		if (skeletons[(int)EName.SONGSARI].gameObject.activeSelf == true && skeletons[(int)EName.SONGSARI] != null)
+		if (skeletons[(int)EName.SONGSARI] != null && skeletons[(int)EName.SONGSARI].gameObject.activeSelf == true)
 		{
 			SariEmotionCheck(ScriptingStruct.ESariExpression.IDLE);
 		}
 
-		if (skeletons[(int)EName.BOSS].gameObject.activeSelf == true && skeletons[(int)EName.BOSS] != null)
+		if (skeletons[(int)EName.BOSS] != null && skeletons[(int)EName.BOSS].gameObject.activeSelf == true)
 		{
 			SariEmotionCheck(ScriptingStruct.ESariExpression.IDLE);
 		}
