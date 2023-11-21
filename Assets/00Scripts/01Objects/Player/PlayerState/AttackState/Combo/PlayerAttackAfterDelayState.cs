@@ -13,6 +13,11 @@ public class PlayerAttackAfterDelayState : PlayerComboAttackState
 		base.End(unit);
 
 		unit.playerData.DisableAttackTime();
+
+		unit.attackColliderChanger.UnlockColliderEnable();
+		unit.autoTargetColliderChanger.UnlockColliderEnable();
+		unit.attackColliderChanger.DisableAllCollider();
+		unit.autoTargetColliderChanger.DisableAllCollider();
 	}
 
 	public override void FixedUpdate(PlayerController unit)

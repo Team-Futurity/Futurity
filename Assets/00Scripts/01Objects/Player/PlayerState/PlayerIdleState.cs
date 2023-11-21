@@ -26,6 +26,12 @@ public class PlayerIdleState : UnitState<PlayerController>
 
 		currentTime = 0;
 		currentRange = Random.Range(TargetTime - RandomRange, TargetTime + RandomRange);
+
+		pc.UnlockInput();
+		pc.attackColliderChanger.UnlockColliderEnable();
+		pc.autoTargetColliderChanger.UnlockColliderEnable();
+		pc.attackColliderChanger.DisableAllCollider();
+		pc.autoTargetColliderChanger.DisableAllCollider();
 	}
 
 	public override void Update(PlayerController pc)
