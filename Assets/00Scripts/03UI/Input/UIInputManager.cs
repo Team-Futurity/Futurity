@@ -140,7 +140,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnMoveToNextUI(InputAction.CallbackContext context)
 	{
-		if (isUnableMoveButton) { return;}
+		if (isUnableMoveButton || currentActiveButtons.Count <= 0) { return;}
 		ChangeToIndex(1);
 
 		SelectUI();
@@ -148,7 +148,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnMoveToPreviousUI(InputAction.CallbackContext context)
 	{
-		if (isUnableMoveButton) { return;}
+		if (isUnableMoveButton || currentActiveButtons.Count <= 0) { return;}
 		
 		ChangeToIndex(-1);
 
@@ -157,6 +157,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnLeftKey(InputAction.CallbackContext context)
 	{
+		if (currentActiveButtons.Count <= 0) return;
 		if (!currentActiveButtons[currentIndex].usedLeftRight || !currentActiveButtons.ContainsKey(currentIndex))
 			return;
 
@@ -165,6 +166,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnRightKey(InputAction.CallbackContext context)
 	{
+		if (currentActiveButtons.Count <= 0) return;
 		if (!currentActiveButtons[currentIndex].usedLeftRight || !currentActiveButtons.ContainsKey(currentIndex))
 			return;
 
@@ -173,6 +175,7 @@ public class UIInputManager : Singleton<UIInputManager>
 
 	public void OnClickUI(InputAction.CallbackContext context)
 	{
+		if (currentActiveButtons.Count <= 0) return;
 		if (currentActiveButtons == null || !currentActiveButtons.ContainsKey(currentIndex))
 		{
 			return;
