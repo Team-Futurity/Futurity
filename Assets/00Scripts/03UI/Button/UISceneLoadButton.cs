@@ -24,7 +24,11 @@ public class UISceneLoadButton : UIButton
 				? ChapterMoveController.Instance.GetCurrentChapter()
 				: loadSceneName;
 			
-			AudioManager.Instance.StopBackgroundMusic();
+			if(loadSceneName == "")
+			{
+				AudioManager.Instance.StopBackgroundMusic();
+			}
+			
 			SceneLoader.Instance.data = data;
 			SceneLoader.Instance.LoadScene(curChapter, isLoadingScene);
 			InputActionManager.Instance.DisableActionMap();
