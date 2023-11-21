@@ -38,7 +38,8 @@ public class TutorialController : MonoBehaviour
 		SetEvent();
 		FadeManager.Instance.FadeOut(fadeTime);
 		
-		uiPerformBoards[6].onShow?.AddListener(() =>
+		int lastIndex = uiPerformBoards.Count - 1;
+		uiPerformBoards[lastIndex].onShow?.AddListener(() =>
 		{
 			combo.ChangeComboGauge(100);
 		});
