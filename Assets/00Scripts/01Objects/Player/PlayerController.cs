@@ -415,8 +415,8 @@ public class PlayerController : UnitFSM<PlayerController>, IFSM
 		
 		return GetInputData(PlayerInputEnum.SpecialAttack, false);*/
 
-		if (lockAllInput) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
-		if (playerData.isStun) { return GetInputData(PlayerInputEnum.NormalAttack, false); }
+		if (lockAllInput) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
+		if (playerData.isStun) { return GetInputData(PlayerInputEnum.SpecialAttack, false); }
 
 		var state = curCombo != PlayerInputEnum.NormalAttack ? PlayerState.ChargedAttack : PlayerState.NormalAttack;
 
